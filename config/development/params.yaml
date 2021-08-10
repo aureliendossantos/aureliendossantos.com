@@ -1,0 +1,63 @@
+mainSections:
+    - post
+    - photos
+featuredImageField: image
+rssFullContent: true
+favicon:
+
+footer:
+    since: 2020
+    customText:
+
+dateFormat:
+    published: 02 Jan 2006
+    lastUpdated: 02 Jan 2006
+
+sidebar:
+    emoji: 💭
+    subtitle: Bonjour, je suis Aurélien et vous êtes sur mon blog.
+    avatar:
+        local: true
+        src: img/avatar.jpg
+
+article:
+    math: false
+    toc: false
+    license:
+        enabled: true
+        default: Sous licence CC BY-NC-SA 4.0
+
+widgets:
+    enabled:
+        - search
+        - archives
+        - tag-cloud
+    archives:
+        limit: 5
+    tagCloud:
+        limit: 10
+
+opengraph:
+    twitter:
+        # Your Twitter username
+        site:
+        # Available values: summary, summary_large_image
+        card: summary_large_image
+
+defaultImage:
+    opengraph:
+        enabled: false
+        local: false
+        src:
+
+colorScheme:
+    # Display toggle
+    toggle: true
+    # Available values: auto, light, dark
+    default: auto
+
+imageProcessing:
+    cover:
+        enabled: false
+    content:
+        enabled: false

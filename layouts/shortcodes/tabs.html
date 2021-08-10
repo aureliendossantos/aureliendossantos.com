@@ -1,0 +1,23 @@
+{{ $id := (or (.Get 0) (substr (.Inner | md5) 0 8)) }}
+
+<div class="tab">
+    {{ if (.Scratch.Get "tabs") }}
+        {{ range $tab := .Scratch.Get "tabs" }}
+        <button class="tablinks" data-tabset="{{ $id }}" onclick="changeTab(event, '{{ $id }}', '{{ index $tab "title" }}')">{{ index $tab "title" }}</button>
+        {{ end }}
+    {{ else }}
+        <button class="tablinks" data-tabset="{{ $id }}" onclick="changeTab(event, '{{ $id }}', 'default')">Content</button>
+    {{ end }}
+</div>
+
+{{ if (.Scratch.Get "tabs") }}
+    {{ range $tab := .Scratch.Get "tabs" }}
+        <div class="tabcontent" data-tabset="{{ $id }}" id="{{ index $tab "title" }}">
+        {{ $.Page.RenderString (index $tab "content") }}
+        </div>
+    {{ end }}
+{{ else }}
+    <div class="tabcontent" data-tabset="{{ $id }}" id="default">
+        {{ $.Page.RenderString .Inner }}
+    </div>
+{{ end }}

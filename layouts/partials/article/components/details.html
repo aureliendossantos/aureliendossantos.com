@@ -1,0 +1,35 @@
+<div class="article-details">
+    {{ if .Params.categories }}
+    <header class="article-category">
+        {{ range (.GetTerms "categories") }}
+            <a href="{{ .RelPermalink }}" {{ with .Params.style }}style="background-color: {{ .background }}; color: {{ .color }};"{{ end }}>
+                {{ .LinkTitle }}
+            </a>
+        {{ end }}
+    </header>
+    {{ end }}
+
+    <h2 class="article-title">
+        <a href="{{ .RelPermalink }}">
+            {{- .Title -}}
+        </a>
+    </h2>
+
+    {{ with .Params.description }}
+    <h3 class="article-subtitle">
+        {{ . }}
+    </h3>
+    {{ end }}
+
+    {{- if not .Date.IsZero -}}
+    <footer class="article-time">
+        {{ partial "helper/icon" "clock" }}
+        <time class="article-time--published">
+            {{ index $.Site.Data.jour (printf "%d" .Date.Day) }} {{ index $.Site.Data.mois (printf "%d" .Date.Month) }} {{ .Date.Year }}
+            {{- if not (or (in .Params.categories "Photos") (in .Params.categories "Formations")) -}}
+              ·  {{- .ReadingTime -}} min
+            {{- end -}}
+        </time>
+    </footer>
+    {{- end -}}
+</div>

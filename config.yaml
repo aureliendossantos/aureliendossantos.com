@@ -1,0 +1,16 @@
+baseurl: https://aureliendossantos.github.io/
+languageCode: fr-fr
+theme: hugo-theme-stack
+paginate: 6
+title: Aurélien Dos Santos
+
+# Build timeout (parce que les images prennent du temps)
+timeout: 600000
+# GA Tracking ID
+googleAnalytics:
+# Theme i18n support
+DefaultContentLanguage: fr
+
+#permalinks:
+#    post: /post/:slug/
+#    page: /:slug/

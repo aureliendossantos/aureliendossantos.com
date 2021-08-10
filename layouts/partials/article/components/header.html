@@ -1,0 +1,35 @@
+<header class="article-header">
+    {{- $image := partialCached "helper/image" (dict "Context" . "Type" "article") .RelPermalink "article" -}}
+    {{ if $image.exists }}
+        <div class="article-image">
+            <a href="{{ .RelPermalink }}">
+                {{ if $image.resource }}
+                    {{- $Permalink := $image.resource.RelPermalink -}}
+                    {{- $Width := $image.resource.Width -}}
+                    {{- $Height := $image.resource.Height -}}
+                    
+                    {{- if (default true .Page.Site.Params.imageProcessing.cover.enabled) -}}
+                        {{- if gt $Width 1600 -}}
+                            {{- $Width = 1600 -}}
+                        {{- end -}}
+                        {{- $options := printf "%dx webp" $Width -}}
+                        {{- $thumbnail := $image.resource.Resize $options -}}
+                        {{- $Permalink = $thumbnail.RelPermalink -}}
+                        {{- $Width = $thumbnail.Width -}}
+                        {{- $Height = $thumbnail.Height -}}
+                    {{- end -}}
+
+                    <img src="{{ $Permalink }}"
+                        width="{{ $Width }}" 
+                        height="{{ $Height }}" 
+                        loading="lazy"
+                        alt="Image de couverture du post {{ .Title }}" />
+                {{ else }}
+                    <img src="{{ $image.permalink }}" loading="lazy" alt="Image de couverture du post {{ .Title }}" />
+                {{ end }}
+            </a>
+        </div>
+    {{ end }}
+
+    {{ partialCached "article/components/details" . .RelPermalink }}
+</header>
