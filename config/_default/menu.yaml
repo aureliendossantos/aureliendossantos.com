@@ -7,3 +7,5 @@ main:
       url: /
       weight: -100
       pre: home
+      params:
+        newTab: false

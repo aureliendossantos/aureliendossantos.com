@@ -17,12 +17,14 @@ sidebar:
     emoji: 💭
     subtitle: Bonjour, je suis Aurélien et vous êtes sur mon blog.
     avatar:
+        enabled: true
         local: true
         src: img/avatar.jpg
 
 article:
     math: false
     toc: false
+    readingTime: true
     license:
         enabled: true
         default: Sous licence CC BY-NC-SA 4.0
@@ -40,10 +42,11 @@ widgets:
 opengraph:
     twitter:
         # Your Twitter username
-        site:
+        site: ooooorelien
         # Available values: summary, summary_large_image
         card: summary_large_image
 
+# Default image for Open Graph tag
 defaultImage:
     opengraph:
         enabled: false

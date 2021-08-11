@@ -1,6 +1,6 @@
 ---
 title: "Randonnées"
-description: "Compte-rendus de balades."
+description: "Comptes rendus de balades."
 image: cover.webp
 weight: 6
 ---
