@@ -6,6 +6,7 @@ categories: ["Article"]
 tags: ["Jeux"]
 image: mur-cosmodrome.jpg
 toc: true
+readingTime: 31
 ---
 
 Destiny est un FPS sorti sur consoles en 2014 et dont vous avez sans doute déjà entendu parler, d'abord en raison de son budget com' et puis parce que c'est un jeu important : il a, sous bien des aspects, influencé l'industrie du jeu vidéo. Quand je l'ai découvert, j'ai été impressionné dès l'introduction, qui me fascine encore aujourd'hui. A vrai dire, c'est peut-être mon moment de jeu vidéo préféré.

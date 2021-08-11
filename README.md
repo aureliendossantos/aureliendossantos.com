@@ -1,5 +1,7 @@
 ## imageProcessing
 
+> Actuellement, l'imageProcessing est toujours désactivé en attendant que le bug des webp soit réglé (voir mon issue)
+
 En local, l'imageProcessing (gourmand en énergie) est désactivé grâce à `config/development/params.yaml`. Il faudra donc s'assurer que `development/params.yaml` et `_default/params.yaml` restent identiques à part sur ce détail.
 
 Actuellement l'imageProcessing :
@@ -7,6 +9,14 @@ Actuellement l'imageProcessing :
 - `render-image.html` : convertit les images dans les fichiers Markdown de plus de 1300px de large en WebP de 1300px de large (conserve le ratio). Les images de moins de 1300px de large ne subissent aucun traitement (je me suis dit que c'était pas worth de faire un système plus détaillé).
 - `header.html` : convertit toutes les images en WebP, et celles dépassant 1600px de large sont redimensionnées à 1600px de large (conserve le ratio).
 - d'autres trucs tout petits à travers le thème, qui ne valent pas le coup de le patcher juste pour tout convertir en WebP.
+
+## readingTime
+
+Peut être donné manuellement dans le front matter :
+
+```yaml
+readingTime: 5
+```
 
 ## tabs
 
@@ -27,9 +37,7 @@ Nécessite les shortcodes `tab.html`, `tabs.html`, ainsi qu'un `custom.js` et du
 
 J'ai légèrement adapté le js de l'article pour qu'il ne nécessite pas jQuery (d'ailleurs, il est important que le js soit inclus en bas de la page) et adapté le CSS.
 
-- [] BUG : si dans deux tabsets différents, y a une tab qui a le même nom dans les deux, ça va toujours ouvrir dans le premier tabset.
-
 ### Todo
 
-- [] Les liens manquent de visibilité dans les tabs (et ptet dans les blockquotes mtn que j'y pense ? à vérifier)
-- [] Le ptit morceau de bordure à gauche qui change de couleur. J'ai eu la flemme parce qu'il faudrait créer une couleur spéciale (à cause de la couche alpha) mais c'est facile à faire. Tant qu'à faire ptet mettre plus de padding à gauche et à droite sur les onglets pour être dans l'esprit du design plus horizontal du blog.
+- [] BUG : si dans deux tabsets différents, y a une tab qui a le même nom dans les deux, ça va toujours ouvrir dans le premier tabset.
+- [] Le ptit morceau de bordure à gauche d'un tab qui change de couleur. J'ai eu la flemme parce qu'il faudrait créer une couleur spéciale (à cause de la couche alpha) mais c'est facile à faire. Tant qu'à faire ptet mettre plus de padding à gauche et à droite sur les onglets pour être dans l'esprit du design plus horizontal du blog.

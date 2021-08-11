@@ -5,7 +5,6 @@ aliases:
   - contact
   - aurelien
 license: false
-lastmod: '2021-04-04'
 menu: 
     main:
         name: A propos

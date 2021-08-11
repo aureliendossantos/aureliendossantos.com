@@ -35,9 +35,9 @@ widgets:
         - archives
         - tag-cloud
     archives:
-        limit: 5
+        limit: 6
     tagCloud:
-        limit: 10
+        limit: 20
 
 opengraph:
     twitter:

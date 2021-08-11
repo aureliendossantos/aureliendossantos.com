@@ -21,15 +21,29 @@
     </h3>
     {{ end }}
 
-    {{- if not .Date.IsZero -}}
+    {{ if or (not .Date.IsZero) (.Site.Params.article.readingTime) }}
     <footer class="article-time">
-        {{ partial "helper/icon" "clock" }}
-        <time class="article-time--published">
-            {{ index $.Site.Data.jour (printf "%d" .Date.Day) }} {{ index $.Site.Data.mois (printf "%d" .Date.Month) }} {{ .Date.Year }}
-            {{- if not (or (in .Params.categories "Photos") (in .Params.categories "Formations")) -}}
-              ·  {{- .ReadingTime -}} min
-            {{- end -}}
-        </time>
+        {{ if not .Date.IsZero }}
+            <div>
+                {{ partial "helper/icon" "date" }}
+                <time class="article-time--published">
+                    {{ time.Format "2 January 2006" .Date }}
+                </time>
+            </div>
+        {{ end }}
+
+        {{- if not (or (in .Params.categories "Photos") (in .Params.categories "Formations")) -}}
+            <div>
+                {{ partial "helper/icon" "clock" }}
+                <time class="article-time--reading">
+                    {{ if .Params.readingTime }}
+                        {{ .Params.readingTime }} {{ cond (eq .Params.readingTime 1) "minute" "minutes" }}
+                    {{ else }}
+                        {{- .ReadingTime -}} {{ cond (eq .ReadingTime 1) "minute" "minutes" }}
+                    {{ end }}
+                </time>
+            </div>
+        {{ end }}
     </footer>
-    {{- end -}}
+    {{ end }}
 </div>

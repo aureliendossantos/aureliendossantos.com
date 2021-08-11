@@ -6,7 +6,7 @@ rssFullContent: true
 favicon:
 
 footer:
-    since: 2020
+    since: 2015
     customText:
 
 dateFormat:
@@ -35,9 +35,9 @@ widgets:
         - archives
         - tag-cloud
     archives:
-        limit: 5
+        limit: 6
     tagCloud:
-        limit: 10
+        limit: 20
 
 opengraph:
     twitter:
