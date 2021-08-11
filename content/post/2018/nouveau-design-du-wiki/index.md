@@ -3,7 +3,9 @@ title: Nouveau design du wiki
 description: Petite update.
 date: 2018-04-30
 categories: Micro-blog
-tags: ["Projets"]
+tags:
+- Projets
+- Web
 ---
 
 Le nouveau design de notre Encyclopédie sur RPG Maker est arrivé !

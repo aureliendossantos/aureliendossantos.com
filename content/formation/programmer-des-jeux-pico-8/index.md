@@ -3,7 +3,10 @@ title: "Programmer des mini-jeux rétro avec PICO-8"
 description: "Une formation gratuite et complète pour débuter."
 date: 2020-12-27
 categories: Formations
-tags: ["Jeux", "FaireDesJeux.fr"]
+tags:
+- Programmation
+- Jeux
+- Game Dev Alliance
 image: cover.png
 ---
 

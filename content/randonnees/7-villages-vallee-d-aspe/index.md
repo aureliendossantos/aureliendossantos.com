@@ -9,7 +9,6 @@ tags:
 - Journal
 - Montagne
 image: 66.webp
-readingTime: 120
 ---
 
 ![Carte du parcours](map.webp "Tracé : [fichier GPX](7-villages.gpx)")

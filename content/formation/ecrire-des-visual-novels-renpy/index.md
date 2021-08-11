@@ -3,7 +3,10 @@ title: "Écrire des visual novels avec Ren'Py"
 description: "Réalisez des fictions interactives sans devoir connaître la programmation."
 date: 2020-05-19
 categories: Formations
-tags: ["Jeux", "FaireDesJeux.fr"]
+tags:
+- Programmation
+- Jeux
+- Game Dev Alliance
 image: cover.png
 ---
 

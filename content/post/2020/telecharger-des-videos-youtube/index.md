@@ -3,6 +3,8 @@ title: "Télécharger des vidéos YouTube en un clin d'œil"
 description: "Grâce à youtube-dl, un outil en lignes de commande."
 date: 2020-08-19
 categories: ["Article", "Tutoriel"]
+tags:
+- Web
 image: cover.png
 ---
 

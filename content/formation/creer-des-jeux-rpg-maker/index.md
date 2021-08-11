@@ -2,7 +2,9 @@
 title: "Créer des jeux d'aventure sans coder avec RPG Maker"
 date: 2017-08-07
 categories: Formations
-tags: ["Jeux", "FaireDesJeux.fr"]
+tags:
+- Jeux
+- Game Dev Alliance
 image: cover.png
 ---
 

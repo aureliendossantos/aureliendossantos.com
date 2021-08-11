@@ -1,0 +1,16 @@
+---
+title: Grottes des Eaux-Chaudes — Laruns
+date: 2021-08-17
+description:
+categories:
+- Randonnee
+- Photos
+tags:
+- Journal
+- Montagne
+image:
+---
+
+![Carte du parcours](map.webp "Tracé : [fichier GPX](grottes-eaux-chaudes.gpx)")
+
+---

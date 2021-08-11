@@ -3,7 +3,10 @@ title: "FaireDesJeux.fr, le site de formations gratuites"
 description: "Enfin sur vos écrans !"
 date: 2020-09-05
 categories: Micro-blog
-tags: ["Projets", "FaireDesJeux.fr"]
+tags:
+- Projets
+- Game Dev Alliance
+- Web
 image: cover.png
 ---
 
