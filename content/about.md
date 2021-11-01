@@ -14,8 +14,6 @@ menu:
 
 Formé en autodidacte dans la réalisation vidéo, l'informatique et la pédagogie, je passe le plus clair de mon temps à combiner ces intérêts, à la recherche des meilleures méthodes pour transmettre du savoir. Je réalise ainsi des tutoriels [sur YouTube](https://www.youtube.com/channel/UCCjlo6Ihet_T3X6bKLJzPsA) depuis mes 15 ans, et continue aujourd'hui d'affiner ma méthode en écrivant des formations gratuites sur le site [FaireDesJeux.fr](https://fairedesjeux.fr). Sur mon temps libre, je me plonge dans mes passions pour le design de jeux vidéo et la musique électronique.
 
-Je suis actuellement à la recherche d'une alternance dans le cadre de la formation « Ingénieur Responsable Pédagogique » chez OpenClassrooms, ou de toute opportunité dans le monde de la pédagogie.
-
 ### Contact
 
 - Email : **aureliendsantos[at]gmail.com**
@@ -24,15 +22,17 @@ Je suis actuellement à la recherche d'une alternance dans le cadre de la format
 
 ### Expériences
 
+- Chef de projet e-learning, Les Digitales Consulting, 2021-aujourd'hui
 - Président de [Game Dev Alliance](https://gamedevalliance.fr/), 2018-aujourd'hui
 - Vidéaste sur YouTube, 2012-aujourd'hui
 - Traducteur anglais, Degica, 2018
 - Réalisateur de films d'entreprise, 2015-2018
 - Cadreur vidéo, OWL BROS, 2017-2018
-- Game design pour un serious game, Haute Ecole Spécialisée de Suisse occidentale, 2014-2015
+- Game design de serious game, Haute Ecole Spécialisée de Suisse occidentale, 2014-2015
 
 ### Formation
 
+- Master Conception de ressources numériques pédagogiques, 2021-2023
 - Licence Langue anglaise, littérature et civilisation anglophone, 2018-2021
 - IUT Statistique et informatique décisionnelle, 2014-2016
 
