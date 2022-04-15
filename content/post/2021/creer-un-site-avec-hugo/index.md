@@ -10,24 +10,23 @@ toc: true
 
 ## Pourquoi Hugo ?
 
-Hugo est un générateur de site statique. Concrètement, Hugo prend des fichiers texte et les transforme en pages web en suivant un thème visuel. Ainsi, au quotidien, il vous suffit d'écrire dans des fichiers texte au format [Markdown](https://fr.wikipedia.org/wiki/Markdown) et laisser Hugo générer le site au complet.
+Hugo est un générateur de site statique. Concrètement, Hugo prend des fichiers texte et les transforme en pages web en suivant un thème visuel. Ainsi, au quotidien, il vous suffit d'écrire dans des fichiers texte au format [Markdown](https://fr.wikipedia.org/wiki/Markdown) et de laisser Hugo générer le site au complet.
 
 ![](hugo.png)
 
-Dans un site statique, les pages HTML sont générées une seule fois puis stockées sur le serveur, et tous les visiteurs recevront la même page. Par opposition, un site dynamique,comme Facebook ou la plupart des sites Wordpress, a son contenu stocké dans une base de données et génère une page HTML en direct à chaque fois qu'un utilisateur accède au site.
+Avec un site statique, les pages HTML sont générées une seule fois lors de la publication du site et tous les visiteurs recevront la même page. Par opposition, un site dynamique, comme Facebook ou la plupart des sites Wordpress, génère une page en direct à chaque fois qu'un utilisateur accède au site.
 
-Un site statique a l'avantage d'être rapide, sécurisé, stable et compatible avec tous les serveurs (même ceux à bas prix ou gratuits), car il ne dépend pas d'une base de données ou d'un langage de programmation installé sur le serveur. Bien sûr, cela ne veut pas dire qu'un site statique est la meilleure option possible dans tous les cas de figure ! Mais cela convient tout à fait à des blogs et des sites vitrine.
+Un site statique a l'avantage d'être rapide, sécurisé, stable et compatible avec tous les hébergeurs, même ceux à bas prix ou gratuits. C'est une solution qui convient très bien à des blogs et des sites vitrine.
 
 Hugo est une option intéressante pour vous si :
 
-- Vous préférez écrire dans un éditeur de texte (tel que [Visual Studio Code](https://code.visualstudio.com/), [Typora](https://typora.io/)...) plutôt que dans une interface sur navigateur (façon Wordpress).
+- Vous cherchez une alternative plus légère et élégante aux solutions clé-en-main comme Wordpress ;
+- Vous souhaitez écrire dans un éditeur de texte sur votre ordinateur, tel que [Visual Studio Code](https://code.visualstudio.com/) ou [Typora](https://typora.io/) (il est aussi possible de connecter un CMS à son site Hugo, pour écrire des articles sur son navigateur, mais ce n'est pas l'objet de ce tutoriel) ;
 - Vous souhaitez avoir le contrôle sur le code de votre site sans pour autant mettre en place de système complexe.
 
 ![](typora.png "Typora est un éditeur de texte élégant combinant les intérêts de l'écriture en Markdown avec un grand confort de lecture.")
 
-Personnellement, j'apprécie Hugo pour sa rapidité et sa relative simplicité qui me rendent la création plus fun. Je n'ai qu'une connaissance assez basique du HTML et CSS, et je ne comprends quasiment rien au Go, le langage de programmation utilisé par Hugo, mais l'organisation extrêmement claire en templates et en shortcodes me permet tout de même de modifier les thèmes et étendre les fonctionnalités de mes sites, par simple observation et déduction.
-
-J'utilise Hugo pour réaliser ce blog et c'est aussi la solution que nous avons choisie pour le [wiki](https://wiki.gamedevalliance.fr/) de l'association Game Dev Alliance.
+Personnellement, j'apprécie Hugo pour sa rapidité et sa relative simplicité qui stimule ma créativité. Une compréhension basique du web et de la programmation suffit pour personnaliser son site, grâce à l'organisation claire en templates et en shortcodes. J'utilise Hugo pour publier ce blog et c'est aussi la solution que nous avons choisie pour le [wiki](https://wiki.gamedevalliance.fr/) de l'association Game Dev Alliance.
 
 Pour mieux vous montrer les types de site que l'on peut réaliser avec Hugo, voici une sélection de thèmes gratuits que je trouve très convaincants :
 
@@ -157,9 +156,9 @@ Les articles et autres pages du site se trouvent dans le dossier `content`. Rema
 
 Vous pouvez ouvrir les fichiers avec le Bloc-notes de Windows, mais le meilleur moyen d'écrire du contenu est d'ouvrir le dossier du site dans un éditeur de code tel que  [Visual Studio Code](https://code.visualstudio.com/), qui est gratuit. Vous aurez une meilleure vue d'ensemble ainsi qu'une coloration syntaxique !
 
-![](vs-code.png "Ouvrir un dossier avec Visual Studio Code permet d'avoir une arborescence lisible sur le côté.")
+![](vs-code.png "Ouvrir un dossier avec Visual Studio Code permet d'afficher une arborescence des fichiers sur le côté, mais aussi d'ouvrir un terminal directement à l'emplacement du dossier.")
 
-Ensuite, commencer à écrire est aussi simple que d'examiner comment sont faits les articles pré-existants dans votre thème et suivre le même principe. Voici une [référence rapide](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) de la plupart des choses que vous pouvez faire en Markdown. Vous verrez, c'est très intuitif et cela deviendra vite une seconde nature ! Pour ajouter des vidéos YouTube et d'autres choses impossibles avec la syntaxe Markdown, Hugo possède un système de [shortcodes](https://gohugo.io/content-management/shortcodes/).
+Ensuite, commencer à écrire est aussi simple que d'examiner comment sont faits les articles pré-existants dans votre thème pour suivre le même principe. Voici une [référence rapide](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) de la plupart des choses que vous pouvez faire en Markdown. Vous verrez, c'est très intuitif et cela deviendra vite une seconde nature ! Pour ajouter des vidéos YouTube et d'autres choses impossibles avec la syntaxe Markdown, Hugo possède un système de [shortcodes](https://gohugo.io/content-management/shortcodes/).
 
 ### Structure des dossiers
 
@@ -201,27 +200,27 @@ Hugo utilise en priorité les fichiers situés à la racine du site. Je peux mai
 
 ## Publier le site
 
-Comme Hugo génère un site statique, votre site sera compatible avec n'importe quel serveur, même ceux gratuits ou à bas prix.
+Comme Hugo génère un site statique, le dossier final contient de simples pages web que vous pouvez déposer sur n'importe quel hébergeur, même ceux gratuits ou à bas prix. Je vous propose deux possibilités : vous pouvez soit générer le site par vous-même et envoyer le dossier final sur un hébergeur, soit automatiser le processus à l'aide de GitHub.
 
 ### Publier manuellement
 
-Pour publier votre site manuellement, vous devez louer un serveur pour quelques euros ou en trouver un gratuit. Généralement, on vous fournira alors des identifiants pour vous connecter au serveur à l'aide d'un client FTP tel que [FileZilla](https://filezilla-project.org/).
+Pour publier votre site manuellement, vous devez louer un hébergeur pour quelques euros ou en trouver un gratuit. Généralement, on vous fournira alors des identifiants pour vous connecter au serveur à l'aide d'un client FTP tel que [FileZilla](https://filezilla-project.org/).
 
-Jusqu'à maintenant, vous avez utilisé `hugo server` pour visualiser le site localement. Pour réellement construire le site, la commande est encore plus simple :
+Jusqu'à maintenant, vous avez utilisé la commande `hugo server` dans le terminal pour visualiser le site localement. Pour réellement construire le site, la commande est encore plus simple :
 
 ```
 hugo
 ```
 
-Le résultat sera situé dans le dossier `public`. Connectez-vous à votre serveur web avec votre client FTP, copiez-collez le contenu du dossier `public`, et le tour est joué !
+Le résultat sera situé dans le dossier `public`. Connectez-vous à votre hébergement web à l'aide de votre client FTP, copiez-collez le contenu du dossier `public`, et le tour est joué !
 
 > La commande `hugo` ne vide pas le dossier `public` avant de reconstruire le site. Veillez donc à supprimer le dossier `public` vous-même avant de lancer `hugo`, ou vous risqueriez d'y laisser d'anciens fichiers privés ou des brouillons.
 
 ### Publier automatiquement avec GitHub Pages
 
-Il existe également des méthodes pour automatiser le déploiement du site sans que vous n'ayez besoin de le reconstruire manuellement à chaque fois. Dans le cas de mon blog, j'héberge le code source sur GitHub et j'utilise GitHub Actions pour reconstruire le site automatiquement à chaque commit, puis le résultat est envoyé sur GitHub Pages. Ainsi, je n'ai jamais à débourser un centime pour gérer mon blog !
+Il existe des méthodes pour automatiser le déploiement du site sans que vous n'ayez besoin de le reconstruire manuellement à chaque fois. Dans le cas de mon blog, j'héberge le code source sur GitHub et j'utilise GitHub Actions pour reconstruire le site automatiquement à chaque changement, puis le résultat est envoyé sur GitHub Pages. Ainsi, je n'ai jamais à débourser un centime pour gérer mon blog !
 
-GitHub permet de stocker des projets sous la forme de *repositories*, communément appelés *repo*, ou dépôts en français. Le site utilise [git](https://git-scm.com/), un outil en lignes de commandes permettant de télécharger et envoyer les repo, mais aussi de conserver l'historique entier de votre projet et de travailler à plusieurs. Cependant, git est assez difficile à utiliser pour un débutant ; c'est pourquoi nous allons plutôt utiliser [Github Desktop](https://desktop.github.com/), qui est une interface graphique permettant d'utiliser git facilement. Vous trouverez un téléchargement officiel pour Windows et Mac, ou bien des versions non officielles pour Linux.
+GitHub permet de stocker des projets sous la forme de *repositories*, communément appelés *repo*, ou dépôts en français. Ce service utilise [git](https://git-scm.com/), un outil en lignes de commandes permettant de télécharger et envoyer les repo, mais aussi de conserver l'historique entier de votre projet et de travailler à plusieurs. Cependant, git est assez difficile à utiliser pour un débutant ; c'est pourquoi nous allons plutôt utiliser [Github Desktop](https://desktop.github.com/), qui est une interface graphique permettant d'utiliser git facilement. Vous trouverez un téléchargement officiel pour Windows et Mac, ou bien des versions non officielles pour Linux.
 
 #### Transformer votre projet en repo
 
@@ -271,7 +270,7 @@ Ce sont simplement les noms de deux dossiers que nous ne voudrons pas envoyer su
 
 Il existe deux façons de créer un site avec GitHub Pages :
 
-- La première méthode, que je vous recommande pour une première fois, publie votre site à l'adresse `https://<utilisateur>.github.io` (comme ce blog). Pour utiliser cette adresse, votre repo devra s'appeler `<utilisateur>.github.io`. Choisissez donc votre pseudo sur GitHub en fonction de l'adresse voulue !
+- La première méthode, que je vous recommande pour une première fois, publie votre site à l'adresse `https://<utilisateur>.github.io`. Pour utiliser cette adresse, votre repo devra s'appeler `<utilisateur>.github.io`. Choisissez donc votre pseudo sur GitHub en fonction de l'adresse voulue ! Par exemple, ce blog est publié à l'adresse `https://aureliendossantos.github.io` puis il est redirigé vers une adresse personnelle.
 
 - La deuxième méthode permet de créer une infinité de sous-sites pour des projets spécifiques, à l'adresse `https://<utilisateur>.github.io/<projet>`. Pour utiliser ce type d'adresse, votre repo devra s'appeler `<projet>`.
 
