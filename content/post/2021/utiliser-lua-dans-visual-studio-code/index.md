@@ -8,9 +8,7 @@ toc: true
 image: cover.png
 ---
 
-Lua est un langage de programmation intéressant pour débuter et écrire ses premières lignes de code, grâce à un style neutre et très lisible. Je l'utiliserai dans mon prochain cours sur les bases théoriques de la programmation (en cours de rédaction), mais vous pouvez d'ores et déjà suivre mon [cours sur PICO-8](https://fairedesjeux.fr/pico-8/), un moteur de jeu qui utilise Lua.
-
-Lua est d'ailleurs souvent utilisé dans le jeu vidéo (World of Warcraft, Roblox...) en tant que langage de script, car il est simple d'utilisation et pensé pour être intégré facilement à un programme.
+Lua est un langage de programmation intéressant pour débuter et écrire ses premières lignes de code, en raison de son style neutre et très lisible. Lua est d'ailleurs souvent utilisé dans le jeu vidéo (World of Warcraft, Roblox...) en tant que langage de script, car il est simple d'utilisation et pensé pour être intégré facilement à un programme.
 
 ![](lua-logo.png "La lune symbolise Lua (qui veut dire « lune » en portugais) car il est pensé pour être le langage satellite d'un programme.")
 
@@ -207,7 +205,7 @@ Vous pouvez maintenant créer plusieurs fichiers Lua dans votre dossier et jongl
 
 ## Bonus : quelques astuces pour débuter
 
-Tant que vous êtes là, je vais vous donner une liste de commandes pratiques pour écrire vos tous premiers programmes, comme ça, vous n'aurez pas besoin de tout chercher sur Internet. Ne vous inquiétez pas, ça me fait plaisir.
+Tant que vous êtes là, je vais vous donner une liste de commandes pratiques pour écrire vos tous premiers programmes, comme ça, vous n'aurez pas besoin de tout chercher sur Internet.
 
 ### Types de variables
 
@@ -274,25 +272,26 @@ Voici quelques exemples :
 
 ```lua
 if a < 0 then
-    a = 0
+    print("a est inférieur à 0")
 end
 ```
 ```lua
 if a <= b then
     print("a est plus petit ou égal à b")
 else
-    print("a est plus grand b")
+    print("a est plus grand que b")
 end
 ```
 ```lua
+operateur = io.read()
 if operateur == "+" then
-    r = a + b
+    resultat = a + b
 elseif operateur == "-" then
-    r = a - b
+    resultat = a - b
 elseif operateur == "*" then
-    r = a * b
+    resultat = a * b
 elseif operateur == "/" then
-    r = a / b
+    resultat = a / b
 else
     error("Opérateur invalide")
 end
@@ -319,4 +318,4 @@ Il existe deux autres types de boucle : **repeat** et **for**, que vous trouver
 
 ---
 
-Et voilà, cela devrait vous suffire pour écrire des petits programmes ! Pour plus de précisions, je vous conseille le [manuel de Lua](https://www.lua.org/pil/contents.html), dans lequel vous devriez vous retrouver assez facilement grâce au sommaire très clair. Sinon, comme toujours, faites des recherches Google en anglais pour obtenir davantage de résultats. Bonne continuation !
+Et voilà, cela devrait vous suffire pour écrire des petits programmes ! Pour plus de précisions, je vous conseille le [manuel de Lua](https://www.lua.org/pil/contents.html), dans lequel vous devriez vous retrouver assez facilement grâce au sommaire. Sinon, comme toujours, faites des recherches Google en anglais pour obtenir davantage de résultats. Bonne continuation !
