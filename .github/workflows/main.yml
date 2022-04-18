@@ -32,4 +32,4 @@ jobs:
         HUGO_EXTENDED: true
         TARGET_REPO: aureliendossantos/aureliendossantos.github.io
         TOKEN: ${{ secrets.HUGO_BUILD_TOKEN }}
-        CNAME: aureliendossantos.github.io
+        CNAME: blog.aureliendossantos.com
