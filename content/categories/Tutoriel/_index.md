@@ -1,6 +1,6 @@
 ---
 title: "Tutoriel"
 description: "Petits guides en tous genres."
-image: cover.png
+image: halgatewood-unsplash.jpg
 weight: 4
 ---
