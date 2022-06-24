@@ -27,6 +27,6 @@ Word m'en a fait un peu baver parfois. Les styles c'est bien beau, mais ça ne m
 
 ![](4.jpg)
 
-J'ai fait imprimer le livre chez CoolLibri car leur interface de preview était plutôt rassurante et m'a permis de régler quelques problèmes. Au final, j'ai laissé passer quelques erreurs qui sont naturelles pour une première impression : les pages entièrement encrées sont gondolées et la police est un peu trop fine. Mis à part ces petits détails, on pourrait tout à fait croire que c'est un livre officiel ! J'en suis très content. Madame aussi.
+J'ai fait imprimer le livre chez CoolLibri car leur interface de preview était plutôt rassurante et m'a permis de régler quelques problèmes. Au final, j'ai laissé passer quelques erreurs qui sont naturelles pour une première impression : les pages entièrement encrées sont gondolées et la police est un peu trop fine. Mis à part ces petits détails, on pourrait presque croire que c'est un livre officiel !
 
 [Télécharger le livre](https://mega.nz/#!BcYSBQYb!EnY3IxHxzzMLvh5KWg9FJvUX3z-Wz-OHJwdwMCwXKyg)
