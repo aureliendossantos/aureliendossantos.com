@@ -2,7 +2,7 @@
 title: "Créer un portfolio ou un blog sans programmer avec Hugo"
 description: "Hugo est un générateur de sites web idéal pour un portfolio, un blog, un site d'entreprise ou de produit... ou toutes ces choses à la fois !"
 date: 2021-07-01T00:35:02+02:00
-categories: ["Article", "Tutoriel"]
+categories: ["Tutoriel"]
 tags: ["Web"]
 image: "halgatewood-unsplash.jpg"
 toc: true

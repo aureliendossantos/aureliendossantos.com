@@ -2,7 +2,7 @@
 title: "Utiliser Lua dans Visual Studio Code"
 description: "Faites vos premiers pas dans la programmation avec Lua, un langage clair et facile à apprendre."
 date: 2021-08-03
-categories: ["Article", "Tutoriel"]
+categories: ["Tutoriel"]
 tags: ["Programmation"]
 toc: true
 image: cover.png

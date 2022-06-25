@@ -2,7 +2,7 @@
 title: "Créer et partager des scènes en 3D avec MagicaVoxel"
 description: "MagicaVoxel est un éditeur de scènes en voxel très simple d'utilisation. Vous pouvez ensuite exporter vos créations et les partager en ligne sur des sites comme Sketchfab."
 date: 2018-05-09 15:27:43
-categories: ["Article", "Tutoriel"]
+categories: ["Tutoriel"]
 tags: ["3D"]
 image: 2IAoFHn.png
 license: "Ecrit par Nev, Imanor et EzekielKoening"
