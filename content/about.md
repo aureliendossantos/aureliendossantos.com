@@ -17,6 +17,7 @@ Formé en autodidacte dans la réalisation vidéo, l'informatique et la pédagog
 ### Contact
 
 - Email : **aureliendsantos[at]gmail.com**
+- Mastodon : [@aurelien@gamedevalliance.fr](https://mastodon.gamedevalliance.fr/@aurelien)
 - Twitter : [@ooooorelien](https://twitter.com/ooooorelien)
 - Discord : Aurélien#1254. Si vos paramètres de confidentialité vous empêchent de m'envoyer un message, passez par le serveur de [Game Dev Alliance](https://gamedevalliance.fr/).
 
