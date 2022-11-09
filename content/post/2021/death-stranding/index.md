@@ -1,5 +1,5 @@
 ---
-title: "Death Stranding, monument du jeu vidéo"
+title: "Death Stranding"
 date: 2021-03-24
 description: "La Director's Cut est sortie récemment et me fait réaliser que deux ans plus tard, je pense encore régulièrement à Death Stranding. Un petit bilan s'impose."
 categories: ["Article"]
