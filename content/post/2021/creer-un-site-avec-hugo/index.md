@@ -136,7 +136,9 @@ Je vous propose d'essayer le [thème Anubis](https://themes.gohugo.io/hugo-theme
 
 ![](anubis.png "Anubis est un thème de blog minimaliste.")
 
-> Si vous êtes un utilisateur de git, il peut être plus intéressant d'ajouter les thèmes en tant que submodule.
+{{< note >}}
+Si vous êtes un utilisateur de git, il peut être plus intéressant d'ajouter les thèmes en tant que submodule.
+{{< /note >}}
 
 ### Copier le site d'exemple
 
@@ -152,7 +154,9 @@ hugo server
 
 Tapez l'adresse indiquée dans votre navigateur, et voilà ! Le site est tout simple, mais le principe sera le même lorsque vous utiliserez des thèmes plus complexes. Tant que la fenêtre du terminal est ouverte, le site sera mis à jour en direct dans votre navigateur alors que vous écrirez vos pages. C'est très pratique !
 
-> Pour redémarrer rapidement le serveur, faites Ctrl+C pour l'arrêter, flèche du haut pour réécrire la commande, puis Entrée pour valider.
+{{< note >}}
+Pour redémarrer rapidement le serveur, faites Ctrl+C pour l'arrêter, flèche du haut pour réécrire la commande, puis Entrée pour valider.
+{{< /note >}}
 
 ## Créer du contenu
 
@@ -218,7 +222,9 @@ hugo
 
 Le résultat sera situé dans le dossier `public`. Connectez-vous à votre hébergement web à l'aide de votre client FTP, copiez-collez le contenu du dossier `public`, et le tour est joué !
 
-> La commande `hugo` ne vide pas le dossier `public` avant de reconstruire le site. Veillez donc à supprimer le dossier `public` vous-même avant de lancer `hugo`, ou vous risqueriez d'y laisser d'anciens fichiers privés ou des brouillons.
+{{< note >}}
+La commande `hugo` ne vide pas le dossier `public` avant de reconstruire le site. Veillez donc à supprimer le dossier `public` vous-même avant de lancer `hugo`, ou vous risqueriez d'y laisser d'anciens fichiers privés ou des brouillons.
+{{< /note >}}
 
 ### Publier automatiquement avec GitHub Pages
 

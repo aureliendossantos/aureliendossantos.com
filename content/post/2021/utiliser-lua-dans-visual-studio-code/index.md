@@ -197,7 +197,9 @@ VS Code a créé un dossier caché `.vscode` et un fichier `tasks.json` qui cont
 {{< /tab >}}
 {{< /tabs >}}
 
-> **Explications :** La tâche s'appelle `Lancer Lua` et utilise une fenêtre de terminal (`shell`). Elle lance la commande `lua` (ou `lua54`) avec comme argument le nom du fichier actuellement ouvert dans l'éditeur (`${file}`). Dans `group`, on dit que c'est la tâche de build qui se lance par défaut quand on utilise le raccourci.
+{{< note >}}
+**Explications :** La tâche s'appelle `Lancer Lua` et utilise une fenêtre de terminal (`shell`). Elle lance la commande `lua` (ou `lua54`) avec comme argument le nom du fichier actuellement ouvert dans l'éditeur (`${file}`). Dans `group`, on dit que c'est la tâche de build qui se lance par défaut quand on utilise le raccourci.
+{{< /note >}}
 
 Sauvegardez et retournez à votre script Lua. Vous pouvez maintenant cliquer sur **Terminal** > **Exécuter la tâche de build...** ou encore mieux : utiliser le raccourci Ctrl + Shift + B !
 

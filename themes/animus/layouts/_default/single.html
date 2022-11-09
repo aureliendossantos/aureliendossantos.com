@@ -4,13 +4,14 @@
             <div class="header-contents">
                 <h1 class="title">{{ .Title }}</h1>
                 <p class="subtitle">{{ .Description }}</p>
-                <p class="byline">{{ .Date | time.Format ":date_long" }} &ndash; Aurélien Dos Santos</p>
+                <p class="byline">{{ .Date | time.Format ":date_long" }} &ndash; <a href="/">Aurélien Dos Santos</a></p>
             </div>
         </header>
         <article>
 
         {{ .Content }}
 
+        <p style="margin-top: 3em;">◂ <a href="/">Retour à l'accueil</a></p>
         </article>
     </div>
 {{ end }}

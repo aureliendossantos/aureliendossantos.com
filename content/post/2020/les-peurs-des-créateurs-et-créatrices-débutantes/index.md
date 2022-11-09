@@ -36,7 +36,9 @@ La programmation peut revêtir de multiples facettes. Il existe plein de langage
 
 En tout cas, je me dois de vous dire qu'il n'existe pas de jeu vidéo sans code. Ce code aura peut-être la forme de blocs à déplacer dans Scratch, de circuits de redstone dans Minecraft, de textes à relier dans Twine, mais au fond, cela reste toujours de la programmation. Pour résumer : s'il n'y a pas de code, il n'y a pas d'interactivité, mais le code peut prendre bien des formes et on ne peut pas dire que c'est trop compliqué. Aujourd'hui, vous pouvez lire un tuto Ren'Py ou RPG Maker et faire votre premier jeu en quelques heures ! Peut-être qu'au final, même les outils les plus simples vous donneront des boutons (haha), et dans ce cas je vous conseille de tirer un trait sur l'idée d'ajouter de créer des œuvres interactives.
 
-> Sur le même sujet, ma vidéo "*[Comment faire des jeux sans programmer ?](https://www.youtube.com/watch?v=AAp3cNlJxCw)*" pourrait peut-être vous intéresser.
+{{< note >}}
+Sur le même sujet, ma vidéo "*[Comment faire des jeux sans programmer ?](https://www.youtube.com/watch?v=AAp3cNlJxCw)*" pourrait peut-être vous intéresser.
+{{< /note >}}
 
 ### ... Je n'ai pas d'inspiration.
 

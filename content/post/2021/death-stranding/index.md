@@ -208,4 +208,6 @@ La *Director's Cut* n'en a que le nom, le terme étant imposé par Sony et criti
 
 
 
-> Images from https://imgur.com/gallery/mcqtdmf
+{{< note >}}
+Images from https://imgur.com/gallery/mcqtdmf
+{{< /note >}}

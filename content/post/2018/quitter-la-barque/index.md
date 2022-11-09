@@ -22,4 +22,6 @@ Et puis il y a les jeunes un peu isolés, qui un soir ont traîné dans les sugg
 
 Je garde espoir en me disant que, malgré ce genre d’incidents, nos valeurs et notre contenu sont assez pour attiser la curiosité d’un public différent, porteur d’un renouveau. Par exemple, en réalisant des tutoriels pour créer des jeux textuels, nous avons intéressé tout un tas d’écrivaines amatrices sur Wattpad --- un univers qui m’est totalement inconnu ! Nous avons pu les aider à faire leur premier pas dans l’univers du jeu narratif, et j’en suis très heureux. J’ai l’espoir qu’en continuant à être ouvert et inclusif, nous fidéliserons de nouveaux publics jusque là invisibles dans la sphère du game dev, et que tous ensemble, nous formerons une communauté enrichissante et unique. Oui, ça sonne comme un doux rêve qu’on se raconte pour bien dormir. Ecoutez, chacun ses méthodes pour bien dormir !
 
-> **Mise à jour :** Il faut croire que j'avais raison d'espérer. Deux ans plus tard, les discussions de la communauté sont beaucoup plus saines et toutes ces préoccupations semblent bien lointaines !
+{{< note >}}
+**Mise à jour :** Il faut croire que j'avais raison d'espérer. Deux ans plus tard, les discussions de la communauté sont beaucoup plus saines et toutes ces préoccupations semblent bien lointaines !
+{{< /note >}}

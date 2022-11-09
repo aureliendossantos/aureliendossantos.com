@@ -6,6 +6,7 @@ tags:
 - Jeux
 - Game Dev Alliance
 image: cover.png
+draft: true
 ---
 
 > Page en construction

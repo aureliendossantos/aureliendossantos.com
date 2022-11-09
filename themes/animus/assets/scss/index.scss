@@ -51,6 +51,8 @@ hr {
     }
     blockquote, .note {
         font-style: italic;
+        margin-top: 1em;
+        margin-bottom: 1em;
     }
     blockquote {
         margin-left: -$margin;
@@ -82,9 +84,10 @@ hr {
         height: auto;
     }
     figure {
-        text-align: right;
+        text-align: center;
         margin: 1.5em 0;
         figcaption {
+            text-align: right;
             font-size: 0.8rem;
             margin-left: 20%;
         }
@@ -165,6 +168,9 @@ footer {
 .home {
     margin: auto;
     max-width: $homeWidth;
+    @media only screen and (max-width: $homeWidth + 30) {
+        margin: 0 15px;
+    }
     h1 a {
         text-decoration: none;
     }

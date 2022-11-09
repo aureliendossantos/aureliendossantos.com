@@ -10,4 +10,6 @@ Aujourd’hui est un grand jour ! C’est avec joie que je vous présente à la 
 
 Sur RMA, on s’assurera que l’encyclopédie **reste en ligne et accessible à tous,** le plus longtemps possible. Et si un jour nous ne pouvons plus héberger le wiki, ce ne sera pas un problème car tout le monde peut le récupérer. Si le projet vous plaît et que vous avez des connaissances à partager, prenez la liberté d’ajouter votre pierre à l’édifice ! Vous pouvez étoffer les catégories existantes ou en ajouter de nouvelles.
 
-> **Mise à jour :** Le forum, anciennement disponible à l’adresse rpgmakeralliance.com, fut plus tard renommé gamedevalliance.fr lorsque la communauté s’est ouverte à tous les moteurs de jeu. Il n’est plus disponible mais le wiki existe toujours : [wiki.gamedevalliance.fr](http://wiki.gamedevalliance.fr).
+{{< note >}}
+**Mise à jour :** Le forum, anciennement disponible à l’adresse rpgmakeralliance.com, fut plus tard renommé gamedevalliance.fr lorsque la communauté s’est ouverte à tous les moteurs de jeu. Il n’est plus disponible mais le wiki existe toujours : [wiki.gamedevalliance.fr](http://wiki.gamedevalliance.fr).
+{{< /note >}}

@@ -10,7 +10,9 @@ toc: true
 palettes: guidebook
 ---
 
-> Ce tutoriel est né de la collaboration de plusieurs membres du forum RPG Maker Alliance, à l'occasion d'un « challenge de la semaine » sur MagicaVoxel. Lorsque nous avons fermé le forum en 2019, ce tutoriel est alors devenu inaccessible. Je n'en suis pas l'auteur, mais il me paraît bon de le remettre en ligne quelque part !
+{{< note >}}
+Ce tutoriel est né de la collaboration de plusieurs membres du forum RPG Maker Alliance, à l'occasion d'un « challenge de la semaine » sur MagicaVoxel. Lorsque nous avons fermé le forum en 2019, ce tutoriel est alors devenu inaccessible. Je n'en suis pas l'auteur, mais il me paraît bon de le remettre en ligne quelque part !
+{{< /note >}}
 
 La modélisation 3D vous semble sans doute hors d'atteinte, réservée aux pros et aux étudiant·e·s dans ce domaine. Pourtant, certains logiciels gratuits vous permettent de bricoler facilement une petite scène en 3D afin de mettre un premier pas dans ce vaste domaine... C'est le cas, entre autres, de MagicaVoxel !
 
