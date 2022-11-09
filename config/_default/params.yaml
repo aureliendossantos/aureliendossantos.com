@@ -15,7 +15,7 @@ dateFormat:
 
 sidebar:
     emoji: 💭
-    subtitle: Bonjour, je suis Aurélien et vous êtes sur mon blog.
+    subtitle: "Bonjour, je suis Aurélien et vous êtes sur mon blog.<br>[A propos](/about)"
     avatar:
         enabled: true
         local: true

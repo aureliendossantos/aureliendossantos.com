@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Aurélien Dos Santos">
+    <title>{{ .Title }}</title>
+    {{ range (.GetTerms "palettes") }}
+        {{ with .Params.style }}
+        <style>
+            @import url('{{ .importUrl }}');
+            body {
+                background-color: {{ .backgroundColor | safeCSS }};
+                font-family: {{ .mainFont | safeCSS }};
+            }
+            article, .header-contents {
+                color: {{ .primaryColor | safeCSS }};
+                font-size: {{ .fontSize | safeCSS }};
+                line-height: {{ .lineHeight | safeCSS }};
+            }
+            blockquote, .note {
+                font-family: {{ .specialFont | safeCSS }};
+                color: {{ .specialColor | safeCSS }};
+            }
+            h1, h2, h3, h4, h5, h6 {
+                font-family: {{ .headingsFont | safeCSS }};
+            }
+            .byline, .subtitle, figcaption, .sidenote {
+                color: {{ .secondaryColor | safeCSS }};
+            }
+            hr {
+                border-color: {{ .secondaryColor | safeCSS }};
+            }
+        </style>
+        {{ end }}
+    {{ end }}
+    {{ $sass := resources.Get "scss/index.scss" }}
+    {{ $style := $sass | resources.ToCSS | minify }}
+    <link rel="stylesheet" href="{{ $style.RelPermalink }}">
+</head>
+<body class="{{ .Params.palette }}">
+    {{ .Content }}
+</body>
+</html>

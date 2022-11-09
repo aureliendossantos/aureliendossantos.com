@@ -6,6 +6,7 @@ categories: ["Tutoriel"]
 tags:
 - Web
 image: cover.png
+palettes: guidebook
 ---
 
 Pour illustrer mes vidéos, je dois récupérer beaucoup d'illustrations de jeux vidéo que je trouve sur YouTube. Si vous êtes vidéaste et ne connaissez pas les outils de programmeur, vous êtes sans doute passé à côté d'une astuce très pratique pour le faire efficacement !

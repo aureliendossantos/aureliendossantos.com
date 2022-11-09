@@ -1,7 +1,7 @@
 baseurl: https://aureliendossantos.github.io/
 languageCode: fr-fr
-theme: hugo-theme-stack
-paginate: 7
+theme: animus # hugo-theme-stack
+paginate: 10
 title: Aurélien Dos Santos
 
 # Build timeout (parce que les images prennent du temps)

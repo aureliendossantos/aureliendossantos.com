@@ -5,6 +5,7 @@ date: 2020-07-19
 categories: Article
 tags: ["Inspiration"]
 image: banner.jpg
+palettes: brown
 ---
 
 Je discute parfois avec des jeunes qui débutent dans le développement de jeux, ou l'écriture, le dessin... Ils et elles ont souvent des doutes qui les empêchent de progresser sereinement dans la création : la peur d'être nul·le, le piège de s'accrocher à ses premières idées... j'ai connu ça aussi. Voici mes modestes conseils qui pourront peut-être vous débloquer et vous aider à aimer ce que vous faites.

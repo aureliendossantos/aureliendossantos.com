@@ -6,6 +6,7 @@ categories: ["Article", "Tutoriel"]
 tags: ["Web"]
 image: cover.webp
 toc: true
+palettes: guidebook
 ---
 
 Le GIF, pour Graphics Interchange Format, a été inventé en 1987 (oui) par une équipe de geeks qui n'avaient probablement pas prévu que son usage exploserait des années plus tard. Le problème, c'est que ce qui était à l'origine un format efficace pour partager de toutes petites animations a été largement détourné dès que l'humanité a découvert que les extraits de The Office pouvaient être un moyen d'expression.

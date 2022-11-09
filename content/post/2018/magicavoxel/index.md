@@ -7,6 +7,7 @@ tags: ["3D"]
 image: 2IAoFHn.png
 license: "Ecrit par Nev, Imanor et EzekielKoening"
 toc: true
+palettes: guidebook
 ---
 
 > Ce tutoriel est né de la collaboration de plusieurs membres du forum RPG Maker Alliance, à l'occasion d'un « challenge de la semaine » sur MagicaVoxel. Lorsque nous avons fermé le forum en 2019, ce tutoriel est alors devenu inaccessible. Je n'en suis pas l'auteur, mais il me paraît bon de le remettre en ligne quelque part !

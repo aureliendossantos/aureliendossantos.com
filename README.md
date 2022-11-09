@@ -40,4 +40,3 @@ J'ai légèrement adapté le js de l'article pour qu'il ne nécessite pas jQuery
 ### Todo
 
 - [] BUG : si dans deux tabsets différents, y a une tab qui a le même nom dans les deux, ça va toujours ouvrir dans le premier tabset.
-- [] Le ptit morceau de bordure à gauche d'un tab qui change de couleur. J'ai eu la flemme parce qu'il faudrait créer une couleur spéciale (à cause de la couche alpha) mais c'est facile à faire. Tant qu'à faire ptet mettre plus de padding à gauche et à droite sur les onglets pour être dans l'esprit du design plus horizontal du blog.

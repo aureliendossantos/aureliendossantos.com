@@ -6,6 +6,8 @@ categories: ["Tutoriel"]
 tags: ["Programmation"]
 toc: true
 image: cover.png
+card: small
+palettes: whiteboard
 ---
 
 Lua est un langage de programmation intéressant pour débuter et écrire ses premières lignes de code, en raison de son style neutre et très lisible. Lua est d'ailleurs souvent utilisé dans le jeu vidéo (World of Warcraft, Roblox...) en tant que langage de script, car il est simple d'utilisation et pensé pour être intégré facilement à un programme.

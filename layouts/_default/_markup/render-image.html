@@ -11,7 +11,7 @@
 {{- $image := .Page.Resources.GetMatch (printf "%s" (.Destination | safeURL)) -}}
 {{- if and $image (ne (path.Ext .Destination) ".svg") -}}
 	<figure style="flex-grow: {{ div (mul $image.Width 100) $image.Height }}; flex-basis: {{ div (mul $image.Width 240) $image.Height }}px">
-		<a href="{{ $image.RelPermalink }}" data-size="{{ $image.Width }}x{{ $image.Height }}">
+		<a href="{{ $image.RelPermalink }}" target="_blank" data-size="{{ $image.Width }}x{{ $image.Height }}">
 			{{- $Permalink := $image.RelPermalink -}}
 			{{- $Width := $image.Width -}}
 			{{- $Height := $image.Height -}}

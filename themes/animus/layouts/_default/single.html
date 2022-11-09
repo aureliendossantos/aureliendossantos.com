@@ -1,0 +1,16 @@
+{{ define "main" }}
+    <div class="single">
+        <header{{ if (and (.Params.image) (.Params.cover)) }} class="background" style="background-image: linear-gradient(rgba(56, 48, 28, 0.394), rgba(75, 65, 35, 0.395)), url('{{ .Params.image }}');"{{ end }}>
+            <div class="header-contents">
+                <h1 class="title">{{ .Title }}</h1>
+                <p class="subtitle">{{ .Description }}</p>
+                <p class="byline">{{ .Date | time.Format ":date_long" }} &ndash; Aurélien Dos Santos</p>
+            </div>
+        </header>
+        <article>
+
+        {{ .Content }}
+
+        </article>
+    </div>
+{{ end }}

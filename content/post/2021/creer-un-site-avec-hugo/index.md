@@ -6,6 +6,7 @@ categories: ["Tutoriel"]
 tags: ["Web"]
 image: "halgatewood-unsplash.jpg"
 toc: true
+palettes: guidebook
 ---
 
 ## Pourquoi Hugo ?
@@ -30,9 +31,12 @@ Personnellement, j'apprécie Hugo pour sa rapidité et sa relative simplicité q
 
 Pour mieux vous montrer les types de site que l'on peut réaliser avec Hugo, voici une sélection de thèmes gratuits que je trouve très convaincants :
 
+{{< gallery wide >}}
 ![](bigspring.png "[Bigspring](https://themes.gohugo.io/bigspring-hugo-startup-theme/), un thème pour les agences du web") ![](portio.png "[Portio](https://themes.gohugo.io/portio-hugo/), un portfolio au design chaleureux")
-
+{{</ gallery >}}
+{{< gallery wide >}}
 ![](bookworm.png "[Bookworm](https://github.com/gethugothemes/bookworm), pour les blogs audacieux et légers") ![](stack.png "[Stack](https://github.com/CaiJimmy/hugo-theme-stack), que j'utilise sur ce site !")
+{{</ gallery >}}
 
 ## Installer Hugo
 

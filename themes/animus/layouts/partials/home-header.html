@@ -1,0 +1,27 @@
+<header class="site-info">
+    <ul class="menu" id="main-menu">
+        <li>◂ 
+            {{ if .Paginator.HasPrev }}
+                <a href="/">Retour à la première page</a>
+            {{ else }}
+                <a href="https://aureliendossantos.com">Retour au site principal</a>
+            {{ end }}
+        </li>
+
+        {{ $currentPage := . }}
+        {{ range .Site.Menus.main }}
+        {{ $active := or (eq $currentPage.Title .Name) (or ($currentPage.HasMenuCurrent "main" .) ($currentPage.IsMenuCurrent "main" .)) }}
+
+        <li {{ if $active }} class='current' {{ end }}>
+            <a href='{{ .URL }}' {{ if eq .Params.newTab true }}target="_blank"{{ end }}>
+                <span>{{- .Name -}}</span>
+            </a>
+        </li>
+        {{ end }}
+    </ul>
+
+    <!--<h1 class="site-name"><a href="{{ .Site.BaseURL }}">{{ .Site.Title }}</a></h1>-->
+    <p class="site-description">{{ .Site.Params.sidebar.subtitle | markdownify }}</p>
+</header>
+
+

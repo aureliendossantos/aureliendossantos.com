@@ -4,6 +4,7 @@ description: J'aime beaucoup visiter des parkings. Ce n'est pas grand chose, mai
 date: 2015-05-08
 categories: Photos
 image: 1.webp
+palettes: darkgrey
 ---
 
 Celui-ci est un tout petit parking près de chez moi dont j'aime bien l'éclairage.

@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+:root {
+    --primary: #404040;
+    --secondary: #686868;
+    --special: #c45c7f;
+    --background: #f0efdd;
+    --headingsFont: 'Work Sans', sans-serif;
+    --mainFont: 'Work Sans', 'Noto Sans', sans-serif;
+    --fontSize: 18px;
+    --lineHeight: 1.5;
+    --specialFont: 'Work Sans', monospace;
+}
+
+figcaption {
+    font-weight: 400;
+}

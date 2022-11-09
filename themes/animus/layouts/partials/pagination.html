@@ -1,0 +1,18 @@
+{{ if gt .Paginator.TotalPages 1 }}
+    <nav class='pagination'>
+        {{ $.Scratch.Set "hasPrevDots" false }}
+        {{ $.Scratch.Set "hasNextDots" false }}
+
+        {{ range .Paginator.Pagers }}
+            {{ if eq . $.Paginator }}
+                <span class='page-link current'>
+                    {{- .PageNumber -}}
+                </span>
+                {{ else }}
+                    <a class='page-link' href='{{ .URL }}'>
+                        {{- .PageNumber -}}
+                    </a>
+                {{ end }}
+            {{ end }}
+    </nav>
+{{ end }}
