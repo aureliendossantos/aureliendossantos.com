@@ -1,180 +1,145 @@
 ---
-title: "Death Stranding"
+title: "Death Stranding, monument du jeu vidéo"
 date: 2021-03-24
+description: "La Director's Cut est sortie récemment et me fait réaliser que deux ans plus tard, je pense encore régulièrement à Death Stranding. Un petit bilan s'impose."
 categories: ["Article"]
 tags: ["Jeux"]
-image: portknot.jpeg
+image: fragile-sat-there.jpeg
 draft: true
 palettes: blue
 ---
 
-People saying Death Stranding... How is it bad writing?
+<style>
+    p {
+        line-height: 1.55;
+    }
+</style>
 
-Like, is it ridiculous, melodramatic and beats you over the face with its themes with no sense of subtlety? yes
+Les gens aiment dire que Death Stranding est mal écrit... Mais pff... Je ne suis pas d'accord ?
 
-Does it also work exactly as intended to deliver an experience that hits emotionally like few games? Oh yeah
+Est-ce qu'il est ridicule et mélodramatique ? Est-ce qu'il nous balance ses thèmes à la figure sans aucune espèce de subtilité ? Oui ! Mille fois oui !
+
+Et est-ce que le tout fonctionne exactement comme prévu pour nous toucher et nous délivrer une expérience comme aucun autre jeu ? Je crois bien que oui.
 
 <div class="gallery wide">
 
-![](fragile.jpeg "*Death Stranding*")
+![](fragile.jpeg)
 
 </div>
 
----
+Le jeu a bien sûr des faiblesses en termes de gameplay et surtout d'histoire, mais rien de majeur... D'autant plus qu'il a l'avantage d'être en compétition directe avec les jeux vidéo, non pas le cinéma, sinon certains défauts seraient un peu plus difficiles à accepter. Mais bon ! L'important c'est qu'il sonne vrai, honnête.
 
-<div class="gallery">
+Comme beaucoup l'ont déjà dit, c'est une grande leçon qui nous apprend comment donner du sens à un open world en rendant le voyage, dans son sens le plus concret de parcours, intéressant en lui-même. Mais c'est aussi un jeu empli d'émotion, qui aborde des thèmes rarement osés dans les AAA et tout en justesse. En fait, c'est une expérience tellement unique qu'il me paraît miraculeux qu'elle nous soit arrivée en aussi bon état.
 
-![](mama-baby.jpeg "*Death Stranding*")
+Il faut dire que le jeu vidéo en est à un stade où arriver à réellement transmettre quelque chose, quoi que ce soit, est chaque fois un triomphe. Nous explorons encore comment communiquer par le jeu, et dans ce contexte, Kojima comprend comment partir des modèles standards et accessibles pour exprimer des idées puissantes.
 
-</div>
+On retrouve dans Death Stranding, sous une autre forme, ce qui était marquant dans MGS2 et qui l'a rendu culte : le jeu a une aura prophétique, comme un avertissement venu d'une autre dimension. Je n'ai pas besoin de vous expliquer l'ironie et surtout la magie de jouer à ce jeu un an après sa sortie, pendant le confinement. Death Stranding contient une résonnance émotionnelle et esthétique qui appartient aux œuvres d'art les plus touchantes.
 
-A few replies saying Death Stranding, but that’s a game where every momentous ridiculous word melds into the mechanics of the game you are playing. It is superb. It’s melodramatic and silly but it’s not bad writing
-
-Naming people like John Bunyan would isn't bad writing imo
-
-
----
-
-Yes it’s ridiculous and melodramatic AF, but I cannot imagine calling Death Stranding bad writing when
-a) it resonated with me on a human level like few other pieces of art and 
-b) it’s almost prophetic in that MGS 2 kinda way where it feels like a message from the other side.
-
-Kojima in 2019: Imagine a future America where everyone is huddled in bunkers in fear, depending on deliveries to survive.                      2020:
-
----
-
-It has a character named Die Hardman. His name is a reference to the movie, Die Hard.
-
-I’m so glad you agree
-
----
-
-Death Stranding isn’t badly written, you just don’t know how to process earnest media anymore.
-
----
-
-Has it got flaws in terms of gameplay and story? Of course but nothing major and I do love it and it feels genuine and authentic.
-
----
-
-Seemingy unrelated concepts get thrown around with reckless abandon, DOOMS, BTs, Repatriates, BBs...
-
----
-
-Yes, the game is heavy handed with it's imagery and symbolism, but frankly considering the vast gulf of media literacy among the population, maybe that's a good thing if your goal is primarily to have your message understood?
-
-<div class="gallery right">
-
-![](bb.jpeg "*Death Stranding*")
-
-</div>
-
-Yeah Kojima seems to simultaneously want to bluntly hammer home his message *and* obscure it with dense lore and imagery. Good for him tbh
-
-He has the free association fervor of a manic conspiracy theorist but he applies it to his own stories. Everything means everything it can mean simultaneously, and while it always ends up incredibly convoluted the fact it ends up mostly coherent is incredibly underrated.[^Dont]
-
-[^Dont]: Don't worry about that...
+<p> </p>
 
 <div class="gallery full">
 
-![Alt text](portknot.jpeg "*Death Stranding*")
+![](pont.jpeg)
 
 </div>
 
-<!-- Death Stranding should be a ten car pileup of mixed metaphors, contradictory themes and dream logic with no grounding, but against all odds it mostly isn't. It is thematically consistent, clear, and its world is a cohesive thing with predictable rules that cement the themes. -->
+<p> </p>
 
-Death Stranding devrait être un carambolage de métaphores et de thèmes contradictoires, un rêve illogique sans fondations, mais contre toute attente, ce n'est pas le cas --- la plupart du temps. Le jeu est thématiquement cohérent, clair, et présente un monde aux règles crédibles qui cimentent les thèmes.
+<p> </p>
+
+<div class="gallery full">
+
+![](portknot.jpeg)
+
+</div>
+
+<p> </p>
+
+Il est également joyeusement pourvu d'éléments étranges, étonnants, voire kitsch, que le public a pu trouver embarrassants ou inintéressants. Pourtant, les moments les plus marquants de l'expérience tournent autour de ces éléments, vecteurs du message de l'auteur qui me paraît profondément honnête dans son choix de sujets, surtout quand on le connaît un peu : la solitude, la difficulté à former des connexions avec les autres, la sensation de passer à côté de la vie, la maladresse...
+
+Kojima semble aussi bien vouloir nous marteler ces thèmes en plein visage que les brouiller par son histoire rocambolesque. Des concepts et nouveaux termes sans rapport apparent sont jetés à tout va avec une nonchalance déconcertante. Death Stranding devrait être un carambolage de métaphores contradictoires, une histoire illogique sans fondations, mais contre toute attente, ce n'est pas le cas --- la plupart du temps. Le jeu est thématiquement cohérent, clair, et présente un monde aux règles crédibles qui cimentent son sujet. Chaque mot-clé prend tous les sens qu'il peut avoir en même temps et se fond dans les mécaniques du jeu pour prendre vie.
 
 > It’s a funny word ‘strand’. A strand is part of rope or bond while ‘stranding’ means being washed up on the shore, and ‘being stranded’ is when you can’t go home. I’m stranded now, Sam.
 
-Chaque mot-clé prend tous les sens qu'il peut avoir en même temps et se fond dans les mécaniques du jeu pour prendre vie. C'est mélodramatique et un peu ridicule, mais c'est aussi tout simplement superbe.
-
-<!--Every momentous ridiculous word melds into the mechanics of the game. It is superb. It’s melodramatic and silly but it’s not bad writing.-->
-
 > I'm Fragile. But I'm not that fragile.
 
-<div class="gallery">
+<div class="gallery wide">
 
-![](qpid.jpeg "*Death Stranding*")
+![](intro.jpeg)
 
 </div>
 
-I mean... and I say this as someone with a lot of love for this game and its absolutely bonkers story... it is a *little* badly written. I think my biggest issue is that Kojima tends to rely on a *lot* of heavy exposition dumps, particularly towards the end. And some of the big concepts are not explained super well, even despite the infodumps. Like I said, it’s not a dealbreaker, but I think it could have been told a bit better haha.
+<p> </p>
 
-I definitely understand his brand of exposition not being for everyone but I don’t equate awkward with bad when the rest of the script is so richly dense and raw. I dunno, for me these are speed bumps not war crimes the way others talk about it.
+<div class="gallery wide">
 
----
+![](qpid.jpeg)
 
-<!--Earnestness is underrated in modern storytelling, especially in AAA games.-->
+</div>
 
-La sincérité est sous-estimée dans le *storytelling* moderne, surtout dans les jeux AAA.
+<p> </p>
 
----
+<div class="gallery wide">
 
-I think you need to get into a particular groove with it in that you need to freely flow from taking it seriously to knowing when it’s in on the joke. Which isn’t for everyone! But it’s not inherently bad either
+![](bb.jpeg)
 
-Yeah but I mean I feel what's serious and what's meant as a joke is a bit subjective, and to take that mentality is just kind of dismissing any poor writing as a 'joke'.
+</div>
 
-For sure all art critique is subjective but Kojima knew exactly which parts were which when he wrote it. When I say in on the joke I don’t mean the game is attempting to be funny, just self aware. There’s a literal boss fight with fighting game health bars haha. And like, I don’t think it has poor writing period so I’m not attempting a “so bad it’s good” defence, I think it’s written exactly as it should be.
+<p> </p>
 
----
+Alors bien sûr, c'est effectivement assez mal écrit parfois. Les textes d'exposition sont inutilement lourds et malgré cela, certains concepts sont survolés dans les dialogues et nécessitent de lire les logs pour mieux les comprendre. Mais comment peut-on dire que cela rend le jeu mauvais quand Kojima affiche dans de nombreuses scènes un tel niveau de maîtrise et de raffinement de son art ?
 
-The sequence starting with the higgs fight is all a false "this is the videogame ending you expected" section. It directly references what it is with references to a boss fight, princess beach, etc. Following that you find out your damsel was never in danger, was the antagonist
+Moi je vous le dis, le vrai sujet c'est que la sincérité est sous-estimée et mal comprise dans la narration moderne, surtout dans les grosses productions. Comme si passer par quatre chemins pour nous raconter les choses était un gage de qualité. A l'inverse, chez Kojima comme dans beaucoup de productions japonaises, il faut rentrer dans un certain état d'esprit permettant d'accepter l'enchaînement de scènes sérieuses et de blagues ridicules. Je n'essaie pas d'excuser son écriture ni de dire que le jeu est un nanar. Que l'on soit prêt à l'accepter ou non, l'auteur savait exactement ce que représentait chaque scène, donc il les a écrites comme elles devaient l'être. Les dialogues sont souvent bidons, mais c'est un jeu aussi sincère que possible.
 
-^ gets it. should also note Higgs is the only main character portrayed by a video-game voice actor and not a screen/stage actor - not a coincidence. Higgs is just a weird meta-commentary on gaming. he has powers (can teleport etc) but u have to walk. "aren't u tired of the grind?" taunts you, the player, for having to play this boring walking sim. meanwhile he's a "badass" with all these powers. but in the end its all revealed as fake and the heart of the game is revealed.
+Je pense notamment aux missions où l'on doit porter des humains, qui sont vraiment mémorables. La mise en scène, le paysage, la musique, les sensations de jeu... tout nous fait comprendre l'importance de la tâche et appelle à notre sens des responsabilités. On approche solennellement la mission et on brave les environnements à deux.
 
----
+Dans l'océan de jeu narratifs qui se complaisent dans la misère et la souffrance, peut-être parfois par intention mais le plus souvent par facilité, Death Stranding brille par sa capacité à exprimer une vision plus complète de l'expérience humaine, sombre mais pleine d'espoir. Il exprime la beauté d'un corps qui travaille, le bruit des bottes contre la terre, la fatigue, les muscles éreintés, une nuit de repos dans un abri de métal, avant de repartir. Il nous offre un instant de grâce quand, arrivé en haut de la montagne, la musique se lance et le panneau d'un inconnu nous dit que l'on va y arriver. Il comprend ce qu'est vraiment la vie ; ce combat quotidien contre des difficultés qui semblent impossibles à surmonter, la futilité de tout ça, mais aussi la valeur de l'espoir et la volonté de survivre, de grandir. Et comment cela vainc tout.
 
-Death Stranding est un des jeux les plus poignants et sincères auquel j'ai joués. Les dialogues sont souvent bidons, mais:
+Il s'agit de l'une des expressions les plus sincères et profondes d'une expérience humaine dans un jeu. Death Stranding parvient à capturer une émotion esthétique non seulement par la narration, mais aussi et surtout par l'interactivité. En cela, c'est un monument du jeu vidéo.
 
-C'est un jeu qui est aussi sincère émotionnellement qu'il puisse l'être, et nous transperce sur les thèmes de la solitude et les difficultés à tisser des connexions humaines, et ce sur le plan interactif.
+<p> </p>
 
-C'est une grande leçon qui nous apprend qu'on donne du sens à un open world non pas en y jetant une liste d'objectifs mais en rendant l'exploration elle-même intéressante.
+<p> </p>
 
----
+<div class="gallery wide">
 
-C'est une expérience tellement unique qu'il me paraît miraculeux qu'elle nous soit arrivée en un seul morceau et dans un état aussi pur.
+![](mama.jpeg)
 
-Une leçon de synergie entre les mécaniques et la narration, malgré les dialogues douteux.
+</div>
 
----
+<p> </p>
 
-Il faut dire que le jeu vidéo en est à un stade où son potentiel reste encore à révéler et arriver à réellement communiquer quelque chose, quoi que ce soit, est toujours un triomphe, une expérience jubilatoire. Même si cette chose pourrait paraître évidente ou naïve.
+<p> </p>
 
-Nous en sommes encore à un stade où nous explorons comment communiquer par le jeu, et Kojima comprend comment partir des modèles standards et accessibles pour exprimer des idées puissantes.
+<div class="gallery full">
 
+![](sat-there.jpeg)
 
----
+</div>
 
-I think Death Stranding does a better job of easing you into its world and establishing stakes than Control has done. It's a very Cool concept and I'm a sucker for meta experiences, but the writing is annoyingly coy. -> je peux donc dire que le writing de death stranding est l'inverse de coy
+<p> </p>
 
-Death Stranding réussit mieux que presque n'importe quel jeu à nous introduire dans son monde et établir les enjeux avec une certaine franchise. La séquence d'introduction est terriblement dense et pourtant parfaitement contrôlée, nous laissant avec les bonnes connaissances et les bonnes interrogations en suspens. Peu après avoir repris la manette, on se retrouve avec quelqu'un sur le dos.
+<p> </p>
 
----
+<div class="gallery wide">
 
-Les missions où l'on doit porter des humains sont vraiment réussies. La mise en scène, le paysage, la musique, les sensations de jeu... tout nous fait comprendre l'importance de la tâche, appelle à notre sens des responsabilités pour nous lancer solennellement dans la mission et braver les environnements à deux.
+![](fragile-sat-there.jpeg)
 
----
+</div>
 
-Look I'm gonna say it: pilgrims progress by John Bunyan had a character named giant despair and another who was the pope, named, "pope" so I don't want to hear you whine that "die hardman" is a bad name when bunyan's literally never been out of print since the 1600s
+<p> </p>
+
+<p> </p>
+
+Images tirées de [imgur.com/gallery/mcqtdmf](https://imgur.com/gallery/mcqtdmf). Notez également que la *Director's Cut* n'en a que le nom, le terme étant imposé par Sony et critiqué par Kojima lui-même dans un [tweet](https://twitter.com/HIDEO_KOJIMA_EN/status/1414442497401524224). Elle n'est vraiment pas terrible car elle ajoute du contenu superflu. Je vous conseille plutôt la version PS4 (en anglais !).
+
+<p> </p>
+
+<!--
 
 No one complains that characters in media have the most grounding names to the point that people basically refer to their characters by their actor names. Meanwhile each stranding character's name has at least one meaning and each one is unforgettable both in name and personality
 
----
-
-It is absolutely one of the most earnest and thorough expressions of a deeply human experience in the interactive medium. It's sombre but hopeful. But more importantly captures this emotional brevity through both narrative context and the act of interactivity. It's a milestone.
-
-**I often catch myself just reminiscing over my time with it.** (*introduction, voilà pk je fais un article mtn, parce que l'édition sort et c'est ouf que je pense encore tout le temps au jeu*) It's incredibly elegant with how interactivity captures this sense of genuine worry and concern for us as people and society, but has this unshakeable will planting seeds of hope and value in community and people.
-
-I think in a sea of games that revel in misery and suffering, even if that's the artistic intent, Death Stranding is the one that almost perfectly encapsulates both the internal and external dichotomy and struggle of the human experience being part of a community.
-
-It's so conscious of the uphill battle of just living and being, the seemingly impossible odds against us, the arguable pointlessness of it all, but continuously highlights the value of hope and the human will to survive and grow. And how ultimately this conquers all.
-
----
-
 I legitimately think the pushback is because of people who A) don't understand the concept of auteur theory and confuse auteur with artiste trying to take him down a peg, and B) because the game is not something we've seen before, so it's hard for people to process
-
-I think there's a bit of embarrassment--really? ghost babies???--that doesn't come with, I don't know, say, zombies? Because zombies are popular and culturally accepted. We've seen The Walking Dead on AMC, we all get zombies.
 
 I agree wholeheartedly. People see kitsch and interpret that as embarrassing or unearnest, and thus not having value. "Jar baby you carry around? Lol, that's stupid". Yet many of the game's best moments surround this and how it's handled. How people respond. And I think when you learn more about Kojima the earnestness really lands. His experience with loneliness and struggles to connect with people, or feel he's doing the right thing in forming relationships, is as real and empathetic as it gets. And Death Stranding is all this.
 
@@ -182,32 +147,14 @@ My big concern about the Big Game (tlou2) coming out today is an impression that
 
 Agreed. I'm only through the prologue. I like it. But it's also right on the nose with its emotional beats. They work, but not in the way Death Stranding does. Not yet, anyway. Like in Death Stranding you could be on the hike of a goddamn lifetime late in the game, your gear degraded, you're out of rope and ladders, and you cross a mountain and some stranger's shit is there to make the entire final stretch easy and it hits like a ton of bricks.
 
-I broke down in tears when the song played and I looked up and there were signs from other players telling me I could make it
-
 I think Death Stranding is challenging because it faces us with difficulty, with strain and stress, and it says "so. are you gonna be a better person now?" and we're like "yeah... yeah, you're right." If I'm just watching ugly shit, why do I care?
 
 ---
 
 C'est un débat que j'ai parfois avec mes amis. Kojima est-il un génie ou péniblement sur-côté ? Écrit-il avec un talent unique ou plutôt comme un enfant ? Est-ce un professionnel du fanservice ou bien est-il notoirement incapable de respecter son public ? À chaque fois, tout le monde a un avis différent, certains sont tranchés, d'autres pensent qu'il est un peu toutes ces choses à la fois.
 
-Quand on dit que le jeu attend de toi que tu comprennes quand il est sérieux ou non. Je dis pas ça pour excuser toutes les erreurs de Kojima. Il a eu des problèmes avec ça a plusieurs reprises. Johnny c'était une petite blague optionnelle dans le 1, puis une blague difficile à éviter et plus déplacée dans le 2 jusqu'à être tellement dans ta face dans le 4 que c'est pendant une cinématique et il ruine la scène, et là je pense que tout le monde est d'accord que ça aurait été mieux si ça avait juste été un vrai personnage. Kojima est bien connu pour être un spécialiste du fan service mais ici, ça l'a peut-être rendu aveugle. Aussi dans le 4, y avait les scènes porno avec les meufs ennemies et dans le genre"truc où tu arrives pas à accepter" ça se pose là. Donc voilà on pardonne pas tout
-
 Être particulièrement vigilant quand je vais traiter les avis d'Internet sur la scène Mario et Peach parce que même s'ils y ont trouvé quelque chose de deep moi sur le moment et toujours après coup, j'étais vraiment saoulé que le jeu ait actuellement été Mario et Peach...
 
 Kojima tends to be divisive because his games tend to have a gritty, realistic tone complete with anti-war, anti-capitalist messaging, while also indulging in some silly cartoon style antics. Does something have to maintain a single tone throughout? No. But it’s a lot harder to go in several tonal directions without completely bringing the house down. And I’d say that Kojima’s own track record is kind of mixed: his strengths are his weaknesses as a writer.
 
-<div class="gallery wide">
-
-![](mama.jpeg "*Death Stranding*")
-
-</div>
-
-{{< sidenote >}}
-La *Director's Cut* n'en a que le nom, le terme étant imposé par Sony et critiqué par Kojima lui-même dans un [tweet](https://twitter.com/HIDEO_KOJIMA_EN/status/1414442497401524224). Je ne la trouve vraiment pas terrible car elle ajoute du contenu superflu voire de mauvaise qualité, et conseille plutôt la version PS4.
-{{</ sidenote >}}
-
-
-
-{{< note >}}
-Images from https://imgur.com/gallery/mcqtdmf
-{{< /note >}}
+-->

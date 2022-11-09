@@ -7,14 +7,21 @@ tags:
 image:
 license:
 toc:
-draft: true
 ---
 
-Bon, ben j'ai fait un design de blog.
+Et voilà, après avoir longtemps utilisé le thème [Stack](https://github.com/CaiJimmy/hugo-theme-stack) par [Jimmy Cai](https://jimmycai.com/), j'ai fait mon propre thème de blog. Plus simple, plus humble peut-être, mais qui me permet quelques fantaisies. Qui me correspond mieux, en somme.
 
-Je l'appelle *Animus*. Je ne compte pas le rendre open source dans un futur proche, tout simplement parce que le code est très *hacky* et que ce serait désagréable à personnaliser. En l'état j'aurais un peu honte que quiconque voie ça. Mais si quelqu'un est intéressé, je ferai un petit effort pour nettoyer tout ça avec plaisir !
+C'est marrant parce qu'on revient à un format épuré comme avec le premier thème que j'ai utilisé, [Rocinante](https://github.com/mavidser/hugo-rocinante), mais avec une nouveauté qui invite mieux à l'exploration (chose que faisait bien Stack).
 
-Les différents design d'article sont stockés dans un dossier nommé `palettes`. Voici par exemple le thème `notebook` que j'aime beaucoup, utilisé dans mon article sur Destiny :
+Tout le principe de ce thème est que l'on puisse créer différentes palettes, qui sont des combinaisons de couleurs et de polices d'écriture. On peut ensuite appliquer une palette différente à chaque article, ce qui me permet d'obtenir un résultat plus expressif et unique.
+
+Cela m'aide à voir chaque article comme une entité individuelle et à assumer que les sujets et formats ne sont pas toujours cohérents. Ce n'est pas parce qu'on a aimé un des articles de mon blog que l'on sera forcément intéressé par tous les autres. J'aime particulièrement mes palettes old school, comme sur cette page, qui m'aident à écrire en me prenant moins au sérieux. J'espère que vous ne les trouverez pas prétentieuses !
+
+La palette d'un article est également reflétée sur sa carte dans la page d'accueil. Ainsi, on peut avoir un meilleur aperçu de l'ambiance d'un article avant de cliquer, et peut-être en être d'autant plus curieux.
+
+J'appelle ce thème de blog *Animus*. Je ne compte pas le rendre open source dans un futur proche, tout simplement parce que le code est très *hacky* et que ce serait désagréable à personnaliser. En l'état j'aurais un peu honte que quiconque voie ça. Mais si quelqu'un est intéressé, je ferai un petit effort pour le nettoyer avec plaisir !
+
+Les différentes palettes sont des petits fichiers stockés dans un dossier nommé `palettes`. Voici par exemple le thème `notebook` que j'aime beaucoup, utilisé dans mon [article sur Destiny](/post/2021/destiny-introduction-analyse/) :
 
 ```toml
 title: "notebook"

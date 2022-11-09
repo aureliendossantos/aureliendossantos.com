@@ -49,6 +49,18 @@ hr {
     .header-contents {
         padding-top: 30px;
     }
+    header.background {
+        background-position: center;
+        background-size: cover;
+        min-height: 50vh;
+        display: flex;
+        padding-bottom: 30px;
+        margin-bottom: 46px;
+    
+        .title, .subtitle, .byline {
+            color: rgb(251, 248, 242);
+        }
+    }
     blockquote, .note {
         font-style: italic;
         margin-top: 1em;
@@ -138,17 +150,6 @@ hr {
         max-width: 30%;
         margin-right: -$margin;
         margin-left: 1.5em;
-    }
-}
-
-header.background {
-    background-position: center;
-    background-size: cover;
-    min-height: 50vh;
-    display: flex;
-
-    .title, .subtitle, .byline {
-        color: rgb(251, 248, 242);
     }
 }
 

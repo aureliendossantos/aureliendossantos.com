@@ -9,6 +9,8 @@ tags:
 - Journal
 - Montagne
 image: 66.webp
+cover: true
+palettes: default
 ---
 
 ![Carte du parcours](map.webp "Tracé : [fichier GPX](7-villages.gpx)")

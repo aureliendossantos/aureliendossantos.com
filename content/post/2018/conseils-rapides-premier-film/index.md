@@ -1,10 +1,8 @@
 ---
 title: Conseils express pour réaliser ses premiers films
 date: 2018-05-16
-license: "Photo de @pinkpotxo / convertkit.com/chaitra-radhakrishna"
 categories: Micro-blog
 tags: ["Films", "Inspiration"]
-image: unsplash-rachel-greenhousephoto.jpg
 ---
 
 - Votre histoire doit rester courte

@@ -6,7 +6,11 @@ tags: ["Projets"]
 image: 1.png
 ---
 
-Aujourd’hui est un grand jour ! C’est avec joie que je vous présente à la fois le forum, et **l’Encyclopédie du Making** ! L’objectif est de créer **une véritable encyclopédie sur RPG Maker**, avec des tutoriels sur une variété de sujets, mais aussi une liste des jeux emblématiques, et un historique de la communauté française. J’ai déjà posé les bases de certaines sections, pour que vous imaginiez ce que donnera le projet une fois qu’il sera plus abouti. Je poursuivrai ce travail dans la soirée et durant les prochaines semaines.
+{{< gallery wide >}}
+![](1.png)
+{{< /gallery >}}
+
+Aujourd’hui est un grand jour ! C’est avec joie que je vous présente à la fois **le forum**, et **l’Encyclopédie du Making** ! L’objectif est de créer **une véritable encyclopédie sur RPG Maker**, avec des tutoriels sur une variété de sujets, mais aussi une liste des jeux emblématiques, et un historique de la communauté française. J’ai déjà posé les bases de certaines sections, pour que vous imaginiez ce que donnera le projet une fois qu’il sera plus abouti. Je poursuivrai ce travail dans la soirée et durant les prochaines semaines.
 
 Sur RMA, on s’assurera que l’encyclopédie **reste en ligne et accessible à tous,** le plus longtemps possible. Et si un jour nous ne pouvons plus héberger le wiki, ce ne sera pas un problème car tout le monde peut le récupérer. Si le projet vous plaît et que vous avez des connaissances à partager, prenez la liberté d’ajouter votre pierre à l’édifice ! Vous pouvez étoffer les catégories existantes ou en ajouter de nouvelles.
 

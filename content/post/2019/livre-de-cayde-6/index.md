@@ -5,6 +5,7 @@ date: 2019-12-22
 categories: Article
 tags: ["Projets", "Jeux"]
 image: 1.jpg
+cover: true
 palettes: notebook
 ---
 

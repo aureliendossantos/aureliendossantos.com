@@ -1,6 +1,6 @@
 ---
 title: "Vous ne devriez pas utiliser le GIF — il a été remplacé par la vidéo"
-description: "Amis blogueurs, cet article vous est dédié. Il faut qu'on parle des GIF."
+description: "Comparatif entre le GIF et les formats vidéo modernes pour le même usage."
 date: 2021-03-24
 categories: ["Article", "Tutoriel"]
 tags: ["Web"]

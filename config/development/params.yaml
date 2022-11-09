@@ -1,6 +1,7 @@
 mainSections:
     - post
     - photos
+    - formation
 featuredImageField: image
 rssFullContent: true
 favicon:

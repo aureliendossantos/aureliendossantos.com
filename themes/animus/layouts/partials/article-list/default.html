@@ -54,7 +54,7 @@
             class="article-title"
             {{ range (.GetTerms "palettes") }}
                 {{ with .Params.style }}
-                style="font-family: {{ .headings }};"
+                style="font-family: {{ .headingsFont | safeCSS }};"
                 {{ end }}
             {{ end }}
             >
