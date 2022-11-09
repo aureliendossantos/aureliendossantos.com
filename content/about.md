@@ -36,7 +36,7 @@ h2, h3 {
 }
 </style>
 
-Formé en autodidacte dans la réalisation vidéo, l'informatique et la pédagogie, je passe le plus clair de mon temps à combiner ces intérêts, à la recherche des meilleures méthodes pour transmettre du savoir. Je réalise ainsi des tutoriels [sur YouTube](https://www.youtube.com/channel/UCCjlo6Ihet_T3X6bKLJzPsA) depuis mes 15 ans, et continue aujourd'hui d'affiner ma méthode en écrivant des formations gratuites sur le site [FaireDesJeux.fr](https://fairedesjeux.fr). Sur mon temps libre, je me plonge dans mes passions pour le design de jeux vidéo et la musique électronique.
+Passionné par la réalisation vidéo, l'informatique et la pédagogie, je passe le plus clair de mon temps à combiner ces intérêts. Je réalise des tutoriels [sur YouTube](https://www.youtube.com/channel/UCCjlo6Ihet_T3X6bKLJzPsA) depuis mes 15 ans et écris des formations gratuites sur le site [FaireDesJeux.fr](https://fairedesjeux.fr). Actuellement, je programme un hybride jeu vidéo/jeu de société sur Unity. Et le jour, je travaille en tant qu'ingénieur pédagogique et concepteur e-learning.
 
 ### Contact
 

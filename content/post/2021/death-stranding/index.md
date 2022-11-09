@@ -5,7 +5,6 @@ description: "La Director's Cut est sortie récemment et me fait réaliser que d
 categories: ["Article"]
 tags: ["Jeux"]
 image: fragile-sat-there.jpeg
-draft: true
 palettes: blue
 ---
 
