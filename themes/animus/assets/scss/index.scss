@@ -122,6 +122,18 @@ hr {
         margin-left: -$margin;
         margin-right: -$margin;
         width: calc(100% + $margin * 2);
+        @media only screen and (max-width: $totalWidth) {
+            margin-left: -$margin / 2;
+            margin-right: -$margin / 2;
+        }
+        @media only screen and (max-width: 600px) {
+            margin-left: -$marginmedium / 2;
+            margin-right: -$marginmedium / 2;
+        }
+        @media only screen and (max-width: 430px) {
+            margin-left: -$marginsmall;
+            margin-right: -$marginsmall;
+        }
     }
     .full {
         width: 100vw;
