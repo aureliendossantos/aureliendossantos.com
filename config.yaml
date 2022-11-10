@@ -1,4 +1,4 @@
-baseurl: https://aureliendossantos.github.io/
+baseurl: https://blog.aureliendossantos.com/
 languageCode: fr-fr
 theme: animus # hugo-theme-stack
 paginate: 10
