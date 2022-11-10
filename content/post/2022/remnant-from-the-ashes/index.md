@@ -28,7 +28,7 @@ Le tuto est chaotique : on ne nous donne qu'une arme de mêlée alors que la ma
 Le jeu est rempli de petites bizarreries typiques de ces jeux moyen budget, qui tentent des choses dont on n'avait pas besoin. Il y a ce système de couverture dont on se souvient avec surprise qu'il existe toutes les trois heures, ou encore les trois-quarts des équipements qui resteront toujours au fond de l'inventaire parce qu'ils sont juste moins bien que le reste. Mais cela n'empêche pas le jeu d'être satisfaisant de bout en bout. Alors ce n'est pas grâce à la variété du gameplay, ni à la difficulté, rarement au poil.
 
 {{< gallery wide >}}
-![](remnant-coop.jpg) ![](remnant-singed.jpg)
+![](remnant-coop.jpg) ![](remnant-singed.jpg "Remnant: From the Ashes")
 {{< /gallery >}}
 
 En multi, tout est un peu trop simple, hormis quelques boss qui demandent plusieurs essais avant d'en maîtriser les mécaniques. Bien sûr, vous pouvez essayer de monter la difficulté et vous faire *one shot* par tous les ennemis, qui sont devenus des éponges à balles. Non, ce qui rattrape le jeu, c'est qu'on a juste assez de nouveautés pour nous tenir en haleine : des armes rigolotes à tester, des nouveaux boss, de nouveaux décors... En somme, une gestion du rythme parfaite pour qui veut vadrouiller à deux et passer une bonne soirée tranquille.
