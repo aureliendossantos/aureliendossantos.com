@@ -1,0 +1,64 @@
+{{ $description := "" }}
+{{ if .Description }}
+    {{ $description = .Description | plainify }}
+{{ else if .IsPage }}
+    {{ $description = .Summary | plainify }}
+{{ end }}
+<meta name='description' content='{{ $description }}'>
+
+<link rel='canonical' href='{{ .Permalink }}'>
+
+{{- range .AlternativeOutputFormats -}}
+    <link rel="{{ .Rel }}" type="{{ .MediaType.Type }}" href="{{ .Permalink | safeURL }}">
+{{- end -}}
+
+{{ with .Site.Params.favicon }}
+    <link rel="shortcut icon" href="{{ . }}" />
+{{ end }}
+
+<meta property='og:title' content='{{ .Page.Title }}'>
+<meta property='og:description' content='{{ $description }}'>
+<meta property='og:url' content='{{ .Permalink }}'>
+<meta property='og:site_name' content='{{ .Site.Title }}'>
+<meta property='og:type' content='{{- if .IsPage -}}article{{- else -}}website{{- end -}}'>
+
+<meta property='og:locale' content='fr_FR'>
+
+{{- if .IsPage -}}
+    <meta property='article:section' content='{{ .Section | title }}' />
+    {{- range .Params.tags -}}
+        <meta property='article:tag' content='{{ . }}' />
+    {{- end -}}
+{{- end -}}
+
+{{- if .IsPage -}}
+    {{- if not .Date.IsZero -}}
+        <meta property='article:published_time' content='{{ .Date.Format "2006-01-02T15:04:05-07:00" | safeHTML }}'/>
+    {{- end -}}
+    {{- if not .Lastmod.IsZero -}}
+        <meta property='article:modified_time' content='{{ .Lastmod.Format "2006-01-02T15:04:05-07:00" | safeHTML }}'/>
+    {{- end -}}
+{{- else -}}
+    {{- if not .Site.LastChange.IsZero -}}
+        <meta property='og:updated_time' content='{{ .Site.LastChange.Format " 2006-01-02T15:04:05-07:00 " | safeHTML }}'/>
+    {{- end -}}
+{{- end -}}
+
+{{ $image := partialCached "helper/image" (dict "Context" . "Type" "opengraph") .RelPermalink "opengraph" }}
+{{- if $image.exists -}}
+    <meta property='og:image' content='{{ absURL $image.permalink }}' />
+{{- end -}}
+
+{{- with .Site.Params.opengraph.twitter.site -}}
+    <meta name="twitter:site" content="@{{ . }}">
+    <meta name="twitter:creator" content="@{{ . }}">
+{{- end -}}
+
+<meta name="twitter:title" content="{{ .Title }}">
+<meta name="twitter:description" content="{{ $description }}">
+
+{{- $image := partialCached "helper/image" (dict "Context" . "Type" "opengraph") .RelPermalink "opengraph" -}}
+{{- if $image.exists -}}
+    <meta name="twitter:card" content="{{ default `summary_large_image` .Site.Params.opengraph.twitter.card }}">
+    <meta name="twitter:image" content='{{ absURL $image.permalink }}' />
+{{- end -}}

@@ -2,6 +2,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="author" content="Aurélien Dos Santos">
 <title>{{ .Title }}</title>
+{{ partial "open-graph" . }}
 {{ $style := resources.Get "scss/index.scss" | resources.ExecuteAsTemplate "style.index.scss" . | toCSS | minify | fingerprint }}
 <link rel="stylesheet" href="{{ $style.RelPermalink }}" integrity="{{ $style.Data.Integrity }}">
 {{ range (.GetTerms "palettes") }}
