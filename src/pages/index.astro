@@ -1,0 +1,23 @@
+---
+import { getCollection } from "astro:content"
+import Layout from "../layouts/Layout.astro"
+
+// Import blog articles, except drafts
+// See -> https://docs.astro.build/en/guides/content-collections/#querying-collections
+const allBlogEntries = await getCollection("blog", ({ data }) => {
+	return data.draft !== true
+})
+---
+
+<Layout title="Welcome to Astro.">
+	<h1>Bienvenue sur Game Dev Alliance</h1>
+	<div class="my-8 flex flex-col gap-4">
+		{
+			allBlogEntries.map((blogEntry) => (
+				<a class="underline underline-offset-2 hover:text-red-400" href={blogEntry.slug}>
+					{blogEntry.data.title}
+				</a>
+			))
+		}
+	</div>
+</Layout>
