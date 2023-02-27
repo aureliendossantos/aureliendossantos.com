@@ -16,7 +16,7 @@ Je discute parfois avec des jeunes qui débutent dans le développement de jeux,
 
 On commence avec un classique ! Très souvent (voire quasiment toujours) lorsque vous avez une idée, cela veut dire que d'autres personnes l'ont eue avant vous. C'est logique : votre idée est probablement dérivée d'autres œuvres que vous aimez, ou bien de vos expériences de vie. On peut facilement imaginer que d'autres personnes aient pu suivre un cheminement similaire ! Dites-vous que votre concept n'est pas unique au monde, et qu'il ne vaut pas grand chose par lui-même. C'est plutôt en l'exécutant à votre manière que vous y insufflerez une véritable magie.
 
-L'exécution, autrement dit concrétiser votre idée, c'est donc le plus important. La preuve, c'est que si vous essayez de raconter votre idée --- qu'elle soit bonne ou mauvaise --- les gens ne seront généralement pas spécialement impressionnés. Tout simplement parce qu'il n'ont pas le même rapport que vous à cette idée.
+L'exécution, autrement dit concrétiser votre idée, c'est donc le plus important. La preuve, c'est que si vous essayez de raconter votre idée -- qu'elle soit bonne ou mauvaise -- les gens ne seront généralement pas spécialement impressionnés. Tout simplement parce qu'il n'ont pas le même rapport que vous à cette idée.
 
 Bref, ne sacralisez pas vos projets. Ne les gardez pas pour vous parce qu'ils ne vous apporteront rien ainsi et ils finiront par mourir. Au contraire, soumettez-les au public pour les affiner, développez-les en profondeur, car personne d'autre ne le fera à votre place. Personne ne vous volera vos idées, à moins que vous n'ayiez vous-même prouvé leur valeur en les concrétisant dans une œuvre à succès.
 
@@ -28,7 +28,7 @@ Au fond, vous savez bien que tout le monde fait n'importe quoi au début. Mon pr
 
 Soyez tranquille : commencez en partant d'une idée qui semble bien dans votre esprit, et ça viendra. Lorsqu'on écrit, le plus dur c'est les premières lignes, et c'est vrai que ce sont souvent les plus bancales, mais elles vous permettent de partir et après ça vient tout seul. Si vous êtes impressionné·e par la tâche, essayez les formats courts : ça vous permet de passer facilement à autre chose et de prendre du recul sur votre travail pour vous améliorer.
 
-Et puis vraiment, ne vous posez pas trop de questions. Faire des jeux, écrire des histoires, ça n'a rien de crucial ou de dramatique. Ce que je veux dire, c'est que le but premier des gens qui nous regardent, c'est tout simplement de se changer les idées et se sentir bien. Ce serait dommage de dramatiser quelque chose d'aussi simple ! Quand vous créez, pensez à votre public --- même s'il est imaginaire pour le moment --- et faites de votre mieux pour le _régaler_.
+Et puis vraiment, ne vous posez pas trop de questions. Faire des jeux, écrire des histoires, ça n'a rien de crucial ou de dramatique. Ce que je veux dire, c'est que le but premier des gens qui nous regardent, c'est tout simplement de se changer les idées et se sentir bien. Ce serait dommage de dramatiser quelque chose d'aussi simple ! Quand vous créez, pensez à votre public -- même s'il est imaginaire pour le moment -- et faites de votre mieux pour le _régaler_.
 
 ### Je souhaite créer des jeux mais je n'aime pas coder, comment faire ?
 

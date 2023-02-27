@@ -9,6 +9,11 @@ module.exports = {
 				mono: "monospace",
 			},
 		},
+		screens: {
+			mediumlarge: { max: "860px" },
+			medium: { max: "600px" },
+			small: { max: "430px" },
+		},
 	},
 	plugins: [],
 }

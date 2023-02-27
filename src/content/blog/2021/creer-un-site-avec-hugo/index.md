@@ -105,7 +105,7 @@ Si vous utilisez Debian/Ubuntu, utilisez `snap` car la version de Hugo sur `apt-
 
 [Méthodes d'installation](https://gohugo.io/getting-started/installing/#linux).
 
-Je vous conseille d'installer la version Extended --- vous pouvez vérifier votre version avec `hugo version`.
+Je vous conseille d'installer la version Extended -- vous pouvez vérifier votre version avec `hugo version`.
 
 {{< /tab >}}
 {{< /tabs >}}
@@ -234,7 +234,7 @@ GitHub permet de stocker des projets sous la forme de _repositories_, communéme
 
 #### Transformer votre projet en repo
 
-GitHub Desktop permet de créer un repo de zéro, ou bien de transformer un dossier existant en repo git --- c'est ce que l'on veut faire avec notre site.
+GitHub Desktop permet de créer un repo de zéro, ou bien de transformer un dossier existant en repo git -- c'est ce que l'on veut faire avec notre site.
 
 {{< tabs "créer repo" >}}
 {{< tab "Avec Github Desktop" >}}
@@ -324,7 +324,7 @@ jobs:
           TOKEN: ${{ secrets.HUGO_BUILD_TOKEN }}
 ```
 
-Mettez l'adresse de votre repo dans `TARGET_REPO`, au format `<utilisateur>/<nom-du-repo>`. Par exemple, dans le cas de ce blog, ce serait `aureliendossantos/aureliendossantos.github.io`. Vous pouvez également changer la valeur de `HUGO_VERSION` comme bon vous semble --- elle sera peut-être trop vieille au moment où vous lirez cet article.
+Mettez l'adresse de votre repo dans `TARGET_REPO`, au format `<utilisateur>/<nom-du-repo>`. Par exemple, dans le cas de ce blog, ce serait `aureliendossantos/aureliendossantos.github.io`. Vous pouvez également changer la valeur de `HUGO_VERSION` comme bon vous semble -- elle sera peut-être trop vieille au moment où vous lirez cet article.
 
 {{< /tab >}}
 {{< tab "Code source privé" >}}
@@ -354,7 +354,7 @@ jobs:
           TOKEN: ${{ secrets.HUGO_BUILD_TOKEN }}
 ```
 
-Mettez l'adresse de votre repo dans `TARGET_REPO`, au format `<utilisateur>/<nom-du-repo>`. Par exemple, dans le cas de ce blog, ce serait `aureliendossantos/aureliendossantos.github.io`. Vous pouvez également changer la valeur de `HUGO_VERSION` comme bon vous semble --- elle sera peut-être trop vieille au moment où vous lirez cet article.
+Mettez l'adresse de votre repo dans `TARGET_REPO`, au format `<utilisateur>/<nom-du-repo>`. Par exemple, dans le cas de ce blog, ce serait `aureliendossantos/aureliendossantos.github.io`. Vous pouvez également changer la valeur de `HUGO_VERSION` comme bon vous semble -- elle sera peut-être trop vieille au moment où vous lirez cet article.
 
 {{< /tab >}}
 {{< /tabs >}}

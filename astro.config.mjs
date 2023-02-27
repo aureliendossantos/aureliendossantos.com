@@ -15,5 +15,7 @@ export default defineConfig({
 			// https://github.com/shikijs/shiki/blob/main/docs/themes.md
 			theme: "slack-ochin", // "vitesse-light", //"slack-ochin", //github-light //dark: nord
 		},
+		remarkRehype: { footnoteLabel: "Notes et références" },
+		smartypants: true,
 	},
 })

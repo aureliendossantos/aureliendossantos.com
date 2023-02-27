@@ -15,9 +15,12 @@ const palette = getPalette(data.palette)
 
 <BaseLayout title={data.title} bg={palette.backgroundColor}>
 	<header
-		class="m-auto min-h-[50vh] bg-cover bg-center"
+		class:list={[
+			"px-[80px] medium:px-[40px] small:px-[20px]",
+			{ "flex mb-12 min-h-[50vh] bg-cover bg-center pb-8": data.cover },
+		]}
 		style={{
-			color: data.cover ? palette.secondaryColor : "#fbf8f2",
+			color: data.cover ? "#fbf8f2" : palette.secondaryColor,
 			fontFamily: palette.mainFont,
 			fontSize: palette.fontSize || "initial",
 			lineHeight: palette.lineHeight || 1.25,
@@ -27,24 +30,26 @@ const palette = getPalette(data.palette)
 					: "none",
 		}}
 	>
-		<div class="mb-12 max-w-prose p-[40px] pb-8"></div>
-		<h1
-			style={{
-				color: data.cover ? palette.mainColor : "#fbf8f2",
-				fontFamily: palette.headingsFont,
-			}}
-		>
-			{data.title}
-		</h1>
-		{data.description && <p>{data.description}</p>}
-		<p>
-			<time datetime={data.date.toDateString()}>
-				{formatDate(data.date)}
-			</time> – <a href={Astro.site}>Aurélien Dos Santos</a>
-		</p>
+		<!-- Header contents -->
+		<div class="m-auto max-w-prose pt-8" class:list={{ "mb-12 pb-8": data.cover }}>
+			<h1
+				style={{
+					color: data.cover ? "#fbf8f2" : palette.mainColor,
+					fontFamily: palette.headingsFont,
+				}}
+			>
+				{data.title}
+			</h1>
+			{data.description && <p>{data.description}</p>}
+			<p>
+				<time datetime={data.date.toDateString()}>
+					{formatDate(data.date)}
+				</time> – <a href={Astro.site}>Aurélien Dos Santos</a>
+			</p>
+		</div>
 	</header>
 	<main
-		class="m-auto max-w-prose p-[40px]"
+		class="px-[80px] pb-16 medium:px-[40px] small:px-[20px]"
 		style={{
 			color: palette.mainColor,
 			fontFamily: palette.mainFont,
@@ -52,7 +57,10 @@ const palette = getPalette(data.palette)
 			lineHeight: palette.lineHeight || 1.25,
 		}}
 	>
-		<slot />
+		<div class="m-auto max-w-prose">
+			<slot />
+			<footer class="mt-[3em]"><p>◂ <a href="/">Retour à l'accueil</a></p></footer>
+		</div>
 	</main>
 </BaseLayout>
 
@@ -68,9 +76,12 @@ const palette = getPalette(data.palette)
 			@apply my-4;
 		}
 
-		blockquote,
-		figure {
-			@apply my-4 mx-10;
+		blockquote {
+			@apply my-[1em] ml-[-80px] w-[70%] italic mediumlarge:ml-[-40px] medium:ml-[-20px] small:ml-[0];
+		}
+
+		.note {
+			@apply my-[1em] ml-[80px] italic mediumlarge:ml-[40px] medium:ml-[20px] small:ml-[0];
 		}
 
 		hr {
