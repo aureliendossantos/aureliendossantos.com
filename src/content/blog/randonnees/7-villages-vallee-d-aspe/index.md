@@ -3,14 +3,14 @@ title: Boucle des 7 villages — Vallée d'Aspe
 date: 2021-08-09T23:59:36+02:00
 description: Un parcours facile et plat de 14km (4h) traversant notamment Bedous, Accous et Osse-en-Aspe, avec peu d'ombre durant la marche mais de nombreuses opportunités de s'arrêter pour prendre une pause et profiter du lieu.
 categories:
-- Randonnee
-- Photos
+  - Randonnee
+  - Photos
 tags:
-- Journal
-- Montagne
+  - Journal
+  - Montagne
 image: 66.webp
 cover: true
-palettes: default
+palette: default
 ---
 
 ![Carte du parcours](map.webp "Tracé : [fichier GPX](7-villages.gpx)")

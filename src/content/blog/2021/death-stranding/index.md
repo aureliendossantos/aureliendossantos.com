@@ -5,7 +5,7 @@ description: "La Director's Cut est sortie récemment et me fait réaliser que d
 categories: ["Article"]
 tags: ["Jeux"]
 image: fragile-sat-there.jpeg
-palettes: blue
+palette: blue
 ---
 
 <style>
@@ -130,7 +130,7 @@ Il s'agit de l'une des expressions les plus sincères et profondes d'une expéri
 
 <p> </p>
 
-Images tirées de [imgur.com/gallery/mcqtdmf](https://imgur.com/gallery/mcqtdmf). Notez également que la *Director's Cut* n'en a que le nom, le terme étant imposé par Sony et critiqué par Kojima lui-même dans un [tweet](https://twitter.com/HIDEO_KOJIMA_EN/status/1414442497401524224). Elle n'est vraiment pas terrible car elle ajoute du contenu superflu. Je vous conseille plutôt la version PS4 (en anglais !).
+Images tirées de [imgur.com/gallery/mcqtdmf](https://imgur.com/gallery/mcqtdmf). Notez également que la _Director's Cut_ n'en a que le nom, le terme étant imposé par Sony et critiqué par Kojima lui-même dans un [tweet](https://twitter.com/HIDEO_KOJIMA_EN/status/1414442497401524224). Elle n'est vraiment pas terrible car elle ajoute du contenu superflu. Je vous conseille plutôt la version PS4 (en anglais !).
 
 <p> </p>
 

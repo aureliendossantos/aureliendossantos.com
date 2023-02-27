@@ -4,9 +4,9 @@ description: "Grâce à youtube-dl, un outil en lignes de commande."
 date: 2020-08-19
 categories: ["Tutoriel"]
 tags:
-- Web
+  - Web
 image: cover.png
-palettes: guidebook
+palette: guidebook
 ---
 
 Pour illustrer mes vidéos, je dois récupérer beaucoup d'illustrations de jeux vidéo que je trouve sur YouTube. Si vous êtes vidéaste et ne connaissez pas les outils de programmeur, vous êtes sans doute passé à côté d'une astuce très pratique pour le faire efficacement !
@@ -62,7 +62,7 @@ youtube-dl https://www.youtube.com/watch?v=nfWlot6h_JM
 
 Vous pouvez aussi écrire le lien d'une playlist ou d'une chaîne YouTube pour télécharger plusieurs vidéos d'un seul coup ! Mais ce n'est pas tout : le programme fonctionne avec Vimeo et probablement [n'importe quel site auquel vous pouvez penser](http://ytdl-org.github.io/youtube-dl/supportedsites.html).
 
-Pour aller *toujours plus vite*, j'ai bricolé [ce petit outil](yt.cmd) (à télécharger dans le même dossier que youtube-dl) avec ma compréhension très limitée de Batch, qui me donne les deux raccourcis suivants dans le terminal :
+Pour aller _toujours plus vite_, j'ai bricolé [ce petit outil](yt.cmd) (à télécharger dans le même dossier que youtube-dl) avec ma compréhension très limitée de Batch, qui me donne les deux raccourcis suivants dans le terminal :
 
 ```
 yt https://www.youtube.com/watch?v=nfWlot6h_JM

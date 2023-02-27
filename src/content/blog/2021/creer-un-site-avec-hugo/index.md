@@ -6,7 +6,7 @@ categories: ["Tutoriel"]
 tags: ["Web"]
 image: "halgatewood-unsplash.jpg"
 toc: true
-palettes: guidebook
+palette: guidebook
 ---
 
 ## Pourquoi Hugo ?
@@ -51,7 +51,7 @@ Hugo vous permettra de prévisualiser votre site en direct sur votre ordinateur.
 
 2. Téléchargez la [dernière version de Hugo Extended](https://github.com/gohugoio/hugo/releases), qui devrait s'appeler `hugo_extended_x.xx_Windows-64bit.zip`. Le fichier qui nous intéresse dans le zip est `hugo.exe`, à déplacer dans le dossier `bin` créé précédemment.
 
-    Faites attention à bien télécharger la version Extended, contenant des fonctionnalités supplémentaires qui seront peut-être nécessaires selon le thème que vous utilisez.
+   Faites attention à bien télécharger la version Extended, contenant des fonctionnalités supplémentaires qui seront peut-être nécessaires selon le thème que vous utilisez.
 
 ### Ajouter Hugo au Path
 
@@ -59,19 +59,19 @@ Ajoutez le dossier `bin` au Path, ce qui vous permettra d'utiliser Hugo dans le 
 
 1. Ouvrez les Paramètres système avancés, puis cliquez sur Variables d’environnement.
 
-    ![](variables-d-environnement.png)
+   ![](variables-d-environnement.png)
 
 2. Dans l’espace Variables système, sélectionnez la ligne Path et cliquez sur Modifier.
 
-    ![](modifier-path.png)
+   ![](modifier-path.png)
 
 3. Dans une nouvelle ligne, renseignez le dossier dans lequel vous avez placé `hugo.exe`.
 
-    ![](ajouter-dossier.png)
+   ![](ajouter-dossier.png)
 
 4. Hugo est maintenant disponible dans le terminal ! Recherchez `cmd` pour y accéder rapidement.
 
-    ![](ouvrir-cmd.png)
+   ![](ouvrir-cmd.png)
 
 5. Ecrivez la commande `hugo version` et si vous obtenez un numéro de version, l'installation s'est bien déroulée.
 
@@ -86,7 +86,7 @@ Nous allons installer le gestionnaire de paquets [Homebrew](https://brew.sh/inde
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
-Cela téléchargera automatiquement les "*Command Line Tools for XCode*", des composants officiels d'Apple permettant d'utiliser des outils dans le terminal. Cela peut prendre un moment si votre connection est lente, donc si vous préférez, vous pouvez aussi télécharger les *Command Line Tools* par vous-même sur [developer.apple.com](https://developer.apple.com/download/all/?q=command%20line%20tools) avant d'installer Homebrew.
+Cela téléchargera automatiquement les "_Command Line Tools for XCode_", des composants officiels d'Apple permettant d'utiliser des outils dans le terminal. Cela peut prendre un moment si votre connection est lente, donc si vous préférez, vous pouvez aussi télécharger les _Command Line Tools_ par vous-même sur [developer.apple.com](https://developer.apple.com/download/all/?q=command%20line%20tools) avant d'installer Homebrew.
 
 ### Installer Hugo
 
@@ -162,7 +162,7 @@ Pour redémarrer rapidement le serveur, faites Ctrl+C pour l'arrêter, flèche d
 
 Les articles et autres pages du site se trouvent dans le dossier `content`. Remarquez que le blog a été rempli avec quelques articles d'exemple qui montrent les possibilités de Hugo. Gardez-les de côté le temps de vous familiariser avec la syntaxe !
 
-Vous pouvez ouvrir les fichiers avec le Bloc-notes de Windows, mais le meilleur moyen d'écrire du contenu est d'ouvrir le dossier du site dans un éditeur de code tel que  [Visual Studio Code](https://code.visualstudio.com/), qui est gratuit. Vous aurez une meilleure vue d'ensemble ainsi qu'une coloration syntaxique !
+Vous pouvez ouvrir les fichiers avec le Bloc-notes de Windows, mais le meilleur moyen d'écrire du contenu est d'ouvrir le dossier du site dans un éditeur de code tel que [Visual Studio Code](https://code.visualstudio.com/), qui est gratuit. Vous aurez une meilleure vue d'ensemble ainsi qu'une coloration syntaxique !
 
 ![](vs-code.png "Ouvrir un dossier avec Visual Studio Code permet d'afficher une arborescence des fichiers sur le côté, mais aussi d'ouvrir un terminal directement à l'emplacement du dossier.")
 
@@ -184,7 +184,7 @@ Pour aller plus loin dans la personnalisation de votre site, il sera bon d'avoir
 
 ### Paramètres des pages
 
-En haut des fichiers Markdown, dans ce qu'on appelle le *front matter*, vous pouvez préciser le titre de l'article ainsi que sa date, mais aussi ajouter d'autres paramètres, notamment `draft: true` qui signifie que l'article est un brouillon. Par défaut, un brouillon est masqué lors de la publication du site, mais vous pouvez l'afficher lors de votre prévisualisation avec l'option `hugo server -D`. Utile pour travailler sur des articles sans pour autant les rendre publics par erreur !
+En haut des fichiers Markdown, dans ce qu'on appelle le _front matter_, vous pouvez préciser le titre de l'article ainsi que sa date, mais aussi ajouter d'autres paramètres, notamment `draft: true` qui signifie que l'article est un brouillon. Par défaut, un brouillon est masqué lors de la publication du site, mais vous pouvez l'afficher lors de votre prévisualisation avec l'option `hugo server -D`. Utile pour travailler sur des articles sans pour autant les rendre publics par erreur !
 
 ### Modifier le thème
 
@@ -230,7 +230,7 @@ La commande `hugo` ne vide pas le dossier `public` avant de reconstruire le site
 
 Il existe des méthodes pour automatiser le déploiement du site sans que vous n'ayez besoin de le reconstruire manuellement à chaque fois. Dans le cas de mon blog, j'héberge le code source sur GitHub et j'utilise GitHub Actions pour reconstruire le site automatiquement à chaque changement, puis le résultat est envoyé sur GitHub Pages. Ainsi, je n'ai jamais à débourser un centime pour gérer mon blog !
 
-GitHub permet de stocker des projets sous la forme de *repositories*, communément appelés *repo*, ou dépôts en français. Ce service utilise [git](https://git-scm.com/), un outil en lignes de commandes permettant de télécharger et envoyer les repo, mais aussi de conserver l'historique entier de votre projet et de travailler à plusieurs. Cependant, git est assez difficile à utiliser pour un débutant ; c'est pourquoi nous allons plutôt utiliser [Github Desktop](https://desktop.github.com/), qui est une interface graphique permettant d'utiliser git facilement. Vous trouverez un téléchargement officiel pour Windows et Mac, ou bien des versions non officielles pour Linux.
+GitHub permet de stocker des projets sous la forme de _repositories_, communément appelés _repo_, ou dépôts en français. Ce service utilise [git](https://git-scm.com/), un outil en lignes de commandes permettant de télécharger et envoyer les repo, mais aussi de conserver l'historique entier de votre projet et de travailler à plusieurs. Cependant, git est assez difficile à utiliser pour un débutant ; c'est pourquoi nous allons plutôt utiliser [Github Desktop](https://desktop.github.com/), qui est une interface graphique permettant d'utiliser git facilement. Vous trouverez un téléchargement officiel pour Windows et Mac, ou bien des versions non officielles pour Linux.
 
 #### Transformer votre projet en repo
 
@@ -297,12 +297,12 @@ Selon votre choix, la marche à suivre sera légèrement différente.
 {{< tabs "publier repo" >}}
 {{< tab "Code source public" >}}
 
-1. Dans GitHub Desktop, assurez-vous d'avoir *commit* vos changements puis cliquez sur **Publish repository**. Appelez le repo `<utilisateur>.github.io` ou `<projet>` et décochez **Keep this code private**.
+1. Dans GitHub Desktop, assurez-vous d'avoir _commit_ vos changements puis cliquez sur **Publish repository**. Appelez le repo `<utilisateur>.github.io` ou `<projet>` et décochez **Keep this code private**.
 2. Créez une branche `gh-pages` et publiez-la.
 3. Retournez dans la branche principale.
 4. Créez le fichier `.github/workflows/gh-pages.yml`. Si vous n'êtes pas à l'aise pour créer des dossiers et des fichiers, vous pouvez aussi le créer en allant sur la page web de votre repo (**Repository** > **View on GitHub**) puis dans l'onglet **Actions**. Insérez le contenu suivant :
 
-```yml
+```yaml
 name: GitHub Pages
 on:
   push:
@@ -329,11 +329,11 @@ Mettez l'adresse de votre repo dans `TARGET_REPO`, au format `<utilisateur>/<nom
 {{< /tab >}}
 {{< tab "Code source privé" >}}
 
-1. Dans GitHub Desktop, assurez-vous d'avoir *commit* vos changements puis cliquez sur **Publish repository**. Son nom importe peu mais il doit être différent du repo public.
+1. Dans GitHub Desktop, assurez-vous d'avoir _commit_ vos changements puis cliquez sur **Publish repository**. Son nom importe peu mais il doit être différent du repo public.
 2. Depuis le site de GitHub, créez un autre repository appelé `<utilisateur>.github.io` ou `<projet>`. Il peut être laissé vide pour le moment.
 3. Dans le repo privé, créez le fichier `.github/workflows/gh-pages.yml`. Si vous n'êtes pas à l'aise pour créer des dossiers et des fichiers, vous pouvez aussi le créer en allant sur la page web de votre repo (**Repository** > **View on GitHub**) puis dans l'onglet **Actions**. Insérez le contenu suivant :
 
-```yml
+```yaml
 name: GitHub Pages
 on:
   push:
@@ -359,9 +359,9 @@ Mettez l'adresse de votre repo dans `TARGET_REPO`, au format `<utilisateur>/<nom
 {{< /tab >}}
 {{< /tabs >}}
 
-Ce fichier crée un *workflow* lu par GitHub Actions. Voici ce qu'il s'y passe en français :
+Ce fichier crée un _workflow_ lu par GitHub Actions. Voici ce qu'il s'y passe en français :
 
-- Il se déclenche dès qu'il y a un *push* (l'envoi d'un commit) sur la branche **main** ;
+- Il se déclenche dès qu'il y a un _push_ (l'envoi d'un commit) sur la branche **main** ;
 - Un serveur démarre avec Ubuntu (Linux) ;
 - Le script `actions/checkout` télécharge notre repo sur le serveur, ainsi que les éventuels submodules qu'il contient ;
 - Le script `enmatselby/hugo-deploy-gh-pages` télécharge Hugo sur le serveur, construit le site puis l'envoie vers la destination précisée.
@@ -378,7 +378,7 @@ Jetez un œil à la dernière ligne du fichier : pour obtenir le droit d'écrir
 
 C'est tout ! Quand GitHub lira `${{ secrets.HUGO_BUILD_TOKEN }}` dans le workflow, il utilisera le token, mais personne d'autre ne peut le lire.
 
-Désormais, à chaque *push* de votre code source, un serveur va démarrer pour publier votre site. Vous pouvez regarder sa progression et vérifier les éventuelles erreurs depuis la page web du repo.
+Désormais, à chaque _push_ de votre code source, un serveur va démarrer pour publier votre site. Vous pouvez regarder sa progression et vérifier les éventuelles erreurs depuis la page web du repo.
 
 ### Rediriger vers un nom de domaine
 

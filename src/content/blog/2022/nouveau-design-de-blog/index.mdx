@@ -4,6 +4,8 @@ date: 2022-11-09T14:37:22+01:00
 categories: ["Article"]
 ---
 
+import { Code } from "astro/components"
+
 Et voilà, après avoir longtemps utilisé le thème [Stack](https://github.com/CaiJimmy/hugo-theme-stack) par [Jimmy Cai](https://jimmycai.com/), j'ai fait mon propre thème de blog. Plus simple, plus humble peut-être, mais qui me permet quelques fantaisies. Qui me correspond mieux, en somme.
 
 C'est marrant parce qu'on revient à un format épuré comme avec le premier thème que j'ai utilisé, [Rocinante](https://github.com/mavidser/hugo-rocinante), mais avec une nouveauté qui invite mieux à l'exploration (chose que faisait bien Stack).
@@ -18,19 +20,19 @@ J'appelle ce thème de blog _Animus_. Je ne compte pas le rendre open source dan
 
 Les différentes palettes sont des petits fichiers stockés dans un dossier nommé `palettes`. Voici par exemple le thème `notebook` que j'aime beaucoup, utilisé dans mon [article sur Destiny](/post/2021/destiny-introduction-analyse/) :
 
-```toml
+```yaml
 title: "notebook"
 style:
-    primaryColor: "#404040"
-    secondaryColor: "#686868"
-    specialColor: "#c45c7f"
-    backgroundColor: "#f0efdd"
-    headingsFont: "'Work Sans', sans-serif"
-    mainFont: "'Work Sans', 'Noto Sans', sans-serif"
-    specialFont: "'Work Sans', monospace"
-    fontSize: "18px"
-    lineHeight: "1.5"
-    importUrl: "https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+  primaryColor: "#404040"
+  secondaryColor: "#686868"
+  specialColor: "#c45c7f"
+  backgroundColor: "#f0efdd"
+  headingsFont: "'Work Sans', sans-serif"
+  mainFont: "'Work Sans', 'Noto Sans', sans-serif"
+  specialFont: "'Work Sans', monospace"
+  fontSize: "18px"
+  lineHeight: "1.5"
+  importUrl: "https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap"
 ```
 
 Ensuite, pour choisir la palette, il suffit d'écrire `palettes: notebook` dans le [_front matter_](https://gohugo.io/content-management/front-matter/) d'un article.

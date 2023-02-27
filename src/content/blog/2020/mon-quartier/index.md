@@ -4,7 +4,7 @@ description: Mon quartier vu depuis le toît de l'immeuble en construction.
 date: 2020-07-20T22:00:00
 categories: ["Photos"]
 image: 1-Pano.webp
-palettes: brown
+palette: brown
 ---
 
 {{< gallery wide >}}

@@ -8,7 +8,7 @@ tags:
   - Game Dev Alliance
   - Web
 image: cover.png
-palettes: guidebook
+palette: guidebook
 ---
 
 Après deux ans à faire vivre le wiki de Game Dev Alliance, nous avons constaté que le format encyclopédique nous enfermait et ne répondait pas aux attentes de la communauté. Les débutants cherchent plutôt des tutoriels guidés, mais il peut être difficile de savoir vers qui se tourner face aux formations payantes qui fleurissent sur des sites douteux, surtout en français.

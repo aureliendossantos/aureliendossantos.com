@@ -3,7 +3,7 @@ title: Gourette
 date: 2017-05-03
 categories: ["Photos"]
 image: f.webp
-palettes: black
+palette: black
 ---
 
 ![](b.webp)

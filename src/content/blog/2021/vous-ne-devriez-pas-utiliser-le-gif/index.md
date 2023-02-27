@@ -6,7 +6,7 @@ categories: ["Article", "Tutoriel"]
 tags: ["Web"]
 image: cover.webp
 toc: true
-palettes: guidebook
+palette: guidebook
 ---
 
 Le GIF, pour Graphics Interchange Format, a été inventé en 1987 (oui) par une équipe de geeks qui n'avaient probablement pas prévu que son usage exploserait des années plus tard. Le problème, c'est que ce qui était à l'origine un format efficace pour partager de toutes petites animations a été largement détourné dès que l'humanité a découvert que les extraits de The Office pouvaient être un moyen d'expression.
@@ -88,7 +88,5 @@ Pour être franc, le codec H.264 n'est pas le plus efficace, mais c'est le plus 
 Enfin, de nouveaux formats d'image permettant l'animation émergent depuis quelques années, notamment le WebP qui utilise la même méthode de compression que le WebM. Autrement dit, on perd moins de qualité qu'un JPEG tout en réduisant davantage le poids. Vous pouvez remplacer tout GIF, PNG ou JPEG de votre page web par un WebP, ce qui rend son utilisation très pratique, mais il faut garder en tête que, comme le WebM, le format n'est pas lu par quelques vieux navigateurs.[^WebP] Il est donc bon de commencer par maîtriser les formats traditionnels avant de, peut-être, se frotter à ce format plus exotique !
 
 [^WebM]: [WebM video format](https://caniuse.com/webm), Can I use (consulté en mars 2021)
-
 [^H264]: [MPEG-4/H.264 video format](https://caniuse.com/mpeg4), Can I use (consulté en mars 2021)
-
 [^WebP]: [WebP image format](https://caniuse.com/webp), Can I use (consulté en mars 2021)

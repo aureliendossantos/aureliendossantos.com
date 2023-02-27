@@ -5,11 +5,7 @@ aliases:
   - contact
   - aurelien
 license: false
-#menu: 
-#    main:
-#        name: A propos
-#        weight: -90
-palettes: whiteboard
+palette: whiteboard
 ---
 
 <style>

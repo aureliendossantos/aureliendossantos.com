@@ -1,0 +1,112 @@
+---
+import type { CollectionEntry } from "astro:content"
+import formatDate from "src/utils/formatDate"
+import BaseLayout from "./BaseLayout.astro"
+import getPalette from "src/utils/palettes"
+
+export interface Props {
+	article: CollectionEntry<"blog">
+}
+
+const { article } = Astro.props
+const data = article.data
+const palette = getPalette(data.palette)
+---
+
+<BaseLayout title={data.title} bg={palette.backgroundColor}>
+	<header
+		class="m-auto min-h-[50vh] bg-cover bg-center"
+		style={{
+			color: data.cover ? palette.secondaryColor : "#fbf8f2",
+			fontFamily: palette.mainFont,
+			fontSize: palette.fontSize || "initial",
+			lineHeight: palette.lineHeight || 1.25,
+			backgroundImage:
+				data.cover && data.image
+					? `linear-gradient(rgba(56, 48, 28, 0.394), rgba(75, 65, 35, 0.395)), url('/${data.image}')`
+					: "none",
+		}}
+	>
+		<div class="mb-12 max-w-prose p-[40px] pb-8"></div>
+		<h1
+			style={{
+				color: data.cover ? palette.mainColor : "#fbf8f2",
+				fontFamily: palette.headingsFont,
+			}}
+		>
+			{data.title}
+		</h1>
+		{data.description && <p>{data.description}</p>}
+		<p>
+			<time datetime={data.date.toDateString()}>
+				{formatDate(data.date)}
+			</time> – <a href={Astro.site}>Aurélien Dos Santos</a>
+		</p>
+	</header>
+	<main
+		class="m-auto max-w-prose p-[40px]"
+		style={{
+			color: palette.mainColor,
+			fontFamily: palette.mainFont,
+			fontSize: palette.fontSize || "initial",
+			lineHeight: palette.lineHeight || 1.25,
+		}}
+	>
+		<slot />
+	</main>
+</BaseLayout>
+
+<style is:global>
+	@tailwind base;
+
+	@layer base {
+		a {
+			@apply underline decoration-1 underline-offset-1 duration-200 ease-out hover:decoration-2;
+		}
+
+		p {
+			@apply my-4;
+		}
+
+		blockquote,
+		figure {
+			@apply my-4 mx-10;
+		}
+
+		hr {
+			@apply border;
+		}
+
+		h1 {
+			@apply my-2 text-3xl font-bold;
+		}
+
+		h2 {
+			@apply my-3 text-2xl font-bold;
+		}
+
+		h3 {
+			@apply my-4 text-lg font-bold;
+		}
+
+		h4 {
+			@apply my-5 text-base font-bold;
+		}
+
+		h5 {
+			@apply my-6 text-sm font-bold;
+		}
+
+		h6 {
+			@apply my-10 text-xs font-bold;
+		}
+
+		pre {
+			@apply rounded-md p-3;
+		}
+
+		main :not(pre) code {
+			@apply my-[-0.1em] rounded-md bg-[#efefef] py-[0.1em] px-[0.3em];
+		}
+	}
+</style>

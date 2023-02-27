@@ -10,7 +10,7 @@ tags:
 image: cover.png
 cover: true
 draft: true
-palettes: whiteboard
+palette: whiteboard
 ---
 
 <style>

@@ -5,7 +5,7 @@ date: 2020-07-20T21:00:00
 categories: ["Photos"]
 tags: ["Urbex"]
 image: 003-Pano.webp
-palettes: black
+palette: black
 ---
 
 {{< gallery full >}}

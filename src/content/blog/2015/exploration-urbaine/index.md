@@ -5,7 +5,7 @@ date: 2015-03-26
 categories: ["Photos"]
 tags: ["Urbex"]
 image: 9-Pano.webp
-palettes: black
+palette: black
 ---
 
 ![](1-Pano.webp)

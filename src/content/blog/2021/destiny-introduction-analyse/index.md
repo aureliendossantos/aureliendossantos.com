@@ -8,14 +8,14 @@ image: mur-cosmodrome.jpg
 toc: true
 readingTime: 31
 cover: true
-palettes: notebook
+palette: notebook
 ---
 
 Destiny est un FPS sorti sur consoles en 2014 et dont vous avez sans doute déjà entendu parler, d'abord en raison de son budget com' et puis parce que c'est un jeu important : il a, sous bien des aspects, influencé l'industrie du jeu vidéo. Quand je l'ai découvert, j'ai été impressionné dès l'introduction, qui me fascine encore aujourd'hui. A vrai dire, c'est peut-être mon moment de jeu vidéo préféré.
 
 Il y aurait bien des louanges à faire pour tout ce qui constitue le premier contact du jeu --- même le menu de téléchargement est mémorable --- mais nous allons ici nous concentrer sur le design du niveau d'introduction. En une quinzaine de minutes, il jongle avec aisance entre les éléments du cahier des charges, arrivant aussi bien à nous plonger dans l'univers, à nous expliquer le gameplay et à nous faire vivre tout un panel de sensations que nous retrouverons plus tard dans le jeu. A la fin, on est captivé et on ne demande qu'à en voir plus.
 
-Pour mieux comprendre ce niveau, je l'ai fait essayer à plusieurs personnes, notamment des débutant·e·s n'ayant pas du tout l'habitude des FPS et étant intimidé·e·s à l'idée de devoir manier deux joysticks. Malgré leur forte appréhension, cette introduction parvient toujours à les mettre en confiance : même si vous êtes une quiche avec une manette, vous aurez l'impression d'avoir accompli quelque chose de cool, et c'est précisément cela que j'aimerais étudier dans cet article. Vous n'aurez pas vraiment l'impression de suivre un tutoriel artificiel, mais bien de déjà vivre votre aventure --- votre *légende*, comme le dit le slogan du jeu.
+Pour mieux comprendre ce niveau, je l'ai fait essayer à plusieurs personnes, notamment des débutant·e·s n'ayant pas du tout l'habitude des FPS et étant intimidé·e·s à l'idée de devoir manier deux joysticks. Malgré leur forte appréhension, cette introduction parvient toujours à les mettre en confiance : même si vous êtes une quiche avec une manette, vous aurez l'impression d'avoir accompli quelque chose de cool, et c'est précisément cela que j'aimerais étudier dans cet article. Vous n'aurez pas vraiment l'impression de suivre un tutoriel artificiel, mais bien de déjà vivre votre aventure --- votre _légende_, comme le dit le slogan du jeu.
 
 {{< note >}}
 Notez que ce niveau d'introduction a ensuite été réutilisé dans Destiny 2, mais quelques changements rendent l'expérience moins élégante et moins efficace, donc nous ne nous attarderons pas dessus. Egalement, j'accorderai « le joueur » au masculin pour faciliter la lecture et vous prie de m'excuser pour toute gêne occasionnée.
@@ -95,7 +95,7 @@ Dans le couloir qui mène à l'arène, les deux obstacles sur le côté ont deux
 
 Les 3 rebuts apparaissent devant nous alors que le vandale est caché par des obstacles et plus éloigné que les autres. On le verra en dernier, et c'est aussi probablement celui que l'on tuera en dernier. Comme par hasard, il est juste devant le pont que nous devons emprunter ensuite ! Ainsi, on peut continuer à explorer sans chercher son chemin et on reste dans le rythme. Placer les ennemis près de la sortie du niveau est une pratique fréquente dans beaucoup de jeux, mais c'est particulièrement remarquable dans cette intro, où tout est fait pour que l'on n'ait pas à l'idée de tergiverser.
 
-Le recul du Khvostov est difficile à contrôler, ce qui apporte aux affrontements un chaos aussi dramatique que satisfaisant, et puis cela permet de faire relativiser les mauvais joueurs : si l'arme est aussi imprécise, alors je ne dois pas avoir besoin de savoir viser. A ce sujet, vous remarquerez que plus on avancera dans l'intro, plus les ennemis apparaîtront depuis une position éloignée. 
+Le recul du Khvostov est difficile à contrôler, ce qui apporte aux affrontements un chaos aussi dramatique que satisfaisant, et puis cela permet de faire relativiser les mauvais joueurs : si l'arme est aussi imprécise, alors je ne dois pas avoir besoin de savoir viser. A ce sujet, vous remarquerez que plus on avancera dans l'intro, plus les ennemis apparaîtront depuis une position éloignée.
 
 {{< gallery wide >}}
 {{< video src="4.webm" poster="th4.jpg" attr="controls" >}}
@@ -131,9 +131,9 @@ On ne s'en doute pas en découvrant le jeu, mais cette scène en extérieur se d
 
 Dans cet espace bien plus ouvert, on affronte plusieurs ennemis en combat rapproché pendant que d'autres nous ciblent au sniper. Le combat étant plus lent si vous débutez, c'est probablement ici que vous remarquerez pour la première fois qu'il est possible d'esquiver les tirs ennemis --- une mécanique essentielle de Destiny.
 
-A la fin, l'espace de jeu se resserre et plusieurs ennemis apparaissent en même temps, augmentant la tension d'un cran. Alors qu'on tue le dernier, notre soulagement est sublimé par une animation jouissive de *level up*. Un vrai plaisir.
+A la fin, l'espace de jeu se resserre et plusieurs ennemis apparaissent en même temps, augmentant la tension d'un cran. Alors qu'on tue le dernier, notre soulagement est sublimé par une animation jouissive de _level up_. Un vrai plaisir.
 
-### Tutoriel de *level up*
+### Tutoriel de _level up_
 
 Un message nous informe que l'on peut débloquer une compétence en allant dans le menu.
 

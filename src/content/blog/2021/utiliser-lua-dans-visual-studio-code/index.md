@@ -7,7 +7,7 @@ tags: ["Programmation"]
 toc: true
 image: cover.png
 card: small
-palettes: whiteboard
+palette: whiteboard
 ---
 
 Lua est un langage de programmation intéressant pour débuter et écrire ses premières lignes de code, en raison de son style neutre et très lisible. Lua est d'ailleurs souvent utilisé dans le jeu vidéo (World of Warcraft, Roblox...) en tant que langage de script, car il est simple d'utilisation et pensé pour être intégré facilement à un programme.
@@ -29,7 +29,7 @@ Comme pour beaucoup d'outils informatiques, l'installation de Lua est un peu plu
 
 2. Téléchargez Lua sur [luabinaries.sourceforge.net](http://luabinaries.sourceforge.net/download.html). Choisissez la version la plus récente pour Windows x64, qui devrait s'appeller `lua-x.x.x_Win64_bin.zip`. Déplacez les fichiers à l'intérieur du zip dans votre dossier `C:\bin`.
 
-    ![](dossier-bin.png)
+   ![](dossier-bin.png)
 
 Vous devriez obtenir ce résultat. Comme j'ai téléchargé la version 5.4, Lua s'appelle `lua54.exe`, mais peut-être que le nombre sera différent pour vous.
 
@@ -39,19 +39,19 @@ Pour que le terminal puisse accéder à Lua, nous devons ajouter le dossier `bin
 
 1. Ouvrez les **Paramètres système avancés**, puis cliquez sur **Variables d’environnement**.
 
-    ![](variables-d-environnement.png)
+   ![](variables-d-environnement.png)
 
 2. Dans l’espace **Variables système**, sélectionnez la ligne **Path** et cliquez sur **Modifier**.
 
-    ![](modifier-path.png)
+   ![](modifier-path.png)
 
 3. Dans une nouvelle ligne, renseignez le dossier dans lequel vous avez placé Lua.
 
-    ![](ajouter-dossier.png)
+   ![](ajouter-dossier.png)
 
 4. Lua est maintenant disponible dans le terminal ! Recherchez `cmd` pour y accéder rapidement.
 
-    ![](ouvrir-cmd.png)
+   ![](ouvrir-cmd.png)
 
 {{< /tab >}}
 {{< tab "Mac" >}}
@@ -64,7 +64,7 @@ Nous allons installer le gestionnaire de paquets [Homebrew](https://brew.sh/inde
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
-Cela téléchargera automatiquement les "*Command Line Tools for XCode*", des composants officiels d'Apple permettant d'utiliser des outils dans le terminal. Cela peut prendre un moment si votre connection est lente, donc si vous préférez, vous pouvez aussi télécharger les *Command Line Tools* par vous-même sur [developer.apple.com](https://developer.apple.com/download/all/?q=command%20line%20tools) avant d'installer Homebrew.
+Cela téléchargera automatiquement les "_Command Line Tools for XCode_", des composants officiels d'Apple permettant d'utiliser des outils dans le terminal. Cela peut prendre un moment si votre connection est lente, donc si vous préférez, vous pouvez aussi télécharger les _Command Line Tools_ par vous-même sur [developer.apple.com](https://developer.apple.com/download/all/?q=command%20line%20tools) avant d'installer Homebrew.
 
 ### Installer Lua
 
@@ -107,12 +107,12 @@ io.write("Ravi de vous rencontrer ", nom, " !")
 Nous devons ensuite ouvrir ce dossier dans le terminal pour lire le fichier. Deux méthodes s'offrent à vous :
 
 - Dans le terminal, naviguez manuellement dans le bon dossier :
-    - Utilisez `ls` (Mac et Linux) ou `dir` (Windows) pour voir le contenu du dossier actuel ;
-    - `cd Documents` pour entrer dans le dossier Documents ;
-    - `cd ..` pour remonter d'un dossier.
+  - Utilisez `ls` (Mac et Linux) ou `dir` (Windows) pour voir le contenu du dossier actuel ;
+  - `cd Documents` pour entrer dans le dossier Documents ;
+  - `cd ..` pour remonter d'un dossier.
 - Activez l'option pour faire **Clic droit dans un dossier** > **Ouvrir dans le terminal** :
-    - Sur Windows 10, ouvrez le Microsoft Store et installez Windows Terminal. Vous pouvez maintenant faire un clic droit dans un dossier.
-    - Sur Mac, allez dans **Préférences système** > **Clavier** > **Raccourcis clavier** > **Services** et cochez **Nouveau terminal dans un dossier**.
+  - Sur Windows 10, ouvrez le Microsoft Store et installez Windows Terminal. Vous pouvez maintenant faire un clic droit dans un dossier.
+  - Sur Mac, allez dans **Préférences système** > **Clavier** > **Raccourcis clavier** > **Services** et cochez **Nouveau terminal dans un dossier**.
 
 Vous pouvez maintenant lancer votre programme avec `lua54 hello.lua` ou `lua hello.lua` :
 
@@ -128,9 +128,9 @@ VS Code est un éditeur de code gratuit et très populaire, ayant l'avantage d'�
 
 2. Dans vos Documents, créez un dossier que vous appellerez par exemple `scripts-lua`. Ouvrez le dossier dans Visual Studio Code par le moyen de votre choix :
 
-    - Clic droit sur le dossier > **Ouvrir avec Code**
-    - Depuis VS Code : **Fichier** > **Ouvrir un dossier**
-    - Avec le terminal : `code scripts-lua`
+   - Clic droit sur le dossier > **Ouvrir avec Code**
+   - Depuis VS Code : **Fichier** > **Ouvrir un dossier**
+   - Avec le terminal : `code scripts-lua`
 
 3. Dans le panneau de gauche, créez un fichier appelé `hello.lua`. A vrai dire, appelez-le comme vous voulez tant qu'il se finit en `.lua`.
 
@@ -153,21 +153,19 @@ VS Code a créé un dossier caché `.vscode` et un fichier `tasks.json` qui cont
 
 ```json
 {
-    "version": "2.0.0",
-    "tasks": [
-        {
-            "label": "Lancer Lua",
-            "type": "shell",
-            "command": "lua54",
-            "args": [
-                "${file}"
-            ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
-        }
-    ]
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Lancer Lua",
+			"type": "shell",
+			"command": "lua54",
+			"args": ["${file}"],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		}
+	]
 }
 ```
 
@@ -176,21 +174,19 @@ VS Code a créé un dossier caché `.vscode` et un fichier `tasks.json` qui cont
 
 ```json
 {
-    "version": "2.0.0",
-    "tasks": [
-        {
-            "label": "Lancer Lua",
-            "type": "shell",
-            "command": "lua",
-            "args": [
-                "${file}"
-            ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
-        }
-    ]
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Lancer Lua",
+			"type": "shell",
+			"command": "lua",
+			"args": ["${file}"],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		}
+	]
 }
 ```
 
@@ -215,10 +211,10 @@ Tant que vous êtes là, je vais vous donner une liste de commandes pratiques po
 
 Les types de variables les plus communs en Lua sont :
 
-- les textes, ou *strings* en anglais, toujours entre guillemets ;
+- les textes, ou _strings_ en anglais, toujours entre guillemets ;
 - les nombres ;
 - les booléens, qui valent "vrai" ou "faux", `true` ou `false` ;
-- les tableaux, ou *arrays* en anglais, qui contiennent une liste de données.
+- les tableaux, ou _arrays_ en anglais, qui contiennent une liste de données.
 
 ```lua
 nom = "Aurélien"
@@ -264,13 +260,13 @@ tout le monde !
 
 Les conditions sont très simples à utiliser puisque vous pouvez simplement traduire leurs mots-clés pour former une phrase en français :
 
-Terme | Traduction
---- | ---
-`if` | si
-`then` | alors
-`else` | sinon
-`elseif` | sinon, si
-`end` | fin
+| Terme    | Traduction |
+| -------- | ---------- |
+| `if`     | si         |
+| `then`   | alors      |
+| `else`   | sinon      |
+| `elseif` | sinon, si  |
+| `end`    | fin        |
 
 Voici quelques exemples :
 
@@ -279,6 +275,7 @@ if a < 0 then
     print("a est inférieur à 0")
 end
 ```
+
 ```lua
 if a <= b then
     print("a est plus petit ou égal à b")
@@ -286,6 +283,7 @@ else
     print("a est plus grand que b")
 end
 ```
+
 ```lua
 operateur = io.read()
 if operateur == "+" then

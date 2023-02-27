@@ -7,7 +7,7 @@ tags: ["3D"]
 image: 2IAoFHn.png
 license: "Ecrit par Nev, Imanor et EzekielKoening"
 toc: true
-palettes: guidebook
+palette: guidebook
 ---
 
 {{< note >}}
@@ -24,7 +24,7 @@ Ce logiciel gratuit, disponible sur Mac et Windows (mais tournant très bien sur
 
 ## Débuter sur MagicaVoxel
 
-*Ecrit par Nev*
+_Ecrit par Nev_
 
 Si mon petit pitch vous a convaincu, vous avez sans doute téléchargé et lancé MagicaVoxel. Vous devriez vous trouver devant un écran similaire à celui-ci. Faisons ensemble un petit tour du propriétaire...
 
@@ -64,7 +64,7 @@ Pour faire un groupe sélectionnez plusieurs objets en maintenant "Maj" et en cl
 
 ## Rendu et matériaux
 
-*Ecrit par Imanor*
+_Ecrit par Imanor_
 
 ![](LEuSQW7.png)
 
@@ -130,7 +130,7 @@ Si tout cela vous fait peur, ne vous inquiétez pas ! Il vous suffit de prendre 
 
 ## Mettre en ligne un modèle sur Sketchfab
 
-*[Traduit](https://blog.sketchfab.com/publishing-voxel-designs-from-magicavoxel-to-sketchfab/) par Ezekiel_Koening*
+_[Traduit](https://blog.sketchfab.com/publishing-voxel-designs-from-magicavoxel-to-sketchfab/) par Ezekiel_Koening_
 
 ### Exporter votre modèle
 

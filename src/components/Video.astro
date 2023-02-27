@@ -1,0 +1,28 @@
+---
+interface Props {
+	src: string
+	autoplay: boolean = false
+	muted: boolean = false
+	loop: boolean = false
+	controls: boolean = false
+	poster?: string
+	caption?: string
+}
+const { src, autoplay, muted, loop, controls, poster, caption } = Astro.props
+---
+
+<div class="sidenote">
+	<slot />
+</div>
+
+<figure>
+	<video src={src} autoplay={autoplay} muted={muted} loop={loop} controls={controls} poster={poster}
+	></video>
+	{
+		caption && (
+			<figcaption>
+				<p>{caption}</p>
+			</figcaption>
+		)
+	}
+</figure>

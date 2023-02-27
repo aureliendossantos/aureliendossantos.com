@@ -1,0 +1,10 @@
+---
+interface Props {
+	style?: "wide" | "full"
+}
+const { style } = Astro.props
+---
+
+<div class={"gallery " + style}>
+	<slot />
+</div>
