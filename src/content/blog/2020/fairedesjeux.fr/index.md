@@ -4,7 +4,7 @@ description: "Enfin sur vos écrans !"
 date: 2020-09-05
 categories: ["Micro-blog"]
 tags:
-  - Projets
+  - Projet perso
   - Game Dev Alliance
   - Web
 image: cover.png

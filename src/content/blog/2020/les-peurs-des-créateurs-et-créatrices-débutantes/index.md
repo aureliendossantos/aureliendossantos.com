@@ -24,7 +24,7 @@ Bref, ne sacralisez pas vos projets. Ne les gardez pas pour vous parce qu'ils ne
 
 Au fond, vous savez bien que tout le monde fait n'importe quoi au début. Mon premier jeu, ma première histoire, ma première vidéo, mon premier selfie, tous étaient abyssalement nuls. Les deuxième et troisième aussi, qu'on se le dise. C'est désagréable de réaliser qu'on a produit quelque chose mauvais, mais il faut savoir se pardonner, tout comme nous devons comprendre les autres débutant·es qui tatillonnent. Même si c'est contre-intuitif, vous devriez célébrer le fait d'arriver à pointer vos défauts, car cela veut dire que vous ferez mieux la prochaine fois. Personne n'est devenu Van Gogh en lisant un tuto de peinture un beau matin ; même pas Van Gogh lui-même.
 
-{{< figure src="van-gogh.jpg" caption="Ce p'tit gars a baigné dans le monde de l'art et a étudié un tas de techniques<br>au cours de nombreuses années avant de devenir le peintre que l'on connaît." >}}
+<Figure src="van-gogh.jpg" caption="Ce p'tit gars a baigné dans le monde de l'art et a étudié un tas de techniques<br>au cours de nombreuses années avant de devenir le peintre que l'on connaît." />
 
 Soyez tranquille : commencez en partant d'une idée qui semble bien dans votre esprit, et ça viendra. Lorsqu'on écrit, le plus dur c'est les premières lignes, et c'est vrai que ce sont souvent les plus bancales, mais elles vous permettent de partir et après ça vient tout seul. Si vous êtes impressionné·e par la tâche, essayez les formats courts : ça vous permet de passer facilement à autre chose et de prendre du recul sur votre travail pour vous améliorer.
 
@@ -36,9 +36,9 @@ La programmation peut revêtir de multiples facettes. Il existe plein de langage
 
 En tout cas, je me dois de vous dire qu'il n'existe pas de jeu vidéo sans code. Ce code aura peut-être la forme de blocs à déplacer dans Scratch, de circuits de redstone dans Minecraft, de textes à relier dans Twine, mais au fond, cela reste toujours de la programmation. Pour résumer : s'il n'y a pas de code, il n'y a pas d'interactivité, mais le code peut prendre bien des formes et on ne peut pas dire que c'est trop compliqué. Aujourd'hui, vous pouvez lire un tuto Ren'Py ou RPG Maker et faire votre premier jeu en quelques heures ! Peut-être qu'au final, même les outils les plus simples vous donneront des boutons (haha), et dans ce cas je vous conseille de tirer un trait sur l'idée d'ajouter de créer des œuvres interactives.
 
-{{< note >}}
+<Note>
 Sur le même sujet, ma vidéo "_[Comment faire des jeux sans programmer ?](https://www.youtube.com/watch?v=AAp3cNlJxCw)_" pourrait peut-être vous intéresser.
-{{< /note >}}
+</Note>
 
 ### ... Je n'ai pas d'inspiration.
 

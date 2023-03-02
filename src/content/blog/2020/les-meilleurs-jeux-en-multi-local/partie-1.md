@@ -1,7 +1,7 @@
 ---
 title: Les meilleurs jeux en multi local, partie 1
 date: 2020-07-14
-tags: ["Articles", "Jeux", "Multijoueur"]
+tags: ["Articles", "Jeux vidéo", "Multijoueur"]
 draft: true
 ---
 

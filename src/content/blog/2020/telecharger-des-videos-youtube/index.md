@@ -17,17 +17,17 @@ Laissez-moi plutôt vous présenter youtube-dl, un outil en ligne de commande tr
 
 ## Installer youtube-dl
 
-{{< note >}}
+<Note>
 Ce guide est écrit pour Windows 10 mais le programme existe aussi sur Mac et Linux.
-{{< /note >}}
+</Note>
 
 youtube-dl s'utilise dans l'invite de commandes (aussi appelé terminal). Créez un dossier où vous stockerez tous les programmes à utiliser dans le terminal : je l'ai personnellement placé à la racine de mon disque, à l'adresse `C:\cmd-bins`.
 
 Téléchargez [l'exe de youtube-dl](http://ytdl-org.github.io/youtube-dl/download.html) dans ce dossier.
 
-{{< note >}}
+<Note>
 Facultatif : placez également `ffmpeg.exe` que vous trouverez dans [cette archive](https://www.gyan.dev/ffmpeg/builds/ffmpeg-git-full.7z) dans le dossier `cmd-bins`. C'est un outil pratique et puissant dont youtube-dl se servira pour fusionner des pistes vidéo et audio téléchargées séparément, ce qui est parfois nécessaire pour obtenir la meilleure qualité possible.
-{{< /note >}}
+</Note>
 
 Il ne se passera rien si vous ouvrez directement `youtube-dl.exe` car il doit être utilisé depuis le terminal, et pour cela, vous devez l’ajouter à votre Path. Ouvrez les Paramètres système avancés, puis cliquez sur Variables d’environnement.
 

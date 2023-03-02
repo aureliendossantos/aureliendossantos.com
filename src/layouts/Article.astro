@@ -1,8 +1,9 @@
 ---
 import type { CollectionEntry } from "astro:content"
-import formatDate from "src/utils/formatDate"
 import BaseLayout from "./BaseLayout.astro"
 import getPalette from "src/utils/palettes"
+import ArticleHeader from "$components/ArticleHeader.astro"
+import ArticleContents from "$components/ArticleContents.astro"
 
 export interface Props {
 	article: CollectionEntry<"blog">
@@ -11,113 +12,26 @@ export interface Props {
 const { article } = Astro.props
 const data = article.data
 const palette = getPalette(data.palette)
+const image = data.cover && data.image ? data.image : undefined
 ---
 
-<BaseLayout title={data.title} bg={palette.backgroundColor}>
-	<header
-		class:list={[
-			"px-[80px] medium:px-[40px] small:px-[20px]",
-			{ "flex mb-12 min-h-[50vh] bg-cover bg-center pb-8": data.cover },
-		]}
-		style={{
-			color: data.cover ? "#fbf8f2" : palette.secondaryColor,
-			fontFamily: palette.mainFont,
-			fontSize: palette.fontSize || "initial",
-			lineHeight: palette.lineHeight || 1.25,
-			backgroundImage:
-				data.cover && data.image
-					? `linear-gradient(rgba(56, 48, 28, 0.394), rgba(75, 65, 35, 0.395)), url('/${data.image}')`
-					: "none",
-		}}
-	>
-		<!-- Header contents -->
-		<div class="m-auto max-w-prose pt-8" class:list={{ "mb-12 pb-8": data.cover }}>
-			<h1
-				style={{
-					color: data.cover ? "#fbf8f2" : palette.mainColor,
-					fontFamily: palette.headingsFont,
-				}}
-			>
-				{data.title}
-			</h1>
-			{data.description && <p>{data.description}</p>}
-			<p>
-				<time datetime={data.date.toDateString()}>
-					{formatDate(data.date)}
-				</time> – <a href={Astro.site}>Aurélien Dos Santos</a>
-			</p>
-		</div>
-	</header>
-	<main
-		class="px-[80px] pb-16 medium:px-[40px] small:px-[20px]"
-		style={{
-			color: palette.mainColor,
-			fontFamily: palette.mainFont,
-			fontSize: palette.fontSize || "initial",
-			lineHeight: palette.lineHeight || 1.25,
-		}}
-	>
-		<div class="m-auto max-w-prose">
+<BaseLayout
+	title={data.title}
+	description={data.description}
+	date={data.date}
+	image={image}
+	bg={palette.backgroundColor}
+>
+	<div class="article-styling">
+		<ArticleHeader
+			title={data.title}
+			description={data.description}
+			date={data.date}
+			cover={image}
+			palette={palette}
+		/>
+		<ArticleContents palette={palette} license={data.license}>
 			<slot />
-			<footer class="mt-[3em]"><p>◂ <a href="/">Retour à l'accueil</a></p></footer>
-		</div>
-	</main>
+		</ArticleContents>
+	</div>
 </BaseLayout>
-
-<style is:global>
-	@tailwind base;
-
-	@layer base {
-		a {
-			@apply underline decoration-1 underline-offset-1 duration-200 ease-out hover:decoration-2;
-		}
-
-		p {
-			@apply my-4;
-		}
-
-		blockquote {
-			@apply my-[1em] ml-[-80px] w-[70%] italic mediumlarge:ml-[-40px] medium:ml-[-20px] small:ml-[0];
-		}
-
-		.note {
-			@apply my-[1em] ml-[80px] italic mediumlarge:ml-[40px] medium:ml-[20px] small:ml-[0];
-		}
-
-		hr {
-			@apply border;
-		}
-
-		h1 {
-			@apply my-2 text-3xl font-bold;
-		}
-
-		h2 {
-			@apply my-3 text-2xl font-bold;
-		}
-
-		h3 {
-			@apply my-4 text-lg font-bold;
-		}
-
-		h4 {
-			@apply my-5 text-base font-bold;
-		}
-
-		h5 {
-			@apply my-6 text-sm font-bold;
-		}
-
-		h6 {
-			@apply my-10 text-xs font-bold;
-		}
-
-		pre {
-			@apply rounded-md p-3;
-		}
-
-		main :not(pre) code {
-			@apply my-[-0.1em] rounded-md bg-[#efefef] py-[0.1em] px-[0.3em];
-		}
-	}
-</style>

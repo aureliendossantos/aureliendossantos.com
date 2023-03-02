@@ -2,6 +2,7 @@
 title: Immeuble en construction
 description: Des travaux ont lieu près de chez moi, donc je suis allé visiter le chantier pour profiter de l'ambiance.
 date: 2020-07-20T21:00:00
+location: Pau
 categories: ["Photos"]
 tags: ["Urbex"]
 image: 003-Pano.webp
@@ -10,11 +11,11 @@ palette: black
 
 {{< gallery full >}}
 ![](003-Pano.webp)
-{{< /gallery >}}
+</Gallery>
 
 {{< gallery >}}
 ![](01.webp) ![](02.webp)
-{{< /gallery >}}
+</Gallery>
 
 ![](2-Pano.webp)
 
@@ -24,7 +25,7 @@ palette: black
 
 {{< gallery full >}}
 ![](29.webp) ![](291.webp) ![](293.webp)
-{{< /gallery >}}
+</Gallery>
 
 ![](3-Pano.webp)
 
@@ -37,11 +38,11 @@ palette: black
 {{< gallery full >}}
 ![](36-Pano.webp)
 
-![](41.webp) {{< /gallery >}} ![](42.webp)
+![](41.webp) </Gallery> ![](42.webp)
 
 {{< gallery full >}}
 ![](421-Pano.webp)
-{{< /gallery >}}
+</Gallery>
 
 ![](43.webp) ![](44.webp)
 
@@ -49,21 +50,21 @@ palette: black
 
 ![](46.webp) ![](47.webp)
 
-{{< gallery wide >}}
+<Gallery wide>
 ![](48.webp) ![](49.webp)
-{{< /gallery >}}
+</Gallery>
 
 ![](492.webp) ![](493.webp)
 
 ![](50.webp) ![](51.webp)
 
-{{< gallery wide >}}
+<Gallery wide>
 ![](52.webp) ![](53.webp)
-{{< /gallery >}}
+</Gallery>
 
-{{< gallery wide >}}
+<Gallery wide>
 ![](54.webp) ![](55.webp)
-{{< /gallery >}}
+</Gallery>
 
 ![](571-Pano.webp)
 
@@ -71,6 +72,6 @@ palette: black
 
 {{< gallery full >}}
 ![](60-Pano.webp)
-{{< /gallery >}}
+</Gallery>
 
 ![](61-Pano.webp)

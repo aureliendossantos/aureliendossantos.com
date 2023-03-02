@@ -13,9 +13,12 @@ import "@fontsource/work-sans/700-italic.css"
 
 export interface Props {
 	title: string
+	description?: string
+	date?: Date
+	image?: string
 	bg?: string
 }
-const { title, bg } = Astro.props
+const { title, description, date, image, bg } = Astro.props
 ---
 
 <!DOCTYPE html>
@@ -23,19 +26,37 @@ const { title, bg } = Astro.props
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="author" content="Aurélien Dos Santos" />
 		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
+		<title>{title} - Aurélien Dos Santos</title>
+		{description && <meta name="description" content={description} />}
+		<link rel="canonical" href={Astro.url} />
+		{bg && <meta name="theme-color" content={bg} />}
+		<meta property="og:title" content={title} />
+		{description && <meta name="og:description" content={description} />}
+		<meta property="og:url" content={Astro.url} />
+		<meta property="og:site_name" content="Aurélien Dos Santos" />
+		<meta property="og:type" content="article" />
+		<meta property="og:locale" content="fr_FR" />
+		{date && <meta property="article:published_time" content={date.toISOString()} />}
+		{date && <meta property="article:modified_time" content={date.toISOString()} />}
+		{image && <meta property="og:image" content={image} />}
+		<meta name="twitter:site" content="@ooooorelien" />
+		<meta name="twitter:creator" content="@ooooorelien" />
+		<meta name="twitter:title" content={title} />
+		{description && <meta name="twitter:description" content={description} />}
+		<meta name="twitter:card" content="summary_large_image" />
+		{image && <meta name="twitter:image" content={image} />}
 	</head>
 	<body style={{ backgroundColor: bg || "#f5f5fa" }}>
 		<slot />
 	</body>
 </html>
 
-<style>
+<style is:global>
 	@font-face {
 		font-family: "Anek Latin";
-		src: url("/fonts/AnekLatin.ttf") format("ttf");
+		src: url("/fonts/AnekLatin.ttf");
 		font-weight: normal;
 		font-style: normal;
 		font-display: swap;

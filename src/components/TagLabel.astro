@@ -1,0 +1,18 @@
+---
+interface Props {
+	label: string
+	count: number
+	type: "category" | "tag"
+}
+const { label, count, type } = Astro.props
+---
+
+<a href={`/${type}/${label}`} class="text-slate-600"
+	>{label}{" "}<span class="text-slate-400">{count}</span></a
+>
+
+<style>
+	a {
+		@apply bg-slate-200 hover:bg-slate-300 active:bg-slate-400;
+	}
+</style>

@@ -1,7 +1,8 @@
 ---
 title: Traduction de RPG Maker MV
 date: 2019-12-22
-tags: ["Micro-blog", "Projets"]
+categories: ["Micro-blog"]
+tags: ["Projet perso"]
 ---
 
 La traduction actuelle de RPG Maker MV est connue pour être une véritable plaie. De la simple faute de français à la traduction automatique qui change tout le sens des termes, on est bien mal barré lorsqu'on débute sur le logiciel. C'est pourquoi Arthur et moi avons proposé à Degica de refaire une traduction correcte. Pour les curieux pas habitués à MV, vous pouvez voir comment je leur ai pitché les problèmes [ici](https://gist.github.com/aureliendossantos/8d4b42203b2193555b1a222b15a65da0).
@@ -24,5 +25,5 @@ Je trouve ces tutos assez lents, donc potentiellement ennuyeux, mais d'un autre 
 
 Merci beaucoup pour votre temps, et surtout kiffez bien la trad !
 
-{{< note >}}
+<Note>
 **Mise à jour :** Après ce post, nous avons entièrement revu et corrigé la traduction de RPG Maker MV. Les changements sont désormais disponibles dans les nouvelles versions du logiciel.

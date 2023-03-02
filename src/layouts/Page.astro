@@ -1,0 +1,45 @@
+---
+import type { CollectionEntry } from "astro:content"
+import BaseLayout from "./BaseLayout.astro"
+import getPalette from "src/utils/palettes"
+import ArticleHeader from "$components/ArticleHeader.astro"
+import BackHome from "$components/BackHome.astro"
+
+export interface Props {
+	page: CollectionEntry<"pages">
+}
+
+const { page } = Astro.props
+const data = page.data
+const palette = getPalette(data.palette)
+const image = data.cover && data.image ? data.image : undefined
+---
+
+<BaseLayout
+	title={data.title}
+	description={data.description}
+	image={image}
+	bg={palette.backgroundColor}
+>
+	<div class="article-styling">
+		<ArticleHeader
+			title={data.title}
+			description={data.description}
+			cover={data.cover && data.image ? data.image : undefined}
+			palette={palette}
+		/>
+		<main
+			class="px-[80px] pb-16 medium:px-[40px] small:px-[20px]"
+			style={{
+				color: palette.mainColor,
+				fontFamily: palette.mainFont,
+				fontSize: palette.fontSize || "initial",
+				lineHeight: palette.lineHeight || 1.25,
+			}}
+		>
+			<div class="m-auto max-w-prose">
+				<slot />
+			</div>
+		</main>
+	</div>
+</BaseLayout>

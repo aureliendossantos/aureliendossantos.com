@@ -8,6 +8,12 @@ module.exports = {
 				sans: ["Work Sans", ...defaultTheme.fontFamily.sans],
 				mono: "monospace",
 			},
+			opacity: {
+				15: ".15",
+			},
+			textUnderlineOffset: {
+				3: "3px",
+			},
 		},
 		screens: {
 			mediumlarge: { max: "860px" },

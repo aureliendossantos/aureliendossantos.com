@@ -2,6 +2,7 @@
 title: Parking
 description: J'aime beaucoup visiter des parkings. Ce n'est pas grand chose, mais ils ont souvent une ambiance saisissante.
 date: 2015-05-08
+location: Pau
 categories: ["Photos"]
 image: 1.webp
 palette: darkgrey

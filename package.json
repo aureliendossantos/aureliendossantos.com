@@ -21,6 +21,7 @@
 		"@fontsource/urbanist": "^4.5.17",
 		"@fontsource/work-sans": "^4.5.14",
 		"astro": "^2.0.15",
+		"astro-auto-import": "^0.2.1",
 		"astro-eleventy-img": "^0.6.2",
 		"markdown-it": "^13.0.1",
 		"prettier-plugin-tailwindcss": "^0.2.3",

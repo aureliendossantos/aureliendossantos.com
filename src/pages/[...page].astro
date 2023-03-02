@@ -1,0 +1,41 @@
+---
+import { getCollection } from "astro:content"
+import Page from "$layouts/Page.astro"
+import BackHome from "$components/BackHome.astro"
+import getPalette from "src/utils/palettes"
+import "src/styles/articles.scss"
+
+export async function getStaticPaths() {
+	const individualPages = await getCollection("pages", ({ data }) => {
+		return data.draft !== true
+	})
+	return individualPages.map((article) => ({
+		params: { page: article.slug },
+		props: { article },
+	}))
+}
+
+const { article } = Astro.props
+const { Content } = await article.render()
+const palette = getPalette(article.data.palette)
+const secondaryColor = palette.secondaryColor
+const specialColor = palette.specialColor
+---
+
+<Page page={article}>
+	<div>
+		<Content />
+		<BackHome />
+	</div>
+</Page>
+
+<style define:vars={{ secondaryColor, specialColor }} is:global>
+	blockquote,
+	.note,
+	hr {
+		color: var(--specialColor);
+	}
+	figcaption {
+		color: var(--secondaryColor);
+	}
+</style>

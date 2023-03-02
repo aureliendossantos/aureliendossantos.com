@@ -3,18 +3,15 @@ date: 2021-04-02
 title: "L'introduction de Destiny : analyse du level design"
 description: "Sept ans après sa sortie, Destiny peine toujours à être égalé quant à la qualité de son introduction. Extraits vidéo à l'appui, je vous propose de l'examiner pour mieux comprendre ce qui la rend aussi efficace."
 categories: ["Article"]
-tags: ["Jeux"]
+tags:
+  - Jeux vidéo
+  - Game design
 image: mur-cosmodrome.jpg
 toc: true
 readingTime: 31
 cover: true
 palette: notebook
 ---
-
-import Gallery from "$components/Gallery.astro"
-import Video from "$components/Video.astro"
-import Note from "$components/Note.astro"
-import Image from "$components/Image.astro"
 
 Destiny est un FPS sorti sur consoles en 2014 et dont vous avez sans doute déjà entendu parler, d'abord en raison de son budget com' et puis parce que c'est un jeu important : il a, sous bien des aspects, influencé l'industrie du jeu vidéo. Quand je l'ai découvert, j'ai été impressionné dès l'introduction, qui me fascine encore aujourd'hui. A vrai dire, c'est peut-être mon moment de jeu vidéo préféré.
 
@@ -33,7 +30,7 @@ Pour mieux comprendre ce niveau, je l'ai fait essayer à plusieurs personnes, no
 
 Avant de commencer, si vous souhaitez vous mettre dans l'ambiance, je vous mets ici la vidéo qui se joue au tout début, juste après la création de votre personnage, et qui expose l'univers. C'est fait à la sauce Destiny, donc c'est assez... flou. Mais c'est très joli.
 
-<Gallery style="wide">
+<Gallery wide>
 	<Video src="video-intro.webm" attr="controls" poster="th-video-intro.jpg" />
 </Gallery>
 
@@ -41,7 +38,7 @@ Dans la scène sur Mars, j'ai trouvé les variations de couleur très intéressa
 
 Le début du jeu se déroule dans un ancien cosmodrome, situé sur ce territoire autrefois appelé Russie :
 
-<Gallery style="wide">
+<Gallery wide>
 	<Video src="cinematique-intro.webm" attr="controls" poster="th-cinematique-intro.jpg" />
 </Gallery>
 
@@ -53,19 +50,19 @@ C'est bon, la partie peut commencer ! Comme j'ai quelques centaines d'heures su
 
 Pendant les deux premières minutes, nous n'avons pas d'arme et nous contentons de suivre le chemin en nous imprégnant de l'ambiance. Par les dialogues, les sons et les indications visuelles, le jeu donne un rythme relativement soutenu malgré un environnement plutôt reposant.
 
-<Gallery style="wide">
+<Gallery wide>
 	<Video src="1.webm" poster="th1.jpg" attr="controls" />
 </Gallery>
 
 Le mur donne beaucoup de caractère au décor, et c'est aussi un bon point de repère : le grand renfoncement, très sombre, dessine comme une porte nous invitant à l'explorer. Comme le niveau commence sur une pente descendante, on peut garder un oeil sur l'objectif tout en regardant où l'on marche. Il y a un certain sentiment d'urgence, communiqué par le Spectre et par le level design qui dessine un couloir net avec le chemin et les voitures.
 
-<Gallery style="full">![](th1.jpg) ![](chemin1.jpg) ![](chemin3.jpg)</Gallery>
+<Gallery full>![](th1.jpg) ![](chemin1.jpg) ![](chemin3.jpg)</Gallery>
 
 Une fois en bas, une ouverture nous invite à apprécier la vue, puis le chemin continue, délimité par les abris et le sol clair, jusqu'à la petite entrée que l'on remarque finalement assez tard.
 
 La scène suivante attire notre attention sur le fonctionnement du radar, qui clignote en rouge sur un fond totalement noir en raison de l'obscurité -- c'est plutôt malin. Le jeu nous tease la présence d'ennemis de façon graduelle : on commence par en entendre quelques-uns se balader dans les conduits autour de nous, avant de se rendre compte qu'ils sont en fait beaucoup plus nombreux qu'on ne le pensait...
 
-<Gallery style="full">![](radar1.jpg) ![](radar2.jpg)</Gallery>
+<Gallery full>![](radar1.jpg) ![](radar2.jpg)</Gallery>
 
 Pendant que le Spectre remet le courant, le jeu nous laisse le contrôle de la caméra mais s'assure que l'on sache où regarder si l'on veut voir l'action. Au début, il fait complètement noir, à l'exception du Spectre et d'un néon orange au sol qui nous permet de ne pas être désorientés. Ensuite, les lumières s'allument progressivement, accompagnées de bruit localisés, ce qui nous laisse le temps de nous retourner pour la révélaton de l'armée de Déchus. Un son de grille et le mouvement du Spectre nous avertissent alors de l'ouverture d'un passage sur la droite.
 
@@ -73,7 +70,7 @@ Pendant que le Spectre remet le courant, le jeu nous laisse le contrôle de la c
 
 On s'enfonce un peu plus loin dans la structure pour récupérer notre première arme : le bon vieux Khvostov. En regardant à travers sa mire abîmée, on comprend qu'il a connu d'autres combats il y a bien longtemps. Mais pas le temps d'y réfléchir : ni une ni deux, un premier ennemi se dresse devant nous.
 
-<Gallery style="wide">
+<Gallery wide>
 	<Video src="2.webm" poster="th2.jpg" attr="controls" />
 </Gallery>
 
@@ -85,7 +82,7 @@ Au cours de ce tutoriel, toutes les touches sont indiquées par de grands textes
 
 Rencontre suivante :
 
-<Gallery style="wide">
+<Gallery wide>
 	<Video src="3.webm" poster="th3.jpg" attr="controls" />
 </Gallery>
 
@@ -101,7 +98,7 @@ Les 3 rebuts apparaissent devant nous alors que le vandale est caché par des ob
 
 Le recul du Khvostov est difficile à contrôler, ce qui apporte aux affrontements un chaos aussi dramatique que satisfaisant, et puis cela permet de faire relativiser les mauvais joueurs : si l'arme est aussi imprécise, alors je ne dois pas avoir besoin de savoir viser. A ce sujet, vous remarquerez que plus on avancera dans l'intro, plus les ennemis apparaîtront depuis une position éloignée.
 
-<Gallery style="wide">
+<Gallery wide>
 	<Video src="4.webm" poster="th4.jpg" attr="controls" />
 </Gallery>
 
@@ -109,7 +106,7 @@ Ici, on peut obtenir au hasard soit un sniper, soit un fusil à pompe. Juste apr
 
 La composition de l'arène suivante, avec le grand drapeau et les murs en V, a quelque chose de particulièrement mémorable.
 
-<Gallery style="wide">
+<Gallery wide>
 	<Video src="5.webm" poster="th5.jpg" attr="controls" />
 </Gallery>
 
@@ -117,19 +114,19 @@ Les ennemis vont utiliser les piliers à droite comme couverture -- la partie g
 
 Le couloir suivant est une sorte de SAS, dans lequel on peut prendre le temps d'apprécier le décor et laisser la tension redescendre, avant de retrouver l'air frais du monde extérieur et d'observer une nouvelle mise en scène au loin.
 
-<Gallery style="wide">
+<Gallery wide>
 	<Video src="6.webm" poster="th6.jpg" attr="controls" />
 </Gallery>
 
 Cette séquence me rappelle quand j'étais enfant et que mon ophtalmologiste me demandait de suivre la petite lumière. La fusée éclairante va d'abord lentement en haut à gauche, puis le vaisseau retourne en bas à droite, au niveau de cette sorte d'arche qui nous invite à la traverser -- un classique. On pourrait théoriquement passer plus de temps à regarder le ciel pour voir un gros vaisseau passer au-dessus de notre tête, mais la plupart des gens avanceront au même rythme que moi.
 
-<Gallery style="wide">
+<Gallery wide>
 	<Video src="7.webm" poster="th7.jpg" attr="controls" />
 </Gallery>
 
 On ne s'en doute pas en découvrant le jeu, mais cette scène en extérieur se déroule en fait dans une section de l'open world, que l'on pourra revisiter à loisir un peu plus tard. Quand on vient de passer l'arche, on pourrait donc partir à droite pour découvrir une autre zone, mais en réalité on ne remarque même pas le passage, d'une part parce que les ennemis nous attirent vers l'avant, et d'autre part parce qu'il est en pente montante, ce qui obstrue notre champ de vision. De plus, il est jonché d'obstacles qui pourraient s'apparenter à une simple barrière si on n'y regarde pas de plus près.
 
-<Gallery style="full">
+<Gallery full>
 	![](open0.webp "En arrivant, la composition transforme le côté droit en une sorte de mur, nous
 	invitant à regarder vers l'avant puis au fond à gauche.") ![](open1.webp "Si l'on regarde tout de
 	même à droite, notre regard va « glisser » le long des obstacles.") ![](open2.webp "Une fois en
@@ -144,7 +141,7 @@ A la fin, l'espace de jeu se resserre et plusieurs ennemis apparaissent en même
 
 Un message nous informe que l'on peut débloquer une compétence en allant dans le menu.
 
-<Gallery style="wide">
+<Gallery wide>
 	<Video src="8.webm" poster="th8.jpg" attr="controls" />
 </Gallery>
 
@@ -160,7 +157,7 @@ On dit souvent que la plupart des joueurs détestent lire de longs textes, et c'
 
 Le jeu attend que nous soyons sortis du menu pour jouer un petit dialogue du Spectre qui nous recadre en nous donnant un objectif. C'est un petit coup de boost bien senti pour relancer la motivation alors que la tension est au plus bas. Et puis, nous venons de débloquer la grenade. On a qu'une envie, c'est de l'essayer ! Justement, un petit groupe de Déchus inattentifs nous attend deux pas plus loin.
 
-<Gallery style="wide">
+<Gallery wide>
 	<Video src="9.webm" poster="th9.jpg" attr="controls" />
 </Gallery>
 
@@ -168,7 +165,7 @@ Beaucoup de joueurs n'arriveront pas à lancer la grenade correctement du premie
 
 ### Combat final
 
-<Gallery style="wide">
+<Gallery wide>
 	<Video src="10.webm" poster="th10.jpg" attr="controls" />
 </Gallery>
 
@@ -182,7 +179,7 @@ C'est la première fois que nous rencontrons un ennemi avec un bouclier ! Dans 
 
 Au début, les trois ennemis paraissent tout à fait abordables, ce qui nous attire au centre de l'arène. Mais ils sont bien vite rejoints par cinq ou six collègues qui nous forcent à nous replier. Nous avons à droite un espace relativement sûr -- et en hauteur ! -- les ennemis ayant plutôt tendance à se couvrir à gauche. C'est là aussi à nous de déterminer quand nous souhaitons retourner taper dans le tas. Nous sommes ensuite récompensés par une cinématique que je vous laisse regarder.
 
-<Gallery style="wide">
+<Gallery wide>
 	<Video src="11.webm" poster="th11.jpg" attr="controls" />
 </Gallery>
 

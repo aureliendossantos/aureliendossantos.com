@@ -2,7 +2,7 @@
 title: Laura Groves
 date: 2020-07-14
 categories: ["Micro-blog"]
-tags: ["Musique", "Review"]
+tags: ["Musique"]
 draft: true
 ---
 

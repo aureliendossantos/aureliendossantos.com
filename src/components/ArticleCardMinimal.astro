@@ -1,0 +1,38 @@
+---
+import type { CollectionEntry } from "astro:content"
+import getPalette from "src/utils/palettes"
+import ArticleDate from "./ArticleDate.astro"
+
+interface Props {
+	article: CollectionEntry<"blog"> | CollectionEntry<"tufte">
+}
+const { article } = Astro.props
+const palette = getPalette(article.data.palette)
+const showCover = () =>
+	article.data.categories && article.data.categories.includes("Photos") && article.data.image
+---
+
+<a
+	class="duration-80 hover:radius scale-100 bg-cover bg-center ease-out hover:scale-[1.01] hover:rounded-[4px]"
+	style={{
+		backgroundColor: palette.backgroundColor,
+		backgroundImage: showCover()
+			? `linear-gradient(${palette.backgroundColor}99, ${palette.backgroundColor}99), url('/remnant-coop.jpg')`
+			: "none",
+	}}
+	href={"/post/" + article.slug}
+>
+	<div class="py-5 px-4" style={{ color: palette.mainColor, fontFamily: palette.mainFont }}>
+		<span
+			class="mb-2 text-lg font-bold"
+			style={{ color: palette.mainColor, fontFamily: palette.headingsFont }}
+		>
+			{article.data.title}
+		</span>
+		<span style={{ color: palette.secondaryColor }}>
+			<ArticleDate date={article.data.date} nonBreakingSpaces />{
+				article.data.location && <span> / {article.data.location}</span>
+			}
+		</span>
+	</div>
+</a>

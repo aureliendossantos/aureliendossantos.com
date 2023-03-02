@@ -1,15 +1,27 @@
 ---
 import ArticleCard from "$components/ArticleCard.astro"
+import ArticleCardMinimal from "$components/ArticleCardMinimal.astro"
+import TagLabel from "$components/TagLabel.astro"
 import BaseLayout from "$layouts/BaseLayout.astro"
 import { getCollection } from "astro:content"
+import getOccurences from "src/utils/getOccurences"
 
 const blog = await getCollection("blog", ({ data }) => {
 	return data.draft !== true
 })
-blog.sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+const tufte = await getCollection("tufte", ({ data }) => {
+	return data.draft !== true
+})
+const articles = [...blog, ...tufte].sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+
+const rawCategories = articles.map((article) => article.data.categories).flat()
+const rawTags = articles.map((article) => article.data.tags).flat()
+
+const { unique: categories, counts: categoriesCount } = getOccurences(rawCategories)
+const { unique: tags, counts: tagsCount } = getOccurences(rawTags)
 ---
 
-<BaseLayout title="Welcome to Astro.">
+<BaseLayout title="Blog">
 	<div class="mx-auto mb-12 max-w-[500px] px-4">
 		<header class="my-12 px-5">
 			<div class="my-5">
@@ -19,9 +31,45 @@ blog.sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
 			<p>
 				Bonjour, je suis Aurélien et vous êtes sur mon blog. <br /><a href="/about">A propos</a>
 			</p>
+			<details>
+				<summary><span>Catégories</span></summary>
+				{
+					categories.map((category, index) => (
+						<>
+							<TagLabel label={category} count={categoriesCount[index]} type={"category"} />{" "}
+						</>
+					))
+				}
+			</details>
+			<details>
+				<summary><span>Tags</span></summary>
+				{
+					tags.map((tag, index) => (
+						<>
+							<TagLabel label={tag} count={tagsCount[index]} type={"tag"} />{" "}
+						</>
+					))
+				}
+			</details>
 		</header>
 		<main class="flex flex-col gap-4">
-			{blog.map((article) => <ArticleCard article={article} />)}
+			{articles.map((article) => <ArticleCard article={article} />)}
 		</main>
 	</div>
 </BaseLayout>
+
+<style>
+	a {
+		@apply bg-slate-200 hover:bg-slate-300 active:bg-slate-400;
+	}
+</style>
+
+<style is:global>
+	@tailwind base;
+	@tailwind components;
+	@tailwind utilities;
+
+	body::-webkit-scrollbar {
+		width: 8px;
+	}
+</style>

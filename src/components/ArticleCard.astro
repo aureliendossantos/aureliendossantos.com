@@ -1,37 +1,41 @@
 ---
 import type { CollectionEntry } from "astro:content"
 import getPalette from "src/utils/palettes"
-import formatDate from "src/utils/formatDate"
+import ArticleDate from "./ArticleDate.astro"
 
 interface Props {
-	article: CollectionEntry<"blog">
+	article: CollectionEntry<"blog"> | CollectionEntry<"tufte">
 }
 const { article } = Astro.props
-const palette = getPalette(article.data.palette)
+const data = article.data
+const palette = getPalette(data.palette)
+const categories = data.categories ? data.categories.filter((name) => name != "Article") : []
 ---
 
 <a
 	class="duration-80 scale-100 overflow-hidden rounded-lg shadow ease-out hover:scale-[1.01]"
 	style={{ backgroundColor: palette.backgroundColor }}
-	href={article.slug}
+	href={"/post/" + article.slug}
 >
-	{article.data.image && <img src={article.data.image} alt="" class="h-36 w-full object-cover" />}
+	{data.image && <img src={data.image} alt="" class="h-36 w-full object-cover" />}
 	<div class="p-5" style={{ color: palette.mainColor, fontFamily: palette.mainFont }}>
 		<h2
 			class="mb-2 text-2xl font-bold"
 			style={{ color: palette.mainColor, fontFamily: palette.headingsFont }}
 		>
-			{article.data.title}
+			{data.title}
 		</h2>
 		{
-			article.data.description && (
+			data.description && (
 				<p class="my-2" style={{ color: palette.mainColor }}>
-					{article.data.description}
+					{data.description}
 				</p>
 			)
 		}
-		<time datetime={article.data.date.toDateString()} style={{ color: palette.secondaryColor }}>
-			{formatDate(article.data.date)}
-		</time>
+		<div style={{ color: palette.secondaryColor }}>
+			{categories.length > 0 && <>{categories.join(", ")} / </>}<ArticleDate date={data.date} />{
+				data.location && <span> / {data.location}</span>
+			}
+		</div>
 	</div>
 </a>

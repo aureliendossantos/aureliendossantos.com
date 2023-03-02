@@ -1,0 +1,70 @@
+---
+import ArticleCardMinimal from "$components/ArticleCardMinimal.astro"
+import BaseLayout from "$layouts/BaseLayout.astro"
+import { getCollection, CollectionEntry } from "astro:content"
+import getOccurences from "src/utils/getOccurences"
+
+export async function getStaticPaths() {
+	const blog = await getCollection("blog", ({ data }) => {
+		return data.draft !== true
+	})
+	const tufte = await getCollection("tufte", ({ data }) => {
+		return data.draft !== true
+	})
+	const allArticles = [...blog, ...tufte].sort(
+		(a, b) => b.data.date.getTime() - a.data.date.getTime()
+	)
+
+	const rawCategories = allArticles.map((article) => article.data.categories).flat()
+
+	const { unique: categories, counts: categoriesCount } = getOccurences(rawCategories)
+
+	return categories.map((category) => {
+		const filteredArticles = allArticles.filter(
+			(article) => article.data.categories && article.data.categories.includes(category)
+		)
+		return {
+			params: { category },
+			props: { articles: filteredArticles },
+		}
+	})
+}
+
+type Props = {
+	articles: (CollectionEntry<"blog"> | CollectionEntry<"tufte">)[]
+}
+
+const { category } = Astro.params
+const { articles } = Astro.props
+---
+
+<BaseLayout title={"Catégorie " + category}>
+	<div class="mx-auto mb-12 max-w-[500px] px-4">
+		<header class="my-12 px-5">
+			<div class="my-5">
+				◂
+				<a href="/">Retour à l'accueil</a>
+			</div>
+			<h1>Catégorie {category}</h1>
+		</header>
+		<main class="flex flex-col overflow-hidden rounded-lg shadow hover:overflow-visible">
+			{articles.map((article) => <ArticleCardMinimal article={article} />)}
+		</main>
+	</div>
+</BaseLayout>
+
+<style>
+	a {
+		@apply bg-slate-200 hover:bg-slate-300 active:bg-slate-400;
+	}
+</style>
+
+<style is:global>
+	@tailwind base;
+	@tailwind components;
+	@tailwind utilities;
+
+	body::-webkit-scrollbar {
+		width: 8px;
+	}
+</style>

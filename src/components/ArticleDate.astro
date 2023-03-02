@@ -1,0 +1,18 @@
+---
+import formatDate from "src/utils/formatDate"
+
+interface Props {
+	date: Date
+	style?: string | Record<string, any> | undefined | null
+	nonBreakingSpaces?: boolean
+}
+const { date, style, nonBreakingSpaces } = Astro.props
+
+const formattedDate = () => {
+	const string = formatDate(date)
+	if (nonBreakingSpaces) return string.replaceAll(" ", " ")
+	return string
+}
+---
+
+<time datetime={date.toISOString()} style={style}>{formattedDate()}</time>

@@ -2,6 +2,7 @@
 title: Exploration entre amis
 description: Nous sommes allés visiter un petit bâtiment abandonné un jour de soleil. Un agréable souvenir.
 date: 2017-05-23
+location: Pau
 categories: ["Photos"]
 tags: ["Urbex"]
 image: 97-Pano.webp

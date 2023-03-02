@@ -3,7 +3,7 @@ title: Le livre de Cayde-6
 description: Destiny a une place spéciale dans mon coeur. Je pense que le premier opus est le meilleur jeu du monde (ou presque), alors j'en ai fait un livre.
 date: 2019-12-22
 categories: ["Article"]
-tags: ["Projets", "Jeux"]
+tags: ["Projet perso", "Jeux vidéo"]
 image: 1.jpg
 cover: true
 palette: notebook

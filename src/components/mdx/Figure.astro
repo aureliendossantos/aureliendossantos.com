@@ -1,0 +1,21 @@
+---
+// TODO: Utiliser Image dans les figures (ou remplacer toutes les figure)
+
+interface Props {
+	src: string
+	alt?: string
+	caption?: string
+}
+const { src, alt, caption } = Astro.props
+---
+
+<figure>
+	<img src={src} alt={alt} />
+	{
+		caption && (
+			<figcaption>
+				<p>{caption}</p>
+			</figcaption>
+		)
+	}
+</figure>

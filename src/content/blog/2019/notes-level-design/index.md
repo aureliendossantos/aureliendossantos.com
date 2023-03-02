@@ -3,11 +3,11 @@ title: Notes sur le level design
 description: Notes prises en regardant des vidéos de Craig Perko sur le level design de Nier et Fallout 4.
 date: 2019-10-22
 categories: ["Notes"]
-tags: ["Jeux", "Game design"]
+tags: ["Jeux vidéo", "Game design"]
 image: cover.png
 ---
 
-Craig Perko publie des vidéos sur YouTube avec pour thème principal le développement de jeux vidéo : tutoriels de programmation, analyse de jeux, opinions sur le game design... Comme le pointait mon amie Erika, Craig Perko a parfois une vision différente des jeux et il utilise peu de *buzzwords*. Par exemple, il parle de *hinting* qui serait généralement plutôt appelé *player guidance*, parce que cela correspond mieux à son ressenti.
+Craig Perko publie des vidéos sur YouTube avec pour thème principal le développement de jeux vidéo : tutoriels de programmation, analyse de jeux, opinions sur le game design... Comme le pointait mon amie Erika, Craig Perko a parfois une vision différente des jeux et il utilise peu de _buzzwords_. Par exemple, il parle de _hinting_ qui serait généralement plutôt appelé _player guidance_, parce que cela correspond mieux à son ressenti.
 
 Voici quelques notes que j'ai prises en regardant ses vidéos sur Nier et Fallout 4.
 

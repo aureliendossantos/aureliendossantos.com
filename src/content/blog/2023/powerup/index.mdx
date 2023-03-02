@@ -1,0 +1,98 @@
+---
+title: "PowerUp, le jeu éducatif sur le mix électrique écologique"
+date: 2022-11-09T14:37:22+01:00
+categories: ["Article"]
+tags: ["Unity", "Projet perso", "Jeux vidéo"]
+---
+
+Pour l'UE "Jeu sérieux" de mon Master, j'ai réalisé PowerUp, un prototype de jeu de gestion dans lequel vous devez alimenter la ville en électricité de manière écologique.
+
+Votre mission ne sera pas simple, car vous devrez répondre aux exigences des acteurs locaux qui ont chacun une idée bien précise de ce qui serait bon pour la ville...
+
+### Contexte
+
+L'Éducation au Développement Durable (EDD) fait partie des missions de l’École inscrites dans le code de l’éducation. Ces dernières années, les programmes ont été actualisés pour mobiliser davantage l'École dans la lutte contre le changement climatique et pour la préservation de la biodiversité.
+De manière générale, les programmes d’enseignement ont été renforcés sur la biodiversité et le climat, par exemple par le biais de la récente loi « Climat et Résilience » en 2021. Elle consolide ce principe d'une éducation transversale qui s'appuie sur toutes les disciplines, de la maternelle à la terminale. Dans ce contexte, les possibilités d'intégration d'une activité ludique sont nombreuses.
+
+### L'objectif du jeu
+
+Il existe différentes formes de pollution que nous pourrions aborder : la pollution de l'eau, de l'air... Cependant, de tels sujets sont des problématiques à une échelle locale, et nous souhaitons que le message général du jeu porte sur le changement climatique, qui est une problématique universelle et préoccupante à l'échelle mondiale, dépendant directement de nos émissions de gaz à effet de serre (**GES**) comme le CO2.
+
+Selon l’ONU, il nous faudrait réduire nos émissions de GES de 3,5% chaque année pendant 10 ans pour limiter le changement climatique à 2°C. Au-delà de ce seuil, les conséquences pour nos sociétés pourraient être catastrophiques : migration forcée des populations, insécurité alimentaire, guerres liés à la raréfaction des ressources, disparition d’une partie de notre écosystème et des banquises...
+
+<aside>
+🌐 Source : Programme pour l'environnement de l'ONU, [« Emissions Gap Report »](https://www.unenvironment.org/resources/emissions-gap-report-2019) 2019
+
+</aside>
+
+Ces conséquences ne seront pas directement abordées par le jeu car elles seraient plus simples à présenter sous d’autres formats tels qu’un reportage vidéo, une discussion, etc. Là où le jeu vidéo brillerait serait dans la représentation des systèmes à l'oeuvre dans nos émissions de GES.
+
+Dans le cadre de ce projet, nous souhaitons penser le jeu vidéo comme étant un système de règles et de variables avec lequel le joueur peut expérimenter. D'après cette conception, le jeu vidéo est tout indiqué pour représenter un système du monde réel via son gameplay : jeu de gestion de ville, jeu d'apprentissage d'une langue, etc.
+
+Nous aimerions tirer parti des vastes possibilités offertes par Unity pour créer un jeu centré sur les mécaniques, et ainsi représenter des systèmes qui vont au-delà du jeu textuel. L'approche orientée objet d'Unity semble justement adaptée à la réalisation de jeux de gestion avec plusieurs entités indépendantes.
+
+D'après notre étude des jeux sur l'écologie et les retours d'enseignants, nous avons conclu qu'il serait intéressant de réaliser un **jeu de gestion sur le thème du mix électrique.** Le joueur doit mettre en place un réseau de production d'électricité qui permette d'alimenter une ville tout en respectant des contraintes comme la stabilité du réseau.
+
+En plus d’être un défi intéressant, cela permet de sensibiliser aux difficultés liées au mix électrique : une transition énergétique ne se résume pas à planter quelques éoliennes, mais bien à créer un équilibre plus complet ! Un sujet d'actualité puisque les médias évoquent en ce moment la possible instabilité du réseau électrique français pour les hivers à venir.
+
+Le joueur devra également composer avec les exigences des militants et autres acteurs de la région. Cet aspect social nous permettra de mieux représenter la réalité du terrain ainsi que l’enjeu « engagement collectif et partenarial » listé par l’[Agenda EDD 2030](https://www.education.gouv.fr/bo/20/Hebdo36/MENE2025449C.htm).
+
+Ce sujet n'a pas encore été abordé dans un jeu éducatif populaire mais nous paraît intéressant d'un point de vue ludique et peut aussi bien être accessible au grand public que s'intégrer à une séquence de SVT, de sciences ou de Géographie.
+
+Le jeu doit fonctionner sur navigateur, avec comme objectif principal de pouvoir être lancé sans installation sur un poste informatique ou une tablette de l'établissement. Si un tableau de bord pour l'enseignant est développé, un identifiant de session pourra être renseigné lors de la connexion afin d'agréger les données des parties des élèves.
+
+## Délimitation du sujet
+
+Le mix électrique n'est qu'un aspect parmi d'autres de la transition énergétique, puisqu'il désigne uniquement les sources d'énergie dédiées à la production d'électricité. Or, le mix énergétique dans son ensemble comporte aussi, par exemple, le pétrole pour les véhicules ou le gaz pour le chauffage.
+
+Se focaliser sur le mix électrique peut nous permettre de traiter les problématiques spécifiques à ce sujet plus finement, notamment la stabilité du réseau : la plupart des énergies renouvelables ne peuvent pas produire d'énergie en continu, et nécessitent donc une réserve d’énergie pilotable (voir [Backup](https://www.notion.so/Backup-c6fbde53db4344bd86819dcdd2b9ff18)).
+
+À l'inverse, aborder le développement durable au sens large serait plus pertinent sous la forme d'un jeu textuel aux variables simplifiées comme _The Climate Game_. Nous intégrons tout de même des thèmes généraux à notre jeu (par exemple l'électrification du mix énergétique, via la rénovation des bâtiments et les voitures électriques) via les acteurs locaux et une variété d’événements.
+
+### Les personnages
+
+Le joueur rencontrera au cours de la partie les trois acteurs locaux ainsi que l’experte, qui le guide dans les tutoriels.
+
+![militant.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8c0c3235-21a0-4f52-9e45-be794405c164/militant.png)
+
+### Le militant
+
+Il est bien intentionné mais campe trop sur ses positions, qu’importe qu’elles soient justes ou non. Respectez ses contraintes si vous ne voulez pas faire la une des réseaux sociaux !
+
+![banquier.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/719e66ea-302c-4514-9b5b-5f94011ed06c/banquier.png)
+
+### Le banquier
+
+Un projet de transition énergétique ambitieux ? Cet aventurisme ne le rassure pas… sauf si vous remplissez ses garanties financières bien sûr.
+
+![politique.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/0effbaae-0033-4c0b-bf18-e5ef882d5377/politique.png)
+
+### La politique
+
+La transition énergétique, elle trouve ça cool, mais ce qu’elle trouverait encore plus cool, c’est que vous remplissiez les promesses qu’elle a tenues pendant la campagne électorale !
+
+![etudiant.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/d277307e-92ec-445c-bcef-511a84e60019/etudiant.png)
+
+### Le joueur
+
+Fraîchement diplômé, vous avez été catapulté responsable à la transition énergétique de la ville. Malgré votre manque d’expérience et les exigences des acteurs locaux, vous pouvez compter sur les conseils de l’experte et sur votre ingéniosité pour mener à bien ce projet.
+
+![scientifique.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/d9a2ed3d-5444-4473-af73-c7a8584d5a0a/scientifique.png)
+
+### L’experte
+
+Scientifique expérimentée, elle vous fournit de précieux conseils durant votre partie et répond à vos questions plus théoriques dans le document d’accompagnement.
+
+Les trois acteurs locaux sont l’occasion de critiquer avec bienveillance trois types de mauvaises postures face au changement climatique :
+
+- [Politique](https://www.notion.so/Politique-da47775ac0ba42e0934d7b22b85d00cb) : prioriser les actions en fonction de l’opinion publique (greenwashing) ;
+- [Militant](https://www.notion.so/Militant-be5386db486348e69caeb0313b1a0894) : trop camper sur ses croyances sans les vérifier ;
+- [Banquier](https://www.notion.so/Banquier-075d1e7614aa4576b9e492db545095ba) : sous-estimer les impacts du changement climatique (et sur-estimer les impacts négatifs d’une transition).
+
+Pour mener à bien ce projet, j'ai été aidé par mon fidèle ami [Goulven](https://goulven-clech.dev/) qui m'a beaucoup inspiré sur les différents moyens de transformer les problématiques écologiques en mécaniques de jeu.
+
+Après avoir mis au point le design, j'ai programmé tout ça en une semaine ; ça a été l'occasion d'apprendre pas mal de choses sur Unity !
+
+Vous pouvez tester le proto sur votre navigateur ou le télécharger ici :
+
+[aureliendossantos.itch.io/powerup](https://aureliendossantos.itch.io/powerup)

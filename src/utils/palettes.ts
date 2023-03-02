@@ -1,4 +1,4 @@
-type Palette = {
+export type Palette = {
 	mainColor: string
 	secondaryColor: string
 	specialColor: string
@@ -13,6 +13,7 @@ type Palette = {
 export enum Palettes {
 	default = "default",
 	black = "black",
+	white = "white",
 	darkgrey = "darkgrey",
 	blue = "blue",
 	brown = "brown",
@@ -20,21 +21,7 @@ export enum Palettes {
 	guidebook = "guidebook",
 	notebook = "notebook",
 	whiteboard = "whiteboard",
-}
-
-export function getTailwindPalette(name: Palettes): Palette {
-	const pal = getPalette(name)
-	return {
-		mainColor: `text-[${pal.mainColor}]`,
-		secondaryColor: `text-[${pal.secondaryColor}]`,
-		specialColor: `text-[${pal.specialColor}]`,
-		backgroundColor: `text-[${pal.backgroundColor}]`,
-		headingsFont: `font-[${pal.headingsFont}]`,
-		mainFont: `font-[${pal.headingsFont}]`,
-		specialFont: pal.specialFont && `font-[${pal.headingsFont}]`,
-		fontSize: pal.fontSize && `text-[${pal.headingsFont}]`,
-		lineHeight: pal.lineHeight && `leading-[${pal.headingsFont}]`,
-	}
+	desolate = "desolate",
 }
 
 export default function getPalette(name: Palettes): Palette {
@@ -52,9 +39,19 @@ export default function getPalette(name: Palettes): Palette {
 		case "black":
 			return {
 				mainColor: "#e2e2ee",
-				secondaryColor: "#8a8a94",
+				secondaryColor: "#636363",
 				specialColor: "#6d75d3",
 				backgroundColor: "#000000",
+				headingsFont: "sans-serif",
+				mainFont: "serif",
+				specialFont: "monospace",
+			}
+		case "white":
+			return {
+				mainColor: "#000000",
+				secondaryColor: "#8a8a94",
+				specialColor: "#6d75d3",
+				backgroundColor: "#ffffff",
 				headingsFont: "sans-serif",
 				mainFont: "serif",
 				specialFont: "monospace",
@@ -129,10 +126,22 @@ export default function getPalette(name: Palettes): Palette {
 				mainColor: "#404040",
 				secondaryColor: "#686868",
 				specialColor: "#c45c7f",
-				backgroundColor: "#fff",
+				backgroundColor: "#ffffff",
 				headingsFont: "'Space Grotesk', sans-serif",
 				mainFont: "'Space Grotesk', 'Noto Sans', sans-serif",
 				specialFont: "'Space Grotesk', monospace",
+				fontSize: "18px",
+				lineHeight: "1.5",
+			}
+		case "desolate":
+			return {
+				mainColor: "#d0d9d7",
+				secondaryColor: "#9aaca9",
+				specialColor: "#927961",
+				backgroundColor: "#24272f",
+				headingsFont: "'Work Sans', sans-serif",
+				mainFont: "'Work Sans', 'Noto Sans', sans-serif",
+				specialFont: "'Work Sans', monospace",
 				fontSize: "18px",
 				lineHeight: "1.5",
 			}
