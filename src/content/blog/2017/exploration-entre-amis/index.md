@@ -6,6 +6,7 @@ location: Pau
 categories: ["Photos"]
 tags: ["Urbex"]
 image: 97-Pano.webp
+palette: white
 ---
 
 ![](1-Pano.webp)

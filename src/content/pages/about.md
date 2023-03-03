@@ -1,5 +1,5 @@
 ---
-title: À propos
+title: À propos de moi
 description: ""
 aliases:
   - contact
@@ -8,7 +8,7 @@ palette: whiteboard
 layout: "$layouts/Future.astro"
 ---
 
-Je m'appelle <em>Aurélien</em>, j'ai <em class="bg-[#4a8bf3]/15 hover:bg-[#4a8bf3]/20" title="Né le 22 janvier 1997"><span id="age">25</span> ans</em> et je vis à <em>Toulouse</em>.
+Je m'appelle <em>Aurélien</em>, j'ai <em class="hover:text-[#4a8bf3]/80" title="Né le 22 janvier 1997 !"><span id="age">25</span> ans</em> et je vis à <em>Toulouse</em>.
 
 Passionné par la vidéo, l'informatique et la pédagogie, je passe le plus clair de mon temps à combiner ces intérêts. Je réalise des tutoriels [sur YouTube](https://www.youtube.com/channel/UCCjlo6Ihet_T3X6bKLJzPsA) depuis mes 15 ans et j'écris des formations gratuites sur le site [FaireDesJeux.fr](https://fairedesjeux.fr).
 

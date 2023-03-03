@@ -1,25 +1,18 @@
 ---
 import ArticleCardMinimal from "$components/ArticleCardMinimal.astro"
 import BaseLayout from "$layouts/BaseLayout.astro"
-import { getCollection, CollectionEntry } from "astro:content"
-import getOccurences from "src/utils/getOccurences"
+import type { CollectionEntry } from "astro:content"
+import getBlogPosts from "src/utils/getBlogPosts"
+import getUniqueValuesAndOccurences from "src/utils/getUniqueValuesAndOccurences"
 
 export async function getStaticPaths() {
-	const blog = await getCollection("blog", ({ data }) => {
-		return data.draft !== true
-	})
-	const tufte = await getCollection("tufte", ({ data }) => {
-		return data.draft !== true
-	})
-	const allArticles = [...blog, ...tufte].sort(
-		(a, b) => b.data.date.getTime() - a.data.date.getTime()
-	)
+	const allArticles = await getBlogPosts()
 
-	const rawTags = allArticles.map((article) => article.data.tags).flat()
+	const rawTags = allArticles.map((article) => article.data.tags)
 
-	const { unique: tags, counts: tagsCount } = getOccurences(rawTags)
+	const tags = getUniqueValuesAndOccurences(rawTags)
 
-	return tags.map((tag) => {
+	return Object.entries(tags).map(([tag, amount], i) => {
 		const filteredArticles = allArticles.filter(
 			(article) => article.data.tags && article.data.tags.includes(tag)
 		)

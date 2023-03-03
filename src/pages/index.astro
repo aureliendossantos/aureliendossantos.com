@@ -1,75 +1,142 @@
 ---
-import ArticleCard from "$components/ArticleCard.astro"
-import ArticleCardMinimal from "$components/ArticleCardMinimal.astro"
-import TagLabel from "$components/TagLabel.astro"
-import BaseLayout from "$layouts/BaseLayout.astro"
-import { getCollection } from "astro:content"
-import getOccurences from "src/utils/getOccurences"
+import ytch from "yt-channel-info"
+import getBlogPosts from "src/utils/getBlogPosts"
 
-const blog = await getCollection("blog", ({ data }) => {
-	return data.draft !== true
+const articles = await getBlogPosts()
+const lastArticles = articles
+	.filter((article) => article.data.categories && article.data.categories.includes("Article"))
+	.slice(0, 3)
+
+const allo = await ytch.getChannelVideos({
+	channelId: "GameDevAlliance",
+	sortBy: "newest",
 })
-const tufte = await getCollection("tufte", ({ data }) => {
-	return data.draft !== true
-})
-const articles = [...blog, ...tufte].sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
 
-const rawCategories = articles.map((article) => article.data.categories).flat()
-const rawTags = articles.map((article) => article.data.tags).flat()
-
-const { unique: categories, counts: categoriesCount } = getOccurences(rawCategories)
-const { unique: tags, counts: tagsCount } = getOccurences(rawTags)
+const videos = allo.items.slice(0, 3)
 ---
 
-<BaseLayout title="Blog">
-	<div class="mx-auto mb-12 max-w-[500px] px-4">
-		<header class="my-12 px-5">
-			<div class="my-5">
-				◂
-				<a href="https://aureliendossantos.com">Retour au site principal</a>
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Aurélien Dos Santos</title>
+		<link rel="stylesheet" href="src/styles/home.scss" />
+	</head>
+	<body>
+		<div id="particles-js"></div>
+		<div class="flex">
+			<h1 class="mb-8"><a href="/about">Aurélien Dos Santos</a></h1>
+			<div class="chapter" style="margin-bottom: .75em;">
+				<ul>
+					<li class="primary">
+						<a href="https://aureliendossantos.notion.site/">
+							<span class="label">Portfolio</span>
+							<span>notion.site</span>
+						</a>
+					</li>
+				</ul>
 			</div>
-			<p>
-				Bonjour, je suis Aurélien et vous êtes sur mon blog. <br /><a href="/about">A propos</a>
-			</p>
-			<details>
-				<summary><span>Catégories</span></summary>
-				{
-					categories.map((category, index) => (
-						<>
-							<TagLabel label={category} count={categoriesCount[index]} type={"category"} />{" "}
-						</>
-					))
-				}
-			</details>
-			<details>
-				<summary><span>Tags</span></summary>
-				{
-					tags.map((tag, index) => (
-						<>
-							<TagLabel label={tag} count={tagsCount[index]} type={"tag"} />{" "}
-						</>
-					))
-				}
-			</details>
-		</header>
-		<main class="flex flex-col gap-4">
-			{articles.map((article) => <ArticleCard article={article} />)}
-		</main>
-	</div>
-</BaseLayout>
-
-<style>
-	a {
-		@apply bg-slate-200 hover:bg-slate-300 active:bg-slate-400;
-	}
-</style>
-
-<style is:global>
-	@tailwind base;
-	@tailwind components;
-	@tailwind utilities;
-
-	body::-webkit-scrollbar {
-		width: 8px;
-	}
-</style>
+			<div class="chapter">
+				<ul>
+					<li class="primary">
+						<a rel="me" href="https://www.youtube.com/@GameDevAlliance">
+							<span class="label">Vidéos</span>
+							<span>youtube.com</span>
+						</a>
+						<ul style="max-width: 320px" class="overflow overflow-visible">
+							<li class="text-[13px]">
+								<span class="dark">Dernières vidéos</span>
+							</li>
+							{
+								videos.map((video) => (
+									<li
+										class="secondary truncate text-xs  italic tracking-tight hover:overflow-visible"
+										style="font-family: 'Space Mono', sans-serif;"
+									>
+										<a href={"https://youtu.be/" + video.videoId}>
+											<span>{video.title}</span>
+										</a>
+									</li>
+								))
+							}
+						</ul>
+					</li>
+				</ul>
+			</div><div class="chapter">
+				<ul>
+					<li class="primary">
+						<a href="/blog">
+							<span class="label">Blog</span>
+							<span>/blog</span>
+						</a>
+						<ul style="max-width: 320px" class="overflow overflow-visible">
+							<li class="text-[13px]">
+								<span class="dark">Derniers articles</span>
+							</li>
+							{
+								lastArticles.map((article) => (
+									<li
+										class="secondary truncate text-xs italic tracking-tight hover:overflow-visible"
+										style="font-family: 'Space Mono', sans-serif;"
+									>
+										<a href={"/post/" + article.slug}>
+											<span>{article.data.title}</span>
+										</a>
+									</li>
+								))
+							}
+						</ul>
+					</li>
+				</ul>
+			</div>
+			<div class="chapter">
+				<ul>
+					<li class="secondary">
+						<a href="https://fairedesjeux.fr/">
+							<span class="label">FaireDesJeux.fr</span>
+							<span>fairedesjeux.fr</span>
+						</a>
+					</li>
+					<li class="secondary">
+						<a rel="me" href="https://aureliendossantos.itch.io">
+							<span class="label">Mes jeux</span>
+							<span>itch.io</span>
+						</a>
+					</li>
+					<li class="secondary">
+						<a href="https://grimoire.aureliendossantos.com">
+							<span class="label">Grimoire</span>
+							<span>grimoire.aureliendossantos.com</span>
+						</a>
+					</li>
+				</ul>
+			</div>
+			<div class="chapter">
+				<!--<h2>Réseaux</h2>-->
+				<ul>
+					<li class="secondary">
+						<a rel="me" href="https://mastodon.gamedevalliance.fr/@aurelien">
+							<span class="label">Mastodon</span>
+							<span>@aurelien</span>
+						</a>
+					</li>
+					<li class="secondary">
+						<a rel="me" href="https://github.com/aureliendossantos">
+							<span class="label">GitHub</span>
+							<span>@aureliendossantos</span>
+						</a>
+					</li>
+					<li class="secondary">
+						<a rel="me" href="https://www.linkedin.com/in/aureliendossantos/">
+							<span class="label">LinkedIn</span>
+							<span>in/aureliendossantos</span>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<script src="/home/particlesjs2.0.0.min.js" is:inline></script>
+		<script type="text/javascript" src="/home/starryBackground.js" is:inline></script>
+	</body>
+</html>

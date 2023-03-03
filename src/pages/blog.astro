@@ -1,0 +1,79 @@
+---
+import ArticleCard from "$components/ArticleCard.astro"
+import TagLabel from "$components/TagLabel.astro"
+import BaseLayout from "$layouts/BaseLayout.astro"
+import getBlogPosts from "src/utils/getBlogPosts"
+import getUniqueValuesAndOccurences from "src/utils/getUniqueValuesAndOccurences"
+
+const articles = await getBlogPosts()
+
+const rawCategories = articles.map((article) => article.data.categories)
+const rawTags = articles.map((article) => article.data.tags)
+
+const categories = getUniqueValuesAndOccurences(rawCategories)
+const tags = getUniqueValuesAndOccurences(rawTags)
+---
+
+<BaseLayout title="Blog">
+	<div class="mx-auto mb-12 max-w-[500px] px-4">
+		<header class="my-12 px-5">
+			<div class="my-5">
+				◂ <a href="/">Accueil</a>
+			</div>
+			<p>
+				Bonjour, je suis Aurélien et vous êtes sur mon blog. <br /><a href="/about">A propos</a>
+			</p>
+			<div class="mt-5">
+				<h3
+					class="float-left ml-[-23%] w-[20%] text-right text-slate-400 hover:text-slate-400/80 medium:float-none medium:ml-0 medium:text-left"
+				>
+					Catégories
+				</h3>
+				<p>
+					{
+						Object.entries(categories).map(([key, value], i) => (
+							<>
+								<TagLabel label={key} count={value} type={"category"} />{" "}
+							</>
+						))
+					}
+				</p>
+			</div>
+			<div class="mt-5">
+				<h3
+					class="float-left ml-[-23%] w-[20%] text-right text-slate-400 hover:text-slate-400/80 medium:float-none medium:ml-0 medium:text-left"
+				>
+					Tags
+				</h3>
+				<p>
+					{
+						Object.entries(tags).map(([key, value], i) => (
+							<>
+								<TagLabel label={key} count={value} type={"tag"} />{" "}
+							</>
+						))
+					}
+				</p>
+			</div>
+		</header>
+		<main class="flex flex-col gap-4">
+			{articles.map((article) => <ArticleCard article={article} />)}
+		</main>
+	</div>
+</BaseLayout>
+
+<style>
+	a {
+		@apply bg-slate-200 hover:bg-slate-300 active:bg-slate-400;
+	}
+</style>
+
+<style is:global>
+	@tailwind base;
+	@tailwind components;
+	@tailwind utilities;
+
+	body::-webkit-scrollbar {
+		width: 8px;
+	}
+</style>
