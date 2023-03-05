@@ -8,12 +8,6 @@ image: fragile-sat-there.jpeg
 palette: blue
 ---
 
-<style>
-    p {
-        line-height: 1.55;
-    }
-</style>
-
 Les gens aiment dire que Death Stranding est mal écrit... Mais pff... Je ne suis pas d'accord ?
 
 Est-ce qu'il est ridicule et mélodramatique ? Est-ce qu'il nous balance ses thèmes à la figure sans aucune espèce de subtilité ? Oui ! Mille fois oui !

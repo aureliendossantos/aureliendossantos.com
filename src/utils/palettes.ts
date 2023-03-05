@@ -76,6 +76,7 @@ export default function getPalette(name: Palettes): Palette {
 				mainFont: "'Urbanist', sans-serif",
 				specialFont: "'Urbanist', monospace",
 				fontSize: "17px",
+				lineHeight: "1.55",
 			}
 		case "brown":
 			return {

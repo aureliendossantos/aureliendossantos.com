@@ -12,9 +12,18 @@ const { src, alt, caption } = Astro.props
 <figure>
 	<img src={src} alt={alt} />
 	{
+		Astro.slots.has("default") && (
+			<figcaption>
+				<slot />
+			</figcaption>
+		)
+	}
+	{
 		caption && (
 			<figcaption>
-				<p>{caption}</p>
+				<slot>
+					<p>{caption}</p>
+				</slot>
 			</figcaption>
 		)
 	}

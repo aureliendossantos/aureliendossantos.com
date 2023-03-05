@@ -3,16 +3,16 @@ interface Props {
 	label: string
 	count: number
 	type: "category" | "tag"
+	disabled?: boolean
 }
-const { label, count, type } = Astro.props
+const { label, count, type, disabled } = Astro.props
 ---
 
-<a href={`/${type}/${label}`} class="text-slate-600"
-	>{label}{" "}<span class="text-slate-400">{count}</span></a
+<a
+	href={`/${type}/${label}`}
+	style={disabled ? "pointer-events: none;cursor: default;" : ""}
+	class={disabled
+		? "bg-slate-100 text-slate-400"
+		: "bg-slate-200 text-slate-600 hover:bg-slate-300 active:bg-slate-400"}
+	>{label}{" "}<span class={disabled ? "text-slate-300" : "text-slate-400"}>{count}</span></a
 >
-
-<style>
-	a {
-		@apply bg-slate-200 hover:bg-slate-300 active:bg-slate-400;
-	}
-</style>

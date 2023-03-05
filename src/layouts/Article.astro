@@ -13,6 +13,7 @@ const { article } = Astro.props
 const data = article.data
 const palette = getPalette(data.palette)
 const image = data.cover && data.image ? data.image : undefined
+const headingsFont = palette.headingsFont
 ---
 
 <BaseLayout
@@ -35,3 +36,16 @@ const image = data.cover && data.image ? data.image : undefined
 		</ArticleContents>
 	</div>
 </BaseLayout>
+
+<style lang="scss" define:vars={{ headingsFont }} is:global>
+	.article-styling {
+		h1,
+		h2,
+		h3,
+		h4,
+		h5,
+		h6 {
+			font-family: var(--headingsFont);
+		}
+	}
+</style>

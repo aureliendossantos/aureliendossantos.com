@@ -1,5 +1,6 @@
 ---
 import ArticleCardMinimal from "$components/ArticleCardMinimal.astro"
+import TagLabel from "$components/TagLabel.astro"
 import BaseLayout from "$layouts/BaseLayout.astro"
 import type { CollectionEntry } from "astro:content"
 import getBlogPosts from "src/utils/getBlogPosts"
@@ -18,17 +19,18 @@ export async function getStaticPaths() {
 		)
 		return {
 			params: { tag },
-			props: { articles: filteredArticles },
+			props: { articles: filteredArticles, tags },
 		}
 	})
 }
 
 type Props = {
 	articles: (CollectionEntry<"blog"> | CollectionEntry<"tufte">)[]
+	tags: { [k: string]: number }
 }
 
 const { tag } = Astro.params
-const { articles } = Astro.props
+const { articles, tags } = Astro.props
 ---
 
 <BaseLayout title={"Catégorie " + tag}>
@@ -36,9 +38,21 @@ const { articles } = Astro.props
 		<header class="my-12 px-5">
 			<div class="my-5">
 				◂
-				<a href="/">Retour à l'accueil</a>
+				<a href="/blog">Retour au blog</a>
 			</div>
-			<h1>Tag {tag}</h1>
+			<h2 class="mt-6 text-sm uppercase leading-tight text-slate-300">Tag/</h2>
+			<h1 class="text-2xl leading-tight text-slate-500">{tag}</h1>
+			<div class="mt-5">
+				<p>
+					{
+						Object.entries(tags).map(([key, value], i) => (
+							<>
+								<TagLabel label={key} count={value} type={"tag"} disabled={tag == key} />{" "}
+							</>
+						))
+					}
+				</p>
+			</div>
 		</header>
 		<main class="flex flex-col overflow-hidden rounded-lg shadow hover:overflow-visible">
 			{articles.map((article) => <ArticleCardMinimal article={article} />)}
