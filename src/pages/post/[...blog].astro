@@ -1,0 +1,50 @@
+---
+import { getCollection } from "astro:content"
+import Article from "$layouts/Article.astro"
+import BackHome from "$components/BackHome.astro"
+import getPalette from "$utils/palettes"
+import "src/styles/articles.scss"
+
+export async function getStaticPaths() {
+	const blogEntries = await getCollection("blog", ({ data }) => {
+		return data.draft !== true || import.meta.env.DEV
+	})
+	return blogEntries.map((article) => ({
+		params: { blog: article.slug },
+		props: { article },
+	}))
+}
+
+const { article } = Astro.props
+const { Content } = await article.render()
+const palette = getPalette(article.data.palette)
+const secondaryColor = palette.secondaryColor
+const specialColor = palette.specialColor
+---
+
+<Article article={article}>
+	<div>
+		<Content />
+		{
+			article.data.license && (
+				<>
+					<hr />
+					<p class="license">{article.data.license}</p>
+				</>
+			)
+		}
+		{!article.data.customLayout && <BackHome />}
+	</div>
+</Article>
+
+<style define:vars={{ secondaryColor, specialColor }} is:global>
+	blockquote,
+	.note,
+	.license,
+	hr {
+		color: var(--specialColor);
+	}
+	figcaption {
+		color: var(--secondaryColor);
+	}
+</style>

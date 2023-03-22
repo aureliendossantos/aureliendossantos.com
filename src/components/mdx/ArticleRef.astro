@@ -1,0 +1,42 @@
+---
+import ArticleCardMinimal from "$components/ArticleCardMinimal.astro"
+import ArticleDate from "$components/ArticleDate.astro"
+import { getEntryBySlug } from "astro:content"
+import getPalette from "$utils/palettes"
+
+interface Props {
+	slug: string
+	collection?: "blog" | "pages" | "tufte"
+	titleOnly?: boolean
+}
+const { slug, collection, titleOnly } = Astro.props
+
+const article = await getEntryBySlug(collection || "blog", slug)
+const palette = getPalette(article.data.palette)
+---
+
+{
+	article && (
+		<span
+			class="my-[-1px] rounded-sm px-[4px] py-[1px] shadow transition-shadow hover:shadow-md"
+			style={{
+				backgroundColor: palette.backgroundColor,
+				color: palette.mainColor,
+				fontFamily: palette.mainFont,
+			}}
+		>
+			{!titleOnly && <span style={{ color: palette.secondaryColor }}>Aurélien Dos Santos,</span>}
+			<a
+				href={"/post/" + article.slug}
+				style={{ fontFamily: palette.headingsFont, textDecoration: "none" }}
+			>
+				{titleOnly ? article.data.title : `« ${article.data.title} »,`}
+			</a>
+			{!titleOnly && (
+				<span style={{ color: palette.secondaryColor }}>
+					<ArticleDate date={article.data.date} />
+				</span>
+			)}
+		</span>
+	)
+}

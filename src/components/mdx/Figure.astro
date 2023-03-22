@@ -1,0 +1,31 @@
+---
+import { Image } from "astro:assets"
+
+interface Props {
+	src: ImageMetadata
+	alt?: string
+	caption?: string
+	rounded?: boolean
+}
+const { src, alt, caption, rounded } = Astro.props
+---
+
+<figure>
+	<a href={src.src}><Image src={src} alt={alt || ""} class={rounded ? "rounded-md" : ""} /></a>
+	{
+		Astro.slots.has("default") && (
+			<figcaption>
+				<slot />
+			</figcaption>
+		)
+	}
+	{
+		caption && (
+			<figcaption>
+				<slot>
+					<p>{caption}</p>
+				</slot>
+			</figcaption>
+		)
+	}
+</figure>

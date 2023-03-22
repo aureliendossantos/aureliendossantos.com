@@ -1,0 +1,72 @@
+---
+import type { CollectionEntry } from "astro:content"
+import { Image } from "astro:assets"
+import getPalette from "$utils/palettes"
+import ArticleDate from "./ArticleDate.astro"
+
+interface Props {
+	article: CollectionEntry<"blog"> | CollectionEntry<"tufte">
+}
+const { article } = Astro.props
+const data = article.data
+const palette = getPalette(data.palette)
+const backgroundColor = palette.backgroundColor
+const categories = data.categories ? data.categories.filter((name) => name != "Article") : []
+const tags = data.tags ? data.tags.filter((name) => name == "Projet perso") : []
+const labels = [...categories, ...tags]
+---
+
+<!-- <a> color style is used for box-shadow color in dark mode -->
+<a
+	class="scale-100 overflow-hidden rounded-lg ease-out hover:scale-[1.03] dark:hover:scale-[1.03]"
+	style={{ backgroundColor: palette.backgroundColor, color: palette.backgroundColor }}
+	href={"/post/" + article.slug}
+>
+	{
+		data.image && (
+			<Image src={data.image} alt="Couverture de l'article" class="h-36 w-full object-cover" />
+		)
+	}
+	<div class="p-5" style={{ color: palette.mainColor, fontFamily: palette.mainFont }}>
+		<h2
+			class="mb-2 text-2xl font-bold"
+			style={{ color: palette.mainColor, fontFamily: palette.headingsFont }}
+		>
+			{data.draft && "[Draft] "}{data.title}
+		</h2>
+		{
+			data.description && (
+				<p class="my-2" style={{ color: palette.mainColor }}>
+					{data.description}
+				</p>
+			)
+		}
+		<div style={{ color: palette.secondaryColor }}>
+			{labels.length > 0 && <>{labels.join(", ")} / </>}<ArticleDate date={data.date} />{
+				data.location && <span> / {data.location}</span>
+			}
+		</div>
+	</div>
+</a>
+
+<style lang="scss">
+	a {
+		box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+		transition: 0.25s;
+
+		&:hover {
+			box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+			box-shadow: 0 6px 8px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+		}
+	}
+	@media (prefers-color-scheme: dark) {
+		a {
+			box-shadow: 0 16px 70px -20px;
+			transition: 0.3s;
+
+			&:hover {
+				box-shadow: 0 8px 120px -12px;
+			}
+		}
+	}
+</style>

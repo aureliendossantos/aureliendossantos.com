@@ -1,0 +1,11 @@
+---
+interface Props {
+	wide: boolean
+	full: boolean
+}
+const { wide, full } = Astro.props
+---
+
+<div class:list={["gallery", { wide: wide, full: full }]}>
+	<slot />
+</div>

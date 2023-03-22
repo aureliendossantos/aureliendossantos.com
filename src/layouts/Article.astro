@@ -1,0 +1,57 @@
+---
+import type { CollectionEntry } from "astro:content"
+import BaseLayout from "./BaseLayout.astro"
+import getPalette from "$utils/palettes"
+import ArticleHeader from "$components/ArticleHeader.astro"
+import ArticleContents from "$components/ArticleContents.astro"
+
+export interface Props {
+	article: CollectionEntry<"blog">
+}
+
+const { article } = Astro.props
+const data = article.data
+const palette = getPalette(data.palette)
+const image = data.cover && data.image ? data.image : undefined
+const headingsFont = palette.headingsFont
+const wide = data.categories?.includes("Photos")
+---
+
+<BaseLayout
+	title={data.title}
+	description={data.description}
+	date={data.date}
+	image={image}
+	bg={palette.backgroundColor}
+>
+	<div class="article-styling">
+		{
+			!data.customLayout && (
+				<ArticleHeader
+					title={data.title}
+					description={data.description}
+					date={data.date}
+					cover={image}
+					palette={palette}
+					wide={wide}
+				/>
+			)
+		}
+		<ArticleContents palette={palette} license={data.license} wide={wide} full={data.customLayout}>
+			<slot />
+		</ArticleContents>
+	</div>
+</BaseLayout>
+
+<style lang="scss" define:vars={{ headingsFont }} is:global>
+	.article-styling {
+		h1,
+		h2,
+		h3,
+		h4,
+		h5,
+		h6 {
+			font-family: var(--headingsFont);
+		}
+	}
+</style>

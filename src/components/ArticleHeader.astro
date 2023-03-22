@@ -1,0 +1,52 @@
+---
+import type { Palette } from "src/utils/palettes"
+import ArticleDate from "./ArticleDate.astro"
+
+interface Props {
+	title?: string
+	description?: string
+	date?: Date
+	cover?: ImageMetadata
+	palette: Palette
+	wide?: boolean
+}
+const { title, description, date, cover, palette, wide } = Astro.props
+---
+
+<header
+	class:list={[
+		"px-[80px] medium:px-[40px] small:px-[20px]",
+		{ "flex mb-12 min-h-[50vh] bg-cover bg-center pb-8": cover },
+	]}
+	style={{
+		color: cover ? "#fbf8f2" : palette.secondaryColor,
+		fontFamily: palette.mainFont,
+		fontSize: palette.fontSize || "initial",
+		lineHeight: palette.lineHeight || 1.25,
+		backgroundImage: cover
+			? `linear-gradient(rgba(56, 48, 28, 0.394), rgba(75, 65, 35, 0.395)), url('${cover.src}')`
+			: "none",
+	}}
+>
+	<div
+		class={"m-auto pt-8 " + (wide ? "max-w-[700px]" : "max-w-prose")}
+		class:list={{ "mb-12 pb-8": cover }}
+	>
+		<h1
+			style={{
+				color: cover ? "#fbf8f2" : palette.mainColor,
+				fontFamily: palette.headingsFont,
+			}}
+		>
+			{title}
+		</h1>
+		{description && <p>{description}</p>}
+		{
+			date && (
+				<p>
+					<ArticleDate date={date} /> – <a href={Astro.site}>Aurélien Dos Santos</a>
+				</p>
+			)
+		}
+	</div>
+</header>

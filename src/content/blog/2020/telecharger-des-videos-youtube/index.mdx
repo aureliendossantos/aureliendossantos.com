@@ -1,0 +1,86 @@
+---
+title: "Télécharger des vidéos YouTube en un clin d'œil"
+description: "Grâce à youtube-dl, un outil en lignes de commande."
+date: 2020-08-19
+categories: ["Tutoriel"]
+tags:
+  - Web
+image: ../content/blog/2020/telecharger-des-videos-youtube/cover.png
+palette: guidebook
+---
+
+Pour illustrer mes vidéos, je dois récupérer beaucoup d'illustrations de jeux vidéo que je trouve sur YouTube. Si vous êtes vidéaste et ne connaissez pas les outils de programmeur, vous êtes sans doute passé à côté d'une astuce très pratique pour le faire efficacement !
+
+Pour télécharger des dizaines, voire des centaines de vidéos, utiliser les sites du type "YouTube Downloader" serait très fastidieux et il n'est pas garanti qu'ils donnent la plus haute qualité possible. J'ai également vu des vidéastes filmer leur écran avec OBS pendant qu'ils regardent la vidéo sur YouTube, mais franchement, je ne trouve pas ça terrible ! Encore une fois, ce n'est pas un bon moyen pour récupérer la qualité d'origine.
+
+Laissez-moi plutôt vous présenter youtube-dl, un outil en ligne de commande très puissant qui vous permet de télécharger rapidement les vidéos de beaucoup de sites. Cela demande 5 minutes de préparation qui vaudront, vous le verrez, sacrément le coup.
+
+## Installer youtube-dl
+
+<Note>Ce guide est écrit pour Windows 10 mais le programme existe aussi sur Mac et Linux.</Note>
+
+youtube-dl s'utilise dans l'invite de commandes (aussi appelé terminal). Créez un dossier où vous stockerez tous les programmes à utiliser dans le terminal : je l'ai personnellement placé à la racine de mon disque, à l'adresse `C:\cmd-bins`.
+
+Téléchargez [l'exe de youtube-dl](http://ytdl-org.github.io/youtube-dl/download.html) dans ce dossier.
+
+<Note>
+	Facultatif : placez également `ffmpeg.exe` que vous trouverez dans [cette
+	archive](https://www.gyan.dev/ffmpeg/builds/ffmpeg-git-full.7z) dans le dossier `cmd-bins`. C'est
+	un outil pratique et puissant dont youtube-dl se servira pour fusionner des pistes vidéo et audio
+	téléchargées séparément, ce qui est parfois nécessaire pour obtenir la meilleure qualité possible.
+</Note>
+
+Il ne se passera rien si vous ouvrez directement `youtube-dl.exe` car il doit être utilisé depuis le terminal, et pour cela, vous devez l’ajouter à votre Path. Ouvrez les Paramètres système avancés, puis cliquez sur Variables d’environnement.
+
+import variables from "./variables-d-environnement.png"
+
+<Figure src={variables} alt="Paramètres système" />
+
+Dans Variables utilisateur ou Variables système, sélectionnez la ligne Path et cliquez sur Modifier. Ajoutez une ligne contenant `C:\cmd-bins` ou le chemin vers le dossier contenant youtube-dl s'il est différent chez vous. Et voilà, c'est installé !
+
+## Configurer youtube-dl
+
+Dans le chemin de l'explorateur de fichiers, tapez `%appdata%` pour atteindre le dossier `AppData` de votre compte, puis créez un dossier `youtube-dl` avec à l'intérieur un fichier `config.txt`.
+
+import configTxt from "./config-txt.png"
+
+<Figure src={configTxt} alt="Emplacement du fichier config.txt" />
+
+Nous allons y préciser les paramètres que youtube-dl doit utiliser par défaut, afin de ne pas les réécrire à chaque fois. Le paramètre `-o` indique l'emplacement et le nom du fichier, et le paramètre `-f` indique la qualité vidéo désirée. Voici le contenu de mon propre fichier `config.txt` :
+
+```
+-o "D:/Documents/Montage video/Game Dev Alliance/youtube-dl/%(title)s.%(ext)s"
+-f bestvideo[ext=mp4]+bestaudio/best
+```
+
+Ici, le nom du fichier est simplement `%(title)s`, c'est-à-dire le nom de la vidéo YouTube, puis j'indique de mettre la bonne extension avec `%(ext)s` (c'est important !).
+
+Le paramètre `-f` demande à télécharger la meilleure qualité vidéo disponible au format MP4 (car c'est ce qui fonctionne le mieux pour mon logiciel de montage) et de l'accompagner du meilleur fichier audio possible. `/best` indique que s'il n'existe pas de version MP4, on télécharge simplement la meilleure qualité possible dans n'importe quel format.
+
+Sauvegardez le fichier puis ouvrez l'invite de commandes en tapant `cmd` dans la barre de Windows. Pour télécharger [ce clip de Taylor Swift](https://www.youtube.com/watch?v=nfWlot6h_JM), écrivez simplement :
+
+```
+youtube-dl https://www.youtube.com/watch?v=nfWlot6h_JM
+```
+
+<Video src="/videos/2020/youtube-dl/terminal.mp4" muted autoplay loop controls>
+	En un clin d'œil, je vous dis !
+</Video>
+
+Vous pouvez aussi écrire le lien d'une playlist ou d'une chaîne YouTube pour télécharger plusieurs vidéos d'un seul coup ! Mais ce n'est pas tout : le programme fonctionne avec Vimeo et probablement [n'importe quel site auquel vous pouvez penser](http://ytdl-org.github.io/youtube-dl/supportedsites.html).
+
+Pour aller _toujours plus vite_, j'ai bricolé [ce petit outil](/files/2020/yt.cmd) (à télécharger dans le même dossier que youtube-dl) avec ma compréhension très limitée de Batch, qui me donne les deux raccourcis suivants dans le terminal :
+
+```
+yt https://www.youtube.com/watch?v=nfWlot6h_JM
+```
+
+Ceci télécharge la vidéo d'après les paramètres de `config.txt`, donc dans la meilleure qualité possible.
+
+```
+yt https://www.youtube.com/watch?v=nfWlot6h_JM 1080
+```
+
+Ceci télécharge la vidéo en 1080p au maximum. Pratique lorsque la vidéo est disponible en 4K mais que je n'en ai pas besoin, car cela peut ralentir mon logiciel de montage !
+
+Avec un raccourci vers le terminal, je peux dégainer cet outil et télécharger une vidéo qui me plaît en une fraction de seconde ! J'espère que cette astuce vous aidera autant que moi.

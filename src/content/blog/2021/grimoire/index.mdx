@@ -1,0 +1,46 @@
+---
+title: "Grimoire Explorer"
+date: 2021-08-01
+description: "Pour apprendre React, je me suis lancé dans la recréation du site défunt du jeu Destiny."
+categories: ["Micro-blog"]
+tags: ["Projet perso"]
+palette: blue
+draft: true
+---
+
+This website displays Grimoire Cards from the game Destiny (2014) by Bungie. The game and its API are still online, but the official website doesn't support the first Destiny anymore, so the only way left to access the Grimoire is through the API.
+
+I started this project because most websites claiming to do the same thing are now dead or lack features. I also wanted to learn React. Hope it will be useful to some people!
+
+Une appli web permettant de visualiser les cartes de Grimoire de Destiny (Bungie, 2014). Le jeu est toujours en ligne, mais le site officiel ne prend plus en charge le premier Destiny, donc le seul moyen d'accéder au Grimoire est de passer par l'API. J'ai recréé les fonctionnalités du site web original, avec une densité d'information plus élevée qui devrait plaire aux utilisateurs avancés.
+
+J'ai démarré ce projet car la plupart des sites web prétendant faire la même chose sont maintenant morts ou manquent de fonctionnalités. Les données de l’application peuvent être personnalisées en fonction du pseudo de joueur renseigné.
+
+Ayant déjà quelques connaissances en développement web acquises en IUT Informatique et en autodidacte, j’ai réalisé un projet pour apprendre à utiliser TypeScript[^TypeScript] et React[^React].
+
+[^TypeScript]: TypeScript est une syntaxe qui enrichit JavaScript en ajoutant le typage statique, rendant le code plus sûr et enrichissant l'intégration dans l’IDE.
+[^React]: React est une bibliothèque JavaScript très populaire pour réaliser des interfaces d’application web dynamiques.
+
+### Principe du site
+
+Destiny est un jeu vidéo en ligne dans lequel on peut débloquer des cartes à collectionner en réalisant des objectifs (tuer 50 ennemis, découvrir une nouvelle région...). Les cartes sont rangées par catégorie, ont chacune une image ainsi qu’une description. Le site officiel de Destiny, sur lequel on pouvait consulter sa collection de cartes, a été fermé il y a quelques années, mais le jeu et son API sont toujours en ligne. J’ai donc utilisé l’API officielle pour recréer une application permettant de consulter les cartes.
+
+import original from "./original.png"
+import mine from "./mine.png"
+
+<Gallery style="wide">
+	<Figure src={original}>L’ancien site officiel de Destiny</Figure>
+	<Figure src={mine}>Ma version !</Figure>
+</Gallery>
+
+Pour accélérer le chargement de la page et m'assurer que le Grimoire perdure, j’ai téléchargé le JSON et n'utilise l’API que pour récupérer les données des utilisateurs dynamiquement.
+
+N'hésitez pas à contribuer ou à regarder comment
+
+J'ai typé l'API
+
+TypeScript ajoute le typage statique qui permet de mieux prévoir les erreurs potentielles et obtenir de meilleures suggestions dans l’IDE. Pour que cela fonctionne correctement, j’ai dû typer manuellement le JSON renvoyé par l’API. De nos jours, beaucoup d’API fournissent un modèle TypeScript pour obtenir une bonne intégration sans effort, mais l’API de Destiny n’était pas documentée officiellement.
+
+Le site a volontairement un design très fonctionnel car il est destiné non pas à un grand public, mais plutôt aux aficionados qui souhaitent avoir un maximum d’informations accessibles rapidement. Je souhaitais que mon outil s’inscrive dans l’écosystème des outils amateurs utilisant l’API de Destiny ([exemple](https://chrisfried.github.io/secret-scrubland/guardian/2/4611686018451177156)).
+
+La couleur bleu foncé rappelle la charte graphique onirique du jeu et la police est tirée du [guide stylistique officiel](https://www.bungie.net/fr/AboutUs/Index#!page=styleguide).

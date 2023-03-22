@@ -1,0 +1,161 @@
+// Classic articles styling don't use '@tailwind base' (Tailwind's CSS reset)
+@tailwind components;
+@tailwind utilities;
+
+body {
+	@apply m-0;
+}
+
+::-webkit-scrollbar {
+	//display: none;
+	// Hiding the horizontal scollbar
+	// ("fixes" the gallery creating the horizontal scrollbar
+	// when the vertical scrollbar is present)
+	height: 0;
+	// The scrollbar track (background) can't be transparent.
+	// We make it very thin so it doesn't hide much of the full galleries.
+	width: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+	background: rgba(138, 138, 138, 0.4);
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: rgba(138, 138, 138, 0.5);
+}
+
+::-webkit-scrollbar-thumb:active {
+	background: rgba(138, 138, 138, 0.6);
+}
+
+// For Firefox. I think.
+html {
+	scrollbar-width: none;
+}
+
+iframe {
+	@apply border-0;
+}
+
+.article-styling {
+	a {
+		@apply text-inherit underline decoration-1 underline-offset-1 hover:decoration-2;
+	}
+
+	blockquote {
+		@apply my-[1em] ml-[-80px] w-[70%] italic mediumlarge:ml-[-40px] medium:ml-[-20px] small:ml-[0];
+	}
+
+	.note {
+		@apply my-[1em] ml-[80px] italic mediumlarge:ml-[40px] medium:ml-[20px] small:ml-[0];
+	}
+
+	hr {
+		@apply my-[2em] max-w-[15%] border-[1px] border-solid;
+	}
+
+	pre {
+		tab-size: 4;
+		@apply rounded-md p-3;
+	}
+
+	:not(pre) > code {
+		@apply my-[-0.1em] rounded-md bg-[#efefef] py-[0.1em] px-[0.3em];
+	}
+
+	aside {
+		@apply my-[1em] rounded bg-slate-200 px-4 py-1;
+	}
+
+	th:not(:last-child),
+	td:not(:last-child) {
+		@apply pr-2;
+	}
+
+	img,
+	video {
+		@apply h-auto max-w-full;
+	}
+
+	figure {
+		@apply mx-0 my-6 text-center;
+
+		figcaption {
+			@apply ml-[20%] flex flex-row-reverse text-right text-[0.8rem];
+
+			p {
+				@apply m-0 max-w-prose;
+			}
+		}
+	}
+
+	.gallery {
+		@apply relative my-6 flex flex-row justify-center;
+
+		figure {
+			@apply my-0 grow basis-4;
+		}
+
+		figure + figure {
+			@apply ml-[10px];
+		}
+
+		&.wide {
+			@apply mx-[-80px] mediumlarge:mx-[-40px] medium:mx-[-20px];
+		}
+
+		&.full {
+			@apply left-1/2 ml-[-50vw] w-screen;
+
+			figcaption {
+				@apply mr-[.5em] ml-auto;
+			}
+		}
+
+		img {
+			@apply w-full;
+		}
+	}
+
+	.tab {
+		@apply p-4 hover:bg-slate-500/5;
+	}
+
+	.tab-selector:checked ~ .tab {
+		@apply bg-slate-500/10;
+	}
+
+	.panel {
+		@apply border-y-slate-200 bg-slate-500/10 p-4;
+	}
+}
+
+.future {
+	ul {
+		list-style: none; /* Remove default bullets */
+	}
+	ul li::before {
+		content: "\2022"; /* \2022 is the CSS Code/unicode for a bullet */
+		color: #ff7be2;
+		font-weight: bold;
+		display: inline-block; /* Needed to add space between the bullet and the text */
+		width: 1em; /* Also needed for space (tweak if needed) */
+		margin-left: -1em; /* Also needed for space (tweak if needed) */
+	}
+	em {
+		font-style: normal;
+		color: #4a8bf3;
+	}
+	a {
+		// background-color: rgba(74, 139, 243, 0.15);
+		@apply bg-[#4a8bf3]/15 decoration-[#4a8bf3] decoration-2 underline-offset-3 hover:bg-[#4a8bf3]/20 hover:decoration-[3px] hover:underline-offset-2 active:bg-[#4a8bf3]/30 active:decoration-2 active:underline-offset-3;
+	}
+	h2,
+	h3 {
+		color: #4a8bf3;
+	}
+	hr {
+		@apply border-[#ff7be2];
+	}
+}
