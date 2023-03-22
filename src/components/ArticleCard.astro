@@ -24,7 +24,13 @@ const labels = [...categories, ...tags]
 >
 	{
 		data.image && (
-			<Image src={data.image} alt="Couverture de l'article" class="h-36 w-full object-cover" />
+			<Image
+				src={data.image}
+				width={500}
+				quality={"max"}
+				alt="Couverture de l'article"
+				class="h-36 w-full object-cover"
+			/>
 		)
 	}
 	<div class="p-5" style={{ color: palette.mainColor, fontFamily: palette.mainFont }}>

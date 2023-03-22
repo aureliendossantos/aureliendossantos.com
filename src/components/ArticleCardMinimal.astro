@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from "astro:content"
+import { getImage } from "astro:assets"
 import getPalette from "$utils/palettes"
 import ArticleDate from "./ArticleDate.astro"
 
@@ -10,6 +11,8 @@ const { article } = Astro.props
 const palette = getPalette(article.data.palette)
 const showCover = () =>
 	article.data.categories && article.data.categories.includes("Photos") && article.data.image
+const optimizedBackground =
+	showCover() && article.data.image ? await getImage({ src: article.data.image, width: 500 }) : null
 ---
 
 <a
@@ -18,7 +21,7 @@ const showCover = () =>
 		color: palette.backgroundColor,
 		backgroundColor: palette.backgroundColor,
 		backgroundImage: showCover()
-			? `linear-gradient(${palette.backgroundColor}99, ${palette.backgroundColor}49), url('${article.data.image?.src}')`
+			? `linear-gradient(${palette.backgroundColor}99, ${palette.backgroundColor}49), url('${optimizedBackground?.src}')`
 			: "none",
 	}}
 	href={"/post/" + article.slug}
