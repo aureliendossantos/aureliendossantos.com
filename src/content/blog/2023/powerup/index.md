@@ -9,6 +9,7 @@ tags:
   - Projet perso
   - Jeux vidéo
 palette: whiteboard
+draft: true
 ---
 
 Si, dans les <dfn title ="Jeu de construction et de gestion d'une ville">city-builders</dfn> modernes, il est souvent demandé de produire de l'électricité à l'aide de différentes centrales, de nombreuses problématiques intéressantes liées au réseau électrique sont mises sous le tapis. Par exemple, dans _Cities: Skylines_, il faut faire attention à la pollution des sols et la pollution sonore, mais d'autres problématiques majeures de la transition énergétiques ne sont pas représentées, notamment la **stabilité du réseau** et le fait que certaines énergies sont **intermittentes**.
@@ -64,19 +65,11 @@ Ce sujet n'a pas encore été abordé dans un jeu éducatif populaire mais nous 
 
 Le joueur rencontrera au cours de la partie les trois acteurs locaux.
 
-![militant.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8c0c3235-21a0-4f52-9e45-be794405c164/militant.png)
-
 **Le militant :** Il est bien intentionné mais campe trop sur ses positions, qu’importe qu’elles soient justes ou non. Respectez ses contraintes si vous ne voulez pas faire la une des réseaux sociaux !
-
-![banquier.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/719e66ea-302c-4514-9b5b-5f94011ed06c/banquier.png)
 
 **Le banquier :** Un projet de transition énergétique ambitieux ? Cet aventurisme ne le rassure pas… sauf si vous remplissez ses garanties financières bien sûr.
 
-![politique.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/0effbaae-0033-4c0b-bf18-e5ef882d5377/politique.png)
-
 **La politique :** La transition énergétique, elle trouve ça cool, mais ce qu’elle trouverait encore plus cool, c’est que vous remplissiez les promesses qu’elle a tenues pendant la campagne électorale !
-
-![etudiant.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/d277307e-92ec-445c-bcef-511a84e60019/etudiant.png)
 
 Les trois acteurs locaux sont l’occasion de critiquer avec bienveillance trois types de mauvaises postures face au changement climatique.
 

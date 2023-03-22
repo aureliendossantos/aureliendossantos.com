@@ -1,16 +1,17 @@
 ---
 import type { Palette } from "src/utils/palettes"
-import BackHome from "./BackHome.astro"
 
 interface Props {
 	palette: Palette
-	license?: string
+	wide?: boolean
+	full?: boolean
 }
-const { palette, license } = Astro.props
+const { palette, wide, full } = Astro.props
+const normalLayout = !full
 ---
 
 <main
-	class="px-[80px] pb-16 medium:px-[40px] small:px-[20px]"
+	class:list={{ "px-[80px] pb-16 medium:px-[40px] small:px-[20px]": normalLayout }}
 	style={{
 		color: palette.mainColor,
 		fontFamily: palette.mainFont,
@@ -18,7 +19,13 @@ const { palette, license } = Astro.props
 		lineHeight: palette.lineHeight || 1.25,
 	}}
 >
-	<div class="blog-article m-auto max-w-prose">
+	<div
+		class:list={[
+			{ "blog-article m-auto": normalLayout },
+			{ "max-w-prose": normalLayout && !wide },
+			{ "max-w-[700px]": wide },
+		]}
+	>
 		<slot />
 	</div>
 </main>

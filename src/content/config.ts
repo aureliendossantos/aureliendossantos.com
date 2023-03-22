@@ -1,5 +1,5 @@
-import { z, defineCollection } from "astro:content"
-import { Palettes } from "src/utils/palettes"
+import { image, defineCollection, z } from "astro:content"
+import { Palettes } from "$utils/palettes"
 // Export a single `collections` object to register your collection(s)
 // This key should match your collection directory name in "src/content"
 export const collections = {
@@ -11,9 +11,10 @@ export const collections = {
 			location: z.string().optional(),
 			categories: z.array(z.string()).optional(),
 			tags: z.array(z.string()).optional(),
-			image: z.string().optional(),
+			image: image().optional(),
 			cover: z.boolean().default(false),
 			license: z.string().optional(),
+			customLayout: z.boolean().default(false),
 			draft: z.boolean().default(false),
 			palette: z.nativeEnum(Palettes).default(Palettes.default),
 		}),
@@ -26,7 +27,7 @@ export const collections = {
 			location: z.string().optional(),
 			categories: z.array(z.string()).optional(),
 			tags: z.array(z.string()).optional(),
-			image: z.string().optional(),
+			image: image().optional(),
 			draft: z.boolean().default(false),
 			palette: z.nativeEnum(Palettes).default(Palettes.default),
 		}),
@@ -35,7 +36,7 @@ export const collections = {
 		schema: z.object({
 			title: z.string(),
 			description: z.string().optional(),
-			image: z.string().optional(),
+			image: image().optional(),
 			cover: z.boolean().default(false),
 			draft: z.boolean().default(false),
 			palette: z.nativeEnum(Palettes).default(Palettes.default),

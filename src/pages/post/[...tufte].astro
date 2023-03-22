@@ -4,7 +4,7 @@ import Tufte from "$layouts/Tufte.astro"
 
 export async function getStaticPaths() {
 	const tufteArticles = await getCollection("tufte", ({ data }) => {
-		return data.draft !== true
+		return data.draft !== true || import.meta.env.DEV
 	})
 	return tufteArticles.map((article) => ({
 		params: { tufte: article.slug },

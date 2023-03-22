@@ -12,11 +12,7 @@ Je m'appelle <em>Aurélien</em>, j'ai <em class="hover:text-[#4a8bf3]/80" title=
 
 Passionné par la vidéo, l'informatique et la pédagogie, je passe le plus clair de mon temps à combiner ces intérêts. Je réalise des tutoriels [sur YouTube](https://www.youtube.com/channel/UCCjlo6Ihet_T3X6bKLJzPsA) depuis mes 15 ans et j'écris des formations gratuites sur le site [FaireDesJeux.fr](https://fairedesjeux.fr).
 
-Sur mon temps libre, je m'adonne au développement de jeux vidéo axés sur la communication. Mon projet principal est [QRPG](https://youtu.be/TE4jHjvZ1Nk?t=17), un hybride entre jeu vidéo et jeu de société. J'ai ainsi acquis quelques années d'expérience avec <em>Unity</em> et <em>C#</em>.
-
-J'ai acquis un Master en <em>Concepteur de ressources numériques pédagogiques</em>, et pendant deux ans, j'ai occupé un poste <em>chef de projet e-learning</em> pour des parcours de formation en ligne ainsi que des serious games.
-
-Aujourd'hui, je suis à la recherche de nouvelles opportunités en tant qu'<em>ingénieur pédagogique</em>, <em>concepteur e-learning</em> ou <em>concepteur de serious games</em>.<br/>Contactez-moi !
+Sur mon temps libre, je développe des jeux. Mon projet principal est [QRPG](https://youtu.be/TE4jHjvZ1Nk?t=17), un hybride entre jeu vidéo et jeu de société.
 
 ### Contact
 
@@ -24,22 +20,22 @@ Aujourd'hui, je suis à la recherche de nouvelles opportunités en tant qu'<em>i
 - Mastodon : [@aurelien@gamedevalliance.fr](https://mastodon.gamedevalliance.fr/@aurelien)
 - Discord : Aurélien#1254
 
-### Quelques travaux
+### Côté pro
 
-- [Portfolio](https://aureliendossantos.notion.site/)
+Je suis à la recherche de nouvelles opportunités en tant qu'<em>ingénieur pédagogique</em>, <em>concepteur e-learning</em> ou <em>concepteur de serious games</em>.
 
-### Expériences récentes
+- <em>Chef de projet e-learning</em>, Les Digitales Consulting, 2021-aujourd'hui
+- <em>Président</em> de l'association [Game Dev Alliance](https://gamedevalliance.fr/), 2018-aujourd'hui
+- <em>Traducteur anglais</em>, Degica, 2018
+- <em>Réalisateur vidéo</em> en micro-entreprise, 2015-2018
 
-- Chef de projet e-learning, Les Digitales Consulting, 2021-aujourd'hui
-- Président de l'association [Game Dev Alliance](https://gamedevalliance.fr/), 2018-aujourd'hui
-- Traducteur anglais, Degica, 2018
-- Réalisateur vidéo en micro-entreprise, 2015-2018
+J'ai également quelques années d'expérience en autodidacte avec <em>Unity</em> et <em>C#</em>. [Portfolio](https://aureliendossantos.notion.site/)
 
 ### Formation
 
-- Master Conception de ressources numériques pédagogiques, 2021-2023
-- Licence Langue anglaise, littérature et civilisation anglophone, 2018-2021
-- IUT Statistique et informatique décisionnelle, 2014-2016
+- Master <em>Conception de ressources numériques pédagogiques</em>, 2021-2023
+- Licence <em>Langue anglaise</em>, littérature et civilisation anglophone, 2018-2021
+- IUT <em>Statistique et informatique décisionnelle</em>, 2014-2016
 
 ---
 

@@ -11,6 +11,4 @@ tags:
   - Journal
 ---
 
-![Carte du parcours](map.webp "Tracé : [fichier GPX](grottes-eaux-chaudes.gpx)")
-
----
+![Carte du parcours](./map.webp "Tracé : [fichier GPX](grottes-eaux-chaudes.gpx)")

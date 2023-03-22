@@ -5,7 +5,8 @@
 		"paths": {
 			"$components/*": ["src/components/*"],
 			"$layouts/*": ["src/layouts/*"],
-			"$palettes/*": ["src/layouts/palettes*"]
+			"$content/*": ["src/content/*"],
+			"$utils/*": ["src/utils/*"]
 		}
 	}
 }

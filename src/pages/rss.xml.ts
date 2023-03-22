@@ -3,7 +3,7 @@ import type { APIContext } from "astro"
 import { getCollection } from "astro:content"
 import sanitizeHtml from "sanitize-html"
 import MarkdownIt from "markdown-it"
-import getBlogPosts from "src/utils/getBlogPosts"
+import getBlogPosts from "$utils/getBlogPosts"
 const parser = new MarkdownIt()
 
 export async function get(context: APIContext) {

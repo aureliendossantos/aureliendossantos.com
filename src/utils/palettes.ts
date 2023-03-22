@@ -92,7 +92,7 @@ export default function getPalette(name: Palettes): Palette {
 			return {
 				mainColor: "white",
 				secondaryColor: "lightgrey",
-				specialColor: "grey",
+				specialColor: "#BFA97C",
 				backgroundColor: "#458f44",
 				headingsFont: "sans-serif",
 				mainFont: "serif",

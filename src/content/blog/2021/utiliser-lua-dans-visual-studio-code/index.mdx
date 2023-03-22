@@ -5,14 +5,19 @@ date: 2021-08-03
 categories: ["Tutoriel"]
 tags: ["Programmation"]
 toc: true
-image: cover.png
+image: ../content/blog/2021/utiliser-lua-dans-visual-studio-code/cover.png
 card: small
 palette: whiteboard
 ---
 
 Lua est un langage de programmation intéressant pour débuter et écrire ses premières lignes de code, en raison de son style neutre et très lisible. Lua est d'ailleurs souvent utilisé dans le jeu vidéo (World of Warcraft, Roblox...) en tant que langage de script, car il est simple d'utilisation et pensé pour être intégré facilement à un programme.
 
-![](lua-logo.png "La lune symbolise Lua (qui veut dire « lune » en portugais) car il est pensé pour être le langage satellite d'un programme.")
+import logo from "./lua-logo.png"
+
+<Figure src={logo}>
+	La lune symbolise Lua (qui veut dire « lune » en portugais) car il est pensé pour être le langage
+	satellite d'un programme.
+</Figure>
 
 Dans cet article, je vais vous expliquer comment installer Lua sur votre ordinateur et l'utiliser pour écrire vos propres scripts !
 
@@ -20,8 +25,18 @@ Dans cet article, je vais vous expliquer comment installer Lua sur votre ordinat
 
 Comme pour beaucoup d'outils informatiques, l'installation de Lua est un peu plus longue sur Windows que sur Mac ou Linux ; mais n'ayez crainte ! je vais vous guider pas à pas.
 
-{{< tabs "installer" >}}
-{{< tab "Windows" >}}
+import dossierBin from "./dossier-bin.png"
+import varEnv from "./variables-d-environnement.png"
+import path from "./modifier-path.png"
+import ajouterDossier from "./ajouter-dossier.png"
+import cmd from "./ouvrir-cmd.png"
+
+<Tabs>
+<Fragment slot="tab-1">Windows</Fragment>
+<Fragment slot="tab-2">Mac</Fragment>
+<Fragment slot="tab-3">Linux</Fragment>
+
+<Fragment slot="panel-1">
 
 ### Télécharger Lua
 
@@ -29,7 +44,7 @@ Comme pour beaucoup d'outils informatiques, l'installation de Lua est un peu plu
 
 2. Téléchargez Lua sur [luabinaries.sourceforge.net](http://luabinaries.sourceforge.net/download.html). Choisissez la version la plus récente pour Windows x64, qui devrait s'appeller `lua-x.x.x_Win64_bin.zip`. Déplacez les fichiers à l'intérieur du zip dans votre dossier `C:\bin`.
 
-   ![](dossier-bin.png)
+<Figure src={dossierBin} />
 
 Vous devriez obtenir ce résultat. Comme j'ai téléchargé la version 5.4, Lua s'appelle `lua54.exe`, mais peut-être que le nombre sera différent pour vous.
 
@@ -39,22 +54,22 @@ Pour que le terminal puisse accéder à Lua, nous devons ajouter le dossier `bin
 
 1. Ouvrez les **Paramètres système avancés**, puis cliquez sur **Variables d’environnement**.
 
-   ![](variables-d-environnement.png)
+   <Figure src={varEnv} />
 
 2. Dans l’espace **Variables système**, sélectionnez la ligne **Path** et cliquez sur **Modifier**.
 
-   ![](modifier-path.png)
+   <Figure src={path} />
 
 3. Dans une nouvelle ligne, renseignez le dossier dans lequel vous avez placé Lua.
 
-   ![](ajouter-dossier.png)
+   <Figure src={ajouterDossier} />
 
 4. Lua est maintenant disponible dans le terminal ! Recherchez `cmd` pour y accéder rapidement.
 
-   ![](ouvrir-cmd.png)
+   <Figure src={cmd} />
 
-{{< /tab >}}
-{{< tab "Mac" >}}
+</Fragment>
+<Fragment slot="panel-2">
 
 ### Installer Homebrew
 
@@ -70,8 +85,8 @@ Cela téléchargera automatiquement les "_Command Line Tools for XCode_", des co
 
 Quand l'installation d'Homebrew est terminée, écrivez la commande `brew install lua`. Et voilà, c'est terminé !
 
-{{< /tab >}}
-{{< tab "Linux" >}}
+</Fragment>
+<Fragment slot="panel-3">
 
 Sur Debian/Ubuntu : `sudo apt-get install lua5.4`
 
@@ -83,8 +98,8 @@ Vous pouvez ensuite vérifier l'installation avec :
 lua -v
 ```
 
-{{< /tab >}}
-{{< /tabs >}}
+</Fragment>
+</Tabs>
 
 ## Utiliser Lua dans le terminal
 
@@ -92,7 +107,9 @@ Sur Mac et Linux, écrivez simplement `lua` et faites Entrée. Sur Windows, si v
 
 Vous êtes désormais dans Lua et pouvez écrire des commandes dans le langage ! Pour sortir de Lua, vous pouvez faire Ctrl+C, ou bien taper la commande `os.exit()`, ou bien tout simplement fermer la fenêtre.
 
-![](terminal-windows.png "Lua dans le terminal de Windows")
+import terminalWindows from "./terminal-windows.png"
+
+<Figure src={terminalWindows}>Lua dans le terminal de Windows</Figure>
 
 ### Lire des fichiers de script
 
@@ -116,7 +133,9 @@ Nous devons ensuite ouvrir ce dossier dans le terminal pour lire le fichier. Deu
 
 Vous pouvez maintenant lancer votre programme avec `lua54 hello.lua` ou `lua hello.lua` :
 
-![](hello-lua-windows.png)
+import hello from "./hello-lua-windows.png"
+
+<Figure src={hello} />
 
 Vous savez maintenant comment écrire un petit programme et l'exécuter dans le terminal. Ce qui serait encore plus pratique, c'est de tout avoir au même endroit : pouvoir écrire son script et le lancer avec un simple raccourci, dans la même fenêtre. C'est ce que nous allons mettre en place avec Visual Studio Code.
 
@@ -134,22 +153,40 @@ VS Code est un éditeur de code gratuit et très populaire, ayant l'avantage d'�
 
 3. Dans le panneau de gauche, créez un fichier appelé `hello.lua`. A vrai dire, appelez-le comme vous voulez tant qu'il se finit en `.lua`.
 
-![](vscode-nouveau-fichier.png)
+import nouveau from "./vscode-nouveau-fichier.png"
+
+<Figure src={nouveau} />
 
 Maintenant, nous allons configurer VS Code pour que quand on appuie sur un bouton, notre script s'exécute et le résultat s'affiche dans la fenêtre.
 
 Ouvrez le menu **Terminal** > **Exécuter la tâche de build**. Comme nous n'avons pas encore créé de tâche, il va nous proposer de le faire.
 
-![](vscode-task1.png "Cliquez sur **Configurer la tâche de génération...**")
+import task1 from "./vscode-task1.png"
+import task2 from "./vscode-task2.png"
+import task3 from "./vscode-task3.png"
 
-![](vscode-task2.png "Cliquez sur **Créer le fichier tasks.json**.")
+<Figure src={task1}>
 
-![](vscode-task3.png "Ici, cliquez sur **Others**.")
+    Cliquez sur **Configurer la tâche de génération...**
+
+</Figure>
+<Figure src={task2}>
+	
+	Cliquez sur **Créer le fichier tasks.json**.
+	
+</Figure>
+<Figure src={task3}>
+	
+	Ici, cliquez sur **Others**.
+	
+</Figure>
 
 VS Code a créé un dossier caché `.vscode` et un fichier `tasks.json` qui contiendra la configuration de notre tâche. Effacez tout ce qu'il contient pour le remplacer par ceci :
 
-{{< tabs "terminal" >}}
-{{< tab "Pour Windows" >}}
+<Tabs>
+<Fragment slot="tab-1">Windows</Fragment>
+<Fragment slot="tab-2">Mac et Linux</Fragment>
+<Fragment slot="panel-1">
 
 ```json
 {
@@ -169,8 +206,8 @@ VS Code a créé un dossier caché `.vscode` et un fichier `tasks.json` qui cont
 }
 ```
 
-{{< /tab >}}
-{{< tab "Pour Mac et Linux" >}}
+</Fragment>
+<Fragment slot="panel-2">
 
 ```json
 {
@@ -190,16 +227,21 @@ VS Code a créé un dossier caché `.vscode` et un fichier `tasks.json` qui cont
 }
 ```
 
-{{< /tab >}}
-{{< /tabs >}}
+</Fragment>
+</Tabs>
 
 <Note>
-**Explications :** La tâche s'appelle `Lancer Lua` et utilise une fenêtre de terminal (`shell`). Elle lance la commande `lua` (ou `lua54`) avec comme argument le nom du fichier actuellement ouvert dans l'éditeur (`${file}`). Dans `group`, on dit que c'est la tâche de build qui se lance par défaut quand on utilise le raccourci.
+	**Explications :** La tâche s'appelle `Lancer Lua` et utilise une fenêtre de terminal (`shell`).
+	Elle lance la commande `lua` (ou `lua54`) avec comme argument le nom du fichier actuellement
+	ouvert dans l'éditeur (`${file}`). Dans `group`, on dit que c'est la tâche de build qui se lance
+	par défaut quand on utilise le raccourci.
 </Note>
 
 Sauvegardez et retournez à votre script Lua. Vous pouvez maintenant cliquer sur **Terminal** > **Exécuter la tâche de build...** ou encore mieux : utiliser le raccourci Ctrl + Shift + B !
 
-![](vscode-task.png)
+import task from "./vscode-task.png"
+
+<Figure src={task} />
 
 Vous pouvez maintenant créer plusieurs fichiers Lua dans votre dossier et jongler facilement entre eux !
 

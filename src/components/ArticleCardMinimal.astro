@@ -1,6 +1,6 @@
 ---
 import type { CollectionEntry } from "astro:content"
-import getPalette from "src/utils/palettes"
+import getPalette from "$utils/palettes"
 import ArticleDate from "./ArticleDate.astro"
 
 interface Props {
@@ -13,11 +13,12 @@ const showCover = () =>
 ---
 
 <a
-	class="duration-80 hover:radius scale-100 bg-cover bg-center ease-out hover:scale-[1.01] hover:rounded-[4px]"
+	class="duration-80 scale-100 bg-cover bg-center ease-out first:rounded-t-lg last:rounded-b-lg hover:scale-[1.01] hover:rounded-[4px]"
 	style={{
+		color: palette.backgroundColor,
 		backgroundColor: palette.backgroundColor,
 		backgroundImage: showCover()
-			? `linear-gradient(${palette.backgroundColor}99, ${palette.backgroundColor}99), url('/remnant-coop.jpg')`
+			? `linear-gradient(${palette.backgroundColor}99, ${palette.backgroundColor}49), url('${article.data.image?.src}')`
 			: "none",
 	}}
 	href={"/post/" + article.slug}
@@ -27,12 +28,31 @@ const showCover = () =>
 			class="mb-2 text-lg font-bold"
 			style={{ color: palette.mainColor, fontFamily: palette.headingsFont }}
 		>
-			{article.data.title}
+			{article.data.draft && "[Draft] "}{article.data.title}
 		</span>
-		<span style={{ color: palette.secondaryColor }}>
+		<span
+			style={{ color: palette.secondaryColor, textShadow: `0 0 1em ${palette.backgroundColor}` }}
+		>
 			<ArticleDate date={article.data.date} nonBreakingSpaces />{
 				article.data.location && <span> / {article.data.location}</span>
 			}
 		</span>
 	</div>
 </a>
+
+<style lang="scss">
+	a {
+		box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+		transition: 0.25s;
+	}
+	@media (prefers-color-scheme: dark) {
+		a {
+			box-shadow: 0 0 40px -12px;
+			transition: 0.3s;
+
+			&:hover {
+				box-shadow: 0 10px 80px -6px;
+			}
+		}
+	}
+</style>

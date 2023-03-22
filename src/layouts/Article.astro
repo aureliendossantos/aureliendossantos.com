@@ -1,7 +1,7 @@
 ---
 import type { CollectionEntry } from "astro:content"
 import BaseLayout from "./BaseLayout.astro"
-import getPalette from "src/utils/palettes"
+import getPalette from "$utils/palettes"
 import ArticleHeader from "$components/ArticleHeader.astro"
 import ArticleContents from "$components/ArticleContents.astro"
 
@@ -14,6 +14,7 @@ const data = article.data
 const palette = getPalette(data.palette)
 const image = data.cover && data.image ? data.image : undefined
 const headingsFont = palette.headingsFont
+const wide = data.categories?.includes("Photos")
 ---
 
 <BaseLayout
@@ -24,14 +25,19 @@ const headingsFont = palette.headingsFont
 	bg={palette.backgroundColor}
 >
 	<div class="article-styling">
-		<ArticleHeader
-			title={data.title}
-			description={data.description}
-			date={data.date}
-			cover={image}
-			palette={palette}
-		/>
-		<ArticleContents palette={palette} license={data.license}>
+		{
+			!data.customLayout && (
+				<ArticleHeader
+					title={data.title}
+					description={data.description}
+					date={data.date}
+					cover={image}
+					palette={palette}
+					wide={wide}
+				/>
+			)
+		}
+		<ArticleContents palette={palette} license={data.license} wide={wide} full={data.customLayout}>
 			<slot />
 		</ArticleContents>
 	</div>

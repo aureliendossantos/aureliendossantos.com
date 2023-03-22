@@ -56,6 +56,7 @@ iframe {
 	}
 
 	pre {
+		tab-size: 4;
 		@apply rounded-md p-3;
 	}
 
@@ -72,27 +73,28 @@ iframe {
 		@apply pr-2;
 	}
 
-	img {
-		@apply max-w-full;
+	img,
+	video {
+		@apply h-auto max-w-full;
 	}
 
 	figure {
-		@apply m-0;
+		@apply mx-0 my-6 text-center;
 
 		figcaption {
-			@apply ml-[20%] max-w-prose text-right text-[0.8rem];
+			@apply ml-[20%] flex flex-row-reverse text-right text-[0.8rem];
 
 			p {
-				@apply m-0;
+				@apply m-0 max-w-prose;
 			}
 		}
 	}
 
 	.gallery {
-		@apply relative my-[1.5em] flex flex-row justify-center;
+		@apply relative my-6 flex flex-row justify-center;
 
 		figure {
-			@apply grow basis-4;
+			@apply my-0 grow basis-4;
 		}
 
 		figure + figure {
@@ -114,6 +116,18 @@ iframe {
 		img {
 			@apply w-full;
 		}
+	}
+
+	.tab {
+		@apply p-4 hover:bg-slate-500/5;
+	}
+
+	.tab-selector:checked ~ .tab {
+		@apply bg-slate-500/10;
+	}
+
+	.panel {
+		@apply border-y-slate-200 bg-slate-500/10 p-4;
 	}
 }
 

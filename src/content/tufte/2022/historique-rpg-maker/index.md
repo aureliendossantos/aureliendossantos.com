@@ -5,7 +5,7 @@ date: 2022-06-21
 categories: ["Article"]
 tags: ["Jeux vidéo", "RPG Maker"]
 palette: notebook
-draft: false
+draft: true
 ---
 
 <section>
@@ -239,7 +239,7 @@ draft: false
 		</p>
 		<figure class="fullwidth">
 			<p>
-				<img src="images/dungeon-manjirou.png" />
+				<img src="/images/2023/historique-rpg-maker/dungeon-manjirou.png" />
 			</p>
 		</figure>
 		<p>
@@ -326,7 +326,7 @@ draft: false
 			<span class="marginnote">
 				Ci-contre : Images de <em>Badoma</em>, le jeu d’exemple fourni avec Dante.
 			</span>
-			<img src="images/badoma.png" />
+			<img src="/images/2023/historique-rpg-maker/badoma.png" />
 		</figure>
 	</section>
 	<section id="action-rpg-construction-tool-dante-2" class="level2">
@@ -338,7 +338,7 @@ draft: false
 				</label>
 				<input type="checkbox" id="sn-7" class="margin-toggle" />
 				<span class="marginnote">
-					<img src="images/legend-of-lidorun.png" alt="Legend of Lidorun, fourni avec Dante 2." />
+					<img src="/images/2023/historique-rpg-maker/legend-of-lidorun.png" alt="Legend of Lidorun, fourni avec Dante 2." />
 					<br />
 					<em>Legend of Lidorun</em>, le jeu d’exemple fourni avec Dante 2.
 					<br />
@@ -361,7 +361,7 @@ draft: false
 			utilisant le logiciel de composition MuSICA, également distribué dans <em>MSX Magazine</em>.
 		</p>
 		<figure class="fullwidth">
-			<img src="images/msx-magazine.jpg" />
+			<img src="/images/2023/historique-rpg-maker/msx-magazine.jpg" />
 		</figure>
 		<p>
 			<span class="sidenote-wrapper">
@@ -435,7 +435,7 @@ draft: false
 				présentation officielle, toujours accessible sur le site de l’auteur. <br />
 				https://sdsnatcher.jorito.net/dante2.html
 			</span>
-			<img src="images/cipher2.png" />
+			<img src="/images/2023/historique-rpg-maker/cipher2.png" />
 		</figure>
 		<p>
 			Le développement d’un Dante 3 avait été annoncé dans <em>MSX Magazine</em> en mai 1992
@@ -456,7 +456,7 @@ draft: false
 				</label>
 				<input type="checkbox" id="sn-12" class="margin-toggle" />
 				<span class="marginnote">
-					<img src="images/corpse-party-pc98.png" alt="Capture d’écran de Corpse Party" /> <br />
+					<img src="/images/2023/historique-rpg-maker/corpse-party-pc98.png" alt="Capture d’écran de Corpse Party" /> <br />
 					<em>Corpse Party</em> (Makoto Kedōin, 1996). <br />
 					<em>Corpse Party -Rebuilt-</em>, Memories of Fear (
 					<a href="https://web.archive.org/web/20200814021358/http://www.memoriesoffear.com/games_corpsepartyrebuilt/index.html">
@@ -519,7 +519,7 @@ draft: false
 				</label>
 				<input type="checkbox" id="sn-14" class="margin-toggle" />
 				<span class="marginnote">
-					<img src="images/if-i-fell.png" alt="Capture d’écran du jeu If I Fell" /> <br />
+					<img src="/images/2023/historique-rpg-maker/if-i-fell.png" alt="Capture d’écran du jeu If I Fell" /> <br />
 					<em>If I Fell</em>, une histoire romantique à l’école. <br />
 					ゆうや,
 					<a href="https://www.nicovideo.jp/watch/sm21591666">
@@ -552,7 +552,7 @@ draft: false
 				</label>
 				<input type="checkbox" id="sn-15" class="margin-toggle" />
 				<span class="marginnote">
-					<img src="images/couverture-dante-98-2.jpg" /> <br />
+					<img src="/images/2023/historique-rpg-maker/couverture-dante-98-2.jpg" /> <br />
 					Couverture du manuel vendu avec Dante 98 II. <br />
 					<em>LOGiN CD-ROM &amp; Book Dante RPG Maker 98 II</em>, ASCII, juillet 1996 (
 					<a href="https://archive.org/details/Dante98RPGMakerII">archive</a>)<br />
@@ -645,7 +645,7 @@ draft: false
 				suivantes et que l’on ne retrouvera que bien plus tard avec RPG Maker MV.
 			</p>
 			<figure class="fullwidth">
-				<img src="images/rpgmaker95event.png" alt="Fenêtre d'évènement et liste des commandes" />
+				<img src="/images/2023/historique-rpg-maker/rpgmaker95event.png" alt="Fenêtre d'évènement et liste des commandes" />
 			</figure>
 			<p>
 				<span class="sidenote-wrapper">
@@ -797,7 +797,7 @@ draft: false
 				Ci-contre : Le jeu <em>Space Funeral</em> ouvert dans RPG Maker 2003.
 			</span>
 			<img
-				src="images/spacefuneral.png"
+				src="/images/2023/historique-rpg-maker/spacefuneral.png"
 				alt="Carte d'un marais avec des graphismes personnalisés"
 			/>
 		</figure>
@@ -832,7 +832,7 @@ draft: false
 				<br />
 				Ci-contre : Le jeu <em>Reincarnations</em> ouvert dans RPG Maker XP.
 			</span>
-			<img src="images/xp-editeur.png" alt="Editeur de cartes de RPG Maker XP" />
+			<img src="/images/2023/historique-rpg-maker/xp-editeur.png" alt="Editeur de cartes de RPG Maker XP" />
 		</figure>
 		<p>
 			La grande révolution apportée par RPG Maker XP est le système de scripting.
@@ -842,7 +842,7 @@ draft: false
 				</label>
 				<input type="checkbox" id="sn-20" class="margin-toggle" />
 				<span class="marginnote">
-					<img src="images/xp-scripts.png" alt="Fenêtre de l’éditeur de script de RPG Maker XP" />
+					<img src="/images/2023/historique-rpg-maker/xp-scripts.png" alt="Fenêtre de l’éditeur de script de RPG Maker XP" />
 					<br />
 					L’éditeur de scripts de RPG Maker XP.
 					<br />
@@ -904,7 +904,7 @@ draft: false
 				</label>
 				<input type="checkbox" id="sn-22" class="margin-toggle" />
 				<span class="marginnote">
-					<img src="images/quest-legend.png" /> <em>Quest Legend</em> de Benakin
+					<img src="/images/2023/historique-rpg-maker/quest-legend.png" /> <em>Quest Legend</em> de Benakin
 					<br />
 					<br />
 				</span>
@@ -1007,7 +1007,7 @@ draft: false
 			communauté comme obsolète.
 		</p>
 		<figure class="fullwidth">
-			<img src="images/rpg-maker-vx-ace-editeur.png" />
+			<img src="/images/2023/historique-rpg-maker/rpg-maker-vx-ace-editeur.png" />
 		</figure>
 		<p>
 			<span class="sidenote-wrapper">
@@ -1075,7 +1075,7 @@ draft: false
 			<span class="marginnote">
 				Ci-contre : Le gestionnaire de plugins peut afficher une aide et des paramètres à modifier.
 			</span>
-			<img src="images/mv-plugins.png" />
+			<img src="/images/2023/historique-rpg-maker/mv-plugins.png" />
 		</figure>
 		<p>
 			Début 2021, RPG Maker MV avait réalisé 500 000 ventes
@@ -1346,7 +1346,7 @@ draft: false
 				</label>
 				<input type="checkbox" id="sn-33" class="margin-toggle" />
 				<span class="marginnote">
-					<img src="images/manuel-super-dante.jpg" /> <br />
+					<img src="/images/2023/historique-rpg-maker/manuel-super-dante.jpg" /> <br />
 					Le manuel inclus, de 100 pages (<a href="https://archive.org/details/rpgtsukurusuperdantesfchiresscans">
 						archive
 					</a>), permet de se lancer facilement.
@@ -1453,7 +1453,7 @@ draft: false
 					</label>
 					<input type="checkbox" id="sn-36" class="margin-toggle" />
 					<span class="marginnote">
-						<img src="images/satellaview-cartouche-bsx.png" alt="Cartouche du jeu BS-X" /> <br />
+						<img src="/images/2023/historique-rpg-maker/satellaview-cartouche-bsx.png" alt="Cartouche du jeu BS-X" /> <br />
 						Cartouche fournie avec Satellaview et comportant une fente pour Memory Pack.
 						<br />
 						<br />
@@ -1483,7 +1483,7 @@ draft: false
 					</label>
 					<input type="checkbox" id="sn-37" class="margin-toggle" />
 					<span class="marginnote">
-						<img src="images/bd-x-menu.png" /> <br />
+						<img src="/images/2023/historique-rpg-maker/bd-x-menu.png" /> <br />
 						Une vidéo YouTube montre le lancement d’un jeu Super Dante depuis BS-X. <br />
 						Cabbusses’s Retro Obscurities,
 						<a href="https://www.youtube.com/watch?v=XFxlTSK7l_A">
@@ -1575,7 +1575,7 @@ draft: false
 				</label>
 				<input type="checkbox" id="sn-38" class="margin-toggle" />
 				<span class="marginnote">
-					<img src="images/blocs-ps1.jpg" alt="Dos de la boîte PlayStation de RPG Maker" /> <br />
+					<img src="/images/2023/historique-rpg-maker/blocs-ps1.jpg" alt="Dos de la boîte PlayStation de RPG Maker" /> <br />
 					RPG Tsukūru 3 est un des premiers jeux à demander sur sa boîte un nombre variable de blocs
 					de mémoire.
 					<br />
@@ -1605,7 +1605,7 @@ draft: false
 				</label>
 				<input type="checkbox" id="sn-39" class="margin-toggle" />
 				<span class="marginnote">
-					<img src="images/boite-rpg-tsukuru-4.jpg" alt="Boîte de RPG Tsukūru 4" /> <br />
+					<img src="/images/2023/historique-rpg-maker/boite-rpg-tsukuru-4.jpg" alt="Boîte de RPG Tsukūru 4" /> <br />
 					La boîte de RPG Tsukūru 4, son manuel et les deux disques.
 					<br />
 					<br />
@@ -1644,7 +1644,7 @@ draft: false
 				</label>
 				<input type="checkbox" id="sn-40" class="margin-toggle" />
 				<span class="marginnote">
-					<img src="images/tsukuru5-interieur.png" /> <img src="images/tsukuru5-combat.png" />
+					<img src="/images/2023/historique-rpg-maker/tsukuru5-interieur.png" /> <img src="/images/2023/historique-rpg-maker/tsukuru5-combat.png" />
 					<br />
 					Images de <em>fu-ma</em>, le jeu d’exemple de RPG Maker 2. <br />
 					<a href="https://gamefabrique.com/games/rpg-maker-2/">
@@ -1677,7 +1677,7 @@ draft: false
 				Ci-contre : Éditeur de RPG Maker 3. <br />
 				https://www.youtube.com/playlist?list=PLE521469AEA09B4FE
 			</span>
-			<img src="images/rpg-maker-2-editeur.jpg" />
+			<img src="/images/2023/historique-rpg-maker/rpg-maker-2-editeur.jpg" />
 		</figure>
 		<p>
 			Le principe des évènements est entièrement repensé : désormais, les scripts sont à écrire
@@ -1747,7 +1747,7 @@ draft: false
 				</label>
 				<input type="checkbox" id="sn-43" class="margin-toggle" />
 				<span class="marginnote">
-					<img src="images/rpg-maker-3-cover.jpg" /> <br />
+					<img src="/images/2023/historique-rpg-maker/rpg-maker-3-cover.jpg" /> <br />
 					La boite japonaise de RPG Tsukūru.
 					<br />
 					<br />
@@ -1799,7 +1799,7 @@ draft: false
 				</a>
 				, Gamekult, 1<sup>er</sup> octobre 2004
 			</span>
-			<img src="images/rpg-maker-3-combat.jpg" />
+			<img src="/images/2023/historique-rpg-maker/rpg-maker-3-combat.jpg" />
 		</figure>
 		<p>
 			Le système de jauge ATB
@@ -1843,7 +1843,7 @@ draft: false
 				</label>
 				<input type="checkbox" id="sn-47" class="margin-toggle" />
 				<span class="marginnote">
-					<img src="images/rpg-maker-3-field-editor.jpg" /> <br />
+					<img src="/images/2023/historique-rpg-maker/rpg-maker-3-field-editor.jpg" /> <br />
 					L’éditeur de terrain de RPG Tsukūru.
 					<br />
 					<br />
@@ -1886,7 +1886,7 @@ draft: false
 				</label>
 				<input type="checkbox" id="sn-49" class="margin-toggle" />
 				<span class="marginnote">
-					<img src="images/rpg-maker-3-dialogue.jpg" />
+					<img src="/images/2023/historique-rpg-maker/rpg-maker-3-dialogue.jpg" />
 					<br />
 					<br />
 				</span>
@@ -1962,8 +1962,8 @@ draft: false
 				</label>
 				<input type="checkbox" id="sn-52" class="margin-toggle" />
 				<span class="marginnote">
-					<img src="images/rpg-maker-gb.png" alt="Scène de combat de RPG Maker GB" />
-					<img src="images/rpg-maker-gb-interieur.png" alt="Carte d’intérieur de RPG Maker GB" />
+					<img src="/images/2023/historique-rpg-maker/rpg-maker-gb.png" alt="Scène de combat de RPG Maker GB" />
+					<img src="/images/2023/historique-rpg-maker/rpg-maker-gb-interieur.png" alt="Carte d’intérieur de RPG Maker GB" />
 					<br />
 					Images de RPG Maker GB
 					<br />
@@ -2026,7 +2026,7 @@ draft: false
 				</label>
 				<input type="checkbox" id="sn-53" class="margin-toggle" />
 				<span class="marginnote">
-					<img src="images/rpg-maker-gb2.jpg" />
+					<img src="/images/2023/historique-rpg-maker/rpg-maker-gb2.jpg" />
 					<br />
 					<br />
 				</span>
@@ -2074,7 +2074,7 @@ draft: false
 			</a>.
 		</p>
 		<p>
-			<img src="images/gb2-nouveautes.png" title="Les nouveautés de RPG Maker GB 2." />
+			<img src="/images/2023/historique-rpg-maker/gb2-nouveautes.png" title="Les nouveautés de RPG Maker GB 2." />
 		</p>
 		<p>
 			Le logiciel est très similaire, les ajouts notables étant de nouvelles images de monstres
@@ -2119,7 +2119,7 @@ draft: false
 				</label>
 				<input type="checkbox" id="sn-55" class="margin-toggle" />
 				<span class="marginnote">
-					<img src="images/yoji-ojima.png" /> <br />
+					<img src="/images/2023/historique-rpg-maker/yoji-ojima.png" /> <br />
 					Photo de Yoji Ojima dans le manuel de Dante 98 II (1996).
 					<br />
 					<br />

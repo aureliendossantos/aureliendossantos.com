@@ -5,7 +5,7 @@ categories: ["Formations"]
 tags:
   - Jeux
   - Game Dev Alliance
-image: cover.png
+image: ../content/blog/formation/creer-des-jeux-rpg-maker/cover.png
 draft: true
 ---
 

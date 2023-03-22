@@ -1,16 +1,17 @@
 ---
-// TODO: Utiliser Image dans les figures (ou remplacer toutes les figure)
+import { Image } from "astro:assets"
 
 interface Props {
-	src: string
+	src: ImageMetadata
 	alt?: string
 	caption?: string
+	rounded?: boolean
 }
-const { src, alt, caption } = Astro.props
+const { src, alt, caption, rounded } = Astro.props
 ---
 
 <figure>
-	<img src={src} alt={alt} />
+	<a href={src.src}><Image src={src} alt={alt || ""} class={rounded ? "rounded-md" : ""} /></a>
 	{
 		Astro.slots.has("default") && (
 			<figcaption>

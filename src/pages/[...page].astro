@@ -2,12 +2,12 @@
 import { getCollection } from "astro:content"
 import Page from "$layouts/Page.astro"
 import BackHome from "$components/BackHome.astro"
-import getPalette from "src/utils/palettes"
+import getPalette from "$utils/palettes"
 import "src/styles/articles.scss"
 
 export async function getStaticPaths() {
 	const individualPages = await getCollection("pages", ({ data }) => {
-		return data.draft !== true
+		return data.draft !== true || import.meta.env.DEV
 	})
 	return individualPages.map((article) => ({
 		params: { page: article.slug },

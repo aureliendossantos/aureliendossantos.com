@@ -4,7 +4,7 @@ description: "Hugo est un générateur de sites web idéal pour un portfolio, un
 date: 2021-07-01T00:35:02+02:00
 categories: ["Tutoriel"]
 tags: ["Web"]
-image: "halgatewood-unsplash.jpg"
+image: ../content/blog/2021/creer-un-site-avec-hugo/halgatewood-unsplash.jpg
 toc: true
 palette: guidebook
 ---
@@ -13,7 +13,9 @@ palette: guidebook
 
 Hugo est un générateur de site statique. Concrètement, Hugo prend des fichiers texte et les transforme en pages web en suivant un thème visuel. Ainsi, au quotidien, il vous suffit d'écrire dans des fichiers texte au format [Markdown](https://fr.wikipedia.org/wiki/Markdown) et de laisser Hugo générer le site au complet.
 
-![](hugo.png)
+import hugo from "./hugo.png"
+
+<Figure src={hugo} alt="Logo de Hugo" />
 
 Avec un site statique, les pages HTML sont générées une seule fois lors de la publication du site et tous les visiteurs recevront la même page. Par opposition, un site dynamique, comme Facebook ou la plupart des sites Wordpress, génère une page en direct à chaque fois qu'un utilisateur accède au site.
 
@@ -25,25 +27,58 @@ Hugo est une option intéressante pour vous si :
 - Vous souhaitez écrire dans un éditeur de texte sur votre ordinateur, tel que [Visual Studio Code](https://code.visualstudio.com/) ou [Typora](https://typora.io/) (il est aussi possible de connecter un CMS à son site Hugo, pour écrire des articles sur son navigateur, mais ce n'est pas l'objet de ce tutoriel) ;
 - Vous souhaitez avoir le contrôle sur le code de votre site sans pour autant mettre en place de système complexe.
 
-![](typora.png "Typora est un éditeur de texte élégant combinant les intérêts de l'écriture en Markdown avec un grand confort de lecture.")
+import typora from "./typora.png"
+
+<Figure src={typora} alt="Capture d'écran de Typora">
+	Typora est un éditeur de texte élégant combinant les intérêts de l'écriture en Markdown avec un
+	grand confort de lecture.
+</Figure>
 
 Personnellement, j'apprécie Hugo pour sa rapidité et sa relative simplicité qui stimule ma créativité. Une compréhension basique du web et de la programmation suffit pour personnaliser son site, grâce à l'organisation claire en templates et en shortcodes. J'utilise Hugo pour publier ce blog et c'est aussi la solution que nous avons choisie pour le [wiki](https://wiki.gamedevalliance.fr/) de l'association Game Dev Alliance.
 
 Pour mieux vous montrer les types de site que l'on peut réaliser avec Hugo, voici une sélection de thèmes gratuits que je trouve très convaincants :
 
+import bigspring from "./bigspring.png"
+import portio from "./portio.png"
+import bookworm from "./bookworm.png"
+import stack from "./stack.png"
+
 <Gallery wide>
-![](bigspring.png "[Bigspring](https://themes.gohugo.io/bigspring-hugo-startup-theme/), un thème pour les agences du web") ![](portio.png "[Portio](https://themes.gohugo.io/portio-hugo/), un portfolio au design chaleureux")
-{{</ gallery >}}
+	<Figure src={bigspring}>
+		[Bigspring](https://themes.gohugo.io/bigspring-hugo-startup-theme/), un thème pour les agences
+		du web
+	</Figure>
+	<Figure src={portio}>
+		[Portio](https://themes.gohugo.io/portio-hugo/), un portfolio au design chaleureux
+	</Figure>
+</Gallery>
 <Gallery wide>
-![](bookworm.png "[Bookworm](https://github.com/gethugothemes/bookworm), pour les blogs audacieux et légers") ![](stack.png "[Stack](https://github.com/CaiJimmy/hugo-theme-stack), que j'utilise sur ce site !")
-{{</ gallery >}}
+	<Figure src={bookworm}>
+		[Bookworm](https://github.com/gethugothemes/bookworm), pour les blogs audacieux et légers
+	</Figure>
+	<Figure src={stack}>
+		[Stack](https://github.com/CaiJimmy/hugo-theme-stack), que j'utilise sur ce site !
+	</Figure>
+</Gallery>
+
+<Note>
+	**Mise à jour :** Je n'utilise plus le thème Stack sur ce site aujourd'hui, car j'ai développé mon
+	propre design[^redesign] puis j'ai migré de Hugo vers Astro[^astro].
+	
+	[^redesign]: <ArticleRef slug="2022/nouveau-design-de-blog" />
+	[^astro]: <ArticleRef slug="2023/refonte-astro" />
+
+</Note>
 
 ## Installer Hugo
 
 Hugo vous permettra de prévisualiser votre site en direct sur votre ordinateur. Il s'utilise en écrivant des commandes dans le Terminal, aussi appelé Invite de commandes sur Windows. L'installation est plutôt simple, mais si vous n'êtes pas encore à l'aise avec ce type d'outil, nous allons voir ça ensemble.
 
-{{< tabs "installer hugo" >}}
-{{< tab "Windows 10 et 11" >}}
+<Tabs>
+<Fragment slot="tab-1">Windows 10 et 11</Fragment>
+<Fragment slot="tab-2">Mac</Fragment>
+<Fragment slot="tab-3">Linux</Fragment>
+<Fragment slot="panel-1">
 
 ### Télécharger Hugo
 
@@ -57,26 +92,31 @@ Hugo vous permettra de prévisualiser votre site en direct sur votre ordinateur.
 
 Ajoutez le dossier `bin` au Path, ce qui vous permettra d'utiliser Hugo dans le terminal :
 
+import p1 from "./variables-d-environnement.png"
+import p2 from "./modifier-path.png"
+import p3 from "./ajouter-dossier.png"
+import p4 from "./ouvrir-cmd.png"
+
 1. Ouvrez les Paramètres système avancés, puis cliquez sur Variables d’environnement.
 
-   ![](variables-d-environnement.png)
+   <Figure src={p1} />
 
 2. Dans l’espace Variables système, sélectionnez la ligne Path et cliquez sur Modifier.
 
-   ![](modifier-path.png)
+   <Figure src={p2} />
 
 3. Dans une nouvelle ligne, renseignez le dossier dans lequel vous avez placé `hugo.exe`.
 
-   ![](ajouter-dossier.png)
+   <Figure src={p3} />
 
 4. Hugo est maintenant disponible dans le terminal ! Recherchez `cmd` pour y accéder rapidement.
 
-   ![](ouvrir-cmd.png)
+   <Figure src={p4} />
 
 5. Ecrivez la commande `hugo version` et si vous obtenez un numéro de version, l'installation s'est bien déroulée.
 
-{{< /tab >}}
-{{< tab "Mac" >}}
+</Fragment>
+<Fragment slot="panel-2">
 
 ### Installer Homebrew
 
@@ -98,17 +138,17 @@ Vous pouvez vérifier que l'installation s'est bien déroulée en écrivant `hug
 
 [Autres méthodes d'installation](https://gohugo.io/getting-started/installing/#macos).
 
-{{< /tab >}}
-{{< tab "Linux" >}}
+</Fragment>
+<Fragment slot="panel-3">
 
 Si vous utilisez Debian/Ubuntu, utilisez `snap` car la version de Hugo sur `apt-get` est vieille de plusieurs années. Dans le cas d'Arch Linux et d'autres distributions, vous pouvez directement installer Hugo.
 
 [Méthodes d'installation](https://gohugo.io/getting-started/installing/#linux).
 
-Je vous conseille d'installer la version Extended -- vous pouvez vérifier votre version avec `hugo version`.
+Je vous conseille d'installer la version Extended -- vous pouvez vérifier votre version avec `hugo version`.``
 
-{{< /tab >}}
-{{< /tabs >}}
+</Fragment>
+</Tabs>
 
 ## Créer un site
 
@@ -134,7 +174,9 @@ Vous trouverez une liste de thèmes gratuits sur [themes.gohugo.io](https://them
 
 Je vous propose d'essayer le [thème Anubis](https://themes.gohugo.io/hugo-theme-anubis/) pour commencer : il est simple et nous permettra d'essayer la plupart des fonctionnalités de base. Téléchargez le thème depuis le site ou bien ce [lien direct](https://github.com/Mitrichius/hugo-theme-anubis/archive/master.zip). Renommez le dossier `hugo-theme-anubis-master` en `anubis` et placez-le dans le dossier `themes` de votre site.
 
-![](anubis.png "Anubis est un thème de blog minimaliste.")
+import anubis from "./anubis.png"
+
+<Figure src={anubis}>Anubis est un thème de blog minimaliste.</Figure>
 
 <Note>
 	Si vous êtes un utilisateur de git, il peut être plus intéressant d'ajouter les thèmes en tant que
@@ -166,7 +208,15 @@ Les articles et autres pages du site se trouvent dans le dossier `content`. Rema
 
 Vous pouvez ouvrir les fichiers avec le Bloc-notes de Windows, mais le meilleur moyen d'écrire du contenu est d'ouvrir le dossier du site dans un éditeur de code tel que [Visual Studio Code](https://code.visualstudio.com/), qui est gratuit. Vous aurez une meilleure vue d'ensemble ainsi qu'une coloration syntaxique !
 
-![](vs-code.png "Ouvrir un dossier avec Visual Studio Code permet d'afficher une arborescence des fichiers sur le côté, mais aussi d'ouvrir un terminal directement à l'emplacement du dossier.")
+import vscode from "./vs-code.png"
+
+<Figure
+	src={vscode}
+	alt="Fenêtre de Visual Studio Code avec l'arborescence des fichiers ouverte à gauche."
+>
+	Ouvrir un dossier avec Visual Studio Code permet d'afficher une arborescence des fichiers sur le
+	côté, mais aussi d'ouvrir un terminal directement à l'emplacement du dossier.
+</Figure>
 
 Ensuite, commencer à écrire est aussi simple que d'examiner comment sont faits les articles pré-existants dans votre thème pour suivre le même principe. Voici une [référence rapide](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) de la plupart des choses que vous pouvez faire en Markdown. Vous verrez, c'est très intuitif et cela deviendra vite une seconde nature ! Pour ajouter des vidéos YouTube et d'autres choses impossibles avec la syntaxe Markdown, Hugo possède un système de [shortcodes](https://gohugo.io/content-management/shortcodes/).
 
@@ -240,9 +290,11 @@ GitHub permet de stocker des projets sous la forme de _repositories_, communéme
 
 GitHub Desktop permet de créer un repo de zéro, ou bien de transformer un dossier existant en repo git -- c'est ce que l'on veut faire avec notre site.
 
-{{< tabs "créer repo" >}}
-{{< tab "Avec Github Desktop" >}}
+<Tabs>
+<Fragment slot="tab-1">Avec GitHub Desktop</Fragment>
+<Fragment slot="tab-2">Avec git</Fragment>
 
+<Fragment slot="panel-1-tallest">
 Cliquez sur **File** > **Add local repository**. Nous devons le créer à l'emplacement du site. Par exemple, si le site est situé dans :
 
 ```
@@ -257,9 +309,8 @@ Créez le repository ainsi :
 - **Git ignore :** none
 - **License :** none
 
-{{< /tab >}}
-{{< tab "Avec git" >}}
-
+</Fragment>
+<Fragment slot="panel-2">
 Ouvrez un terminal dans le dossier du site puis :
 
 ```
@@ -268,8 +319,8 @@ git init
 
 Pour créer un dossier `.git`. Vous pouvez maintenant ouvrir le repo dans Github Desktop avec **File** > **Add local repository** si vous le souhaitez.
 
-{{< /tab >}}
-{{< /tabs >}}
+</Fragment>
+</Tabs>
 
 A la racine du site, créez un fichier `.gitignore` et ouvrez-le avec Visual Studio Code ou le Bloc-notes pour y écrire ceci :
 
@@ -298,10 +349,12 @@ Pour publier le site, nous enverrons le code source (le dossier dans lequel vous
 
 Selon votre choix, la marche à suivre sera légèrement différente.
 
-{{< tabs "publier repo" >}}
-{{< tab "Code source public" >}}
+<Tabs id="publier repo" >
+	<Fragment slot="tab-1">Code source public</Fragment>
+<Fragment slot="tab-2">Code source privé</Fragment>
+<Fragment slot="panel-1">
 
-1. Dans GitHub Desktop, assurez-vous d'avoir _commit_ vos changements puis cliquez sur **Publish repository**. Appelez le repo `<utilisateur>.github.io` ou `<projet>` et décochez **Keep this code private**.
+1. Dans GitHub Desktop, assurez-vous d'avoir _commit_ vos changements puis cliquez sur **Publish repository**. Appelez le repo `<utilisateur\>.github.io` ou `<projet\>` et décochez **Keep this code private**.
 2. Créez une branche `gh-pages` et publiez-la.
 3. Retournez dans la branche principale.
 4. Créez le fichier `.github/workflows/gh-pages.yml`. Si vous n'êtes pas à l'aise pour créer des dossiers et des fichiers, vous pouvez aussi le créer en allant sur la page web de votre repo (**Repository** > **View on GitHub**) puis dans l'onglet **Actions**. Insérez le contenu suivant :
@@ -309,29 +362,29 @@ Selon votre choix, la marche à suivre sera légèrement différente.
 ```yaml
 name: GitHub Pages
 on:
-  push:
-    branches:
-      - main
+	push:
+		branches:
+			- main
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          submodules: recursive
-      - uses: benmatselby/hugo-deploy-gh-pages@master
-        env:
-          HUGO_VERSION: 0.84.4
-          HUGO_EXTENDED: true
-          TARGET_REPO: utilisateur/repo
-          TARGET_BRANCH: gh-pages
-          TOKEN: ${{ secrets.HUGO_BUILD_TOKEN }}
+	deploy:
+		runs-on: ubuntu-latest
+		steps:
+			- uses: actions/checkout@v2
+				with:
+					submodules: recursive
+			- uses: benmatselby/hugo-deploy-gh-pages@master
+				env:
+					HUGO_VERSION: 0.84.4
+					HUGO_EXTENDED: true
+					TARGET_REPO: utilisateur/repo
+					TARGET_BRANCH: gh-pages
+					TOKEN: ${{ secrets.HUGO_BUILD_TOKEN }}
 ```
 
-Mettez l'adresse de votre repo dans `TARGET_REPO`, au format `<utilisateur>/<nom-du-repo>`. Par exemple, dans le cas de ce blog, ce serait `aureliendossantos/aureliendossantos.github.io`. Vous pouvez également changer la valeur de `HUGO_VERSION` comme bon vous semble -- elle sera peut-être trop vieille au moment où vous lirez cet article.
+Mettez l'adresse de votre repo dans `TARGET_REPO`, au format `<utilisateur\>/<nom-du-repo\>`. Par exemple, dans le cas de ce blog, ce serait `aureliendossantos/aureliendossantos.github.io`. Vous pouvez également changer la valeur de `HUGO_VERSION` comme bon vous semble -- elle sera peut-être trop vieille au moment où vous lirez cet article.
 
-{{< /tab >}}
-{{< tab "Code source privé" >}}
+</Fragment>
+<Fragment slot="panel-2">
 
 1. Dans GitHub Desktop, assurez-vous d'avoir _commit_ vos changements puis cliquez sur **Publish repository**. Son nom importe peu mais il doit être différent du repo public.
 2. Depuis le site de GitHub, créez un autre repository appelé `<utilisateur>.github.io` ou `<projet>`. Il peut être laissé vide pour le moment.
@@ -340,28 +393,28 @@ Mettez l'adresse de votre repo dans `TARGET_REPO`, au format `<utilisateur>/<nom
 ```yaml
 name: GitHub Pages
 on:
-  push:
-    branches:
-      - main
+	push:
+		branches:
+			- main
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          submodules: recursive
-      - uses: benmatselby/hugo-deploy-gh-pages@master
-        env:
-          HUGO_VERSION: 0.84.4
-          HUGO_EXTENDED: true
-          TARGET_REPO: utilisateur/repo
-          TOKEN: ${{ secrets.HUGO_BUILD_TOKEN }}
+	deploy:
+		runs-on: ubuntu-latest
+		steps:
+			- uses: actions/checkout@v2
+				with:
+					submodules: recursive
+			- uses: benmatselby/hugo-deploy-gh-pages@master
+				env:
+					HUGO_VERSION: 0.84.4
+					HUGO_EXTENDED: true
+					TARGET_REPO: utilisateur/repo
+					TOKEN: ${{ secrets.HUGO_BUILD_TOKEN }}
 ```
 
-Mettez l'adresse de votre repo dans `TARGET_REPO`, au format `<utilisateur>/<nom-du-repo>`. Par exemple, dans le cas de ce blog, ce serait `aureliendossantos/aureliendossantos.github.io`. Vous pouvez également changer la valeur de `HUGO_VERSION` comme bon vous semble -- elle sera peut-être trop vieille au moment où vous lirez cet article.
+Mettez l'adresse de votre repo dans `TARGET_REPO`, au format `<utilisateur\>/<nom-du-repo\>`. Par exemple, dans le cas de ce blog, ce serait `aureliendossantos/aureliendossantos.github.io`. Vous pouvez également changer la valeur de `HUGO_VERSION` comme bon vous semble -- elle sera peut-être trop vieille au moment où vous lirez cet article.
 
-{{< /tab >}}
-{{< /tabs >}}
+</Fragment>
+</Tabs>
 
 Ce fichier crée un _workflow_ lu par GitHub Actions. Voici ce qu'il s'y passe en français :
 

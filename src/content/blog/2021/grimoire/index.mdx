@@ -5,6 +5,7 @@ description: "Pour apprendre React, je me suis lancé dans la recréation du sit
 categories: ["Micro-blog"]
 tags: ["Projet perso"]
 palette: blue
+draft: true
 ---
 
 This website displays Grimoire Cards from the game Destiny (2014) by Bungie. The game and its API are still online, but the official website doesn't support the first Destiny anymore, so the only way left to access the Grimoire is through the API.
@@ -24,13 +25,12 @@ Ayant déjà quelques connaissances en développement web acquises en IUT Inform
 
 Destiny est un jeu vidéo en ligne dans lequel on peut débloquer des cartes à collectionner en réalisant des objectifs (tuer 50 ennemis, découvrir une nouvelle région...). Les cartes sont rangées par catégorie, ont chacune une image ainsi qu’une description. Le site officiel de Destiny, sur lequel on pouvait consulter sa collection de cartes, a été fermé il y a quelques années, mais le jeu et son API sont toujours en ligne. J’ai donc utilisé l’API officielle pour recréer une application permettant de consulter les cartes.
 
+import original from "./original.png"
+import mine from "./mine.png"
+
 <Gallery style="wide">
-	<Figure src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ffc09735-ad78-42b3-8f9c-eac04fffcb39/Untitled.png">
-		L’ancien site officiel de Destiny
-	</Figure>
-	<Figure src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/5c8934cb-0745-41e1-8624-38239fa4f9df/Untitled.png">
-		Ma version !
-	</Figure>
+	<Figure src={original}>L’ancien site officiel de Destiny</Figure>
+	<Figure src={mine}>Ma version !</Figure>
 </Gallery>
 
 Pour accélérer le chargement de la page et m'assurer que le Grimoire perdure, j’ai téléchargé le JSON et n'utilise l’API que pour récupérer les données des utilisateurs dynamiquement.

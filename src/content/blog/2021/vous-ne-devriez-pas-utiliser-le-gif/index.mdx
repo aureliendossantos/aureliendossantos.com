@@ -1,10 +1,10 @@
 ---
-title: "Vous ne devriez pas utiliser le GIF — il a été remplacé par la vidéo"
+title: "Vous ne devriez pas utiliser le GIF"
 description: "Comparatif entre le GIF et les formats vidéo modernes pour le même usage."
 date: 2021-03-24
 categories: ["Article", "Tutoriel"]
 tags: ["Web"]
-image: cover.webp
+image: ../content/blog/2021/vous-ne-devriez-pas-utiliser-le-gif/cover.webp
 toc: true
 palette: guidebook
 ---
@@ -13,11 +13,16 @@ Le GIF, pour Graphics Interchange Format, a été inventé en 1987 par une équi
 
 Les gifs sont rapidement devenus trop lourds tout en ayant une mauvaise qualité d'image, ralentissant énormément le chargement des pages, et ralentissant par la même occasion les machines peu puissantes. Vous vous souvenez quand votre ordinateur se mettait à fondre parce qu'un contact MSN s'amusait à remplacer chaque lettre par un gif ? C'est le même principe.
 
-![Texte "Metal" en lettres de feu](metal.gif "Voilà comment on était censé utiliser les GIF, à la base.")
+<figure>
+	<img src="/videos/2021/remplacer-le-gif/metal.gif" alt='Texte "Metal" en lettres de feu' />
+	<figcaption>
+		<p>Voilà comment on était censé utiliser les GIF, à la base.</p>
+	</figcaption>
+</figure>
 
-Aujourd'hui, le problème est presque réglé : envoyez un GIF sur Twitter et il sera automatiquement converti en une vidéo. Ça aura toujours la couleur d'un GIF, le goût d'un GIF... mais ça n'en sera plus un. Et c'est une bonne chose : les formats vidéos sont plus efficaces et se chargent plus rapidement. Ils ont plein d'avantages ! Encore faut-il les utiliser, et ils ne sont pas encore assez populaires, ou même compris par le public. Il faut dire qu'une grande confusion est entretenue, puisque que quand on dit GIF aujourd'hui, on ne désigne plus vraiment le format d'image, mais plutôt ce concept d'animation qui boucle. Twitter, par exemple, affiche toujours "GIF" dans un coin, même si la conversion en a fait, techniquement, une vidéo.
+Aujourd'hui, le problème est presque réglé : envoyez un GIF sur un réseau social comme Twitter et il sera automatiquement converti en une vidéo. Ça aura toujours la couleur d'un GIF, le goût d'un GIF... mais ça n'en sera plus un. Et c'est une bonne chose : les formats vidéos sont plus efficaces et se chargent plus rapidement. Ils ont plein d'avantages ! Encore faut-il les utiliser, et ils ne sont pas encore assez populaires, ou même compris par le public. Il faut dire qu'une grande confusion est entretenue, puisque que quand on dit GIF aujourd'hui, on ne désigne plus vraiment le format d'image, mais plutôt ce concept d'animation qui boucle. Twitter, par exemple, affiche toujours « GIF » dans un coin, même si la conversion en a fait, techniquement, une vidéo.
 
-Constatez par vous-même l'étendue du problème -- et la beauté de la solution.
+Constatez par vous-même l'étendue du problème.
 
 ## Premier test : le GIF pour un extrait de film
 
@@ -25,9 +30,16 @@ Utiliser des extraits de série pour créer des GIF de réaction est une pratiqu
 
 Voyez par vous-même. J'ai pris un extrait de 3 secondes de La La Land pour en faire une animation. Avec le programme [ShareX](https://getsharex.com/), j'ai enregistré l'extrait une fois en GIF, et une autre fois en vidéo.
 
-![](exemple-thumb.jpg "[Cliquez pour charger le GIF animé](exemple.gif) (1178×462 px, 11,9 Mo)")
+import thumbnail from "./exemple-thumb.jpg"
 
-{{< video src="exemple.mp4" caption="Le même extrait en vidéo avec des paramètres de qualité moyenne (1920×752 px, 1,29 Mo)" attr="muted loop controls" >}}
+<Figure src={thumbnail}>
+	[Cliquez pour charger le GIF animé](/videos/2021/remplacer-le-gif/exemple.gif) (1178×462 px, 11,9
+	Mo)
+</Figure>
+
+<Video src="/videos/2021/remplacer-le-gif/exemple.mp4" muted loop controls>
+	Le même extrait en vidéo avec des paramètres de qualité moyenne (1920×752 px, 1,29 Mo)
+</Video>
 
 La vidéo a été enregistrée au format MP4 avec un réglage de qualité intermédiaire et 30 images par seconde. (Maintenant que j'y pense, j'aurais dû mettre à 24 ips pour correspondre au film.) En regardant la vidéo en plein écran, vous pouvez clairement voir la compression, mais c'est un juste milieu intéressant puisqu'en petit, la vidéo semble vraiment nette et on peut apprécier toute la fluidité de l'action.
 
@@ -39,9 +51,16 @@ De plus, vous noterez que les couleurs sont assez étranges sur le GIF : il y a
 
 Cette fois-ci, soyons sympa avec le GIF et partons du principe qu'il n'est pas fait pour le cinéma, mais plutôt pour des animations simples. Un cas d'utilisation réaliste du gif serait de réaliser une démonstration de programme au sein d'un article. S'il n'y a presque que du texte, noir sur blanc, le gif ne doit pas s'en tirer si mal que ça, quand même... si ?
 
-![](article.gif "Un GIF animé (1,15 Mo)")
+<figure>
+	<img src="/videos/2021/remplacer-le-gif/article.gif" />
+	<figcaption>
+		<p>Un GIF animé (1,15 Mo)</p>
+	</figcaption>
+</figure>
 
-{{< video src="article.mp4" caption="Une vidéo en qualité intermédiaire (578 Ko)" attr="muted autoplay loop" >}}
+<Video src="/videos/2021/remplacer-le-gif/article.mp4" muted autoplay loop>
+	Une vidéo en qualité intermédiaire (578 Ko)
+</Video>
 
 Les deux exemples font la même durée : environ 11 secondes.
 

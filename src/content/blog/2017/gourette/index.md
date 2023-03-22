@@ -3,24 +3,24 @@ title: Gourette
 date: 2017-05-03
 location: Gourette
 categories: ["Photos"]
-image: f.webp
+image: ../content/blog/2017/gourette/f.webp
 palette: black
 ---
 
-![](b.webp)
+![](./b.webp)
 
-![](i.webp)
+![](./i.webp)
 
-![](a.webp)
+![](./a.webp)
 
-![](h.webp)
+![](./h.webp)
 
-![](e.webp)
+![](./e.webp)
 
-![](g.webp)
+![](./g.webp)
 
-![](d.webp)
+![](./d.webp)
 
-![](c.webp)
+![](./c.webp)
 
-![](f.webp)
+![](./f.webp)

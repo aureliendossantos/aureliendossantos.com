@@ -1,29 +1,23 @@
 ---
-title: Laura Groves
+title: Chansons d'amour du vendredi soir
 date: 2020-07-14
 categories: ["Micro-blog"]
 tags: ["Musique"]
-draft: true
+palette: green
 ---
 
-Shivers! Love it.
+L'EP [_Commited Language_](https://www.youtube.com/watch?v=EIDWZMdHUjo&list=OLAK5uy_mXItgEhp07MsObjLE1q0Sfin2mf5YSEPE&index=1) de Laura Groves a été une grande découverte musicale pour moi récemment.
 
-sounds like fleet wood mac, amazing
+Ce sont des chansons de folk délicates et magiques, faites de couches de synthé saupoudrées de poussière métallique. Dans ce jeu de textures, la voix éthérée de Mme Groves donne son envol à une musique qui semble comme réincarnée d'une époque révolue. C'est une formule qui pourrait sembler pas si originale que cela, mais qui est si bien amenée que l'album a une aura de classique moderne.
 
-her music couldn’t sound more organic
+Les articles qui parlent de l'artiste évoquent toujours une ressemblance à Kate Bush, Joni Mitchell et Joanna Newson, dans la composition ou dans la voix. Si elle embrasse clairement ces influences, qui sont sans doute enrichies par un brin de musique impressioniste, Laura Groves parvient à les réinvestir d'un sens nouveau pour former une identité unique, avec sa propre imagerie, ses propres souvenirs.
 
-‘Blue Roses’, you see, is less Nash and more Bush, a dizzyingly beautiful set of delicate folk songs that sound like they’ve been sprinkled with pixie dust and reincarnated from some perfect bygone age. Pitched somewhere between Joanna Newsom and Joni Mitchell, Groves’ layered voice guides highlights ‘Coast’ and ‘I Am Leaving’ skilfully through these oft-travelled waters, and towards the safe haven marked ‘contemporary classics’.
+Avant de publier sa musique sous son véritable nom, Laura Groves vivait dans une sorte de cottage dans le Yorkshire, avec beaucoup d'espace et un jardin. Depuis cet endroit où il ne se passe pas grand chose, elle entama son parcours musical avec un vieux piano et une guitare. C'est autour de la sortie de son EP [_Thinking About Thinking_](https://www.youtube.com/watch?v=J7JTjlZbXU4&list=OLAK5uy_mEuaFRB72ng-h_LHGsJ5G1dQi23eLgs5I&index=1) qu'elle emménagea à Londres. Ce rêve de changement, puis le voyage, et enfin la solitude et le vertige de la capitale ; toutes ces sensations se retrouvent dans sa musique qui apporte une universalité à son histoire.
 
-Like any millennial twentysomething, Laura Groves' (a.k.a. Blue Roses) artistic statement reappraises familiar forms and reinvests them with new meaning. Her biography is unusually specific in citing multiple influences and, though comparing new artists to familiar artists is par for the course when introducing a new musician, it's pretty difficult to find any piece written about Groves that doesn't mention Kate Bush, Joni Mitchell, Bat for Lashes, and/or Joanna Newsom. Yet in spite of all these comparisons to older artists and her own emphasis on those who have influenced her, Groves clearly has a unique viewpoint and is successfully working to craft a voice all her own.
+Par des jeux de superposition, la voix qui vacille et la mélodie qui tourbillonne, Mme Groves me fait vivre son monde désarticulé et son lâcher-prise. Comme si la chanteuse était aussi dépassée qu'émerveillée par les sensations qu'elle exprime, isolée sans doute aussi.
 
-Groves overlaps acoustic fingerpicking with lavish, swirling synths, and her faerie-in-the-glen voice is multi-tracked into backing harmony, creating an ethereal pillow on which the other components of the arrangement rest. Her affinity for layering also makes its way into "Leaving"'s lyrics, which connote gathering bits of old material and then imbuing them with new meaning: "I'll tear up letters/ I'll take some pictures from their frames/ To make a story from the way I'm choosing". Forging a new path inlaid with pictures, words, and other memories, she creates a new identity-- a kind of "I Will Survive" for the Facebook generation.
+> London, I love it, but you feel almost a little bit… adrift.[^itw]
 
-Yorkshire is full of towns where nothing much happens, or so they’d have you believe. Laura Groves either didn’t hear, didn’t believe or simply knew better and on the edge of seventeen began writing songs.
+Laura Groves a développé un langage qui m'est vrai et clair comme du cristal. C'est une musique à laquelle je reviens lorsque j'ai besoin de me souvenir, d'écouter mes émotions et de trouver la paix.
 
-With an old family piano and a borrowed guitar, thinking of the records she loved, lyrics that broke her heart, phrasing that made it race, composers cradling her aspirations. Influences spanning genres and generations; from Bartók to Bush, Tiersen to Tears For Fears, Debussy to Du Maurier. She dreamt of writing, arranging, performing and producing an album that would be as treasured by someone else, and hopefully inspire them in the same way.
-
-Instant praise is neither expected nor sought; Blue Roses is not the stuff of lists, tip offs or hollow press recommendations; this is not recollection, it is realisation. It is not music to be forced onto the public for social measurements, or on the merit of affiliation. Blue Roses is to be found, kept and cherished; it is to be absent as the dust begins to settle, and longed for as ambience resumes. Blue Roses is the serendipity that can only happen when you thought you’d stopped looking; as you realise how life sounds without it, you begin again.
-
-there’s an audible sense of dislocation throughout it—you can hear it in Groves’ voice, that feeling of being both in awe of, and slightly overwhelmed and isolated by, the city.
-
-"London, I love it, but you feel almost a little bit… adrift."
+[^itw]: Selim Bulut, « [_Dollars to Pounds: Interview with Laura Groves_](https://www.thefader.com/2013/10/30/dollars-to-pounds-laura-groves-interview) », _The FADER_, le 30 octobre 2013.
