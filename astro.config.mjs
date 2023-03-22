@@ -24,7 +24,7 @@ export default defineConfig({
 				"$components/mdx/Sidenote.astro",
 				"$components/mdx/Tabs.astro",
 				"$components/mdx/Video.astro",
-				{ "astro-embed": ["Tweet", "YouTube", "Vimeo"] },
+				{ "astro-embed": ["YouTube"] },
 			],
 		}),
 		mdx(),

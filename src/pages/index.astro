@@ -1,6 +1,7 @@
 ---
 import ytch from "yt-channel-info"
 import getBlogPosts from "$utils/getBlogPosts"
+import "$styles/home.scss"
 
 const articles = await getBlogPosts()
 const lastArticles = articles
@@ -21,7 +22,6 @@ const videos = allo.items.slice(0, 3)
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Aurélien Dos Santos</title>
-		<link rel="stylesheet" href="src/styles/home.scss" />
 	</head>
 	<body>
 		<div id="particles-js"></div>

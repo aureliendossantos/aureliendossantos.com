@@ -6,7 +6,8 @@
 			"$components/*": ["src/components/*"],
 			"$layouts/*": ["src/layouts/*"],
 			"$content/*": ["src/content/*"],
-			"$utils/*": ["src/utils/*"]
+			"$utils/*": ["src/utils/*"],
+			"$styles/*": ["src/styles/*"]
 		}
 	}
 }
