@@ -42,4 +42,20 @@ export const collections = {
 			palette: z.nativeEnum(Palettes).default(Palettes.default),
 		}),
 	}),
+	portfolio: defineCollection({
+		schema: z.object({
+			title: z.string(),
+			description: z.string().optional(),
+			lede: z.string().optional(),
+			release: z.date().optional(),
+			client: z.string().optional(),
+			roles: z.array(z.string()).default([]),
+			moreRoles: z.array(z.string()).default([]),
+			tools: z.array(z.string()).default([]),
+			moreTools: z.array(z.string()).default([]),
+			link: z.string().optional(),
+			linkTitle: z.string().optional(),
+			image: image().optional(),
+		}),
+	}),
 }

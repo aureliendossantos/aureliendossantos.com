@@ -1,0 +1,32 @@
+---
+import Card from "$components/portfolio/Card.astro"
+import BaseLayout from "$layouts/BaseLayout.astro"
+import { getCollection } from "astro:content"
+
+const projects = await getCollection("portfolio")
+---
+
+<BaseLayout
+	title="Portfolio"
+	description="Portfolio d'Aurélien Dos Santos présentant des projets d'ingénierie pédagogique, de game design et de développement web et multimédia."
+>
+	<div class="mx-auto mb-12 px-4">
+		<header class="my-12 px-5">
+			<div class="my-5 flex w-full place-content-between">
+				<span>◂ <a href="/">Accueil</a></span>
+			</div>
+			<p>
+				Bonjour, je suis Aurélien et vous êtes sur mon blog. <br /><a href="/about">A propos</a>
+			</p>
+		</header>
+		<main class="grid grid-cols-3 gap-4 dark:gap-8">
+			{projects.map((project) => <Card project={project} />)}
+		</main>
+	</div>
+</BaseLayout>
+
+<style is:global>
+	@tailwind base;
+	@tailwind components;
+	@tailwind utilities;
+</style>

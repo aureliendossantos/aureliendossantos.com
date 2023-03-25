@@ -1,0 +1,56 @@
+---
+import type { CollectionEntry } from "astro:content"
+import { Image } from "astro:assets"
+import ArticleDate from "$components/ArticleDate.astro"
+import Badge from "./Badge.astro"
+
+interface Props {
+	project: CollectionEntry<"portfolio">
+}
+const { project } = Astro.props
+const data = project.data
+---
+
+<a
+	class="group scale-100 overflow-hidden rounded-lg bg-white text-slate-900 shadow-sm transition ease-out hover:scale-[1.03] hover:shadow-md dark:bg-black dark:text-slate-100 dark:hover:scale-[1.03]"
+	href={"/portfolio/" + project.slug}
+>
+	<div class="m-2">
+		{
+			data.image && (
+				<Image
+					src={data.image}
+					width={800}
+					quality="high"
+					alt="Couverture de l'article"
+					class="h-36 w-full rounded object-cover object-top transition-all duration-300 ease-out group-hover:h-56"
+				/>
+			)
+		}
+		<div class="mx-3 -mb-6 flex -translate-y-3 flex-wrap gap-2">
+			{
+				data.roles.map((role) => (
+					<Badge square color="sky">
+						{role}
+					</Badge>
+				))
+			}
+			{data.tools.map((tool) => <Badge>{tool}</Badge>)}
+		</div>
+	</div>
+	<div class="p-5">
+		<h2 class="mb-2 text-2xl font-bold">
+			{data.title}
+		</h2>
+		{data.description && <p class="my-2 text-sm leading-snug">{data.description}</p>}
+		{
+			(data.client || data.release) && (
+				<p class="font-sofia-sans text-sm text-slate-400">
+					{data.client}
+					{data.client && data.release && " • "}
+					{data.release && <ArticleDate yearOnly date={data.release} />}
+				</p>
+			)
+		}
+	</div>
+</a>

@@ -1,0 +1,107 @@
+---
+import { getCollection, CollectionEntry } from "astro:content"
+import { getImage, Image } from "astro:assets"
+import BaseLayout from "$layouts/BaseLayout.astro"
+import Badge from "$components/portfolio/Badge.astro"
+
+export async function getStaticPaths() {
+	const projects = await getCollection("portfolio")
+	return projects.map((project) => ({
+		params: { portfolio: project.slug },
+		props: { project },
+	}))
+}
+
+interface Props {
+	project: CollectionEntry<"portfolio">
+}
+const { project } = Astro.props
+const { Content } = await project.render()
+const data = project.data
+const allRoles = [...data.roles, ...data.moreRoles]
+const allTools = [...data.tools, ...data.moreTools]
+
+const image = data.image ? await getImage({ src: data.image, quality: "max" }) : undefined
+---
+
+<BaseLayout
+	title={`${data.title} - Portfolio d'Aurélien Dos Santos`}
+	description={data.description}
+	date={data.release}
+	image={data.image?.src}
+>
+	<div class="flex max-h-screen min-h-screen flex-col gap-2 bg-slate-200 p-2">
+		<header
+			class="min-h-[9rem] flex-none rounded-lg object-cover object-top"
+			style={`background-image: url('${image && image.src}')`}
+		>
+			<h1 class="text-4xl font-extrabold small:text-3xl">{data.title}</h1>
+			{
+				data.lede && (
+					<div class="max-w-prose">
+						<p class="text-xl italic leading-relaxed text-slate-600 small:text-lg small:leading-normal">
+							{data.lede}
+						</p>
+					</div>
+				)
+			}
+		</header>
+		<div class="grid min-h-[50vh] grow grid-cols-3 gap-4 overflow-hidden small:grid-cols-1">
+			<div class="col-span-2 overflow-scroll rounded-lg bg-white p-6 dark:bg-black">
+				<article class="prose prose-slate m-auto dark:prose-invert">
+					<Content />
+				</article>
+			</div>
+			<div class="overflow-scroll">
+				<h3 class="mb-4 text-xl font-semibold small:hidden">
+					{allRoles.length > 1 ? "Mes rôles" : "Mon rôle"}
+				</h3>
+				<div class="flex flex-wrap gap-2">
+					{
+						allRoles.map((role) => (
+							<Badge square color="sky">
+								{role}
+							</Badge>
+						))
+					}
+				</div>
+				<h3 class="my-4 text-xl font-semibold small:hidden">
+					{allTools.length > 1 ? "Outils" : "Outil"}
+				</h3>
+				<div class="flex flex-wrap gap-2">
+					{allTools.map((tool) => <Badge>{tool}</Badge>)}
+				</div>
+				{
+					data.client && (
+						<>
+							<h3 class="mY-4 text-xl font-semibold small:hidden">Client</h3>
+							<p>{data.client}</p>
+						</>
+					)
+				}
+				{
+					data.link && (
+						<a
+							href={data.link}
+							target="_blank"
+							class="mt-4 inline-block w-full rounded-lg bg-gradient-to-r from-indigo-500 via-fuchsia-500 to-rose-400 bg-[length:400%_400%] bg-pos-0 p-1 shadow transition-all duration-500 hover:bg-gradient-to-r hover:bg-pos-100 hover:shadow-none"
+						>
+							<span class="block rounded-md bg-slate-200 px-5 py-3">
+								<>
+									{data.linkTitle && <div>{data.linkTitle}</div>}
+									<div class="font-mono">{data.link.replace("https://", "")}</div>
+								</>
+							</span>
+						</a>
+					)
+				}
+			</div>
+		</div>
+	</div>
+</BaseLayout>
+
+<style is:global>
+	@tailwind base;
+	@tailwind components;
+	@tailwind utilities;
+</style>
