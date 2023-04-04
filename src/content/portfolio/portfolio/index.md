@@ -7,7 +7,6 @@ tools:
   - Astro
   - Tailwind CSS
 release: 2023-03-25
-image: ./grimoire.png
 ---
 
 Eh oui !

@@ -4,6 +4,7 @@ import { getImage, Image } from "astro:assets"
 import BaseLayout from "$layouts/BaseLayout.astro"
 import Badge from "$components/portfolio/Badge.astro"
 import ArticleDate from "$components/ArticleDate.astro"
+import Prose from "$components/portfolio/Prose.astro"
 
 export async function getStaticPaths() {
 	const projects = await getCollection("portfolio")
@@ -64,16 +65,16 @@ const image = data.image ? await getImage({ src: data.image, quality: "max" }) :
 			}
 		</header>
 		<main class="flex min-h-[50vh] grow flex-row gap-2 overflow-hidden medium:flex-col">
-			<div
+			<article
 				class="order-1 col-span-2 grow overflow-scroll rounded-lg bg-white p-6 dark:bg-black medium:order-2"
 			>
-				<article
-					class="prose prose-slate m-auto dark:prose-invert prose-code:before:content-none prose-code:after:content-none prose-img:rounded-sm"
-				>
+				<Prose>
 					<Content />
-				</article>
-			</div>
-			<aside class="order-2 overflow-scroll text-slate-800 dark:text-slate-200 medium:order-1">
+				</Prose>
+			</article>
+			<aside
+				class="order-2 w-[327px] overflow-scroll text-slate-800 dark:text-slate-200 medium:order-1 medium:w-auto"
+			>
 				<div
 					class="mb-2 rounded-lg bg-slate-100 p-4 dark:bg-slate-900 medium:mb-0 medium:rounded-b-none medium:pb-2"
 				>

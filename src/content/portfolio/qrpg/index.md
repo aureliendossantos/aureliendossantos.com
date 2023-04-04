@@ -7,7 +7,6 @@ tools:
   - Unity
 moreTools:
   - C#
-image: ./grimoire.png
 ---
 
 Eh oui !

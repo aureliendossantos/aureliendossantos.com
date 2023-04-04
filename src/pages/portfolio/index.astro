@@ -1,26 +1,73 @@
 ---
 import Card from "$components/portfolio/Card.astro"
+import Prose from "$components/portfolio/Prose.astro"
 import BaseLayout from "$layouts/BaseLayout.astro"
-import { getCollection } from "astro:content"
+import { getCollection, getEntryBySlug } from "astro:content"
 
 const projects = await getCollection("portfolio")
+const capCuisine = await getEntryBySlug("portfolio", "cap-cuisine")
+const dashboard = await getEntryBySlug("portfolio", "dashboard")
+const faireDesJeux = await getEntryBySlug("portfolio", "fairedesjeux")
+const grimoire = await getEntryBySlug("portfolio", "grimoire")
+const jeuDeSurvie = await getEntryBySlug("portfolio", "jeu-de-survie-navigateur")
+const passNumerique = await getEntryBySlug("portfolio", "pass-numerique")
+const portfolio = await getEntryBySlug("portfolio", "portfolio")
+const powerup = await getEntryBySlug("portfolio", "powerup")
+const qrpg = await getEntryBySlug("portfolio", "qrpg")
 ---
 
 <BaseLayout
 	title="Portfolio"
 	description="Portfolio d'Aurélien Dos Santos présentant des projets d'ingénierie pédagogique, de game design et de développement web et multimédia."
 >
-	<div class="mx-auto mb-12 px-4">
-		<header class="my-12 px-5">
-			<div class="my-5 flex w-full place-content-between">
-				<span>◂ <a href="/">Accueil</a></span>
+	<div
+		class="flex max-h-screen min-h-screen flex-col gap-2 bg-slate-200 p-2 dark:bg-slate-800 medium:max-h-none"
+	>
+		<main class="flex min-h-[50vh] grow flex-row gap-2 overflow-hidden medium:flex-col">
+			<div class="order-2 col-span-2 grow overflow-scroll rounded-lg bg-white p-6 dark:bg-black">
+				<Prose>
+					Je suis Aurélien, né en 1997. Je poursuis des études et travaille en alternance en tant
+					qu'ingénieur pédagogique. Je suis également passionné par le <b
+						>développement informatique</b
+					>
+					(web et jeux vidéo), le <b>game design</b>, la photographie et la musique électronique. Je
+					suis à l'écoute d'opportunités en tant qu'<b>ingénieur pédagogique</b>, <b
+						>concepteur pédagogique</b
+					>
+					(écrit, vidéo), <b>développeur multimédia</b> (Unity, web) ou toute mission à la croisée de
+					ces compétences.
+				</Prose>
+				<h2>Projets de formation</h2>
+				<div class="grid grid-cols-3 gap-4 dark:gap-8">
+					<Card project={capCuisine} />
+					<Card project={passNumerique} />
+					<Card project={faireDesJeux} />
+				</div>
+				<h2>Développement web</h2>
+				<div class="grid grid-cols-3 gap-4 dark:gap-8">
+					<Card project={dashboard} />
+					<Card project={grimoire} />
+					<Card project={portfolio} />
+				</div>
+				<h2>Jeux et multimédia</h2>
+				<div class="grid grid-cols-3 gap-4 dark:gap-8">
+					<Card project={powerup} />
+					<Card project={qrpg} />
+					<Card project={jeuDeSurvie} />
+				</div>
 			</div>
-			<p>
-				Bonjour, je suis Aurélien et vous êtes sur mon blog. <br /><a href="/about">A propos</a>
-			</p>
-		</header>
-		<main class="grid grid-cols-3 gap-4 dark:gap-8">
-			{projects.map((project) => <Card project={project} />)}
+			<aside
+				class="order-1 min-w-[327px] max-w-[327px] overflow-scroll text-slate-800 dark:text-slate-200 medium:w-auto"
+			>
+				<a
+					href="/portfolio"
+					class="hover:-bg-pos-100 inline-block w-full rounded-lg bg-gradient-to-l from-slate-200 via-white to-white bg-[length:400%_400%] bg-pos-100 p-1 transition-all duration-500 hover:bg-pos-0 dark:from-slate-800 dark:via-slate-500 dark:to-slate-300"
+				>
+					<span class="block rounded-md bg-slate-200 px-5 py-3 dark:bg-slate-800"
+						>Retour au portfolio</span
+					>
+				</a>
+			</aside>
 		</main>
 	</div>
 </BaseLayout>

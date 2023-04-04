@@ -29,7 +29,18 @@ Jusqu'à lors, l'agence utilisait des feuilles Excel pour gérer l'avancement de
 
 Après mon arrivée dans l'entreprise, j'ai donc rapidement proposé de mettre en place des bases de données sur Notion pour simplifier la gestion de projet. Mais les outils de gestion comme Notion et Jira ne font pas tout par eux-mêmes ! Grâce à la magie du code, nous pouvions aller plus loin en automatisant la communication avec nos partenaires.
 
-J'ai développé une application web avec [Next.js](https://nextjs.org/), [SWR](https://swr.vercel.app/) et l'[API de Notion](https://developers.notion.com/), permettant d'afficher une série de rapports élégants dans des tableaux mis à jour en direct. Le serveur web agit comme un intermédiaire filtrant les données sensibles du Notion de l'agence, notamment les coordonnées de nos auteurs. Ainsi, il est entièrement sûr de délivrer la page web au client pour lui partager l'avancement.
+J'ai développé une application web avec [Next.js](https://nextjs.org/), [SWR](https://swr.vercel.app/) et l'[API de Notion](https://developers.notion.com/), permettant d'afficher une série de rapports élégants dans des tableaux mis à jour en direct :
+
+import home from "./home.png"
+
+<Figure
+	src={home}
+	alt="Tableau de bord de l'agence"
+	shadow
+	caption="Tableau de bord de l'agence (extrait)"
+/>
+
+Le serveur web agit comme un intermédiaire filtrant les données sensibles du Notion de l'agence. Ainsi, il est entièrement sûr de délivrer la page web au client pour lui partager l'avancement.
 
 De la même façon, chaque auteur dispose d'un lien privé lui permettant de consulter l'avancement de ses cours, toujours en direct :
 
@@ -38,13 +49,14 @@ import dashboard from "./dashboard.png"
 <Figure
 	src={dashboard}
 	alt="Tableau de bord d'un auteur listant ses cours à réaliser et leur statut"
+	shadow
 />
 
 Chaque auteur dispose d'un lien unique lui permettant de visualiser un récapitulatif clair et synthétique de toutes les informations le concernant, sans qu'il n'ait besoin de gérer un compte ou entrer un mot de passe. Ainsi, le système est fiable et intuitif même pour les allergiques à l'informatique.
 
 ## Difficultés
 
-L'API de Notion est particulièrement lente à produire une réponse. Ce n'est pas forcément un problème dans des cas de figure classiques, mais ici, j'ai parfois besoin de charger plus de 500 cours, qui sont autant d'entrées dans la base de données, pour calculer des statistiques globales par exemple. Le problème, c'est que charger autant d'entrées peut parfois prendre plus de 5 secondes, ce qui altère grandement l'expérience de navigation, et me fait de surcroït dépasser la limite maximale de durée pour une fonction d'API sur [Vercel](https://vercel.com), l'hébergeur du site.
+L'API de Notion est particulièrement lente à produire une réponse. Ce n'est pas forcément un problème dans des cas de figure classiques, mais ici, j'ai parfois besoin de charger plus de 500 cours, qui sont autant d'entrées dans la base de données, pour calculer des statistiques globales par exemple. Le problème, c'est que charger autant d'entrées peut parfois prendre plus de 5 secondes, ce qui altère grandement l'expérience de navigation, et me fait de surcroît dépasser la limite maximale de durée pour une fonction d'API sur [Vercel](https://vercel.com), l'hébergeur du site.
 
 Pour pallier à ce problème, j'ai découpé les requêtes de manière à pouvoir afficher les résultats progressivement. Grâce à SWR, je peux facilement envoyer plusieurs petites requêtes de manière asynchrone et rafraîchir les données du tableau en direct, constamment.
 

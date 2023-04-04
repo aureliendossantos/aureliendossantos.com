@@ -4,7 +4,7 @@ description: Destiny a une place spéciale dans mon coeur. Je pense que le premi
 date: 2019-12-22
 categories: ["Article"]
 tags: ["Projet perso", "Jeux vidéo"]
-image: ../content/blog/2019/livre-de-cayde-6/1.jpg
+image: 1.jpg
 cover: true
 palette: notebook
 ---

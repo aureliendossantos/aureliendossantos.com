@@ -14,7 +14,6 @@ moreTools:
   - DaVinci Resolve
   - Notion
 release: 2022-04-10
-image: ./powerup.png
 ---
 
 Basé sur l'ingénierie de Jean-Baptiste, j'ai ensuite pris les rennes de la gestion de projet et de l'administration du serveur Moodle.

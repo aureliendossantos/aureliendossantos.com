@@ -5,7 +5,7 @@ date: 2020-11-12
 location: Pau
 categories: ["Mixtape"]
 tags: ["Musique"]
-image: ../content/blog/2020/mixtape-hiver-2020/cover.jpg
+image: cover.jpg
 readingTime: 49
 palette: white
 ---
