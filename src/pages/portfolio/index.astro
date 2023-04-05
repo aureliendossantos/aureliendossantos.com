@@ -180,9 +180,23 @@ const qrpg = await getEntryBySlug("portfolio", "qrpg")
 		@tailwind components;
 		@tailwind utilities;
 
-		body::-webkit-scrollbar {
-			width: 4px;
-			height: 0;
+		::-webkit-scrollbar-thumb {
+			background-color: rgb(226 232 240);
+			border: 4px solid transparent;
+			background-clip: content-box;
+			border-radius: 10px;
+		}
+
+		@media (prefers-color-scheme: dark) {
+			::-webkit-scrollbar-thumb {
+				background-color: rgb(51 65 85);
+			}
+		}
+
+		::-webkit-scrollbar,
+		::-webkit-scrollbar-track {
+			width: 14px;
+			background-color: transparent;
 		}
 	</style>
 </BaseLayout>

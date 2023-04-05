@@ -141,8 +141,22 @@ const image = data.image ? await getImage({ src: data.image, width: 1920 }) : un
 	@tailwind components;
 	@tailwind utilities;
 
-	body::-webkit-scrollbar {
-		width: 4px;
-		height: 0;
+	::-webkit-scrollbar-thumb {
+		background-color: rgb(226 232 240);
+		border: 4px solid transparent;
+		background-clip: content-box;
+		border-radius: 10px;
+	}
+
+	@media (prefers-color-scheme: dark) {
+		::-webkit-scrollbar-thumb {
+			background-color: rgb(30 41 59);
+		}
+	}
+
+	::-webkit-scrollbar,
+	::-webkit-scrollbar-track {
+		width: 14px;
+		background-color: transparent;
 	}
 </style>
