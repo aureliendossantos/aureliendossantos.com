@@ -23,7 +23,7 @@ const data = project.data
 const allRoles = [...data.roles, ...data.moreRoles]
 const allTools = [...data.tools, ...data.moreTools]
 
-const image = data.image ? await getImage({ src: data.image, quality: "max" }) : undefined
+const image = data.image ? await getImage({ src: data.image, width: 1920 }) : undefined
 ---
 
 <BaseLayout

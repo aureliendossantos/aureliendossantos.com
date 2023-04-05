@@ -11,6 +11,8 @@ moreTools:
   - Supabase
   - Vercel
 release: 2022-12-29
+link: https://survie.aureliendossantos.com
+linkTitle: Jouer au prototype (attention, la base de données est parfois hors ligne)
 ---
 
 Eh oui !
