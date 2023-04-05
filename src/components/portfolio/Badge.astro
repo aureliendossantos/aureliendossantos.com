@@ -2,13 +2,15 @@
 interface Props {
 	square?: boolean
 	color?: "yellow" | "sky"
+	small?: boolean
 }
-const { square, color } = Astro.props
+const { square, color, small } = Astro.props
 ---
 
 <span
 	class:list={[
 		"py-[2px] font-sofia-sans",
+		{ "small:text-sm": small },
 		{ "rounded px-2": square },
 		{ "rounded-full px-3": !square },
 		{ "bg-slate-200 text-slate-800 dark:bg-slate-800 dark:text-slate-200": !color },

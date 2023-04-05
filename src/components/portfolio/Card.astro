@@ -25,12 +25,12 @@ const data = project.data
 			<div class="mx-3 -mb-6 flex -translate-y-3 flex-wrap gap-2">
 				{
 					data.roles.map((role) => (
-						<Badge square color="sky">
+						<Badge square color="sky" small>
 							{role}
 						</Badge>
 					))
 				}
-				{data.tools.map((tool) => <Badge>{tool}</Badge>)}
+				{data.tools.map((tool) => <Badge small>{tool}</Badge>)}
 			</div>
 		</div>
 		<div class="p-5">
