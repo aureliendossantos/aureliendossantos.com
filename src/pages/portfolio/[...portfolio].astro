@@ -54,7 +54,9 @@ const image = data.image ? await getImage({ src: data.image, quality: "max" }) :
 			}
 			<div class="grow"></div>
 			<h1 class="mt-4 text-4xl font-extrabold medium:text-3xl">
-				<span class="rounded-t bg-slate-200 px-3 py-1 dark:bg-slate-800">{data.title}</span>
+				<span class="rounded bg-slate-200 box-decoration-clone px-3 py-1 dark:bg-slate-800">
+					{data.title}
+				</span>
 			</h1>
 			{
 				data.lede && (
@@ -68,14 +70,14 @@ const image = data.image ? await getImage({ src: data.image, quality: "max" }) :
 		</header>
 		<main class="flex min-h-[50vh] grow flex-row gap-2 overflow-hidden medium:flex-col">
 			<article
-				class="order-1 col-span-2 grow overflow-scroll rounded-lg bg-white px-6 py-12 dark:bg-black mediumlarge:py-6 medium:order-2"
+				class="order-1 col-span-2 grow overflow-auto rounded-lg bg-white px-6 py-12 dark:bg-black mediumlarge:py-6 medium:order-2"
 			>
 				<Prose>
 					<Content />
 				</Prose>
 			</article>
 			<aside
-				class="order-2 w-[327px] overflow-scroll text-slate-800 dark:text-slate-200 medium:order-1 medium:w-auto"
+				class="order-2 w-[327px] overflow-auto text-slate-800 dark:text-slate-200 medium:order-1 medium:w-auto"
 			>
 				<div
 					class="mb-2 rounded-lg bg-slate-100 p-4 dark:bg-slate-900 medium:mb-0 medium:rounded-b-none medium:pb-2"

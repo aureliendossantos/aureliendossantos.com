@@ -7,18 +7,22 @@ interface Props {
 	caption?: string
 	rounded?: boolean
 	shadow?: boolean
+	noLink?: boolean
 }
-const { src, alt, caption, rounded, shadow } = Astro.props
+const { src, alt, caption, rounded, shadow, noLink } = Astro.props
+const classes = (rounded ? "rounded-md" : "") + (shadow ? " shadow" : "")
 ---
 
 <figure>
-	<a href={src.src}
-		><Image
-			src={src}
-			alt={alt || ""}
-			class={(rounded ? "rounded-md" : "") + (shadow ? " shadow" : "")}
-		/></a
-	>
+	{
+		noLink ? (
+			<Image src={src} alt={alt || ""} class={classes} />
+		) : (
+			<a href={src.src}>
+				<Image src={src} alt={alt || ""} class={classes} />
+			</a>
+		)
+	}
 	{
 		Astro.slots.has("default") && (
 			<figcaption>

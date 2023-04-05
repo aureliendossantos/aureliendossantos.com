@@ -1,6 +1,6 @@
 ---
 title: Jeu coopératif sur navigateur
-description: Jeu de survie sur une île déserte où les survivants doivent collaborer pour construire des campements.
+description: Sur une île déserte, les survivants doivent collaborer en asynchrone pour développer leurs campements.
 roles:
   - Développement web
 tools:

@@ -1,10 +1,12 @@
 ---
 import Card from "$components/portfolio/Card.astro"
+import CardContainer from "$components/portfolio/CardContainer.astro"
 import CardGrid from "$components/portfolio/CardGrid.astro"
 import CategoryHeading from "$components/portfolio/CategoryHeading.astro"
 import Em from "$components/portfolio/Em.astro"
 import LinkItem from "$components/portfolio/LinkItem.astro"
 import Prose from "$components/portfolio/Prose.astro"
+import School from "$components/portfolio/School.astro"
 import BaseLayout from "$layouts/BaseLayout.astro"
 import { getCollection, getEntryBySlug } from "astro:content"
 
@@ -38,20 +40,18 @@ const { Content: Intro } = await intro.render()
 					>Aurélien Dos Santos</a
 				>
 				<span class="text-slate-500 dark:text-slate-400">/</span>
-				<span class="text-slate-700 dark:text-slate-300">Portfolio</span>
+				<span class="text-slate-600 dark:text-slate-300">Portfolio</span>
 			</aside>
-			<div
-				class="order-2 col-span-2 grow overflow-scroll rounded-lg bg-white p-6 dark:bg-slate-800"
-			>
+			<div class="order-2 col-span-2 grow overflow-auto rounded-lg bg-white p-6 dark:bg-slate-800">
 				<div class="m-auto max-w-[820px] pb-24 pt-4">
 					<header class="font-sofia-sans text-2xl">
 						<a
 							href="/"
-							class="text-slate-500 hover:text-slate-400 dark:text-slate-400 dark:hover:text-slate-300"
+							class="text-slate-400 hover:text-slate-300 dark:text-slate-400 dark:hover:text-slate-300"
 							>Aurélien Dos Santos</a
 						>
-						<span class="text-slate-500 dark:text-slate-400">/</span>
-						<div class="text-slate-700 dark:text-slate-300">Portfolio</div>
+						<span class="text-slate-400 dark:text-slate-400">/</span>
+						<div class="text-slate-600 dark:text-slate-300">Portfolio</div>
 					</header>
 					<div class="mt-6 max-w-[280px] font-sofia-sans text-xl">
 						<LinkItem
@@ -81,8 +81,8 @@ const { Content: Intro } = await intro.render()
 					<div class="mt-6 font-sofia-sans text-xl text-slate-500 dark:text-slate-400">
 						<p>
 							<Em>Je suis Aurélien</Em>
-							et je conclus des études en alternance d’<Em>ingénieur pédagogique</Em>. Je suis
-							également passionné par le
+							et je conclus des études en alternance de
+							<Em>conception pédagogique e-learning</Em>. Je suis également passionné par le
 							<Em>développement informatique</Em>
 							(web et jeux vidéo), le
 							<Em>game design</Em>, la photographie et la musique électronique.
@@ -96,70 +96,76 @@ const { Content: Intro } = await intro.render()
 						</p>
 					</div>
 					<CategoryHeading>Projets de formation</CategoryHeading>
-					<div class="-m-[24px] my-6">
+					<CardContainer>
 						<CardGrid>
 							<Card project={capCuisine} />
 							<Card project={faireDesJeux} />
 						</CardGrid>
-					</div>
+					</CardContainer>
 					<CategoryHeading>Développement web</CategoryHeading>
-					<div class="-m-[24px] my-6">
+					<CardContainer>
 						<CardGrid>
 							<Card project={dashboard} />
 							<Card project={grimoire} />
 						</CardGrid>
-					</div>
+					</CardContainer>
 					<CategoryHeading>Jeux et multimédia</CategoryHeading>
-					<div class="-m-[24px] my-6">
+					<CardContainer>
 						<CardGrid>
 							<Card project={powerup} />
 							<Card project={qrpg} />
 							<Card project={jeuDeSurvie} />
 						</CardGrid>
-					</div>
+					</CardContainer>
 					<CategoryHeading>Formation</CategoryHeading>
 					<div class="mt-6 font-sofia-sans text-xl text-slate-600 dark:text-slate-400">
-						<h3 class="mt-6 text-slate-600 dark:text-slate-400">
-							Master Conception de Ressources Numériques pédagogiques
-						</h3>
-						<div class="text-base text-slate-400">Université Toulouse Jean-Jaurès ∙ 2021-2023</div>
+						<School
+							degree="Master Conception de Ressources Numériques pédagogiques"
+							school="Université Toulouse Jean-Jaurès ∙ 2021-2023"
+						/>
 						<ul
-							class="list-inside list-disc text-base leading-snug text-slate-600 marker:text-slate-400"
+							class="list-inside list-disc text-base leading-snug text-slate-600 marker:text-slate-400 dark:text-slate-300 dark:marker:text-slate-400"
 						>
 							<li class="my-2">Ingénierie pédagogique</li>
 							<li class="my-2">
 								Conception pédagogique multimédia
-								<ul class="list-inside list-disc text-slate-400 marker:text-white">
+								<ul
+									class="list-inside list-disc text-slate-400 marker:text-white dark:text-slate-400 dark:marker:text-slate-800"
+								>
 									<li>Rise, Storyline, Genially, Vyond</li>
 									<li>Adobe Premiere, Photoshop, InDesign</li>
 								</ul>
 							</li>
 							<li class="my-2">
 								Développement web
-								<ul class="list-inside list-disc text-slate-400 marker:text-white">
+								<ul
+									class="list-inside list-disc text-slate-400 marker:text-white dark:text-slate-400 dark:marker:text-slate-800"
+								>
 									<li>HTML & CSS, JavaScript, PHP, SQL, React</li>
 								</ul>
 							</li>
 							<li class="my-2">
 								Développement d'applications et jeux sérieux
-								<ul class="list-inside list-disc text-slate-400 marker:text-white">
+								<ul
+									class="list-inside list-disc text-slate-400 marker:text-white dark:text-slate-400 dark:marker:text-slate-800"
+								>
 									<li>Unity (C#), Ren’Py (Python)</li>
 								</ul>
 							</li>
 						</ul>
-						<h3 class="mt-6 text-slate-600 dark:text-slate-400">
-							Licence Langues, Littératures et Civilisations Étrangères, parcours Anglais
-						</h3>
-						<div class="text-base text-slate-400">Université de Pau ∙ 2018-2021</div>
-						<h3 class="mt-6 text-slate-600 dark:text-slate-400">
-							IUT Statistique et Informatique Décisionnelle
-						</h3>
-						<div class="text-base text-slate-400">Université de Pau ∙ 2014-2016</div>
+						<School
+							degree="Licence Langues, Littératures et Civilisations Étrangères, parcours Anglais"
+							school="Université de Pau ∙ 2018-2021"
+						/>
+						<School
+							degree="IUT Statistique et Informatique Décisionnelle"
+							school="Université de Pau ∙ 2014-2016"
+						/>
 					</div>
 				</div>
 			</div>
 			<aside
-				class="order-1 hidden min-w-[327px] max-w-[327px] overflow-scroll text-slate-800 dark:text-slate-200 medium:w-auto"
+				class="order-1 hidden min-w-[327px] max-w-[327px] overflow-auto text-slate-800 dark:text-slate-200 medium:w-auto"
 			>
 				<a
 					href="/portfolio"
