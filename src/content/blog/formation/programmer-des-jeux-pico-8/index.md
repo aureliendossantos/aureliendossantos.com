@@ -7,7 +7,7 @@ tags:
   - Programmation
   - Jeux
   - Game Dev Alliance
-image: cover.png
+image: ./cover.png
 cover: true
 draft: true
 palette: whiteboard

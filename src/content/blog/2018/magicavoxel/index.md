@@ -4,7 +4,7 @@ description: "MagicaVoxel est un éditeur de scènes en voxel très simple d'uti
 date: 2018-05-09 15:27:43
 categories: ["Tutoriel"]
 tags: ["3D"]
-image: 2IAoFHn.png
+image: ./2IAoFHn.png
 license: "Ecrit par Nev, Imanor et EzekielKoening"
 toc: true
 palette: guidebook

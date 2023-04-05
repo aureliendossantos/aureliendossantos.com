@@ -5,7 +5,7 @@ categories: ["Formations"]
 tags:
   - Jeux
   - Game Dev Alliance
-image: cover.png
+image: ./cover.png
 draft: true
 ---
 

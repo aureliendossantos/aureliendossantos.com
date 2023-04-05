@@ -5,7 +5,7 @@ date: 2020-11-12
 location: Pau
 categories: ["Mixtape"]
 tags: ["Musique"]
-image: cover.jpg
+image: ./cover.jpg
 readingTime: 49
 palette: white
 ---

@@ -4,7 +4,7 @@ description: Destiny a une place spéciale dans mon coeur. Je pense que le premi
 date: 2019-12-22
 categories: ["Article"]
 tags: ["Projet perso", "Jeux vidéo"]
-image: 1.jpg
+image: ./1.jpg
 cover: true
 palette: notebook
 ---
