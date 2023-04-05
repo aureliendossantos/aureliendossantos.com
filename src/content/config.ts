@@ -58,4 +58,7 @@ export const collections = {
 			image: image().optional(),
 		}),
 	}),
+	other: defineCollection({
+		schema: z.object({}),
+	}),
 }

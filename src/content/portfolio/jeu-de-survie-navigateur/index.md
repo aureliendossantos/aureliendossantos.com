@@ -6,6 +6,10 @@ roles:
 tools:
   - React
   - Next.js
+moreTools:
+  - Prisma
+  - Supabase
+  - Vercel
 release: 2022-12-29
 ---
 

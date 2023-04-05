@@ -12,45 +12,41 @@ const data = project.data
 ---
 
 <a
-	class="group scale-100 overflow-hidden rounded-lg bg-white text-slate-900 shadow-sm transition ease-out hover:scale-[1.03] hover:shadow-md dark:bg-black dark:text-slate-200 dark:hover:scale-[1.03]"
 	href={"/portfolio/" + project.slug}
+	class="inline-block w-full rounded-lg bg-gradient-to-br from-slate-100 via-slate-300 to-slate-500 bg-size-200 bg-pos-0 p-1 transition-all duration-500 hover:bg-pos-100 dark:from-slate-800 dark:via-slate-500 dark:to-slate-300"
 >
-	<div class="m-2">
-		{
-			data.image && (
-				<Image
-					src={data.image}
-					width={800}
-					quality="high"
-					alt="Couverture de l'article"
-					class="h-36 w-full rounded object-cover object-top transition-all duration-300 ease-out group-hover:h-56"
-				/>
-			)
-		}
-		<div class="mx-3 -mb-6 flex -translate-y-3 flex-wrap gap-2">
-			{
-				data.roles.map((role) => (
-					<Badge square color="sky">
-						{role}
-					</Badge>
-				))
-			}
-			{data.tools.map((tool) => <Badge>{tool}</Badge>)}
+	<div
+		class="group flex h-full flex-col overflow-hidden rounded-md bg-white text-slate-900 dark:bg-slate-800 dark:text-slate-200"
+	>
+		<div
+			class="flex h-36 grow flex-col-reverse bg-slate-300"
+			style={data.image && `background-image: url('${data.image.src}'); background-size: cover;`}
+		>
+			<div class="mx-3 -mb-6 flex -translate-y-3 flex-wrap gap-2">
+				{
+					data.roles.map((role) => (
+						<Badge square color="sky">
+							{role}
+						</Badge>
+					))
+				}
+				{data.tools.map((tool) => <Badge>{tool}</Badge>)}
+			</div>
 		</div>
-	</div>
-	<div class="p-5">
-		<h2 class="mb-2 text-2xl font-bold">
-			{data.title}
-		</h2>
-		{data.description && <p class="my-2 text-sm leading-snug">{data.description}</p>}
-		{
-			(data.client || data.release) && (
-				<p class="font-sofia-sans text-sm text-slate-400">
-					{data.client}
-					{data.client && data.release && " • "}
-					{data.release && <ArticleDate yearOnly date={data.release} />}
-				</p>
-			)
-		}
+		<div class="p-5">
+			<h3 class="mb-2 text-2xl font-bold">
+				{data.title}
+			</h3>
+			{data.description && <p class="my-2 text-sm leading-snug">{data.description}</p>}
+			{
+				(data.client || data.release) && (
+					<p class="font-sofia-sans text-sm text-slate-400">
+						{data.client}
+						{data.client && data.release && " • "}
+						{data.release && <ArticleDate yearOnly date={data.release} />}
+					</p>
+				)
+			}
+		</div>
 	</div>
 </a>

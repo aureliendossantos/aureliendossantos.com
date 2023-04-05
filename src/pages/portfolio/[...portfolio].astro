@@ -36,8 +36,10 @@ const image = data.image ? await getImage({ src: data.image, quality: "max" }) :
 		class="flex max-h-screen min-h-screen flex-col gap-2 bg-slate-200 p-2 dark:bg-slate-800 medium:max-h-none"
 	>
 		<header
-			class="flex min-h-[9rem] flex-none flex-col rounded-lg object-cover object-top px-8 py-4"
-			style={image ? `background-image: url('${image.src}')` : `background-color: #94a3b8`}
+			class="flex min-h-[12rem] flex-none flex-col rounded-lg object-cover object-top px-8 py-4 mediumlarge:min-h-[9rem]"
+			style={image
+				? `background-image: url('${image.src}'); background-size: cover;`
+				: `background-color: #94a3b8`}
 		>
 			{
 				(data.client || data.release) && (
@@ -66,7 +68,7 @@ const image = data.image ? await getImage({ src: data.image, quality: "max" }) :
 		</header>
 		<main class="flex min-h-[50vh] grow flex-row gap-2 overflow-hidden medium:flex-col">
 			<article
-				class="order-1 col-span-2 grow overflow-scroll rounded-lg bg-white p-6 dark:bg-black medium:order-2"
+				class="order-1 col-span-2 grow overflow-scroll rounded-lg bg-white px-6 py-12 dark:bg-black mediumlarge:py-6 medium:order-2"
 			>
 				<Prose>
 					<Content />
@@ -136,4 +138,9 @@ const image = data.image ? await getImage({ src: data.image, quality: "max" }) :
 	@tailwind base;
 	@tailwind components;
 	@tailwind utilities;
+
+	body::-webkit-scrollbar {
+		width: 4px;
+		height: 0;
+	}
 </style>
