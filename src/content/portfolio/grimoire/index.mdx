@@ -1,0 +1,37 @@
+---
+title: Grimoire Explorer
+description: Reconstruction des Cartes de Grimoire du jeu Destiny.
+lede: Pour apprendre React et TypeScript, je me suis lancé dans la recréation du site défunt du jeu Destiny.
+roles:
+  - Développement web
+tools:
+  - React
+  - TypeScript
+moreTools:
+  - Tailwind
+  - Bungie.net API
+link: https://grimoire.aureliendossantos.com
+linkTitle: Visiter le site
+release: 2021-08-01
+image: ./header.png
+---
+
+Destiny est un jeu vidéo en ligne dans lequel on peut débloquer des cartes à collectionner en réalisant des objectifs. Depuis quelques années, le site officiel n'affiche plus la galerie des cartes, et la plupart des sites tiers prétendant faire la même chose sont maintenant morts ou manquent de fonctionnalités.
+
+L'API du jeu étant toujours en ligne, j'ai choisi comme premier projet d'apprentissage de React et TypeScript de recréer une application web permettant de consulter ces cartes.
+
+import inter from "./interface.png"
+
+<Figure
+	src={inter}
+	alt="Capture d'écran du site présentant une galerie des cartes et la possibilité d'entrer son pseudo."
+	caption="Les données de l’application peuvent être personnalisées en fonction du pseudo de joueur
+	renseigné."
+	noLink
+/>
+
+Dans le cadre de ce projet, je ne me suis pas attardé sur le design, que je me suis contenté de rendre très fonctionnel et dense, pour correspondre aux attentes des aficionados du jeu. Ma motivation première était de créer un site pouvant s’inscrire dans l’écosystème des outils amateurs utilisant l’API de Destiny ([exemple](https://chrisfried.github.io/secret-scrubland/guardian/2/4611686018451177156)).
+
+Pour accélérer le chargement des pages et m'assurer que le Grimoire perdure, j’ai téléchargé la définition de toutes les cartes et n'utilise l’API que pour récupérer les données des utilisateurs dynamiquement.
+
+L'API de Destiny est très peu documentée et ne fournit pas de modèle TypeScript comme le font la plupart des API modernes afin de garantir une intégration simple et sans erreurs. J'ai donc typé manuellement les réponses, à force d'essais et erreurs. On peut dire que c'était un bon moyen d'apprendre l'outil !

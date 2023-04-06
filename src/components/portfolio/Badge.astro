@@ -1,0 +1,20 @@
+---
+interface Props {
+	square?: boolean
+	color?: "yellow" | "sky"
+	small?: boolean
+}
+const { square, color, small } = Astro.props
+---
+
+<span
+	class:list={[
+		"py-[2px] font-sofia-sans",
+		{ "small:text-sm": small },
+		{ "rounded px-2": square },
+		{ "rounded-full px-3": !square },
+		{ "bg-slate-200 text-slate-800 dark:bg-slate-700 dark:text-slate-200": !color },
+		{ "bg-yellow-200 text-yellow-800 dark:bg-yellow-900 dark:text-amber-200": color == "yellow" },
+		{ "bg-sky-200 text-sky-800 dark:bg-sky-800 dark:text-sky-200": color == "sky" },
+	]}><slot /></span
+>

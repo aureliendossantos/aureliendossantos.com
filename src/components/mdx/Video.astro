@@ -12,8 +12,15 @@ const { src, autoplay, muted, loop, controls, poster, caption } = Astro.props
 ---
 
 <figure>
-	<video src={src} autoplay={autoplay} muted={muted} loop={loop} controls={controls} poster={poster}
-	></video>
+	<video
+		width="1920"
+		height="1080"
+		src={src}
+		autoplay={autoplay}
+		muted={muted}
+		loop={loop}
+		controls={controls}
+		poster={poster}></video>
 	{
 		Astro.slots.has("default") && (
 			<figcaption>

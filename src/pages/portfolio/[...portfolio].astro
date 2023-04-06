@@ -1,0 +1,162 @@
+---
+import { getCollection, CollectionEntry } from "astro:content"
+import { getImage, Image } from "astro:assets"
+import BaseLayout from "$layouts/BaseLayout.astro"
+import Badge from "$components/portfolio/Badge.astro"
+import ArticleDate from "$components/ArticleDate.astro"
+import Prose from "$components/portfolio/Prose.astro"
+
+export async function getStaticPaths() {
+	const projects = await getCollection("portfolio")
+	return projects.map((project) => ({
+		params: { portfolio: project.slug },
+		props: { project },
+	}))
+}
+
+interface Props {
+	project: CollectionEntry<"portfolio">
+}
+const { project } = Astro.props
+const { Content } = await project.render()
+const data = project.data
+const allRoles = [...data.roles, ...data.moreRoles]
+const allTools = [...data.tools, ...data.moreTools]
+
+const image = data.image ? await getImage({ src: data.image, width: 1920 }) : undefined
+---
+
+<BaseLayout
+	title={`${data.title} - Portfolio d'Aurélien Dos Santos`}
+	description={data.description}
+	date={data.release}
+	image={data.image?.src}
+>
+	<div
+		class="flex max-h-screen min-h-screen flex-col gap-2 bg-slate-200 p-2 dark:bg-slate-800 medium:max-h-none"
+	>
+		<header
+			class="flex min-h-[12rem] flex-none flex-col rounded-lg object-cover object-top px-8 py-4 mediumlarge:min-h-[9rem]"
+			style={image
+				? `background-image: url('${image.src}'); background-size: cover;`
+				: `background-color: #94a3b8`}
+		>
+			{
+				(data.client || data.release) && (
+					<p class="font-sofia-sans text-sm text-slate-500">
+						<span class="rounded bg-slate-200 px-1 dark:bg-slate-800">
+							{data.client}
+							{data.client && data.release && " • "}
+							{data.release && <ArticleDate yearOnly date={data.release} />}
+						</span>
+					</p>
+				)
+			}
+			<div class="grow"></div>
+			<h1 class="mt-4 text-4xl font-extrabold medium:text-3xl">
+				<span class="rounded bg-slate-200 box-decoration-clone px-3 py-1 dark:bg-slate-800">
+					{data.title}
+				</span>
+			</h1>
+			{
+				data.lede && (
+					<div class="max-w-prose">
+						<p class="rounded rounded-tl-none bg-slate-200 px-3 py-1 text-xl italic leading-relaxed text-slate-600 dark:bg-slate-800 dark:text-slate-400 medium:text-lg medium:leading-normal">
+							{data.lede}
+						</p>
+					</div>
+				)
+			}
+		</header>
+		<main class="flex min-h-[50vh] grow flex-row gap-2 overflow-hidden medium:flex-col">
+			<article
+				class="order-1 col-span-2 grow overflow-auto rounded-lg bg-white px-6 py-12 dark:bg-black mediumlarge:py-6 medium:order-2"
+			>
+				<Prose>
+					<Content />
+				</Prose>
+			</article>
+			<aside
+				class="order-2 w-[327px] overflow-auto text-slate-800 dark:text-slate-200 medium:order-1 medium:w-auto"
+			>
+				<div
+					class="mb-2 rounded-lg bg-slate-100 p-4 dark:bg-slate-900 medium:mb-0 medium:rounded-b-none medium:pb-2"
+				>
+					<h3 class="mb-2 font-semibold medium:hidden">
+						{allRoles.length > 1 ? "Mes rôles" : "Mon rôle"}
+					</h3>
+					<div class="flex flex-wrap gap-2">
+						{
+							allRoles.map((role) => (
+								<Badge square color="sky">
+									{role}
+								</Badge>
+							))
+						}
+					</div>
+				</div>
+				<div
+					class="mb-2 rounded-lg bg-slate-100 p-4 dark:bg-slate-900 medium:rounded-t-none medium:pt-0"
+				>
+					<h3 class="mb-2 font-semibold medium:hidden">
+						{allTools.length > 1 ? "Outils" : "Outil"}
+					</h3>
+					<div class="flex flex-wrap gap-2">
+						{allTools.map((tool) => <Badge>{tool}</Badge>)}
+					</div>
+				</div>
+				{
+					data.link && (
+						<a
+							href={data.link}
+							target="_blank"
+							class="group mb-2 inline-block w-full rounded-lg bg-gradient-to-r from-indigo-500 via-fuchsia-500 to-rose-400 bg-[length:400%_400%] bg-pos-0 p-1 shadow transition-all duration-500 hover:bg-gradient-to-r hover:bg-pos-100 hover:shadow-none"
+						>
+							<span class="block rounded-md bg-slate-200 px-5 py-3 dark:bg-slate-800">
+								<>
+									{data.linkTitle && <div>{data.linkTitle}</div>}
+									<div class="font-sofia-sans text-sm text-indigo-500 transition duration-500 group-hover:text-[#ed5fb1]">
+										{data.link.replace("https://", "")}
+									</div>
+								</>
+							</span>
+						</a>
+					)
+				}
+				<a
+					href="/portfolio"
+					class="hover:-bg-pos-100 inline-block w-full rounded-lg bg-gradient-to-l from-slate-200 via-white to-white bg-[length:400%_400%] bg-pos-100 p-1 transition-all duration-500 hover:bg-pos-0 dark:from-slate-800 dark:via-slate-500 dark:to-slate-300"
+				>
+					<span class="block rounded-md bg-slate-200 px-5 py-3 dark:bg-slate-800"
+						>Retour au portfolio</span
+					>
+				</a>
+			</aside>
+		</main>
+	</div>
+</BaseLayout>
+
+<style is:global>
+	@tailwind base;
+	@tailwind components;
+	@tailwind utilities;
+
+	::-webkit-scrollbar-thumb {
+		background-color: rgb(226 232 240);
+		border: 4px solid transparent;
+		background-clip: content-box;
+		border-radius: 10px;
+	}
+
+	@media (prefers-color-scheme: dark) {
+		::-webkit-scrollbar-thumb {
+			background-color: rgb(30 41 59);
+		}
+	}
+
+	::-webkit-scrollbar,
+	::-webkit-scrollbar-track {
+		width: 14px;
+		background-color: transparent;
+	}
+</style>

@@ -3,6 +3,7 @@ import "@fontsource/lato"
 import "@fontsource/noto-sans"
 import "@fontsource/nunito"
 import "@fontsource/nunito/700.css"
+import "@fontsource/sofia-sans"
 import "@fontsource/space-grotesk"
 import "@fontsource/space-grotesk/700.css"
 import "@fontsource/urbanist"
@@ -18,12 +19,13 @@ export interface Props {
 	date?: Date
 	image?: string
 	bg?: string
+	font?: "Work Sans"
 }
-const { title, description, date, image, bg } = Astro.props
+const { title, description, date, image, bg, font } = Astro.props
 ---
 
 <!DOCTYPE html>
-<html lang="fr" class="font-sans">
+<html lang="fr" class:list={{"font-sans": !font, "font-work-sans": font == "Work Sans"}}>
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />

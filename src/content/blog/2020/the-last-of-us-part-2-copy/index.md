@@ -5,7 +5,7 @@ date: 2020-07-27
 categories: ["Article"]
 tags: ["Jeux vidéo"]
 license: "Captures de TLOU2 par @sholanng (Twitter). Abby portrait orange par u/hehnl. Vérifier aussi @mawharr @NotTheBadTrump @johnsweeney2147"
-image: ellie-red.jpg
+image: ./ellie-red.jpg
 palette: desolate
 draft: true
 ---

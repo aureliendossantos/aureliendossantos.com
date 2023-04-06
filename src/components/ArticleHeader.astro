@@ -28,10 +28,7 @@ const { title, description, date, cover, palette, wide } = Astro.props
 			: "none",
 	}}
 >
-	<div
-		class={"m-auto pt-8 " + (wide ? "max-w-[700px]" : "max-w-prose")}
-		class:list={{ "mb-12 pb-8": cover }}
-	>
+	<div class:list={["m-auto pt-8", { "max-w-[700px]": wide, "max-w-prose": !wide }]}>
 		<h1
 			style={{
 				color: cover ? "#fbf8f2" : palette.mainColor,

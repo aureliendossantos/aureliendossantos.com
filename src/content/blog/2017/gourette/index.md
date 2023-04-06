@@ -3,7 +3,7 @@ title: Gourette
 date: 2017-05-03
 location: Gourette
 categories: ["Photos"]
-image: ../content/blog/2017/gourette/f.webp
+image: ./f.webp
 palette: black
 ---
 

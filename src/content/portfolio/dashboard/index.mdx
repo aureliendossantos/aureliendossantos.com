@@ -1,0 +1,64 @@
+---
+title: Dashboard pour agence de formations
+description: Rapports élégants dédiés aux partenaires, connectés aux données de l'agence via l'API de Notion.
+lede: Pour améliorer la gestion de projet de l'agence, j'ai transformé un Excel de 500 lignes en une base de données sur Notion qui alimente une appli web de dashboard via l'API.
+release: 2021-12-05
+client: Agence Insolence
+roles:
+  - Développement web
+tools:
+  - Notion (API)
+  - Next.js
+moreTools:
+  - React
+  - Tailwind
+image: ./header.png
+---
+
+Jusqu'à lors, l'agence utilisait des feuilles Excel pour gérer l'avancement des cours, le recrutement des auteurs, etc. C'est effectivement un bon moyen _no-code_ de créer un environnement de travail flexible et modulable. Mais, alors que les tâches se complexifiaient et le nombre de cours augmentait drastiquement, manipuler ces tableurs devenait fastidieux et source d'erreurs[^erreurs] !
+
+[^erreurs]: **Note sur les risques d'erreur en travaillant avec un tableur**
+
+    Dans un tableur Excel, les données identiques ont tendance à être dédoublées. Par exemple, si une catégorie est commune à plusieurs cours, le nom de la catégorie sera recopié sur plusieurs lignes. Cela implique un risque élevé d'erreurs humaines :
+
+    - Deux cours provenant en apparence de la même catégorie pourraient utiliser un caractère différent pour l'apostrophe (`'` est différent de `’`) et donc être considérés comme provenant de deux catégories différentes par le programme. Cela rend moins fiable l'analyse des données et les vues filtrées.
+    - Changer le titre d'un cours ou d'une catégorie implique beaucoup d'opérations manuelles à travers les différents fichiers Excel, les documents partagés aux auteurs et au client...
+
+    C'est une sorte de cercle vicieux : plus on passe de temps à utiliser ces méthodes de travail, plus on ajoute du contenu dupliqué et difficile à maintenir, et plus les données sont difficiles à extraire si on souhaite un jour changer de méthode. Il est donc primordial de penser à la structure des données suffisamment tôt dans un projet !
+
+    Un système de bases de données relationnelles permet d'empêcher la duplication de données : au lieu de réécrire plusieurs fois le nom d'un module, on peut créer une référence au nom original à l'aide d'une relation. Un tel système encourage les bonnes pratiques, en incitant à mieux réfléchir à la structure des données. De plus, cela permet de faire des requêtes avancées, pour obtenir des vues filtrées qui augmentent nettement la productivité.
+
+Après mon arrivée dans l'entreprise, j'ai donc rapidement proposé de mettre en place des bases de données sur Notion pour simplifier la gestion de projet. Cependant, les outils de gestion comme Notion et Jira ne peuvent pas tout faire par eux-mêmes ! Grâce à la magie du code, nous pouvions aller plus loin en automatisant la communication avec nos partenaires.
+
+J'ai développé une application web avec [Next.js](https://nextjs.org/), [SWR](https://swr.vercel.app/) et l'[API de Notion](https://developers.notion.com/), permettant d'afficher une série de rapports élégants dans des tableaux mis à jour en direct :
+
+import home from "./home.png"
+
+<Figure
+	src={home}
+	alt="Tableau de bord de l'agence"
+	shadow
+	caption="Tableau de bord de l'agence (extrait)"
+/>
+
+Le serveur web agit comme un intermédiaire filtrant les données sensibles du Notion de l'agence. Ainsi, il est entièrement sûr de délivrer la page web au client pour lui partager l'avancement.
+
+De la même façon, chaque auteur dispose d'un lien privé lui permettant de consulter l'avancement de ses cours, toujours en direct :
+
+import dashboard from "./dashboard.png"
+
+<Figure
+	src={dashboard}
+	alt="Tableau de bord d'un auteur listant ses cours à réaliser et leur statut"
+	shadow
+/>
+
+Chaque auteur dispose d'un lien unique lui permettant de visualiser un récapitulatif clair et synthétique de toutes les informations le concernant, sans qu'il n'ait besoin de gérer un compte ou entrer un mot de passe. Ainsi, le système est fiable et intuitif même pour les allergiques à l'informatique.
+
+## Difficultés
+
+L'API de Notion est particulièrement lente à produire une réponse. Ce n'est pas forcément un problème dans des cas de figure classiques, mais ici, j'ai parfois besoin de charger plus de 500 cours, qui sont autant d'entrées dans la base de données, pour calculer des statistiques globales par exemple. Le problème, c'est que charger autant d'entrées peut parfois prendre plus de 5 secondes, ce qui altère grandement l'expérience de navigation, et me fait de surcroît dépasser la limite maximale de durée pour une fonction d'API sur [Vercel](https://vercel.com), l'hébergeur du site.
+
+Pour pallier à ce problème, j'ai découpé les requêtes de manière à pouvoir afficher les résultats progressivement. Grâce à SWR, je peux facilement envoyer plusieurs petites requêtes de manière asynchrone et rafraîchir les données du tableau en direct, constamment.
+
+Traiter ce problème en amont m'assure également que l'outil fonctionnera toujours avec de très nombreux cours, sans aucune maintenance de la part de l’agence.

@@ -5,11 +5,12 @@ interface Props {
 	date: Date
 	style?: string | Record<string, any> | undefined | null
 	nonBreakingSpaces?: boolean
+	yearOnly?: boolean
 }
-const { date, style, nonBreakingSpaces } = Astro.props
+const { date, style, nonBreakingSpaces, yearOnly } = Astro.props
 
 const formattedDate = () => {
-	const string = formatDate(date)
+	const string = formatDate(date, yearOnly)
 	if (nonBreakingSpaces) return string.replaceAll(" ", " ")
 	return string
 }

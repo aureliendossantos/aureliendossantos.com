@@ -21,7 +21,7 @@ const wide = data.categories?.includes("Photos")
 	title={data.title}
 	description={data.description}
 	date={data.date}
-	image={image}
+	image={image?.src}
 	bg={palette.backgroundColor}
 >
 	<div class="article-styling">
@@ -37,7 +37,7 @@ const wide = data.categories?.includes("Photos")
 				/>
 			)
 		}
-		<ArticleContents palette={palette} license={data.license} wide={wide} full={data.customLayout}>
+		<ArticleContents palette={palette} wide={wide} full={data.customLayout}>
 			<slot />
 		</ArticleContents>
 	</div>

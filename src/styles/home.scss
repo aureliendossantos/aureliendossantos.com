@@ -4,103 +4,105 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-	margin: 0;
-	background-color: #17182f;
-}
-
-canvas {
-	display: block;
-}
-
-#particles-js canvas {
-	display: block;
-	animation: fadein 2s;
-}
-
-@keyframes fadein {
-	from {
-		opacity: 0;
-	}
-	to {
-		opacity: 1;
-	}
-}
-
-#particles-js {
-	width: 100%;
-	height: 100%;
-	position: fixed;
-	z-index: -10;
-	top: 0;
-	left: 0;
-}
-
-.flex {
-	min-height: 100vh;
-	display: flex;
-	flex-direction: column;
-	flex-wrap: wrap;
-	align-items: flex-start;
-	align-content: center;
-	justify-content: center;
-	color: #9ca3af;
-	font-family: "Space Grotesk", sans-serif;
-}
-
-h1 {
-	white-space: nowrap;
-	font-family: "Space Mono", sans-serif;
-	font-style: italic;
-	@apply text-[1.7em] italic hover:text-[#8c95a4] active:text-[#828d9e];
-}
-
-.bio {
-	font-size: smaller;
-	margin-bottom: 1em;
-}
-
-.chapter {
-	margin-bottom: 1.1em;
-
-	h2 {
-		margin: 0 0 0.1em 0;
-	}
-
-	ul {
-		list-style-type: none;
+.home {
+	body {
 		margin: 0;
-		padding: 0;
-		line-height: 1.35;
+		background-color: #17182f;
 	}
-}
 
-a {
-	text-decoration: none;
-	color: inherit;
+	canvas {
+		display: block;
+	}
 
-	&:hover {
-		color: #e5e7eb;
+	#particles-js canvas {
+		display: block;
+		animation: fadein 2s;
+	}
 
-		.label {
-			color: #eceff4;
+	@keyframes fadein {
+		from {
+			opacity: 0;
+		}
+		to {
+			opacity: 1;
 		}
 	}
-}
 
-.dark {
-	@apply text-[#656f7e] hover:text-[#5f6979] active:text-[#566272];
-}
+	#particles-js {
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		z-index: -10;
+		top: 0;
+		left: 0;
+	}
 
-.primary {
-	margin-bottom: 0.2em;
+	.flex {
+		min-height: 100vh;
+		display: flex;
+		flex-direction: column;
+		flex-wrap: wrap;
+		align-items: flex-start;
+		align-content: center;
+		justify-content: center;
+		color: #9ca3af;
+		font-family: "Space Grotesk", sans-serif;
+	}
 
-	.label {
-		font-size: x-large;
+	h1 {
+		white-space: nowrap;
+		font-family: "Space Mono", sans-serif;
+		font-style: italic;
+		@apply text-[1.7em] italic hover:text-[#8c95a4] active:text-[#828d9e];
+	}
+
+	.bio {
+		font-size: smaller;
+		margin-bottom: 1em;
+	}
+
+	.chapter {
+		margin-bottom: 1.1em;
+
+		h2 {
+			margin: 0 0 0.1em 0;
+		}
+
+		ul {
+			list-style-type: none;
+			margin: 0;
+			padding: 0;
+			line-height: 1.35;
+		}
+	}
+
+	a {
+		text-decoration: none;
+		color: inherit;
+
+		&:hover {
+			color: #e5e7eb;
+
+			.label {
+				color: #eceff4;
+			}
+		}
+	}
+
+	.dark {
+		@apply text-[#656f7e] hover:text-[#5f6979] active:text-[#566272];
+	}
+
+	.primary {
+		margin-bottom: 0.2em;
+
+		.label {
+			font-size: x-large;
+			color: #d1d5db;
+		}
+	}
+
+	.secondary .label {
 		color: #d1d5db;
 	}
-}
-
-.secondary .label {
-	color: #d1d5db;
 }

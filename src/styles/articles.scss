@@ -4,34 +4,9 @@
 
 body {
 	@apply m-0;
-}
-
-::-webkit-scrollbar {
-	//display: none;
-	// Hiding the horizontal scollbar
-	// ("fixes" the gallery creating the horizontal scrollbar
-	// when the vertical scrollbar is present)
-	height: 0;
-	// The scrollbar track (background) can't be transparent.
-	// We make it very thin so it doesn't hide much of the full galleries.
-	width: 4px;
-}
-
-::-webkit-scrollbar-thumb {
-	background: rgba(138, 138, 138, 0.4);
-}
-
-::-webkit-scrollbar-thumb:hover {
-	background: rgba(138, 138, 138, 0.5);
-}
-
-::-webkit-scrollbar-thumb:active {
-	background: rgba(138, 138, 138, 0.6);
-}
-
-// For Firefox. I think.
-html {
-	scrollbar-width: none;
+	// Hides horizontal scrollbar created by full galleries & 100vw.
+	// https://stackoverflow.com/a/57677879
+	overflow-x: hidden;
 }
 
 iframe {

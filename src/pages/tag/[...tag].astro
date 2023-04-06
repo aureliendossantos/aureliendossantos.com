@@ -33,7 +33,7 @@ const { tag } = Astro.params
 const { articles, tags } = Astro.props
 ---
 
-<BaseLayout title={"Catégorie " + tag}>
+<BaseLayout title={"Catégorie " + tag} font="Work Sans">
 	<div class="mx-auto mb-12 max-w-[500px] px-4">
 		<header class="my-12 px-5">
 			<div class="my-5">
@@ -70,8 +70,4 @@ const { articles, tags } = Astro.props
 	@tailwind base;
 	@tailwind components;
 	@tailwind utilities;
-
-	body::-webkit-scrollbar {
-		width: 8px;
-	}
 </style>

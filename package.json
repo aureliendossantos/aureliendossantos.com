@@ -17,10 +17,11 @@
 		"@fontsource/lato": "^4.5.10",
 		"@fontsource/noto-sans": "^4.5.11",
 		"@fontsource/nunito": "^4.5.12",
+		"@fontsource/sofia-sans": "^4.5.1",
 		"@fontsource/space-grotesk": "^4.5.13",
 		"@fontsource/urbanist": "^4.5.17",
 		"@fontsource/work-sans": "^4.5.14",
-		"astro": "^2.1.5",
+		"astro": "^2.2.0",
 		"astro-auto-import": "^0.2.1",
 		"astro-eleventy-img": "^0.6.2",
 		"astro-embed": "^0.2.1",
@@ -32,6 +33,8 @@
 		"yt-channel-info": "^3.2.1"
 	},
 	"devDependencies": {
+		"@tailwindcss/line-clamp": "^0.4.2",
+		"@tailwindcss/typography": "^0.5.9",
 		"@types/markdown-it": "^12.2.3",
 		"@types/sanitize-html": "^2.8.0",
 		"sass": "^1.58.3"
