@@ -1,0 +1,42 @@
+---
+title: Jeu coopératif sur navigateur
+description: Sur une île déserte, les survivants doivent collaborer en asynchrone pour développer leur campement.
+lede: Attaché au souvenir des jeux sur navigateur des années 2000, je cherche à moderniser cette manière de jouer pour l'adapter au smartphone.
+roles:
+  - Développement web
+tools:
+  - Next.js
+  - Prisma
+moreTools:
+  - React
+  - Supabase
+  - Vercel
+release: 2022-12-29
+link: https://survie.aureliendossantos.com
+linkTitle: Jouer au prototype (attention, la base de données est parfois hors ligne)
+image: ./beach.png
+---
+
+Ce jeu de survie sur une île déserte est un prototype en développement, proposant une **vision modernisée des jeux d’aventure sur navigateur** auxquels je jouais dans les années 2000. Il est pensé pour être joué sur de courtes sessions tout au long de la journée, accessible sur téléphone.
+
+Vous pouvez explorer l’île pour récolter des ressources et construire des structures en collaboration avec les autres survivants, comme des huttes, des ateliers, des feux de camp… Les structures se détériorent au fil des jours et des intempéries, alors le meilleur moyen de subsister sera de collaborer avec les autres.
+
+import screenshot from "./screenshot.png"
+
+<Figure src={screenshot} alt="Capture d'écran sur smartphone" noLink>
+	Prototype jouable
+</Figure>
+
+Chaque minuit (heure réelle), une nuit passe dans le jeu instantanément. En vous reconnectant au jeu, c’est le matin et un compte-rendu vous raconte ce qu’il s’est passé. Cela peut aller de la simple nuit réparatrice à des événements plus dangereux, comme l’attaque d’un prédateur…
+
+Le jeu est programmé avec [Next.js](https://nextjs.org/) et [Prisma](https://www.prisma.io/). Le site et l’API sont hébergées par [Vercel](https://vercel.com/dashboard). La base de données est hébergée par [Supabase](https://supabase.com/).
+
+### Un jeu ouvert à la personnalisation
+
+L’API du jeu est accessible, de manière à permettre le développement de clients alternatifs ou des applications compagnon. Le jeu étant open source, il serait facile pour les joueurs d'héberger leurs propres serveurs maison pour en modifier les règles et les objets… Mais avant que cette vision ne soit pleinement accomplie, le projet doit encore progresser !
+
+### Tester le prototype
+
+Le prototype permet de construire quelques objets, voir les autres joueurs et recharger son énergie indéfiniment.
+
+J'utilise la base de données gratuite de Supabase, qui se met en pause au bout d'une semaine d'inactivité. Si le site ne fonctionne pas, je vous invite à [me contacter](/about#contact) pour que je la redémarre ! Sinon, vous pouvez également jeter un œil au code source pour héberger votre propre serveur de jeu ([GitHub](https://github.com/aureliendossantos/survival-game)).
