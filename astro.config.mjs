@@ -22,8 +22,10 @@ export default defineConfig({
 				"$components/mdx/Note.astro",
 				"$components/mdx/PhotoGallery.astro",
 				"$components/mdx/Sidenote.astro",
-				"$components/mdx/Tabs.astro",
 				"$components/mdx/Video.astro",
+				// Tabs is not imported by defaylt because it loads a CSS file
+				// on every page. It seems complicated to change the code to
+				// remove the CSS... Same for YouTube/Vimeo/Tweet from astro-embed.
 			],
 		}),
 		mdx(),
