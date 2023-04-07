@@ -107,28 +107,43 @@ iframe {
 }
 
 .future {
-	ul {
+	ul,
+	ol {
 		list-style: none; /* Remove default bullets */
+		li::before,
+		li::before {
+			color: #ff7be2;
+			font-weight: bold;
+			display: inline-block; /* Needed to add space between the bullet and the text */
+			width: 1em; /* Also needed for space (tweak if needed) */
+		}
 	}
 	ul li::before {
 		content: "\2022"; /* \2022 is the CSS Code/unicode for a bullet */
-		color: #ff7be2;
-		font-weight: bold;
-		display: inline-block; /* Needed to add space between the bullet and the text */
-		width: 1em; /* Also needed for space (tweak if needed) */
 		margin-left: -1em; /* Also needed for space (tweak if needed) */
+	}
+	ol {
+		counter-reset: li;
+		li {
+			counter-increment: li;
+			&::before {
+				content: counter(li) ".";
+				margin-left: -1.5em;
+				margin-right: 0.5em;
+				text-align: right;
+			}
+		}
 	}
 	em {
 		font-style: normal;
-		color: #4a8bf3;
+		@apply text-[#4a8bf3];
 	}
 	a {
-		// background-color: rgba(74, 139, 243, 0.15);
 		@apply bg-[#4a8bf3]/15 decoration-[#4a8bf3] decoration-2 underline-offset-3 hover:bg-[#4a8bf3]/20 hover:decoration-[3px] hover:underline-offset-2 active:bg-[#4a8bf3]/30 active:decoration-2 active:underline-offset-3;
 	}
 	h2,
 	h3 {
-		color: #4a8bf3;
+		@apply text-[#4a8bf3];
 	}
 	hr {
 		@apply border-[#ff7be2];

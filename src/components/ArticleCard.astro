@@ -29,7 +29,7 @@ const labels = [...categories, ...tags]
 				width={500}
 				quality={"max"}
 				alt="Couverture de l'article"
-				class="h-36 w-full object-cover"
+				class:list={["h-36 w-full object-cover", { "object-top": data.imageAnchorTop }]}
 			/>
 		)
 	}

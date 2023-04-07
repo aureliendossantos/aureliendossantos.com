@@ -1,55 +1,17 @@
 ---
 title: "Programmer des mini-jeux rétro avec PICO-8"
-description: "Une formation gratuite et complète pour débuter."
+description: "Une formation gratuite et complète pour débuter !"
 date: 2020-12-27
-categories: ["Formations"]
+categories: ["Tutoriel"]
 tags:
   - Programmation
   - Jeux
   - Game Dev Alliance
 image: ./cover.png
 cover: true
-draft: true
 palette: whiteboard
+layout: "$layouts/Future.astro"
 ---
-
-<style>
-ul, ol {
-  list-style: none; /* Remove default bullets */
-}
-ol {
-  counter-reset: li;
-}
-ol li::before, ul li::before {
-  color: #FF7BE2;
-  display: inline-block;
-  width: 1em;
-}
-ol li::before {
-  content: counter(li) ".";
-  margin-left: -1.5em;
-  margin-right: 0.5em;
-  text-align: right;
-}
-ol li {
-  counter-increment: li;
-}
-ul li::before {
-  content: "\2022";  /* \2022 is the CSS Code/unicode for a bullet */
-  font-weight: bold;
-  margin-left: -1em;
-}
-em {
-  font-style: normal;
-  color: #4A8BF3;
-}
-a {
-  text-decoration-color: #4A8BF3;
-}
-h2, h3 {
-  color: #4A8BF3;
-}
-</style>
 
 [PICO-8](https://www.lexaloffle.com/pico-8.php) est une console imaginaire dans laquelle vous pouvez aussi bien développer votre jeu que jouer à ceux des autres. Il est très facile de commencer à créer un jeu avec PICO-8 car on peut tout faire à l'intérieur : la programmation, le dessin et même la musique !
 
@@ -64,14 +26,17 @@ Les contraintes techniques de PICO-8 simplifient l'apprentissage tout en donnant
 
 ### En vidéo
 
-[https://www.youtube.com/playlist?list=PLHKUrXMrDS5t3ibCCh412ZAy0slIv3jeE](https://www.youtube.com/playlist?list=PLHKUrXMrDS5t3ibCCh412ZAy0slIv3jeE)
+import { YouTube } from "astro-embed"
+
+<YouTube id="https://www.youtube.com/watch?v=YXbR0eqPoAw&list=PLHKUrXMrDS5t3ibCCh412ZAy0slIv3jeE&index=1" />
 
 ### En version écrite
 
-[Programmer des mini jeux avec PICO-8](https://fairedesjeux.fr/pico-8/)
+[fairedesjeux.fr/pico-8](https://fairedesjeux.fr/pico-8/)
 
 ### Pour aller plus loin
 
-[Economiser des tokens](https://wiki.gamedevalliance.fr/pico-8/tokens/)
+Mes articles sur le wiki :
 
-[La mémoire](https://wiki.gamedevalliance.fr/pico-8/memoire/)
+- [Economiser des tokens](https://wiki.gamedevalliance.fr/pico-8/tokens/)
+- [La mémoire](https://wiki.gamedevalliance.fr/pico-8/memoire/)

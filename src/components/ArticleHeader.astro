@@ -9,8 +9,9 @@ interface Props {
 	cover?: ImageMetadata
 	palette: Palette
 	wide?: boolean
+	anchorTop?: boolean
 }
-const { title, description, date, cover, palette, wide } = Astro.props
+const { title, description, date, cover, palette, wide, anchorTop } = Astro.props
 ---
 
 <header
@@ -26,6 +27,7 @@ const { title, description, date, cover, palette, wide } = Astro.props
 		backgroundImage: cover
 			? `linear-gradient(rgba(56, 48, 28, 0.394), rgba(75, 65, 35, 0.395)), url('${cover.src}')`
 			: "none",
+		backgroundPosition: anchorTop ? "top" : "center",
 	}}
 >
 	<div class:list={["m-auto pt-8", { "max-w-[700px]": wide, "max-w-prose": !wide }]}>

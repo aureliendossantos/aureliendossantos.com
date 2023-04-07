@@ -1,7 +1,8 @@
 ---
 title: "Nouveau design de blog"
 date: 2022-11-09T14:37:22+01:00
-categories: ["Article"]
+categories: ["Micro-blog"]
+tags: ["Web"]
 ---
 
 Et voilà, après avoir longtemps utilisé le thème [Stack](https://github.com/CaiJimmy/hugo-theme-stack) par [Jimmy Cai](https://jimmycai.com/), j'ai fait mon propre thème de blog. Plus simple, plus humble peut-être, mais qui me permet quelques fantaisies. Qui me correspond mieux, en somme.
