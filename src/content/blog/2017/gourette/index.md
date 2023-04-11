@@ -1,7 +1,7 @@
 ---
 title: Gourette
 date: 2017-05-03
-location: Gourette
+places: ["gourette"]
 categories: ["Photos"]
 image: ./f.webp
 palette: black

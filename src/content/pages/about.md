@@ -29,7 +29,7 @@ Je suis à la recherche de nouvelles opportunités en tant qu'<em>ingénieur pé
 - <em>Traducteur anglais</em>, Degica, 2018
 - <em>Réalisateur vidéo</em> en micro-entreprise, 2015-2018
 
-J'ai également quelques années d'expérience en autodidacte avec <em>Unity</em> et <em>C#</em>. [Portfolio](https://aureliendossantos.notion.site/)
+J'ai également quelques années d'expérience en autodidacte avec <em>Unity</em> et <em>C#</em>. [Portfolio](/portfolio)
 
 ### Formation
 

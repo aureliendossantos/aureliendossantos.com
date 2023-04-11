@@ -9,7 +9,7 @@ export default defineConfig({
 	image: {
 		service: "astro/assets/services/sharp",
 	},
-	site: "https://blog.aureliendossantos.com",
+	site: "https://aureliendossantos.com",
 	integrations: [
 		tailwind({
 			config: { applyBaseStyles: false },
@@ -17,13 +17,17 @@ export default defineConfig({
 		AutoImport({
 			imports: [
 				"$components/mdx/ArticleRef.astro",
+				"$components/mdx/Book.astro",
 				"$components/mdx/Figure.astro",
 				"$components/mdx/Gallery.astro",
+				"$components/mdx/Game.astro",
+				"$components/mdx/GoogleMaps.astro",
+				"$components/mdx/MapsMention.astro",
 				"$components/mdx/Note.astro",
 				"$components/mdx/PhotoGallery.astro",
 				"$components/mdx/Sidenote.astro",
 				"$components/mdx/Video.astro",
-				// Tabs is not imported by defaylt because it loads a CSS file
+				// Tabs is not imported by default because it loads a CSS file
 				// on every page. It seems complicated to change the code to
 				// remove the CSS... Same for YouTube/Vimeo/Tweet from astro-embed.
 			],

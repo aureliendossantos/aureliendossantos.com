@@ -4,6 +4,8 @@ import Article from "$layouts/Article.astro"
 import BackHome from "$components/BackHome.astro"
 import getPalette from "$utils/palettes"
 import "src/styles/articles.scss"
+import Game from "$components/mdx/Game.astro"
+import Book from "$components/mdx/Book.astro"
 
 export async function getStaticPaths() {
 	const blogEntries = await getCollection("blog", ({ data }) => {
@@ -17,34 +19,55 @@ export async function getStaticPaths() {
 
 const { article } = Astro.props
 const { Content } = await article.render()
-const palette = getPalette(article.data.palette)
+const data = article.data
+const palette = getPalette(data.palette)
 const secondaryColor = palette.secondaryColor
 const specialColor = palette.specialColor
+const fontSize = palette.fontSize
+const references = [...data.games, ...data.books]
 ---
 
 <Article article={article}>
 	<div>
 		<Content />
 		{
-			article.data.license && (
+			references.length > 0 && (
 				<>
-					<hr />
-					<p class="license">{article.data.license}</p>
+					<h2>Dans cet article</h2>
+					{data.games.map((slug: string) => (
+						<Game slug={slug} />
+					))}
+					{data.books.map((isbn: string) => (
+						<Book isbn={isbn} />
+					))}
 				</>
 			)
 		}
-		{!article.data.customLayout && <BackHome />}
+		{
+			data.license && (
+				<>
+					<hr />
+					<p class="license">{data.license}</p>
+				</>
+			)
+		}
+		{!data.customLayout && <BackHome />}
 	</div>
 </Article>
 
-<style define:vars={{ secondaryColor, specialColor }} is:global>
+<style define:vars={{ secondaryColor, specialColor, fontSize }} is:global>
 	blockquote,
 	.note,
 	.license,
-	hr {
+	hr,
+	.special-color {
 		color: var(--specialColor);
 	}
-	figcaption {
+	figcaption,
+	.secondary-color {
 		color: var(--secondaryColor);
+	}
+	.text-normal-size {
+		font-size: var(--fontSize);
 	}
 </style>

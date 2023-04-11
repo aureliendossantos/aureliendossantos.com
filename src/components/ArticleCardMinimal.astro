@@ -3,16 +3,18 @@ import type { CollectionEntry } from "astro:content"
 import { getImage } from "astro:assets"
 import getPalette from "$utils/palettes"
 import ArticleDate from "./ArticleDate.astro"
+import getPlace from "$utils/places"
 
 interface Props {
 	article: CollectionEntry<"blog"> | CollectionEntry<"tufte">
 }
 const { article } = Astro.props
+const data = article.data
 const palette = getPalette(article.data.palette)
-const showCover = () =>
-	article.data.categories && article.data.categories.includes("Photos") && article.data.image
+const showCover = () => data.categories && data.categories.includes("Photos") && data.image
 const optimizedBackground =
-	showCover() && article.data.image ? await getImage({ src: article.data.image, width: 500 }) : null
+	showCover() && data.image ? await getImage({ src: data.image, width: 500 }) : null
+const place = data.places.length > 0 ? getPlace(data.places[0]) : undefined
 ---
 
 <a
@@ -31,13 +33,13 @@ const optimizedBackground =
 			class="mb-2 text-lg font-bold"
 			style={{ color: palette.mainColor, fontFamily: palette.headingsFont }}
 		>
-			{article.data.draft && "[Draft] "}{article.data.title}
+			{data.draft && "[Draft] "}{data.title}
 		</span>
 		<span
 			style={{ color: palette.secondaryColor, textShadow: `0 0 1em ${palette.backgroundColor}` }}
 		>
 			<ArticleDate date={article.data.date} nonBreakingSpaces />{
-				article.data.location && <span> / {article.data.location}</span>
+				place && <span> / {place.customTitle}</span>
 			}
 		</span>
 	</div>

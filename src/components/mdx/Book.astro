@@ -1,0 +1,32 @@
+---
+import RefBlock from "$components/RefBlock.astro"
+import formatDate from "$utils/formatDate"
+import { getImage } from "astro/dist/assets"
+
+interface Props {
+	isbn: string
+}
+const { isbn } = Astro.props
+// TODO: handle errors
+const result = await fetch(
+	`https://openlibrary.org/api/books?bibkeys=ISBN:${isbn}&jscmd=details&format=json`
+).then((response) => response.json())
+// Response format: https://openlibrary.org/dev/docs/api/books
+const book: any = Object.values(result)[0]
+const year = formatDate(new Date(book.details.publish_date), true)
+const infos = []
+if (book.details.subtitle) infos.push(book.details.subtitle)
+if (book.details.authors)
+	infos.push(book.details.authors.map((author: any) => author.name).join(", "))
+infos.push(book.details.publishers ? `${book.details.publishers?.join(", ")} (${year})` : year)
+---
+
+<RefBlock
+	img={`https://covers.openlibrary.org/b/isbn/${isbn}-L.jpg`}
+	title={book.details.title}
+	infos={infos}
+	links={[
+		[`ISBN ${book.details.isbn_13}`, false],
+		["Open Library", book.info_url],
+	]}
+/>

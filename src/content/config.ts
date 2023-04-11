@@ -1,5 +1,6 @@
 import { defineCollection, z } from "astro:content"
 import { Palettes } from "$utils/palettes"
+import { Places } from "$utils/places"
 // Export a single `collections` object to register your collection(s)
 // This key should match your collection directory name in "src/content"
 export const collections = {
@@ -9,7 +10,6 @@ export const collections = {
 				title: z.string(),
 				description: z.string().optional(),
 				date: z.date(),
-				location: z.string().optional(),
 				categories: z.array(z.string()).optional(),
 				tags: z.array(z.string()).optional(),
 				image: image().optional(),
@@ -19,6 +19,9 @@ export const collections = {
 				customLayout: z.boolean().default(false),
 				draft: z.boolean().default(false),
 				palette: z.nativeEnum(Palettes).default(Palettes.default),
+				games: z.array(z.string()).default([]),
+				books: z.array(z.string()).default([]),
+				places: z.array(z.nativeEnum(Places)).default([]),
 			}),
 	}),
 	tufte: defineCollection({
@@ -27,13 +30,15 @@ export const collections = {
 				title: z.string(),
 				description: z.string().optional(),
 				date: z.date(),
-				location: z.string().optional(),
 				categories: z.array(z.string()).optional(),
 				tags: z.array(z.string()).optional(),
 				image: image().optional(),
 				imageAnchorTop: z.boolean().optional(),
 				draft: z.boolean().default(false),
 				palette: z.nativeEnum(Palettes).default(Palettes.default),
+				games: z.array(z.string()).optional(),
+				books: z.array(z.string()).optional(),
+				places: z.array(z.nativeEnum(Places)).default([]),
 			}),
 	}),
 	pages: defineCollection({

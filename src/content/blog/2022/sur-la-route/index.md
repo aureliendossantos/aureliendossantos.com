@@ -1,7 +1,7 @@
 ---
 title: "Sur la route"
 date: 2022-06-21
-location: Pyrénées ariégeoises
+places: ["pyrenees-ariegeoises"]
 customLayout: true
 palette: green
 ---

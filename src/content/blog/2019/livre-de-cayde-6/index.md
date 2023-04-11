@@ -7,6 +7,8 @@ tags: ["Projet perso", "Jeux vidéo"]
 image: ./1.jpg
 cover: true
 palette: notebook
+games:
+  - destiny
 ---
 
 Cayde-6 est un des rares personnages sympas du jeu. Les autres ne pensent qu'à sauver le monde et ça les rend un peu ronchon, mais ce gars-là est très attachant. J'ai donc préparé « Le livre de Cayde-6 » pour l'anniversaire de ma moitié, avec qui j'ai parcouru le jeu. J'y ai rassemblé tous les textes de lore que l'on peut trouver dans le jeu, avec de jolies illustrations.
