@@ -17,7 +17,7 @@ La palette d'un article est également reflétée sur sa carte dans la page d'ac
 
 J'appelle ce thème de blog _Animus_. Je ne compte pas le rendre open source dans un futur proche, tout simplement parce que le code est très _hacky_ et que ce serait désagréable à personnaliser. En l'état j'aurais un peu honte que quiconque voie ça. Mais si quelqu'un est intéressé, je ferai un petit effort pour le nettoyer avec plaisir !
 
-Les différentes palettes sont des petits fichiers stockés dans un dossier nommé `palettes`. Voici par exemple le thème `notebook` que j'aime beaucoup, utilisé dans mon [article sur Destiny](/post/2021/destiny-introduction-analyse/) :
+Les différentes palettes sont des petits fichiers stockés dans un dossier nommé `palettes`. Voici par exemple le thème `notebook` que j'aime beaucoup, utilisé dans mon [article sur Destiny](/blog/2021/destiny-introduction-analyse/) :
 
 ```yaml
 title: "notebook"

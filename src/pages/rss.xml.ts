@@ -20,7 +20,7 @@ export async function get(context: APIContext) {
 			customData: `<language>fr-fr</language>`,
 			// Compute RSS link from post `slug`
 			// This example assumes all posts are rendered as `/blog/[slug]` routes
-			link: `/post/${post.slug}/`,
+			link: `/blog/${post.slug}/`,
 			// Note: this will not process components or JSX expressions in MDX files.
 			content: sanitizeHtml(parser.render(post.body)),
 		})),

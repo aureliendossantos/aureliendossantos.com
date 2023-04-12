@@ -12,16 +12,18 @@ export interface Props {
 const { article } = Astro.props
 const data = article.data
 const palette = getPalette(data.palette)
-const image = data.cover && data.image ? data.image : undefined
+const ogImage = data.image
+const coverImage = data.cover && data.image ? data.image : undefined
 const headingsFont = palette.headingsFont
 const wide = data.categories?.includes("Photos")
 ---
 
 <BaseLayout
+	ogType="article"
 	title={data.title}
 	description={data.description}
 	date={data.date}
-	image={image?.src}
+	image={ogImage?.src}
 	bg={palette.backgroundColor}
 >
 	<div class="article-styling">
@@ -31,7 +33,7 @@ const wide = data.categories?.includes("Photos")
 					title={data.title}
 					description={data.description}
 					date={data.date}
-					cover={image}
+					cover={coverImage}
 					palette={palette}
 					wide={wide}
 					anchorTop={data.imageAnchorTop}

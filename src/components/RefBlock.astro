@@ -5,28 +5,62 @@ interface Props {
 	title: string
 	infos: string[]
 	links: [string, string | false][]
+	big?: boolean
+	gallery?: string[]
 }
-const { img, icon, title, infos, links } = Astro.props
+const { img, icon, title, infos, links, big, gallery } = Astro.props
 ---
 
-<div class="my-[1em] flex flex-row gap-2 border">
-	<div class="max-w-[4em]">
-		<img src={img} />
-	</div>
-	<div class="grow pr-2 pb-1">
+<div
+	class:list={[
+		"my-[1em]",
+		{ "flex flex-row gap-2": !big },
+		{
+			"grid grid-cols-5 overflow-hidden rounded-md bg-white shadow transition-shadow hover:shadow-md":
+				big,
+		},
+	]}
+>
+	{
+		big ? (
+			<a
+				href={links[links.length - 1][1]}
+				class="order-2 col-span-3 min-h-[140px] bg-cover bg-center"
+				style={`background-image: url('${img}');`}
+			/>
+		) : (
+			<div class="max-w-[4em]">
+				<img src={img} />
+			</div>
+		)
+	}
+
+	<div class:list={{ "grow pr-2 pb-1": !big, "order-1 col-span-2 py-4 px-4 flex flex-col": big }}>
 		<h3 class="text-normal-size my-0 text-inherit">
 			{icon && <img src={icon} class="mr-[0.2em] max-h-[0.8em]" />}{title}
 		</h3>
-		<ul class="my-0 list-none pl-0">
+		<ul class="my-0 list-none pl-0" style={big ? "font-size: smaller;" : ""}>
 			{infos.map((item) => <li>{item}</li>)}
 		</ul>
-		<ul class="special-color my-0 flex list-none gap-2 pl-0 font-mono">
+		{big && <div class="grow" />}
+		<ul
+			class:list={[
+				"special-color my-0 flex list-none pl-0 font-mono",
+				{ "gap-2": !big, "flex-col": big },
+			]}
+			style={big ? "font-size: smaller;" : ""}
+		>
 			{
 				links.map((item) => (
 					<li>
 						{item[1] ? (
 							<a href={item[1]}>
-								{item[0].replace("http://", "").replace("https://", "").replace("www.", "")}
+								{item[0]
+									.replace("http://", "")
+									.replace("https://", "")
+									.replace("www.", "")
+									// only keep domain name
+									.replace(/\/.*/, "")}
 							</a>
 						) : (
 							item[0]
@@ -35,5 +69,18 @@ const { img, icon, title, infos, links } = Astro.props
 				))
 			}
 		</ul>
+		{
+			gallery && (
+				<div class="-mx-2 -mb-2 mt-2 grid h-20 grid-cols-3 gap-1">
+					{gallery.map((photo) => (
+						<a
+							href=""
+							class="rounded bg-cover bg-center"
+							style={`background-image: url('${photo}');`}
+						/>
+					))}
+				</div>
+			)
+		}
 	</div>
 </div>

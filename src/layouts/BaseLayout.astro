@@ -20,12 +20,38 @@ export interface Props {
 	image?: string
 	bg?: string
 	font?: "Work Sans"
+	ogType:
+		| "website"
+		| "article"
+		| "profile"
+		| "book"
+		| "video.movie"
+		| "video.other"
+		| "music.album"
+		| "music.playlist"
 }
-const { title, description, date, image, bg, font } = Astro.props
+const { title, description, date, image, bg, font, ogType } = Astro.props
+
+const googleStructuredData = {
+	"@context": "https://schema.org",
+	"@type": "BlogPosting",
+	headline: title,
+	image: [{ image }],
+	author: {
+		"@type": "Person",
+		name: "Aurélien Dos Santos",
+		url: "https://aureliendossantos.com",
+	},
+	/* the schema expects Date or DateTime using ISO 8601 format. For Date that is yyyy-MM-dd */
+	...(date && {
+		datePublished: date.toISOString().substring(0, 10),
+		dateModified: date.toISOString().substring(0, 10),
+	}),
+}
 ---
 
 <!DOCTYPE html>
-<html lang="fr" class:list={{"font-sans": !font, "font-work-sans": font == "Work Sans"}}>
+<html lang="fr" class:list={{ "font-sans": !font, "font-work-sans": font == "Work Sans" }}>
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
@@ -39,10 +65,18 @@ const { title, description, date, image, bg, font } = Astro.props
 		{description && <meta name="og:description" content={description} />}
 		<meta property="og:url" content={Astro.url} />
 		<meta property="og:site_name" content="Aurélien Dos Santos" />
-		<meta property="og:type" content="article" />
+		<meta property="og:type" content={ogType} />
 		<meta property="og:locale" content="fr_FR" />
-		{date && <meta property="article:published_time" content={date.toISOString()} />}
-		{date && <meta property="article:modified_time" content={date.toISOString()} />}
+		{
+			ogType == "article" && date && (
+				<meta property="article:published_time" content={date.toISOString()} />
+			)
+		}
+		{
+			ogType == "article" && date && (
+				<meta property="article:modified_time" content={date.toISOString()} />
+			)
+		}
 		{image && <meta property="og:image" content={image} />}
 		<meta name="twitter:site" content="@ooooorelien" />
 		<meta name="twitter:creator" content="@ooooorelien" />
@@ -50,6 +84,11 @@ const { title, description, date, image, bg, font } = Astro.props
 		{description && <meta name="twitter:description" content={description} />}
 		<meta name="twitter:card" content="summary_large_image" />
 		{image && <meta name="twitter:image" content={image} />}
+		{
+			ogType == "article" && (
+				<script type="application/ld+json" set:html={JSON.stringify(googleStructuredData)} />
+			)
+		}
 	</head>
 	<body class="bg-[#f5f5fa] dark:bg-[#17182f] dark:text-slate-200" style={{ backgroundColor: bg }}>
 		<slot />

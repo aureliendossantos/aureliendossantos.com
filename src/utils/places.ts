@@ -10,6 +10,7 @@ export enum Places {
 	pau = "pau",
 	gourette = "gourette",
 	pyreneesAriegeoises = "pyrenees-ariegeoises",
+	toulouse = "toulouse",
 }
 
 // Place ID finder: https://developers.google.com/maps/documentation/places/web-service/place-id
@@ -45,6 +46,12 @@ export default function getPlace(slug: Places): Place | undefined {
 				slug: slug,
 				customTitle: "Pyrénées ariégeoises",
 				googleMapsId: "ChIJ5VJCrBU1rxIRRMfwvWVPYbM",
+			}
+		case "toulouse":
+			return {
+				slug: slug,
+				customTitle: "Toulouse",
+				googleMapsId: "ChIJ_1J17G-7rhIRMBBBL5z2BgQ",
 			}
 	}
 }

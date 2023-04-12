@@ -3,8 +3,10 @@ import RefBlock from "$components/RefBlock.astro"
 
 interface Props {
 	id: string
+	big?: boolean
+	gallery?: boolean
 }
-const { id } = Astro.props
+const { id, big, gallery } = Astro.props
 
 const response = await fetch(
 	`https://maps.googleapis.com/maps/api/place/details/json?place_id=${id}&language=fr&key=${
@@ -15,24 +17,27 @@ const response = await fetch(
 const { result: place } = response
 
 function dayOfWeekAsString(dayIndex: number): string {
-	return ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"][dayIndex] || ""
+	return ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"][dayIndex]
 }
 
 function getClosedDays(openedDays: Array<number>): string {
-	let daysNumbers = [0, 1, 2, 3, 4, 5, 6]
+	let daysNumbers = [1, 2, 3, 4, 5, 6, 0]
 	let closedDays = daysNumbers
 		.filter((dayNumber) => !openedDays.includes(dayNumber))
 		.map((x) => dayOfWeekAsString(x))
-	if (closedDays.length == 0) return "Ouvert tous les jours"
-	return `Fermé le ${closedDays.join(", ")}.`
+	if (closedDays.length == 0) return "Ouvert tous les jours."
+	if (closedDays.length == 1) return `Fermé le ${closedDays[0]}.`
+	return `Fermé le ${closedDays.slice(0, -1).join(", ")} et le ${
+		closedDays[closedDays.length - 1]
+	}.`
 }
 
 const infos = []
+if (place.vicinity != place.name) infos.push(place.vicinity)
 if (place.editorial_summary) infos.push(place.editorial_summary.overview)
-if (place.business_status == "CLOSED_TEMPORARILY") infos.push("Fermé temporairement")
-if (place.business_status == "CLOSED_PERMANENTLY") infos.push("Fermé définitivement")
-infos.push(place.vicinity)
-if (place.current_opening_hours)
+if (place.business_status == "CLOSED_TEMPORARILY") infos.push("Fermé temporairement.")
+else if (place.business_status == "CLOSED_PERMANENTLY") infos.push("Fermé définitivement.")
+else if (place.current_opening_hours)
 	infos.push(getClosedDays(place.opening_hours.periods.map((period: any) => period.open.day)))
 if (place.rating)
 	infos.push(
@@ -46,13 +51,25 @@ const links: [string, string][] = place.website
 			["Google Maps", place.url],
 	  ]
 	: [["Google Maps", place.url]]
+const galleryUrls =
+	gallery && place.photos.length >= 3
+		? [1, 2, 3].map(
+				(i) =>
+					`https://maps.googleapis.com/maps/api/place/photo?maxwidth=200&photo_reference=${
+						place.photos[i].photo_reference
+					}&key=${import.meta.env.GOOGLE_MAPS_TOKEN}`
+		  )
+		: undefined
 ---
 
 <RefBlock
-	img={`https://maps.googleapis.com/maps/api/place/photo?maxheight=320
-    &photo_reference=${place.photos[0].photo_reference}&key=${import.meta.env.GOOGLE_MAPS_TOKEN}`}
+	img={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=${
+		big ? 800 : 120
+	}&photo_reference=${place.photos[0].photo_reference}&key=${import.meta.env.GOOGLE_MAPS_TOKEN}`}
 	icon={place.icon}
 	title={place.name}
 	infos={infos}
 	links={links}
+	big={big}
+	gallery={galleryUrls}
 />

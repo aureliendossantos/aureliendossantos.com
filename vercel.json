@@ -1,0 +1,28 @@
+{
+	"redirects": [
+		{
+			"source": "/post/:path*",
+			"destination": "/blog/:path*"
+		},
+		{
+			"source": "/photos/:path*",
+			"destination": "/blog/:path*"
+		},
+		{
+			"source": "/randonnees/:path*",
+			"destination": "/blog/:path*"
+		},
+		{
+			"source": "/page/:path*",
+			"destination": "/blog"
+		},
+		{
+			"source": "/category/:path*",
+			"destination": "/categories/:path*"
+		},
+		{
+			"source": "/tag/:path*",
+			"destination": "/tags/:path*"
+		}
+	]
+}
