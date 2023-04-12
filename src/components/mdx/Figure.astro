@@ -2,7 +2,7 @@
 import { Image } from "astro:assets"
 
 interface Props {
-	src: ImageMetadata
+	src: ImageMetadata | Promise<{ default: ImageMetadata }>
 	alt?: string
 	caption?: string
 	rounded?: boolean
@@ -10,16 +10,19 @@ interface Props {
 	noLink?: boolean
 }
 const { src, alt, caption, rounded, shadow, noLink } = Astro.props
+
+const resolvedSrc = "then" in src ? (await src).default : src
+
 const classes = (rounded ? "rounded-md" : "") + (shadow ? " shadow" : "")
 ---
 
 <figure>
 	{
 		noLink ? (
-			<Image src={src} alt={alt || ""} class={classes} />
+			<Image src={resolvedSrc} alt={alt || ""} class={classes} />
 		) : (
-			<a href={src.src}>
-				<Image src={src} alt={alt || ""} class={classes} />
+			<a href={resolvedSrc.src}>
+				<Image src={resolvedSrc} alt={alt || ""} class={classes} />
 			</a>
 		)
 	}

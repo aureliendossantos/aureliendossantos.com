@@ -3,8 +3,9 @@ import Figure from "./Figure.astro"
 import Gallery from "./Gallery.astro"
 
 interface Props {
-	lines: [ImageMetadata[], "wide" | "full" | undefined][]
+	lines: [(ImageMetadata | Promise<{ default: ImageMetadata }>)[], "wide" | "full" | undefined][]
 }
+
 const { lines } = Astro.props
 ---
 

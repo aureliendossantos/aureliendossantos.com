@@ -3,15 +3,22 @@ import ArticleCard from "$components/ArticleCard.astro"
 import TagLabel from "$components/TagLabel.astro"
 import BaseLayout from "$layouts/BaseLayout.astro"
 import getBlogPosts from "$utils/getBlogPosts"
-import getUniqueValuesAndOccurences from "$utils/getUniqueValuesAndOccurences"
+import getUniqueValuesAndOccurences, {
+	getUniquePlacesAndOccurences,
+} from "$utils/getUniqueValuesAndOccurences"
+import getPlace from "$utils/places"
 
 const articles = await getBlogPosts()
 
 const rawCategories = articles.map((article) => article.data.categories)
 const rawTags = articles.map((article) => article.data.tags)
+const rawPlaces = articles.map((article) =>
+	article.data.places.length > 0 ? [article.data.places[0]] : []
+)
 
 const categories = getUniqueValuesAndOccurences(rawCategories)
 const tags = getUniqueValuesAndOccurences(rawTags)
+const places = getUniquePlacesAndOccurences(rawPlaces)
 ---
 
 <BaseLayout
@@ -56,6 +63,27 @@ const tags = getUniqueValuesAndOccurences(rawTags)
 						Object.entries(tags).map(([key, value], i) => (
 							<>
 								<TagLabel label={key} count={value} type={"tag"} />{" "}
+							</>
+						))
+					}
+				</p>
+			</div>
+			<div class="mt-5">
+				<h3
+					class="float-left ml-[-23%] w-[20%] text-right text-slate-400 hover:text-slate-400/80 dark:text-slate-600 dark:hover:text-slate-600/80 medium:float-none medium:ml-0 medium:text-left"
+				>
+					Lieux
+				</h3>
+				<p>
+					{
+						Object.entries(places).map(([key, value], i) => (
+							<>
+								<TagLabel
+									label={getPlace(key)?.customTitle || ""}
+									slug={key}
+									count={value}
+									type="place"
+								/>{" "}
 							</>
 						))
 					}

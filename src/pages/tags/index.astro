@@ -1,0 +1,24 @@
+---
+import TagLabel from "$components/TagLabel.astro"
+import Explore from "$layouts/Explore.astro"
+import getBlogPosts from "$utils/getBlogPosts"
+import getUniqueValuesAndOccurences from "$utils/getUniqueValuesAndOccurences"
+
+const allArticles = await getBlogPosts()
+const rawTags = allArticles.map((article) => article.data.tags)
+const tags = getUniqueValuesAndOccurences(rawTags)
+---
+
+<Explore title="Tags" type="Explorer">
+	<div class="mt-5" slot="header">
+		<p>
+			{
+				Object.entries(tags).map(([key, value], i) => (
+					<>
+						<TagLabel label={key} count={value} type={"tag"} />{" "}
+					</>
+				))
+			}
+		</p>
+	</div>
+</Explore>

@@ -1,22 +1,18 @@
 ---
 import ArticleCardMinimal from "$components/ArticleCardMinimal.astro"
 import TagLabel from "$components/TagLabel.astro"
-import BaseLayout from "$layouts/BaseLayout.astro"
+import Explore from "$layouts/Explore.astro"
 import type { CollectionEntry } from "astro:content"
 import getBlogPosts from "$utils/getBlogPosts"
 import getUniqueValuesAndOccurences from "$utils/getUniqueValuesAndOccurences"
 
 export async function getStaticPaths() {
 	const allArticles = await getBlogPosts()
-
 	const rawTags = allArticles.map((article) => article.data.tags)
-
 	const tags = getUniqueValuesAndOccurences(rawTags)
 
 	return Object.entries(tags).map(([tag, amount], i) => {
-		const filteredArticles = allArticles.filter(
-			(article) => article.data.tags && article.data.tags.includes(tag)
-		)
+		const filteredArticles = allArticles.filter((article) => article.data.tags.includes(tag))
 		return {
 			params: { tag },
 			props: { articles: filteredArticles, tags },
@@ -33,41 +29,19 @@ const { tag } = Astro.params
 const { articles, tags } = Astro.props
 ---
 
-<BaseLayout ogType="website" title={"Tag " + tag} font="Work Sans">
-	<div class="mx-auto mb-12 max-w-[500px] px-4">
-		<header class="my-12 px-5">
-			<div class="my-5">
-				◂
-				<a href="/blog">Retour au blog</a>
-			</div>
-			<h2 class="mt-6 text-sm uppercase leading-tight text-slate-300 dark:text-slate-700">Tag/</h2>
-			<h1 class="text-2xl leading-tight text-slate-500">{tag}</h1>
-			<div class="mt-5">
-				<p>
-					{
-						Object.entries(tags).map(([key, value], i) => (
-							<>
-								<TagLabel label={key} count={value} type={"tag"} disabled={tag == key} />{" "}
-							</>
-						))
-					}
-				</p>
-			</div>
-		</header>
-		<main class="flex flex-col shadow">
-			{articles.map((article) => <ArticleCardMinimal article={article} />)}
-		</main>
+<Explore title={tag || ""} type="Tag">
+	<div class="mt-5" slot="header">
+		<p>
+			{
+				Object.entries(tags).map(([key, value], i) => (
+					<>
+						<TagLabel label={key} count={value} type={"tag"} disabled={tag == key} />{" "}
+					</>
+				))
+			}
+		</p>
 	</div>
-</BaseLayout>
-
-<style>
-	a {
-		@apply bg-slate-200 hover:bg-slate-300 active:bg-slate-400 dark:bg-slate-800 dark:hover:bg-slate-700 dark:active:bg-slate-600;
-	}
-</style>
-
-<style is:global>
-	@tailwind base;
-	@tailwind components;
-	@tailwind utilities;
-</style>
+	<main class="flex flex-col shadow">
+		{articles.map((article) => <ArticleCardMinimal article={article} />)}
+	</main>
+</Explore>

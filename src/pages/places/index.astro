@@ -1,0 +1,61 @@
+---
+import ArticleCardMinimal from "$components/ArticleCardMinimal.astro"
+import TagLabel from "$components/TagLabel.astro"
+import Explore from "$layouts/Explore.astro"
+import type { CollectionEntry } from "astro:content"
+import getBlogPosts from "$utils/getBlogPosts"
+import { getUniquePlacesAndOccurences } from "$utils/getUniqueValuesAndOccurences"
+import getPlace from "$utils/places"
+
+const articles = await getBlogPosts()
+const rawPlaces = articles.map((article) => article.data.places)
+const uniquePlaces = getUniquePlacesAndOccurences(rawPlaces)
+
+const places = Object.entries(uniquePlaces).map(([place, amount], i) => {
+	return {
+		slug: place,
+		place: getPlace(place),
+		articlesAmount: amount,
+		articles: articles.filter((article) => article.data.places.includes(place)),
+	}
+})
+
+Object.entries(places).forEach(([key, value], i) => {
+	const myArticleSlugs = value.articles.map((a) => a.id)
+	const allPlacesSlugs = places.map((p) => p.articles.map((a) => a.id))
+	if (
+		allPlacesSlugs.filter((p) => JSON.stringify(p) == JSON.stringify(myArticleSlugs)).length > 1
+	) {
+		value.articlesAmount = 0
+		value.articles = []
+	}
+})
+---
+
+<Explore title={"Lieux"} type="Explorer">
+	<div class="mt-5" slot="header">
+		<p></p>
+	</div>
+	<main>
+		{
+			Object.entries(places).map(([key, value], i) => {
+				return (
+					<>
+						<h2
+							class={`mt-10 px-5 text-xl leading-tight text-slate-500 ${
+								value.articlesAmount == 0 ? "-mb-8" : "mb-6"
+							}`}
+						>
+							{value.place.customTitle}
+						</h2>
+						<main class="flex flex-col shadow">
+							{value.articles.map((article) => (
+								<ArticleCardMinimal article={article} noPlace />
+							))}
+						</main>
+					</>
+				)
+			})
+		}
+	</main>
+</Explore>

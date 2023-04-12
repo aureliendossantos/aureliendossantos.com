@@ -16,7 +16,7 @@ export enum Places {
 
 // Place ID finder: https://developers.google.com/maps/documentation/places/web-service/place-id
 
-export default function getPlace(slug: Places): Place | undefined {
+export default function getPlace(slug: Places): Place {
 	switch (slug) {
 		case "eaux-chaudes":
 			return {
@@ -27,7 +27,7 @@ export default function getPlace(slug: Places): Place | undefined {
 		case "grotte-eaux-chaudes":
 			return {
 				slug: slug,
-				customTitle: "Eaux-Chaudes",
+				customTitle: "Grotte d'Eaux-Chaudes",
 				googleMapsId: "ChIJ9bnyiKW8Vw0RK5G0VFFtt9U",
 			}
 		case "vallee-d-aspe":
@@ -54,7 +54,7 @@ export default function getPlace(slug: Places): Place | undefined {
 				customTitle: "Pyrénées ariégeoises",
 				googleMapsId: "ChIJ5VJCrBU1rxIRRMfwvWVPYbM",
 			}
-		case "toulouse":
+		default:
 			return {
 				slug: slug,
 				customTitle: "Toulouse",

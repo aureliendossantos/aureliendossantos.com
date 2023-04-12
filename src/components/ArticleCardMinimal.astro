@@ -7,8 +7,9 @@ import getPlace from "$utils/places"
 
 interface Props {
 	article: CollectionEntry<"blog"> | CollectionEntry<"tufte">
+	noPlace?: boolean
 }
-const { article } = Astro.props
+const { article, noPlace } = Astro.props
 const data = article.data
 const palette = getPalette(article.data.palette)
 const showCover = () => data.categories && data.categories.includes("Photos") && data.image
@@ -39,7 +40,7 @@ const place = data.places.length > 0 ? getPlace(data.places[0]) : undefined
 			style={{ color: palette.secondaryColor, textShadow: `0 0 1em ${palette.backgroundColor}` }}
 		>
 			<ArticleDate date={article.data.date} nonBreakingSpaces />{
-				place && <span> / {place.customTitle}</span>
+				place && !noPlace && <span> / {place.customTitle}</span>
 			}
 		</span>
 	</div>

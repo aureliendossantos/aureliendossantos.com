@@ -13,12 +13,11 @@ Le GIF, pour Graphics Interchange Format, a été inventé en 1987 par une équi
 
 Les gifs sont rapidement devenus trop lourds tout en ayant une mauvaise qualité d'image, ralentissant énormément le chargement des pages, et ralentissant par la même occasion les machines peu puissantes. Vous vous souvenez quand votre ordinateur se mettait à fondre parce qu'un contact MSN s'amusait à remplacer chaque lettre par un gif ? C'est le même principe.
 
-<figure>
-	<img src="/videos/2021/remplacer-le-gif/metal.gif" alt='Texte "Metal" en lettres de feu' />
-	<figcaption>
-		<p>Voilà comment on était censé utiliser les GIF, à la base.</p>
-	</figcaption>
-</figure>
+import metal from "./metal.gif"
+
+<Figure src={import("./metal.gif")} alt='Texte "Metal" en lettres de feu'>
+	Voilà comment on était censé utiliser les GIF, à la base.
+</Figure>
 
 Aujourd'hui, le problème est presque réglé : envoyez un GIF sur un réseau social comme Twitter et il sera automatiquement converti en une vidéo. Ça aura toujours la couleur d'un GIF, le goût d'un GIF... mais ça n'en sera plus un. Et c'est une bonne chose : les formats vidéos sont plus efficaces et se chargent plus rapidement. Ils ont plein d'avantages ! Encore faut-il les utiliser, et ils ne sont pas encore assez populaires, ou même compris par le public. Il faut dire qu'une grande confusion est entretenue, puisque que quand on dit GIF aujourd'hui, on ne désigne plus vraiment le format d'image, mais plutôt ce concept d'animation qui boucle. Twitter, par exemple, affiche toujours « GIF » dans un coin, même si la conversion en a fait, techniquement, une vidéo.
 
