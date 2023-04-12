@@ -3,6 +3,8 @@ export type Palette = {
 	secondaryColor: string
 	specialColor: string
 	backgroundColor: string
+	mentionColor?: string
+	mentionHoverColor?: string
 	headingsFont: string
 	mainFont: string
 	specialFont?: string
@@ -19,12 +21,13 @@ export enum Palettes {
 	brown = "brown",
 	green = "green",
 	guidebook = "guidebook",
+	nature = "nature",
 	notebook = "notebook",
 	whiteboard = "whiteboard",
 	desolate = "desolate",
 }
 
-export default function getPalette(name: Palettes): Palette {
+export default function getPalette(name: Palettes | undefined): Palette {
 	switch (name) {
 		default:
 			return {
@@ -109,6 +112,20 @@ export default function getPalette(name: Palettes): Palette {
 				specialFont: "'Lato', monospace",
 				fontSize: "17px",
 				lineHeight: "1.6",
+			}
+		case "nature":
+			return {
+				mainColor: "#000000",
+				secondaryColor: "#8a8a94",
+				specialColor: "#91d36d",
+				backgroundColor: "#ffffff",
+				mentionColor: "#ebfcde",
+				mentionHoverColor: "#dcf7cd",
+				headingsFont: "Vollkorn, serif",
+				mainFont: "Lora, serif",
+				specialFont: "monospace",
+				fontSize: "18px",
+				lineHeight: "1.275",
 			}
 		case "notebook":
 			return {

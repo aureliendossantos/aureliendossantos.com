@@ -44,9 +44,11 @@ const { img, icon, title, infos, links, big, gallery } = Astro.props
 				big,
 		}}
 	>
-		<h3 class="text-normal-size my-0 text-inherit">
-			{icon && <img src={icon} class="mr-[0.2em] max-h-[0.8em]" />}{title}
-		</h3>
+		<a href={links[links.length - 1][1]} style="text-decoration-line: none">
+			<h3 class="text-normal-size mt-0 mb-[0.1em] leading-snug text-inherit">
+				{icon && <img src={icon} class="mr-[0.2em] max-h-[0.8em]" />}{title}
+			</h3>
+		</a>
 		<ul class="my-0 list-none pl-0" style={big ? "font-size: smaller;" : ""}>
 			{infos.map((item) => <li>{item}</li>)}
 		</ul>

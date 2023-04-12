@@ -6,6 +6,7 @@ export type Place = {
 
 export enum Places {
 	eauxChaudes = "eaux-chaudes",
+	grotteEauxChaudes = "grotte-eaux-chaudes",
 	valleeDAspe = "vallee-d-aspe",
 	pau = "pau",
 	gourette = "gourette",
@@ -22,6 +23,12 @@ export default function getPlace(slug: Places): Place | undefined {
 				slug: slug,
 				customTitle: "Eaux-Chaudes",
 				googleMapsId: "ChIJNf6KbUW7Vw0RIWjJRhhlBiY",
+			}
+		case "grotte-eaux-chaudes":
+			return {
+				slug: slug,
+				customTitle: "Eaux-Chaudes",
+				googleMapsId: "ChIJ9bnyiKW8Vw0RK5G0VFFtt9U",
 			}
 		case "vallee-d-aspe":
 			return {

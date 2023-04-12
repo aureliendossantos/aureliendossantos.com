@@ -1,42 +1,53 @@
 ---
-import ArticleCardMinimal from "$components/ArticleCardMinimal.astro"
+import RefBlock from "$components/RefBlock.astro"
 import ArticleDate from "$components/ArticleDate.astro"
 import { getEntryBySlug } from "astro:content"
 import getPalette from "$utils/palettes"
+import formatDate from "$utils/formatDate"
 
 interface Props {
 	slug: string
-	collection?: "blog" | "pages" | "tufte"
+	collection?: "blog" | "tufte" | "pages"
 	titleOnly?: boolean
+	card?: boolean
 }
-const { slug, collection, titleOnly } = Astro.props
+const { slug, collection, titleOnly, card } = Astro.props
 
 const article = await getEntryBySlug(collection || "blog", slug)
 const palette = getPalette(article.data.palette)
 ---
 
 {
-	article && (
-		<span
-			class="my-[-1px] rounded-sm px-[4px] py-[1px] shadow transition-shadow hover:shadow-md"
-			style={{
-				backgroundColor: palette.backgroundColor,
-				color: palette.mainColor,
-				fontFamily: palette.mainFont,
-			}}
-		>
-			{!titleOnly && <span style={{ color: palette.secondaryColor }}>Aurélien Dos Santos,</span>}
-			<a
-				href={"/blog/" + article.slug}
-				style={{ fontFamily: palette.headingsFont, textDecoration: "none" }}
+	article &&
+		(card ? (
+			<RefBlock
+				img={article.data.image?.src}
+				title={article.data.title}
+				infos={[formatDate(article.data.date), article.data.description]}
+				links={[["Blog", `/blog/${slug}`]]}
+				big
+			/>
+		) : (
+			<span
+				class="my-[-1px] rounded-sm px-[4px] py-[1px] shadow transition-shadow hover:shadow-md"
+				style={{
+					backgroundColor: palette.backgroundColor,
+					color: palette.mainColor,
+					fontFamily: palette.mainFont,
+				}}
 			>
-				{titleOnly ? article.data.title : `« ${article.data.title} »,`}
-			</a>
-			{!titleOnly && (
-				<span style={{ color: palette.secondaryColor }}>
-					<ArticleDate date={article.data.date} />
-				</span>
-			)}
-		</span>
-	)
+				{!titleOnly && <span style={{ color: palette.secondaryColor }}>Aurélien Dos Santos,</span>}
+				<a
+					href={"/blog/" + article.slug}
+					style={{ fontFamily: palette.headingsFont, textDecoration: "none" }}
+				>
+					{titleOnly ? article.data.title : `« ${article.data.title} »,`}
+				</a>
+				{!titleOnly && (
+					<span style={{ color: palette.secondaryColor }}>
+						<ArticleDate date={article.data.date} />
+					</span>
+				)}
+			</span>
+		))
 }

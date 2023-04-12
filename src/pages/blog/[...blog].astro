@@ -23,6 +23,8 @@ const data = article.data
 const palette = getPalette(data.palette)
 const secondaryColor = palette.secondaryColor
 const specialColor = palette.specialColor
+const mentionColor = palette.mentionColor || "rgb(229 231 235)"
+const mentionHoverColor = palette.mentionHoverColor || "rgb(209 213 219"
 const fontSize = palette.fontSize
 const references = [...data.games, ...data.books]
 ---
@@ -55,7 +57,10 @@ const references = [...data.games, ...data.books]
 	</div>
 </Article>
 
-<style define:vars={{ secondaryColor, specialColor, fontSize }} is:global>
+<style
+	define:vars={{ secondaryColor, specialColor, fontSize, mentionColor, mentionHoverColor }}
+	is:global
+>
 	blockquote,
 	.note,
 	.license,
@@ -69,5 +74,11 @@ const references = [...data.games, ...data.books]
 	}
 	.text-normal-size {
 		font-size: var(--fontSize);
+	}
+	.bg-mention {
+		background-color: var(--mentionColor);
+	}
+	.bg-mention:hover {
+		background-color: var(--mentionHoverColor);
 	}
 </style>

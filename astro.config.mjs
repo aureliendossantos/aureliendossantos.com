@@ -24,6 +24,7 @@ export default defineConfig({
 				"$components/mdx/GoogleMaps.astro",
 				"$components/mdx/MapsMention.astro",
 				"$components/mdx/Note.astro",
+				"$components/mdx/OpenGraph.astro",
 				"$components/mdx/PhotoGallery.astro",
 				"$components/mdx/Sidenote.astro",
 				"$components/mdx/Video.astro",

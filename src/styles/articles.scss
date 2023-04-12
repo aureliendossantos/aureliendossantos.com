@@ -106,6 +106,22 @@ iframe {
 	}
 }
 
+.cute {
+	img {
+		@apply rounded;
+	}
+	figure figcaption {
+		margin-left: 0;
+		margin-top: 0.5em;
+		text-align: center;
+		flex-flow: column;
+		font-size: 0.9rem;
+		p {
+			margin: auto;
+		}
+	}
+}
+
 .future {
 	ul,
 	ol {

@@ -1,0 +1,44 @@
+---
+import RefBlock from "$components/RefBlock.astro"
+import ogs from "open-graph-scraper"
+
+interface Props {
+	url: string
+	big?: boolean
+}
+const { url, big } = Astro.props
+
+async function getOgData(url: string) {
+	const options = { url: url, allMedia: true }
+	var result = undefined
+	try {
+		result = await ogs(options)
+	} catch (e) {
+		console.warn("Can't fetch Open Graph for " + url)
+	}
+	return result
+}
+
+const result = await getOgData(url)
+const ogData = result?.result
+---
+
+{
+	ogData ? (
+		<RefBlock
+			img={ogData.ogImage && ogData.ogImage[0].url}
+			icon={ogData.favicon}
+			title={ogData.ogTitle || ""}
+			infos={ogData.ogDescription ? [ogData.ogDescription] : []}
+			links={[[url, url]]}
+			big={big}
+		/>
+	) : (
+		<RefBlock
+			title="Erreur"
+			infos={[`Impossible de récupérer les informations du lien`]}
+			links={[[url, url]]}
+			big={big}
+		/>
+	)
+}

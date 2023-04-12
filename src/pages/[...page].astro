@@ -20,6 +20,7 @@ const { Content } = await article.render()
 const palette = getPalette(article.data.palette)
 const secondaryColor = palette.secondaryColor
 const specialColor = palette.specialColor
+const fontSize = palette.fontSize
 ---
 
 <Page page={article}>
@@ -29,13 +30,19 @@ const specialColor = palette.specialColor
 	</div>
 </Page>
 
-<style define:vars={{ secondaryColor, specialColor }} is:global>
+<style define:vars={{ secondaryColor, specialColor, fontSize }} is:global>
 	blockquote,
 	.note,
-	hr {
+	.license,
+	hr,
+	.special-color {
 		color: var(--specialColor);
 	}
-	figcaption {
+	figcaption,
+	.secondary-color {
 		color: var(--secondaryColor);
+	}
+	.text-normal-size {
+		font-size: var(--fontSize);
 	}
 </style>
