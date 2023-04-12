@@ -27,6 +27,7 @@
 		"astro-auto-import": "^0.2.1",
 		"astro-eleventy-img": "^0.6.2",
 		"astro-embed": "^0.2.1",
+		"discojs": "^2.2.0",
 		"markdown-it": "^13.0.1",
 		"open-graph-scraper": "^5.2.3",
 		"prettier-plugin-tailwindcss": "^0.2.3",

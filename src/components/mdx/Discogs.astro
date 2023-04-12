@@ -1,0 +1,39 @@
+---
+import RefBlock from "$components/RefBlock.astro"
+import { Discojs } from "discojs"
+
+interface Props {
+	master?: number
+	release?: number
+	label?: boolean
+}
+const { master, release, label } = Astro.props
+
+const client = new Discojs({
+	userToken: import.meta.env.DISCOGS_PERSONAL_ACCESS_TOKEN,
+})
+
+const data: any = master
+	? await client.getMaster(master).then((data) => {
+			return data
+	  })
+	: await client.getRelease(release || 0).then((data) => {
+			return data
+	  })
+
+const infos = []
+infos.push(data.artists.map((artist: any) => artist.name).join(", "))
+if (label && data.labels)
+	infos.push(`${data.labels.map((label: any) => label.name).join(", ")}, ${data.country}`)
+infos.push(`${data.tracklist.length} pistes`)
+---
+
+<RefBlock
+	img={data.images[0].uri}
+	title={`${data.title} (${data.year})`}
+	infos={infos}
+	links={[
+		["Vidéo", data.videos[0].uri],
+		["Discogs", data.uri],
+	]}
+/>

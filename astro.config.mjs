@@ -18,6 +18,7 @@ export default defineConfig({
 			imports: [
 				"$components/mdx/ArticleRef.astro",
 				"$components/mdx/Book.astro",
+				"$components/mdx/Discogs.astro",
 				"$components/mdx/Figure.astro",
 				"$components/mdx/Gallery.astro",
 				"$components/mdx/Game.astro",
