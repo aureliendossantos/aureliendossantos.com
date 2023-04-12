@@ -30,9 +30,7 @@ const { title, description, date, cover, palette, wide, anchorTop } = Astro.prop
 		backgroundPosition: anchorTop ? "top" : "center",
 	}}
 >
-	<div
-		class:list={["m-auto pt-8", { "max-w-[700px] w-[700px]": wide, "max-w-prose w-[65ch]": !wide }]}
-	>
+	<div class:list={["m-auto pt-8", { "max-w-[700px]": wide, "max-w-prose": !wide }]}>
 		<h1
 			style={{
 				color: cover ? "#fbf8f2" : palette.mainColor,

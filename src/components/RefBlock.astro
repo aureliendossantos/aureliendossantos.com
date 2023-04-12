@@ -1,6 +1,6 @@
 ---
 interface Props {
-	img: string
+	img?: string
 	icon?: string
 	title: string
 	infos: string[]
@@ -16,7 +16,7 @@ const { img, icon, title, infos, links, big, gallery } = Astro.props
 		"my-[1em]",
 		{ "flex flex-row gap-2": !big },
 		{
-			"grid grid-cols-5 overflow-hidden rounded-md bg-white shadow transition-shadow hover:shadow-md":
+			"grid grid-cols-5 small:grid-cols-1 small:grid-rows-1 overflow-hidden rounded-md bg-white shadow transition-shadow hover:shadow-md":
 				big,
 		},
 	]}
@@ -25,17 +25,25 @@ const { img, icon, title, infos, links, big, gallery } = Astro.props
 		big ? (
 			<a
 				href={links[links.length - 1][1]}
-				class="order-2 col-span-3 min-h-[140px] bg-cover bg-center"
+				class="order-2 col-span-3 min-h-[140px] bg-cover bg-center mediumlarge:col-span-2 medium:col-span-1 small:order-1"
 				style={`background-image: url('${img}');`}
 			/>
 		) : (
-			<div class="max-w-[4em]">
-				<img src={img} />
-			</div>
+			img && (
+				<div class="max-w-[4em]">
+					<img src={img} />
+				</div>
+			)
 		)
 	}
 
-	<div class:list={{ "grow pr-2 pb-1": !big, "order-1 col-span-2 py-4 px-4 flex flex-col": big }}>
+	<div
+		class:list={{
+			"grow pr-2 pb-1": !big,
+			"order-1 small:order-2 col-span-2 py-4 px-4 flex flex-col mediumlarge:col-span-3 medium:col-span-4":
+				big,
+		}}
+	>
 		<h3 class="text-normal-size my-0 text-inherit">
 			{icon && <img src={icon} class="mr-[0.2em] max-h-[0.8em]" />}{title}
 		</h3>
