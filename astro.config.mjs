@@ -16,7 +16,8 @@ export default defineConfig({
 		}),
 		AutoImport({
 			imports: [
-				"$components/mdx/ArticleRef.astro",
+				"$components/mdx/Tufte/Sidenote.astro",
+				"$components/mdx/BlogRef.astro",
 				"$components/mdx/Book.astro",
 				"$components/mdx/Discogs.astro",
 				"$components/mdx/Figure.astro",
@@ -27,7 +28,7 @@ export default defineConfig({
 				"$components/mdx/Note.astro",
 				"$components/mdx/OpenGraph.astro",
 				"$components/mdx/PhotoGallery.astro",
-				"$components/mdx/Sidenote.astro",
+				"$components/mdx/Ref.astro",
 				"$components/mdx/Video.astro",
 				// Tabs is not imported by default because it loads a CSS file
 				// on every page. It seems complicated to change the code to

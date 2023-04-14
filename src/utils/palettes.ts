@@ -14,6 +14,7 @@ export type Palette = {
 
 export enum Palettes {
 	default = "default",
+	tufte = "tufte",
 	black = "black",
 	white = "white",
 	darkgrey = "darkgrey",
@@ -100,6 +101,17 @@ export default function getPalette(name: Palettes | undefined): Palette {
 				headingsFont: "sans-serif",
 				mainFont: "serif",
 				specialFont: "monospace",
+			}
+		case "tufte":
+			return {
+				mainColor: "#111111",
+				secondaryColor: "#111111",
+				specialColor: "#111111",
+				backgroundColor: "#fffff8",
+				headingsFont:
+					'et-book, Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;',
+				mainFont:
+					'et-book, Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;',
 			}
 		case "guidebook":
 			return {

@@ -4,7 +4,7 @@ description: "Un grand article en plein format sur l'histoire de la série."
 date: 2022-06-21
 categories: ["Article"]
 tags: ["Jeux vidéo", "RPG Maker"]
-palette: notebook
+palette: tufte
 draft: true
 ---
 

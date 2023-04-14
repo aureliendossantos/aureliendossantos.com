@@ -1,0 +1,37 @@
+---
+interface Props {
+	title: string
+	author?: string
+	foreign?: boolean
+	date?: string
+	publisher?: string
+	link?: URL
+	archive?: URL
+	archiveDate?: string
+}
+const { title, author, foreign, date, publisher, link, archive, archiveDate } = Astro.props
+
+if (!archive) console.warn(`Not archived: "${title}"`)
+else if (!archiveDate) console.warn(`No archive date: "${title}"`)
+---
+
+<!-- prettier-ignore -->
+<span>
+	{author && `${author},`}
+	« {
+		foreign ?
+			<i>{link ?
+				<a href={link} target="_blank">{title}</a>
+				: title
+			}</i>
+			: link ?
+				<a href={link} target="_blank">{title}</a>
+				: title
+	} »{
+		publisher && <>, <i>{publisher}</i></>
+	}{
+		date && `, le ${date}`
+	}{
+		archive && <> (<a href={archive} target="_blank">{archiveDate ? `archive du ${archiveDate}` : "archive"}</a>)</>
+	}
+</span>
