@@ -1,5 +1,6 @@
 ---
 import ArticleCard from "$components/ArticleCard.astro"
+import HomeExploreLabel from "$components/HomeExploreLabel.astro"
 import TagLabel from "$components/TagLabel.astro"
 import BaseLayout from "$layouts/BaseLayout.astro"
 import getBlogPosts from "$utils/getBlogPosts"
@@ -37,11 +38,7 @@ const places = getUniquePlacesAndOccurences(rawPlaces)
 				Bonjour, je suis Aurélien et vous êtes sur mon blog. <br /><a href="/about">A propos</a>
 			</p>
 			<div class="mt-5">
-				<h3
-					class="float-left ml-[-23%] w-[20%] text-right text-slate-400 hover:text-slate-400/80 dark:text-slate-600 dark:hover:text-slate-600/80 medium:float-none medium:ml-0 medium:text-left"
-				>
-					Catégories
-				</h3>
+				<HomeExploreLabel href="/categories" name="Catégories" />
 				<p>
 					{
 						Object.entries(categories).map(([key, value], i) => (
@@ -53,11 +50,7 @@ const places = getUniquePlacesAndOccurences(rawPlaces)
 				</p>
 			</div>
 			<div class="mt-5">
-				<h3
-					class="float-left ml-[-23%] w-[20%] text-right text-slate-400 hover:text-slate-400/80 dark:text-slate-600 dark:hover:text-slate-600/80 medium:float-none medium:ml-0 medium:text-left"
-				>
-					Tags
-				</h3>
+				<HomeExploreLabel href="/tags" name="Tags" />
 				<p>
 					{
 						Object.entries(tags).map(([key, value], i) => (
@@ -69,11 +62,7 @@ const places = getUniquePlacesAndOccurences(rawPlaces)
 				</p>
 			</div>
 			<div class="mt-5">
-				<h3
-					class="float-left ml-[-23%] w-[20%] text-right text-slate-400 hover:text-slate-400/80 dark:text-slate-600 dark:hover:text-slate-600/80 medium:float-none medium:ml-0 medium:text-left"
-				>
-					Lieux
-				</h3>
+				<HomeExploreLabel href="/places" name="Lieux" />
 				<p>
 					{
 						Object.entries(places).map(([key, value], i) => (

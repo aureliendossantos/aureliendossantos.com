@@ -25,15 +25,15 @@ export async function getStaticPaths() {
 
 type Props = {
 	title: string
-	type: "Explorer" | "Catégorie" | "Tag" | "Lieu"
+	type: "Explorer" | "Catégories" | "Tags" | "Lieux"
 }
 const { title, type } = Astro.props
 
-const paths = { Explorer: undefined, Catégorie: "categories", Tag: "tags", Lieu: "places" }
+const paths = { Explorer: undefined, Catégories: "categories", Tags: "tags", Lieux: "places" }
 const path = paths[type]
 ---
 
-<BaseLayout ogType="website" title={`${type} ${title}`} font="Work Sans">
+<BaseLayout ogType="website" title={`${title}`} font="Work Sans">
 	<div class="mx-auto mb-12 max-w-[500px] px-4">
 		<header class="my-12 px-5">
 			<div class="my-5 mb-6">
@@ -45,7 +45,7 @@ const path = paths[type]
 					path ? (
 						<a
 							href={`/${path}`}
-							class="bg-transparent dark:hover:bg-slate-800 dark:active:bg-slate-700"
+							class="bg-transparent hover:bg-slate-200 hover:text-slate-400 active:bg-slate-300 dark:hover:bg-slate-800 dark:hover:text-slate-600 dark:active:bg-slate-700"
 						>
 							{type}/
 						</a>

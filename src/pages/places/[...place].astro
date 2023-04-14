@@ -30,7 +30,7 @@ const { place } = Astro.params
 const { articles, places } = Astro.props
 ---
 
-<Explore title={getPlace(place)?.customTitle || ""} type="Lieu">
+<Explore title={getPlace(place)?.customTitle || ""} type="Lieux">
 	<div class="mt-5" slot="header">
 		<p>
 			{

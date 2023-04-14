@@ -42,11 +42,16 @@ Object.entries(places).forEach(([key, value], i) => {
 				return (
 					<>
 						<h2
-							class={`mt-10 px-5 text-xl leading-tight text-slate-500 ${
+							class={`mt-10 px-5 text-xl leading-tight ${
 								value.articlesAmount == 0 ? "-mb-8" : "mb-6"
 							}`}
 						>
-							{value.place.customTitle}
+							<a
+								href={`/places/${value.slug}`}
+								class="text-slate-500 hover:text-slate-400 active:text-slate-500 dark:hover:text-slate-600 dark:active:text-slate-500"
+							>
+								{value.place.customTitle}
+							</a>
 						</h2>
 						<main class="flex flex-col shadow">
 							{value.articles.map((article) => (
