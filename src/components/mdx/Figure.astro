@@ -12,17 +12,17 @@ interface Props {
 const { src, alt, caption, rounded, shadow, noLink } = Astro.props
 
 const resolvedSrc = "then" in src ? (await src).default : src
-
 const classes = (rounded ? "rounded-md" : "") + (shadow ? " shadow" : "")
+const width = Math.min(resolvedSrc.width, 1920)
 ---
 
 <figure>
 	{
 		noLink ? (
-			<Image src={resolvedSrc} alt={alt || ""} class={classes} />
+			<Image src={resolvedSrc} width={width} alt={alt || ""} class={classes} />
 		) : (
 			<a href={resolvedSrc.src}>
-				<Image src={resolvedSrc} alt={alt || ""} class={classes} />
+				<Image src={resolvedSrc} width={width} alt={alt || ""} class={classes} />
 			</a>
 		)
 	}
