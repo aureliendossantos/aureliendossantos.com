@@ -7,9 +7,9 @@ import mdx from "@astrojs/mdx"
 export default defineConfig({
 	experimental: { assets: true },
 	image: {
-		service: "astro/assets/services/sharp",
+		service: "$utils/imageService.ts",
 	},
-	site: "https://aureliendossantos.com",
+	site: "https://www.aureliendossantos.com",
 	integrations: [
 		tailwind({
 			config: { applyBaseStyles: false },
