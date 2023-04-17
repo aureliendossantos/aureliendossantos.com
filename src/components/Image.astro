@@ -13,18 +13,18 @@ export interface Props extends Omit<HTMLAttributes<"img">, "src"> {
 }
 const { src, alt, width, height, quality, ...attributes } = Astro.props
 
-const avif = await getImage({
+/* const avif = await getImage({
 	src: src,
 	width: width,
 	height: height,
 	quality: quality,
 	format: "avif",
 	...attributes,
-})
+}) */
 const webp = await getImage({
-	src: Astro.props.src,
-	width: Astro.props.width,
-	height: Astro.props.height,
+	src: src,
+	width: width,
+	height: height,
 	quality: quality,
 	format: "webp",
 	...attributes,
@@ -36,7 +36,7 @@ const placeholderURL = await imageService.generatePlaceholder(src.src, src.width
 ---
 
 <picture>
-	<source srcset={avif.src} type={"image/" + avif.options.format} />
+	{/*src.format != "gif" && <source srcset={avif.src} type={"image/" + avif.options.format} />*/}
 	<img
 		src={webp.src}
 		style={`background-size: cover;background-image: url(${placeholderURL});image-rendering:auto;`}
