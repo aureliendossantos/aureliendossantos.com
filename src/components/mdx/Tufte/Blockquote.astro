@@ -1,0 +1,12 @@
+---
+interface Props {
+	source?: string
+	url?: string
+}
+const { source, url } = Astro.props
+---
+
+<blockquote cite={url}>
+	<slot />
+	{source && <footer>{url ? <a href={url}>{source}</a> : source}</footer>}
+</blockquote>

@@ -1,0 +1,34 @@
+---
+import Image from "$components/Image.astro"
+import MarginNote from "./MarginNote.astro"
+
+interface Props {
+	src: ImageMetadata | Promise<{ default: ImageMetadata }>
+	alt?: string
+	full?: boolean
+}
+const { src, alt, full } = Astro.props
+
+const resolvedSrc = "then" in src ? (await src).default : src
+const width = Math.min(resolvedSrc.width, 1920)
+---
+
+<figure class:list={{ fullwidth: full }}>
+	{
+		Astro.slots.has("default") && !full && (
+			<MarginNote>
+				<slot />
+			</MarginNote>
+		)
+	}
+	<a href={resolvedSrc.src}>
+		<Image src={resolvedSrc} width={width} alt={alt || ""} />
+	</a>
+</figure>
+{
+	Astro.slots.has("default") && full && (
+		<MarginNote paragraph>
+			<slot />
+		</MarginNote>
+	)
+}

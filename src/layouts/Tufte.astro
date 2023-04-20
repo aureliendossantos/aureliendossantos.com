@@ -8,6 +8,9 @@ export interface Props {
 
 const { article } = Astro.props
 const data = article.data
+// To remove spaces after sidenotes (breaks code blocks):
+// const html = (await Astro.slots.render("default")).replace(/[\r\n]/gm, "")
+const html = await Astro.slots.render("default")
 ---
 
 <!DOCTYPE html>
@@ -34,10 +37,10 @@ const data = article.data
 				<h1 class="title">{data.title}</h1>
 				<p class="subtitle">{data.description}</p>
 				<p class="byline">
-					{data.date} &ndash; Aurélien Dos Santos
+					<ArticleDate date={data.date} /> &ndash; Aurélien Dos Santos
 				</p>
 			</header>
-			<slot />
+			<section set:html={html} />
 		</article>
 	</body>
 </html>

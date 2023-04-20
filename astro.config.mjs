@@ -16,7 +16,13 @@ export default defineConfig({
 		}),
 		AutoImport({
 			imports: [
+				"$components/mdx/Tufte/Blockquote.astro",
+				"$components/mdx/Tufte/Epigraph.astro",
+				"$components/mdx/Tufte/MarginNote.astro",
+				"$components/mdx/Tufte/MarginImage.astro",
 				"$components/mdx/Tufte/Sidenote.astro",
+				"$components/mdx/Tufte/TufteFigure.astro",
+				"$components/mdx/Acronym.astro",
 				"$components/mdx/BlogRef.astro",
 				"$components/mdx/Book.astro",
 				"$components/mdx/Discogs.astro",

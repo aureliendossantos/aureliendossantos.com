@@ -1,0 +1,35 @@
+---
+import Image from "$components/Image.astro"
+import MarginNote from "./MarginNote.astro"
+
+interface Props {
+	src: ImageMetadata | Promise<{ default: ImageMetadata }>
+	alt?: string
+	caption?: string
+	paragraph?: boolean
+}
+const { src, alt, caption, paragraph } = Astro.props
+
+const resolvedSrc = "then" in src ? (await src).default : src
+const width = Math.min(resolvedSrc.width, 800)
+---
+
+{
+	paragraph ? (
+		<p>
+			<MarginNote>
+				<a href={resolvedSrc.src}>
+					<Image src={resolvedSrc} width={width} alt={alt || ""} />
+				</a>
+				<slot>{caption}</slot>
+			</MarginNote>
+		</p>
+	) : (
+		<MarginNote>
+			<a href={resolvedSrc.src}>
+				<Image src={resolvedSrc} width={width} alt={alt || ""} />
+			</a>
+			<slot>{caption}</slot>
+		</MarginNote>
+	)
+}
