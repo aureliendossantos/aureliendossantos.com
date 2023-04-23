@@ -10,7 +10,10 @@ const { article } = Astro.props
 const data = article.data
 // To remove spaces after sidenotes (breaks code blocks):
 // const html = (await Astro.slots.render("default")).replace(/[\r\n]/gm, "")
-const html = await Astro.slots.render("default")
+const html = (await Astro.slots.render("default")).replace(
+	"<section-switch></section-switch>",
+	"</section><section>"
+)
 ---
 
 <!DOCTYPE html>

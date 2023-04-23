@@ -4,12 +4,15 @@ import formatDate from "$utils/formatDate"
 import { getImage } from "astro/dist/assets"
 
 interface Props {
-	isbn: string
+	isbn?: string
+	olid?: string
 }
-const { isbn } = Astro.props
+const { isbn, olid } = Astro.props
 // TODO: handle errors
 const result = await fetch(
-	`https://openlibrary.org/api/books?bibkeys=ISBN:${isbn}&jscmd=details&format=json`
+	`https://openlibrary.org/api/books?bibkeys=${
+		isbn ? `ISBN:${isbn}` : `OLID:${olid}`
+	}&jscmd=details&format=json`
 ).then((response) => response.json())
 // Response format: https://openlibrary.org/dev/docs/api/books
 const book: any = Object.values(result)[0]

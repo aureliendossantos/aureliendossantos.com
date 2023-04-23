@@ -39,9 +39,9 @@ const references = [...data.games, ...data.books]
 					{data.games.map((slug: string) => (
 						<Game slug={slug} />
 					))}
-					{data.books.map((isbn: string) => (
-						<Book isbn={isbn} />
-					))}
+					{data.books.map((id: string) =>
+						id.startsWith("OL") ? <Book olid={id} /> : <Book isbn={id} />
+					)}
 				</>
 			)
 		}

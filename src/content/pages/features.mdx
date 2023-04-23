@@ -1,0 +1,143 @@
+---
+title: "Fonctionnalités du site"
+description: "Liste des outils utilisés, des mises en page, palettes et composants disponibles sur ce site."
+palette: source-serif
+toc: true
+layout: $layouts/TypographyDemo.astro
+---
+
+<aside>
+	Cette page est en cours de rédaction. Certaines sections peuvent être vides ou non terminées. Pour
+	obtenir plus de précisions sur un point abordé ici, [contactez-moi](/about).
+</aside>
+
+## Technologies utilisées
+
+### Astro
+
+Astro supporte également la syntaxe <abbr>[MDX](https://mdxjs.com/)</abbr>, activée en renommant un fichier en `.mdx`, et qui permet d'utiliser des composants Astro au sein des articles. Cela m'aide à encrichir les pages de plein de composants rigolos. Voir [<msc>Blocs et mentions</msc>](#blocs-et-mentions).
+
+<aside>
+	Pour faciliter la lecture, j'utiliserai dorénavant le terme « Markdown » pour désigner un fichier
+	pouvant être au format Markdown ou <abbr>MDX</abbr>.
+</aside>
+
+### Tailwind CSS
+
+## Structure du contenu
+
+Le site contient une page d'accueil, un blog, un portfolio, ainsi que quelques pages volantes telles que [`/about`](/about) ou la présente page.
+
+Je considère le blog et le portfolio comme deux sous-sites très distincts, n'utilisant que très peu de logique en commun si ce n'est du code _boilerplate_ pour alimenter le `<head>`. L'idéal serait de pouvoir continuer à créer autant de ces environnements que possible au sein du même dépôt, afin de correspondre à ma vision d'un site qui peut accueillir toute ma vie, des contenus les plus anciens et brouillons aux plus récents et professionnels. Pour que ces sous-sites continuent de fonctionner sans que des mises à jour brisent discrètement leur mise en page, il est important de pouvoir les isoler autant que possible.
+
+Pour cela, j'utilise les [_content collections_](https://docs.astro.build/en/guides/content-collections/) d'Astro, qui permettent de regrouper tous les documents Markdown d'un dossier sous une même logique ; ainsi que les [_layouts_](https://docs.astro.build/en/core-concepts/layouts/), qui sont des structures de page réutilisables.
+
+Ainsi, le dossier `content/blog` est une collection regroupant tous mes articles en Markdown, avec un schéma de _frontmatter_ permettant de renseigner la date de publication de l'article, une position géographique, les films et livres mentionnés, etc. La collection `blog` est importée par la page [`/blog`](/blog) et permet d'en générer toutes les sous-pages. Chaque page d'article utilise le _layout_ `<Article>` et peut également utiliser un sous-_layout_ comme `<Classic>` ou `<Typography>`. Voir [<msc>Layouts</msc>](#layouts).
+
+De l'autre côté, le dossier `content/portfolio` est une collection au schéma de _frontmatter_ bien distinct, importée par la page [`/portfolio`](/portfolio). La portfolio est designé complètement séparément ; par exemple, les présentations de projet dans le portfolio utilisent [Preflight](https://tailwindcss.com/docs/preflight) (le _<abbr>CSS</abbr> reset_ de Tailwind) ainsi que [`@tailwindcss/typography`](https://tailwindcss.com/docs/typography-plugin), mais les articles de blog n'utilisent pas ces outils.
+
+## Layouts
+
+### Layouts principaux
+
+- `<Classic>` est un design rétro et humble, présentant souvent des couleurs de fond vives et des polices par défaut comme Times New Roman. Ce _layout_ reste fidèle aux valeurs par défaut du navigateur conçernant la taille du texte et des marges, n'intervenant que pour appliquer de petites corrections, notamment la largeur maximale de la page. Les [<msc>galeries</msc>](#galeries) sont pensées pour apporter de la vie à ce _layout_ en brisant la verticalité du texte.
+
+  {/* prettier-ignore */}
+  <sc>Exemples</sc> : <BlogRef slug="2022/remnant-from-the-ashes" titleOnly />, <BlogRef slug="2020/laura-groves" titleOnly />, <BlogRef slug="2021/destiny-introduction-analyse" titleOnly />
+
+- `<Typography>`, utilisé sur cette page, tente de proposer un design minimaliste mais plus travaillé et évoquant la matérialité d'un livre. Il utilise les fonctionnalités typographiques des polices OpenType pour afficher des petites capitales et les différents types de chiffre en fonction du contexte.
+
+- `<Tufte>` est une adaptation de [TufteCSS](https://edwardtufte.github.io/tufte-css/) pour Astro. Il doit être utilisé avec des composants réalisés spécifiquement pour cette mise en page : `<Sidenote>`, `<MarginNote>`, `<TufteFigure>`, `<MarginImage>`, `<Blockquote>` et `<Epigraph>`.
+
+<aside>
+En raison de complications durant le développement, il faut pour le moment placer les documents dans la collection `content/tufte` afin d'utiliser le *layout* `<Tufte>`. Cette particularité pourrait être modifiée à l'avenir.
+</aside>
+
+### Layouts secondaires
+
+Les _layouts_ secondaires proposent des variantes concernant certains éléments d'une page. Ils doivent être combinés avec un _layout_ principal.
+
+- `<Cute>` applique des coins arrondis aux images et des paramètres différents pour les légendes.
+
+  <sc>Exemple</sc> : <BlogRef slug="2023/grottes-des-eaux-chaudes-laruns" titleOnly />
+
+- `<Future>` un _layout_ secondaire apportant de la couleur et de la fantaisie sans concession sur la lisibilité du texte. Les titres, les `<em>`, les puces et les numéros de liste sont colorés différemment du texte. Les liens ont un soulignage et un fond coloré qui réagissent au survol.
+
+  <sc>Exemple</sc> : <BlogRef slug="2020/programmer-des-jeux-pico-8" titleOnly />
+
+## Palettes
+
+Les palettes sont des combinaisons de couleurs, de polices d'écriture et d'autres paramètres servant à personnaliser les pages. Si le _layout_ détermine la structure générale d'une page, la palette est une variante de style pour en modifier l'ambiance. Certaines palettes présentent une couleur de fond vive à la manière du web des années 90, tandis que d'autres proposent une variante plus subtile, comme la palette `nature` avec ses nuances de gris discrètes, à l'exception d'un vert clair pour colorer les liens.
+
+Les palettes sont composées des éléments suivants, certains étant optionnels :
+
+- **Couleurs** : texte principal, secondaire et spécial ; fond de la page, des liens et des mentions.
+- **Polices** : titres ; texte principal et spécial ; taille et hauteur de ligne.
+
+Voici une liste non exhaustive des palettes existantes :
+
+- **Palettes rétro** : `default`, `black`, `white`, `darkgrey`, `blue`, `brown`, `green`
+- **Palettes modernes** : `guidebook`, `whiteboard`, `notebook`, `desolate`, `nature`
+
+En explorant l'accueil du blog ([`/blog`](/blog)), vous aurez un bon aperçu de la variété des palettes et de leurs effets.
+
+## Blocs et mentions
+
+### Galeries
+
+### Onglets
+
+### Google Maps
+
+Cette idée provient de mon ami Goulven qui, pour son article « [_Discovering coffee in Toulouse_](https://goulven-clech.dev/blog/2023/discovering-coffee-toulouse) », a réalisé des blocs adorables pour représenter ses cafés préférés sur Google Maps. Dans son élan, il a aussi réalisé des blocs pour référencer des livres (idée que j'ai également reprise, voir [<msc>Open Library</msc>](#open-library)) et des produits Amazon.
+
+Les infos de l'établissement sont récupérées à la compilation. Le bloc n'est donc pas dynamique côté visiteur et peut afficher des informations légèrement datées. Voici un exemple présentant, en hommage à Goulven, le café que je fréquente près de chez moi.
+
+<GoogleMaps id="ChIJwwSgcne9rhIRRsr5jm12cCQ" />
+
+J'ai également réalisé un composant _inline_ permettant de mentionner un établissement comme <MapsMention id="ChIJwwSgcne9rhIRRsr5jm12cCQ" /> au sein d'un paragraphe. L'icône est distribuée par Google Maps en fonction du type d'établissement, tandis que le texte peut être récupéré automatiquement ou personnalisé. Vous trouverez plusieurs exemples d'utilisation des mentions dans l'article <BlogRef slug="2023/grottes-des-eaux-chaudes-laruns" titleOnly />.
+
+### Open Library
+
+Comme Goulven, j'utilise [Open Library](https://openlibrary.org/) pour afficher la couverture et les informations d'un livre, à partir d'un <abbr>ISBN</abbr> ou de l'<abbr>identifiant</abbr> Open Library (<abbr>OLID</abbr>) si le premier n'est pas renseigné.
+
+Open Library a l'avantage d'avoir des données relativement complètes, mais surtout qui sont éditables instantanément, ce qui m'a été utile plusieurs fois pour préciser les données d'un livre que je souhaitais présenter. Vous trouverez des exemples d'utilisation du bloc dans l'article <BlogRef slug="2023/small-caps" titleOnly />.
+
+### Discogs
+
+Le bloc [Discogs](https://www.discogs.com/) peut afficher une version précise d'un album ou une _master release_, c'est-à-dire une représentation de l'ensemble des versions d'un même album. Vous trouverez deux exemples d'utilisation dans l'article <BlogRef slug="2020/laura-groves" titleOnly />.
+
+### IGDB
+
+L'[Internet Game Database](https://www.igdb.com/) (<abbr>IGDB</abbr>) est une sorte d'[<abbr>IMDB</abbr>](https://www.imdb.com/) du jeu vidéo. Lancé en 2014 et possédé depuis 2019 par Twitch qui l'utilise pour alimenter son site, les données d'<abbr>IGDB</abbr> sont très complètes. L'<abbr>API</abbr> permet d'obtenir un jeu à partir de son _slug_, par exemple `remnant-from-the-ashes`, ce qui est très pratique et lisible dans un document Markdown.
+
+Le bloc est utilisé dans <BlogRef slug="2022/remnant-from-the-ashes" titleOnly /> et <BlogRef slug="2020/the-last-of-us" titleOnly />.
+
+### OpenGraph
+
+### Références bibliographiques
+
+### Mentions d'article
+
+## Optimisations
+
+### Optimisation des images
+
+https://docs.astro.build/fr/guides/assets/
+
+### Images de substitution
+
+J'ai repris la technique développée par mon amie Erika pour son [site personnel](https://erika.florist/) et consistant à créer, pour chaque image, une image de substition à la résolution très faible afin de l'encoder dans la page <abbr>HTML</abbr>, plus précisément dans le `background` de `<img>`. Ainsi, avant que la véritable image ne soit chargée, le navigateur affiche un dégradé abstrait, bien plus esthétique qu'un simple fond blanc.
+
+Erika a ajusté les paramètres de l'image de substition (flou ; luminosité ; contraste) pour qu'elle évoque au mieux la véritable image et que la transition entre les deux soit plus douce. J'ai légèrement modifié ces valeurs pour correspondre à mes besoins, mais le reste du code est inchangé.
+
+## Todo
+
+- **Ajouter un bloc pour les films.** [Letterboxd](https://letterboxd.com/) a refusé ma demande d'accès à l'<abbr>API</abbr> ; <abbr>[IMDB](https://www.imdb.com/)</abbr> semble payant ou difficile à utiliser, mais je dois encore me pencher sur la question.
+- **Ajouter une galerie des œuvres** que j'ai mentionnées sur ce site ou aimées.
+  - <sc>Jeux</sc> : <abbr>IGDB</abbr> comporte des screenshots utiles pour habiller chaque entrée.
+    Je pourrais y loguer mes jeux ou récupérer mon tableau personnel sur Notion. Pour afficher ma
+    progression dans le jeu, je peux utiliser
+    [`leonardoalemax/psn-profile-api`](https://github.com/leonardoalemax/psn-profile-api) ou l'API
+    de Steam.
+  - <sc>Films</sc> : Un problème épineux ! Je ne sais pas encore comment je pourrais m'y prendre.

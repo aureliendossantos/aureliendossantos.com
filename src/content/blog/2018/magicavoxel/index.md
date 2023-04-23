@@ -8,6 +8,7 @@ image: ./2IAoFHn.png
 license: "Ecrit par Nev, Imanor et EzekielKoening"
 toc: true
 palette: guidebook
+layout: $layouts/Classic.astro
 ---
 
 <div class="note">

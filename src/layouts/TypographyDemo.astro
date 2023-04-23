@@ -1,0 +1,142 @@
+<div class="typography">
+	<slot />
+</div>
+
+<style lang="scss" is:global>
+	@font-face {
+		font-family: "et-book";
+		src: url("/tufte/et-book/et-book-roman-line-figures/et-book-roman-line-figures.eot");
+		src: url("/tufte/et-book/et-book-roman-line-figures/et-book-roman-line-figures.eot?#iefix")
+				format("embedded-opentype"),
+			url("/tufte/et-book/et-book-roman-line-figures/et-book-roman-line-figures.woff")
+				format("woff"),
+			url("/tufte/et-book/et-book-roman-line-figures/et-book-roman-line-figures.ttf")
+				format("truetype"),
+			url("/tufte/et-book/et-book-roman-line-figures/et-book-roman-line-figures.svg#etbookromanosf")
+				format("svg");
+		font-weight: normal;
+		font-style: normal;
+		font-display: swap;
+	}
+
+	@font-face {
+		font-family: "et-book";
+		src: url("/tufte/et-book/et-book-display-italic-old-style-figures/et-book-display-italic-old-style-figures.eot");
+		src: url("/tufte/et-book/et-book-display-italic-old-style-figures/et-book-display-italic-old-style-figures.eot?#iefix")
+				format("embedded-opentype"),
+			url("/tufte/et-book/et-book-display-italic-old-style-figures/et-book-display-italic-old-style-figures.woff")
+				format("woff"),
+			url("/tufte/et-book/et-book-display-italic-old-style-figures/et-book-display-italic-old-style-figures.ttf")
+				format("truetype"),
+			url("/tufte/et-book/et-book-display-italic-old-style-figures/et-book-display-italic-old-style-figures.svg#etbookromanosf")
+				format("svg");
+		font-weight: normal;
+		font-style: italic;
+		font-display: swap;
+	}
+
+	.typography {
+		font-feature-settings: "onum";
+		a {
+			@apply underline decoration-1 underline-offset-3;
+			&:hover {
+				@apply rounded-sm bg-zinc-200;
+			}
+		}
+		h2,
+		h3,
+		msc {
+			font-feature-settings: "smcp";
+			font-weight: 600;
+		}
+		.footnotes {
+			ol {
+				counter-reset: footnote 0;
+			}
+			li {
+				counter-increment: footnote;
+			}
+			li::marker {
+				content: counter(footnote) "  ";
+				font-feature-settings: "onum";
+			}
+		}
+		/* Prevent superscripts and subscripts from affecting line-height */
+		sup,
+		sub {
+			vertical-align: baseline;
+			position: relative;
+			top: -0.5em;
+			margin-left: 0.125em;
+			font-feature-settings: "lnum";
+			font-size: 0.7em;
+			font-weight: 600;
+			a {
+				@apply no-underline;
+			}
+		}
+		sub {
+			top: 0.4em;
+		}
+		abbr,
+		.sc {
+			font-feature-settings: "c2sc";
+			font-variant-numeric: tabular-nums;
+			letter-spacing: 0.05em;
+			font-style: normal;
+		}
+		.asc,
+		sc {
+			font-feature-settings: "smcp", "c2sc";
+			font-variant-numeric: tabular-nums;
+		}
+		.unicase-italic {
+			font-variant-caps: unicase;
+			font-weight: 600;
+			letter-spacing: 0.05em;
+		}
+		.et-book {
+			font-family: et-book, Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua",
+				Georgia, serif;
+			abbr,
+			.sc {
+				font-variant: all-small-caps;
+				letter-spacing: 0.04em;
+				font-weight: 600;
+			}
+		}
+		aside {
+			@apply mx-0 my-10 bg-inherit py-0 px-8 medium:px-4;
+			font-size: 1rem;
+			h3 {
+				font-feature-settings: "smcp";
+				@apply my-0 font-normal;
+			}
+			p {
+				@apply mt-0;
+			}
+		}
+		example,
+		blockquote,
+		aside {
+			@apply pl-8 medium:pl-4;
+		}
+		example {
+			@apply my-10 flex flex-col gap-4;
+			p,
+			ul {
+				@apply m-0;
+			}
+			&:not(.small) {
+				@apply text-2xl;
+			}
+		}
+		blockquote {
+			@apply mx-0 w-full not-italic text-inherit;
+		}
+		code {
+			font-family: "Source Code Pro", monospace;
+			@apply bg-inherit;
+		}
+	}
+</style>

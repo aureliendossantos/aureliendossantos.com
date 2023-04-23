@@ -48,6 +48,7 @@ export const collections = {
 				description: z.string().optional(),
 				image: image().optional(),
 				cover: z.boolean().default(false),
+				toc: z.boolean().default(false),
 				draft: z.boolean().default(false),
 				palette: z.nativeEnum(Palettes).default(Palettes.default),
 			}),

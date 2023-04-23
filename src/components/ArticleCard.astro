@@ -38,7 +38,7 @@ const place = data.places.length > 0 ? getPlace(data.places[0]) : undefined
 			class="mb-2 text-2xl font-bold"
 			style={{ color: palette.mainColor, fontFamily: palette.headingsFont }}
 		>
-			{data.draft && "[Draft] "}{data.title}
+			{data.title}{data.draft && " [Draft]"}
 		</h2>
 		{
 			data.description && (

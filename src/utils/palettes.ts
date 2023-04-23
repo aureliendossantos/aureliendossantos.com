@@ -23,6 +23,7 @@ export enum Palettes {
 	green = "green",
 	guidebook = "guidebook",
 	nature = "nature",
+	sourceSerif = "source-serif",
 	notebook = "notebook",
 	whiteboard = "whiteboard",
 	desolate = "desolate",
@@ -138,6 +139,20 @@ export default function getPalette(name: Palettes | undefined): Palette {
 				specialFont: "monospace",
 				fontSize: "18px",
 				lineHeight: "1.275",
+			}
+		case "source-serif":
+			return {
+				mainColor: "#000000",
+				secondaryColor: "#8a8a94",
+				specialColor: "#91d36d",
+				backgroundColor: "#ffffff",
+				mentionColor: "#ebfcde",
+				mentionHoverColor: "#dcf7cd",
+				headingsFont: "'Source Serif', serif",
+				mainFont: "'Source Serif', serif",
+				specialFont: "monospace",
+				fontSize: "18px",
+				lineHeight: "1.45",
 			}
 		case "notebook":
 			return {

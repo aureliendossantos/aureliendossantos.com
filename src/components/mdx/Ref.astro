@@ -6,11 +6,14 @@ interface Props {
 	date?: string
 	publisher?: string
 	jp?: boolean
+	page?: number
+	multiple?: boolean
 	link?: URL
 	archive?: URL
 	archiveDate?: string
 }
-const { title, author, foreign, date, publisher, jp, link, archive, archiveDate } = Astro.props
+const { title, author, foreign, date, publisher, jp, page, multiple, link, archive, archiveDate } =
+	Astro.props
 // If foreign, the title will be italicized. If jp (japanese), the publisher will not be italicized.
 
 if (!archive) console.warn(`Not archived: "${title}"`)
@@ -31,6 +34,8 @@ else if (!archiveDate) console.warn(`No archive date: "${title}"`)
 				: title
 	} »{
 		publisher && <>, {jp ? publisher : <i>{publisher}</i>}</>
+	}{
+		page && <>, {multiple ? "pages " : "page "}{page}</>
 	}{
 		date && `, le ${date}`
 	}{

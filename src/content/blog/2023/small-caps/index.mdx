@@ -1,0 +1,224 @@
+---
+title: "Utiliser les petites capitales sur le web"
+description: Les small caps sont une coquetterie typographique que j'adore, permettant de marquer l'emphase et d'écrire des abréviations. Cependant, les utiliser sur le web est un parcours du combattant...
+longDescription: Les *small caps* sont une coquetterie typographique permettant de marquer l'emphase et d'écrire des abréviations tout en conservant l'harmonie du texte.
+date: 2023-04-22
+categories:
+  - Article
+tags:
+  - Typographie
+  - Web
+books:
+  - "9780881792126"
+  - "9781861979162"
+  - "OL39968147M"
+palette: source-serif
+draft: true
+layout: $layouts/TypographyDemo.astro
+---
+
+Les <sc>Petites capitales</sc> sont...
+
+Dans _The Elements of Typographic Style_, Robert Bringhurst formule la règle suivante pour l'utilisation des petites capitales :
+
+> Les sigles tels que <abbr>CIA</abbr> et <abbr>OLP</abbr> sont fréquents dans certains textes. Il en va de même pour les abréviations <abbr>CE</abbr> et <abbr>BCE</abbr> ou <abbr>AD</abbr> et <abbr>BC</abbr>. La valeur normale pour l'interlettrage de ces séquences de petites ou grandes capitales est de 5 à 10 % de la taille des caractères.[^p30]
+
+[^p30]: Citation d'origine :
+
+    > « Acronyms such as <abbr>CIA</abbr> and <abbr>PLO</abbr> are frequent in some texts. So are abbreviations such as <abbr>CE</abbr> and <abbr>BCE</abbr> or <abbr>AD</abbr> and <abbr>BC</abbr>. The normal value for letterspacing these sequences of small or full caps is 5% to 10% of the type size. »
+
+    <Ref
+    	title="The Elements of Typographic Style (4th edition, v4.3, 20th anniversary edition)"
+    	author="Robert Bringhurst"
+    	page={30}
+    />
+
+J'ai rapidement été convaincu de l'intérêt de cette pratique, qui empêche les acronymes de « crier » dans le texte, apportant une certaine quiétude aux articles techniques. Cependant, le livre ne couvre que des exemples communs et n'apporte pas suffisamment de précisions pour un usage plus spécifique.
+
+En tentant d'appliquer ce principe à mon article sur l'historique de RPG Maker, qui contient de nombreux acronymes tels que <abbr>MSX</abbr> et des noms stylisés en majuscules comme <abbr>LOGiN</abbr>, j'ai été confronté à de nombreuses incertitudes. Faut-il diminuer la taille des numéros du <abbr>PC-98</abbr> et de la <abbr>PS2</abbr> ? Faut-il utiliser les petites capitales dans les titres de section ? Dans les paragraphes commençant par un acronyme, quelle serait la meilleure présentation parmi celles-ci ?
+
+<example class="et-book">
+	A<abbr>SCII</abbr> Corporation était une maison d’édition produisant des magazines et des livres sur l’informatique.
+
+    <abbr>ASCII</abbr> Corporation était une maison d’édition produisant des magazines et des livres sur l’informatique.
+
+    <abbr>ASCII C</abbr>orporation était une maison d’édition produisant des magazines et des livres sur l’informatique.
+
+</example>
+
+Aucune de ces solutions ne me semblait parfaitement naturelle. Problématique plus épineuse encore : s'il est évident de transformer en petites capitales le sigle <abbr>RPG</abbr> pour _role-playing game_, il est beaucoup moins esthétique d'écrire <abbr>RPG</abbr> Maker. Pourtant, <abbr>RPG M</abbr>aker n'est pas souhaitable non plus, et il serait étrange que RPG Maker soit le seul terme en grandes capitales tout au long de l'article, surtout lorsque l'on évoque le genre <abbr>RPG</abbr> dans le même paragraphe. Combinez à cela la problématique précédente, et le résultat fait véritablement froid dans le dos.
+
+<example class="et-book">
+	<abbr>RPG</abbr> Maker est un logiciel permettant de créer des <abbr>JRPG</abbr> en{" "}
+	<abbr>2D</abbr> dans le style de *Dragon Quest*.
+</example>
+
+Un peu perdu, je débute mes recherches en espérant ne pas être le premier à affronter la question des _small caps_ pour la rédaction technique. Déçu de ne trouver que très peu de ressources récentes et appliquées au web, je m'accroche au code typographique de _The Economist_, miraculeusement complet. D'après ce guide, le magazine utilise les petites capitales pour la plupart des abréviations et acronymes, mais proscrit leur usage dans les titres, les notes de bas de pages, les légendes, les tableaux, les graphiques et les éléments chimiques[^styleguide].
+
+[^styleguide]:
+    <Ref
+    	title="Style Guide"
+    	publisher="The Economist"
+    	link="https://www.benjaminjameswaddell.com/wp-content/uploads/2018/08/the-economist-style-guide.pdf"
+    	archive="https://web.archive.org/web/20230217161213/https://www.benjaminjameswaddell.com/wp-content/uploads/2018/08/the-economist-style-guide.pdf"
+    	archiveDate="17 février 2023"
+    />
+
+Toujours sur le web, [Gwern.net](https://gwern.net) utilise les petites capitales à des fins décoratives, pour créer des titres élégants et en première ligne de certaines introductions de section. En réalité, Gwern a également exploré en profondeur le sujet des petites capitales pour les abréviations, mais il a récemment abandonné[^gwernsmallcaps]. Il s'avère particulièrement difficile de maintenir une cohérence à travers un site web entier, surtout lorsqu'il est aussi vaste et diversifié que le sien. Cela demande soit beaucoup de travail manuel, soit une automatisation difficile à mettre en place. Gwern a écrit un plugin pour Pandoc permettant de détecter les occurences valides, mais il rend la compilation de son site particulièrement lente et diminue les performances de ses pages web déjà très denses.
+
+L'implémentation de _The Economist_ est également assez imparfaite. Si leur guide propose d'écrire <abbr>BPhils</abbr>, <abbr>PhD</abbr> et <abbr>T-shirts</abbr>, un article récent de leur site écrit « OpenAI’s publicly accessible <abbr>GPT-3</abbr> »[^TheEconomistAI] au lieu de ce qui devrait probablement être Open<abbr>AI</abbr>. D'autres pages semblent répondre à des règles encore différentes, ne faisant pas du tout appel aux petites capitales.
+
+[^TheEconomistAI]:
+    <Ref
+    	title="Artificial neural networks today are not conscious, according to Douglas Hofstadter"
+    	publisher="The Economist"
+    	link="https://www.economist.com/by-invitation/2022/06/09/artificial-neural-networks-today-are-not-conscious-according-to-douglas-hofstadter"
+    />
+
+Dans _Practical Typography_, Matthew Butterick souligne que les petites capitales peuvent également constituer une bonne alternative au gras et à l'italique pour accenter des mots-clés[^practicaltypography]. C'est d'ailleurs l'approche de Gwern[^gwernsmallcaps], qui introduit parfois ses éléments de liste de deuxième niveau ainsi :
+
+<example class="small">
+
+- **Premier point**: Description du point.
+  - <span class="asc">Sous-point</span>: Un autre point.
+  - <span class="asc">Sous-point</span>: Un autre point.
+- **Deuxième point**: Retour au premier niveau de liste.
+
+</example>
+
+[^practicaltypography]:
+    <Ref
+    	title="Small caps"
+    	author="Matthew Butterick"
+    	publisher="Practical Typography"
+    	link="https://practicaltypography.com/small-caps.html"
+    />
+
+[^gwernsmallcaps]: https://gwern.net/design-graveyard#automatic-smallcaps
+
+Je trouve cette idée particulièrement plaisante. Galvanisé par cet océan de possibilités et rassuré de ne pas être complètement seul dans mes déboires, je remarque tout de même que je ne sais toujours pas comment styliser RPG Maker, mais je suis résolu à ne pas abandonner tous mes efforts juste parce que ce mot est en train de tranquillement écrouler la cohérence que j'essaie d'apporter à mon article. Peut-être puis-je me permettre une petite entorse aux règles dans ce cas précis. Après tout, Bringhurst lui-même encourage à adapter ses nombreuses règles à chaque situation : « Si vous utilisez ce livre comme un guide, n'hésitez pas à sortir des sentiers battus lorsque vous le souhaitez. »[^p10] Cela dit, j'aimerais bien retrouver mon chemin, parce que je n'avais pas l'impression de demander la lune, je voulais juste des jolies petites capitales. Malheureusement, les choses ne vont pas aller en s'arrangeant. Une autre complication m'emmène loin, très loin de la solution : le <abbr>CSS</abbr>.
+
+[^p10]: Citation d'origine :
+
+    > « If you use this book as a guide, by all means leave the road when you wish. »
+
+    Bringhurst, _op. cit._, page 10
+
+Pour représenter les petites capitales, le plus simple est d'appliquer un style à l'élément [`<abbr>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/abbr). J'ai commencé en utilisant `font-variant: unicase`, qui transforme les majuscules en petites capitales sans altérer les minuscules. C'est très pratique car cela permet d'englober des minuscules dans les abréviations.
+
+{/* prettier-ignore */}
+<example>
+	Le magazine <span style="font-variant: unicase;">LOGiN</span> et le modèle <span style="font-variant: unicase;">GPT-3.5-turbo</span>
+</example>
+
+{/* prettier-ignore */}
+```css
+abbr { font-variant: unicase; }
+```
+
+```html
+Le magazine <abbr>LOGiN</abbr> et le modèle <abbr>GPT-3.5-turbo</abbr>
+```
+
+Je remarque deux problèmes : Safari affiche des majuscules normales en date du 22 avril 2023 (Firefox?) et les tirets sont rendus très fins et trop bas.
+
+Comme souvent, la première question qui me vient à l'esprit est : que ferait Gwern dans cette situation ? Il s'avère qu'il utilise lui aussi Source Sans Pro, comme moi dans le présent article, mais pas du tout les mêmes propriétés <abbr>CSS</abbr>.
+
+{/* prettier-ignore */}
+<example>
+	Le magazine <span class="asc">LOGiN</span> et le modèle <span class="asc">GPT-3.5-turbo</span>
+</example>
+
+{/* prettier-ignore */}
+```css
+abbr { font-feature-settings: "smcp", "c2sc"; }
+```
+
+Les tirets sont beaucoup plus jolis, mais les minuscules ont disparu. C'est parce que la propriété `c2sc` transforme les majuscules en _small caps_ et la propriété `smcp` transforme les minuscules. Cela convenait à Gwern qui appliquait son style uniquement aux lettres de son choix grâce au plugin Pandoc, mais de mon côté, je préfèrerais baliser les abréviations manuellement, sans pour autant devoir trier les minuscules. Que se passerait-il si l'on utilise uniquement `c2sc` ?
+
+{/* prettier-ignore */}
+<example>
+	Le magazine <span style="font-feature-settings: 'c2sc';">LOGiN</span> et le modèle <span style="font-feature-settings: 'c2sc';">GPT-3.5-turbo</span>
+</example>
+
+{/* prettier-ignore */}
+```css
+abbr { font-feature-settings: "c2sc"; }
+```
+
+Nous pouvons englober des minuscules sans les altérer et le tout fonctionne parfaitement sur tous les navigateurs. Parfaitement ? Sauf en italique.
+
+{/* prettier-ignore */}
+<example>
+	Le magazine <abbr><i>LOGiN</i></abbr> (`c2sc`)
+
+    Le magazine <i><span style="font-variant: unicase;">LOGiN</span></i> (`unicase`)
+
+    Le magazine <i><span style="font-variant: all-small-caps;">LOGiN</span></i> (`all-small-caps`)
+
+</example>
+
+A la date de mes observations, `c2sc` ne fonctionne pas car Source Serif Pro ne comporte pas de _small caps_ en italique[^githubissue]. On peut tout de même tenter d'utiliser la propriété `font-variant`, qui demande au navigateur de synthétiser les caractères à partir des majuscules normales, mais le problème d'épaisseur est très visible. De plus, rappelons que l'option `all-small-caps` fonctionne sur Safari, mais pas l'option `unicase`, qui offre le tri des minuscules.
+
+[^githubissue]: https://github.com/adobe-fonts/source-serif/issues/46
+
+Je suis un peu déçu puisque je comptais utiliser les petites capitales dans certains noms de publication comme <abbr>LOGiN</abbr> ou _<abbr>MSX</abbr> Magazine_. Il serait déraisonnable d'utiliser la forme synthétisée *<span style="font-variant: all-small-caps;">MSX</span> Magazine* ; et même en compensant l'épaisseur des caractères dans _<span style="font-variant: all-small-caps; font-weight: 600;">MSX</span> Magazine_, nous restons loin du charme des petites capitales d'origine. La solution simple pour mettre ce problème de côté est de retirer l'italique à `<abbr>` avec `font-style: normal`.
+
+Les soucis ne s'arrêtent pas là. Même lorsque la police est censée comprendre des petites capitales et que vous prenez toutes ces précautions, cela ne veut pas dire qu'elles feront partie de la version qui vous est distribuée. Par exemple, Google Fonts ne sert pas les petites capitales et les [chiffres elzéviriens](https://fr.wikipedia.org/wiki/Chiffres_elz%C3%A9viriens) (ou chiffres non alignés)[^gfonts]. Dans mon cas, je récupère la plupart des polices de mon blog via [Fontsource](https://fontsource.org/), mais les petites capitales ne sont pas incluses. Évidemment, ce n'est documenté nulle part, donc dans le doute, il vaut mieux récupérer la police sur son site d'origine. Haha. Vous êtes encore là ?
+
+[^gfonts]: http://webtypography.net/3.2.2
+
+Pour récapituler, les options OpenType intéressantes sont les suivantes, en considérant qu'il est également possible d'utiliser l'option équivalente de `font-variant` si vous souhaitez permettre au navigateur de synthétiser les caractères :
+
+- `smcp` transforme les minuscules en *small caps* ;
+- `c2sc` transforme les majuscules en *small caps* ;
+- `tnum` active les chiffres de la même taille, ce qui leur permet d'être mieux alignés dans les tableaux et a tendance à être plus esthétique en conjonction avec les petites capitales ;
+- `pcap` transforme les minuscules en *petite caps* ;
+- `c2pc` transforme les majuscules en *petite caps* ;
+
+<aside>
+
+### Small caps et petite caps
+
+En anglais, « *small capitals* » désigne ce que l'on appelle « petites capitales » en français, c'est-à-dire les capitales de la même hauteur que les minuscules. Cependant, certaines polices ont des minuscules d'une hauteur très faible et les _small caps_ les dépassent un peu pour des raisons de lisibilité ou d'esthétique. Ces polices proposent parfois un troisième jeu de caractères, les _petites capitals_, qui elles, sont bien de la même hauteur que les minuscules. Gare à la confusion, car les _petites capitals_ ne sont pas des petites capitales ! La version française de <abbr>MDN</abbr> propose de traduire ce terme en « toutes petites capitales »[^MDNpetitecaps]. En <abbr>CSS</abbr>, la propriété `font-variant-caps: petite-caps` tente d'utiliser les _small caps_ si les _petite caps_ sont indisponibles, puis synthétise les caractères si aucun de ces jeux n'existe.
+
+</aside>
+
+[^MDNpetitecaps]:
+    <Ref
+    	title="font-variant-caps"
+    	publisher="MDN Web Docs"
+    	link="https://developer.mozilla.org/fr/docs/Web/CSS/font-variant-caps"
+    />
+
+Nous avons vu qu'il est important de comprendre la subtilité de chaque option en CSS, de s'assurer de leur compatibilité avec les navigateurs, mais aussi qu'après tout cela, il est important que la police propose les jeux de caractère dont on a besoin.
+
+Ce qui me fait penser à une solution pour styliser RPG Maker.
+
+Et si, depuis le début, le problème était une question de police ?
+
+{/* prettier-ignore */}
+<example>
+	<p class="et-book"><abbr>RPG</abbr> Maker est un logiciel permettant de créer des <abbr>JRPG</abbr> en <abbr>2D</abbr> dans le style de *Dragon Quest*.</p>
+</example>
+
+{/* prettier-ignore */}
+<example>
+	<p><abbr>RPG</abbr> Maker est un logiciel permettant de créer des <abbr>JRPG</abbr> en <abbr>2D</abbr> dans le style de *Dragon Quest*.</p>
+</example>
+
+L'impact dépend fortement de la font
+
+## Was it all worth it?
+
+Cela peut sembler comme un détail, et même vain vu l'ampleur de la tâche, qui ne semble jamais complètement réalisable.
+
+Gwern qui devait penser à la cohérence partout s’est fait écraser par la lourdeur de la tâche, les edge case, l’augmentation du temps de compilation, etc.
+
+dans mon cas, il n’y a pas d’éditeur, et le style de mon blog est plutôt incohérent. alors je peux me permettre d'explorer sur certaines pages. j’écoute mon instinct au cas par cas.
+
+> Bringhurst has a lot of rules but just like Speakerman they encourage adaption and creative licence for specific situations. Personally I ask the editor. There’s usually a style guide so no matter how ugly it is, at least it’s consistent.
+
+> I also suspect that the very visibility of smallcaps contributed to the sense of “too fancy” or “overload” that many [Gwern.net](http://gwern.net/) readers complain about: even if they don’t explicitly notice the smallcaps are smallcaps, they still notice that there is something unusual about all the acronyms. (If smallcaps were much more common, this would stop being a problem; but it is a problem and will remain one for as long as smallcaps are an exotic typographic flourish which must be explicitly enabled for each instance.)
+
+> I still think that the idea of automatically using smallcaps for all-caps phrases like acronyms is valid—especially in technical writing, an acronym soup _is_ overwhelming!—but the costs of doing so in the HTML DOM as CSS/HTML markup is too high for both writers & readers. It may make more sense for this sort of non-semantic change to be treated as a [ligature](<https://en.wikipedia.org/wiki/Ligature_(writing)>) and done by the font instead, which will have more control of the layout and avoid the need for special-cases. With smallcaps automatically done by the font, it can become a universal feature of online text, and lose its unpleasant unfamiliarity.

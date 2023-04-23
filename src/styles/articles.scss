@@ -13,17 +13,31 @@ iframe {
 	@apply border-0;
 }
 
-.article-styling {
-	a {
-		@apply text-inherit underline decoration-1 underline-offset-1 hover:decoration-2;
-	}
-
+.classic {
 	blockquote {
 		@apply my-[1em] ml-[-80px] w-[70%] italic mediumlarge:ml-[-40px] medium:ml-[-20px] small:ml-[0];
 	}
 
 	.note {
 		@apply my-[1em] ml-[80px] italic mediumlarge:ml-[40px] medium:ml-[20px] small:ml-[0];
+	}
+
+	:not(pre) > code {
+		@apply my-[-0.1em] rounded-md bg-[#efefef] py-[0.1em] px-[0.3em];
+	}
+
+	aside {
+		@apply my-[1em] rounded bg-slate-200 px-4 py-1;
+	}
+
+	a {
+		@apply underline decoration-1 underline-offset-1 hover:decoration-2;
+	}
+}
+
+.article-styling {
+	a {
+		@apply text-inherit;
 	}
 
 	hr {
@@ -33,14 +47,6 @@ iframe {
 	pre {
 		tab-size: 4;
 		@apply rounded-md p-3;
-	}
-
-	:not(pre) > code {
-		@apply my-[-0.1em] rounded-md bg-[#efefef] py-[0.1em] px-[0.3em];
-	}
-
-	aside {
-		@apply my-[1em] rounded bg-slate-200 px-4 py-1;
 	}
 
 	th:not(:last-child),

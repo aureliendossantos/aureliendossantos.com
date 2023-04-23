@@ -4,6 +4,7 @@ date: 2017-10-01
 categories: ["Micro-blog"]
 tags: ["Films"]
 image: ./1.jpg
+layout: $layouts/Classic.astro
 ---
 
 Tiger est une histoire d'amour et de solitude. Deux mannequins occidentaux, fraîchement arrivés à Tokyo, se rencontrent et s'énamourent. En cette saison hivernale, la ville se fait discrète, voire imperméable. Il ne reste que le petit monde de Renee et Jack, qui déraille silencieusement alors que leur séjour se prolonge.

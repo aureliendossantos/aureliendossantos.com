@@ -1,0 +1,55 @@
+---
+// Table of Contents Heading
+// The tricky part of rendering our headings is that they may contain subheadings, which may contain subheadings, and so on. We need to create a recursive TocHeading component. To do this, Astro provides Astro.self as a way to reference the current component from within itself.
+const { heading } = Astro.props
+---
+
+<li>
+	<a href={"#" + heading.slug}>
+		{heading.text}
+	</a>
+	{
+		heading.subheadings.length > 0 && (
+			<ul>
+				{heading.subheadings.map((subheading) => (
+					<Astro.self heading={subheading} />
+				))}
+			</ul>
+		)
+	}
+</li>
+
+<style lang="scss" is:global>
+	nav.toc {
+		ol {
+			counter-reset: toc 0;
+		}
+		ol > li {
+			counter-increment: toc;
+			font-feature-settings: "smcp" 1;
+			&::marker {
+				content: counter(toc) "    ";
+				font-feature-settings: "onum";
+				@apply text-zinc-400;
+			}
+		}
+		a {
+			@apply font-semibold no-underline;
+			&:hover {
+				@apply rounded-sm bg-zinc-200;
+			}
+		}
+		ul {
+			@apply list-none pl-0;
+			font-feature-settings: "smcp" 0;
+			font-weight: 400;
+			li {
+				@apply text-zinc-400;
+				font-size: smaller;
+				a {
+					@apply font-normal hover:text-zinc-500;
+				}
+			}
+		}
+	}
+</style>

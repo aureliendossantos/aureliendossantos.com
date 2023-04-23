@@ -34,7 +34,7 @@ const place = data.places.length > 0 ? getPlace(data.places[0]) : undefined
 			class="mb-2 text-lg font-bold"
 			style={{ color: palette.mainColor, fontFamily: palette.headingsFont }}
 		>
-			{data.draft && "[Draft] "}{data.title}
+			{data.title}{data.draft && " [Draft]"}
 		</span>
 		<span
 			style={{ color: palette.secondaryColor, textShadow: `0 0 1em ${palette.backgroundColor}` }}

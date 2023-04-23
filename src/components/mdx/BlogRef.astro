@@ -39,9 +39,13 @@ const palette = getPalette(article.data.palette)
 				{!titleOnly && <span style={{ color: palette.secondaryColor }}>Aurélien Dos Santos,</span>}
 				<a
 					href={"/blog/" + article.slug}
-					style={{ fontFamily: palette.headingsFont, textDecoration: "none" }}
+					style={{
+						fontFamily: palette.headingsFont,
+						textDecoration: "none",
+						backgroundColor: "transparent !important",
+					}}
 				>
-					{titleOnly ? article.data.title : `« ${article.data.title} »,`}
+					« {titleOnly ? article.data.title : `« ${article.data.title} »,`} »
 				</a>
 				{!titleOnly && (
 					<span style={{ color: palette.secondaryColor }}>
