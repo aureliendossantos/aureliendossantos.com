@@ -128,6 +128,10 @@ iframe {
 	}
 }
 
+nav.toc:has(+ .future) li {
+	@apply text-[#4a8bf3];
+}
+
 .future {
 	ul,
 	ol {

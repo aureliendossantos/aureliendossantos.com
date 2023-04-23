@@ -2,6 +2,9 @@
 import ytch from "yt-channel-info"
 import getBlogPosts from "$utils/getBlogPosts"
 import "$styles/home.scss"
+import Chapter from "$components/home/Chapter.astro"
+import Link from "$components/home/Link.astro"
+import NinjaLink from "$components/home/NinjaLink.astro"
 
 const articles = await getBlogPosts()
 const lastArticles = articles
@@ -39,116 +42,100 @@ const videos = allo.items.slice(0, 3)
 		<meta name="twitter:description" content="Site personnel d'Aurélien Dos Santos." />
 		<meta name="twitter:card" content="summary_large_image" />
 	</head>
-	<body>
+	<body class="m-0 bg-[#17182f]">
 		<div id="particles-js"></div>
-		<div class="flex">
-			<h1 class="mb-8"><a href="/about">Aurélien Dos Santos</a></h1>
-			<div class="chapter" style="margin-bottom: .75em;">
-				<ul>
-					<li class="primary">
-						<a href="/portfolio">
-							<span class="label">Portfolio</span>
-						</a>
+		<div
+			class="flex min-h-screen flex-col flex-wrap content-center items-start justify-center gap-6 font-space-grotesk text-[#9ca3af]"
+		>
+			<!--<h1 class="mb-8 whitespace-nowrap font-space-mono text-[1.7em] italic hover:text-[#8c95a4] active:text-[#828d9e]"><a href="/about">Aurélien Dos Santos</a></h1>-->
+			<p class="relative mb-0 mt-20 max-w-[320px]">
+				Je suis <NinjaLink text="Aurélien Dos Santos" label="/about" href="/about" />, ingénieur et
+				concepteur pédagogique, réalisateur vidéo et développeur web/Unity.
+			</p>
+			<Chapter label="Portfolio" path="/portfolio" href="/portfolio" />
+			<Chapter
+				label="Vidéos"
+				path="youtube.com"
+				secondLabel="youtube.com"
+				href="https://www.youtube.com/@GameDevAlliance"
+				rel="me"
+				newTab
+			>
+				<ul class="overflow max-w-[320px] overflow-visible">
+					<li class="text-[13px]">
+						<span class="text-[#656f7e] hover:text-[#5f6979] active:text-[#566272]"
+							>Dernières vidéos</span
+						>
 					</li>
-				</ul>
-			</div>
-			<div class="chapter">
-				<ul>
-					<li class="primary">
-						<a rel="me" href="https://www.youtube.com/@GameDevAlliance">
-							<span class="label">Vidéos</span>
-							<span>youtube.com</span>
-						</a>
-						<ul style="max-width: 320px" class="overflow overflow-visible">
-							<li class="text-[13px]">
-								<span class="dark">Dernières vidéos</span>
+					{
+						videos.map((video) => (
+							<li class="secondary truncate font-space-mono  text-xs italic tracking-tight hover:overflow-visible">
+								<a href={"https://youtu.be/" + video.videoId}>
+									<span>{video.title}</span>
+								</a>
 							</li>
-							{
-								videos.map((video) => (
-									<li
-										class="secondary truncate text-xs  italic tracking-tight hover:overflow-visible"
-										style="font-family: 'Space Mono', sans-serif;"
-									>
-										<a href={"https://youtu.be/" + video.videoId}>
-											<span>{video.title}</span>
-										</a>
-									</li>
-								))
-							}
-						</ul>
-					</li>
+						))
+					}
 				</ul>
-			</div><div class="chapter">
-				<ul>
-					<li class="primary">
-						<a href="/blog">
-							<span class="label">Blog</span>
-						</a>
-						<ul style="max-width: 320px" class="overflow overflow-visible">
-							<li class="text-[13px]">
-								<span class="dark">Derniers articles</span>
+			</Chapter>
+			<Chapter label="Blog" path="/blog" href="/blog">
+				<ul style="max-width: 320px" class="overflow overflow-visible">
+					<li class="text-[13px]">
+						<span class="text-[#656f7e] hover:text-[#5f6979] active:text-[#566272]"
+							>Derniers articles</span
+						>
+					</li>
+					{
+						lastArticles.map((article) => (
+							<li class="secondary truncate font-space-mono text-xs italic tracking-tight hover:overflow-visible">
+								<a href={"/blog/" + article.slug}>
+									<span>{article.data.title}</span>
+								</a>
 							</li>
-							{
-								lastArticles.map((article) => (
-									<li
-										class="secondary truncate text-xs italic tracking-tight hover:overflow-visible"
-										style="font-family: 'Space Mono', sans-serif;"
-									>
-										<a href={"/blog/" + article.slug}>
-											<span>{article.data.title}</span>
-										</a>
-									</li>
-								))
-							}
-						</ul>
-					</li>
+						))
+					}
 				</ul>
-			</div>
-			<div class="chapter">
-				<ul>
-					<li class="secondary">
-						<a href="https://fairedesjeux.fr/">
-							<span class="label">FaireDesJeux.fr</span>
-							<span>fairedesjeux.fr</span>
-						</a>
-					</li>
-					<li class="secondary">
-						<a rel="me" href="https://aureliendossantos.itch.io">
-							<span class="label">Mes jeux</span>
-							<span>itch.io</span>
-						</a>
-					</li>
-					<li class="secondary">
-						<a href="https://grimoire.aureliendossantos.com">
-							<span class="label">Grimoire</span>
-							<span>grimoire.aureliendossantos.com</span>
-						</a>
-					</li>
-				</ul>
-			</div>
+			</Chapter>
 			<div class="chapter">
 				<!--<h2>Réseaux</h2>-->
 				<ul>
-					<li class="secondary">
-						<a rel="me" href="https://mastodon.gamedevalliance.fr/@aurelien">
-							<span class="label">Mastodon</span>
-							<span>@aurelien</span>
-						</a>
-					</li>
-					<li class="secondary">
-						<a rel="me" href="https://github.com/aureliendossantos">
-							<span class="label">GitHub</span>
-							<span>@aureliendossantos</span>
-						</a>
-					</li>
-					<li class="secondary">
-						<a rel="me" href="https://www.linkedin.com/in/aureliendossantos/">
-							<span class="label">LinkedIn</span>
-							<span>in/aureliendossantos</span>
-						</a>
-					</li>
+					<Link
+						label="Mastodon"
+						secondLabel="@aurelien"
+						href="https://mastodon.gamedevalliance.fr/@aurelien"
+						rel="me"
+						newTab
+					/>
+					<Link
+						label="GitHub"
+						secondLabel="@aureliendossantos"
+						href="https://github.com/aureliendossantos"
+						rel="me"
+						newTab
+					/>
+					<Link
+						label="LinkedIn"
+						secondLabel="in/aureliendossantos"
+						href="https://www.linkedin.com/in/aureliendossantos/"
+						rel="me"
+						newTab
+					/>
 				</ul>
 			</div>
+			<p class="relative my-0 max-w-[320px]">
+				À propos <NinjaLink text="de moi" label="/about" href="/about" /> et <NinjaLink
+					text="de ce site"
+					label="/website"
+					href="/website"
+				/>.
+			</p>
+			<p class="relative mt-0 mb-20 max-w-[320px]">
+				Je suis en recherche d'emploi ! Voici <NinjaLink
+					text="mes expériences pro"
+					label="/pro"
+					href="/pro"
+				/>.
+			</p>
 		</div>
 		<script src="/home/particlesjs2.0.0.min.js" is:inline></script>
 		<script type="text/javascript" src="/home/starryBackground.js" is:inline></script>

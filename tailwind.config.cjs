@@ -8,6 +8,8 @@ module.exports = {
 				"work-sans": ["Work Sans", ...defaultTheme.fontFamily.sans],
 				mono: "monospace",
 				"sofia-sans": ["Sofia Sans", ...defaultTheme.fontFamily.sans],
+				"space-grotesk": ["Space Grotesk", ...defaultTheme.fontFamily.sans],
+				"space-mono": ["Space Mono", ...defaultTheme.fontFamily.mono],
 			},
 			opacity: {
 				15: ".15",
