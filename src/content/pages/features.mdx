@@ -28,7 +28,7 @@ Astro supporte également la syntaxe <abbr>[MDX](https://mdxjs.com/)</abbr>, act
 
 Le site contient une page d'accueil, un blog, un portfolio, ainsi que quelques pages volantes telles que [`/about`](/about) ou la présente page.
 
-Je considère le blog et le portfolio comme deux sous-sites très distincts, n'utilisant que très peu de logique en commun si ce n'est du code _boilerplate_ pour alimenter le `<head>`. L'idéal serait de pouvoir continuer à créer autant de ces environnements que possible au sein du même dépôt, afin de correspondre à ma vision d'un site qui peut accueillir toute ma vie, des contenus les plus anciens et brouillons aux plus récents et professionnels. Pour que ces sous-sites continuent de fonctionner sans que des mises à jour brisent discrètement leur mise en page, il est important de pouvoir les isoler autant que possible.
+Je considère le blog et le portfolio comme deux sous-sites très distincts, n'utilisant que très peu de logique en commun si ce n'est du code _boilerplate_ pour alimenter le `<head>` et l'optimisation des images. L'idéal serait de pouvoir continuer à créer autant de ces environnements que possible au sein du même dépôt, afin de correspondre à [ma vision](/website) d'un site qui peut accueillir toute ma vie, des contenus les plus anciens et brouillons aux plus récents et professionnels. Pour que ces sous-sites continuent de fonctionner sans que des mises à jour brisent discrètement leur mise en page, il est important de pouvoir les isoler autant que possible.
 
 Pour cela, j'utilise les [_content collections_](https://docs.astro.build/en/guides/content-collections/) d'Astro, qui permettent de regrouper tous les documents Markdown d'un dossier sous une même logique ; ainsi que les [_layouts_](https://docs.astro.build/en/core-concepts/layouts/), qui sont des structures de page réutilisables.
 
@@ -84,6 +84,8 @@ En explorant l'accueil du blog ([`/blog`](/blog)), vous aurez un bon aperçu de 
 ## Blocs et mentions
 
 ### Galeries
+
+### Sommaire
 
 ### Onglets
 
@@ -161,6 +163,7 @@ optimale.
 suffira d'appliquer comme classe le contenu de l'enum, plus haut dans le <abbr>DOM</abbr>, ce qui
 ne changera rien au <abbr>CSS</abbr> mais permettra d'englober les titres et sommaires. Cela permettra aussi d'avoir une valeur par défaut et ainsi de supprimer les appels de de `<Classic>`.
 - **Emplacement du sommaire** : Ajouter la possibilité de l'inclure à un endroit précis du document Markdown.
+- **Date de modification** des articles et des pages. Elle pourrait être récupéré de l'<abbr>API</abbr> de GitHub afin d'éviter de la mettre à jour manuellement. Le but n'est pas que cette date soit exacte, mais de représenter l'idée que les pages peuvent toujours être affinées au fil du temps, malgré qu'elles soient inscrites dans une époque dans le cas du blog.
 - **Ajouter un bloc pour les films.** [Letterboxd](https://letterboxd.com/) a refusé ma demande d'accès à l'<abbr>API</abbr> ; <abbr>[IMDB](https://www.imdb.com/)</abbr> semble payant ou difficile à utiliser, mais je dois encore me pencher sur la question.
 - **Ajouter une galerie des œuvres** que j'ai mentionnées sur ce site ou aimées.
   - <sc>Jeux</sc> : <abbr>IGDB</abbr> comporte des screenshots utiles pour habiller chaque entrée.
@@ -169,3 +172,4 @@ ne changera rien au <abbr>CSS</abbr> mais permettra d'englober les titres et som
     [`leonardoalemax/psn-profile-api`](https://github.com/leonardoalemax/psn-profile-api) ou l'API
     de Steam.
   - <sc>Films</sc> : Un problème épineux ! Je ne sais pas encore comment je pourrais m'y prendre.
+- **Accès rapide à la page source** : J'aimerais parfois modifier rapidement une page sur mon téléphone, et le meilleur moyen pour cela serait d'avoir un accès direct au fichier Markdown sur GitHub depuis la page en question. Gwern utilise une [méthode](https://gwern.net/about#source) discrète et ingénieuse : en ajoutant `.page` à une <abbr>URL</abbr>, on peut consulter le fichier source d'une page écrite en Markdown.

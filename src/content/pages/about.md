@@ -41,7 +41,7 @@ Je suis amoureux du jeu vidéo. Dès l'enfance, j'étais fasciné par l'élégan
 
 Ma deuxième passion est sans doute le cinéma, avec une préférence pour le naturalisme. J'aime également la photographie, la programmation, la musique atmosphérique et électronique, les promenades, les restaurants et les cafés.
 
-Quand j'étais enfant, je dessinais H24 au fond de la classe, mais ça m'est passé au lycée parce que je ne savais plus trop quoi dessiner. Aujourd'hui, il m'arrive de gribouiller ce que je vois quand je voyage. J'ai récemment découvert que j'étais plus intéressé par le web design et la typographie, alors j'essaie d'expérimenter autour de ces sujets.
+Quand j'étais enfant, je dessinais H24 au fond de la classe, mais j'ai arrêté au lycée car je ne savais plus trop quoi dessiner. Aujourd'hui, il m'arrive de gribouiller ce que je vois quand je voyage. J'ai récemment découvert que j'étais plus intéressé par le web design et la typographie, alors j'essaie d'expérimenter autour de ces sujets.
 
 ## Autres informations
 
