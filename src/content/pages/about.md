@@ -43,6 +43,10 @@ Ma deuxième passion est sans doute le cinéma, avec une préférence pour le na
 
 Quand j'étais enfant, je dessinais H24 au fond de la classe, mais ça m'est passé au lycée parce que je ne savais plus trop quoi dessiner. Aujourd'hui, il m'arrive de gribouiller ce que je vois quand je voyage. J'ai récemment découvert que j'étais plus intéressé par le web design et la typographie, alors j'essaie d'expérimenter autour de ces sujets.
 
+## Vie personnelle
+
+Pour un récit plus personnel et complet de ma vie, voir [/personal-life](/personal-life).
+
 ## Contact
 
 - Email : <em>aureliendsantos[at]gmail.com</em>

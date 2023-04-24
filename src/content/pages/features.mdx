@@ -131,8 +131,36 @@ J'ai repris la technique développée par mon amie Erika pour son [site personne
 
 Erika a ajusté les paramètres de l'image de substition (flou ; luminosité ; contraste) pour qu'elle évoque au mieux la véritable image et que la transition entre les deux soit plus douce. J'ai légèrement modifié ces valeurs pour correspondre à mes besoins, mais le reste du code est inchangé.
 
+## Ce que ce blog ne contient pas
+
+### Commentaires
+
+Je ne crois pas que les espaces commentaires aient beaucoup de sens la plupart du temps. Bien sûr, je crois en l'intérêt des forums et des espaces de discussions. Mais les œuvres d'art ne sont pas des espaces de discussion publics ; ce sont des espaces dédiés à l'immersion, à l'échange intime et invisible entre l'auteur et le lecteur, le réalisateur et le spectateur. Les œuvres d'art devraient avoir leur propre espace, et les commentaires et critiques devraient avoir leur propre espace aussi, séparément.
+
+Si je ne vois pas mes articles comme des œuvres d'art (pour la plupart), ils sont tout de même, le plus souvent, un espace d'expression personnelle, avec la vulnérabilité que cela implique, parfois aussi la recherche d'un échange intime avec le lecteur. Les commentaires n'y auraient donc pas leur place. Je préfère encourager les lecteurs à m'envoyer un mail ou à me contacter sur les réseaux sociaux.
+
+### Pagination
+
+La pagination sur le web est souvent dûe à la peur de surcharger le lecteur ou la page avec trop de contenu et d'options. C'est une méthode encore présente sur de nombreux blogs et journaux ; cependant, c'est un design restrictif, difficile à utiliser et qui masque trop de contenu. La pagination la plus iconique d'Internet est probablement celle de Google, et elle a disparu un beau jour sans que personne ne s'en rende compte.
+
+<sc>Alternatives.</sc> Si le lecteur a besoin de passer à la page suivante, alors le contenu caché était
+utile et il aurait dû être plus accessible, soit par un chargement automatique, soit par un grand bouton
+« voir plus ». En comparaison, la pagination cache le contenu de la première page, qui était pourtant
+probablement important. C'est pourquoi ce site n'utilisera pas de pagination. Lorsque j'aurai suffisamment
+de contenu pour le justifier, je réfléchirai à un menu de navigation, qui fonctionnerait comme la barre
+de défilement de Google Photos couplée à des options de filtrage. Sur ordinateur, il serait parfait sur
+un côté de l'écran. Sur mobile, l'idéal serait de le placer en bas de l'écran pour une accessibilité
+optimale.
+
 ## Todo
 
+- **Améliorer le design** :
+  - <sc>Blocs de code</sc> : Coloration différente pour chaque palette.
+  - `<BlogRef>` : améliorer le design en retirant l'ombre et en utilisant la couleur secondaire comme bordure.
+  - <sc>Layouts</sc> : Les transformer en un enum, comme les palettes, pour plus de flexibilité. Il
+suffira d'appliquer comme classe le contenu de l'enum, plus haut dans le <abbr>DOM</abbr>, ce qui
+ne changera rien au <abbr>CSS</abbr> mais permettra d'englober les titres et sommaires. Cela permettra aussi d'avoir une valeur par défaut et ainsi de supprimer les appels de de `<Classic>`.
+- **Emplacement du sommaire** : Ajouter la possibilité de l'inclure à un endroit précis du document Markdown.
 - **Ajouter un bloc pour les films.** [Letterboxd](https://letterboxd.com/) a refusé ma demande d'accès à l'<abbr>API</abbr> ; <abbr>[IMDB](https://www.imdb.com/)</abbr> semble payant ou difficile à utiliser, mais je dois encore me pencher sur la question.
 - **Ajouter une galerie des œuvres** que j'ai mentionnées sur ce site ou aimées.
   - <sc>Jeux</sc> : <abbr>IGDB</abbr> comporte des screenshots utiles pour habiller chaque entrée.
