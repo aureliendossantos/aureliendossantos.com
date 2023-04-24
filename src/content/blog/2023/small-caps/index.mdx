@@ -13,6 +13,7 @@ books:
   - "9781861979162"
   - "OL39968147M"
 palette: source-serif
+toc: true
 draft: true
 layout: $layouts/TypographyDemo.astro
 ---
@@ -35,25 +36,36 @@ Dans _The Elements of Typographic Style_, Robert Bringhurst formule la règle su
 
 J'ai rapidement été convaincu de l'intérêt de cette pratique, qui empêche les acronymes de « crier » dans le texte, apportant une certaine quiétude aux articles techniques. Cependant, le livre ne couvre que des exemples communs et n'apporte pas suffisamment de précisions pour un usage plus spécifique.
 
-En tentant d'appliquer ce principe à mon article sur l'historique de RPG Maker, qui contient de nombreux acronymes tels que <abbr>MSX</abbr> et des noms stylisés en majuscules comme <abbr>LOGiN</abbr>, j'ai été confronté à de nombreuses incertitudes. Faut-il diminuer la taille des numéros du <abbr>PC-98</abbr> et de la <abbr>PS2</abbr> ? Faut-il utiliser les petites capitales dans les titres de section ? Dans les paragraphes commençant par un acronyme, quelle serait la meilleure présentation parmi celles-ci ?
+## Un sujet plus épineux qu'il n'y paraît
+
+En tentant d'appliquer ce principe à mon article sur l'historique de RPG Maker, qui contient de nombreux acronymes tels que <abbr>MSX</abbr> et des noms stylisés mêlant majuscules et minuscules comme <abbr>LOGiN</abbr>, j'ai été confronté à de nombreuses incertitudes. Faut-il diminuer la taille des numéros dans <abbr>PC-98</abbr> et dans <abbr>PS2</abbr> ? Faut-il utiliser les petites capitales dans les acronymes au sein des titres de section ? Dans les paragraphes commençant par un acronyme, quelle serait la meilleure présentation parmi celles-ci ?
 
 <example class="et-book">
-	A<abbr>SCII</abbr> Corporation était une maison d’édition produisant des magazines et des livres sur l’informatique.
+	<font>ET Book</font>
+
+    A<abbr>SCII</abbr> Corporation était une maison d’édition produisant des magazines et des livres sur l’informatique.
 
     <abbr>ASCII</abbr> Corporation était une maison d’édition produisant des magazines et des livres sur l’informatique.
 
-    <abbr>ASCII C</abbr>orporation était une maison d’édition produisant des magazines et des livres sur l’informatique.
-
 </example>
 
-Aucune de ces solutions ne me semblait parfaitement naturelle. Problématique plus épineuse encore : s'il est évident de transformer en petites capitales le sigle <abbr>RPG</abbr> pour _role-playing game_, il est beaucoup moins esthétique d'écrire <abbr>RPG</abbr> Maker. Pourtant, <abbr>RPG M</abbr>aker n'est pas souhaitable non plus, et il serait étrange que RPG Maker soit le seul terme en grandes capitales tout au long de l'article, surtout lorsque l'on évoque le genre <abbr>RPG</abbr> dans le même paragraphe. Combinez à cela la problématique précédente, et le résultat fait véritablement froid dans le dos.
+Aucune de ces solutions ne me semblait parfaitement naturelle. Problématique plus épineuse encore : s'il est évident de transformer en petites capitales le sigle <abbr>RPG</abbr> pour _role-playing game_, il est beaucoup moins esthétique d'écrire « <span class="et-book inline-example"><abbr>RPG</abbr> Maker</span> ». Pourtant, « <span class="et-book inline-example"><abbr>RPG M</abbr>aker</span> » n'est pas souhaitable non plus, et il serait étrange que RPG Maker soit le seul terme en grandes capitales tout au long de l'article, surtout lorsque l'on évoque le genre <abbr>RPG</abbr> dans le même paragraphe.
+
+{/* prettier-ignore */}
+<aside>
+	Les exemples entre guillemets utilisent « <span class="et-book inline-example">[ET Book](https://edwardtufte.github.io/et-book/)</span> », la police que j'envisageais pour écrire mon article.
+</aside>
+
+Combinez à cela la problématique du début de paragraphe, et le résultat fait véritablement froid dans le dos.
 
 <example class="et-book">
-	<abbr>RPG</abbr> Maker est un logiciel permettant de créer des <abbr>JRPG</abbr> en{" "}
-	<abbr>2D</abbr> dans le style de *Dragon Quest*.
+	<font>ET Book</font>
+
+    <abbr>RPG</abbr> Maker est un logiciel permettant de créer des <abbr>JRPG</abbr> en <abbr>2D</abbr> dans le style de *Dragon Quest*.
+
 </example>
 
-Un peu perdu, je débute mes recherches en espérant ne pas être le premier à affronter la question des _small caps_ pour la rédaction technique. Déçu de ne trouver que très peu de ressources récentes et appliquées au web, je m'accroche au code typographique de _The Economist_, miraculeusement complet. D'après ce guide, le magazine utilise les petites capitales pour la plupart des abréviations et acronymes, mais proscrit leur usage dans les titres, les notes de bas de pages, les légendes, les tableaux, les graphiques et les éléments chimiques[^styleguide].
+Un peu perdu, je débute mes recherches en espérant ne pas être le premier à affronter la question des bonnes pratiques pour les _small caps_ dans la rédaction technique. Déçu de ne trouver que très peu de ressources récentes et appliquées au web, je m'accroche au code typographique de _The Economist_, miraculeusement complet. D'après ce guide, le magazine utilise les petites capitales pour la plupart des abréviations et acronymes, mais proscrit leur usage dans les titres, les notes de bas de pages, les légendes, les tableaux, les graphiques et les éléments chimiques[^styleguide].
 
 [^styleguide]:
     <Ref
@@ -104,11 +116,16 @@ Je trouve cette idée particulièrement plaisante. Galvanisé par cet océan de 
 
     Bringhurst, _op. cit._, page 10
 
+## Afficher les petites capitales en CSS
+
 Pour représenter les petites capitales, le plus simple est d'appliquer un style à l'élément [`<abbr>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/abbr). J'ai commencé en utilisant `font-variant: unicase`, qui transforme les majuscules en petites capitales sans altérer les minuscules. C'est très pratique car cela permet d'englober des minuscules dans les abréviations.
 
 {/* prettier-ignore */}
 <example>
-	Le magazine <span style="font-variant: unicase;">LOGiN</span> et le modèle <span style="font-variant: unicase;">GPT-3.5-turbo</span>
+	<font>Source Serif</font>
+
+    Le magazine <span style="font-variant: unicase;">LOGiN</span> et le modèle <span style="font-variant: unicase;">GPT-3.5-turbo</span>
+
 </example>
 
 {/* prettier-ignore */}
@@ -126,7 +143,10 @@ Comme souvent, la première question qui me vient à l'esprit est : que ferait 
 
 {/* prettier-ignore */}
 <example>
-	Le magazine <span class="asc">LOGiN</span> et le modèle <span class="asc">GPT-3.5-turbo</span>
+	<font>Source Serif</font>
+
+    Le magazine <span class="asc">LOGiN</span> et le modèle <span class="asc">GPT-3.5-turbo</span>
+
 </example>
 
 {/* prettier-ignore */}
@@ -150,11 +170,17 @@ Nous pouvons englober des minuscules sans les altérer et le tout fonctionne par
 
 {/* prettier-ignore */}
 <example>
-	Le magazine <abbr><i>LOGiN</i></abbr> (`c2sc`)
+	<font>Source Serif (`c2sc`)</font>
 
-    Le magazine <i><span style="font-variant: unicase;">LOGiN</span></i> (`unicase`)
+    Le magazine <abbr><i>LOGiN</i></abbr>
 
-    Le magazine <i><span style="font-variant: all-small-caps;">LOGiN</span></i> (`all-small-caps`)
+    <font>Source Serif (`unicase`)</font>
+
+    Le magazine <i><span style="font-variant: unicase;">LOGiN</span></i>
+
+    <font>Source Serif (`all-small-caps`)</font>
+
+    Le magazine <i><span style="font-variant: all-small-caps;">LOGiN</span></i>
 
 </example>
 
@@ -162,13 +188,64 @@ A la date de mes observations, `c2sc` ne fonctionne pas car Source Serif Pro ne 
 
 [^githubissue]: https://github.com/adobe-fonts/source-serif/issues/46
 
-Je suis un peu déçu puisque je comptais utiliser les petites capitales dans certains noms de publication comme <abbr>LOGiN</abbr> ou _<abbr>MSX</abbr> Magazine_. Il serait déraisonnable d'utiliser la forme synthétisée *<span style="font-variant: all-small-caps;">MSX</span> Magazine* ; et même en compensant l'épaisseur des caractères dans _<span style="font-variant: all-small-caps; font-weight: 600;">MSX</span> Magazine_, nous restons loin du charme des petites capitales d'origine. La solution simple pour mettre ce problème de côté est de retirer l'italique à `<abbr>` avec `font-style: normal`.
+Je suis un peu déçu puisque je comptais utiliser les petites capitales dans certains noms de publication comme <abbr>LOGiN</abbr> ou _<abbr>MSX</abbr> Magazine_. Il serait déraisonnable d'utiliser la forme synthétisée *<span style="font-variant: all-small-caps;">MSX</span> Magazine* ; mais le résultat n'est pas trop mal si l'on compense l'épaisseur et la taille des caractères dans _<span style="font-variant: all-small-caps; font-weight: 600; font-size: 1.18em; letter-spacing: 0.07em;">MSX</span> Magazine_. Nous n'atteignons pas le charme des petites capitales d'origine, mais le résultat est passable.
+
+Avec certaines polices, il sera plus simple d'imiter l'épaisseur des véritables _small caps_ en utilisant une variante de taille comme _Caption_.
+
+<aside>
+
+### Variantes de taille
+
+Certaines polices proposent des variantes pensées pour être utilisées à différentes tailles. Par exemple, la variante _Display_ propose souvent des formes plus fines et stylisées, adaptées à un court texte de grande taille comme le titre de la page. À l'inverse, les caractères de la variante _Caption_ sont beaucoup plus épais pour rester lisibles à très petite taille. Les variantes que vous trouverez le plus communément sont, de la plus grande à la plus petite, _Poster_,
+_Display_, _Subhead_, _Regular_ (normale), _Small Text_ ou _SmText_, et _Caption_.
+
+</aside>
+
+Si les petites capitales en italique ne sont pas importantes pour vous, vous pouvez simplement mettre ces considérations de côté en retirant l'italique à `<abbr>` avec `font-style: normal`. Ainsi, même lorsque vos petites capitales seront englobées dans un `<i>` ou un `<em>`, elles s'afficheront normalement.
+
+Notez également que lorsque nous utilisons cette technique pour imiter les _small caps_ en italique, nous sommes obligés d'utiliser `all-small-caps` et donc nous perdons le tri des minuscules. Pour écrire le nom du magazine _<span style="letter-spacing: 0.07em; margin-right: -0.07em"><span style="font-variant: all-small-caps; font-weight: 600; font-size: 1.18em;">LOG</span>i<span style="font-variant: all-small-caps; font-weight: 600; font-size: 1.18em;">N</span></span>_, il faut séparer manuellement le _i_ dans un gloubi-boulga d'<abbr>HTML</abbr>.
+
+```html
+<em>
+	<span style="letter-spacing: 0.07em; margin-right: -0.07em">
+		<span style="font-variant: all-small-caps; font-weight: 600; font-size: 1.18em;"> LOG </span>
+		i
+		<span style="font-variant: all-small-caps; font-weight: 600; font-size: 1.18em;"> N </span>
+	</span>
+</em>
+```
 
 Les soucis ne s'arrêtent pas là. Même lorsque la police est censée comprendre des petites capitales et que vous prenez toutes ces précautions, cela ne veut pas dire qu'elles feront partie de la version qui vous est distribuée. Par exemple, Google Fonts ne sert pas les petites capitales et les [chiffres elzéviriens](https://fr.wikipedia.org/wiki/Chiffres_elz%C3%A9viriens) (ou chiffres non alignés)[^gfonts]. Dans mon cas, je récupère la plupart des polices de mon blog via [Fontsource](https://fontsource.org/), mais les petites capitales ne sont pas incluses. Évidemment, ce n'est documenté nulle part, donc dans le doute, il vaut mieux récupérer la police sur son site d'origine. Haha. Vous êtes encore là ?
 
 [^gfonts]: http://webtypography.net/3.2.2
 
-Pour récapituler, les options OpenType intéressantes sont les suivantes, en considérant qu'il est également possible d'utiliser l'option équivalente de `font-variant` si vous souhaitez permettre au navigateur de synthétiser les caractères :
+### Interlettrage
+
+Si oui, alors nous pouvons passer à la touche finale : l'interlettrage ou _letterspacing_, c'est-à-dire l'espacement entre les caractères. Selon Bringhurst, dans le cas des acronymes, l'interlettrage idéal est de 5 à 10 % de la taille des caractères[^p30], ce qui se traduit en <abbr>CSS</abbr> par un `letter-spacing` de `0.05em` à `0.1em`.
+
+Le problème, c'est que cet espacement n'est pas vraiment appliqué entre les caractères, mais bien à la droite de chaque caractère. Ainsi, l'espacement est ajouté à la dernière lettre du mot, ce qui l'éloigne inutilement du mot suivant. Pour pallier à cet effet, le moyen le plus simple est d'appliquer `margin-right: -0.05em` en adaptant à la valeur de votre _letterspacing_.
+
+{/* prettier-ignore */}
+<example>
+	<font>Source Serif</font>
+
+    L'entreprise <span style="font-feature-settings: 'c2sc';">ASCII</span> Corporation
+
+    <font>Source Serif (`letter-spacing: 0.05em`)</font>
+
+    L'entreprise <abbr style="margin-right: 0">ASCII</abbr> Corporation
+
+    <font>Source Serif (`letter-spacing: 0.05em, margin-right: -0.05em`)</font>
+
+    L'entreprise <abbr>ASCII</abbr> Corporation
+
+</example>
+
+L'ajustement de marge est à peine perceptible dans la plupart des cas, mais il est important pour les polices qui requièrent davantage de _letterspacing_.
+
+### Récapitulatif des options
+
+Pour récapituler, les options OpenType intéressantes à utiliser avec `font-feature-settings` sont les suivantes, en considérant qu'il est également possible d'utiliser l'option équivalente de `font-variant` si vous souhaitez forcer le navigateur à synthétiser les caractères :
 
 - `smcp` transforme les minuscules en *small caps* ;
 - `c2sc` transforme les majuscules en *small caps* ;
@@ -191,25 +268,56 @@ En anglais, « *small capitals* » désigne ce que l'on appelle « petites ca
     	link="https://developer.mozilla.org/fr/docs/Web/CSS/font-variant-caps"
     />
 
-Nous avons vu qu'il est important de comprendre la subtilité de chaque option en CSS, de s'assurer de leur compatibilité avec les navigateurs, mais aussi qu'après tout cela, il est important que la police propose les jeux de caractère dont on a besoin.
+### Code final
 
-Ce qui me fait penser à une solution pour styliser RPG Maker.
+Voici ma règle CSS finale pour afficher des petites capitales :
 
-Et si, depuis le début, le problème était une question de police ?
+```css
+abbr {
+	font-feature-settings: "c2sc";
+	font-variant-numeric: tabular-nums;
+	letter-spacing: 0.05em;
+	margin-right: -0.05em;
+	font-style: normal;
+}
+```
+
+L'espacement, pertinent dans le cas d'abréviations et acronymes, devrait être entre `0.05em` et `0.1em` en fonction de la police. Dans le cas de titres et autres utilisations des petites capitales, vous n'aurez peut-être pas besoin d'espacement.
+
+Pour synthétiser des petites capitales en italique alors que votre police n'en contient pas, ciblez `<abbr>` dans les `<em>` ou `<i>` et utilisez `all-small-caps`. Dans le cas de Source Serif, ces paramètres fonctionnent bien :
+
+```css
+em abbr {
+	font-variant: all-small-caps;
+	font-size: 1.18em;
+	font-weight: 600;
+	letter-spacing: 0.07em;
+	margin-right: -0.07em;
+	font-style: italic;
+}
+```
+
+Nous avons vu qu'il est important de comprendre les subtilités de chaque option en CSS, de s'assurer de leur compatibilité avec les navigateurs, mais aussi que le résultat dépend énormément de la police et des jeux de caractères qu'elle propose.
+
+Ce qui me fait réaliser que mon problème pour styliser « <span class="et-book inline-example"><abbr>RPG</abbr> Maker</span> »... n'est peut-être qu'une question de police.
 
 {/* prettier-ignore */}
 <example>
-	<p class="et-book"><abbr>RPG</abbr> Maker est un logiciel permettant de créer des <abbr>JRPG</abbr> en <abbr>2D</abbr> dans le style de *Dragon Quest*.</p>
+	<font class="et-book">ET Book</font>
+
+    <p class="et-book"><abbr>RPG</abbr> Maker est un logiciel permettant de créer des <abbr>JRPG</abbr> en <abbr>2D</abbr> dans le style de *Dragon Quest*.</p>
+
+    <font>Source Serif</font>
+
+    <abbr>RPG</abbr> Maker est un logiciel permettant de créer des <abbr>JRPG</abbr> en <abbr>2D</abbr> dans le style de *Dragon Quest*.
+
 </example>
 
-{/* prettier-ignore */}
-<example>
-	<p><abbr>RPG</abbr> Maker est un logiciel permettant de créer des <abbr>JRPG</abbr> en <abbr>2D</abbr> dans le style de *Dragon Quest*.</p>
-</example>
+Comme on peut le voir, l'impact des _small caps_ dépend énormément de la police utilisée. Les minuscules d'<abbr>ET</abbr>Book sont bien plus petites que ses capitales, ce qui crée une grande différence entre capitales et petites capitales, particulièrement gênante dans les mélanges tels que « <span class="et-book inline-example"><abbr>RPG</abbr> Maker</span> ». En comparaison, les minuscules de Source Serif sont plus grandes, ce qui atténue l'effet criard des capitales. De plus, les petites capitales sont légèrement plus grandes que les minuscules, réduisant encore le contraste entre ces deux jeux de caractères.
 
-L'impact dépend fortement de la font
+La solution aura donc été de troquer <abbr>ET</abbr> Book, la police d'origine de Tufte<abbr>CSS</abbr>, pour Source Serif qui, en plus d'être plus adaptée aux besoins de mon article, se révèle plus complète dans son support des fonctionnalités OpenType, me permettant de réaliser quelques fantaisies avec `font-feature-settings`.
 
-## Was it all worth it?
+## Est-ce que cela en valait la peine ?
 
 Cela peut sembler comme un détail, et même vain vu l'ampleur de la tâche, qui ne semble jamais complètement réalisable.
 

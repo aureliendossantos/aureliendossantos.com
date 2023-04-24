@@ -7,6 +7,7 @@ tags: ["3D"]
 image: ./2IAoFHn.png
 license: "Ecrit par Nev, Imanor et EzekielKoening"
 toc: true
+depth: 2
 palette: guidebook
 layout: $layouts/Classic.astro
 ---

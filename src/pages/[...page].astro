@@ -26,7 +26,7 @@ const fontSize = palette.fontSize
 
 <Page page={article}>
 	<div>
-		{article.data.toc && <TableOfContents headings={headings} />}
+		{article.data.toc && <TableOfContents headings={headings} depth={article.data.depth} />}
 		<Content />
 		<BackHome main />
 	</div>

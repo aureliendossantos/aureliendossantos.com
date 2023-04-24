@@ -17,7 +17,7 @@ Mes projets les plus récents :
 - [FaireDesJeux.fr](https://fairedesjeux.fr/), un site collaboratif de formations à la création de jeux ;
 - Un [jeu de survie](https://survie.aureliendossantos.com/) sur navigateur où les joueurs doivent survivre sur une île déserte et collaborer en asynchrone ;
 - La chaîne YouTube de Game Dev Alliance, sur laquelle nous publions des vidéos d'actualité autour du développement de jeux, des tutoriels et des cours théoriques.
-- [Ce site web](/website).
+- Ce site web : [à propos](/website).
 
 Voici quelques projets terminés ou mis de côté :
 
@@ -43,11 +43,13 @@ Ma deuxième passion est sans doute le cinéma, avec une préférence pour le na
 
 Quand j'étais enfant, je dessinais H24 au fond de la classe, mais ça m'est passé au lycée parce que je ne savais plus trop quoi dessiner. Aujourd'hui, il m'arrive de gribouiller ce que je vois quand je voyage. J'ai récemment découvert que j'étais plus intéressé par le web design et la typographie, alors j'essaie d'expérimenter autour de ces sujets.
 
-## Vie personnelle
+## Autres informations
 
-Pour un récit plus personnel et complet de ma vie, voir [/personal-life](/personal-life).
+Pour mon parcours professionnel, voir [Mes expériences pro](/pro).
 
-## Contact
+Pour un récit plus personnel et complet de ma vie, voir [Vie personnelle](/personal-life).
+
+## Me contacter
 
 - Email : <em>aureliendsantos[at]gmail.com</em>
 - Mastodon : [@aurelien@gamedevalliance.fr](https://mastodon.gamedevalliance.fr/@aurelien)

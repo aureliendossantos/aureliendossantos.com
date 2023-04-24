@@ -1,9 +1,15 @@
 ---
 import TocHeading from "./TocHeading.astro"
 
-const { headings } = Astro.props
+interface Props {
+	headings: any
+	depth: number | undefined
+}
+const { headings, depth } = Astro.props
+
 const toc = buildToc(headings)
 
+// Source: https://kld.dev/building-table-of-contents/
 // Takes the flat array of headings and return a nested array.
 // See also similar implementation from the Astro Docs:
 // https://github.com/withastro/docs/blob/882e0b0a9d16d1c822cb8c230a62a4bfcd308605/src/util/generateToc.ts
@@ -16,7 +22,7 @@ function buildToc(headings) {
 		// Change 2 to 1 if your markdown includes your <h1>
 		if (heading.depth === 2) {
 			toc.push(heading)
-		} else {
+		} else if (!depth || heading.depth <= depth) {
 			parentHeadings.get(heading.depth - 1).subheadings.push(heading)
 		}
 	})

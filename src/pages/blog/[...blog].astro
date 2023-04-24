@@ -6,6 +6,7 @@ import getPalette from "$utils/palettes"
 import "src/styles/articles.scss"
 import Game from "$components/mdx/Game.astro"
 import Book from "$components/mdx/Book.astro"
+import TableOfContents from "$components/TableOfContents.astro"
 
 export async function getStaticPaths() {
 	const blogEntries = await getCollection("blog", ({ data }) => {
@@ -18,7 +19,7 @@ export async function getStaticPaths() {
 }
 
 const { article } = Astro.props
-const { Content } = await article.render()
+const { Content, headings } = await article.render()
 const data = article.data
 const palette = getPalette(data.palette)
 const secondaryColor = palette.secondaryColor
@@ -31,6 +32,7 @@ const references = [...data.games, ...data.books]
 
 <Article article={article}>
 	<div>
+		{article.data.toc && <TableOfContents headings={headings} depth={article.data.depth} />}
 		<Content />
 		{
 			references.length > 0 && (
