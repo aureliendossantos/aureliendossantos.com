@@ -109,7 +109,7 @@ export default function getPalette(name: Palettes | undefined): Palette {
 				secondaryColor: "#111111",
 				specialColor: "#111111",
 				backgroundColor: "#fffff8",
-				headingsFont: "'Source Serif', serif",
+				headingsFont: "'Source Serif Subhead', 'Source Serif', serif",
 				mainFont: "'Source Serif', serif",
 			}
 		case "guidebook":

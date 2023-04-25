@@ -2,6 +2,11 @@
 import type { CollectionEntry } from "astro:content"
 import ArticleDate from "$components/ArticleDate.astro"
 import BackHome from "$components/BackHome.astro"
+import BaseLayout from "./BaseLayout.astro"
+import getPalette from "$utils/palettes"
+import "$styles/tufte/tufte.scss"
+import "$styles/tufte/pandoc.scss"
+import "$styles/tufte/tufte-extra.scss"
 
 export interface Props {
 	article: CollectionEntry<"tufte">
@@ -9,43 +14,29 @@ export interface Props {
 
 const { article } = Astro.props
 const data = article.data
-// To remove spaces after sidenotes (breaks code blocks):
-// const html = (await Astro.slots.render("default")).replace(/[\r\n]/gm, "")
 const html = (await Astro.slots.render("default")).replaceAll(
 	"<section-switch></section-switch>",
 	"</section><section>"
 )
 ---
 
-<!DOCTYPE html>
-<html lang="fr">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="generator" content="pandoc" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-		<meta name="author" content="Aurélien Dos Santos" />
-		<title>{data.title}</title>
-		<style type="text/css">
-			code {
-				white-space: pre;
-			}
-		</style>
-		<link rel="stylesheet" href="/tufte/tufte.css" />
-		<link rel="stylesheet" href="/tufte/pandoc.css" />
-		<link rel="stylesheet" href="/tufte/tufte-extra.css" />
-	</head>
-	<body>
-		<article>
-			<header>
-				<p class="byline" style="margin-top: 0">◂ <a href="/blog">Retour au blog</a></p>
-				<h1 class="title">{data.title}</h1>
-				<p class="subtitle">{data.description}</p>
-				<p class="byline">
-					<ArticleDate date={data.date} /> &ndash; Aurélien Dos Santos
-				</p>
-			</header>
-			<section set:html={html} />
-			<BackHome />
-		</article>
-	</body>
-</html>
+<BaseLayout
+	ogType="article"
+	title={data.title}
+	description={data.description}
+	date={data.date}
+	image={data.image?.src}
+>
+	<article>
+		<header>
+			<p class="byline" style="margin-top: 0">◂ <a href="/blog">Retour au blog</a></p>
+			<h1 class="title">{data.title}</h1>
+			<p class="subtitle">{data.description}</p>
+			<p class="byline">
+				<ArticleDate date={data.date} /> &ndash; Aurélien Dos Santos
+			</p>
+		</header>
+		<section set:html={html} />
+		<BackHome />
+	</article>
+</BaseLayout>
