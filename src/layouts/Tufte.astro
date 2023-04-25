@@ -1,6 +1,7 @@
 ---
 import type { CollectionEntry } from "astro:content"
 import ArticleDate from "$components/ArticleDate.astro"
+import BackHome from "$components/BackHome.astro"
 
 export interface Props {
 	article: CollectionEntry<"tufte">
@@ -44,6 +45,7 @@ const html = (await Astro.slots.render("default")).replaceAll(
 				</p>
 			</header>
 			<section set:html={html} />
+			<BackHome />
 		</article>
 	</body>
 </html>

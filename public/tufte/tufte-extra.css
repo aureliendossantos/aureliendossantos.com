@@ -86,7 +86,9 @@ sup {
 
 /* Replicate styling from sidenote numbers to footnote numbers */
 a.footnote-ref,
-sup a:link {
+sup a:link,
+figure a:link,
+a.marginimage:link {
 	background: unset;
 	text-shadow: unset;
 }

@@ -1,8 +1,7 @@
 ---
 import crypto from "node:crypto"
 const uid = crypto.randomUUID()
+// This file is ignored by Prettier so that the star can be stuck to the text before and after.
 ---
 
-<label for={`sn-${uid}`} class="margin-toggle sidenote-number"></label>
-<input type="checkbox" id={`sn-${uid}`} class="margin-toggle" />
-<span class="sidenote"><slot /></span>
+<label for={`sn-${uid}`} class="margin-toggle sidenote-number"></label><input type="checkbox" id={`sn-${uid}`} class="margin-toggle" /><span class="sidenote"><slot /></span>

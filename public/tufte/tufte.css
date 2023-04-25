@@ -677,17 +677,17 @@ label.margin-toggle:not(.sidenote-number) {
 		width: 100%;
 	}
 
-	label.margin-toggle:not(.sidenote-number) {
+	/*label.margin-toggle:not(.sidenote-number) {
 		display: inline;
-	}
+	}*/
 
 	.sidenote,
 	.marginnote {
 		display: none;
 	}
 
-	.margin-toggle:checked + .sidenote,
-	.margin-toggle:checked + .marginnote {
+	.margin-toggle/*:checked*/ + .sidenote,
+	.margin-toggle/*:checked*/ + .marginnote {
 		display: block;
 		float: left;
 		left: 1rem;
