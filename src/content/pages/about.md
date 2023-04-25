@@ -9,11 +9,17 @@ Je m'appelle <em>Aurélien Dos Santos</em>, j'ai <em class="hover:text-[#4a8bf3]
 
 👋 Je suis à la recherche d'un emploi ! Pour plus d'informations, rendez-vous sur la page de [mes expériences pro](/pro).
 
+## Me contacter
+
+- Email : aureliendsantos@gmail.com
+- Mastodon : [@aurelien@gamedevalliance.fr](https://mastodon.gamedevalliance.fr/@aurelien)
+- Discord : Aurélien#1254
+
 ## Mes projets
 
 Mes projets les plus récents :
 
-- [QRPG](https://youtu.be/TE4jHjvZ1Nk?t=17), un hybride entre jeu vidéo et jeu de société ;
+- [QRPG](/portfolio/qrpg), un hybride entre jeu vidéo et jeu de société ;
 - [FaireDesJeux.fr](https://fairedesjeux.fr/), un site collaboratif de formations à la création de jeux ;
 - Un [jeu de survie](https://survie.aureliendossantos.com/) sur navigateur où les joueurs doivent survivre sur une île déserte et collaborer en asynchrone ;
 - La chaîne YouTube de Game Dev Alliance, sur laquelle nous publions des vidéos d'actualité autour du développement de jeux, des tutoriels et des cours théoriques.
@@ -33,7 +39,7 @@ Voici quelques projets terminés ou mis de côté :
   - Organisation et animation de plusieurs [game jams](https://gamedevalliance.itch.io/).
   - [RPG Maker Starter Pack](https://gamedevalliance.itch.io/starterpack), un projet d'exemple collaboratif sur RPG Maker destiné aux débutants, regroupant de nombreux décors réutilisables ainsi des astuces de programmation et de mise en scène.
 
-## Historique de mes positions
+## Où vis-je
 
 Je suis né en région parisienne d'une mère bretonne et d'un père portugais. Très jeune, ma famille a déménagé dans les Landes pour mieux accueillir ma petite sœur. J'ai vécu dans des appartements étudiants à Pau pour suivre mes premières études, puis j'ai déménagé à Toulouse pour suivre mon Master. J'y habite toujours aujourd'hui, et je m'y sens très bien.
 
@@ -45,7 +51,7 @@ Je suis amoureux du jeu vidéo. Dès l'enfance, j'étais fasciné par l'élégan
 
 Ma deuxième passion est sans doute le cinéma, avec une préférence pour le naturalisme. J'aime également la photographie, la programmation, la musique atmosphérique et électronique, les promenades, les restaurants et les cafés.
 
-Quand j'étais enfant, je dessinais H24 au fond de la classe, mais j'ai arrêté au lycée car je ne savais plus trop quoi dessiner. Aujourd'hui, il m'arrive de gribouiller ce que je vois quand je voyage. J'ai récemment découvert que j'étais plus intéressé par le web design et la typographie, alors j'essaie d'expérimenter autour de ces sujets.
+Quand j'étais enfant, je dessinais souvent au fond de la classe, mais j'ai arrêté au lycée car je ne savais plus trop quoi représenter. Aujourd'hui, il m'arrive de gribouiller ce que je vois quand je voyage. J'ai récemment découvert que j'étais plus intéressé par le web design et la typographie, alors j'essaie d'expérimenter autour de ces sujets.
 
 ## Autres informations
 
@@ -53,11 +59,7 @@ Pour mon parcours professionnel, voir [Mes expériences pro](/pro).
 
 Pour un récit plus personnel et complet de ma vie, voir [Vie personnelle](/personal-life).
 
-## Me contacter
-
-- Email : <em>aureliendsantos[at]gmail.com</em>
-- Mastodon : [@aurelien@gamedevalliance.fr](https://mastodon.gamedevalliance.fr/@aurelien)
-- Discord : Aurélien#1254
+Pour des informations sur mon site, voir [À propos de ce site](/website).
 
 <script>
 	const yearInMs = 3.15576e+10; // Using a year of 365.25 days (because leap years)

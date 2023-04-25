@@ -170,21 +170,23 @@ Nous pouvons englober des minuscules sans les altérer et le tout fonctionne par
 
 {/* prettier-ignore */}
 <example>
-	<font>Source Serif (`c2sc`)</font>
+	<font>Source Serif (`font-feature-settings: c2sc`)</font>
 
     Le magazine <abbr><i>LOGiN</i></abbr>
 
-    <font>Source Serif (`unicase`)</font>
+    <font>Source Serif (`font-variant: unicase`)</font>
 
     Le magazine <i><span style="font-variant: unicase;">LOGiN</span></i>
 
-    <font>Source Serif (`all-small-caps`)</font>
+    <font>Source Serif (`font-variant: all-small-caps`)</font>
 
     Le magazine <i><span style="font-variant: all-small-caps;">LOGiN</span></i>
 
 </example>
 
-A la date de mes observations, `c2sc` ne fonctionne pas car Source Serif Pro ne comporte pas de _small caps_ en italique[^githubissue]. On peut tout de même tenter d'utiliser la propriété `font-variant`, qui demande au navigateur de synthétiser les caractères à partir des majuscules normales, mais le problème d'épaisseur est très visible. De plus, rappelons que l'option `all-small-caps` fonctionne sur Safari, mais pas l'option `unicase`, qui offre le tri des minuscules.
+A la date de mes observations, `c2sc` ne fonctionne pas car Source Serif Pro ne comporte pas de _small caps_ en italique[^githubissue]. C'est la grande différence entre les deux paramètres <abbr>CSS</abbr>, que j'ai mis du temps à comprendre car ce n'était pas clairement expliqué sur <abbr>MDN</abbr> : [`font-feature-settings`](https://developer.mozilla.org/en-US/docs/Web/CSS/font-feature-settings) prend directement des options OpenType à 4 lettres comme `c2sc` et n'altère pas le texte si la police ne supporte pas lesdites options ; tandis que [`font-variant`](https://developer.mozilla.org/en-US/docs/Web/CSS/font-variant) applique les options OpenType si elles sont supportées par la police, mais dans le cas contraire, le navigateur tentera de synthétiser les caractères pour s'approcher du résultat voulu.
+
+Dans cet exemple, `font-variant` synthétise les caractères à partir des majuscules normales, mais le problème d'épaisseur est très visible. De plus, rappelons que l'option `all-small-caps` fonctionne sur Safari, mais pas l'option `unicase`, qui offre le tri des minuscules.
 
 [^githubissue]: https://github.com/adobe-fonts/source-serif/issues/46
 

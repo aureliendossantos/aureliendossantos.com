@@ -8,7 +8,7 @@ interface Props {
 	caption?: string
 	paragraph?: boolean
 }
-const { src, alt, caption, paragraph } = Astro.props
+const { src, alt, caption, paragraph, ...attributes } = Astro.props
 
 const resolvedSrc = "then" in src ? (await src).default : src
 const width = Math.min(resolvedSrc.width, 800)
@@ -19,7 +19,7 @@ const width = Math.min(resolvedSrc.width, 800)
 		<p>
 			<MarginNote>
 				<a href={resolvedSrc.src}>
-					<Image src={resolvedSrc} width={width} alt={alt || ""} />
+					<Image src={resolvedSrc} width={width} alt={alt || ""} {...attributes} />
 				</a>
 				<slot>{caption}</slot>
 			</MarginNote>
@@ -27,7 +27,7 @@ const width = Math.min(resolvedSrc.width, 800)
 	) : (
 		<MarginNote>
 			<a href={resolvedSrc.src}>
-				<Image src={resolvedSrc} width={width} alt={alt || ""} />
+				<Image src={resolvedSrc} width={width} alt={alt || ""} {...attributes} />
 			</a>
 			<slot>{caption}</slot>
 		</MarginNote>

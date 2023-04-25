@@ -109,10 +109,8 @@ export default function getPalette(name: Palettes | undefined): Palette {
 				secondaryColor: "#111111",
 				specialColor: "#111111",
 				backgroundColor: "#fffff8",
-				headingsFont:
-					'et-book, Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;',
-				mainFont:
-					'et-book, Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;',
+				headingsFont: "'Source Serif', serif",
+				mainFont: "'Source Serif', serif",
 			}
 		case "guidebook":
 			return {

@@ -16,7 +16,9 @@ Voici les postes que j'ai occupés le plus récemment :
 - <em>Traducteur anglais</em>, Degica, 2018
 - <em>Réalisateur vidéo</em> en micro-entreprise, 2015-2018
 
-Passionné par la vidéo, l'informatique et la pédagogie, je passe le plus clair de mon temps à combiner ces intérêts dans une variété de projets personnels. Je réalise des tutoriels [sur YouTube](https://www.youtube.com/channel/UCCjlo6Ihet_T3X6bKLJzPsA), je gère le site de formations participatif [FaireDesJeux.fr](https://fairedesjeux.fr), je développe des sites web avec Astro et React ainsi que des jeux vidéo sur Unity. Vous trouverez plus de détails sur mon [portfolio](/portfolio).
+Vous trouverez les détails de chaque poste sur [LinkedIn](https://www.linkedin.com/in/aureliendossantos/).
+
+Passionné par la vidéo, l'informatique et la pédagogie, je passe le plus clair de mon temps à combiner ces intérêts dans une variété de projets personnels. Je réalise des tutoriels [sur YouTube](https://www.youtube.com/channel/UCCjlo6Ihet_T3X6bKLJzPsA) ; je gère le site de formations participatif [FaireDesJeux.fr](https://fairedesjeux.fr) ; je développe des sites web avec Astro et React, ainsi que des jeux vidéo sur Unity. Vous retrouverez ces projets dans mon [portfolio](/portfolio).
 
 En 2023, je valide mon Master de conception pédagogique. Voici un historique de mes études post-bac :
 

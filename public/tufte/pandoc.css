@@ -28,6 +28,12 @@ table {
 th {
 	border-bottom: 1px solid black;
 }
+@media (prefers-color-scheme: dark) {
+	table,
+	th {
+		border-color: #dddddd;
+	}
+}
 td,
 th {
 	font-size: 1.4rem;

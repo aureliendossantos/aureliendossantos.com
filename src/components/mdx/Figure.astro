@@ -10,7 +10,7 @@ interface Props {
 	shadow?: boolean
 	noLink?: boolean
 }
-const { src, alt, caption, rounded, shadow, noLink } = Astro.props
+const { src, alt, caption, rounded, shadow, noLink, ...attributes } = Astro.props
 
 const resolvedSrc = "then" in src ? (await src).default : src
 const classes: AstroBuiltinAttributes["class:list"] = { "rounded-md": rounded, shadow: shadow }
@@ -20,10 +20,16 @@ const width = Math.min(resolvedSrc.width, 1920)
 <figure>
 	{
 		noLink ? (
-			<Image src={resolvedSrc} width={width} alt={alt || ""} class:list={classes} />
+			<Image src={resolvedSrc} width={width} alt={alt || ""} class:list={classes} {...attributes} />
 		) : (
 			<a href={resolvedSrc.src}>
-				<Image src={resolvedSrc} width={width} alt={alt || ""} class:list={classes} />
+				<Image
+					src={resolvedSrc}
+					width={width}
+					alt={alt || ""}
+					class:list={classes}
+					{...attributes}
+				/>
 			</a>
 		)
 	}
