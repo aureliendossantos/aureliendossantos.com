@@ -15,7 +15,7 @@ const { label, secondLabel, path, href, rel, newTab } = Astro.props
 		<li class="primary">
 			<a href={href} rel={rel} target={newTab ? "_blank" : undefined} class="group relative">
 				<span class="label text-2xl text-[#d1d5db]">{label}</span><span
-					class="absolute left-[calc(100%-6px)] bottom-[1px] pl-[6px] font-space-mono text-[13px] opacity-0 transition-all ease-out group-hover:left-[calc(100%)] group-hover:text-[#9ca3af] group-hover:opacity-100 medium:hidden"
+					class="absolute left-[calc(100%-6px)] bottom-[1px] pl-[6px] font-space-mono text-[13px] italic opacity-0 transition-all ease-out group-hover:left-[calc(100%)] group-hover:text-[#9ca3af] group-hover:opacity-100 medium:hidden"
 					>{path}</span
 				>
 				{secondLabel && <span class="hidden medium:inline">{secondLabel}</span>}

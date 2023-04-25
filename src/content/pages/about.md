@@ -27,6 +27,10 @@ Voici quelques projets terminés ou mis de côté :
   - [New Miami 2080](https://aureliendossantos.itch.io/new-miami-2080), un shoot'em up réalisé en une semaine sur PICO-8 ;
   - [Il faut sauver Sosthène IV](https://aureliendossantos.itch.io/sostheneiv) et [Après la pluie](https://aureliendossantos.itch.io/apreslapluie), deux jeux réalisés sur RPG Maker en un week-end chacun et mettant l'accent sur la narration ;
   - [𝔩𝔢 𝔡𝔢𝔩𝔦𝔯𝔢](https://gamedevalliance.itch.io/delire) (le delire), un cadavre exquis, ou jeu multi-maker, dans lequel chaque créateur avait 20 minutes pour réaliser sa partie.
+- Projets de Game Dev Alliance :
+  - Le [wiki de la création de jeux](https://wiki.gamedevalliance.fr/), que j'ai principalement alimenté en informations à l'époque où il était dédié à RPG Maker. Nous l'avons ensuite ouvert à tous les moteurs, sans atteindre le même niveau d'intérêt.
+  - Le forum de Game Dev Alliance, ouvert de mars 2018 à avril 2019 ([archive](https://web.archive.org/web/20190401141448/http://gamedevalliance.fr/)), dédié à l'entraide, aux projets des membres et aux discussions générales.
+  - Organisation et animation de plusieurs [game jams](https://gamedevalliance.itch.io/).
   - [RPG Maker Starter Pack](https://gamedevalliance.itch.io/starterpack), un projet d'exemple collaboratif sur RPG Maker destiné aux débutants, regroupant de nombreux décors réutilisables ainsi des astuces de programmation et de mise en scène.
 
 ## Historique de mes positions
