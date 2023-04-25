@@ -9,7 +9,7 @@ export default defineConfig({
 	image: {
 		service: "$utils/imageService.ts",
 	},
-	site: "https://www.aureliendossantos.com",
+	site: "https://aureliendossantos.com",
 	integrations: [
 		tailwind({
 			config: { applyBaseStyles: false },

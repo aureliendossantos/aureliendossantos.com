@@ -9,7 +9,7 @@ import sharp from "sharp"
 // Improves performances and displays a placeholder during image loading.
 
 function getBaseSiteURL(): string {
-	return import.meta.env.PROD ? "https://www.aureliendossantos.com/" : "http://localhost:3000/"
+	return import.meta.env.PROD ? "https://aureliendossantos.com/" : "http://localhost:3000/"
 }
 
 function getBitmapDimensions(
