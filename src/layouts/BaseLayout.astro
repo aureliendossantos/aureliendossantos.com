@@ -38,6 +38,9 @@ export interface Props {
 }
 const { title, description, date, image, bg, font, ogType } = Astro.props
 
+// Base website URL (minus slash at the end) + image URL
+const ogImageURL = image && Astro.site?.toString().replace(/\/$/, "") + image
+
 const googleStructuredData = {
 	"@context": "https://schema.org",
 	"@type": "BlogPosting",
@@ -83,13 +86,13 @@ const googleStructuredData = {
 				<meta property="article:modified_time" content={date.toISOString()} />
 			)
 		}
-		{image && <meta property="og:image" content={image} />}
+		{image && <meta property="og:image" content={ogImageURL} />}
 		<meta name="twitter:site" content="@ooooorelien" />
 		<meta name="twitter:creator" content="@ooooorelien" />
 		<meta name="twitter:title" content={title} />
 		{description && <meta name="twitter:description" content={description} />}
-		<meta name="twitter:card" content="summary_large_image" />
-		{image && <meta name="twitter:image" content={image} />}
+		<meta name="twitter:card" content={image ? "summary_large_image" : "summary"} />
+		{image && <meta name="twitter:image" content={ogImageURL} />}
 		{
 			ogType == "article" && (
 				<script type="application/ld+json" set:html={JSON.stringify(googleStructuredData)} />
