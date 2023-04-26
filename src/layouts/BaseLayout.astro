@@ -18,13 +18,19 @@ import "@fontsource/work-sans/400-italic.css"
 import "@fontsource/work-sans/700-italic.css"
 // Monospace
 import "@fontsource/source-code-pro"
+// Custom fonts
+import "$styles/fonts/anek-latin.css"
+import "$styles/fonts/et-book.css"
+import "$styles/fonts/source-serif.css"
 
 export interface Props {
 	title: string
 	description?: string
 	date?: Date
 	image?: string
+	layout?: string[]
 	bg?: string
+	bgDark?: string
 	font?: "Work Sans"
 	ogType:
 		| "website"
@@ -36,10 +42,13 @@ export interface Props {
 		| "music.album"
 		| "music.playlist"
 }
-const { title, description, date, image, bg, font, ogType } = Astro.props
+const { title, description, date, image, layout, bg, bgDark, font, ogType } = Astro.props
 
 // Base website URL (minus slash at the end) + image URL
 const ogImageURL = image && Astro.site?.toString().replace(/\/$/, "") + image
+
+const defaultBackground = bg || "#f5f5fa"
+const darkBackground = bgDark || bg || "#17182f"
 
 const googleStructuredData = {
 	"@context": "https://schema.org",
@@ -60,7 +69,7 @@ const googleStructuredData = {
 ---
 
 <!DOCTYPE html>
-<html lang="fr" class:list={{ "font-sans": !font, "font-work-sans": font == "Work Sans" }}>
+<html lang="fr">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -105,177 +114,17 @@ const googleStructuredData = {
 			)
 		}
 	</head>
-	<body class="bg-[#f5f5fa] dark:bg-[#17182f] dark:text-slate-200" style={{ backgroundColor: bg }}>
+	<body
+		class:list={[
+			layout,
+			"bg-[var(--bg)] dark:bg-[var(--darkbg)] dark:text-slate-200",
+			{ "font-sans": !font, "font-work-sans": font == "Work Sans" },
+		]}
+		style={{
+			"--bg": defaultBackground,
+			"--darkbg": darkBackground,
+		}}
+	>
 		<slot />
 	</body>
 </html>
-
-<style is:global>
-	@font-face {
-		font-family: "Anek Latin";
-		src: url("/fonts/AnekLatin.ttf");
-		font-weight: normal;
-		font-style: normal;
-		font-display: swap;
-	}
-
-	@font-face {
-		font-family: "Source Serif";
-		font-weight: 200;
-		font-style: normal;
-		src: url("/fonts/SourceSerif4/SourceSerif4-ExtraLight.ttf.woff2") format("woff2");
-		font-display: swap;
-	}
-
-	@font-face {
-		font-family: "Source Serif";
-		font-weight: 200;
-		font-style: italic;
-		src: url("/fonts/SourceSerif4/SourceSerif4-ExtraLightIt.ttf.woff2") format("woff2");
-		font-display: swap;
-	}
-
-	@font-face {
-		font-family: "Source Serif";
-		font-weight: 300;
-		font-style: normal;
-		src: url("/fonts/SourceSerif4/SourceSerif4-Light.ttf.woff2") format("woff2");
-		font-display: swap;
-	}
-
-	@font-face {
-		font-family: "Source Serif";
-		font-weight: 300;
-		font-style: italic;
-		src: url("/fonts/SourceSerif4/SourceSerif4-LightIt.ttf.woff2") format("woff2");
-		font-display: swap;
-	}
-
-	@font-face {
-		font-family: "Source Serif";
-		font-weight: 400;
-		font-style: normal;
-		src: url("/fonts/SourceSerif4/SourceSerif4-Regular.ttf.woff2") format("woff2");
-		font-display: swap;
-	}
-
-	@font-face {
-		font-family: "Source Serif";
-		font-weight: 400;
-		font-style: italic;
-		src: url("/fonts/SourceSerif4/SourceSerif4-It.ttf.woff2") format("woff2");
-		font-display: swap;
-	}
-
-	@font-face {
-		font-family: "Source Serif";
-		font-weight: 600;
-		font-style: normal;
-		src: url("/fonts/SourceSerif4/SourceSerif4-Semibold.ttf.woff2") format("woff2");
-		font-display: swap;
-	}
-
-	@font-face {
-		font-family: "Source Serif";
-		font-weight: 600;
-		font-style: italic;
-		src: url("/fonts/SourceSerif4/SourceSerif4-SemiboldIt.ttf.woff2") format("woff2");
-		font-display: swap;
-	}
-
-	@font-face {
-		font-family: "Source Serif";
-		font-weight: 700;
-		font-style: normal;
-		src: url("/fonts/SourceSerif4/SourceSerif4-Bold.ttf.woff2") format("woff2");
-		font-display: swap;
-	}
-
-	@font-face {
-		font-family: "Source Serif";
-		font-weight: 700;
-		font-style: italic;
-		src: url("/fonts/SourceSerif4/SourceSerif4-BoldIt.ttf.woff2") format("woff2");
-		font-display: swap;
-	}
-
-	@font-face {
-		font-family: "Source Serif";
-		font-weight: 900;
-		font-style: normal;
-		src: url("/fonts/SourceSerif4/SourceSerif4-Black.ttf.woff2") format("woff2");
-		font-display: swap;
-	}
-
-	@font-face {
-		font-family: "Source Serif";
-		font-weight: 900;
-		font-style: italic;
-		src: url("/fonts/SourceSerif4/SourceSerif4-BlackIt.ttf.woff2") format("woff2");
-		font-display: swap;
-	}
-
-	@font-face {
-		font-family: "Source Serif SmText";
-		font-weight: 400;
-		font-style: normal;
-		src: url("/fonts/SourceSerif4/SourceSerif4SmText-Regular.ttf.woff2") format("woff2");
-		font-display: swap;
-	}
-
-	@font-face {
-		font-family: "Source Serif SmText";
-		font-weight: 400;
-		font-style: italic;
-		src: url("/fonts/SourceSerif4/SourceSerif4SmText-It.ttf.woff2") format("woff2");
-		font-display: swap;
-	}
-
-	@font-face {
-		font-family: "Source Serif Display";
-		font-weight: 400;
-		font-style: normal;
-		src: url("/fonts/SourceSerif4/SourceSerif4Display-Regular.ttf.woff2") format("woff2");
-		font-display: swap;
-	}
-
-	@font-face {
-		font-family: "Source Serif Display";
-		font-weight: 400;
-		font-style: italic;
-		src: url("/fonts/SourceSerif4/SourceSerif4Display-It.ttf.woff2") format("woff2");
-		font-display: swap;
-	}
-
-	@font-face {
-		font-family: "Source Serif Subhead";
-		font-weight: 400;
-		font-style: normal;
-		src: url("/fonts/SourceSerif4/SourceSerif4Subhead-Regular.ttf.woff2") format("woff2");
-		font-display: swap;
-	}
-
-	@font-face {
-		font-family: "Source Serif Subhead";
-		font-weight: 400;
-		font-style: italic;
-		src: url("/fonts/SourceSerif4/SourceSerif4Subhead-It.ttf.woff2") format("woff2");
-		font-display: swap;
-	}
-
-	@font-face {
-		font-family: "Source Serif Caption";
-		font-weight: 400;
-		font-style: normal;
-		src: url("/fonts/SourceSerif4/SourceSerif4Caption-Regular.ttf.woff2") format("woff2");
-		font-display: swap;
-	}
-
-	@font-face {
-		font-family: "Source Serif Caption";
-		font-weight: 400;
-		font-style: italic;
-		src: url("/fonts/SourceSerif4/SourceSerif4Caption-It.ttf.woff2") format("woff2");
-		font-display: swap;
-	}
-</style>

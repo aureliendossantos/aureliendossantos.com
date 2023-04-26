@@ -2,7 +2,9 @@
 title: Qui suis-je ?
 toc: true
 palette: whiteboard
-layout: "$layouts/Future.astro"
+layouts:
+  - classic
+  - future
 ---
 
 Je m'appelle <em>Aurélien Dos Santos</em>, j'ai <em class="hover:text-[#4a8bf3]/80" title="Né le 22 janvier 1997 !"><span id="age">25</span> ans</em> et je vis à <em>Toulouse</em>.

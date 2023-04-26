@@ -20,13 +20,18 @@ const { heading } = Astro.props
 </li>
 
 <style lang="scss" is:global>
-	nav.toc {
+	nav.toc,
+	.future nav.toc {
 		ol {
 			counter-reset: toc 0;
 		}
 		ol > li {
 			counter-increment: toc;
 			font-feature-settings: "smcp" 1;
+			// temp: Pour retirer les numéros roses de .future
+			&::before {
+				content: none;
+			}
 			&::marker {
 				content: counter(toc) "    ";
 				font-feature-settings: "onum";

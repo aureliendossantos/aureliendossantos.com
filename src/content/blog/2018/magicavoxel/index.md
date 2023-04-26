@@ -9,7 +9,6 @@ license: "Ecrit par Nev, Imanor et EzekielKoening"
 toc: true
 depth: 2
 palette: guidebook
-layout: $layouts/Classic.astro
 ---
 
 <div class="note">

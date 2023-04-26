@@ -7,7 +7,6 @@ tags: ["Projet perso", "Jeux vidéo"]
 image: ./1.jpg
 cover: true
 palette: notebook
-layout: $layouts/Classic.astro
 games:
   - destiny
 ---

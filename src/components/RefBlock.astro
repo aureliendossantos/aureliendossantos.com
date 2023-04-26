@@ -13,7 +13,7 @@ const { img, icon, title, infos, links, big, gallery } = Astro.props
 
 <div
 	class:list={[
-		"my-[1em]",
+		"ref-block my-[1em]",
 		{ "flex flex-row gap-2": !big },
 		{
 			"grid grid-cols-5 small:grid-cols-1 small:grid-rows-1 overflow-hidden rounded-md bg-white shadow transition-shadow hover:shadow-md":

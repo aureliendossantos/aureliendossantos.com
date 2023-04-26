@@ -4,7 +4,9 @@ aliases:
   - contact
   - aurelien
 palette: whiteboard
-layout: "$layouts/Future.astro"
+layouts:
+  - classic
+  - future
 ---
 
 Je m'appelle Aurélien, j'ai <span id="age">25</span> ans et je vis à Toulouse. Je suis à la recherche de nouvelles opportunités en tant qu'<em>ingénieur pédagogique</em>, <em>concepteur e-learning</em> ou <em>concepteur de serious games</em>.

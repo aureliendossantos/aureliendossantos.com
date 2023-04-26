@@ -20,8 +20,9 @@ const headingsFont = palette.headingsFont
 	ogType="website"
 	title={data.title}
 	description={data.description}
-	image={image}
+	image={image?.src}
 	bg={palette.backgroundColor}
+	layout={data.layouts}
 >
 	<div class="article-styling">
 		<ArticleHeader
