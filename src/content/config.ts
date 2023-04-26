@@ -12,6 +12,7 @@ export const collections = {
 				date: z.date(),
 				categories: z.array(z.string()).default([]),
 				tags: z.array(z.string()).default([]),
+				opengraph: image().optional(),
 				image: image().optional(),
 				imageAnchorTop: z.boolean().optional(),
 				cover: z.boolean().default(false),

@@ -12,7 +12,7 @@ export interface Props {
 const { article } = Astro.props
 const data = article.data
 const palette = getPalette(data.palette)
-const ogImage = data.image
+const ogImage = data.opengraph || data.image
 const coverImage = data.cover && data.image ? data.image : undefined
 const headingsFont = palette.headingsFont
 const wide = data.categories?.includes("Photos")
