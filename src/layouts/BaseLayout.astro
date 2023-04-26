@@ -66,9 +66,10 @@ const googleStructuredData = {
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta name="author" content="Aurélien Dos Santos" />
 		<meta name="generator" content={Astro.generator} />
+		<link rel="canonical" href={Astro.url} />
+		<link rel="alternate" type="application/rss+xml" href="/rss.xml" title="Blog" />
 		<title>{title} - Aurélien Dos Santos</title>
 		{description && <meta name="description" content={description} />}
-		<link rel="canonical" href={Astro.url} />
 		{bg && <meta name="theme-color" content={bg} />}
 		<meta property="og:title" content={title} />
 		{description && <meta property="og:description" content={description} />}
