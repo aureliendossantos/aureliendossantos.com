@@ -73,6 +73,12 @@ const uid = crypto.randomUUID()
 	</nav>
 
 	<div class:list={[styles.panels]}>
+		<div class="unsupported-message">
+			<em
+				>Désolé, votre navigateur ne peut pas afficher ces onglets. Merci d'essayer avec un autre
+				navigateur.</em
+			>
+		</div>
 		{
 			panels.map(async (name, index) => (
 				<div
@@ -88,3 +94,11 @@ const uid = crypto.randomUUID()
 		}
 	</div>
 </div>
+
+<style>
+	@supports selector(:has(a)) {
+		.unsupported-message {
+			display: none;
+		}
+	}
+</style>
