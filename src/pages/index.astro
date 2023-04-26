@@ -29,6 +29,12 @@ const videos = allo.items.slice(0, 3)
 		<meta name="description" content="Site personnel d'Aurélien Dos Santos." />
 		<meta name="generator" content={Astro.generator} />
 		<link rel="canonical" href={Astro.url} />
+		<link
+			rel="alternate"
+			type="application/rss+xml"
+			href="/rss.xml"
+			title="Blog d'Aurélien Dos Santos"
+		/>
 		<meta name="theme-color" content="#17182f" />
 		<meta property="og:title" content="Aurélien Dos Santos" />
 		<meta property="og:url" content={Astro.url} />
