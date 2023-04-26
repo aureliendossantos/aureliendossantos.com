@@ -1,6 +1,10 @@
 ---
+import Style from "$components/Style.astro"
+
 interface Props {
 	title: string
+	book?: boolean
+	bookEdition?: string
 	author?: string
 	foreign?: boolean
 	date?: string
@@ -12,28 +16,39 @@ interface Props {
 	archive?: URL
 	archiveDate?: string
 }
-const { title, author, foreign, date, publisher, jp, page, multiple, link, archive, archiveDate } =
-	Astro.props
+const {
+	title,
+	book,
+	bookEdition,
+	author,
+	foreign,
+	date,
+	publisher,
+	jp,
+	page,
+	multiple,
+	link,
+	archive,
+	archiveDate,
+} = Astro.props
 // If foreign, the title will be italicized. If jp (japanese), the publisher will not be italicized.
 
-if (!archive) console.warn(`Not archived: "${title}"`)
-else if (!archiveDate) console.warn(`No archive date: "${title}"`)
+if (!book) {
+	if (!archive) console.warn(`Not archived: "${title}"`)
+	else if (!book && !archiveDate) console.warn(`No archive date: "${title}"`)
+}
 ---
 
 <!-- prettier-ignore -->
 <span>
 	{author && `${author},`}
-	« {
-		foreign ?
-			<i>{link ?
-				<a href={link} target="_blank">{title}</a>
-				: title
-			}</i>
-			: link ?
-				<a href={link} target="_blank">{title}</a>
-				: title
-	} »{
-		publisher && <>, {jp ? publisher : <i>{publisher}</i>}</>
+	<Style quotes={!book}><Style i={foreign || book}>{link ?
+		<a href={link} target="_blank">{title}</a>
+		: title
+	}</Style></Style>{
+		bookEdition && <> ({bookEdition})</>
+	}{
+		publisher && <>, <Style i={!jp}>{publisher}</Style></>
 	}{
 		page && <>, {multiple ? "pages " : "page "}{page}</>
 	}{

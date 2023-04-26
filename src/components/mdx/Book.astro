@@ -22,14 +22,14 @@ if (book.details.subtitle) infos.push(book.details.subtitle)
 if (book.details.authors)
 	infos.push(book.details.authors.map((author: any) => author.name).join(", "))
 infos.push(book.details.publishers ? `${book.details.publishers?.join(", ")} (${year})` : year)
+const links = []
+if (book.details.isbn_13) links.push([`ISBN ${book.details.isbn_13?.join(", ")}`, false])
+links.push(["Open Library", book.info_url])
 ---
 
 <RefBlock
 	img={`https://covers.openlibrary.org/b/isbn/${isbn}-L.jpg`}
 	title={book.details.title}
 	infos={infos}
-	links={[
-		[`ISBN ${book.details.isbn_13}`, false],
-		["Open Library", book.info_url],
-	]}
+	links={links}
 />

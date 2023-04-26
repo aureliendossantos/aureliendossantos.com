@@ -1,0 +1,10 @@
+---
+interface Props {
+	i?: boolean
+    quotes?: boolean
+}
+const { i, quotes } = Astro.props
+// This file is ignored by Prettier.
+---
+
+{quotes && "« "}{i ? <i><slot/></i> : <slot/>}{quotes && " »"}
