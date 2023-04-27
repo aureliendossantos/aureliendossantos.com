@@ -1,0 +1,27 @@
+---
+import type { CollectionEntry } from "astro:content"
+import Game from "./mdx/Game.astro"
+import Book from "./mdx/Book.astro"
+
+interface Props {
+	article: CollectionEntry<"blog">
+}
+
+const { article } = Astro.props
+const data = article.data
+const references = [...data.games, ...data.books]
+---
+
+{
+	references.length > 0 && (
+		<>
+			<h2>Dans cet article</h2>
+			{data.games.map((slug: string) => (
+				<Game slug={slug} />
+			))}
+			{data.books.map((id: string) =>
+				id.startsWith("OL") ? <Book olid={id} /> : <Book isbn={id} />
+			)}
+		</>
+	)
+}

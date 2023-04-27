@@ -1,16 +1,13 @@
 ---
-import { getCollection } from "astro:content"
+import { CollectionEntry, getCollection } from "astro:content"
 import Article from "$layouts/Article.astro"
 import BackHome from "$components/BackHome.astro"
-import getPalette from "$utils/palettes"
-import "src/styles/articles.scss"
-import Game from "$components/mdx/Game.astro"
-import Book from "$components/mdx/Book.astro"
-import TableOfContents from "$components/TableOfContents.astro"
+import Tufte from "$layouts/Tufte.astro"
+import ArticleReferences from "$components/ArticleReferences.astro"
 
 export async function getStaticPaths() {
 	const blogEntries = await getCollection("blog", ({ data }) => {
-		return data.draft !== true || import.meta.env.DEV
+		return !data.draft || import.meta.env.DEV
 	})
 	return blogEntries.map((article) => ({
 		params: { blog: article.slug },
@@ -18,69 +15,31 @@ export async function getStaticPaths() {
 	}))
 }
 
+export interface Props {
+	article: CollectionEntry<"blog">
+}
+
 const { article } = Astro.props
 const { Content, headings } = await article.render()
 const data = article.data
-const palette = getPalette(data.palette)
-const secondaryColor = palette.secondaryColor
-const specialColor = palette.specialColor
-const mentionColor = palette.mentionColor || "rgb(229 231 235)"
-const mentionHoverColor = palette.mentionHoverColor || "rgb(209 213 219"
-const fontSize = palette.fontSize
-const references = [...data.games, ...data.books]
 ---
 
-<Article article={article}>
-	<div>
-		{article.data.toc && <TableOfContents headings={headings} depth={article.data.depth} />}
-		<Content />
-		{
-			references.length > 0 && (
-				<>
-					<h2>Dans cet article</h2>
-					{data.games.map((slug: string) => (
-						<Game slug={slug} />
-					))}
-					{data.books.map((id: string) =>
-						id.startsWith("OL") ? <Book olid={id} /> : <Book isbn={id} />
-					)}
-				</>
-			)
-		}
-		{
-			data.license && (
+{
+	data.layouts.includes("tufte") ? (
+		<Tufte article={article}>
+			<Content />
+		</Tufte>
+	) : (
+		<Article article={article} headings={headings}>
+			<Content />
+			<ArticleReferences article={article} />
+			{data.license && (
 				<>
 					<hr />
 					<p class="license">{data.license}</p>
 				</>
-			)
-		}
-		{!data.customLayout && <BackHome />}
-	</div>
-</Article>
-
-<style
-	define:vars={{ secondaryColor, specialColor, fontSize, mentionColor, mentionHoverColor }}
-	is:global
->
-	blockquote,
-	.note,
-	.license,
-	hr,
-	.special-color {
-		color: var(--specialColor);
-	}
-	figcaption,
-	.secondary-color {
-		color: var(--secondaryColor);
-	}
-	.text-normal-size {
-		font-size: var(--fontSize);
-	}
-	.bg-mention {
-		background-color: var(--mentionColor);
-	}
-	.bg-mention:hover {
-		background-color: var(--mentionHoverColor);
-	}
-</style>
+			)}
+			{!data.customLayout && <BackHome />}
+		</Article>
+	)
+}

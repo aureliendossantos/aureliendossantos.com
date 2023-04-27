@@ -9,11 +9,12 @@ import "$styles/tufte/pandoc.scss"
 import "$styles/tufte/tufte-extra.scss"
 
 export interface Props {
-	article: CollectionEntry<"tufte">
+	article: CollectionEntry<"blog">
 }
 
 const { article } = Astro.props
 const data = article.data
+const ogImage = data.opengraph || data.image
 const html = (await Astro.slots.render("default")).replaceAll(
 	"<section-switch></section-switch>",
 	"</section><section>"
@@ -25,7 +26,8 @@ const html = (await Astro.slots.render("default")).replaceAll(
 	title={data.title}
 	description={data.description}
 	date={data.date}
-	image={data.image?.src}
+	image={ogImage?.src}
+	layout={data.layouts}
 >
 	<article>
 		<header>

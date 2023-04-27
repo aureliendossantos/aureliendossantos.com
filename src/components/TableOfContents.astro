@@ -1,8 +1,9 @@
 ---
+import type { MarkdownHeading } from "astro"
 import TocHeading from "./TocHeading.astro"
 
 interface Props {
-	headings: any
+	headings: MarkdownHeading[]
 	depth: number | undefined
 }
 const { headings, depth } = Astro.props
@@ -13,7 +14,7 @@ const toc = buildToc(headings)
 // Takes the flat array of headings and return a nested array.
 // See also similar implementation from the Astro Docs:
 // https://github.com/withastro/docs/blob/882e0b0a9d16d1c822cb8c230a62a4bfcd308605/src/util/generateToc.ts
-function buildToc(headings) {
+function buildToc(headings: MarkdownHeading[]) {
 	const toc = []
 	const parentHeadings = new Map()
 	headings.forEach((h) => {

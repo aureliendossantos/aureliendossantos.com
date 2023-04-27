@@ -3,37 +3,48 @@ import type { CollectionEntry } from "astro:content"
 import BaseLayout from "./BaseLayout.astro"
 import getPalette from "$utils/palettes"
 import ArticleHeader from "$components/ArticleHeader.astro"
-import ArticleContents from "$components/ArticleContents.astro"
+import TableOfContents from "$components/TableOfContents.astro"
+import type { MarkdownHeading } from "astro"
+import "src/styles/articles.scss"
 
 export interface Props {
-	article: CollectionEntry<"blog">
+	article: CollectionEntry<"blog"> | CollectionEntry<"pages">
+	headings: MarkdownHeading[]
 }
 
-const { article } = Astro.props
+const { article, headings } = Astro.props
 const data = article.data
-const palette = getPalette(data.palette)
+const date = "date" in data ? data.date : undefined
+const wide = "categories" in data && data.categories.includes("Photos")
+const customLayout = "customLayout" in data && data.customLayout
 const ogImage = data.opengraph || data.image
 const coverImage = data.cover && data.image ? data.image : undefined
+const palette = getPalette(data.palette)
+// CSS variables
 const headingsFont = palette.headingsFont
-const wide = data.categories?.includes("Photos")
+const secondaryColor = palette.secondaryColor
+const specialColor = palette.specialColor
+const mentionColor = palette.mentionColor || "rgb(229 231 235)"
+const mentionHoverColor = palette.mentionHoverColor || "rgb(209 213 219"
+const fontSize = palette.fontSize
 ---
 
 <BaseLayout
 	ogType="article"
 	title={data.title}
 	description={data.description}
-	date={data.date}
+	date={date}
 	image={ogImage?.src}
 	bg={palette.backgroundColor}
 	layout={data.layouts}
 >
 	<div class="article-styling">
 		{
-			!data.customLayout && (
+			!customLayout && (
 				<ArticleHeader
 					title={data.title}
 					description={data.description}
-					date={data.date}
+					date={date}
 					cover={coverImage}
 					palette={palette}
 					wide={wide}
@@ -41,9 +52,26 @@ const wide = data.categories?.includes("Photos")
 				/>
 			)
 		}
-		<ArticleContents palette={palette} wide={wide} full={data.customLayout}>
-			<slot />
-		</ArticleContents>
+		<main
+			class:list={{ "px-[80px] pb-16 medium:px-[40px] small:px-[20px]": !customLayout }}
+			style={{
+				color: palette.mainColor,
+				fontFamily: palette.mainFont,
+				fontSize: palette.fontSize || "initial",
+				lineHeight: palette.lineHeight || 1.25,
+			}}
+		>
+			<div
+				class:list={[
+					{ "blog-article m-auto": !customLayout },
+					{ "max-w-prose": !customLayout && !wide },
+					{ "max-w-[700px]": wide },
+				]}
+			>
+				{article.data.toc && <TableOfContents headings={headings} depth={article.data.depth} />}
+				<slot />
+			</div>
+		</main>
 	</div>
 </BaseLayout>
 
@@ -57,5 +85,31 @@ const wide = data.categories?.includes("Photos")
 		h6 {
 			font-family: var(--headingsFont);
 		}
+	}
+</style>
+
+<style
+	define:vars={{ secondaryColor, specialColor, fontSize, mentionColor, mentionHoverColor }}
+	is:global
+>
+	blockquote,
+	.note,
+	.license,
+	hr,
+	.special-color {
+		color: var(--specialColor);
+	}
+	figcaption,
+	.secondary-color {
+		color: var(--secondaryColor);
+	}
+	.text-normal-size {
+		font-size: var(--fontSize);
+	}
+	.bg-mention {
+		background-color: var(--mentionColor);
+	}
+	.bg-mention:hover {
+		background-color: var(--mentionHoverColor);
 	}
 </style>

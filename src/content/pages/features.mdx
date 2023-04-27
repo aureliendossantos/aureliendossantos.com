@@ -16,7 +16,11 @@ layouts:
 
 ### Astro
 
-Astro supporte également la syntaxe <abbr>[MDX](https://mdxjs.com/)</abbr>, activée en renommant un fichier en `.mdx`, et qui permet d'utiliser des composants Astro au sein des articles. Cela m'aide à encrichir les pages de plein de composants rigolos. Voir [<msc>Blocs et mentions</msc>](#blocs-et-mentions).
+[Astro](https://astro.build/) est le générateur de site statique avec lequel j'ai réécrit le site au début de l'année 2023. (Auparavant, j'utilisais [Hugo](https://astro.build/).) C'est un excellent outil, simple, bien documenté et flexible, qui rend la création fun et l'expérimentation plus rapide. Je le conseille vivement !
+
+J'ai eu la chance d'être accompagné par mon amie [Erika](https://erika.florist/), qui travaille chez Astro, ainsi que par mon ami [Goulven](https://goulven-clech.dev/), qui utilise lui aussi Astro pour son blog. Ils m'ont fait découvrir des _features_ en cours de développement que j'ai pu utiliser sur mon site : les [_content collections_](https://docs.astro.build/en/guides/content-collections/) (voir [<msc>Structure du contenu</msc>](#structure-du-contenu)) et [l'optimisation des _assets_](https://docs.astro.build/en/guides/assets/).
+
+Astro supporte la syntaxe <abbr>[MDX](https://mdxjs.com/)</abbr>, activée en renommant un fichier en `.mdx`, et qui permet d'utiliser des composants au sein des articles. Cela m'aide à encrichir les pages de plein de composants rigolos. Voir [<msc>Blocs et mentions</msc>](#blocs-et-mentions).
 
 <aside>
 	Pour faciliter la lecture, j'utiliserai dorénavant le terme « Markdown » pour désigner un fichier
@@ -25,44 +29,44 @@ Astro supporte également la syntaxe <abbr>[MDX](https://mdxjs.com/)</abbr>, act
 
 ### Tailwind CSS
 
+[Tailwind <abbr>CSS</abbr>](https://tailwindcss.com/) est un _framework_ <abbr>CSS</abbr><abbr> qu</abbr>e je n'ai sans doute pas besoin de présenter tant il est populaire. Je l'ai utilisé pour la première fois en réalisant ce site et il m'a rendu plus efficace et créatif, tout en produisant un code plus élégant et léger.
+
+Tailwind propose par défaut un _reset_ <abbr>CSS</abbr> appelé [Preflight](https://tailwindcss.com/docs/preflight), injecté en incluant `@tailwind base` dans le <abbr>CSS</abbr>. Sur ce site, Preflight est désactivé dans les pages Markdown comme celle-ci et les articles de blog, mais il est activé dans toutes les autres pages, par exemple l'accueil du blog et le portfolio.
+
+Dans les pages de présentation du portfolio, le contenu en Markdown est stylisé avec [`@tailwindcss/typography`](https://tailwindcss.com/docs/typography-plugin).
+
 ## Structure du contenu
 
 Le site contient une page d'accueil, un blog, un portfolio, ainsi que quelques pages volantes telles que [`/about`](/about) ou la présente page.
 
-Je considère le blog et le portfolio comme deux sous-sites très distincts, n'utilisant que très peu de logique en commun si ce n'est du code _boilerplate_ pour alimenter le `<head>` et l'optimisation des images. L'idéal serait de pouvoir continuer à créer autant de ces environnements que possible au sein du même dépôt, afin de correspondre à [ma vision](/website) d'un site qui peut accueillir toute ma vie, des contenus les plus anciens et brouillons aux plus récents et professionnels. Pour que ces sous-sites continuent de fonctionner sans que des mises à jour brisent discrètement leur mise en page, il est important de pouvoir les isoler autant que possible.
+Je considère le blog et le portfolio comme deux sous-sites très distincts, n'utilisant que très peu de logique en commun si ce n'est du code _boilerplate_ pour alimenter le `<head>` et l'optimisation des images. L'idéal serait de pouvoir continuer à créer autant de ces environnements que possible au sein du même dépôt, afin de correspondre à [ma vision](/website) d'un site qui peut accueillir toute ma vie, des contenus les plus anciens et brouillons aux plus récents et professionnels. Pour que ces sous-sites continuent de fonctionner sans que des mises à jour ne brisent discrètement leur mise en page, il est important de pouvoir les isoler autant que possible. Pour cela, j'utilise les [_content collections_](https://docs.astro.build/en/guides/content-collections/) d'Astro, qui permettent de regrouper tous les documents Markdown d'un dossier sous une même logique.
 
-Pour cela, j'utilise les [_content collections_](https://docs.astro.build/en/guides/content-collections/) d'Astro, qui permettent de regrouper tous les documents Markdown d'un dossier sous une même logique ; ainsi que les [_layouts_](https://docs.astro.build/en/core-concepts/layouts/), qui sont des structures de page réutilisables.
-
-Ainsi, le dossier `content/blog` est une collection regroupant tous mes articles en Markdown, avec un schéma de _frontmatter_ permettant de renseigner la date de publication de l'article, une position géographique, les films et livres mentionnés, etc. La collection `blog` est importée par la page [`/blog`](/blog) et permet d'en générer toutes les sous-pages. Chaque page d'article utilise le _layout_ `<Article>` et peut également utiliser un sous-_layout_ comme `<Classic>` ou `<Typography>`. Voir [<msc>Layouts</msc>](#layouts).
-
-De l'autre côté, le dossier `content/portfolio` est une collection au schéma de _frontmatter_ bien distinct, importée par la page [`/portfolio`](/portfolio). La portfolio est designé complètement séparément ; par exemple, les présentations de projet dans le portfolio utilisent [Preflight](https://tailwindcss.com/docs/preflight) (le _<abbr>CSS</abbr> reset_ de Tailwind) ainsi que [`@tailwindcss/typography`](https://tailwindcss.com/docs/typography-plugin), mais les articles de blog n'utilisent pas ces outils.
+Ainsi, le dossier `content/blog` est une collection regroupant tous mes articles en Markdown, avec un schéma de _frontmatter_ permettant de renseigner la date de publication de l'article, une position géographique, les films et livres mentionnés, etc. Le dossier `content/portfolio` est une collection au schéma de _frontmatter_ bien distinct. Voir les schémas dans [`content/config.ts`](https://github.com/aureliendossantos/site/blob/master/src/content/config.ts).
 
 ## Layouts
 
+Attention à ne pas confondre les _layouts_ de mes articles avec les [_layouts_ d'Astro](https://docs.astro.build/en/core-concepts/layouts/) ! Le nom est le même car initialement, j'utilisais ces derniers, mais j'ai finalement simplifié mon code. Aujourd'hui, ce que j'appelle _layout_ est plus concrètement un nom de classe <abbr>CSS</abbr>.
+
 ### Layouts principaux
 
-- `<Classic>` est un design rétro et humble, présentant souvent des couleurs de fond vives et des polices par défaut comme Times New Roman. Ce _layout_ reste fidèle aux valeurs par défaut du navigateur conçernant la taille du texte et des marges, n'intervenant que pour appliquer de petites corrections, notamment la largeur maximale de la page. Les [<msc>galeries</msc>](#galeries) sont pensées pour apporter de la vie à ce _layout_ en brisant la verticalité du texte.
+- `classic` est un design rétro et humble, présentant souvent des couleurs de fond vives et des polices par défaut comme Times New Roman. Ce _layout_ reste fidèle aux valeurs par défaut du navigateur conçernant la taille du texte et des marges, n'intervenant que pour appliquer de petites corrections, notamment la largeur maximale de la page. Les [<msc>galeries</msc>](#galeries) sont pensées pour apporter de la vie à ce _layout_ en brisant la verticalité du texte.
 
   {/* prettier-ignore */}
   <sc>Exemples</sc> : <BlogRef slug="2022/remnant-from-the-ashes" titleOnly />, <BlogRef slug="2020/laura-groves" titleOnly />, <BlogRef slug="2021/destiny-introduction-analyse" titleOnly />
 
-- `<Typography>`, utilisé sur cette page, tente de proposer un design minimaliste mais plus travaillé et évoquant la matérialité d'un livre. Il utilise les fonctionnalités typographiques des polices OpenType pour afficher des petites capitales et les différents types de chiffre en fonction du contexte.
+- `typography`, utilisé sur cette page, tente de proposer un design minimaliste mais plus travaillé et évoquant la matérialité d'un livre. Il utilise les fonctionnalités typographiques des polices OpenType pour afficher des petites capitales et les différents types de chiffre en fonction du contexte.
 
-- `<Tufte>` est une adaptation de [TufteCSS](https://edwardtufte.github.io/tufte-css/) pour Astro. Il doit être utilisé avec des composants réalisés spécifiquement pour cette mise en page : `<Sidenote>`, `<MarginNote>`, `<TufteFigure>`, `<MarginImage>`, `<Blockquote>` et `<Epigraph>`.
-
-<aside>
-En raison de complications durant le développement, il faut pour le moment placer les documents dans la collection `content/tufte` afin d'utiliser le *layout* `<Tufte>`. Cette particularité pourrait être modifiée à l'avenir.
-</aside>
+- `tufte` est une adaptation de [TufteCSS](https://edwardtufte.github.io/tufte-css/) pour Astro. Il doit être utilisé avec des composants réalisés spécifiquement pour cette mise en page : `<Sidenote>`, `<MarginNote>`, `<TufteFigure>`, `<MarginImage>`, `<Blockquote>` et `<Epigraph>`. Pour créer un changement de section qui ajoute un espacement, écrire `<section-switch/>`.
 
 ### Layouts secondaires
 
 Les _layouts_ secondaires proposent des variantes concernant certains éléments d'une page. Ils doivent être combinés avec un _layout_ principal.
 
-- `<Cute>` applique des coins arrondis aux images et des paramètres différents pour les légendes.
+- `cute` applique des coins arrondis aux images et des paramètres différents pour les légendes.
 
   <sc>Exemple</sc> : <BlogRef slug="2023/grottes-des-eaux-chaudes-laruns" titleOnly />
 
-- `<Future>` un _layout_ secondaire apportant de la couleur et de la fantaisie sans concession sur la lisibilité du texte. Les titres, les `<em>`, les puces et les numéros de liste sont colorés différemment du texte. Les liens ont un soulignage et un fond coloré qui réagissent au survol.
+- `future` apporte de la couleur et de la fantaisie sans concession sur la lisibilité du texte. Les titres, les `<em>`, les puces et les numéros de liste sont colorés différemment du texte. Les liens ont un soulignage et un fond coloré qui réagissent au survol.
 
   <sc>Exemple</sc> : <BlogRef slug="2020/programmer-des-jeux-pico-8" titleOnly />
 
@@ -86,9 +90,15 @@ En explorant l'accueil du blog ([`/blog`](/blog)), vous aurez un bon aperçu de 
 
 ### Galeries
 
+Exemple : <BlogRef slug="2021/destiny-introduction-analyse" titleOnly />
+
 ### Sommaire
 
+Le sommaire, dont vous pouvez voir un exemple en haut de cette page, peut avoir une profondeur variable.
+
 ### Onglets
+
+Exemple : <BlogRef slug="2021/creer-un-site-avec-hugo" titleOnly />
 
 ### Google Maps
 
@@ -118,9 +128,17 @@ Le bloc est utilisé dans <BlogRef slug="2022/remnant-from-the-ashes" titleOnly 
 
 ### OpenGraph
 
+Exemple :
+
+<OpenGraph url="http://ogp.me/" />
+
 ### Références bibliographiques
 
+Exemples dans les notes de bas de page de <BlogRef slug="2023/small-caps" titleOnly/>
+
 ### Mentions d'article
+
+Ceci est une mention d'article : <BlogRef slug="2023/historique-rpg-maker" titleOnly/>
 
 ## Optimisations
 
@@ -138,22 +156,17 @@ Erika a ajusté les paramètres de l'image de substition (flou ; luminosité ;
 
 ### Commentaires
 
-Je ne crois pas que les espaces commentaires aient beaucoup de sens la plupart du temps. Bien sûr, je crois en l'intérêt des forums et des espaces de discussion. Mais les œuvres d'art ne sont pas des espaces de discussion publics ; ce sont des espaces dédiés à l'immersion, à l'échange intime et invisible entre l'auteur et le lecteur, le réalisateur et le spectateur. Les œuvres d'art devraient avoir leur propre espace, et les commentaires et critiques devraient avoir leur propre espace aussi, séparément.
+Je ne crois pas que les espaces commentaires aient beaucoup de sens la plupart du temps, car tous les contenus sur Internet n'ont pas vocation à être transformés en espaces de discussion publics. Mes articles sont souvent un espace d'expression personnelle, avec la vulnérabilité que cela implique. J'ose à peine les publier, alors s'ils devaient être directement confrontés à l'expression publique, ce serait encore plus dur ! Je préfère encourager les lecteurs à m'envoyer un mail ou à me contacter sur les réseaux sociaux.
 
-Si je ne vois pas mes articles comme des œuvres d'art (pour la plupart), ils sont tout de même, le plus souvent, un espace d'expression personnelle, avec la vulnérabilité que cela implique, parfois aussi la recherche d'un échange intime avec le lecteur. Les commentaires n'y auraient donc pas leur place. Je préfère encourager les lecteurs à m'envoyer un mail ou à me contacter sur les réseaux sociaux.
+Je suis attaché au phénomène qui s'opère lorsqu'on ouvre un livre, on va au cinéma ou au musée. Ce sont des espaces dédiés à l'immersion, à l'échange intime et invisible entre l'auteur et le lecteur, le réalisateur et le spectateur. Les commentaires et critiques peuvent exister, mais dans leur propre espace, ailleurs. Si je ne vois pas mes articles comme des œuvres d'art (pour la plupart), j'espère que certains recoins de mon site pourront créer ce même rapport intime avec le lecteur.
 
 ### Pagination
 
 La pagination sur le web est souvent dûe à la peur de surcharger le lecteur ou la page avec trop de contenu et d'options. C'est une méthode encore présente sur de nombreux blogs et journaux ; cependant, c'est un design restrictif, difficile à utiliser et qui masque trop de contenu. La pagination la plus iconique d'Internet est probablement celle de Google, et elle a disparu un beau jour sans que personne ne s'en rende compte.
 
-<sc>Alternatives.</sc> Si le lecteur a besoin de passer à la page suivante, alors le contenu caché était
-utile et il aurait dû être plus accessible, soit par un chargement automatique, soit par un grand bouton
-« voir plus ». En comparaison, la pagination cache le contenu de la première page, qui était pourtant
-probablement important. C'est pourquoi ce site n'utilisera pas de pagination. Lorsque j'aurai suffisamment
-de contenu pour le justifier, je réfléchirai à un menu de navigation, qui fonctionnerait comme la barre
-de défilement de Google Photos couplée à des options de filtrage. Sur ordinateur, il serait parfait sur
-un côté de l'écran. Sur mobile, l'idéal serait de le placer en bas de l'écran pour une accessibilité
-optimale.
+Pour remplacer la page suivante, il serait plus intuitif d'avoir un chargement automatique ou un grand bouton « voir plus ». Cela permet de garder visible le contenu de la « première page », qui est probablement important.
+
+Lorsque j'aurai suffisamment de contenu pour le justifier, je réfléchirai à un menu de navigation, qui fonctionnerait comme la barre de défilement de Google Photos couplée à des options de filtrage. Sur ordinateur, il serait parfait sur un côté de l'écran. Sur mobile, l'idéal serait de le placer en bas de l'écran pour une accessibilité optimale.
 
 ## Todo
 
