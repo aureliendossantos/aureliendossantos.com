@@ -1,0 +1,126 @@
+---
+import BaseLayout from "$layouts/BaseLayout.astro"
+import enumerate from "$utils/enumerateStrings"
+import getIGDBgame from "$utils/getIGDBgame"
+import getGames from "$utils/notion/getGames"
+import { emotes } from "$utils/notion/reviewEmotes"
+
+export async function getStaticPaths() {
+	const { games } = await getGames({
+		and: [
+			{ property: "Type", select: { equals: "Jeu" } },
+			{
+				property: "slug",
+				rich_text: { is_not_empty: true },
+			},
+		],
+	})
+	return games.map((game) => ({
+		params: { slug: game.slug },
+		props: { game },
+	}))
+}
+
+export interface Props {
+	game: any
+}
+const { game } = Astro.props
+
+const multiplayerLabels = {
+	Local: "🛋️ Local",
+	"En ligne": "🛜 En ligne",
+	Coop: "🤝 Coop",
+	Versus: "🆚 Versus",
+}
+const igdb = await getIGDBgame(game.slug)
+---
+
+<BaseLayout title={game.title} ogType="website" bg="white">
+	<div class="center m-auto my-8 flex justify-center gap-6 px-4 small:flex-col">
+		<aside class="order-1 flex max-w-[180px] flex-col gap-2 small:order-2 small:max-w-none">
+			<img
+				class="rounded small:hidden"
+				src={`https://images.igdb.com/igdb/image/upload/t_cover_big/${igdb.cover.image_id}.jpg`}
+			/>
+			{
+				igdb.screenshots
+					.slice(0, 2)
+					.map((screen) => (
+						<img
+							class="rounded"
+							src={`https://images.igdb.com/igdb/image/upload/t_screenshot_med/${screen.image_id}.jpg`}
+						/>
+					))
+			}
+		</aside>
+		<main class="order-2 max-w-[40ch] small:order-1">
+			<div class="flex gap-2">
+				<div class="hidden max-w-[70px] small:block">
+					<img
+						class="rounded"
+						src={`https://images.igdb.com/igdb/image/upload/t_cover_big/${igdb.cover.image_id}.jpg`}
+					/>
+				</div>
+				<header>
+					<h1 class="text-xl">{game.title}</h1>
+					<p class="text-slate-500">
+						{igdb.release_dates[0].y} • {igdb.developers}{
+							igdb.publishers != igdb.developers && ` • Publié par ${igdb.publishers}`
+						}
+					</p>
+					<div class="my-3 flex gap-1">
+						{
+							igdb.platforms.map((p) => (
+								<div class=" rounded-sm bg-slate-200 px-1 text-sm text-slate-500">
+									{p.abbreviation}
+								</div>
+							))
+						}
+					</div>
+					{
+						game.multiplayer.length > 0 && (
+							<div class="my-3 flex gap-1">
+								{game.multiplayer.map((string) => (
+									<div class=" rounded-sm bg-slate-200 px-1 text-sm text-slate-500">
+										{multiplayerLabels[string]}
+									</div>
+								))}
+							</div>
+						)
+					}
+				</header>
+			</div>
+			<h2 class="mt-6 text-xl font-semibold text-slate-400">Mon historique</h2>
+			{game.firstPlayedYear && <p>J'y ai joué pour la première fois en {game.firstPlayedYear}.</p>}
+			{
+				game.myPlatforms.length > 0 ? (
+					<p>
+						J'y ai joué sur {enumerate(game.myPlatforms)} ({game.progress}).
+					</p>
+				) : (
+					game.progress
+				)
+			}
+			{
+				(game.quickReview || game.review) && (
+					<h2 class="mt-6 text-xl font-semibold text-slate-400">Mes impressions</h2>
+				)
+			}
+			{
+				game.quickReview && (
+					<p class="text-slate-500">
+						{emotes[game.quickReview]}
+						{game.quickReview}
+					</p>
+				)
+			}
+			{game.review && <p>{game.review}</p>}
+		</main>
+	</div>
+</BaseLayout>
+
+<style is:global>
+	@tailwind base;
+	@tailwind components;
+	@tailwind utilities;
+</style>

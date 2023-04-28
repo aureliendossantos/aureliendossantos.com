@@ -24,6 +24,7 @@
 		"@fontsource/urbanist": "^4.5.17",
 		"@fontsource/vollkorn": "^4.5.14",
 		"@fontsource/work-sans": "^4.5.14",
+		"@notionhq/client": "^2.2.4",
 		"astro": "^2.3.0",
 		"astro-auto-import": "^0.2.1",
 		"astro-eleventy-img": "^0.6.2",
