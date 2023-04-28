@@ -19,13 +19,15 @@ Je m'appelle <em>Aurélien Dos Santos</em>, j'ai <em class="hover:text-[#4a8bf3]
 
 ## Mes projets
 
-Mes projets les plus récents :
+Mes projets actuels :
 
 - [QRPG](/portfolio/qrpg), un hybride entre jeu vidéo et jeu de société ;
-- [FaireDesJeux.fr](https://fairedesjeux.fr/), un site collaboratif de formations à la création de jeux ;
 - Un [jeu de survie](https://survie.aureliendossantos.com/) sur navigateur où les joueurs doivent survivre sur une île déserte et collaborer en asynchrone ;
-- La chaîne YouTube de Game Dev Alliance, sur laquelle nous publions des vidéos d'actualité autour du développement de jeux, des tutoriels et des cours théoriques.
 - Ce site web : [à propos](/website).
+- Avec Game Dev Alliance :
+  - [FaireDesJeux.fr](https://fairedesjeux.fr/), un site collaboratif de formations à la création de jeux ;
+  - Notre chaîne YouTube sur laquelle nous publions des vidéos d'actualité autour du développement de jeux, des tutoriels et des cours théoriques.
+  - L'hébergement de notre serveur Mastodon et l'animation de notre serveur Discord.
 
 Voici quelques projets terminés ou mis de côté :
 
@@ -41,9 +43,9 @@ Voici quelques projets terminés ou mis de côté :
   - Organisation et animation de plusieurs [game jams](https://gamedevalliance.itch.io/).
   - [RPG Maker Starter Pack](https://gamedevalliance.itch.io/starterpack), un projet d'exemple collaboratif sur RPG Maker destiné aux débutants, regroupant de nombreux décors réutilisables ainsi des astuces de programmation et de mise en scène.
 
-## Où vis-je
+## Où suis-je
 
-Je suis né en région parisienne d'une mère bretonne et d'un père portugais. Très jeune, ma famille a déménagé dans les Landes pour mieux accueillir ma petite sœur. J'ai vécu dans des appartements étudiants à Pau pour suivre mes premières études, puis j'ai déménagé à Toulouse pour suivre mon Master. J'y habite toujours aujourd'hui, et je m'y sens très bien.
+Je suis né en région parisienne d'une mère bretonne et d'un père portugais. Très jeune, ma famille a déménagé dans les Landes pour mieux accueillir ma petite sœur. J'ai vécu dans des appartements étudiants à Pau pour suivre mes premières études, puis j'ai déménagé à Toulouse pour suivre mon Master. J'y habite toujours aujourd'hui, et je m'y sens très bien. Pour une liste de mes coins favoris, voir [<em>/toulouse</em>](/toulouse).
 
 J'ai eu la chance de beaucoup visiter le sud-ouest de la France, la Bretagne et le Portugal ; un peu la Provence et l'Espagne ; succintement les Pays-Bas, Bruxelles et la Tchéquie.
 
