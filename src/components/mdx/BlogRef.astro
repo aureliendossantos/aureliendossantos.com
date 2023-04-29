@@ -7,13 +7,14 @@ import formatDate from "$utils/formatDate"
 
 interface Props {
 	slug: string
-	collection?: "blog" | "tufte" | "pages"
+	collection?: "blog" | "pages" | "portfolio"
 	titleOnly?: boolean
 	card?: boolean
 }
 const { slug, collection, titleOnly, card } = Astro.props
 
 const article = await getEntryBySlug(collection || "blog", slug)
+if (!article) return console.error(`BlogRef: article ${slug} can't be found`)
 const palette = getPalette(article.data.palette)
 ---
 
