@@ -9,11 +9,13 @@ const firstResultsOnly = import.meta.env.DEV
 const { games, notionResponse } = await getGames(
 	{
 		and: [
+			{ property: "Nom", title: { is_not_empty: true } },
 			{ property: "Type", select: { equals: "Jeu" } },
 			{
 				or: [
-					{ property: "Progression", status: { does_not_equal: "À faire" } },
+					{ property: "Progression", status: { does_not_equal: "À essayer" } },
 					{ property: "Appréciation", select: { is_not_empty: true } },
+					{ property: "Multijoueur", multi_select: { is_not_empty: true } },
 				],
 			},
 		],
@@ -25,7 +27,12 @@ games.sort((a, b) => a.title.localeCompare(b.title))
 
 <BaseLayout title="Jeux" ogType="website" bg="white" bgDark="black" font="Work Sans">
 	<header class="m-auto my-8 max-w-prose px-4">
-		<h1 class="mb-3 text-xl text-slate-900 dark:text-slate-100">Jeux auxquels j'ai joué</h1>
+		<h1
+			class="mb-3 text-xl text-slate-900 dark:text-slate-100"
+			ondblclick="window.location='https://www.notion.so/aureliendossantos/a6d5cb61551b43e4a0521b681e385729'"
+		>
+			Jeux auxquels j'ai joué
+		</h1>
 		<div class="prose prose-slate dark:prose-invert small:prose-sm">
 			<p>
 				Cette page recense les jeux auxquels j'ai joué et ce que j'en ai pensé. Pour les jeux qui
@@ -54,7 +61,7 @@ games.sort((a, b) => a.title.localeCompare(b.title))
 		</div>
 		<table class="mb-8 w-full small:text-sm" id="games-table">
 			<thead>
-				<tr class="border-b border-slate-300 text-left">
+				<tr class="border-b border-slate-300 text-left dark:border-slate-700">
 					<th colspan="2" class="py-3 pl-3">Jeu</th><th>Progression</th><th colspan="4"
 						>Multijoueur</th
 					>
@@ -63,20 +70,32 @@ games.sort((a, b) => a.title.localeCompare(b.title))
 			<tbody class="text-slate-900 dark:text-slate-200">
 				{
 					games.map((item) => (
-						<tr class="even:bg-slate-50 dark:even:bg-slate-900">
+						<tr
+							class="even:bg-slate-50 dark:even:bg-slate-900"
+							style={{ display: item.progress == "À essayer" ? "none" : "" }}
+						>
 							<td
 								class:list={[
 									"py-3 pl-4 max-w-[26ch]",
-									{ "font-medium text-indigo-700 dark:text-indigo-400": item.slug },
+									{
+										"font-medium text-indigo-700 dark:text-indigo-400":
+											item.slug && (item.review || item.blocks.length > 0),
+									},
 								]}
 							>
-								<OptionalLink href={item.slug && `/games/${item.slug}`}>
+								<OptionalLink
+									href={
+										item.slug && (item.review || item.blocks.length > 0)
+											? `/games/${item.slug}`
+											: undefined
+									}
+								>
 									{item.title}
 									{item.blocks.length > 0 ? " 📖" : item.review && " 📝"}
 								</OptionalLink>
 							</td>
 							<td>{emotes[item.quickReview] ? emotes[item.quickReview] : item.quickReview}</td>
-							<td class="text-slate-500">{item.progress != "À faire" && item.progress}</td>
+							<td class="text-slate-500">{item.progress}</td>
 							<td>{item.multiplayer.includes("Local") && "🛋️"}</td>
 							<td>{item.multiplayer.includes("En ligne") && "🛜"}</td>
 							<td>{item.multiplayer.includes("Coop") && "🤝"}</td>
@@ -100,9 +119,9 @@ games.sort((a, b) => a.title.localeCompare(b.title))
 		// Loop through all table rows, and hide those who don't match the search query
 		for (let i = 0; i < rows.length; i++) {
 			// Here, index [0] corresponds to game names
-			const td0 = rows[i].getElementsByTagName("td")[0]
-			if (td0) {
-				let cellText = td0.textContent || td0.innerText
+			const td = rows[i].getElementsByTagName("td")[0]
+			if (td) {
+				const cellText = td.textContent || td.innerText
 				if (cellText.toUpperCase().indexOf(searchedText) > -1) {
 					rows[i].style.display = ""
 				} else {
@@ -111,17 +130,29 @@ games.sort((a, b) => a.title.localeCompare(b.title))
 			}
 			// index [3] to 6 corresponds to local multiplayer
 			for (let j = 0; j <= 3; j++) {
-				const td = rows[i].getElementsByTagName("td")[j + 3]
+				if (checkboxes[j].checked) {
+					const td = rows[i].getElementsByTagName("td")[j + 3]
+					if (td) {
+						const cellText = td.textContent || td.innerText
+						if (cellText == "") {
+							rows[i].style.display = "none"
+						}
+					}
+				}
+			}
+			// Si aucun filtre, on recache les jeux "à essayer"
+			if (searchBar.value == "" && Array.from(checkboxes).filter((c) => c.checked).length == 0) {
+				const td = rows[i].getElementsByTagName("td")[2]
 				if (td) {
-					let cellText = td.textContent || td.innerText
-					if (checkboxes[j].checked && cellText == "") {
+					const cellText = td.textContent || td.innerText
+					if (cellText == "À essayer") {
 						rows[i].style.display = "none"
 					}
 				}
 			}
 		}
 	}
-	searchBar?.addEventListener("keydown", () => {
+	searchBar?.addEventListener("keyup", () => {
 		runAllFilters()
 	})
 	checkboxes.forEach(function (checkbox) {

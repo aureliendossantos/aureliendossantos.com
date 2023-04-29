@@ -1,4 +1,5 @@
 import type {
+	BlockObjectResponse,
 	QueryDatabaseParameters,
 	QueryDatabaseResponse,
 } from "@notionhq/client/build/src/api-endpoints"
@@ -57,7 +58,11 @@ export default async function getGames(
 				progress: p.Progression.status && p.Progression.status.name,
 				multiplayer: p.Multijoueur.multi_select.map((item) => item.name),
 				myPlatforms: p.Support.multi_select.map((item) => item.name),
-				blocks: p["Récupérer les blocs"].checkbox ? await getChildren(game.id) : [],
+				blocks: p["Récupérer les blocs"].checkbox
+					? ((await getChildren(game.id)) as BlockObjectResponse[])
+					: [],
+				notionUrl: game.url,
+				lastEditedTime: game.last_edited_time,
 			}
 		})
 	)
