@@ -22,16 +22,16 @@ const { games, notionResponse } = await getGames(
 games.sort((a, b) => a.title.localeCompare(b.title))
 ---
 
-<BaseLayout title="Jeux" ogType="website" bg="white">
-	<header class="m-auto my-8 max-w-prose px-2">
+<BaseLayout title="Jeux" ogType="website" bg="white" bgDark="black">
+	<header class="m-auto my-8 max-w-prose px-4">
 		<h1 class="mb-3 text-xl">Jeux auxquels j'ai joué</h1>
 		<p>
 			Cette page est en cours de réalisation. Les 📝 indiquent qu'un rapide avis écrit est
 			disponible sur la page du jeu.
 		</p>
 	</header>
-	<main class="m-auto my-8 max-w-prose px-2">
-		<table class="mb-8 w-full px-2">
+	<main class="m-auto my-8 max-w-prose">
+		<table class="mb-8 w-full">
 			<thead>
 				<tr class="border-b border-slate-300 text-left">
 					<th colspan="2" class="py-3 pl-3">Jeu</th><th>Progression</th><th colspan="4"
@@ -39,11 +39,16 @@ games.sort((a, b) => a.title.localeCompare(b.title))
 					>
 				</tr>
 			</thead>
-			<tbody class="text-slate-900">
+			<tbody class="text-slate-900 dark:text-slate-200">
 				{
 					games.map((item) => (
-						<tr class="even:bg-slate-50">
-							<td class:list={["py-3 pl-3", { "font-medium text-indigo-700": item.slug }]}>
+						<tr class="even:bg-slate-50 dark:even:bg-slate-900">
+							<td
+								class:list={[
+									"py-3 pl-4",
+									{ "font-medium text-indigo-700 dark:text-indigo-400": item.slug },
+								]}
+							>
 								<OptionalLink href={item.slug && `/games/${item.slug}`}>
 									{item.title}
 									{item.review && " 📝"}
@@ -54,7 +59,7 @@ games.sort((a, b) => a.title.localeCompare(b.title))
 							<td>{item.multiplayer.includes("Local") && "🛋️"}</td>
 							<td>{item.multiplayer.includes("En ligne") && "🛜"}</td>
 							<td>{item.multiplayer.includes("Coop") && "🤝"}</td>
-							<td>{item.multiplayer.includes("Versus") && "🆚"}</td>
+							<td class="pr-4">{item.multiplayer.includes("Versus") && "🆚"}</td>
 						</tr>
 					))
 				}
