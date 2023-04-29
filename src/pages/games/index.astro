@@ -22,13 +22,19 @@ const { games, notionResponse } = await getGames(
 games.sort((a, b) => a.title.localeCompare(b.title))
 ---
 
-<BaseLayout title="Jeux" ogType="website" bg="white" bgDark="black">
+<BaseLayout title="Jeux" ogType="website" bg="white" bgDark="black" font="Work Sans">
 	<header class="m-auto my-8 max-w-prose px-4">
-		<h1 class="mb-3 text-xl">Jeux auxquels j'ai joué</h1>
-		<p>
-			Cette page est en cours de réalisation. Les 📝 indiquent qu'un rapide avis écrit est
-			disponible sur la page du jeu.
-		</p>
+		<h1 class="mb-3 text-xl text-slate-900 dark:text-slate-100">Jeux auxquels j'ai joué</h1>
+		<div class="prose prose-slate dark:prose-invert">
+			<p>
+				Cette page recense les jeux auxquels j'ai joué et ce que j'en ai pensé. Pour les jeux qui
+				n'ont pas de fin, je note si j'y joue « souvent » ou « rarement ».
+			</p>
+			<p>
+				📝 indique qu'un rapide avis écrit est disponible sur la page du jeu.<br />📖 indique que le
+				texte est un peu plus long.
+			</p>
+		</div>
 	</header>
 	<main class="m-auto my-8 max-w-prose">
 		<table class="mb-8 w-full">
@@ -45,13 +51,13 @@ games.sort((a, b) => a.title.localeCompare(b.title))
 						<tr class="even:bg-slate-50 dark:even:bg-slate-900">
 							<td
 								class:list={[
-									"py-3 pl-4",
+									"py-3 pl-4 max-w-[26ch]",
 									{ "font-medium text-indigo-700 dark:text-indigo-400": item.slug },
 								]}
 							>
 								<OptionalLink href={item.slug && `/games/${item.slug}`}>
 									{item.title}
-									{item.review && " 📝"}
+									{item.blocks.length > 0 ? " 📖" : item.review && " 📝"}
 								</OptionalLink>
 							</td>
 							<td>{emotes[item.quickReview] ? emotes[item.quickReview] : item.quickReview}</td>

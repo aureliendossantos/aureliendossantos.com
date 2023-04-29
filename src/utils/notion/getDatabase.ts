@@ -19,7 +19,7 @@ export default async function getDatabase(
 		data = await notion.databases.query({
 			database_id: id,
 			filter: filter,
-			start_cursor: data.next_cursor,
+			start_cursor: data.next_cursor || undefined,
 		})
 		results = [...results, ...data.results]
 	}
