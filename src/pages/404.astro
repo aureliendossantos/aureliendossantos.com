@@ -1,0 +1,22 @@
+---
+import BaseLayout from "$layouts/BaseLayout.astro"
+---
+
+<BaseLayout title="Page introuvable" ogType="website" bg="white" bgDark="black">
+	<div class="flex min-h-screen items-center justify-center p-4">
+		<main class="prose dark:prose-invert medium:prose-sm">
+			<h1>Erreur 404</h1>
+			<p class="lead">Cette page n'existe pas. <a href="/">Retourner à l'accueil</a></p>
+			<p>
+				Vous ne trouvez pas ce que vous recherchez ? Vous pouvez
+				<a href="/about">me contacter</a> pour me signaler le problème.
+			</p>
+		</main>
+	</div>
+</BaseLayout>
+
+<style is:global>
+	@tailwind base;
+	@tailwind components;
+	@tailwind utilities;
+</style>
