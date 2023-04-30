@@ -1,0 +1,28 @@
+---
+import BaseLayout from "$layouts/BaseLayout.astro"
+import NotionPageContent from "$components/notion/NotionPageContent.astro"
+import getChildren from "$utils/notion/getChildren"
+
+const notionPageId = "f8b0ade3f15c432bbdcbc2d389c11412"
+const blocks = await getChildren(notionPageId)
+---
+
+<BaseLayout title="Exemple de rendu de page Notion" ogType="article" bg="white" bgDark="black">
+	<div class="px-4">
+		<main class="prose prose-sm mx-auto mb-16 mt-12 dark:prose-invert medium:mt-8">
+			<h1>Exemple de rendu de page Notion</h1>
+			<p class="lead">
+				Cette page web est un exemple généré à partir d'une
+				<a href={`https://aureliendossantos.notion.site/${notionPageId}`}>page Notion</a>
+				afin de tester les fonctionnalités supportées par ce site.
+			</p>
+			<NotionPageContent blocks={blocks} />
+		</main>
+	</div>
+</BaseLayout>
+
+<style is:global>
+	@tailwind base;
+	@tailwind components;
+	@tailwind utilities;
+</style>

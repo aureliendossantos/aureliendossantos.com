@@ -39,9 +39,9 @@ Dans les pages de présentation du portfolio, le contenu en Markdown est stylis�
 
 Le site peut récupérer le contenu d'une base de données sur Notion, mais aussi afficher le contenu d'une page. Ces fonctionnalités sont actuellement utilisées pour afficher la liste de la page [`/games`](/games) et les « impressions » notées pour certains jeux.
 
-Notion peut être utilisé comme un <abbr>CMS</abbr>, parfois plus pratique que des pages Markdown, notamment il s'agit d'organiser de grandes quantités de données. La page [`/games`](/games), qui contient plusieurs centaines d'entrées, en est un bon exemple.
+Utilisé comme un <abbr>CMS</abbr>, Notion est parfois plus pratique que des pages Markdown, notamment pour organiser de grandes quantités de données. La page [`/games`](/games), qui contient plusieurs centaines d'entrées, en est un bon exemple.
 
-Dans le code, les fonctions `getDatabase()` et `getPage()` permettent de récupérer respectivement une base de données et le contenu d'une page. Le composant `<NotionPageContent>` convertit le contenu d'une page Notion en code <abbr>HTML</abbr>. Il supporte la plupart des blocs tels que les titres, les paragraphe et les listes, tant qu'ils sont au premier niveau. Pour le moment, le composant ne récupère pas les blocs « enfant ». Pour chaque bloc, on fait appel au composant `<RenderRichText>` qui permet de rendre un morceau de texte renvoyé par l'<abbr>API</abbr> de Notion en appliquant correctement les passages en gras, en italique, les liens, etc.
+Actuellement, le site supporte la plupart des blocs de Notion, mais pas tous les éléments « enfant ». Par exemple, les listes de deuxième niveau ne sont pas affichés. Pour un aperçu de toutes les fonctionnalités disponibles, voir [`/notion/test`](/notion/test).
 
 ## Structure du contenu
 

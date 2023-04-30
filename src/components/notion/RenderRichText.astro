@@ -27,6 +27,9 @@ const { text } = Astro.props
 				if (text.annotations.strikethrough) {
 					return <s>{content}</s>
 				}
+				if (text.annotations.underline) {
+					return <span style="text-decoration: underline;">{content}</span>
+				}
 				return <>{content}</>
 			case "mention":
 				return <pre>{JSON.stringify(text, null, 2)}</pre>
