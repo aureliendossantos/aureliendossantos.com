@@ -1,21 +1,21 @@
 ---
 import RefBlock from "$components/RefBlock.astro"
-import getIGDBgame from "$utils/getIGDBgame"
+import getIGDBgames from "$utils/getIGDBgame"
 
 interface Props {
 	slug: string
 }
 const { slug } = Astro.props
 
-const game = await getIGDBgame(slug)
+const game = (await getIGDBgames([slug]))[0]
 const officialWebsites = game.websites.filter((w: any) => w.category == 1)
-const links =
+const links: [string, string][] =
 	officialWebsites.length > 0
 		? [
 				[officialWebsites[0].url, officialWebsites[0].url],
 				["IGDB", game.url],
 		  ]
-		: ["IGDB", game.url]
+		: [["IGDB", game.url]]
 ---
 
 <RefBlock

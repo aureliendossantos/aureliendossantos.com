@@ -1,7 +1,9 @@
 ---
+import IGDBImage from "$components/IGDBImage.astro"
 import OptionalLink from "$components/OptionalLink.astro"
 import FilterButton from "$components/games/FilterButton.astro"
 import BaseLayout from "$layouts/BaseLayout.astro"
+import type { IGDBData } from "$utils/getIGDBgame"
 import getGames from "$utils/notion/getGames"
 import { emotes } from "$utils/notion/reviewEmotes"
 
@@ -106,18 +108,11 @@ games.sort(
 								class:list={[
 									"py-3 pl-4 max-w-[26ch]",
 									{
-										"font-medium text-indigo-700 dark:text-indigo-400":
-											item.slug && (item.review || item.blocks.length > 0),
+										"font-medium text-indigo-700 dark:text-indigo-400": item.igdb,
 									},
 								]}
 							>
-								<OptionalLink
-									href={
-										item.slug && (item.review || item.blocks.length > 0)
-											? `/games/${item.slug}`
-											: undefined
-									}
-								>
+								<OptionalLink href={item.igdb ? `/games/${item.slug}` : undefined}>
 									{item.title}
 									{item.blocks.length > 0 ? " 📖" : item.review && " 📝"}
 								</OptionalLink>
@@ -193,7 +188,7 @@ games.sort(
 		})
 	})
 	checkboxes[0].addEventListener("change", function () {
-		const div = document.getElementById("filters-div")
+		const div = document.getElementById("filters-div") as HTMLDivElement
 		if (div.style.display === "none") {
 			div.style.display = ""
 		} else {

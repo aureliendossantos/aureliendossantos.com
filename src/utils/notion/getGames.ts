@@ -5,6 +5,7 @@ import type {
 } from "@notionhq/client/build/src/api-endpoints"
 import getDatabase from "./getDatabase"
 import getChildren from "./getChildren"
+import getIGDBgames, { IGDBData } from "$utils/getIGDBgame"
 
 type ResponseResult = Extract<
 	QueryDatabaseResponse["results"][number],
@@ -44,9 +45,10 @@ export default async function getGames(
 	filter: QueryDatabaseParameters["filter"],
 	firstResults = false
 ) {
+	console.log("Getting Notion games...")
 	const notionResponse = await getDatabase(import.meta.env.NOTION_GAMES_DB, filter, firstResults)
 	const typedEntries: GameEntry[] = notionResponse.map((game) => game as GameEntry)
-	const games = await Promise.all(
+	const notionGames = await Promise.all(
 		typedEntries.map(async (game) => {
 			const p = game.properties
 			return {
@@ -66,8 +68,21 @@ export default async function getGames(
 				blocks: p["Récupérer les blocs"].checkbox ? await getChildren(game.id) : [],
 				notionUrl: game.url,
 				lastEditedTime: game.last_edited_time,
+				igdb: null as IGDBData | null,
 			}
 		})
 	)
+	console.log(`Loaded ${notionGames.length} games`)
+	// Get all IGDB games in one query
+	const slugs = notionGames.filter((game) => game.slug).map((game) => game.slug)
+	const igdb = await getIGDBgames(slugs)
+	// Adds IGDB data to each game if it exists
+	const games = notionGames.map((game) => {
+		if (game.slug) {
+			game.igdb = igdb.find((i) => i.slug == game.slug) || null
+			if (game.igdb == null) console.log("Could not find IGDB data for " + game.slug)
+		}
+		return game
+	})
 	return { games, notionResponse }
 }

@@ -3,7 +3,7 @@ import IGDBImage from "$components/IGDBImage.astro"
 import NotionPageContent from "$components/notion/NotionPageContent.astro"
 import BaseLayout from "$layouts/BaseLayout.astro"
 import enumerate from "$utils/enumerateStrings"
-import getIGDBgame from "$utils/getIGDBgame"
+import type { IGDBData } from "$utils/getIGDBgame"
 import getGames from "$utils/notion/getGames"
 import { emotes } from "$utils/notion/reviewEmotes"
 
@@ -16,18 +16,14 @@ export async function getStaticPaths() {
 				property: "slug",
 				rich_text: { is_not_empty: true },
 			},
-			{
-				or: [
-					{ property: "Commentaire", rich_text: { is_not_empty: true } },
-					{ property: "Récupérer les blocs", checkbox: { equals: true } },
-				],
-			},
 		],
 	})
-	return games.map((game) => ({
-		params: { slug: game.slug },
-		props: { game },
-	}))
+	return games
+		.filter((game) => game.igdb)
+		.map((game) => ({
+			params: { slug: game.slug },
+			props: { game },
+		}))
 }
 
 export interface Props {
@@ -41,7 +37,8 @@ const multiplayerLabels = {
 	Coop: "🤝 Coop",
 	Versus: "🆚 Versus",
 }
-const igdb = await getIGDBgame(game.slug)
+
+const igdb = game.igdb as IGDBData
 ---
 
 <BaseLayout title={game.title} ogType="website" bg="white" bgDark="black">

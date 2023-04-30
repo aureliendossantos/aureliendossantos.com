@@ -1,4 +1,5 @@
 ---
+import type { IGDBImage } from "$utils/getIGDBgame"
 import type { HTMLAttributes } from "astro/types"
 
 /* cover_small	90 x 128	Fit
@@ -12,12 +13,6 @@ micro	35 x 35	Thumb, Center gravity
 720p	1280 x 720	Fit, Center gravity
 1080p	1920 x 1080	Fit, Center gravity */
 // By appending _2x to any size, you can get retina (DPR 2.0) sizes
-
-interface IGDBImage {
-	image_id: string
-	width: number
-	height: number
-}
 
 interface Props extends Omit<HTMLAttributes<"img">, "src"> {
 	image: IGDBImage
