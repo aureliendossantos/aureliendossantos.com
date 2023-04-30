@@ -22,11 +22,30 @@ const { games, notionResponse } = await getGames(
 	},
 	firstResultsOnly
 )
-games.sort((a, b) => a.title.localeCompare(b.title))
+
+const reviewsOrder = [
+	"Coup de cœur",
+	"Aimé",
+	"Sympa un moment",
+	"Pas pour moi",
+	"Mitigé",
+	"Whatever",
+	"Décevant",
+	"J'aime pas",
+	"Mauvais",
+	"J'aimais",
+	null,
+]
+
+games.sort(
+	(a, b) =>
+		reviewsOrder.indexOf(a.quickReview) - reviewsOrder.indexOf(b.quickReview) ||
+		a.title.localeCompare(b.title)
+)
 ---
 
 <BaseLayout title="Jeux" ogType="website" bg="white" bgDark="black" font="Work Sans">
-	<header class="m-auto my-8 max-w-prose px-4">
+	<header class="m-auto mt-10 max-w-prose px-4">
 		<h1
 			class="mb-3 text-xl text-slate-900 dark:text-slate-100"
 			ondblclick="window.location='https://www.notion.so/aureliendossantos/a6d5cb61551b43e4a0521b681e385729'"
@@ -44,27 +63,36 @@ games.sort((a, b) => a.title.localeCompare(b.title))
 			</p>
 		</div>
 	</header>
-	<main class="m-auto my-8 max-w-prose">
-		<div class="mb-4 flex flex-wrap gap-2 px-4">
-			<input
-				class="dark:highlight-white/5 min-h-[30px] grow rounded-md px-2 text-sm caret-indigo-500 shadow-sm ring-1 ring-slate-900/10 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-slate-800 dark:ring-0 dark:focus:bg-slate-900 dark:focus:ring-2 dark:focus:ring-indigo-500"
-				type="text"
-				id="search-bar"
-				placeholder="Rechercher un jeu"
-			/>
-			<div class="flex gap-2 text-sm small:w-full small:text-xs">
-				<FilterButton id="local" content="🛋️ Local" />
-				<FilterButton id="online" content="🛜 En ligne" />
-				<FilterButton id="coop" content="🤝 Coop" />
-				<FilterButton id="versus" content="🆚 Versus" />
+	<main class="m-auto mb-10 max-w-prose">
+		<div class="my-5">
+			<div class="my-2 flex flex-wrap gap-2 px-4">
+				<input
+					class="dark:highlight-white/5 min-h-[26px] grow rounded-md px-2 text-sm caret-indigo-500 shadow-sm ring-1 ring-slate-900/10 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-slate-800 dark:ring-0 dark:focus:bg-slate-900 dark:focus:ring-2 dark:focus:ring-indigo-500"
+					type="text"
+					id="search-bar"
+					placeholder="Rechercher un jeu"
+				/>
+				<div class="text-sm small:text-xs">
+					<FilterButton type="checkbox" name="filters" id="all" content="Multijoueur" />
+				</div>
+			</div>
+			<div
+				class="my-2 grid w-full grid-cols-4 items-stretch gap-2 px-4 text-sm small:text-xs"
+				id="filters-div"
+				style="display: none;"
+			>
+				<FilterButton type="checkbox" name="filters" id="local" content="🛋️ Local" />
+				<FilterButton type="checkbox" name="filters" id="online" content="🛜 En ligne" />
+				<FilterButton type="checkbox" name="filters" id="coop" content="🤝 Coop" />
+				<FilterButton type="checkbox" name="filters" id="versus" content="🆚 Versus" />
 			</div>
 		</div>
 		<table class="mb-8 w-full small:text-sm" id="games-table">
 			<thead>
 				<tr class="border-b border-slate-300 text-left dark:border-slate-700">
-					<th colspan="2" class="py-3 pl-3">Jeu</th><th>Progression</th><th colspan="4"
-						>Multijoueur</th
-					>
+					<th colspan="2" class="py-3 pl-4">Jeu</th>
+					<th>Progression</th>
+					<th colspan="4">Multijoueur</th>
 				</tr>
 			</thead>
 			<tbody class="text-slate-900 dark:text-slate-200">
@@ -94,7 +122,7 @@ games.sort((a, b) => a.title.localeCompare(b.title))
 									{item.blocks.length > 0 ? " 📖" : item.review && " 📝"}
 								</OptionalLink>
 							</td>
-							<td>{emotes[item.quickReview] ? emotes[item.quickReview] : item.quickReview}</td>
+							<td>{emotes[item.quickReview] || item.quickReview}</td>
 							<td class="text-slate-500">{item.progress}</td>
 							<td>{item.multiplayer.includes("Local") && "🛋️"}</td>
 							<td>{item.multiplayer.includes("En ligne") && "🛜"}</td>
@@ -114,40 +142,44 @@ games.sort((a, b) => a.title.localeCompare(b.title))
 	const table = document.getElementById("games-table") as HTMLTableElement
 	const rows = table.getElementsByTagName("tr")
 	const checkboxes = document.querySelectorAll<HTMLInputElement>("input[name=filters]")
+
+	const getCellText = (td: HTMLTableCellElement) => td.textContent || td.innerText
+
 	function runAllFilters() {
 		const searchedText = searchBar.value.toUpperCase()
 		// Loop through all table rows, and hide those who don't match the search query
 		for (let i = 0; i < rows.length; i++) {
 			// Here, index [0] corresponds to game names
 			const td = rows[i].getElementsByTagName("td")[0]
-			if (td) {
-				const cellText = td.textContent || td.innerText
-				if (cellText.toUpperCase().indexOf(searchedText) > -1) {
-					rows[i].style.display = ""
-				} else {
+			if (!td) continue
+			if (getCellText(td).toUpperCase().indexOf(searchedText) > -1) {
+				rows[i].style.display = ""
+			} else {
+				rows[i].style.display = "none"
+			}
+			// checkbox 0 is "all multiplayer games"
+			// index [3] to 6 corresponds to multiplayer rows
+			if (checkboxes[0].checked) {
+				const multiplayerTds = [3, 4, 5, 6].map((j) => rows[i].getElementsByTagName("td")[j])
+				if (multiplayerTds.filter((td) => td && getCellText(td) == "").length == 4) {
 					rows[i].style.display = "none"
 				}
 			}
-			// index [3] to 6 corresponds to local multiplayer
-			for (let j = 0; j <= 3; j++) {
+			// checkboxes 1 to 4 are multiplayer types
+			// index [3] to 6 corresponds to multiplayer rows
+			for (let j = 1; j <= 4; j++) {
 				if (checkboxes[j].checked) {
-					const td = rows[i].getElementsByTagName("td")[j + 3]
-					if (td) {
-						const cellText = td.textContent || td.innerText
-						if (cellText == "") {
-							rows[i].style.display = "none"
-						}
+					const td = rows[i].getElementsByTagName("td")[j + 2]
+					if (getCellText(td) == "") {
+						rows[i].style.display = "none"
 					}
 				}
 			}
 			// Si aucun filtre, on recache les jeux "à essayer"
 			if (searchBar.value == "" && Array.from(checkboxes).filter((c) => c.checked).length == 0) {
 				const td = rows[i].getElementsByTagName("td")[2]
-				if (td) {
-					const cellText = td.textContent || td.innerText
-					if (cellText == "À essayer") {
-						rows[i].style.display = "none"
-					}
+				if (getCellText(td) == "À essayer") {
+					rows[i].style.display = "none"
 				}
 			}
 		}
@@ -159,6 +191,14 @@ games.sort((a, b) => a.title.localeCompare(b.title))
 		checkbox.addEventListener("change", function () {
 			runAllFilters()
 		})
+	})
+	checkboxes[0].addEventListener("change", function () {
+		const div = document.getElementById("filters-div")
+		if (div.style.display === "none") {
+			div.style.display = ""
+		} else {
+			div.style.display = "none"
+		}
 	})
 </script>
 

@@ -56,7 +56,12 @@ export default async function getGames(
 				review: p.Commentaire.rich_text[0] && p.Commentaire.rich_text[0].plain_text,
 				firstPlayedYear: p["Année de découverte"].number,
 				progress: p.Progression.status && p.Progression.status.name,
-				multiplayer: p.Multijoueur.multi_select.map((item) => item.name),
+				multiplayer: p.Multijoueur.multi_select.map((item) => item.name) as (
+					| "En ligne"
+					| "Local"
+					| "Coop"
+					| "Versus"
+				)[],
 				myPlatforms: p.Support.multi_select.map((item) => item.name),
 				blocks: p["Récupérer les blocs"].checkbox ? await getChildren(game.id) : [],
 				notionUrl: game.url,

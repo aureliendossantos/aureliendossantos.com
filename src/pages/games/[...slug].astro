@@ -80,7 +80,7 @@ const igdb = await getIGDBgame(game.slug)
 					</p>
 					<div class="my-3 flex gap-1">
 						{
-							igdb.platforms.map((p) => (
+							igdb.platforms.map((p: any) => (
 								<div class="rounded-sm bg-slate-200 px-1 text-sm text-slate-500 dark:bg-slate-800">
 									{p.abbreviation}
 								</div>

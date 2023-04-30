@@ -1,16 +1,19 @@
 ---
 interface Props {
+	type: "checkbox" | "radio"
 	id: string
+	name: string
 	content: string
+	checked?: boolean
 }
-const { id, content } = Astro.props
+const { type, id, name, content, checked } = Astro.props
 ---
 
 <div>
-	<input type="checkbox" name="filters" id={id} class="peer hidden" />
+	<input type={type} name={name} id={id} checked={checked} class="peer hidden" />
 	<label
 		for={id}
-		class="rounded-md border border-slate-300 bg-white px-3 py-1 text-center text-slate-500 hover:bg-slate-100 active:bg-slate-200 peer-checked:border-indigo-500 peer-checked:bg-indigo-500 peer-checked:text-white peer-checked:active:bg-indigo-600 dark:border-slate-700 dark:bg-black dark:hover:bg-slate-900 dark:active:bg-slate-800"
-		style={{ display: "inherit" }}>{content}</label
+		class="flex h-full items-center justify-center rounded-md border border-slate-200 bg-slate-50 px-3 py-1 text-center text-slate-500 shadow-sm hover:bg-slate-100 active:bg-slate-200 peer-checked:border-indigo-500 peer-checked:bg-indigo-500 peer-checked:text-white peer-checked:active:bg-indigo-600 dark:border-slate-700 dark:bg-black dark:hover:bg-slate-900 dark:active:bg-slate-800"
+		><div>{content}</div></label
 	>
 </div>
