@@ -31,5 +31,5 @@ module.exports = {
 			small: { max: "430px" },
 		},
 	},
-	plugins: [require("@tailwindcss/typography"), require("@tailwindcss/line-clamp")],
+	plugins: [require("@tailwindcss/typography")],
 }
