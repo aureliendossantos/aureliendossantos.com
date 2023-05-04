@@ -4,7 +4,8 @@ import type { QueryDatabaseParameters } from "@notionhq/client/build/src/api-end
 export default async function getDatabase(
 	id: string,
 	filter: QueryDatabaseParameters["filter"],
-	firstResults = false
+	firstResults = false,
+	numberOfItems: number | undefined = undefined
 ) {
 	const notion = new Client({
 		auth: import.meta.env.NOTION_SECRET,
@@ -13,6 +14,7 @@ export default async function getDatabase(
 	let data = await notion.databases.query({
 		database_id: id,
 		filter: filter,
+		page_size: numberOfItems,
 	})
 	results = [...data.results]
 	while (!firstResults && data.has_more) {

@@ -12,7 +12,7 @@ export type IGDBData = {
 	cover: IGDBImage
 	screenshots: IGDBImage[]
 	platforms: { abbreviation: string }[]
-	first_release_date: string
+	first_release_date: number
 	release_dates: { y: number }[]
 	involved_companies: { developer: boolean; publisher: boolean; company: { name: string } }[]
 	websites: { category: number; url: string }[]

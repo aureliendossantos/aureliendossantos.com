@@ -43,7 +43,7 @@ Voici quelques projets terminés ou mis de côté :
   - Organisation et animation de plusieurs [game jams](https://gamedevalliance.itch.io/).
   - [RPG Maker Starter Pack](https://gamedevalliance.itch.io/starterpack), un projet d'exemple collaboratif sur RPG Maker destiné aux débutants, regroupant de nombreux décors réutilisables ainsi des astuces de programmation et de mise en scène.
 
-## Où suis-je
+## Où vis-je
 
 Je suis né en région parisienne d'une mère bretonne et d'un père portugais. Très jeune, ma famille a déménagé dans les Landes pour mieux accueillir ma petite sœur. J'ai vécu dans des appartements étudiants à Pau pour suivre mes premières études, puis j'ai déménagé à Toulouse pour suivre mon Master. J'y habite toujours aujourd'hui, et je m'y sens très bien. Pour une liste de mes coins favoris, voir [<em>/toulouse</em>](/toulouse).
 
@@ -51,11 +51,15 @@ J'ai eu la chance de beaucoup visiter le sud-ouest de la France, la Bretagne et 
 
 ## Mes passions
 
-Je suis amoureux du jeu vidéo. Dès l'enfance, j'étais fasciné par l'élégance des RPG japonais et la radicalité des jeux amateurs sur RPG Maker. Pendant l'adolescence, j'ai vibré avec Portal, Half-Life 2 et Mirror's Edge, mais aussi avec le boom des jeux indépendants. En découvrant la PS4, j'ai pris une claque sur The Last of Us et Destiny, qui ont chacun à leur manière défini une génération. Par la suite, mes goûts ont été forgés par les jeux de Kojima, les Souls, et de nombreux autres jeux listés sur [<em>/games</em>](/games). Vous pourrez y voir que je suis également passionné par les jeux en multi local comme Towerfall, Helldivers et j'en passe.
+Je suis amoureux du jeu vidéo. Dès l'enfance, j'étais fasciné par l'élégance des RPG japonais et la radicalité des jeux amateurs sur RPG Maker. Pendant l'adolescence, j'ai découvert le jeu PC avec l'Orange Box de Valve et le boom des jeux indépendants. J'ai pris une nouvelle claque avec The Last of Us et Destiny sur PS4, qui ont chacun à leur manière défini une génération. Par la suite, mes goûts ont été forgés de nombreux autres jeux, avec une mention spéciale pour le multi local qui me passionne particulièrement.
 
-Ma deuxième passion est sans doute le cinéma, avec une préférence pour le naturalisme. J'aime également la photographie, la programmation, la musique atmosphérique et électronique, les promenades, les restaurants et les cafés.
+import FavoriteGames from "$components/mdx/FavoriteGames.astro"
 
-Quand j'étais enfant, je dessinais souvent au fond de la classe, mais j'ai arrêté au lycée car je ne savais plus trop quoi représenter. Aujourd'hui, il m'arrive de gribouiller ce que je vois quand je voyage. J'ai récemment découvert que j'étais plus intéressé par le web design et la typographie, alors j'essaie d'expérimenter autour de ces sujets.
+<FavoriteGames />
+
+Ma deuxième passion est sans doute le cinéma, avec une préférence pour le naturalisme. J'aime également la photographie, la programmation, la musique atmosphérique et électronique, les promenades et les cafés.
+
+Quand j'étais enfant, je dessinais souvent au fond de la classe, mais j'ai arrêté au lycée car je ne savais plus trop quoi représenter. J'ai récemment découvert que j'étais plus intéressé par le web design et la typographie, alors j'essaie d'expérimenter autour de ces sujets.
 
 ## Autres informations
 
@@ -66,7 +70,7 @@ Pour un récit plus personnel et complet de ma vie, voir [Vie personnelle](/pers
 Pour des informations sur mon site, voir [À propos de ce site](/website).
 
 <script>
-	const yearInMs = 3.15576e+10; // Using a year of 365.25 days (because leap years)
-	const age = Math.floor((new Date() - new Date("1997/01/22").getTime()) / yearInMs);
+	const yearInMs = 3.15576e+10; // Using a year of 365.25 days (because leap years) const age =
+	Math.floor((new Date() - new Date("1997/01/22").getTime()) / yearInMs);
 	document.getElementById("age").textContent = age;
 </script>

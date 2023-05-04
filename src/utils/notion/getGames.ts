@@ -43,10 +43,16 @@ type GameEntry = ResponseResult & {
 
 export default async function getGames(
 	filter: QueryDatabaseParameters["filter"],
-	firstResults = false
+	firstResults = false,
+	numberOfItems: number | undefined = undefined
 ) {
 	console.log("Getting Notion games...")
-	const notionResponse = await getDatabase(import.meta.env.NOTION_GAMES_DB, filter, firstResults)
+	const notionResponse = await getDatabase(
+		import.meta.env.NOTION_GAMES_DB,
+		filter,
+		firstResults,
+		numberOfItems
+	)
 	const typedEntries: GameEntry[] = notionResponse.map((game) => game as GameEntry)
 	const notionGames = await Promise.all(
 		typedEntries.map(async (game) => {

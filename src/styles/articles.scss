@@ -30,7 +30,7 @@ iframe {
 		@apply my-[1em] rounded bg-slate-200 px-4 py-1;
 	}
 
-	a {
+	a:not(.unstyled) {
 		@apply underline decoration-1 underline-offset-1 hover:decoration-2;
 	}
 }
@@ -165,7 +165,7 @@ iframe {
 		font-style: normal;
 		@apply text-[#4a8bf3];
 	}
-	a {
+	a:not(.unstyled) {
 		@apply bg-[#4a8bf3]/15 decoration-[#4a8bf3] decoration-2 underline-offset-3 hover:bg-[#4a8bf3]/20 hover:decoration-[3px] hover:underline-offset-2 active:bg-[#4a8bf3]/30 active:decoration-2 active:underline-offset-3;
 	}
 	h2,

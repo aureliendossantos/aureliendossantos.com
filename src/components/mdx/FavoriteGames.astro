@@ -1,0 +1,50 @@
+---
+import IGDBImage from "$components/IGDBImage.astro"
+import getGames from "$utils/notion/getGames"
+
+// We must get ALL favorite games so we can sort them by the IGDB release date.
+const { games, notionResponse } = await getGames(
+	{
+		and: [
+			{ property: "Nom", title: { is_not_empty: true } },
+			{ property: "Type", select: { equals: "Jeu" } },
+			{
+				or: [{ property: "Appréciation", select: { equals: "Coup de cœur" } }],
+			},
+		],
+	},
+	false
+)
+---
+
+<div
+	class="m-auto grid w-full grid-cols-7 gap-3 mediumlarge:grid-cols-6 medium:grid-cols-5 small:grid-cols-4"
+>
+	{
+		games
+			.filter((game) => game.igdb && game.quickReview == "Coup de cœur")
+			.sort((a, b) => b.igdb!.first_release_date - a.igdb!.first_release_date)
+			.slice(0, 7)
+			.map((game) => (
+				<a
+					href={`/games/${game.slug}`}
+					class="unstyled group hover:scale-[1.03] small:[&:nth-child(n+5)]:hidden medium:[&:nth-child(n+6)]:hidden mediumlarge:[&:nth-child(n+7)]:hidden"
+				>
+					<IGDBImage
+						image={game.igdb!.cover}
+						size="cover_small"
+						retina
+						class="rounded bg-slate-500"
+						alt={game.title}
+					/>
+				</a>
+			))
+	}
+</div>
+<div class="flex w-full justify-between text-slate-500">
+	<div>
+		<span class="medium:hidden">Mes coups de</span><span class="hidden medium:inline">Coups de</span
+		> ❤️ récents
+	</div>
+	<div><a href="/games" class="unstyled no-underline"><em>Tous les jeux →</em></a></div>
+</div>

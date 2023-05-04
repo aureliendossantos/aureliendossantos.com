@@ -6,13 +6,13 @@ import ArticleDate from "./ArticleDate.astro"
 import getPlace from "$utils/places"
 
 interface Props {
-	article: CollectionEntry<"blog"> | CollectionEntry<"tufte">
+	article: CollectionEntry<"blog">
 }
 const { article } = Astro.props
 const data = article.data
 const palette = getPalette(data.palette)
-const categories = data.categories ? data.categories.filter((name) => name != "Article") : []
-const tags = data.tags ? data.tags.filter((name) => name == "Projet perso") : []
+const categories = data.categories.filter((name) => name != "Article")
+const tags = data.tags.filter((name) => name == "Projet perso")
 const labels = [...categories, ...tags]
 const place = data.places.length > 0 ? getPlace(data.places[0]) : undefined
 ---

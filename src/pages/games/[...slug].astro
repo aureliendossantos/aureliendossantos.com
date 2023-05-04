@@ -105,7 +105,7 @@ const igdb = game.igdb as IGDBData
 						J'y ai joué sur {enumerate(game.myPlatforms)} ({game.progress?.toLowerCase()}).
 					</p>
 				) : (
-					game.progress?.toLowerCase()
+					<p>{game.progress}.</p>
 				)
 			}
 			{
