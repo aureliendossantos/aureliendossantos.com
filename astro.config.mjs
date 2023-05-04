@@ -7,7 +7,9 @@ import mdx from "@astrojs/mdx"
 export default defineConfig({
 	experimental: { assets: true },
 	image: {
-		service: "$utils/imageService.ts",
+		service: {
+			entrypoint: "$utils/imageService.ts",
+		},
 	},
 	site: "https://aureliendossantos.com",
 	integrations: [
