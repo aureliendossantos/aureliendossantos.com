@@ -76,7 +76,7 @@ const igdb = game.igdb as IGDBData
 								igdb.publishers != igdb.developers && ` • Publié par ${igdb.publishers}`
 							}
 						</p>
-						<div class="my-3 flex gap-1">
+						<div class="my-3 flex flex-wrap gap-1">
 							{
 								igdb.platforms.map((p: any) => (
 									<div class="rounded-sm bg-slate-200 px-1 text-sm text-slate-500 dark:bg-slate-800">
