@@ -46,115 +46,120 @@ games.sort(
 )
 ---
 
-<BaseLayout title="Jeux" ogType="website" bg="white" bgDark="black" font="Work Sans">
-	<header class="m-auto mt-10 max-w-prose px-4">
-		<h1
-			class="mb-3 text-xl text-slate-900 dark:text-slate-100"
-			ondblclick="window.location='https://www.notion.so/aureliendossantos/a6d5cb61551b43e4a0521b681e385729'"
-		>
-			Jeux auxquels j'ai joué
-		</h1>
-		<div class="prose prose-slate dark:prose-invert small:prose-sm">
+<BaseLayout title="Jeux" ogType="website" bg="white" bgDark="black">
+	<div class="m-auto my-10 flex max-w-prose flex-col gap-8 px-4">
+		<header class="flex justify-between font-work-sans text-sm text-slate-400 dark:text-slate-600">
 			<p>
-				Cette page recense les jeux auxquels j'ai joué et ce que j'en ai pensé. Pour les jeux qui
-				n'ont pas de fin, je note si j'y joue « souvent » ou « rarement ».
+				<a href="/" class="hover:text-indigo-700 hover:dark:text-indigo-400">← Retour à l'accueil</a
+				>
 			</p>
-			<p>
-				📝 indique qu'un rapide avis écrit est disponible sur la page du jeu.<br />📖 indique que le
-				texte est un peu plus long.
-			</p>
-			<h3>Coups de cœur récents</h3>
-			<div
-				class="not-prose m-auto grid max-w-prose grid-cols-6 gap-3 medium:grid-cols-5 small:grid-cols-4"
-			>
-				{
-					games
-						.filter((game) => game.igdb && game.quickReview == "Coup de cœur")
-						.sort((a, b) => b.igdb!.first_release_date - a.igdb!.first_release_date)
-						.slice(0, 12)
-						.map((game) => (
-							<a
-								href={`/games/${game.slug}`}
-								class="group scale-100 transition ease-out hover:scale-[1.03] medium:[&:nth-child(n+11)]:hidden small:[&:nth-child(n+9)]:hidden"
-							>
-								<IGDBImage
-									image={game.igdb!.cover}
-									size="cover_small"
-									retina
-									class="rounded bg-slate-500 shadow-sm transition-shadow group-hover:shadow"
-									alt={game.title}
-								/>
-							</a>
-						))
-				}
+		</header>
+		<header>
+			<div class="prose prose-slate dark:prose-invert small:prose-sm">
+				<p>
+					Cette page recense les jeux auxquels j'ai joué et ce que j'en ai pensé. Pour les jeux qui
+					n'ont pas de fin, je note si j'y joue « souvent » ou « rarement ».
+				</p>
+				<p>
+					📝 indique qu'un rapide avis écrit est disponible sur la page du jeu.<br />📖 indique que
+					le texte est un peu plus long.
+				</p>
+				<h3 class="font-work-sans">Coups de cœur récents</h3>
+				<div class="not-prose grid grid-cols-6 gap-3 medium:grid-cols-5 small:grid-cols-4">
+					{
+						games
+							.filter((game) => game.igdb && game.quickReview == "Coup de cœur")
+							.sort((a, b) => b.igdb!.first_release_date - a.igdb!.first_release_date)
+							.slice(0, 12)
+							.map((game) => (
+								<a
+									href={`/games/${game.slug}`}
+									class="group scale-100 transition ease-out hover:scale-[1.03] medium:[&:nth-child(n+11)]:hidden small:[&:nth-child(n+9)]:hidden"
+								>
+									<IGDBImage
+										image={game.igdb!.cover}
+										size="cover_small"
+										retina
+										class="rounded bg-slate-500 shadow-sm transition-shadow group-hover:shadow"
+										alt={game.title}
+									/>
+								</a>
+							))
+					}
+				</div>
+				<h3
+					class="font-work-sans"
+					ondblclick="window.location='https://www.notion.so/aureliendossantos/a6d5cb61551b43e4a0521b681e385729'"
+				>
+					Tous les jeux
+				</h3>
 			</div>
-			<h3>Tous les jeux</h3>
-		</div>
-	</header>
-	<main class="m-auto mb-10 max-w-prose">
-		<div class="my-5">
-			<div class="my-2 flex flex-wrap gap-2 px-4">
-				<input
-					class="dark:highlight-white/5 min-h-[26px] grow rounded-md px-2 text-sm caret-indigo-500 shadow-sm ring-1 ring-slate-900/10 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-slate-800 dark:ring-0 dark:focus:bg-slate-900 dark:focus:ring-2 dark:focus:ring-indigo-500"
-					type="text"
-					id="search-bar"
-					placeholder="Rechercher un jeu"
-				/>
-				<div class="text-sm small:text-xs">
-					<FilterButton type="checkbox" name="filters" id="all" content="Multijoueur" />
+		</header>
+		<main class="font-work-sans">
+			<div class="mb-5 space-y-2">
+				<div class="flex flex-wrap gap-2 px-4">
+					<input
+						class="dark:highlight-white/5 min-h-[26px] grow rounded-md px-2 text-sm caret-indigo-500 shadow-sm ring-1 ring-slate-900/10 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-slate-800 dark:ring-0 dark:focus:bg-slate-900 dark:focus:ring-2 dark:focus:ring-indigo-500"
+						type="text"
+						id="search-bar"
+						placeholder="Rechercher un jeu"
+					/>
+					<div class="text-sm small:text-xs">
+						<FilterButton type="checkbox" name="filters" id="all" content="Multijoueur" />
+					</div>
+				</div>
+				<div
+					class="grid w-full grid-cols-4 items-stretch gap-2 px-4 text-sm small:text-xs"
+					id="filters-div"
+					style="display: none;"
+				>
+					<FilterButton type="checkbox" name="filters" id="local" content="🛋️ Local" />
+					<FilterButton type="checkbox" name="filters" id="online" content="🛜 En ligne" />
+					<FilterButton type="checkbox" name="filters" id="coop" content="🤝 Coop" />
+					<FilterButton type="checkbox" name="filters" id="versus" content="🆚 Versus" />
 				</div>
 			</div>
-			<div
-				class="my-2 grid w-full grid-cols-4 items-stretch gap-2 px-4 text-sm small:text-xs"
-				id="filters-div"
-				style="display: none;"
-			>
-				<FilterButton type="checkbox" name="filters" id="local" content="🛋️ Local" />
-				<FilterButton type="checkbox" name="filters" id="online" content="🛜 En ligne" />
-				<FilterButton type="checkbox" name="filters" id="coop" content="🤝 Coop" />
-				<FilterButton type="checkbox" name="filters" id="versus" content="🆚 Versus" />
-			</div>
-		</div>
-		<table class="mb-8 w-full small:text-sm" id="games-table">
-			<thead>
-				<tr class="border-b border-slate-300 text-left dark:border-slate-700">
-					<th colspan="2" class="py-3 pl-4">Jeu</th>
-					<th>Progression</th>
-					<th colspan="4">Multijoueur</th>
-				</tr>
-			</thead>
-			<tbody class="text-slate-900 dark:text-slate-200">
-				{
-					games.map((item) => (
-						<tr
-							class="even:bg-slate-50 dark:even:bg-slate-900"
-							style={{ display: item.progress == "À essayer" ? "none" : "" }}
-						>
-							<td
-								class:list={[
-									"py-3 pl-4 max-w-[26ch]",
-									{
-										"font-medium text-indigo-700 dark:text-indigo-400": item.igdb,
-									},
-								]}
+			<table class="mb-8 w-full small:text-sm" id="games-table">
+				<thead>
+					<tr class="border-b border-slate-300 text-left dark:border-slate-700">
+						<th colspan="2" class="py-3 pl-4 font-medium">Jeu</th>
+						<th class="font-medium">Progression</th>
+						<th colspan="4" class="font-medium">Multijoueur</th>
+					</tr>
+				</thead>
+				<tbody class="text-slate-900 dark:text-slate-200">
+					{
+						games.map((item) => (
+							<tr
+								class="even:bg-slate-50 dark:even:bg-slate-900"
+								style={{ display: item.progress == "À essayer" ? "none" : "" }}
 							>
-								<OptionalLink href={item.igdb ? `/games/${item.slug}` : undefined}>
-									{item.title}
-									{item.blocks.length > 0 ? " 📖" : item.review && " 📝"}
-								</OptionalLink>
-							</td>
-							<td>{emotes[item.quickReview] || item.quickReview}</td>
-							<td class="text-slate-500">{item.progress}</td>
-							<td>{item.multiplayer.includes("Local") && "🛋️"}</td>
-							<td>{item.multiplayer.includes("En ligne") && "🛜"}</td>
-							<td>{item.multiplayer.includes("Coop") && "🤝"}</td>
-							<td class="pr-4">{item.multiplayer.includes("Versus") && "🆚"}</td>
-						</tr>
-					))
-				}
-			</tbody>
-		</table>
-	</main>
+								<td
+									class:list={[
+										"py-3 pl-4 max-w-[26ch]",
+										{
+											"text-indigo-700 dark:text-indigo-400": item.igdb,
+										},
+									]}
+								>
+									<OptionalLink href={item.igdb ? `/games/${item.slug}` : undefined}>
+										{item.title}
+										{item.blocks.length > 0 ? " 📖" : item.review && " 📝"}
+									</OptionalLink>
+								</td>
+								<td>{emotes[item.quickReview] || item.quickReview}</td>
+								<td class="text-slate-500">{item.progress}</td>
+								<td>{item.multiplayer.includes("Local") && "🛋️"}</td>
+								<td>{item.multiplayer.includes("En ligne") && "🛜"}</td>
+								<td>{item.multiplayer.includes("Coop") && "🤝"}</td>
+								<td class="pr-4">{item.multiplayer.includes("Versus") && "🆚"}</td>
+							</tr>
+						))
+					}
+				</tbody>
+			</table>
+		</main>
+	</div>
 	{/*import.meta.env.DEV && <pre>{JSON.stringify(notionResponse, null, 2)}</pre>*/}
 </BaseLayout>
 
