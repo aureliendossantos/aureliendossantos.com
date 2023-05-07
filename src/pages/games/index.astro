@@ -171,7 +171,13 @@ games.sort(
 
 	const getCellText = (td: HTMLTableCellElement) => td.textContent || td.innerText
 
-	function runAllFilters() {
+	function yieldToMain() {
+		return new Promise((resolve) => {
+			setTimeout(resolve, 0)
+		})
+	}
+
+	async function runAllFilters() {
 		const searchedText = searchBar.value.toUpperCase()
 		// Loop through all table rows, and hide those who don't match the search query
 		for (let i = 0; i < rows.length; i++) {
@@ -208,6 +214,8 @@ games.sort(
 					rows[i].style.display = "none"
 				}
 			}
+			// yield to main every 20 entries
+			if (i % 20 == 0) await yieldToMain()
 		}
 	}
 	searchBar?.addEventListener("keyup", () => {
