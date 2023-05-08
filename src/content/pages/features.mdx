@@ -181,18 +181,11 @@ Lorsque j'aurai suffisamment de contenu pour le justifier, je réfléchirai à u
 - **Améliorer le design** :
   - <sc>Blocs de code</sc> : Coloration différente pour chaque palette.
   - `<BlogRef>` : améliorer le design en retirant l'ombre et en utilisant la couleur secondaire comme bordure.
-  - <sc>Layouts</sc> : Les transformer en un enum, comme les palettes, pour plus de flexibilité. Il
-suffira d'appliquer comme classe le contenu de l'enum, plus haut dans le <abbr>DOM</abbr>, ce qui
-ne changera rien au <abbr>CSS</abbr> mais permettra d'englober les titres et sommaires. Cela permettra aussi d'avoir une valeur par défaut et ainsi de supprimer les appels de de `<Classic>`.
+  - <sc>Layouts</sc> : Les transformer en un enum, comme les palettes, pour un code plus sûr et
+    clair.
 - **Emplacement du sommaire** : Ajouter la possibilité de l'inclure à un endroit précis du document Markdown.
 - **Date de modification** des articles et des pages. Elle pourrait être récupéré de l'<abbr>API</abbr> de GitHub afin d'éviter de la mettre à jour manuellement. Le but n'est pas que cette date soit exacte, mais de représenter l'idée que les pages peuvent toujours être affinées au fil du temps, malgré qu'elles soient inscrites dans une époque dans le cas du blog.
-- **Ajouter un bloc pour les films.** [Letterboxd](https://letterboxd.com/) a refusé ma demande d'accès à l'<abbr>API</abbr> ; <abbr>[IMDB](https://www.imdb.com/)</abbr> semble payant ou difficile à utiliser, mais je dois encore me pencher sur la question.
+- **Ajouter une galerie des films** que j'ai mentionnés sur ce site ou aimés. C'est un problème épineux ! [Letterboxd](https://letterboxd.com/) a refusé ma demande d'accès à l'<abbr>API</abbr> ; <abbr>[IMDB](https://www.imdb.com/)</abbr> semble payant ou difficile à utiliser, mais je dois encore me pencher sur la question.
+- **Ajouter un bloc pour les films.** Pour les mêmes raisons, je ne sais pas encore comment je pourrais m'y prendre.
 - **Ajouter un bloc GitHub** pour mentionner un dépôt ou un utilisateur.
-- **Ajouter une galerie des œuvres** que j'ai mentionnées sur ce site ou aimées.
-  - <sc>Jeux</sc> : <abbr>IGDB</abbr> comporte des screenshots utiles pour habiller chaque entrée.
-    Je pourrais y loguer mes jeux ou récupérer mon tableau personnel sur Notion. Pour afficher ma
-    progression dans le jeu, je peux utiliser
-    [`leonardoalemax/psn-profile-api`](https://github.com/leonardoalemax/psn-profile-api) ou l'API
-    de Steam.
-  - <sc>Films</sc> : Un problème épineux ! Je ne sais pas encore comment je pourrais m'y prendre.
-- **Accès rapide à la page source** : J'aimerais parfois modifier rapidement une page sur mon téléphone, et le meilleur moyen pour cela serait d'avoir un accès direct au fichier Markdown sur GitHub depuis la page en question. Gwern utilise une [méthode](https://gwern.net/about#source) discrète et ingénieuse : en ajoutant `.page` à une <abbr>URL</abbr>, on peut consulter le fichier source d'une page écrite en Markdown.
+- **Accès rapide à la page source** : J'aimerais parfois modifier rapidement une page sur mon téléphone, et le meilleur moyen pour cela serait d'avoir un accès direct au fichier Markdown sur GitHub depuis la page en question. Gwern utilise une [méthode](https://gwern.net/about#source) discrète et ingénieuse : en ajoutant `.page` à une <abbr>URL</abbr>, on peut consulter le fichier source d'une page écrite en Markdown. Cela ne me convient pas car ce n'est pas très pratique sur mobile. Je pense plutôt ajouter des double-clics sur certains éléments.
