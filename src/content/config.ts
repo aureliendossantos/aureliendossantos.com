@@ -61,4 +61,15 @@ export const collections = {
 				image: image().optional(),
 			}),
 	}),
+	gear: defineCollection({
+		schema: z.object({
+			name: z.string(),
+			etat: z.string(),
+			utilisation: z.string().optional(),
+			obtained: z.date().optional(),
+			obtainedInfo: z.string().optional(),
+			price: z.string().optional(),
+			clickable: z.boolean().default(false),
+		}),
+	}),
 }

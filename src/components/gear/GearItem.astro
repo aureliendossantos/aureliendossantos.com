@@ -1,0 +1,33 @@
+---
+import OptionalLink from "$components/OptionalLink.astro"
+import type { CollectionEntry } from "astro:content"
+interface Props {
+	gear: CollectionEntry<"gear">
+}
+const { gear } = Astro.props
+const data = gear.data
+---
+
+<li class="border-b px-6 py-4 last:border-none dark:border-slate-800">
+	<div class="dark:text-slate-200">
+		<OptionalLink
+			href={data.clickable ? `/gear/${gear.slug}` : undefined}
+			class="text-indigo-600 dark:text-indigo-400"
+		>
+			{data.name}
+		</OptionalLink>
+	</div>
+	<div class="font-work-sans text-sm text-slate-400">
+		{data.etat}{data.utilisation && " • " + data.utilisation}
+	</div>
+	<div class="font-work-sans text-sm text-slate-400">
+		{
+			data.obtainedInfo
+				? data.obtainedInfo +
+				  (data.obtained
+						? ` (${data.obtained.getFullYear()}` + (data.price ? `, ${data.price})` : ")")
+						: "")
+				: data.obtained && data.obtained.getFullYear() + (data.price ? `, ${data.price}` : "")
+		}
+	</div>
+</li>

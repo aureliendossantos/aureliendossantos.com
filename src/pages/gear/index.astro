@@ -1,0 +1,69 @@
+---
+import GearCategory from "$components/gear/GearCategory.astro"
+import GearItem from "$components/gear/GearItem.astro"
+import BaseLayout from "$layouts/BaseLayout.astro"
+import { getCollection } from "astro:content"
+
+const gear = (await getCollection("gear"))
+	.map((gear) => ({
+		...gear,
+		category: gear.slug.split("/")[0],
+		slug: gear.slug.split("/")[1],
+	}))
+	.sort((a, b) => {
+		if (!a.data.obtained) return 1
+		if (!b.data.obtained) return -1
+		return b.data.obtained - a.data.obtained
+	})
+---
+
+<BaseLayout
+	ogType="website"
+	title="Appareils"
+	description="Ordinateurs, téléphones et autres appareils multimédia que je possède."
+>
+	<div class="m-auto my-10 flex max-w-xl flex-col gap-8 px-8 text-slate-900 dark:text-slate-200">
+		<header class="flex justify-between font-work-sans text-sm text-slate-400 dark:text-slate-600">
+			<p>
+				<a href="/" class="hover:text-indigo-700 hover:dark:text-indigo-400">← Retour à l'accueil</a
+				>
+			</p>
+		</header>
+		<header class="prose prose-slate dark:prose-invert small:prose-sm">
+			<p>
+				Cette page liste mes appareils multimédia, leur état et ma fréquence d'utilisation. Les
+				liens cliquables peuvent contenir des détails supplémentaires.
+			</p>
+		</header>
+		<div class="grid grid-cols-2 gap-4 medium:grid-cols-1">
+			<GearCategory title="Ordinateurs">
+				{
+					gear
+						.filter((gear) => gear.category == "computers")
+						.map((gear) => <GearItem gear={gear} />)
+				}
+			</GearCategory>
+			<GearCategory title="Téléphones">
+				{gear.filter((gear) => gear.category == "phones").map((gear) => <GearItem gear={gear} />)}
+			</GearCategory>
+			<GearCategory title="Écrans">
+				{gear.filter((gear) => gear.category == "screens").map((gear) => <GearItem gear={gear} />)}
+			</GearCategory>
+			<GearCategory title="Consoles">
+				{gear.filter((gear) => gear.category == "consoles").map((gear) => <GearItem gear={gear} />)}
+			</GearCategory>
+			<GearCategory title="Son">
+				{gear.filter((gear) => gear.category == "sound").map((gear) => <GearItem gear={gear} />)}
+			</GearCategory>
+			<GearCategory title="Caméra">
+				{gear.filter((gear) => gear.category == "cameras").map((gear) => <GearItem gear={gear} />)}
+			</GearCategory>
+		</div>
+	</div>
+
+	<style is:global>
+		@tailwind base;
+		@tailwind components;
+		@tailwind utilities;
+	</style>
+</BaseLayout>

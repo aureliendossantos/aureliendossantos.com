@@ -1,0 +1,62 @@
+---
+import { CollectionEntry, getCollection } from "astro:content"
+import Article from "$layouts/Article.astro"
+import BackHome from "$components/BackHome.astro"
+import BaseLayout from "$layouts/BaseLayout.astro"
+import formatDate from "$utils/formatDate"
+
+export async function getStaticPaths() {
+	const gear = await getCollection("gear", ({ data }) => {
+		return data.clickable
+	})
+	return gear.map((gear) => ({
+		params: { gear: gear.slug.split("/")[1] },
+		props: { gear },
+	}))
+}
+
+export interface Props {
+	gear: CollectionEntry<"gear">
+}
+const { gear } = Astro.props
+const { Content, headings } = await gear.render()
+const data = gear.data
+const category = gear.slug.split("/")[0]
+---
+
+<BaseLayout ogType="website" title={data.name}>
+	<div class="m-auto my-10 flex max-w-xl flex-col gap-8 px-8 text-slate-900 dark:text-slate-200">
+		<header class="flex justify-between font-work-sans text-sm text-slate-400 dark:text-slate-600">
+			<p>
+				<a href="/gear" class="hover:text-indigo-700 hover:dark:text-indigo-400">← Appareils</a>
+			</p>
+		</header>
+		<div class="prose prose-slate dark:prose-invert small:prose-sm prose-h1:mb-2">
+			<header>
+				<h1>{data.name}</h1>
+				<div class="font-work-sans text-sm text-slate-400">
+					{data.etat}{data.utilisation && " • " + data.utilisation}
+				</div>
+				<div class="font-work-sans text-sm text-slate-400">
+					{
+						data.obtainedInfo
+							? data.obtainedInfo +
+							  (data.obtained
+									? ` (${formatDate(data.obtained)}` + (data.price ? `, ${data.price})` : ")")
+									: "")
+							: data.obtained && formatDate(data.obtained) + (data.price ? `, ${data.price}` : "")
+					}
+				</div>
+			</header>
+			<main>
+				<Content />
+			</main>
+		</div>
+	</div>
+
+	<style is:global>
+		@tailwind base;
+		@tailwind components;
+		@tailwind utilities;
+	</style>
+</BaseLayout>
