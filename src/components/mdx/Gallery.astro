@@ -6,6 +6,36 @@ interface Props {
 const { wide, full } = Astro.props
 ---
 
-<div class:list={["gallery", { wide: wide, full: full }]}>
+<div class:list={["gallery not-prose", { wide: wide, full: full }]}>
 	<slot />
 </div>
+
+<style lang="scss" is:global>
+	.gallery {
+		@apply relative my-6 flex flex-row justify-center;
+
+		figure {
+			@apply my-0 grow basis-4;
+		}
+
+		figure + figure {
+			@apply ml-[10px];
+		}
+
+		&.wide {
+			@apply mx-[-80px] mediumlarge:mx-[-40px] medium:mx-[-20px];
+		}
+
+		&.full {
+			@apply left-1/2 ml-[-50vw] w-screen;
+
+			figcaption {
+				@apply ml-auto mr-[.5em];
+			}
+		}
+
+		img {
+			@apply w-full;
+		}
+	}
+</style>
