@@ -54,10 +54,10 @@ export default async function getIGDBgames(slugs: string[]) {
 	).then((response) => response.json())
 	games.forEach((game) => {
 		game.developers = enumerate(
-			game.involved_companies.filter((i: any) => i.developer).map((i: any) => i.company.name)
+			game.involved_companies.filter((i) => i.developer).map((i) => i.company.name)
 		)
 		game.publishers = enumerate(
-			game.involved_companies.filter((i: any) => i.publisher).map((i: any) => i.company.name)
+			game.involved_companies.filter((i) => i.publisher).map((i) => i.company.name)
 		)
 	})
 	console.log(`Loaded ${games.length} games`)
