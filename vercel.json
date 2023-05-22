@@ -23,6 +23,11 @@
 		{
 			"source": "/tag/:path*",
 			"destination": "/tags/:path*"
+		},
+		{
+			"source": "/exemple-storyline",
+			"destination": "https://youtube.com/shorts/exnNjWxPvfk",
+			"permanent": false
 		}
 	]
 }
