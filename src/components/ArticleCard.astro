@@ -27,26 +27,28 @@ const mini = (data.categories.includes("Micro-blog") || data.categories.includes
 	style={{ backgroundColor: palette.backgroundColor, color: palette.backgroundColor }}
 	href={"/blog/" + article.slug}
 >
-	<div
-		class:list={["h-full w-full", { "xl:h-44 xl:max-w-md": image }]}
-		style={{
-			backgroundImage: image ? `url('${image.src}')` : "unset",
-			backgroundSize: "cover",
-			backgroundPosition: data.imageAnchorTop ? "top" : "center",
-		}}
-	>
+	<div class:list={["h-full w-full", { "small:px-4 small:pt-4": image }]}>
+		<div
+			class:list={["h-full w-full", { "xl:h-44 xl:max-w-md xl:m-auto": image }]}
+			style={{
+				backgroundImage: image ? `url('${image.src}')` : "unset",
+				backgroundSize: "cover",
+				backgroundPosition: data.imageAnchorTop ? "top" : "center",
+			}}
+		>
+		</div>
 	</div>
 	<div class="flex justify-center">
 		<div
 			class:list={[
-				"ml-8 mr-16 2xl:ml-7 2xl:mr-14 flex flex-col min-w-[20rem] max-w-xs 2xl:min-w-[17.5rem] 2xl:max-w-[17.5rem]",
-				{ "my-16 3xl:my-12": !mini, "my-12 3xl:my-6": mini, "xl:mt-8": image },
+				"ml-8 mr-16 flex min-w-[20rem] max-w-xs flex-col 2xl:ml-7 2xl:mr-14 2xl:min-w-[17.5rem] 2xl:max-w-[17.5rem] small:min-w-[20rem] small:max-w-xs small:mx-0",
+				{ "my-16 3xl:my-12": !mini, "my-12 3xl:mb-6 3xl:mt-8": mini, "xl:mt-11": image },
 			]}
 			style={{ color: palette.mainColor }}
 		>
 			<div class="order-2">
 				<h2
-					class="mb-2 text-2xl font-bold 2xl:text-xl"
+					class="mb-2 text-2xl font-bold 2xl:text-xl small:text-2xl"
 					style={{ color: palette.mainColor, fontFamily: palette.headingsFont }}
 				>
 					{data.title}{data.draft && " [Draft]"}
@@ -54,7 +56,7 @@ const mini = (data.categories.includes("Micro-blog") || data.categories.includes
 				{
 					data.description && (
 						<p
-							class="hidden text-sm xl:block"
+							class="hidden text-sm xl:block small:text-base"
 							style={{ color: palette.mainColor, fontFamily: palette.mainFont }}
 						>
 							{data.description} →
@@ -64,7 +66,7 @@ const mini = (data.categories.includes("Micro-blog") || data.categories.includes
 			</div>
 			<div
 				class:list={[
-					"font-sofia-sans uppercase text-sm opacity-75 2xl:text-xs",
+					"font-sofia-sans uppercase text-sm opacity-75 2xl:text-xs small:text-sm",
 					{
 						"order-3 mt-2": image,
 						"xl:mt-4": image && data.description,
