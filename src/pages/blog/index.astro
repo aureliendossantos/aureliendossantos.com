@@ -28,61 +28,36 @@ const places = getUniquePlacesAndOccurences(rawPlaces)
 	description="Blog personnel d'Aurélien Dos Santos."
 	font="Work Sans"
 >
-	<div class="mx-auto mb-12 max-w-[500px] px-4">
-		<header class="my-12 px-5">
-			<div class="my-5 flex w-full place-content-between">
-				<span>◂ <a href="/">Accueil</a></span>
-				<!--<span><a href="/about">A propos</a></span>-->
-			</div>
-			<p>
-				Bonjour, je suis Aurélien et vous êtes sur mon blog. <br />À propos <a href="/about"
-					>de moi</a
-				>, <a href="/website">de ce site</a>.
-			</p>
-			<div class="mt-5">
-				<HomeExploreLabel href="/categories" name="Catégories" />
-				<p>
-					{
-						Object.entries(categories).map(([key, value], i) => (
-							<>
-								<TagLabel label={key} count={value} type={"category"} />{" "}
-							</>
-						))
-					}
-				</p>
-			</div>
-			<div class="mt-5">
-				<HomeExploreLabel href="/tags" name="Tags" />
-				<p>
-					{
-						Object.entries(tags).map(([key, value], i) => (
-							<>
-								<TagLabel label={key} count={value} type={"tag"} />{" "}
-							</>
-						))
-					}
-				</p>
-			</div>
-			<div class="mt-5">
-				<HomeExploreLabel href="/places" name="Lieux" />
-				<p>
-					{
-						Object.entries(places).map(([key, value], i) => (
-							<>
-								<TagLabel
-									label={getPlace(key)?.customTitle || ""}
-									slug={key}
-									count={value}
-									type="place"
-								/>{" "}
-							</>
-						))
-					}
-				</p>
+	<div>
+		<header class="grid min-w-full grid-cols-3 xl:block xl:grid-cols-none">
+			<div></div>
+			<div class="flex justify-center">
+				<div
+					class="my-12 ml-8 mr-16 min-w-[20rem] max-w-xs 2xl:min-w-[17.5rem] 2xl:max-w-[17.5rem] 2xl:text-sm"
+				>
+					<div class="mb-5 flex w-full place-content-between xl:mb-9">
+						<span>◂ <a href="/">Accueil</a></span>
+						<!--<span><a href="/about">A propos</a></span>-->
+					</div>
+					<div class="mb-4 flex flex-col xl:mb-2 xl:gap-2">
+						<p>Bonjour, je suis Aurélien et vous êtes sur mon blog.</p>
+						<p>
+							Explorer par <a href="/categories">catégorie</a>, <a href="/tags">tag</a
+							>, <a href="/places">lieu</a>.
+						</p>
+						<p>
+							À propos <a href="/about">de moi</a>, <a href="/website">de ce site</a>.
+						</p>
+					</div>
+				</div>
 			</div>
 		</header>
-		<main class="flex flex-col gap-4 dark:gap-8">
-			{articles.map((article) => <ArticleCard article={article} />)}
+		<main class="flex w-full flex-col items-center">
+			{
+				articles.map((article, index) => (
+					<ArticleCard article={article} entryIndex={articles.length - index} />
+				))
+			}
 		</main>
 	</div>
 </BaseLayout>

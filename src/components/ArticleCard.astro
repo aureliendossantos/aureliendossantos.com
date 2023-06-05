@@ -1,78 +1,95 @@
 ---
 import type { CollectionEntry } from "astro:content"
-import Image from "$components/Image.astro"
+import { getImage } from "astro:assets"
 import getPalette from "$utils/palettes"
 import ArticleDate from "./ArticleDate.astro"
 import getPlace from "$utils/places"
+import ArticlePlace from "./ArticlePlace.astro"
 
 interface Props {
 	article: CollectionEntry<"blog">
+	entryIndex: number
 }
-const { article } = Astro.props
+const { article, entryIndex } = Astro.props
 const data = article.data
 const palette = getPalette(data.palette)
-const categories = data.categories.filter((name) => name != "Article")
-const tags = data.tags.filter((name) => name == "Projet perso")
-const labels = [...categories, ...tags]
+const categories = data.categories.filter((name) => name != "Article" && name != "Micro-blog")
+// const tags = data.tags.filter((name) => name == "Projet perso")
+const labels = categories // [...categories, ...tags]
 const place = data.places.length > 0 ? getPlace(data.places[0]) : undefined
+const image = data.image && (await getImage({ src: data.image, width: 900 }))
+const mini = (data.categories.includes("Micro-blog") || data.categories.includes("Notes")) && !image
 ---
 
 <!-- <a> color style is used for box-shadow color in dark mode -->
 <a
-	class="scale-100 overflow-hidden rounded-lg ease-out hover:scale-[1.03] dark:hover:scale-[1.03]"
+	class="grid w-full grid-cols-3 items-center xl:flex xl:grid-cols-none xl:flex-col"
 	style={{ backgroundColor: palette.backgroundColor, color: palette.backgroundColor }}
 	href={"/blog/" + article.slug}
 >
-	{
-		data.image && (
-			<Image
-				src={data.image}
-				width={700}
-				alt="Couverture de l'article"
-				class:list={["h-36 w-full object-cover", { "object-top": data.imageAnchorTop }]}
-			/>
-		)
-	}
-	<div class="p-5" style={{ color: palette.mainColor, fontFamily: palette.mainFont }}>
-		<h2
-			class="mb-2 text-2xl font-bold"
-			style={{ color: palette.mainColor, fontFamily: palette.headingsFont }}
+	<div
+		class:list={["h-full w-full", { "xl:h-44 xl:max-w-md": image }]}
+		style={{
+			backgroundImage: image ? `url('${image.src}')` : "unset",
+			backgroundSize: "cover",
+			backgroundPosition: data.imageAnchorTop ? "top" : "center",
+		}}
+	>
+	</div>
+	<div class="flex justify-center">
+		<div
+			class:list={[
+				"ml-8 mr-16 2xl:ml-7 2xl:mr-14 flex flex-col min-w-[20rem] max-w-xs 2xl:min-w-[17.5rem] 2xl:max-w-[17.5rem]",
+				{ "my-16 3xl:my-12": !mini, "my-12 3xl:my-6": mini, "xl:mt-8": image },
+			]}
+			style={{ color: palette.mainColor }}
 		>
-			{data.title}{data.draft && " [Draft]"}
-		</h2>
-		{
-			data.description && (
-				<p class="my-2" style={{ color: palette.mainColor }}>
-					{data.description}
-				</p>
-			)
-		}
-		<div style={{ color: palette.secondaryColor }}>
-			{labels.length > 0 && <>{labels.join(", ")} / </>}<ArticleDate date={data.date} />{
-				place && <span> / {place.customTitle}</span>
-			}
+			<div class="order-2">
+				<h2
+					class="mb-2 text-2xl font-bold 2xl:text-xl"
+					style={{ color: palette.mainColor, fontFamily: palette.headingsFont }}
+				>
+					{data.title}{data.draft && " [Draft]"}
+				</h2>
+				{
+					data.description && (
+						<p
+							class="hidden text-sm xl:block"
+							style={{ color: palette.mainColor, fontFamily: palette.mainFont }}
+						>
+							{data.description} →
+						</p>
+					)
+				}
+			</div>
+			<div
+				class:list={[
+					"font-sofia-sans uppercase text-sm opacity-75 2xl:text-xs",
+					{
+						"order-3 mt-2": image,
+						"xl:mt-4": image && data.description,
+						"order-1 mb-4": !image,
+					},
+				]}
+				style={{ color: palette.secondaryColor }}
+			>
+				Entry #{entryIndex} /
+				<ArticleDate date={data.date} />
+				{labels.length > 0 && <>/ {labels.join(", ")}</>}
+				{place && <ArticlePlace place={place} />}
+			</div>
 		</div>
 	</div>
+	{
+		data.description && (
+			<div class="flex justify-center xl:hidden">
+				<p
+					class="my-12 ml-8 mr-16 min-w-[20rem] max-w-xs 2xl:min-w-[17.5rem] 2xl:max-w-[17.5rem] 2xl:text-sm"
+					style={{ color: palette.mainColor, fontFamily: palette.mainFont }}
+				>
+					{data.description} →
+				</p>
+			</div>
+		)
+	}
 </a>
-
-<style lang="scss">
-	a {
-		box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-		transition: 0.25s;
-
-		&:hover {
-			box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-			box-shadow: 0 6px 8px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-		}
-	}
-	@media (prefers-color-scheme: dark) {
-		a {
-			box-shadow: 0 16px 70px -20px;
-			transition: 0.3s;
-
-			&:hover {
-				box-shadow: 0 8px 120px -12px;
-			}
-		}
-	}
-</style>

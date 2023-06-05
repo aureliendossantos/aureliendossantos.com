@@ -26,6 +26,9 @@ module.exports = {
 			},
 		},
 		screens: {
+			"3xl": { max: "1620px" },
+			"2xl": { max: "1250px" },
+			xl: { max: "1100px" },
 			mediumlarge: { max: "860px" },
 			medium: { max: "600px" },
 			small: { max: "430px" },

@@ -1,0 +1,11 @@
+---
+import type { Place } from "$utils/places"
+
+interface Props {
+	place: Place
+}
+const { place } = Astro.props
+---
+
+<!-- TODO: <a href={`/places/${place.slug}`}> -->
+<span>/ {place.customTitle}</span>
