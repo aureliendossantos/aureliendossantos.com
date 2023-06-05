@@ -23,7 +23,7 @@ export async function getStaticPaths() {
 }
 
 type Props = {
-	articles: (CollectionEntry<"blog"> | CollectionEntry<"tufte">)[]
+	articles: CollectionEntry<"blog">[]
 	categories: { [k: string]: number }
 }
 
@@ -37,7 +37,12 @@ const { articles, categories } = Astro.props
 			{
 				Object.entries(categories).map(([key, value], i) => (
 					<>
-						<TagLabel label={key} count={value} type={"category"} disabled={category == key} />{" "}
+						<TagLabel
+							label={key}
+							count={value}
+							type={"category"}
+							disabled={category == key}
+						/>{" "}
 					</>
 				))
 			}

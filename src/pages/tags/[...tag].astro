@@ -21,7 +21,7 @@ export async function getStaticPaths() {
 }
 
 type Props = {
-	articles: (CollectionEntry<"blog"> | CollectionEntry<"tufte">)[]
+	articles: CollectionEntry<"blog">[]
 	tags: { [k: string]: number }
 }
 

@@ -6,7 +6,7 @@ import ArticleDate from "./ArticleDate.astro"
 import getPlace from "$utils/places"
 
 interface Props {
-	article: CollectionEntry<"blog"> | CollectionEntry<"tufte">
+	article: CollectionEntry<"blog">
 	noPlace?: boolean
 }
 const { article, noPlace } = Astro.props

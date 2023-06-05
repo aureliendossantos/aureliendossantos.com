@@ -13,7 +13,9 @@ export async function getStaticPaths() {
 	const places = getUniquePlacesAndOccurences(rawPlaces)
 
 	return Object.entries(places).map(([place, amount], i) => {
-		const filteredArticles = allArticles.filter((article) => article.data.places.includes(place))
+		const filteredArticles = allArticles.filter((article) =>
+			article.data.places.includes(place)
+		)
 		return {
 			params: { place },
 			props: { articles: filteredArticles, places },
@@ -22,7 +24,7 @@ export async function getStaticPaths() {
 }
 
 type Props = {
-	articles: (CollectionEntry<"blog"> | CollectionEntry<"tufte">)[]
+	articles: CollectionEntry<"blog">[]
 	places: { [k: string]: number }
 }
 
