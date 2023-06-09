@@ -1,13 +1,17 @@
 ---
 import RefBlock from "$components/RefBlock.astro"
-import getIGDBgames from "$utils/getIGDBgame"
+import getIGDBgames, { IGDBData } from "$utils/getIGDBgame"
 
 interface Props {
-	slug: string
+	slug?: string
+	data?: IGDBData
 }
-const { slug } = Astro.props
+const { slug, data } = Astro.props
 
-const game = (await getIGDBgames([slug]))[0]
+if (!slug && !data) {
+	throw new Error("You must provide a slug or data for the Game component.")
+}
+const game = data || (await getIGDBgames([slug]))[0]
 const officialWebsites = game.websites.filter((w: any) => w.category == 1)
 const links: [string, string][] =
 	officialWebsites.length > 0

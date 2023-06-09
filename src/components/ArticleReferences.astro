@@ -2,6 +2,7 @@
 import type { CollectionEntry } from "astro:content"
 import Game from "./mdx/Game.astro"
 import Book from "./mdx/Book.astro"
+import getIGDBgames from "$utils/getIGDBgame"
 
 interface Props {
 	article: CollectionEntry<"blog">
@@ -10,14 +11,15 @@ interface Props {
 const { article } = Astro.props
 const data = article.data
 const references = [...data.games, ...data.books]
+const gamesData = data.games.length > 0 ? await getIGDBgames(data.games) : []
 ---
 
 {
 	references.length > 0 && (
 		<>
 			<h2>Dans cet article</h2>
-			{data.games.map((slug: string) => (
-				<Game slug={slug} />
+			{gamesData.map((data) => (
+				<Game data={data} />
 			))}
 			{data.books.map((id: string) =>
 				id.startsWith("OL") ? <Book olid={id} /> : <Book isbn={id} />
