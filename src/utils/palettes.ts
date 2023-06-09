@@ -14,6 +14,7 @@ export type Palette = {
 
 export enum Palettes {
 	default = "default",
+	air = "air",
 	tufte = "tufte",
 	black = "black",
 	white = "white",
@@ -26,6 +27,7 @@ export enum Palettes {
 	sourceSerif = "source-serif",
 	snow = "snow",
 	notebook = "notebook",
+	"green-notes" = "green-notes",
 	whiteboard = "whiteboard",
 	desolate = "desolate",
 }
@@ -41,6 +43,17 @@ export default function getPalette(name: Palettes | undefined): Palette {
 				headingsFont: "serif",
 				mainFont: "serif",
 				specialFont: "monospace",
+			}
+		case "air":
+			return {
+				mainColor: "#000000",
+				secondaryColor: "#636363",
+				specialColor: "#515bcd",
+				backgroundColor: "#fafafc",
+				headingsFont: "'Work Sans', sans-serif",
+				mainFont: "'Work Sans', sans-serif",
+				specialFont: "'Work Sans', monospace",
+				lineHeight: "1.5",
 			}
 		case "black":
 			return {
@@ -137,7 +150,7 @@ export default function getPalette(name: Palettes | undefined): Palette {
 				mainFont: "Lora, serif",
 				specialFont: "monospace",
 				fontSize: "18px",
-				lineHeight: "1.275",
+				lineHeight: "1.325",
 			}
 		case "source-serif":
 			return {
@@ -178,6 +191,18 @@ export default function getPalette(name: Palettes | undefined): Palette {
 				specialFont: "'Work Sans', monospace",
 				fontSize: "18px",
 				lineHeight: "1.5",
+			}
+		case "green-notes":
+			return {
+				mainColor: "#F4F1DE",
+				secondaryColor: "#C6D499", // "#97B754",
+				specialColor: "#C6D499",
+				backgroundColor: "#516174", // "#3D405B", // #65818C couleur entre les deux,
+				headingsFont: "'Work Sans', sans-serif",
+				mainFont: "'Lato', sans-serif",
+				specialFont: "'Lato', monospace",
+				fontSize: "17px",
+				lineHeight: "1.6",
 			}
 		case "whiteboard":
 			return {

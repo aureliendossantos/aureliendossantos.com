@@ -23,7 +23,7 @@ iframe {
 	}
 
 	:not(pre) > code {
-		@apply my-[-0.1em] rounded-md bg-[#efefef] py-[0.1em] px-[0.3em];
+		@apply my-[-0.1em] rounded-md bg-[#efefef] px-[0.3em] py-[0.1em];
 	}
 
 	aside {
@@ -90,7 +90,7 @@ iframe {
 			@apply left-1/2 ml-[-50vw] w-screen;
 
 			figcaption {
-				@apply mr-[.5em] ml-auto;
+				@apply ml-auto mr-[.5em];
 			}
 		}
 
@@ -113,8 +113,9 @@ iframe {
 }
 
 .cute {
-	img {
-		@apply rounded;
+	img,
+	figure {
+		@apply overflow-hidden rounded;
 	}
 	figure figcaption {
 		margin-left: 0;
@@ -288,7 +289,7 @@ iframe {
 		font-size: 1.1em;
 	}
 	aside {
-		@apply mx-0 my-10 bg-inherit py-0 px-8 medium:px-4;
+		@apply mx-0 my-10 bg-inherit px-8 py-0 medium:px-4;
 		font-size: 1rem;
 		h3 {
 			font-feature-settings: "smcp";
