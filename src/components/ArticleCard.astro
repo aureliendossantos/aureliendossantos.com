@@ -23,20 +23,21 @@ const mini = (data.categories.includes("Micro-blog") || data.categories.includes
 
 <!-- <a> color style is used for box-shadow color in dark mode -->
 <a
-	class="grid w-full grid-cols-3 items-center xl:flex xl:grid-cols-none xl:flex-col"
+	class="grid w-full grid-cols-3 items-center xl:grid-cols-2 mediumlarge:flex mediumlarge:grid-cols-none mediumlarge:flex-col"
 	style={{ backgroundColor: palette.backgroundColor, color: palette.backgroundColor }}
 	href={"/blog/" + article.slug}
 >
-	<div class:list={["h-full w-full", { "small:px-4 small:pt-4": image }]}>
-		<div
-			class:list={["h-full w-full", { "xl:h-44 xl:max-w-md xl:m-auto": image }]}
-			style={{
-				backgroundImage: image ? `url('${image.src}')` : "unset",
-				backgroundSize: "cover",
-				backgroundPosition: data.imageAnchorTop ? "top" : "center",
-			}}
-		>
-		</div>
+	<div
+		class:list={[
+			"h-full w-full",
+			{ "mediumlarge:h-44 mediumlarge:max-w-md mediumlarge:m-auto": image },
+		]}
+		style={{
+			backgroundImage: image ? `url('${image.src}')` : "unset",
+			backgroundSize: "cover",
+			backgroundPosition: data.imageAnchorTop ? "top" : "center",
+		}}
+	>
 	</div>
 	<div class="flex justify-center">
 		<div
