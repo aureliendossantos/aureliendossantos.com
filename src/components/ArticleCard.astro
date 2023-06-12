@@ -42,8 +42,8 @@ const mini = (data.categories.includes("Micro-blog") || data.categories.includes
 	<div class="flex justify-center">
 		<div
 			class:list={[
-				"ml-8 mr-16 flex min-w-[20rem] max-w-xs flex-col 2xl:ml-7 2xl:mr-14 2xl:min-w-[17.5rem] 2xl:max-w-[17.5rem] small:min-w-[20rem] small:max-w-xs small:mx-0",
-				{ "my-16 3xl:my-12": !mini, "my-12 3xl:mb-6 3xl:mt-8": mini, "xl:mt-11": image },
+				"ml-8 mr-16 flex min-w-[20rem] max-w-xs flex-col 2xl:ml-7 2xl:mr-14 2xl:min-w-[17.5rem] 2xl:max-w-[17.5rem] small:min-w-[20rem] small:max-w-[20rem] small:mx-0",
+				{ "my-14 2xl:my-12": !mini, "mb-6 mt-8": mini, "xl:mt-11": image },
 			]}
 			style={{ color: palette.mainColor }}
 		>
@@ -87,7 +87,7 @@ const mini = (data.categories.includes("Micro-blog") || data.categories.includes
 		data.description && (
 			<div class="flex justify-center xl:hidden">
 				<p
-					class="my-12 ml-8 mr-16 min-w-[20rem] max-w-xs 2xl:min-w-[17.5rem] 2xl:max-w-[17.5rem] 2xl:text-sm"
+					class="my-14 ml-8 mr-16 min-w-[20rem] max-w-[20rem] 2xl:my-12 2xl:min-w-[17.5rem] 2xl:max-w-[17.5rem] 2xl:text-sm"
 					style={{ color: palette.mainColor, fontFamily: palette.mainFont }}
 				>
 					{data.description} →
