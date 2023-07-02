@@ -7,11 +7,6 @@ layouts:
   - typography
 ---
 
-<aside>
-	Cette page est en cours de rédaction. Certaines sections peuvent être vides ou non terminées. Pour
-	obtenir plus de précisions sur un point abordé ici, [contactez-moi](/about).
-</aside>
-
 ## Technologies utilisées
 
 ### Astro
@@ -94,11 +89,29 @@ Voici une liste non exhaustive des palettes existantes :
 
 En explorant l'accueil du blog ([`/blog`](/blog)), vous aurez un bon aperçu de la variété des palettes et de leurs effets.
 
+## Images
+
+### Optimisation
+
+Ce site utilise [l'optimisation des images d'Astro](https://docs.astro.build/guides/assets/). Dans le dépôt, les images ne sont pas traitées et sont conservées dans leur format d'origine, mais lors du _build_, elles sont redimensionnées et converties au format WebP. Certains sites vont plus loin en proposant également le format <abbr>AVIF</abbr>, plus moderne, mais je n'ai pas trouvé de réglage offrant un compromis satisfaisant entre le poids et la qualité.
+
+### Images de substitution
+
+J'ai repris la technique développée par mon amie Erika pour son [site personnel](https://erika.florist/) et consistant à créer, pour chaque image, une image de substition (ou _placeholder_) à la résolution très faible afin de l'encoder dans la page <abbr>HTML</abbr>, plus précisément dans le `background` de `<img>`. Ainsi, avant que la véritable image ne soit chargée, le navigateur affiche un dégradé abstrait, bien plus esthétique qu'un simple fond blanc.
+
+Erika a ajusté les paramètres de l'image de substition (flou ; luminosité ; contraste) pour qu'elle évoque au mieux la véritable image et que la transition entre les deux soit plus douce. J'ai légèrement modifié ces valeurs pour correspondre à mes besoins, mais le reste du code est inchangé.
+
+### Lightbox
+
+J'utilise la librairie [Medium Zoom](https://medium-zoom.francoischalifour.com/) pour permettre d'agrandir les images au clic. La _lightbox_ utilise la couleur de fond de la palette pour une expérience plus immersive.
+
 ## Blocs et mentions
 
 ### Galeries
 
-Exemple : <BlogRef slug="2021/destiny-introduction-analyse" titleOnly />
+Une galerie est une succession d'images sur la même ligne dans une _flexbox_. Actuellement, chaque élément de la _flexbox_ fait la même taille, ce qui signifie que les images doivent toutes faire la même taille pour éviter les espaces vides. Une astuce pour redimensionner les éléments de la _flexbox_ dynamiquement serait bienvenue !
+
+<sc>Exemple</sc> : <BlogRef slug="2021/destiny-introduction-analyse" titleOnly />
 
 ### Sommaire
 
@@ -106,7 +119,9 @@ Le sommaire, dont vous pouvez voir un exemple en haut de cette page, peut avoir 
 
 ### Onglets
 
-Exemple : <BlogRef slug="2021/creer-un-site-avec-hugo" titleOnly />
+Les onglets permettent de choisir parmi plusieurs alternatives de contenu. Ils sont particulièrement utile dans les tutoriels, pour séparer le contenu en fonction du système d'exploitation.
+
+<sc>Exemple</sc> : <BlogRef slug="2021/creer-un-site-avec-hugo" titleOnly />
 
 ### Google Maps
 
@@ -134,31 +149,32 @@ L'[Internet Game Database](https://www.igdb.com/) (<abbr>IGDB</abbr>) est une so
 
 Le bloc est utilisé dans <BlogRef slug="2022/remnant-from-the-ashes" titleOnly /> et <BlogRef slug="2020/the-last-of-us" titleOnly />.
 
+### TMDB
+
+[The Movie Database](https://www.themoviedb.org) (<abbr>TMDB</abbr>) est une alternative gratuite à [<abbr>IMDB</abbr>](https://www.imdb.com/) et son <abbr>API</abbr> payante. C'est un service utilisé par de nombreux sites dont [Letterboxd](https://letterboxd.com/). Il est presque toujours possible d'obtenir un trailer et le casting, mais les images ont tendance à manquer sur les films peu populaires.
+
 ### OpenGraph
 
-Exemple :
+Ce bloc récupère les données OpenGraph de n'importe quelle URL. Par exemple, le site `ogp.me` s'affiche ainsi :
 
 <OpenGraph url="http://ogp.me/" />
 
 ### Références bibliographiques
 
-Exemples dans les notes de bas de page de <BlogRef slug="2023/small-caps" titleOnly/>
+Le bloc de référence permet d'indiquer le titre, l'auteur et d'autres données d'une référence pour l'afficher dans un format standardisé à travers tout le site. Plusieurs règles sont prises en compte. Par exemple, le titre d'un article est entouré de guillemets, mais pas le titre d'un livre, qui sera plutôt en italique.
+
+Il est important que le site reste entièrement utilisable au fil des années, ce qui veut dire que les références doivent rester consultables ! Ce bloc m'aide à m'en assurer, puisque lorsque j'oublie de fournir un lien d'archive, un rappel est affiché dans la console.
+
+Vous trouverez plusieurs utilisations du bloc dans les notes de base de page de <BlogRef slug="2023/small-caps" titleOnly/>.
 
 ### Mentions d'article
 
-Ceci est une mention d'article : <BlogRef slug="2023/historique-rpg-maker" titleOnly/>
+Ces mentions utilisent les couleurs et la police de la palette de l'article. Les mentions peuvent être une référence complète (<BlogRef slug="2023/historique-rpg-maker"/>) ou indiquer seulement le titre (<BlogRef slug="2023/historique-rpg-maker" titleOnly/>).
 
-## Optimisations
+## Autres fonctionnalités
 
-### Optimisation des images
-
-https://docs.astro.build/fr/guides/assets/
-
-### Images de substitution
-
-J'ai repris la technique développée par mon amie Erika pour son [site personnel](https://erika.florist/) et consistant à créer, pour chaque image, une image de substition à la résolution très faible afin de l'encoder dans la page <abbr>HTML</abbr>, plus précisément dans le `background` de `<img>`. Ainsi, avant que la véritable image ne soit chargée, le navigateur affiche un dégradé abstrait, bien plus esthétique qu'un simple fond blanc.
-
-Erika a ajusté les paramètres de l'image de substition (flou ; luminosité ; contraste) pour qu'elle évoque au mieux la véritable image et que la transition entre les deux soit plus douce. J'ai légèrement modifié ces valeurs pour correspondre à mes besoins, mais le reste du code est inchangé.
+- L'interface de navigation du blog ([`/categories`](/categories), [`/tags`](/tags), etc.) s'adapte au mode clair ou sombre de l'appareil du visiteur. En mode sombre, la liste des articles est enveloppée d'une lueur afin de préparer le visiteur qui pourrait être ébloui en cliquant sur un article dont la palette est claire.
+- Les pages de jeu, accessibles depuis `/games`, contiennent une porte dérobée. Un double-clic sur le titre renvoie vers la page Notion qui sert à en générer le contenu.
 
 ## Ce que ce site ne contient pas
 
@@ -184,9 +200,9 @@ Lorsque j'aurai suffisamment de contenu pour le justifier, je réfléchirai à u
     clair.
 - **Emplacement du sommaire** : Ajouter la possibilité de l'inclure à un endroit précis du document Markdown.
 - **Date de modification** des articles et des pages. Elle pourrait être récupéré de l'<abbr>API</abbr> de GitHub afin d'éviter de la mettre à jour manuellement. Le but n'est pas que cette date soit exacte, mais de représenter l'idée que les pages peuvent toujours être affinées au fil du temps, malgré qu'elles soient inscrites dans une époque dans le cas du blog.
-- **Ajouter une galerie des films** que j'ai mentionnés sur ce site ou aimés. C'est un problème épineux ! [Letterboxd](https://letterboxd.com/) a refusé ma demande d'accès à l'<abbr>API</abbr> ; <abbr>[IMDB](https://www.imdb.com/)</abbr> semble payant ou difficile à utiliser ; <abbr>[TMDB](https://www.themoviedb.org/)</abbr> semble être l'option de choix, utilisé par de nombreux services dont Letterboxd.
-- **Ajouter un bloc pour les films.**
+- **Ajouter une galerie des films** que j'ai mentionnés sur ce site ou aimés. C'est un problème épineux, car [Letterboxd](https://letterboxd.com/) a refusé ma demande d'accès à l'<abbr>API</abbr>.
 - **Ajouter un bloc GitHub** pour mentionner un dépôt ou un utilisateur.
+- **Ajouter l'historique git** sur la page [`/changelog`](/changelog).
 - **Accès rapide à la page source** : J'aimerais parfois modifier rapidement une page sur mon téléphone, et le meilleur moyen pour cela serait d'avoir un accès direct au fichier Markdown sur GitHub depuis la page en question. Gwern utilise une [méthode](https://gwern.net/about#source) discrète et ingénieuse : en ajoutant `.page` à une <abbr>URL</abbr>, on peut consulter le fichier source d'une page écrite en Markdown. Cela ne me convient pas car ce n'est pas très pratique sur mobile. Je pense plutôt ajouter des double-clics sur certains éléments.
 
 ---
