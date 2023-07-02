@@ -21,9 +21,7 @@ const width = Math.min(resolvedSrc.width, 1920)
 			</MarginNote>
 		)
 	}
-	<a href={resolvedSrc.src}>
-		<Image src={resolvedSrc} width={width} alt={alt || ""} />
-	</a>
+	<Image src={resolvedSrc} width={width} alt={alt || ""} />
 </figure>
 {
 	Astro.slots.has("default") && full && (

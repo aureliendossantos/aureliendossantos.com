@@ -40,8 +40,11 @@ const placeholderURL = await imageService.generatePlaceholder(src.src, src.width
 	<img
 		src={webp.src}
 		style={`background-size: cover;background-image: url(${placeholderURL});image-rendering:auto;`}
-		onload="this.removeAttribute('style');"
+		onload="
+		this.style.backgroundImage = 'none';
+		"
 		alt={alt}
+		data-zoomable
 		{...webp.attributes}
 	/>
 </picture>

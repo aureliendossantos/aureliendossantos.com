@@ -14,6 +14,7 @@ export interface Props {
 
 const { article } = Astro.props
 const data = article.data
+const palette = getPalette(data.palette)
 const ogImage = data.opengraph || data.image
 const html = (await Astro.slots.render("default")).replaceAll(
 	"<section-switch></section-switch>",
@@ -27,6 +28,7 @@ const html = (await Astro.slots.render("default")).replaceAll(
 	description={data.description}
 	date={data.date}
 	image={ogImage?.src}
+	bg={palette.backgroundColor}
 	layout={data.layouts}
 >
 	<article>

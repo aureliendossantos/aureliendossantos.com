@@ -18,17 +18,13 @@ const width = Math.min(resolvedSrc.width, 800)
 	paragraph ? (
 		<p>
 			<MarginNote>
-				<a href={resolvedSrc.src} class="marginimage">
-					<Image src={resolvedSrc} width={width} alt={alt || ""} {...attributes} />
-				</a>
+				<Image src={resolvedSrc} width={width} alt={alt || ""} {...attributes} />
 				<slot>{caption}</slot>
 			</MarginNote>
 		</p>
 	) : (
 		<MarginNote>
-			<a href={resolvedSrc.src} class="marginimage">
-				<Image src={resolvedSrc} width={width} alt={alt || ""} {...attributes} />
-			</a>
+			<Image src={resolvedSrc} width={width} alt={alt || ""} {...attributes} />
 			<slot>{caption}</slot>
 		</MarginNote>
 	)
