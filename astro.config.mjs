@@ -14,7 +14,7 @@ export default defineConfig({
 	site: "https://aureliendossantos.com",
 	integrations: [
 		tailwind({
-			config: { applyBaseStyles: false },
+			applyBaseStyles: false,
 		}),
 		AutoImport({
 			imports: [
