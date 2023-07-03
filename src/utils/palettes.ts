@@ -1,6 +1,8 @@
 export type Palette = {
 	mainColor: string
 	secondaryColor: string
+	popupColor?: string
+	popupActiveColor?: string
 	specialColor: string
 	backgroundColor: string
 	mentionColor?: string
@@ -38,6 +40,8 @@ export default function getPalette(name: Palettes | undefined): Palette {
 			return {
 				mainColor: "#000000",
 				secondaryColor: "#636363",
+				popupColor: "#636363",
+				popupActiveColor: "#b1b1b1",
 				specialColor: "#515bcd",
 				backgroundColor: "#f5f5fa",
 				headingsFont: "serif",
@@ -70,6 +74,8 @@ export default function getPalette(name: Palettes | undefined): Palette {
 				mainColor: "#000000",
 				secondaryColor: "#8a8a94",
 				specialColor: "#6d75d3",
+				popupColor: "#6d75d3",
+				popupActiveColor: "#9ba0de",
 				backgroundColor: "#ffffff",
 				headingsFont: "sans-serif",
 				mainFont: "serif",
@@ -101,6 +107,8 @@ export default function getPalette(name: Palettes | undefined): Palette {
 			return {
 				mainColor: "#e6e6e7",
 				secondaryColor: "#8c7569",
+				popupColor: "#8c7569",
+				popupActiveColor: "#8c7569",
 				specialColor: "#939293",
 				backgroundColor: "#584a44",
 				headingsFont: "sans-serif",
@@ -156,6 +164,8 @@ export default function getPalette(name: Palettes | undefined): Palette {
 			return {
 				mainColor: "#000000",
 				secondaryColor: "#8a8a94",
+				popupColor: "#d4d4d8",
+				popupActiveColor: "#e4e4e7",
 				specialColor: "#91d36d",
 				backgroundColor: "#ffffff",
 				mentionColor: "#ebfcde",
@@ -185,6 +195,8 @@ export default function getPalette(name: Palettes | undefined): Palette {
 				mainColor: "#404040",
 				secondaryColor: "#686868",
 				specialColor: "#c45c7f",
+				popupColor: "#a1a1aa",
+				popupActiveColor: "#d4d4d8",
 				backgroundColor: "#f0efdd",
 				headingsFont: "'Work Sans', sans-serif",
 				mainFont: "'Work Sans', 'Noto Sans', sans-serif",
@@ -197,6 +209,8 @@ export default function getPalette(name: Palettes | undefined): Palette {
 				mainColor: "#F4F1DE",
 				secondaryColor: "#C6D499", // "#97B754",
 				specialColor: "#C6D499",
+				popupColor: "#65818C",
+				popupActiveColor: "#65818C",
 				backgroundColor: "#516174", // "#3D405B", // #65818C couleur entre les deux,
 				headingsFont: "'Work Sans', sans-serif",
 				mainFont: "'Lato', sans-serif",

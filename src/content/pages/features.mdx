@@ -174,7 +174,7 @@ Ces mentions utilisent les couleurs et la police de la palette de l'article. Les
 ## Autres fonctionnalités
 
 - L'interface de navigation du blog ([`/categories`](/categories), [`/tags`](/tags), etc.) s'adapte au mode clair ou sombre de l'appareil du visiteur. En mode sombre, la liste des articles est enveloppée d'une lueur afin de préparer le visiteur qui pourrait être ébloui en cliquant sur un article dont la palette est claire.
-- Les pages de jeu, accessibles depuis `/games`, contiennent une porte dérobée. Un double-clic sur le titre renvoie vers la page Notion qui sert à en générer le contenu.
+- Les pages de jeu, accessibles depuis [`/games`](/games), contiennent une porte dérobée. Un double-clic sur le titre renvoie vers la page Notion qui sert à en générer le contenu. Je m'inspire de Gwern qui rend la source accessible [en ajoutant `.page` à une <abbr>URL</abbr>](https://gwern.net/about#source), mais ma variante est plus pratique sur mobile.
 
 ## Ce que ce site ne contient pas
 
@@ -203,7 +203,7 @@ Lorsque j'aurai suffisamment de contenu pour le justifier, je réfléchirai à u
 - **Ajouter une galerie des films** que j'ai mentionnés sur ce site ou aimés. C'est un problème épineux, car [Letterboxd](https://letterboxd.com/) a refusé ma demande d'accès à l'<abbr>API</abbr>.
 - **Ajouter un bloc GitHub** pour mentionner un dépôt ou un utilisateur.
 - **Ajouter l'historique git** sur la page [`/changelog`](/changelog).
-- **Accès rapide à la page source** : J'aimerais parfois modifier rapidement une page sur mon téléphone, et le meilleur moyen pour cela serait d'avoir un accès direct au fichier Markdown sur GitHub depuis la page en question. Gwern utilise une [méthode](https://gwern.net/about#source) discrète et ingénieuse : en ajoutant `.page` à une <abbr>URL</abbr>, on peut consulter le fichier source d'une page écrite en Markdown. Cela ne me convient pas car ce n'est pas très pratique sur mobile. Je pense plutôt ajouter des double-clics sur certains éléments.
+- **Écrire un plugin Remark** pour ajouter automatiquement les espaces insécables autour des guillemets, tirets, etc.
 
 ---
 

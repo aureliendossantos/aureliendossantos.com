@@ -5,38 +5,60 @@ import getIGDBgames, { IGDBData } from "$utils/getIGDBgame"
 interface Props {
 	slug?: string
 	data?: IGDBData
+	popup?: boolean
 }
-const { slug, data } = Astro.props
+const { slug, data, popup } = Astro.props
 
 if (!slug && !data) {
 	throw new Error("You must provide a slug or data for the Game component.")
 }
 const game = data || (await getIGDBgames([slug]))[0]
-const officialWebsites = game.websites.filter((w: any) => w.category == 1)
+
+const infos = []
+if (game.involved_companies) {
+	const developers = game.involved_companies.filter((i: any) => i.developer)
+	if (developers.length > 0) {
+		infos.push("Développé par " + developers.map((i: any) => i.company.name).join(", "))
+	}
+	const publishers = game.involved_companies.filter((i: any) => i.publisher)
+	if (publishers.length > 0) {
+		infos.push("Édité par " + publishers.map((i: any) => i.company.name).join(", "))
+	}
+}
+if (game.platforms) {
+	infos.push("Disponible sur " + game.platforms.map((p: any) => p.abbreviation).join(", "))
+}
+
+const officialWebsites = game.websites?.filter((w: any) => w.category == 1)
 const links: [string, string][] =
-	officialWebsites.length > 0
+	officialWebsites?.length > 0
 		? [
 				[officialWebsites[0].url, officialWebsites[0].url],
 				["IGDB", game.url],
 		  ]
 		: [["IGDB", game.url]]
+const images =
+	game.screenshots && game.screenshots.slice(0, 3).map((screenshot: any) => screenshot.image_id)
 ---
 
 <RefBlock
-	img={`https://images.igdb.com/igdb/image/upload/t_cover_small_2x/${game.cover.image_id}.jpg`}
-	title={`${game.name} (${game.release_dates[0].y})`}
-	infos={[
-		"Développé par " +
-			game.involved_companies
-				.filter((i: any) => i.developer)
-				.map((i: any) => i.company.name)
-				.join(", "),
-		"Édité par " +
-			game.involved_companies
-				.filter((i: any) => i.publisher)
-				.map((i: any) => i.company.name)
-				.join(", "),
-		"Disponible sur " + game.platforms.map((p: any) => p.abbreviation).join(", "),
-	]}
+	img={`https://images.igdb.com/igdb/image/upload/t_cover_big/${game.cover.image_id}.jpg`}
+	imgHiRes={`https://images.igdb.com/igdb/image/upload/t_cover_big_2x/${game.cover.image_id}.jpg`}
+	title={`${game.name}${game.release_dates ? ` (${game.release_dates[0].y})` : ""}`}
+	infos={infos}
 	links={links}
+	popup={popup}
+	posterRatio={popup ? "game" : undefined}
+	big={popup}
+	gallery={popup
+		? images.map(
+				(imageId) =>
+					`https://images.igdb.com/igdb/image/upload/t_screenshot_med/${imageId}.jpg`
+		  )
+		: undefined}
+	galleryHiRes={popup
+		? images.map(
+				(imageId) => `https://images.igdb.com/igdb/image/upload/t_1080p/${imageId}.jpg`
+		  )
+		: undefined}
 />

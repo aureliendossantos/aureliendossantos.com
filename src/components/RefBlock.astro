@@ -1,96 +1,154 @@
 ---
+import OptionalLink from "./OptionalLink.astro"
 interface Props {
 	img?: string
+	imgHiRes?: string
 	icon?: string
 	title: string
 	infos: string[]
 	links: [string, string | false][]
+	imgOnly?: boolean
+	popup?: boolean
+	posterRatio?: "movie" | "game"
 	big?: boolean
 	gallery?: string[]
+	galleryHiRes?: string[]
 }
-const { img, icon, title, infos, links, big, gallery } = Astro.props
+const {
+	img,
+	imgHiRes,
+	icon,
+	title,
+	infos,
+	links,
+	imgOnly,
+	popup,
+	posterRatio,
+	big,
+	gallery,
+	galleryHiRes,
+} = Astro.props
 ---
 
+{/* Conteneur */}
 <div
 	class:list={[
-		"ref-block my-[1em]",
+		"ref-block",
+		{ "mb-[1em]": !popup },
 		{ "flex flex-row gap-2": !big },
+		{ "flex flex-row place-content-between max-h-[240px]": posterRatio },
 		{
-			"grid grid-cols-5 small:grid-cols-1 small:grid-rows-1 overflow-hidden rounded-md bg-white shadow transition-shadow hover:shadow-md":
-				big,
+			"grid grid-cols-5 small:grid-cols-1 small:grid-rows-1 shadow transition-shadow hover:shadow-md":
+				big && !posterRatio,
 		},
+		{ "overflow-hidden rounded-md": big },
+		{ "bg-white": big && !popup },
 	]}
 >
+	{/* Image principale */}
 	{
-		big ? (
+		big && !posterRatio ? (
 			<a
 				href={links[links.length - 1][1]}
-				class="order-2 col-span-3 min-h-[140px] bg-cover bg-center mediumlarge:col-span-2 medium:col-span-1 small:order-1"
+				class="order-2 min-h-[140px] bg-cover bg-center mediumlarge:col-span-2 medium:col-span-1 small:order-1"
 				style={`background-image: url('${img}');`}
 			/>
 		) : (
 			img && (
-				<div class="min-w-[4em] max-w-[4em]">
-					<img src={img} />
+				<div
+					class:list={[
+						{
+							"min-w-[4em] max-w-[4em]": !posterRatio,
+							"order-3 min-w-[160px] max-w-[160px] min-h-[240px] max-h-[240px]":
+								posterRatio == "movie",
+							"order-3 min-w-[180px] max-w-[180px] min-h-[240px] max-h-[240px]":
+								posterRatio == "game",
+						},
+					]}
+				>
+					<img
+						src={img}
+						style={posterRatio ? "border-radius:0;" : ""}
+						data-zoomable
+						data-zoom-src={imgHiRes}
+					/>
 				</div>
 			)
 		)
 	}
-
-	<div
-		class:list={{
-			"grow pr-2 pb-1": !big,
-			"order-1 small:order-2 col-span-2 py-4 px-4 flex flex-col mediumlarge:col-span-3 medium:col-span-4":
-				big,
-		}}
-	>
-		<a href={links[links.length - 1][1]} style="text-decoration-line: none">
-			<h3 class="text-normal-size mb-[0.1em] mt-0 leading-snug text-inherit">
-				{icon && <img src={icon} class="mr-[0.2em] max-h-[0.8em]" />}{title}
-			</h3>
-		</a>
-		<ul class="my-0 list-none pl-0" style={big ? "font-size: smaller;" : ""}>
-			{infos.map((item) => <li>{item}</li>)}
-		</ul>
-		{big && <div class="grow" />}
-		<ul
-			class:list={[
-				"special-color my-0 flex list-none pl-0 font-mono",
-				{ "gap-2": !big, "flex-col": big },
-			]}
-			style={big ? "font-size: smaller;" : ""}
-		>
-			{
-				links.map((item) => (
-					<li>
-						{item[1] ? (
-							<a href={item[1]}>
-								{item[0]
-									.replace("http://", "")
-									.replace("https://", "")
-									.replace("www.", "")
-									// only keep domain name
-									.replace(/\/.*/, "")}
-							</a>
-						) : (
-							item[0]
-						)}
-					</li>
-				))
-			}
-		</ul>
-		{
-			gallery && (
-				<div class="-mx-2 -mb-2 mt-2 grid h-20 grid-cols-3 gap-1">
-					{gallery.map((photo) => (
-						<a
-							href=""
-							class="rounded bg-cover bg-center"
-							style={`background-image: url('${photo}');`}
-						/>
+	{/* Infos */}
+	{
+		!imgOnly && (
+			<div
+				class:list={{
+					grow: !big,
+					"order-1 small:order-2 py-4 px-4 flex flex-col overflow-auto": big,
+					"col-span-2 mediumlarge:col-span-3 medium:col-span-4": big && !posterRatio,
+					"col-span-2": big && posterRatio,
+				}}
+			>
+				<OptionalLink
+					href={!popup && links[links.length - 1][1]}
+					style="text-decoration-line: none"
+				>
+					<h3 class="text-normal-size mb-[0.1em] mt-0 leading-snug text-inherit">
+						{icon && <img src={icon} class="mr-[0.2em] max-h-[0.8em]" />}
+						{title}
+					</h3>
+				</OptionalLink>
+				<ul class="my-0 list-none pl-0" style={big ? "font-size: smaller;" : ""}>
+					{infos.map((item) => (
+						<li>{item}</li>
 					))}
-				</div>
-			)
-		}
-	</div>
+				</ul>
+				{big && <div class="grow" />}
+				<ul
+					class:list={[
+						"special-color my-0 flex list-none pl-0 font-mono",
+						{ "gap-2": !big, "flex-col": big },
+					]}
+					style={big ? "font-size: smaller;" : ""}
+				>
+					{links.map((item) => (
+						<li>
+							{item[1] ? (
+								<a href={item[1]}>
+									{item[0]
+										.replace("http://", "")
+										.replace("https://", "")
+										.replace("www.", "")
+										// only keep domain name
+										.replace(/\/.*/, "")}
+								</a>
+							) : (
+								item[0]
+							)}
+						</li>
+					))}
+				</ul>
+				{/* Galerie */}
+				{gallery && gallery.length > 0 && (
+					<div
+						class:list={[
+							"-mx-2 -mb-2 mt-2 grid gap-1",
+							{
+								"h-20": !posterRatio,
+								"grid-cols-2": gallery.length % 2 == 0 || gallery.length == 1,
+								"grid-cols-3": gallery.length % 2 != 0 && gallery.length > 1,
+							},
+						]}
+					>
+						{gallery.map((url, index) => (
+							<img
+								data-zoomable
+								data-zoom-src={galleryHiRes && galleryHiRes[index]}
+								src={url}
+								class="rounded object-cover"
+							/>
+						))}
+					</div>
+				)}
+			</div>
+		)
+	}
 </div>

@@ -59,6 +59,17 @@ body.tufte {
 		line-height: 1;
 	}
 
+	.popup {
+		li {
+			line-height: 1.5;
+		}
+		h3 {
+			font-size: 1.4rem;
+			margin-top: 0;
+			margin-bottom: 0.5rem;
+		}
+	}
+
 	hr {
 		display: block;
 		height: 1px;
@@ -201,6 +212,10 @@ body.tufte {
 	a:link,
 	a:visited {
 		color: inherit;
+	}
+
+	a.popup-link {
+		@apply decoration-dotted;
 	}
 
 	.no-tufte-underline:link {

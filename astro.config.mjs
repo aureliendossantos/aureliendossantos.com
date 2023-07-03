@@ -32,9 +32,11 @@ export default defineConfig({
 				"$components/mdx/Game.astro",
 				"$components/mdx/GoogleMaps.astro",
 				"$components/mdx/MapsMention.astro",
+				"$components/mdx/Movie.astro",
 				"$components/mdx/Note.astro",
 				"$components/mdx/OpenGraph.astro",
 				"$components/mdx/PhotoGallery.astro",
+				"$components/mdx/Popup.astro",
 				"$components/mdx/Ref.astro",
 				"$components/mdx/Video.astro",
 				// Tabs is not imported by default because it loads a CSS file

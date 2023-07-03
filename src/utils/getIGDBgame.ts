@@ -22,7 +22,9 @@ export type IGDBData = {
 }
 
 export default async function getIGDBgames(slugs: string[]) {
-	console.log(`Getting IGDB data for ${slugs.length} games...`)
+	//console.log("wait")
+	//await new Promise((resolve) => setTimeout(resolve, Math.random() * 4000))
+	console.log(`Getting IGDB data for ${slugs.length == 1 ? slugs[0] : `${slugs.length} games`}...`)
 	const authentication = await fetch(
 		`https://id.twitch.tv/oauth2/token?client_id=${import.meta.env.TWITCH_ID}&client_secret=${
 			import.meta.env.TWITCH_SECRET
@@ -52,6 +54,11 @@ export default async function getIGDBgames(slugs: string[]) {
 				.join()}); limit 500;`
 		)
 	).then((response) => response.json())
+
+	if (!games || !games[0].name) {
+		throw new Error(`Game not found: ${slugs[0]}: ${JSON.stringify(games)}`)
+	}
+
 	games.forEach((game) => {
 		game.developers = enumerate(
 			game.involved_companies.filter((i) => i.developer).map((i) => i.company.name)
@@ -60,6 +67,6 @@ export default async function getIGDBgames(slugs: string[]) {
 			game.involved_companies.filter((i) => i.publisher).map((i) => i.company.name)
 		)
 	})
-	console.log(`Loaded ${games.length} games`)
+	console.log(`Loaded ${slugs.length == 1 ? slugs[0] : `${slugs.length} games`}`)
 	return games
 }

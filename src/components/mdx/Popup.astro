@@ -1,0 +1,98 @@
+---
+import crypto from "node:crypto"
+import Movie from "./Movie.astro"
+import Game from "./Game.astro"
+
+interface Props {
+    movie?: string
+    game?: string
+}
+const { movie, game } = Astro.props
+
+const uid = crypto.randomUUID()
+---
+
+<span id={`span-${uid}`} class="relative inline"
+    ><a
+        id={`text-${uid}`}
+        class="popup-link unstyled cursor-context-menu underline decoration-[--popup] decoration-1 underline-offset-3 active:!bg-[--popup]"
+        ><slot /></a
+    ></span
+>
+
+<template id={`template-${uid}`}>
+    <div
+        class="popup h-[240px] rounded-md border-2 border-solid border-[--popup] bg-[--bg] indent-0"
+    >
+        {movie && <Movie id={movie} popup />}
+        {game && <Game slug={game} popup />}
+    </div>
+</template>
+
+<script define:vars={{ uid }}>
+var popupZIndex = 10
+document.addEventListener("DOMContentLoaded", function () {
+    const template = document.getElementById(`template-${uid}`)
+    const templateClone = template.content.firstElementChild.cloneNode(true)
+
+    // Get references to the text and popup elements
+    var span = document.getElementById(`span-${uid}`)
+    var text = document.getElementById(`text-${uid}`)
+    var popup = span.appendChild(templateClone)
+
+    var opened = false
+
+    text.addEventListener("click", function () {
+        // Get the position and dimensions of the text element
+        var textRect = text.getBoundingClientRect()
+
+        // popup.style.top = (textRect.top - popup.offsetHeight) + "px"
+        // popup.style.width = article[0].offsetWidth + "px"
+        // here -4 is the borders width
+        popup.style.width = Math.min(460, document.documentElement.clientWidth - 20 - 4) + "px"
+        // popup.style.left = "0px"
+        popup.style.left = textRect.width / 2 + "px"
+        // popup.style.left = window.innerWidth / 2 - popup.offsetWidth / 2 + "px"
+        opened ? (popup.style.display = "none") : (popup.style.display = "block")
+        opened
+            ? text.classList.remove("bg-[--popup-active]")
+            : text.classList.add("bg-[--popup-active]")
+        opened ? text.classList.remove("cursor-pointer") : text.classList.add("cursor-pointer")
+        if (!opened) {
+            popupZIndex = Math.min(popupZIndex + 1, 99)
+            popup.style.zIndex = popupZIndex
+            console.log(popupZIndex)
+        }
+        opened = !opened
+
+        popup.style.removeProperty("top")
+        var popupRect = popup.getBoundingClientRect()
+        console.log(popupRect.top)
+        console.log(window.scrollY)
+        if (popupRect.top < -window.scrollY) {
+            popup.style.top = "20px"
+        }
+        if (popupRect.right > document.documentElement.clientWidth) {
+            popup.style.left = "0px"
+            popupRect = popup.getBoundingClientRect()
+            popup.style.left =
+                document.documentElement.clientWidth - popupRect.right - 10 + "px"
+        } else if (popupRect.left < 0) {
+            popup.style.left = "0px"
+            popupRect = popup.getBoundingClientRect()
+            popup.style.left = -popupRect.left + 10 + "px"
+        }
+        window.myMediumZoom.attach(document.querySelectorAll("[data-zoomable]"))
+    })
+})
+</script>
+
+<style>
+    .popup {
+        display: none;
+        position: absolute;
+        bottom: 25px;
+        transform: translate(-50%);
+        background-color: #fff;
+    }
+</style>

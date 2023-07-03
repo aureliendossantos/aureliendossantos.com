@@ -33,6 +33,8 @@ export interface Props {
 	layout?: string[]
 	bg?: string
 	bgDark?: string
+	popupColor?: string
+	popupActiveColor?: string
 	font?: "Work Sans"
 	ogType:
 		| "website"
@@ -44,7 +46,19 @@ export interface Props {
 		| "music.album"
 		| "music.playlist"
 }
-const { title, description, date, image, layout, bg, bgDark, font, ogType } = Astro.props
+const {
+	title,
+	description,
+	date,
+	image,
+	layout,
+	bg,
+	bgDark,
+	popupColor,
+	popupActiveColor,
+	font,
+	ogType,
+} = Astro.props
 
 // Base website URL (minus slash at the end) + image URL
 const ogImageURL = image && Astro.site?.toString().replace(/\/$/, "") + image
@@ -112,7 +126,10 @@ const googleStructuredData = {
 		{image && <meta name="twitter:image" content={ogImageURL} />}
 		{
 			ogType == "article" && (
-				<script type="application/ld+json" set:html={JSON.stringify(googleStructuredData)} />
+				<script
+					type="application/ld+json"
+					set:html={JSON.stringify(googleStructuredData)}
+				/>
 			)
 		}
 	</head>
@@ -125,6 +142,8 @@ const googleStructuredData = {
 		style={{
 			"--bg": defaultBackground,
 			"--darkbg": darkBackground,
+			"--popup": popupColor,
+			"--popup-active": popupActiveColor,
 		}}
 	>
 		<slot />

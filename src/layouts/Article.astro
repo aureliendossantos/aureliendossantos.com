@@ -40,6 +40,8 @@ const lineHeight = palette.lineHeight || 1.25
 	date={date}
 	image={ogImage?.src}
 	bg={palette.backgroundColor}
+	popupColor={palette.popupColor}
+	popupActiveColor={palette.popupActiveColor}
 	layout={data.layouts}
 >
 	<div class="article-styling">
@@ -85,6 +87,13 @@ const lineHeight = palette.lineHeight || 1.25
 		background: "var(--bg)",
 	})
 </script>
+
+<style is:global>
+	.medium-zoom-overlay,
+	.medium-zoom-image--opened {
+		z-index: 999;
+	}
+</style>
 
 <style lang="scss" define:vars={{ headingsFont }} is:global>
 	.article-styling {

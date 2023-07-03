@@ -29,6 +29,8 @@ const html = (await Astro.slots.render("default")).replaceAll(
 	date={data.date}
 	image={ogImage?.src}
 	bg={palette.backgroundColor}
+	popupColor={palette.popupColor}
+	popupActiveColor={palette.popupActiveColor}
 	layout={data.layouts}
 >
 	<article>
