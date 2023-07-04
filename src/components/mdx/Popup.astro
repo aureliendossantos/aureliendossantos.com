@@ -22,7 +22,8 @@ const uid = crypto.randomUUID()
 
 <template id={`template-${uid}`}>
     <div
-        class="popup h-[240px] rounded-md border-2 border-solid border-[--popup] bg-[--bg] indent-0"
+        class="popup absolute bottom-[25px] hidden h-[240px] rounded-md border-2 border-solid border-[--popup] bg-[--bg] indent-0"
+        style={{ transform: "translateX(-50%)" }}
     >
         {movie && <Movie id={movie} popup />}
         {game && <Game slug={game} popup />}
@@ -83,13 +84,3 @@ document.addEventListener("DOMContentLoaded", function () {
     })
 })
 </script>
-
-<style>
-    .popup {
-        display: none;
-        position: absolute;
-        bottom: 25px;
-        transform: translate(-50%);
-        background-color: #fff;
-    }
-</style>

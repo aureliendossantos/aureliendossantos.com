@@ -25,17 +25,16 @@ const movie = await fetch(
 	.then((response) => response.json())
 	.catch((err) => console.error(err))
 
+if (movie.success == false) console.error(movie)
 // Response format: https://developer.themoviedb.org/reference/movie-details
 const year = formatDate(new Date(movie.release_date), true)
 const infos = []
-if (movie.credits)
-	infos.push(
-		`${movie.credits.crew
-			.filter((c) => c.job === "Director")
-			.map((c) => c.name)
-			.join(", ")} (${year})`
-	)
-else console.error("credits is undefined:", movie)
+infos.push(
+	`${movie.credits.crew
+		.filter((c) => c.job === "Director")
+		.map((c) => c.name)
+		.join(", ")} (${year})`
+)
 infos.push(`Avec ${movie.credits.cast[0].name} et ${movie.credits.cast[1].name}`)
 // infos.push(`${movie.production_companies.map((c) => c.name).join(", ")} (${year})`)
 const links = []
