@@ -14,22 +14,27 @@ micro	35 x 35	Thumb, Center gravity
 1080p	1920 x 1080	Fit, Center gravity */
 // By appending _2x to any size, you can get retina (DPR 2.0) sizes
 
+type size =
+	| "cover_small"
+	| "screenshot_med"
+	| "cover_big"
+	| "logo_med"
+	| "screenshot_big"
+	| "screenshot_huge"
+	| "thumb"
+	| "micro"
+	| "720p"
+	| "1080p"
+
 interface Props extends Omit<HTMLAttributes<"img">, "src"> {
 	image: IGDBImage
-	size:
-		| "cover_small"
-		| "screenshot_med"
-		| "cover_big"
-		| "logo_med"
-		| "screenshot_big"
-		| "screenshot_huge"
-		| "thumb"
-		| "micro"
-		| "720p"
-		| "1080p"
+	size: size
 	retina?: boolean
+	zoomable?: boolean
+	zoomedSize?: size
+	zoomedRetina?: boolean
 }
-const { image, size, retina, ...attributes } = Astro.props
+const { image, size, retina, zoomable, zoomedSize, zoomedRetina, ...attributes } = Astro.props
 ---
 
 <img
@@ -38,5 +43,9 @@ const { image, size, retina, ...attributes } = Astro.props
 	}.jpg`}
 	width={image.width}
 	height={image.height}
+	data-zoomable={zoomable}
+	data-zoom-src={`https://images.igdb.com/igdb/image/upload/t_${zoomedSize || size}${
+		zoomedRetina ? "_2x" : ""
+	}/${image.image_id}.jpg`}
 	{...attributes}
 />

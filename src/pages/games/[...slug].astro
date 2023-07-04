@@ -47,22 +47,38 @@ const igdb = game.igdb as IGDBData
 	>
 		<div class="flex justify-center gap-6 text-slate-700 dark:text-slate-300 small:flex-col">
 			<aside class="order-1 flex max-w-[180px] flex-col gap-2 small:order-2 small:max-w-none">
-				<IGDBImage image={igdb.cover} size="cover_big" class="rounded small:hidden bg-slate-500" />
+				<IGDBImage
+					image={igdb.cover}
+					size="cover_big"
+					zoomable
+					zoomedSize="1080p"
+					class="rounded small:hidden bg-slate-500"
+				/>
 				{
 					igdb.screenshots &&
-						igdb.screenshots.slice(0, 2).map((screenshot: any) => (
-							<a
-								href={`https://images.igdb.com/igdb/image/upload/t_1080p/${screenshot.image_id}.jpg`}
-							>
-								<IGDBImage image={screenshot} size="screenshot_big" class="rounded bg-slate-500" />
-							</a>
-						))
+						igdb.screenshots
+							.slice(0, 2)
+							.map((screenshot: any) => (
+								<IGDBImage
+									image={screenshot}
+									size="cover_big"
+									zoomable
+									zoomedSize="1080p"
+									class="rounded bg-slate-500"
+								/>
+							))
 				}
 			</aside>
 			<main class="order-2 small:order-1">
 				<div class="flex gap-4">
 					<div class="hidden min-w-[70px] max-w-[70px] small:block">
-						<IGDBImage image={igdb.cover} size="cover_big" class="rounded bg-slate-500" />
+						<IGDBImage
+							image={igdb.cover}
+							size="cover_big"
+							zoomable
+					zoomedSize="1080p"
+							class="rounded bg-slate-500"
+						/>
 					</div>
 					<header>
 						<h1
@@ -73,7 +89,8 @@ const igdb = game.igdb as IGDBData
 						</h1>
 						<p class="text-slate-500">
 							{igdb.release_dates[0].y} • {igdb.developers}{
-								igdb.publishers != igdb.developers && ` • Publié par ${igdb.publishers}`
+								igdb.publishers != igdb.developers &&
+									` • Publié par ${igdb.publishers}`
 							}
 						</p>
 						<div class="my-3 flex flex-wrap gap-1">
@@ -109,7 +126,8 @@ const igdb = game.igdb as IGDBData
 				{
 					game.myPlatforms.length > 0 ? (
 						<p>
-							J'y ai joué sur {enumerate(game.myPlatforms)} ({game.progress?.toLowerCase()}).
+							J'y ai joué sur {enumerate(game.myPlatforms)} (
+							{game.progress?.toLowerCase()}).
 						</p>
 					) : (
 						<p>{game.progress}.</p>
@@ -136,9 +154,12 @@ const igdb = game.igdb as IGDBData
 				</div>
 			</main>
 		</div>
-		<footer class="flex justify-between font-work-sans text-sm text-slate-400 dark:text-slate-600">
+		<footer
+			class="flex justify-between font-work-sans text-sm text-slate-400 dark:text-slate-600"
+		>
 			<p>
-				<a href="/games" class="hover:text-indigo-700 hover:dark:text-indigo-400">← Tous les jeux</a
+				<a href="/games" class="hover:text-indigo-700 hover:dark:text-indigo-400"
+					>← Tous les jeux</a
 				>
 			</p>
 		</footer>
