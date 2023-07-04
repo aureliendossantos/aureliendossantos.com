@@ -130,6 +130,7 @@ export default function getPalette(name: Palettes | undefined): Palette {
 				mainColor: "#111111",
 				secondaryColor: "#111111",
 				specialColor: "#111111",
+				popupActiveColor: "#11111138",
 				backgroundColor: "#fffff8",
 				headingsFont: "'Source Serif Subhead', 'Source Serif', serif",
 				mainFont: "'Source Serif', serif",

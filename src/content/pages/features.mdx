@@ -159,6 +159,13 @@ Ce bloc récupère les données OpenGraph de n'importe quelle URL. Par exemple, 
 
 <OpenGraph url="http://ogp.me/" />
 
+### Pop-ups
+
+Les _pop-ups_ peuvent contenir des informations sur un jeu ou un film (voir [<sc>IGDB</sc>](#igdb) et [<sc>TMDB</sc>](#tmdb)), notamment une affiche, les auteurs, l'année de parution et jusqu'à trois images. Une _pop-up_ s'ouvre en cliquant sur un texte dont le lien est d'une apparence plus discrète que les liens externes. Selon la palette, le lien peut être coloré ou en pointillé.
+
+{/* prettier-ignore */}
+<sc>Exemple</sc> : Le film <Popup movie="558582">_First Cow_</Popup>, le jeu <Popup game="superbrothers-sword-sworcery-ep">_Sword & Sorcery_</Popup>.
+
 ### Références bibliographiques
 
 Le bloc de référence permet d'indiquer le titre, l'auteur et d'autres données d'une référence pour l'afficher dans un format standardisé à travers tout le site. Plusieurs règles sont prises en compte. Par exemple, le titre d'un article est entouré de guillemets, mais pas le titre d'un livre, qui sera plutôt en italique.
@@ -198,6 +205,8 @@ Lorsque j'aurai suffisamment de contenu pour le justifier, je réfléchirai à u
   - <sc>Blocs de code</sc> : Coloration différente pour chaque palette.
   - <sc>Layouts</sc> : Les transformer en un enum, comme les palettes, pour un code plus sûr et
     clair.
+  - <sc>Pop-ups</sc> : Retirer les espaces avant et après les liens ; rendre la gestion des couleurs
+    plus flexible.
 - **Emplacement du sommaire** : Ajouter la possibilité de l'inclure à un endroit précis du document Markdown.
 - **Date de modification** des articles et des pages. Elle pourrait être récupéré de l'<abbr>API</abbr> de GitHub afin d'éviter de la mettre à jour manuellement. Le but n'est pas que cette date soit exacte, mais de représenter l'idée que les pages peuvent toujours être affinées au fil du temps, malgré qu'elles soient inscrites dans une époque dans le cas du blog.
 - **Ajouter une galerie des films** que j'ai mentionnés sur ce site ou aimés. C'est un problème épineux, car [Letterboxd](https://letterboxd.com/) a refusé ma demande d'accès à l'<abbr>API</abbr>.

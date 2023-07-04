@@ -494,7 +494,7 @@ body.tufte {
 	// tufte-extra.css
 	// ------------------
 
-	img {
+	img:not(.unstyled) {
 		height: auto;
 	}
 

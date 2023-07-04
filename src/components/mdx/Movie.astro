@@ -9,6 +9,8 @@ interface Props {
 }
 const { id, posterOnly, popup } = Astro.props
 
+console.log(`Getting TMDB data for ID ${id}...`)
+
 const options = {
 	method: "GET",
 	headers: {

@@ -54,9 +54,14 @@ iframe {
 		@apply pr-2;
 	}
 
+	img:not(.unstyled),
+	video {
+		@apply h-auto;
+	}
+
 	img,
 	video {
-		@apply h-auto max-w-full;
+		@apply max-w-full;
 	}
 
 	figure {
