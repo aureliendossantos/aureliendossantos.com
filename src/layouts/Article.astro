@@ -80,21 +80,6 @@ const lineHeight = palette.lineHeight || 1.25
 	</div>
 </BaseLayout>
 
-<script>
-	import mediumZoom from "medium-zoom"
-	window.myMediumZoom = mediumZoom("[data-zoomable]", {
-		margin: 24,
-		background: "var(--bg)",
-	})
-</script>
-
-<style is:global>
-	.medium-zoom-overlay,
-	.medium-zoom-image--opened {
-		z-index: 999;
-	}
-</style>
-
 <style lang="scss" define:vars={{ headingsFont }} is:global>
 	.article-styling {
 		h1,

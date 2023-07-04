@@ -149,3 +149,18 @@ const googleStructuredData = {
 		<slot />
 	</body>
 </html>
+
+<script>
+	import mediumZoom from "medium-zoom"
+	window.mediumZoom = mediumZoom("[data-zoomable]", {
+		margin: 24,
+		background: "var(--bg)",
+	})
+</script>
+
+<style is:global>
+	.medium-zoom-overlay,
+	.medium-zoom-image--opened {
+		z-index: 999;
+	}
+</style>
