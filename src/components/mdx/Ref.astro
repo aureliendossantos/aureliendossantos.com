@@ -43,7 +43,7 @@ if (!book) {
 <span>
 	{author && `${author},`}
 	<Style quotes={!book}><Style i={foreign || book}>{link ?
-		<a href={link} target="_blank">{title}</a>
+		<a href={link} target="_blank" set:html={title}/>
 		: title
 	}</Style></Style>{
 		bookEdition && <> ({bookEdition})</>
