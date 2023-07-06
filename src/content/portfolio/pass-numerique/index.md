@@ -16,7 +16,7 @@ moreTools:
 release: 2022-04-10
 ---
 
-Basé sur l'ingénierie de Jean-Baptiste, j'ai ensuite pris les rennes de la gestion de projet et de l'administration du serveur Moodle.
+<!-- Basé sur l'ingénierie de Jean-Baptiste, j'ai ensuite pris les rennes de la gestion de projet et de l'administration du serveur Moodle. -->
 
 - Hébergement et administration du serveur Moodle
 - Gestion de projet via Notion
