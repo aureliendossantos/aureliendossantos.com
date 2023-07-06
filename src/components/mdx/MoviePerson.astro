@@ -1,0 +1,45 @@
+---
+import RefBlock from "$components/RefBlock.astro"
+import formatDate from "$utils/formatDate"
+
+interface Props {
+	id: string
+	posterOnly?: boolean
+	popup?: boolean
+}
+const { id, posterOnly, popup } = Astro.props
+
+console.log(`Getting TMDB data for Person ID ${id}...`)
+
+const options = {
+	method: "GET",
+	headers: {
+		accept: "application/json",
+		Authorization: `Bearer ${import.meta.env.TMDB_READ_ACCESS_TOKEN}`,
+	},
+}
+const person = await fetch(`https://api.themoviedb.org/3/person/${id}?language=fr-Fr`, options)
+	.then((response) => response.json())
+	.catch((err) => console.error(err))
+
+if (person.success == false) console.error(movie)
+// Response format: https://developer.themoviedb.org/reference/movie-details
+const year =
+	formatDate(new Date(person.birthday), true) + person.deathday
+		? " - " + formatDate(new Date(person.deathday), true)
+		: ""
+const infos = [person.biography]
+const links = []
+links.push(["TMDB", `https://www.themoviedb.org/person/${id}?language=fr-FR`])
+---
+
+<RefBlock
+	img={person.profile_path ? `https://image.tmdb.org/t/p/w342${person.profile_path}` : undefined}
+	title={person.name}
+	infos={infos}
+	links={links}
+	imgOnly={posterOnly}
+	popup={popup}
+	posterRatio={popup ? "movie" : undefined}
+	big
+/>

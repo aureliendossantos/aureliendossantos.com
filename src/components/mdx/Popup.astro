@@ -2,12 +2,14 @@
 import crypto from "node:crypto"
 import Movie from "./Movie.astro"
 import Game from "./Game.astro"
+import MoviePerson from "./MoviePerson.astro"
 
 interface Props {
     movie?: string
+    moviePerson?: string
     game?: string
 }
-const { movie, game } = Astro.props
+const { movie, moviePerson, game } = Astro.props
 
 const uid = crypto.randomUUID()
 ---
@@ -26,6 +28,7 @@ const uid = crypto.randomUUID()
         style={{ transform: "translateX(-50%)" }}
     >
         {movie && <Movie id={movie} popup />}
+        {moviePerson && <MoviePerson id={moviePerson} popup />}
         {game && <Game slug={game} popup />}
     </div>
 </template>

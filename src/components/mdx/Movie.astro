@@ -42,7 +42,7 @@ links.push(["TMDB", `https://www.themoviedb.org/movie/${id}?language=fr-FR`])
 ---
 
 <RefBlock
-	img={`https://image.tmdb.org/t/p/w342${movie.poster_path}`}
+	img={movie.poster_path ? `https://image.tmdb.org/t/p/w342${movie.poster_path}` : undefined}
 	title={movie.title}
 	infos={infos}
 	links={links}
