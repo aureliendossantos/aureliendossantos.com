@@ -65,10 +65,10 @@ iframe {
 	}
 
 	figure {
-		@apply mx-0 my-6 text-center;
+		@apply mx-0 my-6;
 
 		figcaption {
-			@apply ml-[20%] flex flex-row-reverse text-right text-[0.8rem];
+			@apply ml-[20%] flex justify-end text-right text-[0.8rem];
 
 			p {
 				@apply m-0 max-w-prose;
