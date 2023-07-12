@@ -91,5 +91,5 @@ export default async function getGames(
 		}
 		return game
 	})
-	return { games, notionResponse }
+	return games
 }

@@ -17,5 +17,5 @@ export async function updateGames() {
 		],
 	})
 	fs.writeFileSync(filePath, JSON.stringify(games, null, 2))
-	return games.games.length
+	return games.length
 }

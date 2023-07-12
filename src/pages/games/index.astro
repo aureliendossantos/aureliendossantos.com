@@ -1,15 +1,12 @@
 ---
-import fs from "node:fs/promises"
 import IGDBImage from "$components/IGDBImage.astro"
 import OptionalLink from "$components/OptionalLink.astro"
 import FilterButton from "$components/games/FilterButton.astro"
 import BaseLayout from "$layouts/BaseLayout.astro"
-import type { IGDBData } from "$utils/getIGDBgame"
-import getGames from "$utils/notion/getGames"
 import { emotes } from "$utils/notion/reviewEmotes"
+import { getGamesData } from "scripts/remoteDataUtils"
 
-const filePath = new URL(`../../../public/data/games.json`, import.meta.url)
-const { games } = JSON.parse((await fs.readFile(filePath)).toString())
+const games = await getGamesData()
 
 const reviewsOrder = [
 	"Coup de cœur",
@@ -156,7 +153,6 @@ games.sort(
 			</table>
 		</main>
 	</div>
-	{/*import.meta.env.DEV && <pre>{JSON.stringify(notionResponse, null, 2)}</pre>*/}
 </BaseLayout>
 
 <script>

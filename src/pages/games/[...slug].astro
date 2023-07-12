@@ -1,5 +1,4 @@
 ---
-import fs from "node:fs/promises"
 import IGDBImage from "$components/IGDBImage.astro"
 import NotionPageContent from "$components/notion/NotionPageContent.astro"
 import BaseLayout from "$layouts/BaseLayout.astro"
@@ -7,12 +6,10 @@ import enumerate from "$utils/enumerateStrings"
 import type { IGDBData } from "$utils/getIGDBgame"
 import type getGames from "$utils/notion/getGames"
 import { emotes } from "$utils/notion/reviewEmotes"
+import { getGamesData } from "scripts/remoteDataUtils"
 
 export async function getStaticPaths() {
-	const filePath = new URL(`../../../public/data/games.json`, import.meta.url)
-	const { games } = JSON.parse((await fs.readFile(filePath)).toString()) as {
-		games: Awaited<ReturnType<typeof getGames>>["games"]
-	}
+	const games = await getGamesData()
 	return games
 		.filter((game) => game.igdb)
 		.map((game) => ({
@@ -22,7 +19,7 @@ export async function getStaticPaths() {
 }
 
 export interface Props {
-	game: Awaited<ReturnType<typeof getGames>>["games"][number]
+	game: Awaited<ReturnType<typeof getGames>>[number]
 }
 const { game } = Astro.props
 

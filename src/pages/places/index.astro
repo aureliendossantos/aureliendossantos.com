@@ -1,11 +1,14 @@
 ---
-import fs from "node:fs/promises"
 import PlacesList from "$components/places/PlacesList.astro"
 import { getCollection } from "astro:content"
 import PlacesLayout from "$layouts/PlacesLayout.astro"
+import { getPlacesData } from "scripts/remoteDataUtils"
+import getBlogPosts from "$utils/getBlogPosts"
 
-const filePath = new URL(`../../../public/data/maps.json`, import.meta.url)
-const googleMapsData = JSON.parse((await fs.readFile(filePath)).toString())
+const googleMapsData = await getPlacesData()
+
+const reviewsOrder = ["loved", "liked", "okay", null]
+const articles = await getBlogPosts()
 
 const places = (await getCollection("places"))
 	.map((place) => ({
@@ -13,25 +16,22 @@ const places = (await getCollection("places"))
 		category: place.slug.split("/")[0],
 		slug: place.slug.split("/")[1],
 		maps: googleMapsData.find((p) => p.place_id == place.data.id),
+		articles: articles.filter((a) => a.data.places.includes(place.slug)).length,
 	}))
-	.sort((a, b) => (b.data.review ? b.data.review.localeCompare(a.data.review) : 0))
+	.sort((a, b) => reviewsOrder.indexOf(a.data.review) - reviewsOrder.indexOf(b.data.review))
 	.sort((a, b) => a.data.status.localeCompare(b.data.status))
 	.sort((a, b) => a.maps.icon.localeCompare(b.maps.icon))
-
-const apiKey = import.meta.env.GOOGLE_MAPS_TOKEN
 ---
 
-<PlacesLayout ogType="website" title="Endroits">
-	<div class="m-auto flex max-w-xl flex-col gap-8 pt-10 text-zinc-900 dark:text-zinc-200">
-		<header
-			class="flex justify-between px-8 font-work-sans text-sm text-zinc-400 dark:text-zinc-600"
-		>
+<PlacesLayout ogType="website" title="Lieux">
+	<div class="m-auto flex max-w-xl flex-col gap-8 pt-10 text-zinc-900">
+		<header class="flex justify-between px-8 font-work-sans text-sm text-zinc-400">
 			<p>
 				<a href="/" class="hover:text-amber-700">← Retour à l'accueil</a>
 			</p>
 		</header>
 		<main class="flex flex-col">
-			<header class="prose prose-zinc mb-8 px-8 dark:prose-invert small:prose-sm">
+			<header class="prose prose-zinc mb-8 px-8 small:prose-sm">
 				<h1>Lieux</h1>
 			</header>
 			<PlacesList

@@ -1,13 +1,15 @@
 ---
-import fs from "node:fs/promises"
 import { CollectionEntry, getCollection } from "astro:content"
 import PlacesLayout from "$layouts/PlacesLayout.astro"
 import { getClosedStatus, getGoogleImage } from "$utils/places"
+import { getPlacesData } from "scripts/remoteDataUtils"
+import getBlogPosts from "$utils/getBlogPosts"
+import ArticleDate from "$components/ArticleDate.astro"
+import getPalette from "$utils/palettes"
 
 export async function getStaticPaths() {
 	const places = await getCollection("places")
-	const filePath = new URL(`../../../public/data/maps.json`, import.meta.url)
-	const googleMapsData = JSON.parse((await fs.readFile(filePath)).toString())
+	const googleMapsData = await getPlacesData()
 	return places.map((place) => ({
 		params: { place: place.slug.split("/")[1] },
 		props: { place, mapsData: googleMapsData.find((p) => p.place_id === place.data.id) },
@@ -19,6 +21,10 @@ export interface Props {
 	mapsData: google.maps.places.PlaceResult
 }
 const { place, mapsData } = Astro.props
+
+const articles = (await getBlogPosts()).filter((article) =>
+	article.data.places.includes(place.slug)
+)
 
 const { Content, headings } = await place.render()
 const data = place.data
@@ -54,6 +60,36 @@ const gallery =
 			<main>
 				<Content />
 			</main>
+			{
+				articles.length > 0 && (
+					<>
+						<>
+							<h2>Sur mon blog</h2>
+							<div class="not-prose -mx-8 mt-8 flex flex-col">
+								{articles.map((article) => {
+									const palette = getPalette(article.data.palette)
+									return (
+										<a
+											class="flex bg-[--bg] px-8 py-2 text-sm text-[--color] text-zinc-700 transition-all hover:brightness-110 hover:contrast-75"
+											style={{
+												"--color": palette.mainColor,
+												"--bg": palette.backgroundColor,
+											}}
+											href={`/blog/${article.slug}`}
+										>
+											<div class="font-medium">{article.data.title}</div>
+											<div class="grow" />
+											<div>
+												<ArticleDate date={article.data.date} yearOnly />
+											</div>
+										</a>
+									)
+								})}
+							</div>
+						</>
+					</>
+				)
+			}
 			{gallery && <h2>Photos des utilisateurs</h2>}
 		</div>
 		{
@@ -70,11 +106,13 @@ const gallery =
 				</div>
 			)
 		}
-		<footer class="-mt-8 flex justify-between px-8 py-10 font-work-sans text-sm text-zinc-400">
-			<p>
+		<footer
+			class="-mt-8 flex items-center justify-between gap-8 px-8 py-10 font-work-sans text-sm text-zinc-400"
+		>
+			<p class="min-w-fit">
 				<a href="/places" class="hover:text-amber-700">← Lieux</a>
 			</p>
-			<p>
+			<p class="text-right">
 				<a href={mapsData.url} target="_blank" class="hover:text-amber-700"
 					>{mapsData.name} sur Google Maps</a
 				>
