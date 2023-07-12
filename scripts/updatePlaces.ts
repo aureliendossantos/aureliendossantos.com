@@ -1,7 +1,7 @@
 import "dotenv/config"
 import fs from "node:fs"
 import matter from "gray-matter"
-import { getContentDirs } from "./remoteDataUtils"
+import { getContentDirs } from "./updateRemoteData"
 
 export async function updatePlaces() {
 	const filePath = new URL(`../public/data/maps.json`, import.meta.url)

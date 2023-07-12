@@ -4,9 +4,9 @@ import OptionalLink from "$components/OptionalLink.astro"
 import FilterButton from "$components/games/FilterButton.astro"
 import BaseLayout from "$layouts/BaseLayout.astro"
 import { emotes } from "$utils/notion/reviewEmotes"
-import { getGamesData } from "scripts/remoteDataUtils"
+import { getGamesData } from "$utils/remoteData"
 
-const games = await getGamesData()
+const games = await getGamesData(new URL(`../../../public/data/maps.json`, import.meta.url).href)
 
 const reviewsOrder = [
 	"Coup de cœur",

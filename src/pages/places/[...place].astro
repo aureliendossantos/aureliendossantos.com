@@ -2,14 +2,16 @@
 import { CollectionEntry, getCollection } from "astro:content"
 import PlacesLayout from "$layouts/PlacesLayout.astro"
 import { getClosedStatus, getGoogleImage } from "$utils/places"
-import { getPlacesData } from "scripts/remoteDataUtils"
+import { getPlacesData } from "$utils/remoteData"
 import getBlogPosts from "$utils/getBlogPosts"
 import ArticleDate from "$components/ArticleDate.astro"
 import getPalette from "$utils/palettes"
 
 export async function getStaticPaths() {
 	const places = await getCollection("places")
-	const googleMapsData = await getPlacesData()
+	const googleMapsData = await getPlacesData(
+		new URL(`../../../public/data/maps.json`, import.meta.url).href
+	)
 	return places.map((place) => ({
 		params: { place: place.slug.split("/")[1] },
 		props: { place, mapsData: googleMapsData.find((p) => p.place_id === place.data.id) },

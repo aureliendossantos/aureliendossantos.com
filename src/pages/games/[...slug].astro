@@ -6,10 +6,12 @@ import enumerate from "$utils/enumerateStrings"
 import type { IGDBData } from "$utils/getIGDBgame"
 import type getGames from "$utils/notion/getGames"
 import { emotes } from "$utils/notion/reviewEmotes"
-import { getGamesData } from "scripts/remoteDataUtils"
+import { getGamesData } from "$utils/remoteData"
 
 export async function getStaticPaths() {
-	const games = await getGamesData()
+	const games = await getGamesData(
+		new URL(`../../../public/data/maps.json`, import.meta.url).href
+	)
 	return games
 		.filter((game) => game.igdb)
 		.map((game) => ({
