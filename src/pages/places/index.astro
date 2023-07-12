@@ -2,10 +2,12 @@
 import PlacesList from "$components/places/PlacesList.astro"
 import { getCollection } from "astro:content"
 import PlacesLayout from "$layouts/PlacesLayout.astro"
-import { getPlacesData } from "scripts/remoteDataUtils"
+import { getPlacesData } from "$utils/remoteData"
 import getBlogPosts from "$utils/getBlogPosts"
 
-const googleMapsData = await getPlacesData()
+const googleMapsData = await getPlacesData(
+	new URL(`../../../public/data/maps.json`, import.meta.url).href
+)
 
 const reviewsOrder = ["loved", "liked", "okay", null]
 const articles = await getBlogPosts()
@@ -29,6 +31,11 @@ const places = (await getCollection("places"))
 			<p>
 				<a href="/" class="hover:text-amber-700">← Retour à l'accueil</a>
 			</p>
+			<!--
+			<p>
+				<a href="/diary" class="hover:text-amber-700">Catégories du journal ↑</a>
+			</p>
+			-->
 		</header>
 		<main class="flex flex-col">
 			<header class="prose prose-zinc mb-8 px-8 small:prose-sm">
