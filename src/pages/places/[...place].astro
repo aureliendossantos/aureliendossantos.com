@@ -1,56 +1,93 @@
 ---
-import ArticleCardMinimal from "$components/ArticleCardMinimal.astro"
-import TagLabel from "$components/TagLabel.astro"
-import Explore from "$layouts/Explore.astro"
-import type { CollectionEntry } from "astro:content"
-import getBlogPosts from "$utils/getBlogPosts"
-import { getUniquePlacesAndOccurences } from "$utils/getUniqueValuesAndOccurences"
-import getPlace from "$utils/places"
+import fs from "node:fs/promises"
+import { CollectionEntry, getCollection } from "astro:content"
+import PlacesLayout from "$layouts/PlacesLayout.astro"
+import { getClosedStatus, getGoogleImage } from "$utils/places"
 
 export async function getStaticPaths() {
-	const allArticles = await getBlogPosts()
-	const rawPlaces = allArticles.map((article) => article.data.places)
-	const places = getUniquePlacesAndOccurences(rawPlaces)
-
-	return Object.entries(places).map(([place, amount], i) => {
-		const filteredArticles = allArticles.filter((article) =>
-			article.data.places.includes(place)
-		)
-		return {
-			params: { place },
-			props: { articles: filteredArticles, places },
-		}
-	})
+	const places = await getCollection("places")
+	const filePath = new URL(`../../../public/data/maps.json`, import.meta.url)
+	const googleMapsData = JSON.parse((await fs.readFile(filePath)).toString())
+	return places.map((place) => ({
+		params: { place: place.slug.split("/")[1] },
+		props: { place, mapsData: googleMapsData.find((p) => p.place_id === place.data.id) },
+	}))
 }
 
-type Props = {
-	articles: CollectionEntry<"blog">[]
-	places: { [k: string]: number }
+export interface Props {
+	place: CollectionEntry<"places">
+	mapsData: google.maps.places.PlaceResult
 }
+const { place, mapsData } = Astro.props
 
-const { place } = Astro.params
-const { articles, places } = Astro.props
+const { Content, headings } = await place.render()
+const data = place.data
+const category = place.slug.split("/")[0]
+
+const headerImage = mapsData.photos[0].photo_reference
+const gallery =
+	mapsData.photos.length >= 3
+		? mapsData.photos.slice(1, 5).map((photo) => photo.photo_reference)
+		: undefined
 ---
 
-<Explore title={getPlace(place)?.customTitle || ""} type="Lieux">
-	<div class="mt-5" slot="header">
-		<p>
-			{
-				Object.entries(places).map(([key, value], i) => (
-					<>
-						<TagLabel
-							label={getPlace(key)?.customTitle || ""}
-							slug={key}
-							count={value}
-							type="place"
-							disabled={place == key}
-						/>{" "}
-					</>
-				))
-			}
-		</p>
+<PlacesLayout ogType="article" title={data.title}>
+	<div class="m-auto flex max-w-xl flex-col gap-8 text-zinc-900">
+		<img
+			class="h-80 w-full object-cover"
+			src={getGoogleImage(800, headerImage)}
+			data-zoomable
+			data-zoom-src={getGoogleImage(1920, headerImage)}
+		/>
+		<div class="prose prose-sm prose-zinc px-8 small:prose-sm prose-h1:mb-2">
+			<header>
+				<h1>{data.title}</h1>
+				<div class="not-prose font-work-sans text-sm text-zinc-400">
+					<p>{getClosedStatus(mapsData)}</p>
+					<p>
+						{data.status == "done" ? "Visité" : "À visiter"}{
+							data.review && (data.review == "loved" ? " et adoré" : " et aimé")
+						}.
+					</p>
+				</div>
+			</header>
+			<main>
+				<Content />
+			</main>
+			{gallery && <h2>Photos des utilisateurs</h2>}
+		</div>
+		{
+			gallery && (
+				<div class="grid grid-cols-2">
+					{gallery.map((ref) => (
+						<img
+							class="h-56 w-full object-cover"
+							src={getGoogleImage(400, ref)}
+							data-zoomable
+							data-zoom-src={getGoogleImage(1920, ref)}
+						/>
+					))}
+				</div>
+			)
+		}
+		<footer class="-mt-8 flex justify-between px-8 py-10 font-work-sans text-sm text-zinc-400">
+			<p>
+				<a href="/places" class="hover:text-amber-700">← Lieux</a>
+			</p>
+			<p>
+				<a href={mapsData.url} target="_blank" class="hover:text-amber-700"
+					>{mapsData.name} sur Google Maps</a
+				>
+			</p>
+		</footer>
 	</div>
-	<main class="flex flex-col shadow">
-		{articles.map((article) => <ArticleCardMinimal article={article} noPlace />)}
-	</main>
-</Explore>
+</PlacesLayout>
+
+<style is:global>
+	.prose .bg-mention {
+		@apply bg-zinc-200 hover:bg-zinc-300;
+	}
+	.prose .bg-mention img {
+		@apply mb-[0.2em];
+	}
+</style>

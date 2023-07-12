@@ -1,5 +1,6 @@
 ---
 import RefBlock from "$components/RefBlock.astro"
+import { getClosedStatus } from "$utils/places"
 
 interface Props {
 	id: string
@@ -16,29 +17,11 @@ const response = await fetch(
 // Response format: https://developers.google.com/maps/documentation/places/web-service/details
 const { result: place } = response
 
-function dayOfWeekAsString(dayIndex: number): string {
-	return ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"][dayIndex]
-}
-
-function getClosedDays(openedDays: Array<number>): string {
-	let daysNumbers = [1, 2, 3, 4, 5, 6, 0]
-	let closedDays = daysNumbers
-		.filter((dayNumber) => !openedDays.includes(dayNumber))
-		.map((x) => dayOfWeekAsString(x))
-	if (closedDays.length == 0) return "Ouvert tous les jours."
-	if (closedDays.length == 1) return `Fermé le ${closedDays[0]}.`
-	return `Fermé le ${closedDays.slice(0, -1).join(", ")} et le ${
-		closedDays[closedDays.length - 1]
-	}.`
-}
-
 const infos = []
 if (place.vicinity != place.name) infos.push(place.vicinity)
 if (place.editorial_summary) infos.push(place.editorial_summary.overview)
-if (place.business_status == "CLOSED_TEMPORARILY") infos.push("Fermé temporairement.")
-else if (place.business_status == "CLOSED_PERMANENTLY") infos.push("Fermé définitivement.")
-else if (place.current_opening_hours)
-	infos.push(getClosedDays(place.opening_hours.periods.map((period: any) => period.open.day)))
+const closedStatus = getClosedStatus(place)
+if (closedStatus) infos.push(closedStatus)
 if (place.rating)
 	infos.push(
 		`${[...Array(Math.round(place.rating))].map(() => "⭐️").join(" ")} (${

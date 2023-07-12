@@ -1,3 +1,4 @@
+import "dotenv/config"
 import enumerate from "./enumerateStrings"
 
 export type IGDBImage = {
@@ -26,8 +27,10 @@ export default async function getIGDBgames(slugs: string[]) {
 	//await new Promise((resolve) => setTimeout(resolve, Math.random() * 4000))
 	console.log(`Getting IGDB data for ${slugs.length == 1 ? slugs[0] : `${slugs.length} games`}...`)
 	const authentication = await fetch(
-		`https://id.twitch.tv/oauth2/token?client_id=${import.meta.env.TWITCH_ID}&client_secret=${
-			import.meta.env.TWITCH_SECRET
+		`https://id.twitch.tv/oauth2/token?client_id=${
+			import.meta.env ? import.meta.env.TWITCH_ID : process.env.TWITCH_ID
+		}&client_secret=${
+			import.meta.env ? import.meta.env.TWITCH_SECRET : process.env.TWITCH_SECRET
 		}&grant_type=client_credentials`,
 		{
 			method: "POST",
@@ -39,7 +42,7 @@ export default async function getIGDBgames(slugs: string[]) {
 		return {
 			method: "POST",
 			headers: {
-				"Client-ID": import.meta.env.TWITCH_ID,
+				"Client-ID": import.meta.env ? import.meta.env.TWITCH_ID : process.env.TWITCH_ID,
 				Authorization: `Bearer ${token}`,
 			},
 			body: body,

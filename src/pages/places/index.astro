@@ -1,66 +1,111 @@
 ---
-import ArticleCardMinimal from "$components/ArticleCardMinimal.astro"
-import TagLabel from "$components/TagLabel.astro"
-import Explore from "$layouts/Explore.astro"
-import type { CollectionEntry } from "astro:content"
-import getBlogPosts from "$utils/getBlogPosts"
-import { getUniquePlacesAndOccurences } from "$utils/getUniqueValuesAndOccurences"
-import getPlace from "$utils/places"
+import fs from "node:fs/promises"
+import PlacesList from "$components/places/PlacesList.astro"
+import { getCollection } from "astro:content"
+import PlacesLayout from "$layouts/PlacesLayout.astro"
 
-const articles = await getBlogPosts()
-const rawPlaces = articles.map((article) => article.data.places)
-const uniquePlaces = getUniquePlacesAndOccurences(rawPlaces)
+const filePath = new URL(`../../../public/data/maps.json`, import.meta.url)
+const googleMapsData = JSON.parse((await fs.readFile(filePath)).toString())
 
-const places = Object.entries(uniquePlaces).map(([place, amount], i) => {
-	return {
-		slug: place,
-		place: getPlace(place),
-		articlesAmount: amount,
-		articles: articles.filter((article) => article.data.places.includes(place)),
-	}
-})
+const places = (await getCollection("places"))
+	.map((place) => ({
+		...place,
+		category: place.slug.split("/")[0],
+		slug: place.slug.split("/")[1],
+		maps: googleMapsData.find((p) => p.place_id == place.data.id),
+	}))
+	.sort((a, b) => (b.data.review ? b.data.review.localeCompare(a.data.review) : 0))
+	.sort((a, b) => a.data.status.localeCompare(b.data.status))
+	.sort((a, b) => a.maps.icon.localeCompare(b.maps.icon))
 
-Object.entries(places).forEach(([key, value], i) => {
-	const myArticleSlugs = value.articles.map((a) => a.id)
-	const allPlacesSlugs = places.map((p) => p.articles.map((a) => a.id))
-	if (
-		allPlacesSlugs.filter((p) => JSON.stringify(p) == JSON.stringify(myArticleSlugs)).length > 1
-	) {
-		value.articlesAmount = 0
-		value.articles = []
-	}
-})
+const apiKey = import.meta.env.GOOGLE_MAPS_TOKEN
 ---
 
-<Explore title={"Lieux"} type="Explorer">
-	<div class="mt-5" slot="header">
-		<p></p>
+<PlacesLayout ogType="website" title="Endroits">
+	<div class="m-auto flex max-w-xl flex-col gap-8 pt-10 text-zinc-900 dark:text-zinc-200">
+		<header
+			class="flex justify-between px-8 font-work-sans text-sm text-zinc-400 dark:text-zinc-600"
+		>
+			<p>
+				<a href="/" class="hover:text-amber-700">← Retour à l'accueil</a>
+			</p>
+		</header>
+		<main class="flex flex-col">
+			<header class="prose prose-zinc mb-8 px-8 dark:prose-invert small:prose-sm">
+				<h1>Lieux</h1>
+			</header>
+			<PlacesList
+				title="À Toulouse"
+				places={places.filter((place) => place.category == "toulouse")}
+			/>
+			<PlacesList
+				title="En Occitanie"
+				places={places.filter((place) => place.category == "occitanie")}
+			/>
+			<PlacesList
+				title="En Aquitaine"
+				places={places.filter((place) => place.category == "aquitaine")}
+			/>
+			<PlacesList
+				title="En Europe"
+				places={places.filter((place) => place.category == "europe")}
+			/>
+		</main>
+		<div id="map" class="h-[448px] w-full bg-zinc-200"></div>
 	</div>
-	<main>
-		{
-			Object.entries(places).map(([key, value], i) => {
-				return (
-					<>
-						<h2
-							class={`mt-10 px-5 text-xl leading-tight ${
-								value.articlesAmount == 0 ? "-mb-8" : "mb-6"
-							}`}
-						>
-							<a
-								href={`/places/${value.slug}`}
-								class="text-slate-500 hover:text-slate-400 active:text-slate-500 dark:hover:text-slate-600 dark:active:text-slate-500"
-							>
-								{value.place.customTitle}
-							</a>
-						</h2>
-						<main class="flex flex-col shadow">
-							{value.articles.map((article) => (
-								<ArticleCardMinimal article={article} noPlace />
-							))}
-						</main>
-					</>
-				)
+</PlacesLayout>
+<!--
+<script>
+	let map: google.maps.Map
+	function initMap() {
+		map = new google.maps.Map(document.getElementById("map") as HTMLDivElement, {
+			mapId: "531454af7b16b9f",
+			center: { lat: 43.602, lng: 1.446 },
+			zoom: 13,
+		})
+		const places = Array.from(
+			document.getElementsByClassName("place") as HTMLCollectionOf<HTMLLinkElement>
+		).map((place) => ({
+			lat: Number(place.dataset.lat),
+			lng: Number(place.dataset.lng),
+			icon: place.dataset.icon,
+			title: place.children[0].textContent,
+			href: place.href,
+		}))
+		console.log(places)
+		places.forEach((place) => {
+			const contentString =
+				'<div id="content">' +
+				'<div id="siteNotice">' +
+				"</div>" +
+				`<h1 id="firstHeading" class="firstHeading">${place.title}</h1>` +
+				'<div id="bodyContent">' +
+				`<p><b><a href="${place.href}">Voir la page</a></b></p>` +
+				"</div>" +
+				"</div>"
+			const infowindow = new google.maps.InfoWindow({
+				content: contentString,
+				ariaLabel: place.title,
 			})
-		}
-	</main>
-</Explore>
+			const marker = new google.maps.Marker({
+				position: { lat: place.lat, lng: place.lng },
+				map,
+				title: place.title,
+				//icon: place.icon,
+			})
+			marker.addListener("click", () => {
+				infowindow.open({
+					anchor: marker,
+					map,
+				})
+			})
+		})
+	}
+	window.initMap = initMap
+</script>
+
+<script
+	async
+	src=`https://maps.googleapis.com/maps/api/js?key=${apiKey}&region=FR&language=fr&callback=initMap`
+></script>
+-->

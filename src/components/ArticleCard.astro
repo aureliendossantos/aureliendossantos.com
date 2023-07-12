@@ -1,9 +1,8 @@
 ---
-import type { CollectionEntry } from "astro:content"
+import { getEntryBySlug, type CollectionEntry } from "astro:content"
 import { getImage } from "astro:assets"
 import getPalette from "$utils/palettes"
 import ArticleDate from "./ArticleDate.astro"
-import getPlace from "$utils/places"
 import ArticlePlace from "./ArticlePlace.astro"
 
 interface Props {
@@ -16,7 +15,11 @@ const palette = getPalette(data.palette)
 const categories = data.categories.filter((name) => name != "Article" && name != "Micro-blog")
 // const tags = data.tags.filter((name) => name == "Projet perso")
 const labels = categories // [...categories, ...tags]
-const place = data.places.length > 0 ? getPlace(data.places[0]) : undefined
+const place =
+	data.places.length > 0
+		? (await getEntryBySlug("places", data.places[0]))?.data.title
+		: undefined
+if (place != undefined) console.log(place)
 const image = data.image && (await getImage({ src: data.image, width: 900 }))
 const mini = (data.categories.includes("Micro-blog") || data.categories.includes("Notes")) && !image
 ---
@@ -79,7 +82,7 @@ const mini = (data.categories.includes("Micro-blog") || data.categories.includes
 				Entry #{entryIndex} /
 				<ArticleDate date={data.date} />
 				{labels.length > 0 && <>/ {labels.join(", ")}</>}
-				{place && <ArticlePlace place={place} />}
+				{place && <>/ {place}</>}
 			</div>
 		</div>
 	</div>

@@ -2,7 +2,7 @@
 title: "Hiver 2020"
 description: ""
 date: 2020-11-12
-places: ["pau"]
+places: ["aquitaine/pau"]
 categories: ["Mixtape"]
 tags: ["Musique"]
 image: ./cover.jpg

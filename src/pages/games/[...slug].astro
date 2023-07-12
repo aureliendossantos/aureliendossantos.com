@@ -1,23 +1,18 @@
 ---
+import fs from "node:fs/promises"
 import IGDBImage from "$components/IGDBImage.astro"
 import NotionPageContent from "$components/notion/NotionPageContent.astro"
 import BaseLayout from "$layouts/BaseLayout.astro"
 import enumerate from "$utils/enumerateStrings"
 import type { IGDBData } from "$utils/getIGDBgame"
-import getGames from "$utils/notion/getGames"
+import type getGames from "$utils/notion/getGames"
 import { emotes } from "$utils/notion/reviewEmotes"
 
 export async function getStaticPaths() {
-	const { games } = await getGames({
-		and: [
-			{ property: "Nom", title: { is_not_empty: true } },
-			{ property: "Type", select: { equals: "Jeu" } },
-			{
-				property: "slug",
-				rich_text: { is_not_empty: true },
-			},
-		],
-	})
+	const filePath = new URL(`../../../public/data/games.json`, import.meta.url)
+	const { games } = JSON.parse((await fs.readFile(filePath)).toString()) as {
+		games: Awaited<ReturnType<typeof getGames>>["games"]
+	}
 	return games
 		.filter((game) => game.igdb)
 		.map((game) => ({
@@ -76,7 +71,7 @@ const igdb = game.igdb as IGDBData
 							image={igdb.cover}
 							size="cover_big"
 							zoomable
-					zoomedSize="1080p"
+							zoomedSize="1080p"
 							class="rounded bg-slate-500"
 						/>
 					</div>

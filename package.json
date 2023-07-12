@@ -5,9 +5,10 @@
 	"scripts": {
 		"dev": "astro dev",
 		"start": "astro dev",
-		"build": "astro build",
+		"build": "tsx ./scripts/updateRemoteData.ts && astro build",
 		"preview": "astro preview",
-		"astro": "astro"
+		"astro": "astro",
+		"update": "tsx ./scripts/updateRemoteData.ts"
 	},
 	"dependencies": {
 		"@11ty/eleventy-img": "^3.0.0",
@@ -41,8 +42,12 @@
 	},
 	"devDependencies": {
 		"@tailwindcss/typography": "^0.5.9",
+		"@types/google.maps": "^3.53.4",
 		"@types/markdown-it": "^12.2.3",
 		"@types/sanitize-html": "^2.8.0",
-		"sass": "^1.58.3"
+		"dotenv": "^16.3.1",
+		"gray-matter": "^4.0.3",
+		"sass": "^1.58.3",
+		"tsx": "^3.12.7"
 	}
 }

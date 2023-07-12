@@ -1,0 +1,43 @@
+---
+interface Props {
+	title: string
+	places: any[]
+}
+const { title, places } = Astro.props
+---
+
+<h2 class="mb-2 border-b border-zinc-300 px-8 pb-4 font-work-sans text-sm font-semibold">
+	{title}
+</h2>
+<div class="mb-8 flex flex-col">
+	{
+		places.map((place) => {
+			return (
+				<a
+					class={
+						"place flex px-6 py-2 text-sm transition-colors hover:bg-zinc-100" +
+						(place.data.status == "done" ? " text-zinc-700" : " text-zinc-500")
+					}
+					href={`/places/${place.slug}`}
+					data-lat={place.maps.geometry.location.lat}
+					data-lng={place.maps.geometry.location.lng}
+					data-icon={place.maps.icon}
+				>
+					<div class="font-medium">
+						<img
+							src={place.maps.icon}
+							class="mb-[0.1em] mr-1 inline-block max-h-[0.8em]"
+						/>{" "}
+						{place.data.title}
+					</div>
+					<div class="grow" />
+					<div>
+						{place.data.status == "done"
+							? place.data.review == "loved" && "❤️"
+							: "À visiter"}
+					</div>
+				</a>
+			)
+		})
+	}
+</div>

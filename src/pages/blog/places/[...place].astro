@@ -1,0 +1,60 @@
+---
+import ArticleCardMinimal from "$components/ArticleCardMinimal.astro"
+import TagLabel from "$components/TagLabel.astro"
+import Explore from "$layouts/Explore.astro"
+import { getEntryBySlug, type CollectionEntry, getCollection } from "astro:content"
+import getBlogPosts from "$utils/getBlogPosts"
+import { getUniquePlacesAndOccurences } from "$utils/getUniqueValuesAndOccurences"
+
+export async function getStaticPaths() {
+	const allArticles = await getBlogPosts()
+	const rawPlaces = allArticles.map((article) => article.data.places)
+	const places = getUniquePlacesAndOccurences(rawPlaces)
+
+	return Object.entries(places).map(([place, amount], i) => {
+		const filteredArticles = allArticles.filter((article) =>
+			article.data.places.includes(place)
+		)
+		const slug = place.split("/")[1]
+		return {
+			params: { place: slug },
+			props: { placeId: place, articles: filteredArticles, places },
+		}
+	})
+}
+
+type Props = {
+	placeId: string
+	articles: CollectionEntry<"blog">[]
+	places: { [k: string]: number }
+}
+
+const { place } = Astro.params
+const { placeId, articles, places } = Astro.props
+
+const placeCollection = await getCollection("places")
+const placeEntry = await getEntryBySlug("places", placeId)
+---
+
+<Explore title={placeEntry?.data.title || ""} type="Lieux">
+	<div class="mt-5" slot="header">
+		<p>
+			{
+				Object.entries(places).map(([key, value], i) => (
+					<>
+						<TagLabel
+							label={placeCollection.find((p) => p.slug == key)?.data.title || key}
+							slug={key.split("/")[1]}
+							count={value}
+							type="place"
+							disabled={place == key}
+						/>{" "}
+					</>
+				))
+			}
+		</p>
+	</div>
+	<main class="flex flex-col shadow">
+		{articles.map((article) => <ArticleCardMinimal article={article} noPlace />)}
+	</main>
+</Explore>

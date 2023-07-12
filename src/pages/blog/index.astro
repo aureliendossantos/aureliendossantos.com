@@ -7,7 +7,6 @@ import getBlogPosts from "$utils/getBlogPosts"
 import getUniqueValuesAndOccurences, {
 	getUniquePlacesAndOccurences,
 } from "$utils/getUniqueValuesAndOccurences"
-import getPlace from "$utils/places"
 
 const articles = await getBlogPosts()
 
@@ -43,7 +42,7 @@ const places = getUniquePlacesAndOccurences(rawPlaces)
 						<p>Bonjour, je suis Aurélien et vous êtes sur mon blog.</p>
 						<p>
 							Explorer par <a href="/categories">catégorie</a>, <a href="/tags">tag</a
-							>, <a href="/places">lieu</a>.
+							>, <a href="/blog/places">lieu</a>.
 						</p>
 						<p>
 							À propos <a href="/about">de moi</a>, <a href="/website">de ce site</a>.

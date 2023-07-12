@@ -1,3 +1,4 @@
+import "dotenv/config"
 import type {
 	BlockObjectResponse,
 	QueryDatabaseParameters,
@@ -48,7 +49,7 @@ export default async function getGames(
 ) {
 	console.log("Getting Notion games...")
 	const notionResponse = await getDatabase(
-		import.meta.env.NOTION_GAMES_DB,
+		import.meta.env ? import.meta.env.NOTION_GAMES_DB : process.env.NOTION_GAMES_DB,
 		filter,
 		firstResults,
 		numberOfItems

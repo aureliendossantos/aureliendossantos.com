@@ -1,64 +1,29 @@
-export type Place = {
-	slug: string
-	customTitle: string
-	googleMapsId: string
+function dayOfWeekAsString(dayIndex: number): string {
+	return ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"][dayIndex]
 }
 
-export enum Places {
-	eauxChaudes = "eaux-chaudes",
-	grotteEauxChaudes = "grotte-eaux-chaudes",
-	valleeDAspe = "vallee-d-aspe",
-	pau = "pau",
-	gourette = "gourette",
-	pyreneesAriegeoises = "pyrenees-ariegeoises",
-	toulouse = "toulouse",
+function getClosedDays(openedDays: Array<number>): string {
+	let daysNumbers = [1, 2, 3, 4, 5, 6, 0]
+	let closedDays = daysNumbers
+		.filter((dayNumber) => !openedDays.includes(dayNumber))
+		.map((x) => dayOfWeekAsString(x))
+	if (closedDays.length == 0) return "Ouvert tous les jours."
+	if (closedDays.length == 1) return `Fermé le ${closedDays[0]}.`
+	return `Fermé le ${closedDays.slice(0, -1).join(", ")} et le ${
+		closedDays[closedDays.length - 1]
+	}.`
 }
 
-// Place ID finder: https://developers.google.com/maps/documentation/places/web-service/place-id
+export function getClosedStatus(place: google.maps.places.PlaceResult) {
+	if (place.business_status == "CLOSED_TEMPORARILY") return "Fermé temporairement."
+	if (place.business_status == "CLOSED_PERMANENTLY") return "Fermé définitivement."
+	if (place.current_opening_hours)
+		return getClosedDays(place.opening_hours.periods.map((period: any) => period.open.day))
+	return null
+}
 
-export default function getPlace(slug: Places): Place {
-	switch (slug) {
-		case "eaux-chaudes":
-			return {
-				slug: slug,
-				customTitle: "Eaux-Chaudes",
-				googleMapsId: "ChIJNf6KbUW7Vw0RIWjJRhhlBiY",
-			}
-		case "grotte-eaux-chaudes":
-			return {
-				slug: slug,
-				customTitle: "Grotte d'Eaux-Chaudes",
-				googleMapsId: "ChIJ9bnyiKW8Vw0RK5G0VFFtt9U",
-			}
-		case "vallee-d-aspe":
-			return {
-				slug: slug,
-				customTitle: "Vallée d'Aspe",
-				googleMapsId: "ChIJb17pamGnVw0RY4EJf_ogmt4",
-			}
-		case "pau":
-			return {
-				slug: slug,
-				customTitle: "Pau",
-				googleMapsId: "ChIJ6XpctIVIVg0RsJQTSBdlBgQ",
-			}
-		case "gourette":
-			return {
-				slug: slug,
-				customTitle: "Gourette",
-				googleMapsId: "ChIJdZxQEMO4Vw0RL-sgn441jQw",
-			}
-		case "pyrenees-ariegeoises":
-			return {
-				slug: slug,
-				customTitle: "Pyrénées ariégeoises",
-				googleMapsId: "ChIJ5VJCrBU1rxIRRMfwvWVPYbM",
-			}
-		default:
-			return {
-				slug: slug,
-				customTitle: "Toulouse",
-				googleMapsId: "ChIJ_1J17G-7rhIRMBBBL5z2BgQ",
-			}
-	}
+export function getGoogleImage(maxWidth: number, photoReference: string): string {
+	return `https://maps.googleapis.com/maps/api/place/photo?maxwidth=${maxWidth}&photoreference=${photoReference}&key=${
+		import.meta.env.GOOGLE_MAPS_TOKEN
+	}`
 }

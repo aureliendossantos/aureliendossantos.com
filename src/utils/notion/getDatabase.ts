@@ -1,3 +1,4 @@
+import "dotenv/config"
 import { Client } from "@notionhq/client"
 import type { QueryDatabaseParameters } from "@notionhq/client/build/src/api-endpoints"
 
@@ -8,7 +9,7 @@ export default async function getDatabase(
 	numberOfItems: number | undefined = undefined
 ) {
 	const notion = new Client({
-		auth: import.meta.env.NOTION_SECRET,
+		auth: import.meta.env ? import.meta.env.NOTION_SECRET : process.env.NOTION_SECRET,
 	})
 	let results = []
 	let data = await notion.databases.query({

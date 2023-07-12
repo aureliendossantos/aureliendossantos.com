@@ -1,7 +1,7 @@
 ---
 title: Gourette
 date: 2017-05-03
-places: ["gourette"]
+places: ["aquitaine/gourette"]
 categories: ["Photos"]
 image: ./f.webp
 palette: black

@@ -1,3 +1,4 @@
+import "dotenv/config"
 import { Client } from "@notionhq/client"
 import type {
 	BlockObjectResponse,
@@ -11,7 +12,7 @@ export type BlockObjectResponseWithChildren = BlockObjectResponse & {
 
 export default async function getChildren(blockId: string, recursive = true, firstResults = false) {
 	const notion = new Client({
-		auth: import.meta.env.NOTION_SECRET,
+		auth: import.meta.env ? import.meta.env.NOTION_SECRET : process.env.NOTION_SECRET,
 	})
 	let results: BlockObjectResponse[] | BlockObjectResponseWithChildren[] = []
 	let data = await notion.blocks.children.list({

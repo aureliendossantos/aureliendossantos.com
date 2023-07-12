@@ -1,0 +1,19 @@
+---
+import BaseLayout from "./BaseLayout.astro"
+
+export interface Props extends ReturnType<typeof BaseLayout> {}
+---
+
+<BaseLayout {...Astro.props} bg="black">
+	<div class="w-full bg-black">
+		<div class="m-auto min-h-screen max-w-md bg-white">
+			<slot />
+		</div>
+	</div>
+</BaseLayout>
+
+<style is:global>
+	@tailwind base;
+	@tailwind components;
+	@tailwind utilities;
+</style>

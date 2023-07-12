@@ -36,6 +36,10 @@ iframe {
 }
 
 .article-styling {
+	.bg-mention img {
+		@apply -mb-[0.1em];
+	}
+
 	a {
 		@apply text-inherit;
 	}

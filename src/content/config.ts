@@ -1,6 +1,5 @@
 import { defineCollection, z } from "astro:content"
 import { Palettes } from "$utils/palettes"
-import { Places } from "$utils/places"
 // Export a single `collections` object to register your collection(s)
 // This key should match your collection directory name in "src/content"
 export const collections = {
@@ -25,7 +24,7 @@ export const collections = {
 				layouts: z.array(z.string()).default(["classic"]),
 				games: z.array(z.string()).default([]),
 				books: z.array(z.string()).default([]),
-				places: z.array(z.nativeEnum(Places)).default([]),
+				places: z.array(z.string()).default([]),
 			}),
 	}),
 	pages: defineCollection({
@@ -60,6 +59,14 @@ export const collections = {
 				linkTitle: z.string().optional(),
 				image: image().optional(),
 			}),
+	}),
+	places: defineCollection({
+		schema: z.object({
+			title: z.string(),
+			id: z.string(),
+			status: z.enum(["todo", "done"]),
+			review: z.enum(["loved", "liked", "okay"]).optional(),
+		}),
 	}),
 	gear: defineCollection({
 		schema: z.object({
