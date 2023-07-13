@@ -3,13 +3,12 @@ import { CollectionEntry, getCollection } from "astro:content"
 import PlacesLayout from "$layouts/PlacesLayout.astro"
 import PlacesList from "$components/places/PlacesList.astro"
 import { getPlacesData } from "$utils/remoteData"
+import { getDiary } from "$utils/getBlogPosts"
 
 export async function getStaticPaths() {
-	const entries = await getCollection("diary", ({ data }) => {
-		return data.draft !== true || import.meta.env.DEV
-	})
+	const entries = await getDiary()
 	return entries.map((entry) => ({
-		params: { diary: entry.slug.split("/")[2] },
+		params: { diary: entry.finalSlug },
 		props: { entry },
 	}))
 }

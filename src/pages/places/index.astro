@@ -3,7 +3,7 @@ import PlacesList from "$components/places/PlacesList.astro"
 import { getCollection } from "astro:content"
 import PlacesLayout from "$layouts/PlacesLayout.astro"
 import { getPlacesData } from "$utils/remoteData"
-import getBlogPosts from "$utils/getBlogPosts"
+import getBlogPosts, { getDiary } from "$utils/getBlogPosts"
 
 const apiKey = import.meta.env.GOOGLE_MAPS_TOKEN
 const googleMapsData = await getPlacesData(
@@ -12,6 +12,7 @@ const googleMapsData = await getPlacesData(
 
 const reviewsOrder = ["loved", "liked", "okay", null]
 const articles = await getBlogPosts()
+const diaryEntries = await getDiary()
 
 const places = (await getCollection("places"))
 	.map((place) => ({
@@ -20,6 +21,7 @@ const places = (await getCollection("places"))
 		slug: place.slug.split("/")[1],
 		maps: googleMapsData.find((p) => p.place_id == place.data.id),
 		articles: articles.filter((a) => a.data.places.includes(place.slug)).length,
+		diaryEntries: diaryEntries.filter((a) => a.data.places.includes(place.slug)).length,
 	}))
 	.sort((a, b) => reviewsOrder.indexOf(a.data.review) - reviewsOrder.indexOf(b.data.review))
 	.sort((a, b) => a.data.status.localeCompare(b.data.status))

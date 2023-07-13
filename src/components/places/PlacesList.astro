@@ -26,7 +26,7 @@ const uid = crypto.randomUUID()
 			return (
 				<a
 					class={
-						"place flex px-6 py-2 text-sm transition-colors hover:bg-zinc-100" +
+						"place flex gap-2 px-6 py-2 text-sm transition-colors hover:bg-zinc-100" +
 						(place.data.status == "done" ? " text-zinc-700" : " text-zinc-500")
 					}
 					href={`/places/${place.slug}`}
@@ -42,16 +42,21 @@ const uid = crypto.randomUUID()
 						{place.data.title}
 					</div>
 					<div class="grow" />
+					{place.diaryEntries > 0 && (
+						<div class="text-zinc-500">
+							{place.articles > 1 ? `${place.articles} entrées` : "1 entrée"}
+						</div>
+					)}
 					{place.articles > 0 && (
 						<div class="text-zinc-500">
 							{place.articles > 1 ? `${place.articles} articles` : "1 article"}
 						</div>
 					)}
-					<div>
-						{place.data.status == "done"
-							? place.data.review == "loved" && "❤️"
-							: "À visiter"}
-					</div>
+					{place.data.status == "done" ? (
+						place.data.review == "loved" && <div>❤️</div>
+					) : (
+						<div>À visiter</div>
+					)}
 				</a>
 			)
 		})

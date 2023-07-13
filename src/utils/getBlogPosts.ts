@@ -7,3 +7,13 @@ export default async function getBlogPosts() {
 	})
 	return blog.sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
 }
+
+export async function getDiary() {
+	return (await getCollection("diary", ({ data }) => !data.draft)).map(({ slug, ...rest }) => ({
+		slug: slug,
+		finalSlug: slug.split("/")[2],
+		year: Number(slug.split("/")[1]),
+		category: slug.split("/")[0],
+		...rest,
+	}))
+}

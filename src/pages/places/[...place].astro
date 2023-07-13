@@ -3,7 +3,7 @@ import { CollectionEntry, getCollection } from "astro:content"
 import PlacesLayout from "$layouts/PlacesLayout.astro"
 import { getClosedStatus, getGoogleImage } from "$utils/places"
 import { getPlacesData } from "$utils/remoteData"
-import getBlogPosts from "$utils/getBlogPosts"
+import getBlogPosts, { getDiary } from "$utils/getBlogPosts"
 import ArticleDate from "$components/ArticleDate.astro"
 import getPalette from "$utils/palettes"
 
@@ -27,10 +27,10 @@ const { place, mapsData } = Astro.props
 const articles = (await getBlogPosts()).filter((article) =>
 	article.data.places.includes(place.slug)
 )
+const diaryEntries = (await getDiary()).filter((entry) => entry.data.places.includes(place.slug))
 
 const { Content, headings } = await place.render()
 const data = place.data
-const category = place.slug.split("/")[0]
 
 const headerImage = mapsData.photos[0].photo_reference
 const gallery =
@@ -65,30 +65,62 @@ const gallery =
 			{
 				articles.length > 0 && (
 					<>
-						<>
-							<h2>Sur mon blog</h2>
-							<div class="not-prose -mx-8 mt-8 flex flex-col">
-								{articles.map((article) => {
-									const palette = getPalette(article.data.palette)
-									return (
-										<a
-											class="flex bg-[--bg] px-8 py-2 text-sm text-[--color] transition-all hover:brightness-110 hover:contrast-75"
-											style={{
-												"--color": palette.mainColor,
-												"--bg": palette.backgroundColor,
-											}}
-											href={`/blog/${article.slug}`}
-										>
-											<div class="font-medium">{article.data.title}</div>
-											<div class="grow" />
+						<h2>Sur mon blog</h2>
+						<div class="not-prose -mx-8 mt-8 flex flex-col">
+							{articles.map((article) => {
+								const palette = getPalette(article.data.palette)
+								return (
+									<a
+										class="flex bg-[--bg] px-8 py-2 text-sm text-[--color] transition-all hover:brightness-110 hover:contrast-75"
+										style={{
+											"--color": palette.mainColor,
+											"--bg": palette.backgroundColor,
+										}}
+										href={`/blog/${article.slug}`}
+									>
+										<div class="font-medium">{article.data.title}</div>
+										<div class="grow" />
+										<div>
+											<ArticleDate date={article.data.date} yearOnly />
+										</div>
+									</a>
+								)
+							})}
+						</div>
+					</>
+				)
+			}
+			{
+				diaryEntries.length > 0 && (
+					<>
+						<h2>Dans mon journal</h2>
+						<div class="not-prose -mx-8 mt-8 flex flex-col">
+							{diaryEntries.map((entry) => {
+								return (
+									<a
+										class="place flex bg-zinc-100 px-8 py-2 text-sm text-zinc-700 transition-colors hover:bg-zinc-200"
+										href={`/diary/${entry.finalSlug}`}
+									>
+										<div class="font-medium">
+											{entry.data.title}
+											{entry.category == "trips" && (
+												<img
+													src="/footsteps.svg"
+													alt="Icône de pas"
+													class="mb-[0.15em] ml-1 inline-block h-[0.9em]"
+												/>
+											)}
+										</div>
+										<div class="grow" />
+										{entry.data.date && (
 											<div>
-												<ArticleDate date={article.data.date} yearOnly />
+												<ArticleDate date={entry.data.date} yearOnly />
 											</div>
-										</a>
-									)
-								})}
-							</div>
-						</>
+										)}
+									</a>
+								)
+							})}
+						</div>
 					</>
 				)
 			}
