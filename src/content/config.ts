@@ -43,6 +43,15 @@ export const collections = {
 				layouts: z.array(z.string()).default(["classic"]),
 			}),
 	}),
+	diary: defineCollection({
+		schema: () =>
+			z.object({
+				title: z.string(),
+				date: z.date().optional(),
+				draft: z.boolean().default(false),
+				places: z.array(z.string()).default([]),
+			}),
+	}),
 	portfolio: defineCollection({
 		schema: ({ image }) =>
 			z.object({

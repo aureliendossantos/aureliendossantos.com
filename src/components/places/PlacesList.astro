@@ -1,15 +1,26 @@
 ---
+import crypto from "node:crypto"
+
 interface Props {
-	title: string
+	title?: string
 	places: any[]
+	lat?: number
+	lng?: number
+	zoom?: number
 }
-const { title, places } = Astro.props
+const { title, places, lat, lng, zoom } = Astro.props
+
+const uid = crypto.randomUUID()
 ---
 
-<h2 class="mb-2 border-b border-zinc-300 px-8 pb-4 font-work-sans text-sm font-semibold">
-	{title}
-</h2>
-<div class="mb-8 flex flex-col">
+{
+	title && (
+		<h2 class="mb-2 border-b border-zinc-300 px-8 pb-4 font-work-sans text-sm font-semibold">
+			{title}
+		</h2>
+	)
+}
+<div id={uid} class:list={["flex flex-col", { "mb-8": title }]}>
 	{
 		places.map((place) => {
 			return (
@@ -44,5 +55,19 @@ const { title, places } = Astro.props
 				</a>
 			)
 		})
+	}
+	{
+		lat && lng && zoom && (
+			<div
+				class="map mt-0 min-h-0 w-full cursor-pointer transition-all hover:bg-zinc-100"
+				data-lat={lat}
+				data-lng={lng}
+				data-zoom={zoom}
+			>
+				<div class="px-[43px] py-2 text-sm font-medium text-zinc-500">
+					Afficher la carte
+				</div>
+			</div>
+		)
 	}
 </div>

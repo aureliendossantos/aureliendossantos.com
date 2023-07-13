@@ -5,6 +5,7 @@ import PlacesLayout from "$layouts/PlacesLayout.astro"
 import { getPlacesData } from "$utils/remoteData"
 import getBlogPosts from "$utils/getBlogPosts"
 
+const apiKey = import.meta.env.GOOGLE_MAPS_TOKEN
 const googleMapsData = await getPlacesData(
 	new URL(`../../../public/data/maps.json`, import.meta.url).href
 )
@@ -29,13 +30,11 @@ const places = (await getCollection("places"))
 	<div class="m-auto flex max-w-xl flex-col gap-8 pt-10 text-zinc-900">
 		<header class="flex justify-between px-8 font-work-sans text-sm text-zinc-400">
 			<p>
-				<a href="/" class="hover:text-amber-700">← Retour à l'accueil</a>
+				<a href="/" class="hover:text-amber-700">← Accueil du site</a>
 			</p>
-			<!--
 			<p>
-				<a href="/diary" class="hover:text-amber-700">Catégories du journal ↑</a>
+				<a href="/diary" class="hover:text-amber-700">Journal ↑</a>
 			</p>
-			-->
 		</header>
 		<main class="flex flex-col">
 			<header class="prose prose-zinc mb-8 px-8 small:prose-sm">
@@ -44,34 +43,56 @@ const places = (await getCollection("places"))
 			<PlacesList
 				title="À Toulouse"
 				places={places.filter((place) => place.category == "toulouse")}
+				lat={43.602}
+				lng={1.446}
+				zoom={13}
 			/>
 			<PlacesList
 				title="En Occitanie"
 				places={places.filter((place) => place.category == "occitanie")}
+				lat={43.968}
+				lng={2.562}
+				zoom={7}
 			/>
 			<PlacesList
 				title="En Aquitaine"
 				places={places.filter((place) => place.category == "aquitaine")}
+				lat={43.356}
+				lng={-0.51}
+				zoom={8}
 			/>
 			<PlacesList
 				title="En Europe"
 				places={places.filter((place) => place.category == "europe")}
+				lat={47.058}
+				lng={3.697}
+				zoom={4}
 			/>
 		</main>
-		<div id="map" class="h-[448px] w-full bg-zinc-200"></div>
 	</div>
 </PlacesLayout>
-<!--
+
 <script>
 	let map: google.maps.Map
-	function initMap() {
-		map = new google.maps.Map(document.getElementById("map") as HTMLDivElement, {
+
+	function createMap(event: MouseEvent) {
+		// the event target is the <div> containing the text, but the eventListener is on the parent <div>
+		const mapDiv = (event.target as HTMLDivElement).parentNode as HTMLDivElement
+		mapDiv.removeEventListener("click", createMap)
+		mapDiv.classList.add("bg-zinc-100")
+		mapDiv.classList.remove("cursor-pointer")
+		mapDiv.style.minHeight = "448px"
+		mapDiv.style.marginTop = "8px"
+		map = new google.maps.Map(mapDiv, {
 			mapId: "531454af7b16b9f",
-			center: { lat: 43.602, lng: 1.446 },
-			zoom: 13,
+			center: { lat: Number(mapDiv.dataset.lat), lng: Number(mapDiv.dataset.lng) },
+			zoom: Number(mapDiv.dataset.zoom),
 		})
+		// Getting the parent of the map div, which contains all the <a> with places
 		const places = Array.from(
-			document.getElementsByClassName("place") as HTMLCollectionOf<HTMLLinkElement>
+			(mapDiv.parentNode as HTMLDivElement).getElementsByClassName(
+				"place"
+			) as HTMLCollectionOf<HTMLLinkElement>
 		).map((place) => ({
 			lat: Number(place.dataset.lat),
 			lng: Number(place.dataset.lng),
@@ -79,7 +100,6 @@ const places = (await getCollection("places"))
 			title: place.children[0].textContent,
 			href: place.href,
 		}))
-		console.log(places)
 		places.forEach((place) => {
 			const contentString =
 				'<div id="content">' +
@@ -108,11 +128,18 @@ const places = (await getCollection("places"))
 			})
 		})
 	}
-	window.initMap = initMap
+
+	function initAllMaps() {
+		Array.from(
+			document.getElementsByClassName("map") as HTMLCollectionOf<HTMLDivElement>
+		).forEach(function (mapDiv) {
+			mapDiv.addEventListener("click", createMap)
+		})
+	}
+	window.initAllMaps = initAllMaps
 </script>
 
 <script
 	async
-	src=`https://maps.googleapis.com/maps/api/js?key=${apiKey}&region=FR&language=fr&callback=initMap`
+	src=`https://maps.googleapis.com/maps/api/js?key=${apiKey}&region=FR&language=fr&callback=initAllMaps`
 ></script>
--->

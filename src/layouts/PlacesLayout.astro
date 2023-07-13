@@ -16,4 +16,7 @@ export interface Props extends ReturnType<typeof BaseLayout> {}
 	@tailwind base;
 	@tailwind components;
 	@tailwind utilities;
+	figure:has(img) {
+		@apply -mx-8;
+	}
 </style>

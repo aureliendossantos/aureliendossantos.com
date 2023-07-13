@@ -1,0 +1,66 @@
+---
+import { CollectionEntry, getCollection } from "astro:content"
+import PlacesLayout from "$layouts/PlacesLayout.astro"
+import PlacesList from "$components/places/PlacesList.astro"
+import { getPlacesData } from "$utils/remoteData"
+
+export async function getStaticPaths() {
+	const entries = await getCollection("diary", ({ data }) => {
+		return data.draft !== true || import.meta.env.DEV
+	})
+	return entries.map((entry) => ({
+		params: { diary: entry.slug.split("/")[2] },
+		props: { entry },
+	}))
+}
+
+export interface Props {
+	entry: CollectionEntry<"diary">
+}
+const { entry } = Astro.props
+
+const { Content, headings } = await entry.render()
+const data = entry.data
+
+const googleMapsData = await getPlacesData(
+	new URL(`../../../public/data/maps.json`, import.meta.url).href
+)
+
+const placesCollection = await getCollection("places")
+
+const places = data.places
+	.map((slug) => placesCollection.find((p) => p.slug == slug))
+	.map((place) => ({
+		...place,
+		slug: place.slug.split("/")[1],
+		maps: googleMapsData.find((p) => p.place_id == place.data.id),
+	}))
+---
+
+<PlacesLayout ogType="article" title={data.title}>
+	<div class="m-auto max-w-xl pb-8 text-zinc-900">
+		<header class="flex justify-between px-8 pb-8 pt-10 font-work-sans text-sm text-zinc-400">
+			<p>
+				<a href="/diary" class="hover:text-amber-700">← Journal</a>
+			</p>
+		</header>
+		<main
+			class="prose prose-sm prose-zinc prose-quoteless px-8 prose-blockquote:font-normal prose-blockquote:not-italic"
+		>
+			<h1>{data.title}</h1>
+			<div class="not-prose -mx-6">
+				<PlacesList places={places} />
+			</div>
+			<Content />
+		</main>
+	</div>
+</PlacesLayout>
+
+<style is:global>
+	.prose .bg-mention {
+		@apply bg-zinc-200 hover:bg-zinc-300;
+	}
+	.prose .bg-mention img {
+		@apply mb-[0.2em];
+	}
+</style>
