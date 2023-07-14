@@ -1,18 +1,11 @@
 ---
+import ArticleDate from "$components/ArticleDate.astro"
 import PlacesLayout from "$layouts/PlacesLayout.astro"
+import { getDiary } from "$utils/getBlogPosts"
 import { getImage } from "astro:assets"
 import { getCollection } from "astro:content"
 
-const entries = (
-	await getCollection("diary", ({ data }) => {
-		return data.draft !== true // || import.meta.env.DEV
-	})
-).map(({ slug, ...rest }) => ({
-	slug: slug.split("/")[2],
-	year: Number(slug.split("/")[1]),
-	category: slug.split("/")[0],
-	...rest,
-}))
+const entries = await getDiary()
 
 const test = await import("./images/places.jpg")
 
@@ -48,7 +41,7 @@ const placesImage = await getImage({ src: test.default, width: 800, alt: "Rue de
 						return (
 							<a
 								class="place flex px-8 py-2 text-sm text-zinc-700 transition-colors hover:bg-zinc-100"
-								href={`/diary/${entry.slug}`}
+								href={`/diary/${entry.finalSlug}`}
 							>
 								<div class="font-medium">
 									{entry.data.title}
@@ -61,6 +54,9 @@ const placesImage = await getImage({ src: test.default, width: 800, alt: "Rue de
 									)}
 								</div>
 								<div class="grow" />
+								<div>
+									<ArticleDate date={entry.data.date} />
+								</div>
 							</a>
 						)
 					})

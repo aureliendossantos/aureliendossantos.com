@@ -9,11 +9,15 @@ export default async function getBlogPosts() {
 }
 
 export async function getDiary() {
-	return (await getCollection("diary", ({ data }) => !data.draft)).map(({ slug, ...rest }) => ({
-		slug: slug,
-		finalSlug: slug.split("/")[2],
-		year: Number(slug.split("/")[1]),
-		category: slug.split("/")[0],
-		...rest,
-	}))
+	return (await getCollection("diary", ({ data }) => !data.draft))
+		.map(({ slug, ...rest }) => ({
+			slug: slug,
+			finalSlug: slug.split("/")[2],
+			year: Number(slug.split("/")[1]),
+			category: slug.split("/")[0],
+			...rest,
+		}))
+		.sort((a, b) =>
+			b.data.date && a.data.date ? b.data.date.getTime() - a.data.date.getTime() : 0
+		)
 }
