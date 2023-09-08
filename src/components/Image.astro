@@ -10,8 +10,9 @@ export interface Props extends Omit<HTMLAttributes<"img">, "src"> {
 	width?: number
 	height?: number
 	quality?: ImageQuality
+	notZoomable?: boolean
 }
-const { src, alt, width, height, quality, ...attributes } = Astro.props
+const { src, alt, width, height, quality, notZoomable, ...attributes } = Astro.props
 
 /* const avif = await getImage({
 	src: src,
@@ -44,7 +45,7 @@ const placeholderURL = await imageService.generatePlaceholder(src.src, src.width
 		this.style.backgroundImage = 'none';
 		"
 		alt={alt}
-		data-zoomable
+		data-zoomable={!notZoomable}
 		{...webp.attributes}
 	/>
 </picture>

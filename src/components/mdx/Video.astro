@@ -1,5 +1,7 @@
 ---
-interface Props {
+import type { HTMLAttributes } from "astro/types"
+
+interface Props extends Omit<HTMLAttributes<"video">, "src"> {
 	src: string
 	autoplay?: boolean
 	muted?: boolean
@@ -8,7 +10,7 @@ interface Props {
 	poster?: string
 	caption?: string
 }
-const { src, autoplay, muted, loop, controls, poster, caption } = Astro.props
+const { src, autoplay, muted, loop, controls, poster, caption, ...attributes } = Astro.props
 ---
 
 <figure>
@@ -20,6 +22,7 @@ const { src, autoplay, muted, loop, controls, poster, caption } = Astro.props
 		loop={loop}
 		controls={controls}
 		poster={poster}
+		{...attributes}
 	>
 		<source src={src} />
 		<p>
