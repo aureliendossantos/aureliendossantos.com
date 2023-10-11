@@ -3,13 +3,14 @@ import ArticleDate from "$components/ArticleDate.astro"
 import PlacesLayout from "$layouts/PlacesLayout.astro"
 import { getDiary } from "$utils/getBlogPosts"
 import { getImage } from "astro:assets"
-import { getCollection } from "astro:content"
 
 const entries = await getDiary()
 
-const test = await import("./images/places.jpg")
-
-const placesImage = await getImage({ src: test.default, width: 800, alt: "Rue de Lisbonne" })
+const placesImage = await getImage({
+	src: (await import("./images/places.jpg")).default,
+	width: 800,
+	alt: "Rue de Lisbonne",
+})
 ---
 
 <PlacesLayout ogType="website" title="Journal">
@@ -30,38 +31,42 @@ const placesImage = await getImage({ src: test.default, width: 800, alt: "Rue de
 			>
 				<p class="absolute bottom-8 left-8 text-xl font-medium text-zinc-50">Lieux →</p>
 			</a>
-			<h2
-				class="mb-2 mt-8 border-b border-zinc-300 px-8 pb-4 font-work-sans text-sm font-semibold"
-			>
-				Pages
-			</h2>
-			<div class="mb-8 flex flex-col">
-				{
-					entries.map((entry) => {
-						return (
-							<a
-								class="place flex px-8 py-2 text-sm text-zinc-700 transition-colors hover:bg-zinc-100"
-								href={`/diary/${entry.finalSlug}`}
-							>
-								<div class="font-medium">
-									{entry.data.title}
-									{entry.category == "trips" && (
-										<img
-											src="/footsteps.svg"
-											alt="Icône de pas"
-											class="mb-[0.15em] ml-1 inline-block h-[0.9em]"
-										/>
-									)}
-								</div>
-								<div class="grow" />
-								<div>
-									<ArticleDate date={entry.data.date} />
-								</div>
-							</a>
-						)
-					})
-				}
-			</div>
+			{
+				[2023, 2022].map((year) => (
+					<>
+						<h2 class="mb-2 mt-8 border-b border-zinc-300 px-8 pb-4 font-work-sans text-sm font-semibold">
+							{year}
+						</h2>
+						<div class="flex flex-col">
+							{entries
+								.filter((entry) => entry.year == year)
+								.map((entry) => {
+									return (
+										<a
+											class="place flex px-8 py-2 text-sm text-zinc-700 transition-colors hover:bg-zinc-100"
+											href={`/diary/${entry.finalSlug}`}
+										>
+											<div class="font-medium">
+												{entry.data.title}
+												{entry.category == "trips" && (
+													<img
+														src="/footsteps.svg"
+														alt="Icône de pas"
+														class="mb-[0.15em] ml-1 inline-block h-[0.9em]"
+													/>
+												)}
+											</div>
+											<div class="grow" />
+											<div>
+												<ArticleDate noYear date={entry.data.date} />
+											</div>
+										</a>
+									)
+								})}
+						</div>
+					</>
+				))
+			}
 		</main>
 	</div>
 </PlacesLayout>

@@ -1,7 +1,12 @@
 import getGames from "$utils/notion/getGames"
 import fs from "node:fs"
 
-export async function updateGames() {
+/**
+ * Fetches the games in my Notion database according to custom filters then
+ * saves the results in a `games.json` file that can be read by `getGamesData()`.
+ * @returns The number of games in the new data file.
+ */
+export default async function updateGames() {
 	const filePath = new URL(`../public/data/games.json`, import.meta.url)
 	const games = await getGames({
 		and: [

@@ -1,14 +1,31 @@
-import fs from "node:fs/promises"
+import fs from "node:fs"
 import type getGames from "$utils/notion/getGames"
 
-export async function getPlacesData(baseURL: string) {
-	const filePath = new URL(`../../public/data/maps.json`, baseURL)
-	return JSON.parse((await fs.readFile(filePath)).toString()) as google.maps.places.PlaceResult[]
+export interface PlaceWithFetchDate extends google.maps.places.PlaceResult {
+	fetchDate: number
 }
 
-export async function getGamesData(baseURL: string) {
-	const filePath = new URL(`../../public/data/games.json`, baseURL)
-	return JSON.parse((await fs.readFile(filePath)).toString()) as Awaited<
+/**
+ * Gets the data from `maps.json`.
+ * @see `updateRemoteData.ts`
+ * @param publicDirURL The URL of the `public` folder.
+ * @returns A list of all places.
+ */
+export async function getPlacesData(publicDirURL: string) {
+	const filePath = new URL(`data/maps.json`, publicDirURL)
+	if (!fs.existsSync(filePath)) return []
+	return JSON.parse((await fs.promises.readFile(filePath)).toString()) as PlaceWithFetchDate[]
+}
+
+/**
+ * Gets the data from `games.json`.
+ * @see `updateRemoteData.ts`
+ * @param publicDirURL The URL of the `public` folder.
+ * @returns A list of all games.
+ */
+export async function getGamesData(publicDirURL: string) {
+	const filePath = new URL(`data/games.json`, publicDirURL)
+	return JSON.parse((await fs.promises.readFile(filePath)).toString()) as Awaited<
 		ReturnType<typeof getGames>
 	>
 }
