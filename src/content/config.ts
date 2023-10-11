@@ -50,6 +50,9 @@ export const collections = {
 				date: z.date().optional(),
 				draft: z.boolean().default(false),
 				places: z.array(z.string()).default([]),
+				mapLat: z.number().optional(),
+				mapLng: z.number().optional(),
+				mapZoom: z.number().optional(),
 			}),
 	}),
 	portfolio: defineCollection({
@@ -75,6 +78,7 @@ export const collections = {
 			id: z.string(),
 			status: z.enum(["todo", "done"]),
 			review: z.enum(["loved", "liked", "okay"]).optional(),
+			hide: z.boolean().default(false),
 		}),
 	}),
 	gear: defineCollection({

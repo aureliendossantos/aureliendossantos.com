@@ -1,4 +1,6 @@
 ---
+import { getPlacesData } from "$utils/remoteData"
+import { getCollection, getEntry } from "astro:content"
 import crypto from "node:crypto"
 
 interface Props {
@@ -8,7 +10,27 @@ interface Props {
 	lng?: number
 	zoom?: number
 }
-const { title, places, lat, lng, zoom } = Astro.props
+const { title, lat, lng, zoom } = Astro.props
+
+const googleMapsData = await getPlacesData(new URL(`../../../public/`, import.meta.url).href)
+
+const places = (
+	await Promise.all(
+		Astro.props.places.map(async (place) => {
+			if (typeof place === "string") {
+				const test = place
+				place = await getEntry("places", place)
+				if (!place) {
+					console.error(`Place ${test} not found`)
+					return null
+				}
+				place.slug = place.slug.split("/")[1]
+				place.maps = googleMapsData.find((p) => p.place_id == place.data.id)
+			}
+			return place
+		})
+	)
+).filter((place) => place != null)
 
 const uid = crypto.randomUUID()
 ---
@@ -20,7 +42,7 @@ const uid = crypto.randomUUID()
 		</h2>
 	)
 }
-<div id={uid} class:list={["flex flex-col", { "mb-8": title }]}>
+<div id={uid} class:list={["flex flex-col not-prose", { "mb-8": title }]}>
 	{
 		places.map((place) => {
 			return (
@@ -35,10 +57,7 @@ const uid = crypto.randomUUID()
 					data-icon={place.maps.icon}
 				>
 					<div class="font-medium">
-						<img
-							src={place.maps.icon}
-							class="mb-[0.1em] mr-1 inline-block max-h-[0.8em]"
-						/>{" "}
+						<img src={place.maps.icon} class="mb-[0.1em] mr-1 inline-block max-h-[0.8em]" />{" "}
 						{place.data.title}
 					</div>
 					<div class="grow" />
@@ -69,9 +88,7 @@ const uid = crypto.randomUUID()
 				data-lng={lng}
 				data-zoom={zoom}
 			>
-				<div class="px-[43px] py-2 text-sm font-medium text-zinc-500">
-					Afficher la carte
-				</div>
+				<div class="px-[43px] py-2 text-sm font-medium text-zinc-500">Afficher la carte</div>
 			</div>
 		)
 	}
