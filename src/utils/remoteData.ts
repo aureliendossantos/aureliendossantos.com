@@ -1,4 +1,4 @@
-import fs from "node:fs/promises"
+import fs from "node:fs"
 import type getGames from "$utils/notion/getGames"
 
 export interface PlaceWithFetchDate extends google.maps.places.PlaceResult {
@@ -13,7 +13,8 @@ export interface PlaceWithFetchDate extends google.maps.places.PlaceResult {
  */
 export async function getPlacesData(publicDirURL: string) {
 	const filePath = new URL(`data/maps.json`, publicDirURL)
-	return JSON.parse((await fs.readFile(filePath)).toString()) as PlaceWithFetchDate[]
+	if (!fs.existsSync(filePath)) return []
+	return JSON.parse((await fs.promises.readFile(filePath)).toString()) as PlaceWithFetchDate[]
 }
 
 /**
@@ -24,7 +25,7 @@ export async function getPlacesData(publicDirURL: string) {
  */
 export async function getGamesData(publicDirURL: string) {
 	const filePath = new URL(`data/games.json`, publicDirURL)
-	return JSON.parse((await fs.readFile(filePath)).toString()) as Awaited<
+	return JSON.parse((await fs.promises.readFile(filePath)).toString()) as Awaited<
 		ReturnType<typeof getGames>
 	>
 }
