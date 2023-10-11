@@ -6,7 +6,7 @@ import type {
 } from "@notionhq/client/build/src/api-endpoints"
 import getDatabase from "./getDatabase"
 import getChildren from "./getChildren"
-import getIGDBgames, { IGDBData } from "$utils/getIGDBgame"
+import getIGDBgames, { type IGDBData } from "$utils/getIGDBgame"
 
 type ResponseResult = Extract<
 	QueryDatabaseResponse["results"][number],

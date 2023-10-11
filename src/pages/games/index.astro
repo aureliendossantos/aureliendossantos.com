@@ -6,7 +6,7 @@ import BaseLayout from "$layouts/BaseLayout.astro"
 import { emotes } from "$utils/notion/reviewEmotes"
 import { getGamesData } from "$utils/remoteData"
 
-const games = await getGamesData(new URL(`../../../public/data/maps.json`, import.meta.url).href)
+const games = await getGamesData(new URL(`../../../public/`, import.meta.url).href)
 
 const reviewsOrder = [
 	"Coup de cœur",
@@ -31,24 +31,20 @@ games.sort(
 
 <BaseLayout title="Jeux" ogType="website" bg="white" bgDark="black">
 	<div class="m-auto my-10 flex max-w-prose flex-col gap-8 px-4">
-		<header
-			class="flex justify-between font-work-sans text-sm text-slate-400 dark:text-slate-600"
-		>
+		<header class="flex justify-between font-work-sans text-sm text-slate-400 dark:text-slate-600">
 			<p>
-				<a href="/" class="hover:text-indigo-700 hover:dark:text-indigo-400"
-					>← Accueil du site</a
-				>
+				<a href="/" class="hover:text-indigo-700 hover:dark:text-indigo-400">← Accueil du site</a>
 			</p>
 		</header>
 		<header>
 			<div class="prose prose-slate dark:prose-invert small:prose-sm">
 				<p>
-					Cette page recense les jeux auxquels j'ai joué et ce que j'en ai pensé. Pour les
-					jeux qui n'ont pas de fin, je note si j'y joue « souvent » ou « rarement ».
+					Cette page recense les jeux auxquels j'ai joué et ce que j'en ai pensé. Pour les jeux qui
+					n'ont pas de fin, je note si j'y joue « souvent » ou « rarement ».
 				</p>
 				<p>
-					📝 indique qu'un rapide avis écrit est disponible sur la page du jeu.<br />📖
-					indique que le texte est un peu plus long.
+					📝 indique qu'un rapide avis écrit est disponible sur la page du jeu.<br />📖 indique que
+					le texte est un peu plus long.
 				</p>
 				<h3 class="font-work-sans">Coups de cœur récents</h3>
 				<div class="not-prose grid grid-cols-6 gap-3 medium:grid-cols-5 small:grid-cols-4">
@@ -91,12 +87,7 @@ games.sort(
 						placeholder="Rechercher un jeu"
 					/>
 					<div class="text-sm small:text-xs">
-						<FilterButton
-							type="checkbox"
-							name="filters"
-							id="all"
-							content="Multijoueur"
-						/>
+						<FilterButton type="checkbox" name="filters" id="all" content="Multijoueur" />
 					</div>
 				</div>
 				<div
@@ -133,9 +124,7 @@ games.sort(
 										},
 									]}
 								>
-									<OptionalLink
-										href={item.igdb ? `/games/${item.slug}` : undefined}
-									>
+									<OptionalLink href={item.igdb ? `/games/${item.slug}` : undefined}>
 										{item.title}
 										{item.blocks.length > 0 ? " 📖" : item.review && " 📝"}
 									</OptionalLink>
@@ -184,9 +173,7 @@ games.sort(
 			// checkbox 0 is "all multiplayer games"
 			// index [3] to 6 corresponds to multiplayer rows
 			if (checkboxes[0].checked) {
-				const multiplayerTds = [3, 4, 5, 6].map(
-					(j) => rows[i].getElementsByTagName("td")[j]
-				)
+				const multiplayerTds = [3, 4, 5, 6].map((j) => rows[i].getElementsByTagName("td")[j])
 				if (multiplayerTds.filter((td) => td && getCellText(td) == "").length == 4) {
 					rows[i].style.display = "none"
 				}
@@ -202,10 +189,7 @@ games.sort(
 				}
 			}
 			// Si aucun filtre, on recache les jeux "à essayer"
-			if (
-				searchBar.value == "" &&
-				Array.from(checkboxes).filter((c) => c.checked).length == 0
-			) {
+			if (searchBar.value == "" && Array.from(checkboxes).filter((c) => c.checked).length == 0) {
 				const td = rows[i].getElementsByTagName("td")[2]
 				if (getCellText(td) == "À essayer") {
 					rows[i].style.display = "none"

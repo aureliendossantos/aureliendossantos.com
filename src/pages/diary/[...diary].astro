@@ -21,9 +21,7 @@ const { entry } = Astro.props
 const { Content, headings } = await entry.render()
 const data = entry.data
 
-const googleMapsData = await getPlacesData(
-	new URL(`../../../public/data/maps.json`, import.meta.url).href
-)
+const googleMapsData = await getPlacesData(new URL(`../../../public/`, import.meta.url).href)
 
 const placesCollection = await getCollection("places")
 
@@ -44,7 +42,7 @@ const places = data.places
 			</p>
 		</header>
 		<main
-			class="prose prose-sm prose-zinc prose-quoteless px-8 prose-blockquote:font-normal prose-blockquote:not-italic"
+			class="prose-quoteless prose prose-sm prose-zinc px-8 prose-blockquote:font-normal prose-blockquote:not-italic"
 		>
 			<h1>{data.title}</h1>
 			<div class="not-prose -mx-6">

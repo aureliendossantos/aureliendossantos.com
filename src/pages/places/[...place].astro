@@ -1,17 +1,15 @@
 ---
-import { CollectionEntry, getCollection } from "astro:content"
+import { getCollection, type CollectionEntry } from "astro:content"
 import PlacesLayout from "$layouts/PlacesLayout.astro"
 import { getClosedStatus, getGoogleImage } from "$utils/places"
-import { getPlacesData } from "$utils/remoteData"
+import { getPlacesData, type PlaceWithFetchDate } from "$utils/remoteData"
 import getBlogPosts, { getDiary } from "$utils/getBlogPosts"
 import ArticleDate from "$components/ArticleDate.astro"
 import getPalette from "$utils/palettes"
 
 export async function getStaticPaths() {
 	const places = await getCollection("places")
-	const googleMapsData = await getPlacesData(
-		new URL(`../../../public/data/maps.json`, import.meta.url).href
-	)
+	const googleMapsData = await getPlacesData(new URL(`../../../public/`, import.meta.url).href)
 	return places.map((place) => ({
 		params: { place: place.slug.split("/")[1] },
 		props: { place, mapsData: googleMapsData.find((p) => p.place_id === place.data.id) },
@@ -20,7 +18,7 @@ export async function getStaticPaths() {
 
 export interface Props {
 	place: CollectionEntry<"places">
-	mapsData: google.maps.places.PlaceResult
+	mapsData: PlaceWithFetchDate
 }
 const { place, mapsData } = Astro.props
 
@@ -41,6 +39,7 @@ const gallery =
 
 <PlacesLayout ogType="article" title={data.title}>
 	<div class="m-auto flex max-w-xl flex-col gap-8 text-zinc-900">
+	<div class="m-auto flex max-w-xl flex-col gap-8 text-zinc-900" transition:animate="slide">
 		<img
 			class="h-80 w-full object-cover"
 			src={getGoogleImage(800, headerImage)}

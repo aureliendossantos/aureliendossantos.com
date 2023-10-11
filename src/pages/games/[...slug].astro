@@ -9,9 +9,7 @@ import { emotes } from "$utils/notion/reviewEmotes"
 import { getGamesData } from "$utils/remoteData"
 
 export async function getStaticPaths() {
-	const games = await getGamesData(
-		new URL(`../../../public/data/maps.json`, import.meta.url).href
-	)
+	const games = await getGamesData(new URL(`../../../public/`, import.meta.url).href)
 	return games
 		.filter((game) => game.igdb)
 		.map((game) => ({
@@ -83,8 +81,7 @@ const igdb = game.igdb as IGDBData
 						</h1>
 						<p class="text-slate-500">
 							{igdb.release_dates[0].y} • {igdb.developers}{
-								igdb.publishers != igdb.developers &&
-									` • Publié par ${igdb.publishers}`
+								igdb.publishers != igdb.developers && ` • Publié par ${igdb.publishers}`
 							}
 						</p>
 						<div class="my-3 flex flex-wrap gap-1">
@@ -120,8 +117,7 @@ const igdb = game.igdb as IGDBData
 				{
 					game.myPlatforms.length > 0 ? (
 						<p>
-							J'y ai joué sur {enumerate(game.myPlatforms)} (
-							{game.progress?.toLowerCase()}).
+							J'y ai joué sur {enumerate(game.myPlatforms)} ({game.progress?.toLowerCase()}).
 						</p>
 					) : (
 						<p>{game.progress}.</p>
@@ -148,12 +144,9 @@ const igdb = game.igdb as IGDBData
 				</div>
 			</main>
 		</div>
-		<footer
-			class="flex justify-between font-work-sans text-sm text-slate-400 dark:text-slate-600"
-		>
+		<footer class="flex justify-between font-work-sans text-sm text-slate-400 dark:text-slate-600">
 			<p>
-				<a href="/games" class="hover:text-indigo-700 hover:dark:text-indigo-400"
-					>← Tous les jeux</a
+				<a href="/games" class="hover:text-indigo-700 hover:dark:text-indigo-400">← Tous les jeux</a
 				>
 			</p>
 		</footer>

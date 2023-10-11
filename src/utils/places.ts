@@ -1,3 +1,5 @@
+import type { PlaceWithFetchDate } from "./remoteData"
+
 function dayOfWeekAsString(dayIndex: number): string {
 	return ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"][dayIndex]
 }
@@ -14,7 +16,7 @@ function getClosedDays(openedDays: Array<number>): string {
 	}.`
 }
 
-export function getClosedStatus(place: google.maps.places.PlaceResult) {
+export function getClosedStatus(place: PlaceWithFetchDate) {
 	if (place.business_status == "CLOSED_TEMPORARILY") return "Fermé temporairement."
 	if (place.business_status == "CLOSED_PERMANENTLY") return "Fermé définitivement."
 	if (place.current_opening_hours)
