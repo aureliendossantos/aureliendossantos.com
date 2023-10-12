@@ -1,5 +1,4 @@
 import type { LocalImageService } from "astro"
-// @ts-expect-error Can't get types here without using moduleResolution: node-next
 import sharpService from "astro/assets/services/sharp"
 import { readFileSync } from "fs"
 import sharp from "sharp"
@@ -9,7 +8,7 @@ import sharp from "sharp"
 // Improves performances and displays a placeholder during image loading.
 
 function getBaseSiteURL(): string {
-	return import.meta.env.PROD ? "https://aureliendossantos.com/" : "http://localhost:3000/"
+	return import.meta.env.PROD ? "https://aureliendossantos.com/" : "http://localhost:4321/"
 }
 
 function getBitmapDimensions(
