@@ -1,4 +1,5 @@
 ---
+import { ViewTransitions } from "astro:transitions"
 // Serif
 import "@fontsource/lora"
 import "@fontsource/vollkorn"
@@ -31,6 +32,7 @@ export interface Props {
 	date?: Date
 	image?: string
 	layout?: string[]
+	text?: string
 	bg?: string
 	bgDark?: string
 	popupColor?: string
@@ -52,6 +54,7 @@ const {
 	date,
 	image,
 	layout,
+	text,
 	bg,
 	bgDark,
 	popupColor,
@@ -126,20 +129,24 @@ const googleStructuredData = {
 		{image && <meta name="twitter:image" content={ogImageURL} />}
 		{
 			ogType == "article" && (
-				<script
-					type="application/ld+json"
-					set:html={JSON.stringify(googleStructuredData)}
-				/>
+				<script type="application/ld+json" set:html={JSON.stringify(googleStructuredData)} />
 			)
 		}
+		<ViewTransitions />
 	</head>
 	<body
 		class:list={[
 			layout,
-			"bg-[--bg] dark:bg-[--darkbg] dark:text-slate-200",
-			{ "font-sans": !font, "font-work-sans": font == "Work Sans" },
+			"bg-[--bg] dark:bg-[--darkbg]",
+			{
+				"text-[--text]": text,
+				"dark:text-slate-200": !text,
+				"font-sans": !font,
+				"font-work-sans": font == "Work Sans",
+			},
 		]}
 		style={{
+			"--text": text,
 			"--bg": defaultBackground,
 			"--darkbg": darkBackground,
 			"--popup": popupColor,
@@ -147,20 +154,19 @@ const googleStructuredData = {
 		}}
 	>
 		<slot />
+		<script>
+			import mediumZoom from "medium-zoom"
+			window.mediumZoom = mediumZoom("[data-zoomable]", {
+				margin: 24,
+				background: "var(--bg)",
+			})
+		</script>
+
+		<style is:global>
+			.medium-zoom-overlay,
+			.medium-zoom-image--opened {
+				z-index: 999;
+			}
+		</style>
 	</body>
 </html>
-
-<script>
-	import mediumZoom from "medium-zoom"
-	window.mediumZoom = mediumZoom("[data-zoomable]", {
-		margin: 24,
-		background: "var(--bg)",
-	})
-</script>
-
-<style is:global>
-	.medium-zoom-overlay,
-	.medium-zoom-image--opened {
-		z-index: 999;
-	}
-</style>

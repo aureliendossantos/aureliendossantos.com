@@ -1,5 +1,5 @@
 ---
-import { getCollection, CollectionEntry } from "astro:content"
+import { getCollection, type CollectionEntry } from "astro:content"
 import { getImage, Image } from "astro:assets"
 import BaseLayout from "$layouts/BaseLayout.astro"
 import Badge from "$components/portfolio/Badge.astro"
@@ -41,6 +41,9 @@ const image = data.image ? await getImage({ src: data.image, width: 1920 }) : un
 			style={image
 				? `background-image: url('${image.src}'); background-size: cover;`
 				: `background-color: #94a3b8`}
+			transition:animate="initial"
+			transition:name={project.slug}
+			id={project.slug}
 		>
 			{
 				(data.client || data.release) && (

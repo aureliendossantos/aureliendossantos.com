@@ -5,6 +5,7 @@ import "$styles/home.scss"
 import Chapter from "$components/home/Chapter.astro"
 import Link from "$components/home/Link.astro"
 import NinjaLink from "$components/home/NinjaLink.astro"
+import { ViewTransitions } from "astro:transitions"
 
 const articles = await getBlogPosts()
 const lastArticles = articles
@@ -47,6 +48,7 @@ const videos = allo.items.slice(0, 3)
 		<meta name="twitter:creator" content="@ooooorelien" />
 		<meta name="twitter:description" content="Site personnel d'Aurélien Dos Santos." />
 		<meta name="twitter:card" content="summary_large_image" />
+		<ViewTransitions />
 	</head>
 	<body class="m-0 bg-[#17182f]">
 		<div id="particles-js"></div>
@@ -135,7 +137,7 @@ const videos = allo.items.slice(0, 3)
 					href="/website"
 				/>.
 			</p>
-			<p class="relative mt-0 mb-20 max-w-[320px]">
+			<p class="relative mb-20 mt-0 max-w-[320px]">
 				Je suis en recherche d'emploi ! Voici <NinjaLink
 					text="mes expériences pro"
 					label="/pro"

@@ -22,6 +22,8 @@ const image = data.image ? await getImage({ src: data.image, width: 800 }) : nul
 		<div
 			class="flex h-36 grow flex-col-reverse bg-slate-300"
 			style={image && `background-image: url('${image.src}'); background-size: cover;`}
+			transition:animate="initial"
+			transition:name={project.slug}
 		>
 			<div class="mx-3 -mb-6 flex -translate-y-3 flex-wrap gap-2">
 				{

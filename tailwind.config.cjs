@@ -24,6 +24,14 @@ module.exports = {
 				"pos-0": "0% 0%",
 				"pos-100": "100% 100%",
 			},
+			typography: {
+				quoteless: {
+					css: {
+						"blockquote p:first-of-type::before": { content: "none" },
+						"blockquote p:first-of-type::after": { content: "none" },
+					},
+				},
+			},
 		},
 		screens: {
 			"3xl": { max: "1620px" },

@@ -31,18 +31,13 @@ const { category } = Astro.params
 const { articles, categories } = Astro.props
 ---
 
-<Explore title={category || ""} type="Catégories">
+<Explore title={category || ""} type="Catégories" animation="categories">
 	<div class="mt-5" slot="header">
 		<p>
 			{
 				Object.entries(categories).map(([key, value], i) => (
 					<>
-						<TagLabel
-							label={key}
-							count={value}
-							type={"category"}
-							disabled={category == key}
-						/>{" "}
+						<TagLabel label={key} count={value} type={"category"} disabled={category == key} />{" "}
 					</>
 				))
 			}

@@ -26,15 +26,16 @@ export async function getStaticPaths() {
 type Props = {
 	title: string
 	type: "Explorer" | "Catégories" | "Tags" | "Lieux"
+	animation: "categories" | "tags" | "places"
 }
-const { title, type } = Astro.props
+const { title, type, animation } = Astro.props
 
 const paths = { Explorer: undefined, Catégories: "categories", Tags: "tags", Lieux: "blog/places" }
 const path = paths[type]
 ---
 
 <BaseLayout ogType="website" title={`${title}`} font="Work Sans">
-	<div class="mx-auto mb-12 max-w-[500px] px-4">
+	<div class="mx-auto mb-12 max-w-[500px] px-4" transition:animate="initial">
 		<header class="my-12 px-5">
 			<div class="my-5 mb-6">
 				◂
@@ -54,7 +55,9 @@ const path = paths[type]
 					)
 				}
 			</h2>
-			<h1 class="text-2xl leading-tight text-slate-500">{title}</h1>
+			<h1 class="text-2xl leading-tight text-slate-500">
+				<span>{title}</span>
+			</h1>
 			<slot name="header" />
 		</header>
 		<slot />

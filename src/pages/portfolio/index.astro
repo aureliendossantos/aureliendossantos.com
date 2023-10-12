@@ -27,10 +27,11 @@ const qrpg = await getEntryBySlug("portfolio", "qrpg")
 	title="Portfolio"
 	description="Portfolio d'Aurélien Dos Santos présentant des projets d'ingénierie pédagogique, de game design et de développement web et multimédia."
 >
+<!-- Find a way to fix ViewTransitions bug -->
 	<div
-		class="flex max-h-screen min-h-screen flex-col gap-2 bg-slate-200 p-2 dark:bg-slate-700 medium:max-h-none"
+		class="flex min-h-screen flex-col gap-2 bg-slate-200 p-2 dark:bg-slate-700"
 	>
-		<main class="flex min-h-[50vh] grow flex-col gap-2 overflow-hidden">
+		<main class="flex grow flex-col gap-2 overflow-hidden">
 			<aside class="order-1 px-2 font-sofia-sans text-sm">
 				<a
 					href="/"
@@ -40,6 +41,7 @@ const qrpg = await getEntryBySlug("portfolio", "qrpg")
 				<span class="text-slate-500 dark:text-slate-400">/</span>
 				<span class="text-slate-600 dark:text-slate-300">Portfolio</span>
 			</aside>
+		</main>
 			<div class="order-2 col-span-2 grow overflow-auto rounded-lg bg-white p-6 dark:bg-slate-800">
 				<div class="m-auto max-w-[820px] pb-24 pt-4">
 					<header class="font-sofia-sans text-2xl">
@@ -158,19 +160,7 @@ const qrpg = await getEntryBySlug("portfolio", "qrpg")
 					</div>
 				</div>
 			</div>
-			<aside
-				class="order-1 hidden min-w-[327px] max-w-[327px] overflow-auto text-slate-800 dark:text-slate-200 medium:w-auto"
-			>
-				<a
-					href="/portfolio"
-					class="hover:-bg-pos-100 inline-block w-full rounded-lg bg-gradient-to-l from-slate-200 via-white to-white bg-[length:400%_400%] bg-pos-100 p-1 transition-all duration-500 hover:bg-pos-0 dark:from-slate-800 dark:via-slate-500 dark:to-slate-300"
-				>
-					<span class="block rounded-md bg-slate-200 px-5 py-3 dark:bg-slate-800"
-						>Retour au portfolio</span
-					>
-				</a>
-			</aside>
-		</main>
+		
 	</div>
 
 	<style is:global>

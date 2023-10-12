@@ -29,7 +29,7 @@ const { tag } = Astro.params
 const { articles, tags } = Astro.props
 ---
 
-<Explore title={tag || ""} type="Tags">
+<Explore title={tag || ""} type="Tags" animation="tags">
 	<div class="mt-5" slot="header">
 		<p>
 			{

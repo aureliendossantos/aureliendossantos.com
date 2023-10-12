@@ -6,7 +6,7 @@ export interface Props extends ReturnType<typeof BaseLayout> {}
 
 <BaseLayout {...Astro.props} bg="#09090b">
 	<div class="w-full bg-zinc-950">
-		<div class="m-auto min-h-screen max-w-md bg-white">
+		<div class="m-auto min-h-screen max-w-md bg-white" transition:animate="initial">
 			<slot />
 		</div>
 	</div>

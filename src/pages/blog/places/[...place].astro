@@ -12,9 +12,7 @@ export async function getStaticPaths() {
 	const places = getUniquePlacesAndOccurences(rawPlaces)
 
 	return Object.entries(places).map(([place, amount], i) => {
-		const filteredArticles = allArticles.filter((article) =>
-			article.data.places.includes(place)
-		)
+		const filteredArticles = allArticles.filter((article) => article.data.places.includes(place))
 		const slug = place.split("/")[1]
 		return {
 			params: { place: slug },
@@ -36,7 +34,7 @@ const placeCollection = await getCollection("places")
 const placeEntry = await getEntryBySlug("places", placeId)
 ---
 
-<Explore title={placeEntry?.data.title || ""} type="Lieux">
+<Explore title={placeEntry?.data.title || ""} type="Lieux" animation="places">
 	<div class="mt-5" slot="header">
 		<p>
 			{
