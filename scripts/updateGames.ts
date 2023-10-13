@@ -7,7 +7,7 @@ import fs from "node:fs"
  * @returns The number of games in the new data file.
  */
 export default async function updateGames() {
-	const filePath = new URL(`../public/data/games.json`, import.meta.url)
+	const filePath = new URL(`../node_modules/.my-cache/games.json`, import.meta.url)
 	const games = await getGames({
 		and: [
 			{ property: "Nom", title: { is_not_empty: true } },

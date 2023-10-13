@@ -12,7 +12,7 @@ import { getPlacesData, type PlaceWithFetchDate } from "$utils/remoteData"
  * @reminder Places need to be stored in their own folder and named `index.mdx`.
  */
 export default async function updatePlaces() {
-	const filePath = new URL(`../public/data/maps.json`, import.meta.url)
+	const filePath = new URL(`../node_modules/.my-cache/maps.json`, import.meta.url)
 	// Gets a list of place IDs in the content collection.
 	const placeDirs = getContentDirs("places")
 	const placeIDs = placeDirs.map((dir) => {

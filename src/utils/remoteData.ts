@@ -12,7 +12,7 @@ export interface PlaceWithFetchDate extends google.maps.places.PlaceResult {
  * @returns A list of all places.
  */
 export async function getPlacesData(publicDirURL: string) {
-	const filePath = new URL(`data/maps.json`, publicDirURL)
+	const filePath = new URL(`../node_modules/.my-cache/maps.json`, publicDirURL)
 	if (!fs.existsSync(filePath)) return []
 	return JSON.parse((await fs.promises.readFile(filePath)).toString()) as PlaceWithFetchDate[]
 }
@@ -24,7 +24,7 @@ export async function getPlacesData(publicDirURL: string) {
  * @returns A list of all games.
  */
 export async function getGamesData(publicDirURL: string) {
-	const filePath = new URL(`data/games.json`, publicDirURL)
+	const filePath = new URL(`../node_modules/.my-cache/games.json`, publicDirURL)
 	return JSON.parse((await fs.promises.readFile(filePath)).toString()) as Awaited<
 		ReturnType<typeof getGames>
 	>
