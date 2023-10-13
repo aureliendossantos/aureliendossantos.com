@@ -49,9 +49,10 @@ const gallery =
 			<header>
 				<h1>{data.title}</h1>
 				<div class="not-prose font-work-sans text-sm text-zinc-400">
-					<p>{getClosedStatus(mapsData)}</p>
+					{mapsData.editorial_summary && <p class="mb-2">{mapsData.editorial_summary.overview}</p>}
+					<p class="mb-2">{getClosedStatus(mapsData)}</p>
 					<p>
-						{data.status == "done" ? "Visité" : "À visiter"}{
+						{data.status == "done" ? "Déjà visité" : "Pas encore visité"}{
 							data.review && (data.review == "loved" ? " et adoré" : " et aimé")
 						}.
 					</p>
