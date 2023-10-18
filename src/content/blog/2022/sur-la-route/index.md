@@ -2,6 +2,7 @@
 title: "Sur la route"
 date: 2022-06-21
 places: ["occitanie/pyrenees-ariegeoises"]
+image: "./snapshot.png"
 customLayout: true
 palette: green
 ---
