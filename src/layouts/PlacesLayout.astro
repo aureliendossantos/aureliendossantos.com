@@ -1,7 +1,8 @@
 ---
-import BaseLayout from "./BaseLayout.astro"
+import "$styles/base.scss"
+import BaseLayout, { type Props as BaseLayoutProps } from "./BaseLayout.astro"
 
-export interface Props extends ReturnType<typeof BaseLayout> {}
+type Props = BaseLayoutProps
 ---
 
 <BaseLayout {...Astro.props} bg="#09090b">
@@ -13,9 +14,6 @@ export interface Props extends ReturnType<typeof BaseLayout> {}
 </BaseLayout>
 
 <style is:global>
-	@tailwind base;
-	@tailwind components;
-	@tailwind utilities;
 	figure:has(img) {
 		@apply -mx-8;
 	}

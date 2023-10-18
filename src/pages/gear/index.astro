@@ -1,4 +1,5 @@
 ---
+import "$styles/base.scss"
 import GearCategory from "$components/gear/GearCategory.astro"
 import GearItem from "$components/gear/GearItem.astro"
 import BaseLayout from "$layouts/BaseLayout.astro"
@@ -60,10 +61,4 @@ const gear = (await getCollection("gear"))
 			</GearCategory>
 		</div>
 	</div>
-
-	<style is:global>
-		@tailwind base;
-		@tailwind components;
-		@tailwind utilities;
-	</style>
 </BaseLayout>

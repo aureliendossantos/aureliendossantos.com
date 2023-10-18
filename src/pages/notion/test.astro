@@ -1,4 +1,5 @@
 ---
+import "$styles/base.scss"
 import BaseLayout from "$layouts/BaseLayout.astro"
 import NotionPageContent from "$components/notion/NotionPageContent.astro"
 import getChildren from "$utils/notion/getChildren"
@@ -20,9 +21,3 @@ const blocks = await getChildren(notionPageId)
 		</main>
 	</div>
 </BaseLayout>
-
-<style is:global>
-	@tailwind base;
-	@tailwind components;
-	@tailwind utilities;
-</style>

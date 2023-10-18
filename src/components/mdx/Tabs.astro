@@ -2,10 +2,11 @@
 /* Code improved from https://code.juliancataldo.com/component/astro-tabs/ */
 import crypto from "node:crypto"
 import styles from "./Tabs.module.scss"
+import { type HTMLAttributes } from "astro/types"
 
-export interface Props extends astroHTML.JSX.HTMLAttributes {}
+type Props = HTMLAttributes<"div">
 
-const props = Astro.props as Props
+const props = Astro.props
 
 const tabs: string[] = []
 const panels: string[] = []
@@ -40,10 +41,7 @@ inlineStyles +=
 const uid = crypto.randomUUID()
 ---
 
-<div
-	{...{...props, class: undefined, 'class:list': undefined}}
-	class:list={[styles.tabs, "tabs", props["class:list"], props.class]}
->
+<div {...props} class:list={[styles.tabs, "tabs", props["class:list"], props.class]}>
 	<style set:html={inlineStyles}></style>
 
 	<nav class:list={[styles["tab-bar"]]}>

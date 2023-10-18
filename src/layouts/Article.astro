@@ -1,5 +1,5 @@
 ---
-import type { CollectionEntry } from "astro:content"
+import { type CollectionEntry } from "astro:content"
 import BaseLayout from "./BaseLayout.astro"
 import getPalette from "$utils/palettes"
 import ArticleHeader from "$components/ArticleHeader.astro"
@@ -7,7 +7,7 @@ import TableOfContents from "$components/TableOfContents.astro"
 import type { MarkdownHeading } from "astro"
 import "src/styles/articles.scss"
 
-export interface Props {
+interface Props {
 	article: CollectionEntry<"blog"> | CollectionEntry<"pages">
 	headings: MarkdownHeading[]
 }
@@ -69,11 +69,7 @@ const lineHeight = palette.lineHeight || 1.25
 					{ "max-w-[700px]": wide },
 				]}
 			>
-				{
-					article.data.toc && (
-						<TableOfContents headings={headings} depth={article.data.depth} />
-					)
-				}
+				{article.data.toc && <TableOfContents headings={headings} depth={article.data.depth} />}
 				<slot />
 			</div>
 		</main>

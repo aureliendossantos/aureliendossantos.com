@@ -1,5 +1,5 @@
 ---
-import { CollectionEntry, getCollection } from "astro:content"
+import { type CollectionEntry, getCollection } from "astro:content"
 import PlacesLayout from "$layouts/PlacesLayout.astro"
 import PlacesList from "$components/places/PlacesList.astro"
 import { getPlacesData } from "$utils/remoteData"
@@ -13,7 +13,7 @@ export async function getStaticPaths() {
 	}))
 }
 
-export interface Props {
+interface Props {
 	entry: CollectionEntry<"diary">
 }
 const { entry } = Astro.props
@@ -44,7 +44,7 @@ const places = data.places
 			</p>
 		</header>
 		<main
-			class="prose-quoteless prose prose-sm prose-zinc px-8 prose-blockquote:font-normal prose-blockquote:not-italic"
+			class="prose prose-sm prose-zinc prose-quoteless px-8 prose-blockquote:font-normal prose-blockquote:not-italic"
 		>
 			<h1>{data.title}</h1>
 			<div class="not-prose -mx-6">

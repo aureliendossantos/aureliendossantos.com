@@ -1,5 +1,5 @@
 ---
-import { CollectionEntry, getCollection } from "astro:content"
+import { type CollectionEntry, getCollection } from "astro:content"
 import Article from "$layouts/Article.astro"
 import BackHome from "$components/BackHome.astro"
 import Tufte from "$layouts/Tufte.astro"
@@ -15,7 +15,7 @@ export async function getStaticPaths() {
 	}))
 }
 
-export interface Props {
+interface Props {
 	article: CollectionEntry<"blog">
 }
 

@@ -1,7 +1,3 @@
-// Classic articles styling don't use '@tailwind base' (Tailwind's CSS reset)
-@tailwind components;
-@tailwind utilities;
-
 body {
 	@apply m-0;
 	// Hides horizontal scrollbar created by full galleries & 100vw.

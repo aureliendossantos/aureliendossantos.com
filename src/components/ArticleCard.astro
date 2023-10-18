@@ -16,7 +16,6 @@ const categories = data.categories.filter((name) => name != "Article" && name !=
 const labels = categories // [...categories, ...tags]
 const place =
 	data.places.length > 0 ? (await getEntryBySlug("places", data.places[0]))?.data.title : undefined
-if (place != undefined) console.log(place)
 const image = data.image && (await getImage({ src: data.image, width: 900 }))
 const mini = (data.categories.includes("Micro-blog") || data.categories.includes("Notes")) && !image
 ---

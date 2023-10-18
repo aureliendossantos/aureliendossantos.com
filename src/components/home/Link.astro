@@ -11,7 +11,8 @@ const { label, secondLabel, href, rel, newTab } = Astro.props
 
 <li class="secondary">
 	<a href={href} rel={rel} target={newTab ? "_blank" : undefined}>
-		<span class="label text-[#d1d5db]">{label}</span>
+		<span class="label text-space-300">{label}</span>
+		{" "}
 		<span>{secondLabel}</span>
 	</a>
 </li>

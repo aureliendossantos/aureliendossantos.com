@@ -1,7 +1,6 @@
 ---
-import { CollectionEntry, getCollection } from "astro:content"
-import Article from "$layouts/Article.astro"
-import BackHome from "$components/BackHome.astro"
+import "$styles/base.scss"
+import { type CollectionEntry, getCollection } from "astro:content"
 import BaseLayout from "$layouts/BaseLayout.astro"
 import formatDate from "$utils/formatDate"
 
@@ -15,7 +14,7 @@ export async function getStaticPaths() {
 	}))
 }
 
-export interface Props {
+interface Props {
 	gear: CollectionEntry<"gear">
 }
 const { gear } = Astro.props
@@ -53,10 +52,4 @@ const category = gear.slug.split("/")[0]
 			</main>
 		</div>
 	</div>
-
-	<style is:global>
-		@tailwind base;
-		@tailwind components;
-		@tailwind utilities;
-	</style>
 </BaseLayout>
