@@ -7,7 +7,7 @@ layouts:
   - future
 ---
 
-Je m'appelle <em>Aurélien Dos Santos</em>, j'ai <em class="hover:text-[#4a8bf3]/80" title="Né le 22 janvier 1997 !"><span id="age">25</span> ans</em> et je vis à <em>Toulouse</em>.
+Je m'appelle <em>Aurélien Dos Santos</em>, j'ai <Age /> et je vis à <em>Toulouse</em>.
 
 👋 Je suis à la recherche d'un emploi ! Pour plus d'informations, rendez-vous sur la page de [mes expériences pro](/pro).
 
@@ -70,9 +70,3 @@ Pour mon parcours professionnel, voir [Mes expériences pro](/pro).
 Pour un récit plus personnel et complet de ma vie, voir [Vie personnelle](/personal-life).
 
 Pour des informations sur mon site, voir [À propos de ce site](/website).
-
-<script>
-	const yearInMs = 3.15576e+10; // Using a year of 365.25 days (because leap years) const age =
-	Math.floor((new Date() - new Date("1997/01/22").getTime()) / yearInMs);
-	document.getElementById("age").textContent = age;
-</script>

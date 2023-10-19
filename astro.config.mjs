@@ -25,6 +25,7 @@ export default defineConfig({
 				"$components/mdx/Tufte/MarginImage.astro",
 				"$components/mdx/Tufte/Sidenote.astro",
 				"$components/mdx/Tufte/TufteFigure.astro",
+				"$components/mdx/Age.astro",
 				"$components/mdx/BlogRef.astro",
 				"$components/mdx/Book.astro",
 				"$components/mdx/Discogs.astro",

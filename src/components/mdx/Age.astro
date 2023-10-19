@@ -1,0 +1,10 @@
+<em class="hover:text-[#4a8bf3]/80" title="Né le 22 janvier 1997"><span id="age">25</span> ans</em>
+
+<script>
+	document.addEventListener("astro:page-load", () => {
+		const yearInMs = 3.15576e10 // Using a year of 365.25 days (because leap years)
+		const age = Math.floor((new Date().getTime() - new Date("1997/01/22").getTime()) / yearInMs)
+		const element = document.getElementById("age")
+		if (element) element.textContent = String(age)
+	})
+</script>

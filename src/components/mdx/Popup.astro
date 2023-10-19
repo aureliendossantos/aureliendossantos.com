@@ -34,55 +34,55 @@ const uid = crypto.randomUUID()
 </template>
 
 <script define:vars={{ uid }}>
-	window.popupZindex = 10
-	document.addEventListener("DOMContentLoaded", function () {
-		const template = document.getElementById(`template-${uid}`)
-		const templateClone = template.content.firstElementChild.cloneNode(true)
+window.popupZindex = 10
+document.addEventListener("astro:page-load", function () {
+	const template = document.getElementById(`template-${uid}`)
+	const templateClone = template.content.firstElementChild.cloneNode(true)
 
-		var span = document.getElementById(`span-${uid}`)
-		var text = document.getElementById(`text-${uid}`)
-		var popup = span.appendChild(templateClone)
+	var span = document.getElementById(`span-${uid}`)
+	var text = document.getElementById(`text-${uid}`)
+	var popup = span.appendChild(templateClone)
 
-		var opened = false
+	var opened = false
 
-		text.addEventListener("click", function () {
-			if (opened) {
-				opened = false
-				popup.style.display = "none"
-				text.classList.remove("bg-[--popup-active]", "cursor-pointer")
-				return
-			}
-			// opening popup
-			opened = true
-			var textRect = text.getBoundingClientRect()
-			// here -4 is the borders width
-			popup.style.width = Math.min(460, document.documentElement.clientWidth - 20 - 4) + "px"
-			popup.style.left = textRect.width / 2 + "px"
+	text.addEventListener("click", function () {
+		if (opened) {
+			opened = false
+			popup.style.display = "none"
+			text.classList.remove("bg-[--popup-active]", "cursor-pointer")
+			return
+		}
+		// opening popup
+		opened = true
+		var textRect = text.getBoundingClientRect()
+		// here -4 is the borders width
+		popup.style.width = Math.min(460, document.documentElement.clientWidth - 20 - 4) + "px"
+		popup.style.left = textRect.width / 2 + "px"
 
-			popup.style.display = "block"
-			text.classList.add("bg-[--popup-active]", "cursor-pointer")
+		popup.style.display = "block"
+		text.classList.add("bg-[--popup-active]", "cursor-pointer")
 
-			window.popupZindex = Math.min(window.popupZindex + 1, 99)
-			popup.style.zIndex = window.popupZindex
+		window.popupZindex = Math.min(window.popupZindex + 1, 99)
+		popup.style.zIndex = window.popupZindex
 
-			// If the popup is too high on the page, we move it to the bottom
-			popup.style.removeProperty("top")
-			var popupRect = popup.getBoundingClientRect()
-			if (popupRect.top < -window.scrollY) {
-				popup.style.top = "20px"
-			}
-			// Bounds the x position on the screen
-			if (popupRect.right > document.documentElement.clientWidth) {
-				popup.style.left = "0px"
-				popupRect = popup.getBoundingClientRect()
-				popup.style.left = document.documentElement.clientWidth - popupRect.right - 10 + "px"
-			} else if (popupRect.left < 0) {
-				popup.style.left = "0px"
-				popupRect = popup.getBoundingClientRect()
-				popup.style.left = -popupRect.left + 10 + "px"
-			}
-			// Makes the little pictures zoomable
-			window.mediumZoom.attach(document.querySelectorAll("[data-zoomable]"))
-		})
+		// If the popup is too high on the page, we move it to the bottom
+		popup.style.removeProperty("top")
+		var popupRect = popup.getBoundingClientRect()
+		if (popupRect.top < -window.scrollY) {
+			popup.style.top = "20px"
+		}
+		// Bounds the x position on the screen
+		if (popupRect.right > document.documentElement.clientWidth) {
+			popup.style.left = "0px"
+			popupRect = popup.getBoundingClientRect()
+			popup.style.left = document.documentElement.clientWidth - popupRect.right - 10 + "px"
+		} else if (popupRect.left < 0) {
+			popup.style.left = "0px"
+			popupRect = popup.getBoundingClientRect()
+			popup.style.left = -popupRect.left + 10 + "px"
+		}
+		// Makes the little pictures zoomable
+		window.mediumZoom.attach(document.querySelectorAll("[data-zoomable]"))
 	})
+})
 </script>
