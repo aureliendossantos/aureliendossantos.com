@@ -7,7 +7,7 @@ export default {
 	semi: false,
 	plugins: ["prettier-plugin-astro", "prettier-plugin-tailwindcss"],
 	astroAllowShorthand: false,
-	tailwindConfig: "./tailwind.config.cjs",
+	tailwindConfig: "./tailwind.config.ts",
 	overrides: [
 		{
 			files: "*.astro",

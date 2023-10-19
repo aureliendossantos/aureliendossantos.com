@@ -5,6 +5,8 @@ import mdx from "@astrojs/mdx"
 
 // https://astro.build/config
 export default defineConfig({
+	// Remove this when https://github.com/withastro/compiler/issues/852 is fixed
+	compressHTML: false,
 	image: {
 		service: {
 			entrypoint: "$utils/imageService.ts",
