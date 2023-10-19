@@ -1,6 +1,7 @@
 ---
 import type { Palette } from "src/utils/palettes"
 import ArticleDate from "./ArticleDate.astro"
+import { getImage } from "astro:assets"
 
 interface Props {
 	title?: string
@@ -12,6 +13,8 @@ interface Props {
 	anchorTop?: boolean
 }
 const { title, description, date, cover, palette, wide, anchorTop } = Astro.props
+
+const optimizedCover = cover && (await getImage({ src: cover, width: Math.min(1920, cover.width) }))
 ---
 
 <header
@@ -24,8 +27,8 @@ const { title, description, date, cover, palette, wide, anchorTop } = Astro.prop
 		fontFamily: palette.mainFont,
 		fontSize: palette.fontSize || "initial",
 		lineHeight: palette.lineHeight || 1.25,
-		backgroundImage: cover
-			? `linear-gradient(rgba(56, 48, 28, 0.394), rgba(75, 65, 35, 0.395)), url('${cover.src}')`
+		backgroundImage: optimizedCover
+			? `linear-gradient(rgba(56, 48, 28, 0.394), rgba(75, 65, 35, 0.395)), url('${optimizedCover.src}')`
 			: "none",
 		backgroundPosition: anchorTop ? "top" : "center",
 	}}
