@@ -1,20 +1,29 @@
 ---
+import type { ImageQuality } from "astro"
 import Figure from "./Figure.astro"
 import Gallery from "./Gallery.astro"
 
 interface Props {
 	lines: [(ImageMetadata | Promise<{ default: ImageMetadata }>)[], "wide" | "full" | undefined][]
+	zoomQuality?: ImageQuality
 }
 
-const { lines } = Astro.props
+const { lines, zoomQuality } = Astro.props
 ---
 
-{
-	lines.map((line) => (
-		<Gallery wide={line[1] == "wide"} full={line[1] == "full"}>
-			{line[0].map((photo) => (
-				<Figure src={photo} />
-			))}
-		</Gallery>
-	))
-}
+<div class="photo-gallery">
+	{
+		lines.map((line) => (
+			<Gallery wide={line[1] == "wide"} full={line[1] == "full"}>
+				{line[0].map((photo) => (
+					<Figure
+						src={photo}
+						half={line[0].length == 2}
+						third={line[0].length >= 3}
+						zoomQuality={zoomQuality}
+					/>
+				))}
+			</Gallery>
+		))
+	}
+</div>

@@ -46,8 +46,8 @@ import villeTop from "./ville-top.png"
 import villeFoot from "./ville-foot.png"
 
 <Gallery full>
-	<Figure src={villeTop} />
-	<Figure src={villeFoot} />
+	<Figure half src={villeTop} />
+	<Figure half src={villeFoot} />
 </Gallery>
 
 Le premier village est simple vu du ciel, mais tout change depuis la perspective du joueur.​
@@ -99,8 +99,12 @@ import coin1 from "./coin1.png"
 import coin2 from "./coin2.png"
 
 <Gallery full>
-	<Figure src={coin1}>La vue depuis le coin n’est pas convaincante...</Figure>
-	<Figure src={coin2}>...mais la plupart des joueurs ne s’y aventureront pas.</Figure>
+	<Figure half src={coin1}>
+		La vue depuis le coin n’est pas convaincante...
+	</Figure>
+	<Figure half src={coin2}>
+		...mais la plupart des joueurs ne s’y aventureront pas.
+	</Figure>
 </Gallery>
 
 Les coins attirent l’œil et peuvent être désagréables. Il est important de les remplir avec des barrières pour permettre au regard du joueur de les balayer de façon fluide.
@@ -113,11 +117,11 @@ import horizon from "./horizon.png"
 import scene from "./scene.png"
 
 <Gallery full>
-	<Figure src={horizon}>
+	<Figure half src={horizon}>
 		Si votre horizon ou vos murs sont déjà trop chargés, faites l’inverse : créez une ouverture dans
 		le décor pour indiquer le chemin.
 	</Figure>
-	<Figure src={scene}>
+	<Figure half src={scene}>
 		Cette scène très efficace mêle plusieurs techniques de hinting : une descente satisfaisante à
 		parcourir, une sortie encadrée par une structure en métal et visible de loin grâce au sol
 		éclairé au milieu de l’obscurité.
@@ -135,16 +139,18 @@ import pdvBas from "./pdv-bas.png"
 import sceneBas from "./scene-bas.png"
 
 <Gallery full>
-	<Figure src={pdv}>
+	<Figure half src={pdv}>
 		Depuis la hauteur, on voit clairement des points de fuite et des signposts à l’horizon.
 	</Figure>
-	<Figure src={pdvBas}>
+	<Figure half src={pdvBas}>
 		Depuis le bas, les éléments du décor se confondent et paraissent plats.
 	</Figure>
 </Gallery>
 <Gallery full>
-	<Figure src={scene}>Dans cette scène, le carré de lumière qui nous attire en contrebas...</Figure>
-	<Figure src={sceneBas}>
+	<Figure half src={scene}>
+		Dans cette scène, le carré de lumière qui nous attire en contrebas...
+	</Figure>
+	<Figure half src={sceneBas}>
 		...perd en efficacité quand on descend, car le sol est aplati par la perspective.
 	</Figure>
 </Gallery>

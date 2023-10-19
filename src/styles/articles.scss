@@ -76,6 +76,15 @@ iframe {
 		}
 	}
 
+	// A photo gallery (multiple gallery lines) has the same outer my than a single line,
+	// but my between inner lines are smaller.
+	.photo-gallery {
+		@apply my-6;
+		.gallery {
+			@apply my-4;
+		}
+	}
+
 	.gallery {
 		@apply relative my-6 flex flex-row justify-center;
 

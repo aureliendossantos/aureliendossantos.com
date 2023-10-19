@@ -10,9 +10,10 @@ export interface Props extends Omit<HTMLAttributes<"img">, "src"> {
 	width?: number
 	height?: number
 	quality?: ImageQuality
+	zoomQuality?: ImageQuality
 	notZoomable?: boolean
 }
-const { src, alt, width, height, quality, notZoomable, ...attributes } = Astro.props
+const { src, alt, width, height, quality, zoomQuality, notZoomable, ...attributes } = Astro.props
 
 /* const avif = await getImage({
 	src: src,
@@ -27,9 +28,20 @@ const webp = await getImage({
 	width: width,
 	height: height,
 	quality: quality,
-	format: "webp",
 	...attributes,
 })
+
+/* If the source image is larger than the width of the processed image,
+we generate a larger image for medium-zoom, that won't exceed 3840px. */
+const zoomedImage =
+	width && src.width > width
+		? await getImage({
+				src: src,
+				width: Math.min(src.width, 3840),
+				quality: zoomQuality || quality,
+				...attributes,
+		  })
+		: undefined
 
 // Using the custom imageService to generate a placeholder image
 const imageService = (await getConfiguredImageService()) as LocalImageServiceWithPlaceholder
@@ -46,6 +58,7 @@ const placeholderURL = await imageService.generatePlaceholder(src.src, src.width
 		"
 		alt={alt}
 		data-zoomable={!notZoomable}
+		data-zoom-src={zoomedImage?.src}
 		{...webp.attributes}
 	/>
 </picture>
