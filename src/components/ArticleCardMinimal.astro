@@ -15,9 +15,7 @@ const showCover = () => data.categories && data.categories.includes("Photos") &&
 const optimizedBackground =
 	showCover() && data.image ? await getImage({ src: data.image, width: 500 }) : null
 const place =
-	data.places.length > 0
-		? (await getEntryBySlug("places", data.places[0]))?.data.title
-		: undefined
+	data.places.length > 0 ? (await getEntryBySlug("places", data.places[0]))?.data.title : undefined
 ---
 
 <a
@@ -53,7 +51,9 @@ const place =
 
 <style lang="scss">
 	a {
-		box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+		box-shadow:
+			0 1px 3px 0 rgb(0 0 0 / 0.1),
+			0 1px 2px -1px rgb(0 0 0 / 0.1);
 		transition: 0.25s;
 	}
 	@media (prefers-color-scheme: dark) {

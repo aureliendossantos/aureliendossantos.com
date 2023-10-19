@@ -17,7 +17,7 @@ const { title, description, date, cover, palette, wide, anchorTop } = Astro.prop
 <header
 	class:list={[
 		"px-[80px] medium:px-[40px] small:px-[20px]",
-		{ "flex mb-12 min-h-[50vh] bg-cover bg-center pb-8": cover },
+		{ "mb-12 flex min-h-[50vh] bg-cover bg-center pb-8": cover },
 	]}
 	style={{
 		color: cover ? "#fbf8f2" : palette.secondaryColor,

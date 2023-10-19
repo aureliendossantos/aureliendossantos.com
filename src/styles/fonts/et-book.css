@@ -1,7 +1,8 @@
 @font-face {
 	font-family: "et-book";
 	src: url("/tufte/et-book/et-book-roman-line-figures/et-book-roman-line-figures.eot");
-	src: url("/tufte/et-book/et-book-roman-line-figures/et-book-roman-line-figures.eot?#iefix")
+	src:
+		url("/tufte/et-book/et-book-roman-line-figures/et-book-roman-line-figures.eot?#iefix")
 			format("embedded-opentype"),
 		url("/tufte/et-book/et-book-roman-line-figures/et-book-roman-line-figures.woff") format("woff"),
 		url("/tufte/et-book/et-book-roman-line-figures/et-book-roman-line-figures.ttf")
@@ -16,7 +17,8 @@
 @font-face {
 	font-family: "et-book";
 	src: url("/tufte/et-book/et-book-display-italic-old-style-figures/et-book-display-italic-old-style-figures.eot");
-	src: url("/tufte/et-book/et-book-display-italic-old-style-figures/et-book-display-italic-old-style-figures.eot?#iefix")
+	src:
+		url("/tufte/et-book/et-book-display-italic-old-style-figures/et-book-display-italic-old-style-figures.eot?#iefix")
 			format("embedded-opentype"),
 		url("/tufte/et-book/et-book-display-italic-old-style-figures/et-book-display-italic-old-style-figures.woff")
 			format("woff"),
@@ -32,7 +34,8 @@
 @font-face {
 	font-family: "et-book";
 	src: url("/tufte/et-book/et-book-bold-line-figures/et-book-bold-line-figures.eot");
-	src: url("/tufte/et-book/et-book-bold-line-figures/et-book-bold-line-figures.eot?#iefix")
+	src:
+		url("/tufte/et-book/et-book-bold-line-figures/et-book-bold-line-figures.eot?#iefix")
 			format("embedded-opentype"),
 		url("/tufte/et-book/et-book-bold-line-figures/et-book-bold-line-figures.woff") format("woff"),
 		url("/tufte/et-book/et-book-bold-line-figures/et-book-bold-line-figures.ttf") format("truetype"),
@@ -46,7 +49,8 @@
 @font-face {
 	font-family: "et-book-roman-old-style";
 	src: url("/tufte/et-book/et-book-roman-old-style-figures/et-book-roman-old-style-figures.eot");
-	src: url("/tufte/et-book/et-book-roman-old-style-figures/et-book-roman-old-style-figures.eot?#iefix")
+	src:
+		url("/tufte/et-book/et-book-roman-old-style-figures/et-book-roman-old-style-figures.eot?#iefix")
 			format("embedded-opentype"),
 		url("/tufte/et-book/et-book-roman-old-style-figures/et-book-roman-old-style-figures.woff")
 			format("woff"),

@@ -36,9 +36,9 @@ const {
 		"ref-block",
 		{ "mb-[1em]": !popup },
 		{ "flex flex-row gap-2": !big },
-		{ "flex flex-row place-content-between max-h-[240px]": posterRatio },
+		{ "flex max-h-[240px] flex-row place-content-between": posterRatio },
 		{
-			"grid grid-cols-5 small:grid-cols-1 small:grid-rows-1 shadow transition-shadow hover:shadow-md":
+			"grid grid-cols-5 shadow transition-shadow hover:shadow-md small:grid-cols-1 small:grid-rows-1":
 				big && !posterRatio,
 		},
 		{ "overflow-hidden rounded-md": big },
@@ -59,9 +59,9 @@ const {
 					class:list={[
 						{
 							"min-w-[4em] max-w-[4em]": !posterRatio,
-							"order-3 min-w-[160px] max-w-[160px] min-h-[240px] max-h-[240px]":
+							"order-3 max-h-[240px] min-h-[240px] min-w-[160px] max-w-[160px]":
 								posterRatio == "movie",
-							"order-3 min-w-[180px] max-w-[180px] min-h-[240px] max-h-[240px]":
+							"order-3 max-h-[240px] min-h-[240px] min-w-[180px] max-w-[180px]":
 								posterRatio == "game",
 						},
 					]}
@@ -82,7 +82,7 @@ const {
 			<div
 				class:list={{
 					grow: !big,
-					"order-1 small:order-2 py-4 px-4 flex flex-col overflow-auto": big,
+					"order-1 flex flex-col overflow-auto px-4 py-4 small:order-2": big,
 					"col-span-2 mediumlarge:col-span-3 medium:col-span-4": big && !posterRatio,
 					"col-span-2": big && posterRatio,
 				}}

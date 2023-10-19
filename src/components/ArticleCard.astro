@@ -29,7 +29,7 @@ const mini = (data.categories.includes("Micro-blog") || data.categories.includes
 	<div
 		class:list={[
 			"h-full w-full",
-			{ "mediumlarge:h-44 mediumlarge:max-w-md mediumlarge:m-auto": image },
+			{ "mediumlarge:m-auto mediumlarge:h-44 mediumlarge:max-w-md": image },
 		]}
 		style={{
 			backgroundImage: image ? `url('${image.src}')` : "unset",
@@ -41,7 +41,7 @@ const mini = (data.categories.includes("Micro-blog") || data.categories.includes
 	<div class="flex justify-center">
 		<div
 			class:list={[
-				"ml-8 mr-16 flex min-w-[20rem] max-w-xs flex-col 2xl:ml-7 2xl:mr-14 2xl:min-w-[17.5rem] 2xl:max-w-[17.5rem] small:min-w-[20rem] small:max-w-[20rem] small:mx-0",
+				"ml-8 mr-16 flex min-w-[20rem] max-w-xs flex-col 2xl:ml-7 2xl:mr-14 2xl:min-w-[17.5rem] 2xl:max-w-[17.5rem] small:mx-0 small:min-w-[20rem] small:max-w-[20rem]",
 				{ "my-14 2xl:my-12": !mini, "mb-6 mt-8": mini, "xl:mt-11": image },
 			]}
 			style={{ color: palette.mainColor }}
@@ -66,7 +66,7 @@ const mini = (data.categories.includes("Micro-blog") || data.categories.includes
 			</div>
 			<div
 				class:list={[
-					"font-sofia-sans uppercase text-sm opacity-75 2xl:text-xs small:text-sm",
+					"font-sofia-sans text-sm uppercase opacity-75 2xl:text-xs small:text-sm",
 					{
 						"order-3 mt-2": image,
 						"xl:mt-4": image && data.description,

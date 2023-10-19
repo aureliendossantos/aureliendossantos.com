@@ -42,7 +42,7 @@ const uid = crypto.randomUUID()
 		</h2>
 	)
 }
-<div id={uid} class:list={["flex flex-col not-prose", { "mb-8": title }]}>
+<div id={uid} class:list={["not-prose flex flex-col", { "mb-8": title }]}>
 	{
 		places.map((place) => {
 			return (

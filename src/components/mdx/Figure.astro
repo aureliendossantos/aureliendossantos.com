@@ -22,8 +22,8 @@ const width = Math.min(resolvedSrc.width, 1920)
 		Astro.slots.has("default") && (
 			<figcaption>
 				<div>
-				<slot />
-			</div>
+					<slot />
+				</div>
 			</figcaption>
 		)
 	}
@@ -31,8 +31,8 @@ const width = Math.min(resolvedSrc.width, 1920)
 		caption && (
 			<figcaption>
 				<div>
-				<slot>{caption}</slot>
-			</div>
+					<slot>{caption}</slot>
+				</div>
 			</figcaption>
 		)
 	}
