@@ -10,7 +10,7 @@ import { emotes } from "$utils/notion/reviewEmotes"
 import { getGamesData } from "$utils/remoteData"
 
 export async function getStaticPaths() {
-	const games = await getGamesData(new URL(`../../../public/`, import.meta.url).href)
+	const games = await getGamesData()
 	return games
 		.filter((game) => game.igdb)
 		.map((game) => ({

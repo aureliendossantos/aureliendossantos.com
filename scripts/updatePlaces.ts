@@ -1,5 +1,6 @@
 import "dotenv/config"
 import fs from "node:fs"
+import { pathToFileURL } from "node:url"
 import matter from "gray-matter"
 import { getContentDirs } from "./updateRemoteData"
 import { getPlacesData, type PlaceWithFetchDate } from "$utils/remoteData"
@@ -12,7 +13,8 @@ import { getPlacesData, type PlaceWithFetchDate } from "$utils/remoteData"
  * @reminder Places need to be stored in their own folder and named `index.mdx`.
  */
 export default async function updatePlaces() {
-	const filePath = new URL(`../node_modules/.my-cache/maps.json`, import.meta.url)
+	const rootPath = pathToFileURL(process.cwd() + "/")
+	const filePath = new URL(`node_modules/.my-cache/maps.json`, rootPath)
 	// Gets a list of place IDs in the content collection.
 	const placeDirs = getContentDirs("places")
 	const placeIDs = placeDirs.map((dir) => {
@@ -20,7 +22,7 @@ export default async function updatePlaces() {
 		return matter(markdownContent).data.id as string
 	})
 	// Gets the current json, if it exists, to check if the data already exists.
-	const oldData = await getPlacesData(new URL(`../public/`, import.meta.url).href)
+	const oldData = await getPlacesData()
 	// For each place ID, fetches new data or use the existing data
 	const newData = await Promise.all(
 		placeIDs.map(async (id) => {

@@ -1,9 +1,11 @@
 import fs from "node:fs"
+import { pathToFileURL } from "node:url"
 import updateGames from "./updateGames"
 import updatePlaces from "./updatePlaces"
 
 // Creates the cache folder if it doesn't exist
-const cacheDir = new URL(`../node_modules/.my-cache`, import.meta.url)
+const rootPath = pathToFileURL(process.cwd() + "/")
+const cacheDir = new URL(`node_modules/.my-cache`, rootPath)
 if (!fs.existsSync(cacheDir)) {
 	console.warn("Cache folder doesn't exist. Creating it...")
 	fs.mkdirSync(cacheDir)

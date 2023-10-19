@@ -12,7 +12,7 @@ interface Props {
 }
 const { title, lat, lng, zoom } = Astro.props
 
-const googleMapsData = await getPlacesData(new URL(`../../../public/`, import.meta.url).href)
+const googleMapsData = await getPlacesData()
 
 const places = (
 	await Promise.all(

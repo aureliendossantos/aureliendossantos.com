@@ -6,7 +6,7 @@ import { PlaceWithFetchDate, getPlacesData } from "$utils/remoteData"
 import getBlogPosts, { getDiary } from "$utils/getBlogPosts"
 
 const apiKey = import.meta.env.GOOGLE_MAPS_TOKEN
-const googleMapsData = await getPlacesData(new URL(`../../../public/`, import.meta.url).href)
+const googleMapsData = await getPlacesData()
 
 const reviewsOrder = ["loved", "liked", "okay", null]
 const articles = await getBlogPosts()

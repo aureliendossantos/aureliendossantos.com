@@ -23,7 +23,7 @@ const data = entry.data
 
 const apiKey = import.meta.env.GOOGLE_MAPS_TOKEN
 
-const googleMapsData = await getPlacesData(new URL(`../../../public/`, import.meta.url).href)
+const googleMapsData = await getPlacesData()
 
 const placesCollection = await getCollection("places")
 

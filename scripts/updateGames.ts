@@ -1,5 +1,6 @@
 import getGames from "$utils/notion/getGames"
 import fs from "node:fs"
+import { pathToFileURL } from "node:url"
 
 /**
  * Fetches the games in my Notion database according to custom filters then
@@ -7,7 +8,8 @@ import fs from "node:fs"
  * @returns The number of games in the new data file.
  */
 export default async function updateGames() {
-	const filePath = new URL(`../node_modules/.my-cache/games.json`, import.meta.url)
+	const rootPath = pathToFileURL(process.cwd() + "/")
+	const filePath = new URL(`node_modules/.my-cache/games.json`, rootPath)
 	const games = await getGames({
 		and: [
 			{ property: "Nom", title: { is_not_empty: true } },

@@ -39,7 +39,7 @@ const rawEntries = [
 		slug: `places/${slug.split("/")[1]}`,
 		data: { categories: ["Lieu"], ...data },
 	})),
-	...(await getGamesData(new URL(`../../public/`, import.meta.url).href))
+	...(await getGamesData())
 		.filter((game) => game.slug)
 		.map((game) => ({
 			slug: `games/${game.slug}`,
