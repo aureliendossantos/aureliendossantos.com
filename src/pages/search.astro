@@ -1,0 +1,185 @@
+---
+import "$styles/base.scss"
+import BaseLayout from "$layouts/BaseLayout.astro"
+import { getCollection } from "astro:content"
+import formatDate from "$utils/formatDate"
+import getBlogPosts, { getDiary } from "$utils/getBlogPosts"
+import { getGamesData } from "$utils/remoteData"
+
+const rawEntries = [
+	{ slug: "blog", data: { title: "Blog" } },
+	{ slug: "portfolio", data: { title: "Portfolio" } },
+	{ slug: "diary", data: { title: "Journal" } },
+	{ slug: "gear", data: { title: "Mes appareils" } },
+	{ slug: "places", data: { title: "Lieux" } },
+	{ slug: "games", data: { title: "Jeux" } },
+	...(await getBlogPosts()).map(({ slug, data }) => ({
+		slug: `blog/${slug}`,
+		data: data,
+	})),
+	...(await getCollection("portfolio")).map(({ slug, data: { release, ...rest } }) => ({
+		slug: `portfolio/${slug}`,
+		data: { categories: ["Portfolio"], date: release, ...rest },
+	})),
+	...(await getCollection("pages", ({ data }) => !data.draft)).map(({ slug, data }) => ({
+		slug: slug,
+		data: { categories: ["Page"], ...data },
+	})),
+	...(await getDiary()).map(({ finalSlug, year, data: { date, ...rest } }) => ({
+		slug: `diary/${finalSlug}`,
+		data: { categories: ["Journal"], date: date || new Date(year, 12, 29), ...rest },
+	})),
+	...(await getCollection("gear"))
+		.filter((gear) => gear.data.clickable)
+		.map(({ slug, data: { name, obtained, ...rest } }) => ({
+			slug: `gear/${slug.split("/")[1]}`,
+			data: { categories: ["Mon appareil"], title: name, date: obtained, ...rest },
+		})),
+	...(await getCollection("places")).map(({ slug, data }) => ({
+		slug: `places/${slug.split("/")[1]}`,
+		data: { categories: ["Lieu"], ...data },
+	})),
+	...(await getGamesData(new URL(`../../public/`, import.meta.url).href))
+		.filter((game) => game.slug)
+		.map((game) => ({
+			slug: `games/${game.slug}`,
+			data: { categories: ["Jeu"], title: game.title },
+		})),
+]
+
+// can't use formatDate/1 in a script inline, so here we go 🧙
+const entries = rawEntries.map(({ slug, data: { date, ...rest } }) => ({
+	slug,
+	data: {
+		date: date ? formatDate(date, true) : undefined,
+		...rest,
+	},
+}))
+---
+
+<BaseLayout title="Recherche" bg="#17182f" ogType="website">
+	<div id="particles-js"></div>
+	<div
+		class="mb-8 mt-48 flex flex-col flex-wrap content-center items-start gap-6 font-space-grotesk text-[#9ca3af] small:mt-8"
+	>
+		<div class="max-w-[320px]">
+			<input
+				id="search"
+				class="mb-6 w-[320px] border-y-2 border-space-500 bg-transparent px-3 py-2 focus:border-space-300 focus:text-space-300 focus:outline-none focus:placeholder:text-space-600"
+				placeholder="Rechercher..."
+				autofocus
+				autocomplete="off"
+				type="text"
+			/>
+			<ul id="output" class="flex flex-col gap-6 !px-3"></ul>
+			<script>
+				/* Can't import & use "define:vars" cause script inline gnagna
+    see here -> https://docs.astro.build/en/reference/directives-reference/#definevars */
+				import { SearchCard } from "$components/SearchCard.js"
+				/**
+				 * Use a JS vanilla component because Astro component should only be use SSG (cause ViteJS)
+				 * This SearchCard will be used to display search's results, see ->
+				 * src/components/SearchCard.js
+				 */
+				customElements.define("search-card", SearchCard)
+			</script>
+			<script define:vars={{ entries }}>
+			// get the HTML elements on which we will interact
+			const input = document.getElementById("search")
+			const output = document.getElementById("output")
+			/**
+			 * Function called at each search, returns the list of articles corresponding
+			 * to the keywords provided in input.
+			 * @param {string} input - What's the search input?
+			 * @return {Array<blogEntry>} - Articles returned by the search
+			 */
+			const applyInput = (input) => {
+				const searchKeywords = input.toLowerCase().split(" ")
+				if (input.length < 3) {
+					results = []
+				} else if (searchKeywords.length > 0) {
+					// Filter block entries based on their title, abstract & tags
+					// should match every keywords provided by search input !
+					results = entries.filter((entry) =>
+						searchKeywords.every(
+							(keyword) =>
+								entry.data.title.toLowerCase().includes(keyword) ||
+								entry.data.description?.toLowerCase().includes(keyword) ||
+								entry.data.categories?.some((cat) => cat.toLowerCase().includes(keyword)) ||
+								entry.data.tags?.some((tag) => tag.toLowerCase().includes(keyword))
+						)
+					)
+				} else {
+					results = []
+				}
+				results.forEach((result) => {
+					// For every result, insert a SearchCard in the output
+					output.insertAdjacentHTML(
+						"beforeend",
+						`<search-card title="${result.data.title}" slug="${result.slug}" date="${result.data.date
+						}" tags="${result.data.categories?.join(", ")}" description="${result.data.description
+						}"></search-card>`
+					)
+				})
+			}
+			// On the first page load, initialize the output with an empty search.
+			applyInput("")
+			// add an event listener on input, to call applyInput/2 at each search
+			input.addEventListener("input", (event) => {
+				output.innerHTML = ""
+				if (event.target) {
+					const element = event.currentTarget
+					applyInput(element.value)
+				}
+			})
+			</script>
+		</div>
+	</div>
+	<script src="/home/particlesjs2.0.0.min.js" is:inline></script>
+	<script type="text/javascript" src="/home/starryBackground.js" is:inline></script>
+</BaseLayout>
+
+<style lang="scss" is:global>
+	canvas {
+		display: block;
+	}
+
+	#particles-js canvas {
+		display: block;
+		animation: fadein 2s;
+	}
+
+	@keyframes fadein {
+		from {
+			opacity: 0;
+		}
+		to {
+			opacity: 1;
+		}
+	}
+
+	#particles-js {
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		z-index: -10;
+		top: 0;
+		left: 0;
+	}
+
+	ul {
+		line-height: 1.35;
+	}
+
+	.result {
+		.info {
+			@apply text-space-600;
+		}
+		&:hover {
+			@apply text-space-200;
+			.info {
+				@apply text-space-300;
+			}
+		}
+	}
+</style>
