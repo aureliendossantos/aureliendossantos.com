@@ -21,11 +21,7 @@ const {
 	...attributes
 } = Astro.props
 
-console.log(srcToResolve)
-
-const src: string = "then" in srcToResolve ? (await srcToResolve).default : srcToResolve
-
-console.log(src)
+const src = typeof srcToResolve === "string" ? srcToResolve : (await srcToResolve).default
 ---
 
 <figure>
