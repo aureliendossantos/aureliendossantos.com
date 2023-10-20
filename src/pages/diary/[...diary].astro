@@ -5,6 +5,7 @@ import PlacesLayout from "$layouts/PlacesLayout.astro"
 import PlacesList from "$components/places/PlacesList.astro"
 import { getPlacesData } from "$utils/remoteData"
 import { getDiary } from "$utils/getBlogPosts"
+import ArticleDate from "$components/ArticleDate.astro"
 
 export async function getStaticPaths() {
 	const entries = await getDiary()
@@ -48,8 +49,13 @@ const places = data.places
 						</a>
 					</p>
 				</header>
-				<main class="prose prose-sm prose-zinc prose-quoteless px-8 prose-blockquote:font-normal prose-blockquote:not-italic">
-					<h1>{data.title}</h1>
+				<main class="prose prose-sm prose-zinc prose-quoteless px-8 prose-h1:mb-4 prose-blockquote:font-normal prose-blockquote:not-italic">
+					<h1>
+						{data.title}
+						<span class="font-work-sans text-[24px] font-light text-zinc-400">
+							{data.date ? <ArticleDate date={data.date} yearOnly /> : entry.slug.split("/")[1]}
+						</span>
+					</h1>
 					<div class="not-prose -mx-6">
 						<PlacesList places={places} lat={data.mapLat} lng={data.mapLng} zoom={data.mapZoom} />
 					</div>

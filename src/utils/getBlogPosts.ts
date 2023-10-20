@@ -18,6 +18,6 @@ export async function getDiary() {
 			...rest,
 		}))
 		.sort((a, b) =>
-			b.data.date && a.data.date ? b.data.date.getTime() - a.data.date.getTime() : 0
+			a.data.date ? b.data.date ? b.data.date.getTime() - a.data.date.getTime() : -1 : 1
 		)
 }

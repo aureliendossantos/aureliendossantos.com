@@ -20,7 +20,7 @@ const placesImage = await getImage({
 				<a href="/" class="hover:text-amber-700">← Accueil du site</a>
 			</p>
 		</header>
-		<main class="flex flex-col">
+		<main class="mb-8 flex flex-col">
 			<header class="prose prose-zinc mb-8 px-8 small:prose-sm">
 				<h1>Journal</h1>
 			</header>
@@ -50,16 +50,25 @@ const placesImage = await getImage({
 												{entry.data.title}
 												{entry.category == "trips" && (
 													<img
-														src="/footsteps.svg"
+														src="/icons/footsteps.svg"
 														alt="Icône de pas"
 														class="mb-[0.15em] ml-1 inline-block h-[0.9em]"
 													/>
 												)}
+												{entry.category == "lists" && (
+													<img
+														src="/icons/map-collection.svg"
+														alt="Icône de carte"
+														class="mb-[0.11em] ml-1 inline-block h-[1.1em]"
+													/>
+												)}
 											</div>
 											<div class="grow" />
-											<div>
-												<ArticleDate noYear date={entry.data.date} />
-											</div>
+											{entry.data.date && (
+												<div>
+													<ArticleDate noYear date={entry.data.date} />
+												</div>
+											)}
 										</a>
 									)
 								})}
