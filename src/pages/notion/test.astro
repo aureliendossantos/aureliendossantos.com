@@ -8,7 +8,7 @@ const notionPageId = "f8b0ade3f15c432bbdcbc2d389c11412"
 const blocks = await getChildren(notionPageId)
 ---
 
-<BaseLayout title="Exemple de rendu de page Notion" ogType="article" bg="white" bgDark="black">
+<BaseLayout title="Exemple de rendu de page Notion" ogType="article" bg={{ light: "white", dark: "black" }}>
 	<div class="px-4">
 		<main class="prose prose-sm mx-auto mb-16 mt-12 dark:prose-invert medium:mt-8">
 			<h1>Exemple de rendu de page Notion</h1>

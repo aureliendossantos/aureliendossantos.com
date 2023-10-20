@@ -53,6 +53,7 @@ export const collections = {
 				mapLat: z.number().optional(),
 				mapLng: z.number().optional(),
 				mapZoom: z.number().optional(),
+				customLayout: z.boolean().default(false),
 			}),
 	}),
 	portfolio: defineCollection({

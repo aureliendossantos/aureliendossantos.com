@@ -12,9 +12,19 @@ interface Props {
 	third?: boolean
 	zoomQuality?: ImageQuality
 }
-const { src, alt, caption, rounded, shadow, half, third, zoomQuality, ...attributes } = Astro.props
+const {
+	src: srcToResolve,
+	alt,
+	caption,
+	rounded,
+	shadow,
+	half,
+	third,
+	zoomQuality,
+	...attributes
+} = Astro.props
 
-const resolvedSrc = "then" in src ? (await src).default : src
+const src = "then" in srcToResolve ? (await srcToResolve).default : srcToResolve
 const classes: AstroBuiltinAttributes["class:list"] = { "rounded-md": rounded, shadow: shadow }
 
 function getMaxWidth() {
@@ -23,12 +33,12 @@ function getMaxWidth() {
 	return 1920
 }
 
-const width = Math.min(resolvedSrc.width, getMaxWidth())
+const width = Math.min(src.width, getMaxWidth())
 ---
 
 <figure>
 	<Image
-		src={resolvedSrc}
+		src={src}
 		width={width}
 		zoomQuality={zoomQuality}
 		alt={alt || ""}

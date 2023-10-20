@@ -1,0 +1,27 @@
+---
+interface Props {
+	title: string
+	image?: string
+	date?: Date
+}
+const { title, image, date } = Astro.props
+
+const googleStructuredData = {
+	"@context": "https://schema.org",
+	"@type": "BlogPosting",
+	headline: title,
+	image: [{ image }],
+	author: {
+		"@type": "Person",
+		name: "Aurélien Dos Santos",
+		url: "https://aureliendossantos.com",
+	},
+	/* the schema expects Date or DateTime using ISO 8601 format. For Date that is yyyy-MM-dd */
+	...(date && {
+		datePublished: date.toISOString().substring(0, 10),
+		dateModified: date.toISOString().substring(0, 10),
+	}),
+}
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(googleStructuredData)} />

@@ -1,34 +1,16 @@
 ---
 import "$styles/components-utilities.scss"
+import "$styles/fonts"
 import { ViewTransitions } from "astro:transitions"
 import MediumZoom from "$components/MediumZoom.astro"
-// Serif
-import "@fontsource/lora"
-import "@fontsource/vollkorn"
-// Sans serif
-import "@fontsource/lato"
-import "@fontsource/noto-sans"
-import "@fontsource/nunito"
-import "@fontsource/nunito/700.css"
-import "@fontsource/sofia-sans"
-import "@fontsource/space-grotesk"
-import "@fontsource/space-grotesk/700.css"
-import "@fontsource/urbanist"
-import "@fontsource/urbanist/400-italic.css"
-import "@fontsource/work-sans"
-import "@fontsource/work-sans/500.css"
-import "@fontsource/work-sans/600.css"
-import "@fontsource/work-sans/700.css"
-import "@fontsource/work-sans/400-italic.css"
-import "@fontsource/work-sans/700-italic.css"
-// Monospace
-import "@fontsource/source-code-pro"
-import "@fontsource/space-mono"
-import "@fontsource/space-mono/400-italic.css"
-// Custom fonts
-import "$styles/fonts/anek-latin.css"
-import "$styles/fonts/et-book.css"
-import "$styles/fonts/source-serif.css"
+import GoogleStructuredData from "$components/meta/GoogleStructuredData.astro"
+
+type Color =
+	| {
+			light: string
+			dark: string
+	  }
+	| { all: string }
 
 export interface Props {
 	title: string
@@ -36,9 +18,7 @@ export interface Props {
 	date?: Date
 	image?: string
 	layout?: string[]
-	text?: string
-	bg?: string
-	bgDark?: string
+	bg?: Color
 	popupColor?: string
 	popupActiveColor?: string
 	font?: "Work Sans"
@@ -52,43 +32,20 @@ export interface Props {
 		| "music.album"
 		| "music.playlist"
 }
-const {
-	title,
-	description,
-	date,
-	image,
-	layout,
-	text,
-	bg,
-	bgDark,
-	popupColor,
-	popupActiveColor,
-	font,
-	ogType,
-} = Astro.props
+const { title, description, date, image, layout, bg, popupColor, popupActiveColor, font, ogType } =
+	Astro.props
 
 // Base website URL (minus slash at the end) + image URL
 const ogImageURL = image && Astro.site?.toString().replace(/\/$/, "") + image
 
-const defaultBackground = bg || "#f5f5fa"
-const darkBackground = bgDark || bg || "#17182f"
-
-const googleStructuredData = {
-	"@context": "https://schema.org",
-	"@type": "BlogPosting",
-	headline: title,
-	image: [{ image }],
-	author: {
-		"@type": "Person",
-		name: "Aurélien Dos Santos",
-		url: "https://aureliendossantos.com",
-	},
-	/* the schema expects Date or DateTime using ISO 8601 format. For Date that is yyyy-MM-dd */
-	...(date && {
-		datePublished: date.toISOString().substring(0, 10),
-		dateModified: date.toISOString().substring(0, 10),
-	}),
+function getColor(color: Color | undefined, theme: "light" | "dark" = "light") {
+	if (!color) return undefined
+	if ("all" in color) return color.all
+	return color[theme]
 }
+
+const defaultBackground = getColor(bg) || "#f5f5fa"
+const darkBackground = getColor(bg, "dark") || "#17182f"
 ---
 
 <!doctype html>
@@ -131,26 +88,19 @@ const googleStructuredData = {
 		{description && <meta name="twitter:description" content={description} />}
 		<meta name="twitter:card" content={image ? "summary_large_image" : "summary"} />
 		{image && <meta name="twitter:image" content={ogImageURL} />}
-		{
-			ogType == "article" && (
-				<script type="application/ld+json" set:html={JSON.stringify(googleStructuredData)} />
-			)
-		}
+		{ogType == "article" && <GoogleStructuredData title={title} image={image} date={date} />}
 		<ViewTransitions />
 	</head>
 	<body
 		class:list={[
 			layout,
-			"bg-[--bg] dark:bg-[--darkbg]",
+			"bg-[--bg] dark:bg-[--darkbg] dark:text-slate-200",
 			{
-				"text-[--text]": text,
-				"dark:text-slate-200": !text,
 				"font-sans": !font,
 				"font-work-sans": font == "Work Sans",
 			},
 		]}
 		style={{
-			"--text": text,
 			"--bg": defaultBackground,
 			"--darkbg": darkBackground,
 			"--popup": popupColor,

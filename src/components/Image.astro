@@ -5,7 +5,7 @@ import { getConfiguredImageService, getImage } from "astro:assets"
 import type { LocalImageServiceWithPlaceholder } from "$utils/imageService"
 
 export interface Props extends Omit<HTMLAttributes<"img">, "src"> {
-	src: ImageMetadata
+	src: ImageMetadata | Promise<{ default: ImageMetadata }>
 	alt: string
 	width?: number
 	height?: number
@@ -13,7 +13,18 @@ export interface Props extends Omit<HTMLAttributes<"img">, "src"> {
 	zoomQuality?: ImageQuality
 	notZoomable?: boolean
 }
-const { src, alt, width, height, quality, zoomQuality, notZoomable, ...attributes } = Astro.props
+const {
+	src: srcToResolve,
+	alt,
+	width,
+	height,
+	quality,
+	zoomQuality,
+	notZoomable,
+	...attributes
+} = Astro.props
+
+const src = "then" in srcToResolve ? (await srcToResolve).default : srcToResolve
 
 /* const avif = await getImage({
 	src: src,

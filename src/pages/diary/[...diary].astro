@@ -1,5 +1,6 @@
 ---
 import { type CollectionEntry, getCollection } from "astro:content"
+import BaseLayout from "$layouts/BaseLayout.astro"
 import PlacesLayout from "$layouts/PlacesLayout.astro"
 import PlacesList from "$components/places/PlacesList.astro"
 import { getPlacesData } from "$utils/remoteData"
@@ -36,24 +37,32 @@ const places = data.places
 	}))
 ---
 
-<PlacesLayout ogType="article" title={data.title}>
-	<div class="m-auto max-w-xl pb-8 text-zinc-900">
-		<header class="flex justify-between px-8 pb-8 pt-10 font-work-sans text-sm text-zinc-400">
-			<p>
-				<a href="/diary" class="hover:text-amber-700">← Journal</a>
-			</p>
-		</header>
-		<main
-			class="prose prose-sm prose-zinc prose-quoteless px-8 prose-blockquote:font-normal prose-blockquote:not-italic"
-		>
-			<h1>{data.title}</h1>
-			<div class="not-prose -mx-6">
-				<PlacesList places={places} lat={data.mapLat} lng={data.mapLng} zoom={data.mapZoom} />
+{
+	!data.customLayout ? (
+		<PlacesLayout title={data.title} ogType="article">
+			<div class="m-auto max-w-xl pb-8 text-zinc-900">
+				<header class="flex justify-between px-8 pb-8 pt-10 font-work-sans text-sm text-zinc-400">
+					<p>
+						<a href="/diary" class="hover:text-amber-700">
+							← Journal
+						</a>
+					</p>
+				</header>
+				<main class="prose prose-sm prose-zinc prose-quoteless px-8 prose-blockquote:font-normal prose-blockquote:not-italic">
+					<h1>{data.title}</h1>
+					<div class="not-prose -mx-6">
+						<PlacesList places={places} lat={data.mapLat} lng={data.mapLng} zoom={data.mapZoom} />
+					</div>
+					<Content />
+				</main>
 			</div>
+		</PlacesLayout>
+	) : (
+		<BaseLayout title={data.title} ogType="article">
 			<Content />
-		</main>
-	</div>
-</PlacesLayout>
+		</BaseLayout>
+	)
+}
 
 <style is:global>
 	.prose .bg-mention {
@@ -65,64 +74,64 @@ const places = data.places
 </style>
 
 <script is:inline>
-	let map
+let map
 
-	function createMap(event) {
-		// the event target is the <div> containing the text, but the eventListener is on the parent <div>
-		const mapDiv = event.target.parentNode
-		mapDiv.removeEventListener("click", createMap)
-		mapDiv.classList.add("bg-zinc-100")
-		mapDiv.classList.remove("cursor-pointer")
-		mapDiv.style.minHeight = "448px"
-		mapDiv.style.marginTop = "8px"
-		map = new google.maps.Map(mapDiv, {
-			mapId: "531454af7b16b9f",
-			center: { lat: Number(mapDiv.dataset.lat), lng: Number(mapDiv.dataset.lng) },
-			zoom: Number(mapDiv.dataset.zoom),
+function createMap(event) {
+	// the event target is the <div> containing the text, but the eventListener is on the parent <div>
+	const mapDiv = event.target.parentNode
+	mapDiv.removeEventListener("click", createMap)
+	mapDiv.classList.add("bg-zinc-100")
+	mapDiv.classList.remove("cursor-pointer")
+	mapDiv.style.minHeight = "448px"
+	mapDiv.style.marginTop = "8px"
+	map = new google.maps.Map(mapDiv, {
+		mapId: "531454af7b16b9f",
+		center: { lat: Number(mapDiv.dataset.lat), lng: Number(mapDiv.dataset.lng) },
+		zoom: Number(mapDiv.dataset.zoom),
+	})
+	// Getting the parent of the map div, which contains all the <a> with places
+	const places = Array.from(mapDiv.parentNode.getElementsByClassName("place")).map((place) => ({
+		lat: Number(place.dataset.lat),
+		lng: Number(place.dataset.lng),
+		icon: place.dataset.icon,
+		title: place.children[0].textContent,
+		href: place.href,
+	}))
+	places.forEach((place) => {
+		const contentString =
+			'<div id="content">' +
+			'<div id="siteNotice">' +
+			"</div>" +
+			`<h1 id="firstHeading" class="firstHeading">${place.title}</h1>` +
+			'<div id="bodyContent">' +
+			`<p><b><a href="${place.href}">Voir la page</a></b></p>` +
+			"</div>" +
+			"</div>"
+		const infowindow = new google.maps.InfoWindow({
+			content: contentString,
+			ariaLabel: place.title,
 		})
-		// Getting the parent of the map div, which contains all the <a> with places
-		const places = Array.from(mapDiv.parentNode.getElementsByClassName("place")).map((place) => ({
-			lat: Number(place.dataset.lat),
-			lng: Number(place.dataset.lng),
-			icon: place.dataset.icon,
-			title: place.children[0].textContent,
-			href: place.href,
-		}))
-		places.forEach((place) => {
-			const contentString =
-				'<div id="content">' +
-				'<div id="siteNotice">' +
-				"</div>" +
-				`<h1 id="firstHeading" class="firstHeading">${place.title}</h1>` +
-				'<div id="bodyContent">' +
-				`<p><b><a href="${place.href}">Voir la page</a></b></p>` +
-				"</div>" +
-				"</div>"
-			const infowindow = new google.maps.InfoWindow({
-				content: contentString,
-				ariaLabel: place.title,
-			})
-			const marker = new google.maps.Marker({
-				position: { lat: place.lat, lng: place.lng },
+		const marker = new google.maps.Marker({
+			position: { lat: place.lat, lng: place.lng },
+			map,
+			title: place.title,
+			//icon: place.icon,
+		})
+		marker.addListener("click", () => {
+			infowindow.open({
+				anchor: marker,
 				map,
-				title: place.title,
-				//icon: place.icon,
-			})
-			marker.addListener("click", () => {
-				infowindow.open({
-					anchor: marker,
-					map,
-				})
 			})
 		})
-	}
+	})
+}
 
-	function initAllMaps() {
-		Array.from(document.getElementsByClassName("map")).forEach(function (mapDiv) {
-			mapDiv.addEventListener("click", createMap)
-		})
-	}
-	window.initAllMaps = initAllMaps
+function initAllMaps() {
+	Array.from(document.getElementsByClassName("map")).forEach(function (mapDiv) {
+		mapDiv.addEventListener("click", createMap)
+	})
+}
+window.initAllMaps = initAllMaps
 </script>
 
 <script
