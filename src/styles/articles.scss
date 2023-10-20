@@ -9,6 +9,10 @@ iframe {
 	@apply border-0;
 }
 
+label {
+	@apply -mx-1 rounded-sm border-y border-dotted border-slate-400 bg-slate-100 px-1 text-slate-600;
+}
+
 .classic {
 	blockquote {
 		@apply my-[1em] ml-[-80px] w-[70%] italic mediumlarge:ml-[-40px] medium:ml-[-20px] small:ml-[0];
