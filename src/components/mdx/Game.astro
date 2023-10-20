@@ -1,6 +1,7 @@
 ---
 import RefBlock from "$components/RefBlock.astro"
-import getIGDBgames, { IGDBData } from "$utils/getIGDBgame"
+import getIGDBgames, { type IGDBData } from "$utils/getIGDBgame"
+import { getGamesData } from "$utils/remoteData"
 
 interface Props {
 	slug?: string
@@ -12,7 +13,14 @@ const { slug, data, popup } = Astro.props
 if (!slug && !data) {
 	throw new Error("You must provide a slug or data for the Game component.")
 }
-const game = data || (await getIGDBgames([slug]))[0]
+const getGame = async () => {
+	if (data) return data
+	const cachedGame = (await getGamesData()).find((game) => game.igdb && game.slug == slug)
+	if (cachedGame) return cachedGame.igdb as IGDBData
+	return (await getIGDBgames([slug!]))[0]
+}
+
+const game = await getGame()
 
 const infos = []
 if (game.involved_companies) {
