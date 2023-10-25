@@ -22,7 +22,7 @@ Vous trouverez les détails de chaque poste sur [LinkedIn](https://www.linkedin.
 
 Passionné par la vidéo, l'informatique et la pédagogie, je passe le plus clair de mon temps à combiner ces intérêts dans une variété de projets personnels. Je réalise des tutoriels [sur YouTube](https://www.youtube.com/channel/UCCjlo6Ihet_T3X6bKLJzPsA) ; je gère le site de formations participatif [FaireDesJeux.fr](https://fairedesjeux.fr) ; je développe des sites web avec Astro et React, ainsi que des jeux vidéo sur Unity. Vous retrouverez ces projets dans mon [portfolio](/portfolio).
 
-En 2023, je valide mon Master de conception pédagogique. Voici un historique de mes études post-bac :
+En 2023, j'ai validé mon Master de conception pédagogique. Voici un historique de mes études post-bac :
 
 - Master <em>Conception de ressources numériques pédagogiques</em>, 2021-2023
 - Licence <em>Langue anglaise</em>, littérature et civilisation anglophone, 2018-2021

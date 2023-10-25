@@ -40,9 +40,9 @@ Actuellement, le site supporte la plupart des blocs de Notion, mais pas tous les
 
 ## Structure du contenu
 
-Le site contient une page d'accueil, un blog, un portfolio, ainsi que quelques pages volantes telles que [`/about`](/about) ou la présente page.
+Le site contient un blog, un portfolio, un journal, des lieux, ainsi que quelques pages volantes telles que [`/about`](/about) ou la présente page.
 
-Je considère le blog et le portfolio comme deux sous-sites très distincts, n'utilisant que très peu de logique en commun si ce n'est du code _boilerplate_ pour alimenter le `<head>` et l'optimisation des images. L'idéal serait de pouvoir continuer à créer autant de ces environnements que possible au sein du même dépôt, afin de correspondre à [ma vision](/website) d'un site qui peut accueillir toute ma vie, des contenus les plus anciens et brouillons aux plus récents et professionnels. Pour que ces sous-sites continuent de fonctionner sans que des mises à jour ne brisent discrètement leur mise en page, il est important de pouvoir les isoler autant que possible. Pour cela, j'utilise les [_content collections_](https://docs.astro.build/en/guides/content-collections/) d'Astro, qui permettent de regrouper tous les documents Markdown d'un dossier sous une même logique.
+Chaque type de contenu dispose d'un sous-site très distinct, n'utilisant que très peu de logique en commun si ce n'est du code _boilerplate_ pour alimenter le `<head>` et l'optimisation des images. L'idéal serait de pouvoir continuer à créer autant de ces environnements que possible au sein du même dépôt, afin de correspondre à [ma vision](/website) d'un site qui peut accueillir toute ma vie, des contenus les plus anciens et brouillons aux plus récents et professionnels. Pour que ces sous-sites continuent de fonctionner sans que des mises à jour ne brisent discrètement leur mise en page, il est important de pouvoir les isoler autant que possible. Pour cela, j'utilise les [_content collections_](https://docs.astro.build/en/guides/content-collections/) d'Astro, qui permettent de regrouper tous les documents Markdown d'un dossier sous une même logique.
 
 Ainsi, le dossier `content/blog` est une collection regroupant tous mes articles en Markdown, avec un schéma de _frontmatter_ permettant de renseigner la date de publication de l'article, une position géographique, les films et livres mentionnés, etc. Le dossier `content/portfolio` est une collection au schéma de _frontmatter_ bien distinct. Voir les schémas dans [`content/config.ts`](https://github.com/aureliendossantos/site/blob/master/src/content/config.ts).
 
@@ -103,13 +103,13 @@ Erika a ajusté les paramètres de l'image de substition (flou ; luminosité ;
 
 ### Lightbox
 
-J'utilise la librairie [Medium Zoom](https://medium-zoom.francoischalifour.com/) pour permettre d'agrandir les images au clic. La _lightbox_ utilise la couleur de fond de la palette pour une expérience plus immersive.
+J'utilise la librairie [Medium Zoom](https://medium-zoom.francoischalifour.com/) pour afficher une version en haute résolution de l'image lors du clic. La _lightbox_ utilise la couleur de fond de la palette pour une expérience plus immersive.
 
 ## Blocs et mentions
 
 ### Galeries
 
-Une galerie est une succession d'images sur la même ligne dans une _flexbox_. Actuellement, chaque élément de la _flexbox_ fait la même taille, ce qui signifie que les images doivent toutes faire la même taille pour éviter les espaces vides. Une astuce pour redimensionner les éléments de la _flexbox_ dynamiquement serait bienvenue !
+Une galerie est une succession d'images sur la même ligne dans une _flexbox_. Pour optimiser le poids de la page, les images d'une galerie peuvent être deux ou trois fois plus petites qu'une image normale. Le défaut de cette galerie est que chaque élément de la _flexbox_ fait la même taille, ce qui signifie que les images doivent toutes faire la même taille pour éviter les espaces vides. Une astuce pour redimensionner les éléments de la _flexbox_ dynamiquement en fonction de la taille des images serait bienvenue !
 
 <sc>Exemple</sc> : <BlogRef slug="2021/destiny-introduction-analyse" titleOnly />
 
@@ -161,7 +161,7 @@ Ce bloc récupère les données OpenGraph de n'importe quelle URL. Par exemple, 
 
 ### Pop-ups
 
-Les _pop-ups_ peuvent contenir des informations sur un jeu ou un film (voir [<sc>IGDB</sc>](#igdb) et [<sc>TMDB</sc>](#tmdb)), notamment une affiche, les auteurs, l'année de parution et jusqu'à trois images. Une _pop-up_ s'ouvre en cliquant sur un texte dont le lien est d'une apparence plus discrète que les liens externes. Selon la palette, le lien peut être coloré ou en pointillé.
+Les _pop-ups_ affichent des informations sur un jeu, un film ou une personnalité (voir [<sc>IGDB</sc>](#igdb) et [<sc>TMDB</sc>](#tmdb)). Dans le cas d'une œuvre, la _pop_up_ contient le titre, l'affiche, les auteurs, l'année de parution et jusqu'à trois images. Une _pop-up_ s'ouvre en cliquant sur un texte dont le lien est d'une apparence plus discrète que les liens externes. Selon la palette, le lien peut être coloré ou en pointillé.
 
 {/* prettier-ignore */}
 <sc>Exemple</sc> : Le film <Popup movie="558582">_First Cow_</Popup>, le jeu <Popup game="superbrothers-sword-sworcery-ep">_Sword & Sorcery_</Popup>.
@@ -180,8 +180,10 @@ Ces mentions utilisent les couleurs et la police de la palette de l'article. Les
 
 ## Autres fonctionnalités
 
+- La page de recherche ([`/search`](/search)), dont la logique est tirée du [site de Goulven](https://goulven-clech.dev/), permet de retrouver les entrées des _content collections_ ainsi que quelques autres pages ajoutées manuellement.
 - L'interface de navigation du blog ([`/categories`](/categories), [`/tags`](/tags), etc.) s'adapte au mode clair ou sombre de l'appareil du visiteur. En mode sombre, la liste des articles est enveloppée d'une lueur afin de préparer le visiteur qui pourrait être ébloui en cliquant sur un article dont la palette est claire.
 - Les pages de jeu, accessibles depuis [`/games`](/games), contiennent une porte dérobée. Un double-clic sur le titre renvoie vers la page Notion qui sert à en générer le contenu. Je m'inspire de Gwern qui rend la source accessible [en ajoutant `.page` à une <abbr>URL</abbr>](https://gwern.net/about#source), mais ma variante est plus pratique sur mobile.
+- Le site utilise les [_View Transitions_](https://docs.astro.build/en/guides/view-transitions/) d'Astro, affichant un fondu entre les pages et parfois une transition plus travaillée. Cela nécessite d'être particulièrement vigilant quant à la logique d'exécution du code JavaScript au sein des pages.
 
 ## Ce que ce site ne contient pas
 
