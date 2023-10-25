@@ -36,6 +36,7 @@ export const collections = {
 				image: image().optional(),
 				imageAnchorTop: z.boolean().optional(),
 				cover: z.boolean().default(false),
+				customLayout: z.boolean().default(false),
 				toc: z.boolean().default(false),
 				depth: z.onumber(),
 				draft: z.boolean().default(false),
