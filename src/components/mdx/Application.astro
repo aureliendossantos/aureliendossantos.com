@@ -1,0 +1,41 @@
+---
+import Image from "$components/Image.astro"
+
+interface Props {
+	name: string
+	link: string
+	image?: ImageMetadata | Promise<{ default: ImageMetadata }>
+}
+const { name, link, image } = Astro.props
+---
+
+<div class:list={["flex items-center", { "-ml-2": image }]}>
+	{
+		image && (
+			<Image
+				src={image}
+				width={256}
+				alt={name}
+				class="unstyled mr-4 h-auto w-32 flex-none rounded-md shadow-md"
+			/>
+		)
+	}
+	<div class="application flex-grow">
+		<p>
+			<span class="font-bold">{name} ~</span>
+			<a href={link} class="font-sofia-sans !text-gray-500 no-underline"
+				>{link.replace("https://", "").replace(/\/$/, "")}</a
+			>
+		</p>
+		<slot />
+	</div>
+</div>
+
+<style is:global>
+	.application p:first-of-type {
+		@apply mb-0;
+	}
+	.application p:last-of-type {
+		@apply mt-0;
+	}
+</style>
