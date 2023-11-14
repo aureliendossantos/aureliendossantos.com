@@ -22,6 +22,17 @@ interface Props {
 }
 const { place, mapsData } = Astro.props
 
+const renderReview = (review: string) => {
+	switch (data.review) {
+		case "loved":
+			return " et adoré"
+		case "liked":
+			return " et aimé"
+		case "disliked":
+			return " mais pas aimé"
+	}
+}
+
 const articles = (await getBlogPosts()).filter((article) =>
 	article.data.places.includes(place.slug)
 )
@@ -53,7 +64,7 @@ const gallery =
 					<p class="mb-2">{getClosedStatus(mapsData)}</p>
 					<p>
 						{data.status == "done" ? "Déjà visité" : "Pas encore visité"}{
-							data.review && (data.review == "loved" ? " et adoré" : " et aimé")
+							data.review && renderReview(data.review)
 						}.
 					</p>
 				</div>

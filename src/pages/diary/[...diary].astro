@@ -24,8 +24,6 @@ const { entry } = Astro.props
 const { Content, headings } = await entry.render()
 const data = entry.data
 
-const apiKey = import.meta.env.GOOGLE_MAPS_TOKEN
-
 const googleMapsData = await getPlacesData()
 
 const placesCollection = await getCollection("places")
@@ -34,8 +32,8 @@ const places = data.places
 	.map((slug) => placesCollection.find((p) => p.slug == slug))
 	.map((place) => ({
 		...place,
-		slug: place.slug.split("/")[1],
-		maps: googleMapsData.find((p) => p.place_id == place.data.id),
+		slug: place!.slug.split("/")[1],
+		maps: googleMapsData.find((p) => p.place_id == place!.data.id),
 	}))
 ---
 
@@ -57,9 +55,11 @@ const places = data.places
 							{data.date ? <ArticleDate date={data.date} yearOnly /> : entry.slug.split("/")[1]}
 						</span>
 					</h1>
-					<div class="not-prose -mx-6">
-						<PlacesList places={places} lat={data.mapLat} lng={data.mapLng} zoom={data.mapZoom} />
-					</div>
+					{!data.hidePlaces && (
+						<div class="not-prose -mx-6">
+							<PlacesList places={places} lat={data.mapLat} lng={data.mapLng} zoom={data.mapZoom} />
+						</div>
+					)}
 					<Content />
 				</main>
 			</div>
