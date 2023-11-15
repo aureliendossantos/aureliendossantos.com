@@ -63,7 +63,7 @@ tag {
 		@apply h-auto;
 	}
 
-	img,
+	img:not(.unstyled),
 	video {
 		@apply max-w-full;
 	}
