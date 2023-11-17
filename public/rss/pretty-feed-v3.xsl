@@ -107,7 +107,7 @@ This file is in BETA. Please test and contribute to the discussion:
                 <path d="M184 213A140 140 0 0 0 44 73 V 38a175 175 0 0 1 175 175z" fill="#FFF"/>
               </svg>
 
-              Web Feed Preview
+              Flux RSS
             </h1>
             <h2><xsl:value-of select="/rss/channel/title"/></h2>
             <p><xsl:value-of select="/rss/channel/description"/></p>
@@ -118,7 +118,7 @@ This file is in BETA. Please test and contribute to the discussion:
               Aller sur le site &#x2192;
             </a>
           </header>
-          <h2>Recent Items</h2>
+          <h2>Entrées récentes</h2>
           <xsl:for-each select="/rss/channel/item">
             <div class="pb-5">
               <h3 class="mb-0">
@@ -130,7 +130,7 @@ This file is in BETA. Please test and contribute to the discussion:
                 </a>
               </h3>
               <small class="text-gray">
-                Published: <xsl:value-of select="pubDate" />
+                Publié : <xsl:value-of select="pubDate" />
               </small>
             </div>
           </xsl:for-each>
