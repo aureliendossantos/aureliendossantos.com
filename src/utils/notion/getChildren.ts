@@ -46,7 +46,7 @@ async function recursivelyGetChildren(
 				}
 			}
 			if (block.type == "child_database") {
-				const children = (await getDatabase(block.id, undefined)) as PageObjectResponse[]
+				const children = (await getDatabase(block.id)) as PageObjectResponse[]
 				return {
 					...block,
 					children: children,

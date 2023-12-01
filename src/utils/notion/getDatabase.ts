@@ -4,7 +4,7 @@ import type { QueryDatabaseParameters } from "@notionhq/client/build/src/api-end
 
 export default async function getDatabase(
 	id: string,
-	filter: QueryDatabaseParameters["filter"],
+	filter: QueryDatabaseParameters["filter"] = undefined,
 	firstResults = false,
 	numberOfItems: number | undefined = undefined
 ) {

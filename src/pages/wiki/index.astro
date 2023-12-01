@@ -1,0 +1,57 @@
+---
+export const prerender = false
+
+import "$styles/base.scss"
+import BaseLayout from "$layouts/BaseLayout.astro"
+import getDatabase from "$utils/notion/getDatabase"
+import slugify from "slugify"
+
+const categories = (await getDatabase(import.meta.env.NOTION_WIKI_CATEGORIES_DB)).map((page) => ({
+	id: page.id,
+	title: page.properties.Nom.title[0].plain_text,
+	description: page.properties.Description.rich_text[0]
+		? page.properties.Description.rich_text[0].plain_text
+		: null,
+}))
+const pages = (await getDatabase(import.meta.env.NOTION_WIKI_PAGES_DB)).map((page) => ({
+	id: page.id,
+	title: page.properties.Nom.title[0].plain_text,
+	category: page.properties.Catégorie.relation[0].id,
+	edited_time: page.last_edited_time,
+}))
+
+const regex = /[*+~.()'"!:@«»]/g
+---
+
+<BaseLayout title="Wiki personnel" ogType="website" bg={{ light: "white", dark: "black" }}>
+	<div class="px-4">
+		<main class="prose prose-sm mx-auto mb-16 mt-12 dark:prose-invert medium:mt-8">
+			{
+				categories.map((category) => (
+					<>
+						<h2>{category.title}</h2>
+						{category.description ? category.description : null}
+						<ul class="not-prose flex flex-col gap-1">
+							{pages
+								.filter((page) => page.category == category.id)
+								.sort(
+									(a, b) => new Date(a.edited_time).getTime() - new Date(b.edited_time).getTime()
+								)
+								.map((page) => {
+									const slug = slugify(page.title, { remove: regex, lower: true })
+									return (
+										<a
+											class="rounded bg-slate-900 px-2 transition-colors hover:bg-slate-800"
+											href={`/wiki/${slug}`}
+										>
+											{page.title}
+										</a>
+									)
+								})}
+						</ul>
+					</>
+				))
+			}
+		</main>
+	</div>
+</BaseLayout>

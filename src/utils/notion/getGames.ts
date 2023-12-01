@@ -1,6 +1,5 @@
 import "dotenv/config"
 import type {
-	BlockObjectResponse,
 	QueryDatabaseParameters,
 	QueryDatabaseResponse,
 } from "@notionhq/client/build/src/api-endpoints"

@@ -1,7 +1,7 @@
 ---
 import "$styles/base.scss"
 import IGDBImage from "$components/IGDBImage.astro"
-import NotionPageContent from "$components/notion/NotionPageContent.astro"
+import RenderBlocks from "$components/notion/RenderBlocks.astro"
 import BaseLayout from "$layouts/BaseLayout.astro"
 import enumerate from "$utils/enumerateStrings"
 import type { IGDBData } from "$utils/getIGDBgame"
@@ -141,7 +141,7 @@ const igdb = game.igdb as IGDBData
 				}
 				{game.review && <p>{game.review}</p>}
 				<div class="prose prose-sm prose-slate mt-3 dark:prose-invert">
-					<NotionPageContent blocks={game.blocks} />
+					<RenderBlocks blocks={game.blocks} />
 				</div>
 			</main>
 		</div>

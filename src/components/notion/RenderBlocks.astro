@@ -1,0 +1,272 @@
+---
+import type {
+	BlockObjectResponse,
+	RichTextItemResponse,
+} from "@notionhq/client/build/src/api-endpoints"
+import RenderRichText from "./RenderRichText.astro"
+import type { BlockObjectResponseWithChildren } from "$utils/notion/getChildren"
+
+interface Props {
+	blocks: BlockObjectResponse[] | BlockObjectResponseWithChildren[]
+}
+const { blocks } = Astro.props
+
+let bulleted_list: RichTextItemResponse[][] = []
+let numbered_list: RichTextItemResponse[][] = []
+---
+
+{
+	blocks.map((block, index, blocks) => {
+		switch (block.type) {
+			case "heading_1":
+				return (
+					<h2 id={block.id}>
+						<RenderRichText text={block.heading_1.rich_text} />
+					</h2>
+				)
+			case "heading_2":
+				return (
+					<h3 id={block.id}>
+						<RenderRichText text={block.heading_2.rich_text} />
+					</h3>
+				)
+			case "heading_3":
+				return (
+					<h4 id={block.id}>
+						<RenderRichText text={block.heading_3.rich_text} />
+					</h4>
+				)
+			case "paragraph":
+				return (
+					<p>
+						<RenderRichText text={block.paragraph.rich_text} />
+					</p>
+				)
+			case "quote":
+				return (
+					<blockquote>
+						<RenderRichText text={block.quote.rich_text} />
+					</blockquote>
+				)
+			case "code":
+				return (
+					<pre>
+						<RenderRichText text={block.code.rich_text} />
+					</pre>
+				)
+			case "to_do":
+				return (
+					<p>
+						<>
+							<input type="checkbox" checked={block.to_do.checked} readonly />
+							<RenderRichText text={block.to_do.rich_text} />
+						</>
+					</p>
+				)
+			case "image":
+				return (
+					<figure>
+						{/* block.image.file.url is only valid for one hour, but block.image.external.url never changes */}
+						{block.image.type == "external" ? (
+							<img src={block.image.external.url} data-zoomable />
+						) : (
+							<img src={block.image.file.url} data-zoomable />
+						)}
+						{block.image.caption[0] ? (
+							<figcaption>
+								<RenderRichText text={block.image.caption} />
+							</figcaption>
+						) : null}
+					</figure>
+				)
+			case "bulleted_list_item":
+				bulleted_list.push(block.bulleted_list_item.rich_text)
+				if (blocks[index + 1] && blocks[index + 1].type == "bulleted_list_item") {
+					return null
+				} else {
+					const toRender = bulleted_list
+					bulleted_list = []
+					return (
+						<ul>
+							{toRender.map((item, index) => (
+								<li>
+									<RenderRichText text={item} />
+								</li>
+							))}
+						</ul>
+					)
+				}
+			case "numbered_list_item":
+				numbered_list.push(block.numbered_list_item.rich_text)
+				if (blocks[index + 1] && blocks[index + 1].type == "numbered_list_item") {
+					return null
+				} else {
+					const toRender = numbered_list
+					numbered_list = []
+					return (
+						<ol>
+							{toRender.map((item, index) => (
+								<li>
+									<RenderRichText text={item} />
+								</li>
+							))}
+						</ol>
+					)
+				}
+			case "divider":
+				return <hr />
+			case "toggle":
+				return (
+					<details>
+						<summary>
+							<RenderRichText text={block.toggle.rich_text} />
+						</summary>
+						<Astro.self blocks={"children" in block ? block.children : []} />
+					</details>
+				)
+			case "callout":
+				return (
+					<p class="rounded bg-slate-200 p-[1em] dark:bg-slate-800">
+						<RenderRichText text={block.callout.rich_text} />
+					</p>
+				)
+			case "link_preview":
+				return (
+					<a class="link_preview" href={block.link_preview.url}>
+						<p>{block.link_preview.url}</p>
+					</a>
+				)
+			case "bookmark":
+				return (
+					<a class="link_preview" href={block.bookmark.url}>
+						<p>{block.bookmark.url}</p>
+					</a>
+				)
+			case "table":
+				return (
+					<table>
+						<tbody>
+							{"children" in block &&
+								block.children.map(
+									(row, row_index) =>
+										row.object == "block" &&
+										row.type == "table_row" && (
+											<tr>
+												{row.table_row.cells.map((cell, cell_index) => {
+													if (
+														(row_index == 0 && block.table.has_column_header) ||
+														(cell_index == 0 && block.table.has_row_header)
+													) {
+														return (
+															<th>
+																<RenderRichText text={cell} />
+															</th>
+														)
+													} else {
+														return (
+															<td>
+																<RenderRichText text={cell} />
+															</td>
+														)
+													}
+												})}
+											</tr>
+										)
+								)}
+						</tbody>
+					</table>
+				)
+			case "column_list":
+				return (
+					<div
+						class="grid gap-4"
+						style={{
+							gridTemplateColumns: `repeat(${
+								"children" in block ? block.children.length : 1
+							}, minmax(0, 1fr))`,
+						}}
+					>
+						{"children" in block &&
+							block.children.map((column) => {
+								return (
+									<div class="column">
+										<Astro.self blocks={"children" in column ? column.children : []} />
+									</div>
+								)
+							})}
+					</div>
+				)
+			case "table_of_contents":
+				return (
+					<ul class="table-of-contents">
+						{blocks.map((block) => {
+							switch (block.type) {
+								case "heading_1":
+									return (
+										<li>
+											<a href={"#" + block.id}>
+												<RenderRichText text={block.heading_1.rich_text} />
+											</a>
+										</li>
+									)
+								case "heading_2":
+									return (
+										<ul>
+											<li>
+												<a href={"#" + block.id}>
+													<RenderRichText text={block.heading_2.rich_text} />
+												</a>
+											</li>
+										</ul>
+									)
+								case "heading_3":
+									return (
+										<ul>
+											<ul>
+												<li>
+													<a href={"#" + block.id}>
+														<RenderRichText text={block.heading_3.rich_text} />
+													</a>
+												</li>
+											</ul>
+										</ul>
+									)
+								default:
+									return null
+							}
+						})}
+					</ul>
+				)
+			case "unsupported":
+				return <p class="error">{"Erreur : Bloc non supporté par l'API."}</p>
+			case "child_database":
+				return (
+					<>
+						{/*<h3>{block.child_database.title}</h3>*/}
+						<ul>
+							{"children" in block &&
+								block.children.map((page: any) => {
+									return (
+										<li>
+											<a href={page.url} target="_blank">
+												{page.properties.Name
+													? page.properties.Name.title[0].plain_text
+													: "Erreur : La propriété de titre doit être nommée Name."}
+											</a>
+										</li>
+									)
+								})}
+						</ul>
+						{/*<pre>{JSON.stringify(block, null, 2)}</pre>*/}
+					</>
+				)
+			default:
+				return (
+					<>
+						<p class="error">Bloc non supporté (type {block.type})</p>
+						<pre>{JSON.stringify(block, null, 2)}</pre>
+					</>
+				)
+		}
+	})
+}

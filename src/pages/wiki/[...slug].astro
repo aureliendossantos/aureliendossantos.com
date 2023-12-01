@@ -1,0 +1,39 @@
+---
+export const prerender = false
+
+import "$styles/base.scss"
+import BaseLayout from "$layouts/BaseLayout.astro"
+import slugify from "slugify"
+import getDatabase from "$utils/notion/getDatabase"
+import NotionPageContent from "$components/notion/NotionPageContent.astro"
+
+let results = await getDatabase(import.meta.env.NOTION_WIKI_PAGES_DB)
+
+const notionPage = results.find(
+	(page) =>
+		slugify(page.properties.Nom.title[0].plain_text, { remove: /[*+~.()'"!:@«»]/g, lower: true }) ==
+		Astro.params.slug
+)
+
+if (!notionPage) {
+	return new Response(null, {
+		status: 404,
+		statusText: "Page introuvable",
+	})
+}
+
+const title = notionPage.properties.Nom.title[0].plain_text
+const description =
+	notionPage.properties.Description.rich_text[0] &&
+	notionPage.properties.Description.rich_text[0].plain_text
+---
+
+<BaseLayout title={title} ogType="article" bg={{ light: "white", dark: "black" }}>
+	<div class="px-4">
+		<main class="prose prose-sm mx-auto mb-16 mt-12 dark:prose-invert medium:mt-8">
+			<h1>{title}</h1>
+			{description && <p class="lead">{description}</p>}
+			<NotionPageContent id={notionPage.id} />
+		</main>
+	</div>
+</BaseLayout>
