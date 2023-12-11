@@ -251,7 +251,9 @@ let numbered_list: RichTextItemResponse[][] = []
 											<a href={page.url} target="_blank">
 												{page.properties.Name
 													? page.properties.Name.title[0].plain_text
-													: "Erreur : La propriété de titre doit être nommée Name."}
+													: page.properties.Nom
+													  ? page.properties.Nom.title[0].plain_text
+													  : "Erreur : La propriété de titre doit être nommée Nom ou Name."}
 											</a>
 										</li>
 									)

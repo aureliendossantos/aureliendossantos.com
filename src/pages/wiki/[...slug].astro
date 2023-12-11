@@ -6,6 +6,8 @@ import BaseLayout from "$layouts/BaseLayout.astro"
 import slugify from "slugify"
 import getDatabase from "$utils/notion/getDatabase"
 import NotionPageContent from "$components/notion/NotionPageContent.astro"
+import svg from "$styles/icons/update.svg?raw"
+import formatDate from "$utils/formatDate"
 
 let results = await getDatabase(import.meta.env.NOTION_WIKI_PAGES_DB)
 
@@ -26,13 +28,27 @@ const title = notionPage.properties.Nom.title[0].plain_text
 const description =
 	notionPage.properties.Description.rich_text[0] &&
 	notionPage.properties.Description.rich_text[0].plain_text
+const editedTime = notionPage.last_edited_time
 ---
 
 <BaseLayout title={title} ogType="article" bg={{ light: "white", dark: "black" }}>
-	<div class="px-4">
-		<main class="prose prose-sm mx-auto mb-16 mt-12 dark:prose-invert medium:mt-8">
+	<div class="prose prose-sm prose-neutral mx-auto mb-16 px-4 dark:prose-invert">
+		<header
+			class="not-prose flex justify-between pb-8 pt-10 font-work-sans text-sm text-neutral-400"
+		>
+			<p>
+				<a href="/wiki" class="hover:text-neutral-200">← Wiki personnel</a>
+			</p>
+		</header>
+		<main class="">
 			<h1>{title}</h1>
 			{description && <p class="lead">{description}</p>}
+			<div class="not-prose font-work-sans text-sm text-neutral-500">
+				<p class="text-neutral-500">
+					<Fragment set:html={svg} />
+					{formatDate(new Date(editedTime))}
+				</p>
+			</div>
 			<NotionPageContent id={notionPage.id} />
 		</main>
 	</div>

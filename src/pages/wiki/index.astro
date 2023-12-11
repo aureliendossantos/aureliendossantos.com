@@ -3,8 +3,10 @@ export const prerender = false
 
 import "$styles/base.scss"
 import BaseLayout from "$layouts/BaseLayout.astro"
+import formatDate from "$utils/formatDate"
 import getDatabase from "$utils/notion/getDatabase"
 import slugify from "slugify"
+import svg from "$styles/icons/update.svg?raw"
 
 const categories = (await getDatabase(import.meta.env.NOTION_WIKI_CATEGORIES_DB)).map((page) => ({
 	id: page.id,
@@ -16,6 +18,9 @@ const categories = (await getDatabase(import.meta.env.NOTION_WIKI_CATEGORIES_DB)
 const pages = (await getDatabase(import.meta.env.NOTION_WIKI_PAGES_DB)).map((page) => ({
 	id: page.id,
 	title: page.properties.Nom.title[0].plain_text,
+	description: page.properties.Description.rich_text[0]
+		? page.properties.Description.rich_text[0].plain_text
+		: null,
 	category: page.properties.Catégorie.relation[0].id,
 	edited_time: page.last_edited_time,
 }))
@@ -25,13 +30,16 @@ const regex = /[*+~.()'"!:@«»]/g
 
 <BaseLayout title="Wiki personnel" ogType="website" bg={{ light: "white", dark: "black" }}>
 	<div class="px-4">
-		<main class="prose prose-sm mx-auto mb-16 mt-12 dark:prose-invert medium:mt-8">
+		<main
+			class="prose prose-sm prose-neutral mx-auto mb-16 mt-12 text-neutral-800 dark:prose-invert dark:text-neutral-200 medium:mt-8"
+		>
+			<h1>Wiki personnel</h1>
 			{
 				categories.map((category) => (
 					<>
-						<h2>{category.title}</h2>
-						{category.description ? category.description : null}
-						<ul class="not-prose flex flex-col gap-1">
+						<h2 class:list={[{ "mb-0": category.description }]}>{category.title}</h2>
+						{category.description && <p class="text-neutral-500">{category.description}</p>}
+						<ul class="not-prose -mx-3 flex flex-col">
 							{pages
 								.filter((page) => page.category == category.id)
 								.sort(
@@ -41,10 +49,17 @@ const regex = /[*+~.()'"!:@«»]/g
 									const slug = slugify(page.title, { remove: regex, lower: true })
 									return (
 										<a
-											class="rounded bg-slate-900 px-2 transition-colors hover:bg-slate-800"
+											class="z-0 -mt-[1px] border border-neutral-300 px-3 py-3 leading-snug transition first:mt-0 first:rounded-t last:rounded-b hover:z-10 hover:border-neutral-500 dark:border-neutral-700"
 											href={`/wiki/${slug}`}
 										>
-											{page.title}
+											<div class="flex justify-between">
+												<h3>{page.title}</h3>
+												<p class="text-neutral-500">
+													<Fragment set:html={svg} />
+													{formatDate(new Date(page.edited_time))}
+												</p>
+											</div>
+											{page.description && <p class="text-neutral-500">{page.description}</p>}
 										</a>
 									)
 								})}
