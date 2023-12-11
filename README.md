@@ -4,9 +4,10 @@ Personal website powered by [Astro](https://astro.build) and [Tailwind](https://
 
 Live at [aureliendossantos.com](https://aureliendossantos.com)
 
-| Command           | Action                                      |
-| :---------------- | :------------------------------------------ |
-| `npm install`     | Installs dependencies                       |
-| `npm run dev`     | Starts local dev server at `localhost:4321` |
-| `npm run build`   | Build the production site to `./dist/`      |
-| `npm run preview` | Preview the build locally                   |
+| Command                     | Action                                     |
+| :-------------------------- | :----------------------------------------- |
+| `pnpm install`              | Install dependencies                       |
+| `pnpm run dev`              | Start local dev server at `localhost:4321` |
+| `pnpm run build`            | Build the production site to `./dist/`     |
+| `pnpm run preview`          | Preview the build locally                  |
+| `pnpm dlx @astrojs/upgrade` | Upgrade Astro version                      |
