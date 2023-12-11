@@ -1,0 +1,32 @@
+---
+import formatDate from "$utils/formatDate"
+import { fetchSpotifyEndpoint, getSpotifyDate } from "$utils/spotify"
+import spotifyIcon from "$styles/icons/spotify.svg?raw"
+
+interface Props {
+	id: string
+	market?: string
+	rating: number
+}
+const { id, market, rating } = Astro.props
+
+console.log(`Getting Spotify data for ID ${id}...`)
+const track = await fetchSpotifyEndpoint("tracks", id, market)
+
+const year = formatDate(
+	getSpotifyDate(track.album.release_date, track.album.release_date_precision),
+	true
+)
+---
+
+<div class="not-prose mb-4 mt-8 flex gap-4">
+	<img class="w-20 rounded-md" src={track.album.images[0].url} alt={track.name} />
+	<div>
+		<h3 class="text-lg font-bold">{track.name}</h3>
+		<p>
+			{track.artists.map((a) => a.name).join(", ")} ({year})
+			<a href={track.external_urls.spotify}><Fragment set:html={spotifyIcon} /></a>
+		</p>
+		<p>{[...Array(Math.round(rating))].map(() => "⭐️").join(" ")}</p>
+	</div>
+</div>

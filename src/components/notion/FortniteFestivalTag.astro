@@ -1,0 +1,31 @@
+---
+import type { MultiSelectPropertyItemObjectResponse } from "@notionhq/client/build/src/api-endpoints"
+
+interface Props {
+	tags: MultiSelectPropertyItemObjectResponse
+}
+const { tags } = Astro.props
+---
+
+{
+	tags.multi_select.map((tag) => (
+		<span
+			class:list={[
+				"mr-2 rounded-sm px-1 font-bold uppercase italic",
+				{
+					/* "default" | "gray" | "brown" | "orange" | "yellow" | "green" | "blue" | "purple" | "pink" | "red" */
+					"bg-neutral-300 dark:bg-neutral-700": tag.color == "default" || tag.color == "gray",
+					"bg-orange-300 dark:bg-orange-700": tag.color == "orange" || tag.color == "brown",
+					"bg-amber-300 dark:bg-amber-700": tag.color == "yellow",
+					"bg-lime-300 dark:bg-lime-700": tag.color == "green",
+					"bg-sky-300 dark:bg-sky-700": tag.color == "blue",
+					"bg-purple-300 dark:bg-purple-700": tag.color == "purple",
+					"bg-pink-300 dark:bg-pink-700": tag.color == "pink",
+					"bg-rose-300 dark:bg-rose-700": tag.color == "red",
+				},
+			]}
+		>
+			{tag.name}
+		</span>
+	))
+}

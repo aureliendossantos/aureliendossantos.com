@@ -1,8 +1,16 @@
 ---
 import RenderBlocks from "$components/notion/RenderBlocks.astro"
 import getChildren from "$utils/notion/getChildren"
+import RenderFortniteTracks from "./RenderFortniteTracks.astro"
 
-const blocks = await getChildren(Astro.props.id)
+interface Props {
+	id: string
+}
+const { id } = Astro.props
+
+const blocks = await getChildren(id)
+
+const renderFortniteTracks = id.replaceAll("-", "") == import.meta.env.FORTNITE_FESTIVAL_PAGE_ID
 ---
 
-<RenderBlocks blocks={blocks} />
+{renderFortniteTracks ? <RenderFortniteTracks blocks={blocks} /> : <RenderBlocks blocks={blocks} />}
