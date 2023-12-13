@@ -17,15 +17,20 @@ const year = formatDate(
 	getSpotifyDate(track.album.release_date, track.album.release_date_precision),
 	true
 )
+const seconds = Math.round(track.duration_ms / 1000)
+const duration = `${Math.floor(seconds / 60)}:${(seconds % 60).toString().padStart(2, "0")}`
 ---
 
-<div class="not-prose mb-4 mt-8 flex gap-4">
+<div class="not-prose my-4 flex gap-4">
 	<img class="w-20 rounded-md" src={track.album.images[0].url} alt={track.name} />
 	<div>
 		<h3 class="text-lg font-bold">{track.name}</h3>
 		<p>
 			{track.artists.map((a) => a.name).join(", ")} ({year})
-			<a href={track.external_urls.spotify}><Fragment set:html={spotifyIcon} /></a>
+			<a href={track.external_urls.spotify}>
+				<Fragment set:html={spotifyIcon} />
+				<span class="text-[#1ED760]">{duration}</span>
+			</a>
 		</p>
 		<p>{[...Array(Math.round(rating))].map(() => "⭐️").join(" ")}</p>
 	</div>

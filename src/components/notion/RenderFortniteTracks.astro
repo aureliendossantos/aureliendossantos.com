@@ -45,18 +45,21 @@ const maps = [
 			const title = page.properties.Nom.title[0].plain_text
 			const trackId = page.properties["Spotify ID"].rich_text[0]?.plain_text
 			return (
-				<div>
+				<div class="mb-12">
 					{trackId && trackId.length == 22 ? (
 						<SpotifyTrack id={trackId} market="FR" rating={page.properties.Rating.number} />
 					) : (
 						<h3 class="mb-2 mt-8 text-lg font-bold">{title}</h3>
 					)}
-					{maps.map((map) => (
-						<p class="my-2">
-							<span class="mr-2">{map.icon}</span>
-							<FortniteFestivalTag tags={page.properties[map.name]} />
-						</p>
-					))}
+					{maps.map(
+						(map) =>
+							page.properties[map.name].multi_select.length > 0 && (
+								<p class="my-2">
+									<span class="mr-2">{map.icon}</span>
+									<FortniteFestivalTag tags={page.properties[map.name]} />
+								</p>
+							)
+					)}
 				</div>
 			)
 		})
