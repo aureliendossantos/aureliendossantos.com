@@ -39,3 +39,18 @@ export const getToggleText = (touchScreenText: string) => {
 	if (isMac()) return "⌘K"
 	return "Ctrl+K"
 }
+
+export const toast = (message: string, number = 2500) => {
+	const toast = document.querySelector("#toast") as HTMLDivElement
+	toast.innerText = message
+	toast.classList.remove("invisible")
+	toast.classList.remove("opacity-0")
+	toast.classList.add("opacity-100")
+	setTimeout(() => {
+		toast.classList.add("opacity-0")
+		toast.classList.remove("opacity-100")
+		setTimeout(() => {
+			toast.classList.add("invisible")
+		}, 160)
+	}, number)
+}

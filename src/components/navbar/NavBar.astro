@@ -26,6 +26,12 @@ const { title, related } = Astro.props
 ---
 
 <div
+	id="toast"
+	class="invisible fixed bottom-9 left-2 z-[999] rounded bg-black p-2 font-work-sans text-sm text-white opacity-0 ring-1 ring-white ring-opacity-20 transition-opacity"
+>
+</div>
+
+<div
 	transition:persist
 	transition:animate="none"
 	id="navbar"
@@ -207,9 +213,12 @@ const { title, related } = Astro.props
 </script>
 
 <script>
+	import { toast } from "$utils/navbar"
+
 	// Copy link button (without anchors)
 	const button = document.querySelector("#navbar-copy-link") as HTMLButtonElement
 	button.addEventListener("click", () => {
+		toast("Lien copié dans le presse-papiers.")
 		navigator.clipboard.writeText(window.location.href.split("#")[0])
 		const linkIcon = document.querySelector("#navbar-link-icon") as HTMLDivElement
 		const checkmark = document.querySelector("#navbar-link-checkmark") as HTMLDivElement
