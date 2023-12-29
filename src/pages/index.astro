@@ -1,175 +1,59 @@
 ---
-import ytch from "yt-channel-info"
-import getBlogPosts from "$utils/getBlogPosts"
-import Chapter from "$components/home/Chapter.astro"
-import Link from "$components/home/Link.astro"
-import NinjaLink from "$components/home/NinjaLink.astro"
+import "$styles/base.scss"
+import ArticleCard from "$components/ArticleCard.astro"
 import BaseLayout from "$layouts/BaseLayout.astro"
+import getBlogPosts from "$utils/getBlogPosts"
+import NinjaLink from "$components/home/NinjaLink.astro"
 
 const articles = await getBlogPosts()
-const lastArticles = articles
-	.filter((article) => article.data.categories && article.data.categories.includes("Article"))
-	.slice(0, 3)
-
-const allo = await ytch.getChannelVideos({
-	channelId: "GameDevAlliance",
-	sortBy: "newest",
-})
-
-const videos = allo.items.slice(0, 3)
 ---
 
 <BaseLayout
-	title="🌌"
-	description="Site personnel d'Aurélien Dos Santos."
-	bg={{ all: "#17182f" }}
 	ogType="website"
+	title="Blog"
+	description="Blog personnel d'Aurélien Dos Santos."
+	font="Work Sans"
 >
-	<div id="particles-js"></div>
-	<div
-		class="flex min-h-screen flex-col flex-wrap content-center items-start justify-center gap-6 font-space-grotesk text-space-500"
-	>
-		<!--<h1 class="mb-8 whitespace-nowrap font-space-mono text-[1.7em] italic hover:text-[#8c95a4] active:text-[#828d9e]"><a href="/about">Aurélien Dos Santos</a></h1>-->
-		<p class="relative mb-0 mt-20 max-w-[320px]">
-			Je suis <NinjaLink text="Aurélien Dos Santos" label="/about" href="/about" />, ingénieur et
-			concepteur pédagogique, réalisateur vidéo et développeur web/Unity.
-		</p>
-		<Chapter label="Portfolio" path="/portfolio" href="/portfolio" />
-		<Chapter
-			label="Vidéos"
-			path="youtube.com"
-			secondLabel="youtube.com"
-			href="https://www.youtube.com/@GameDevAlliance"
-			rel="me"
-			newTab
-		>
-			<ul class="overflow max-w-[320px] overflow-visible">
-				<li class="text-[13px]">
-					<span class="text-space-600 hover:text-space-700 active:text-space-800"
-						>Dernières vidéos</span
-					>
-				</li>
-				{
-					videos.map((video) => (
-						<li class="secondary truncate font-space-mono  text-xs italic tracking-tight hover:overflow-visible">
-							<a href={"https://youtu.be/" + video.videoId}>
-								<span>{video.title}</span>
-							</a>
-						</li>
-					))
-				}
-			</ul>
-		</Chapter>
-		<Chapter label="Blog" path="/blog" href="/blog">
-			<ul style="max-width: 320px" class="overflow overflow-visible">
-				<li class="text-[13px]">
-					<span class="text-space-600 hover:text-space-700 active:text-space-800"
-						>Derniers articles</span
-					>
-				</li>
-				{
-					lastArticles.map((article) => (
-						<li class="secondary truncate font-space-mono text-xs italic tracking-tight hover:overflow-visible">
-							<a href={"/blog/" + article.slug}>
-								<span>{article.data.title}</span>
-							</a>
-						</li>
-					))
-				}
-			</ul>
-		</Chapter>
-		<div class="chapter">
-			<!--<h2>Réseaux</h2>-->
-			<ul>
-				<Link
-					label="Mastodon"
-					secondLabel="@aurelien"
-					href="https://mastodon.gamedev.place/@aurelien"
-					rel="me"
-					newTab
-				/>
-				<Link
-					label="GitHub"
-					secondLabel="@aureliendossantos"
-					href="https://github.com/aureliendossantos"
-					rel="me"
-					newTab
-				/>
-				<Link
-					label="LinkedIn"
-					secondLabel="in/aureliendossantos"
-					href="https://www.linkedin.com/in/aureliendossantos/"
-					rel="me"
-					newTab
-				/>
-			</ul>
+	<div>
+		<main class="grid grid-cols-3 items-center xl:flex xl:grid-cols-none xl:flex-col">
+			<div></div>
+			<div class="flex justify-center">
+				<div
+					class="ml-8 mr-16 flex max-w-xs flex-col text-space-500 2xl:ml-7 2xl:mr-14 2xl:max-w-[17.5rem] 2xl:text-sm small:mx-0 small:max-w-[20rem]"
+				>
+					<header class="relative mb-11 mt-12 grid grid-cols-3 2xl:mb-9 2xl:mt-10">
+						<NinjaLink text="Portfolio" label="/portfolio" href="/portfolio" />
+						<div class="flex">
+							<div class="grow"></div>
+							<NinjaLink
+								text="YouTube"
+								label="youtube.com"
+								href="https://www.youtube.com/@GameDevAlliance"
+							/>
+							<div class="grow"></div>
+						</div>
+					</header>
+					<p class="relative mb-[58px] 2xl:mb-12">
+						Bonjour, je suis <NinjaLink text="Aurélien Dos Santos" label="/about" href="/about" />,
+						ingénieur pédagogique, réalisateur vidéo et développeur web/Unity. Bienvenue sur mon
+						blog.
+					</p>
+				</div>
+			</div>
+		</main>
+		<div>
+			{
+				articles.map((article, index) => (
+					<ArticleCard article={article} entryIndex={articles.length - index} />
+				))
+			}
 		</div>
-		<p class="relative my-0 max-w-[320px]">
-			À propos <NinjaLink text="de moi" label="/about" href="/about" /> et <NinjaLink
-				text="de ce site"
-				label="/website"
-				href="/website"
-			/>.
-		</p>
-		<p class="relative mb-20 mt-0 max-w-[320px]">
-			Je suis en recherche d'emploi ! Voici <NinjaLink
-				text="mes expériences pro"
-				label="/pro"
-				href="/pro"
-			/>.
-		</p>
 	</div>
-	<script src="/home/particlesjs2.0.0.min.js" is:inline></script>
-	<script type="text/javascript" src="/home/starryBackground.js" is:inline></script>
 </BaseLayout>
 
-<style lang="scss" is:global>
-	canvas {
-		display: block;
-	}
-
-	#particles-js canvas {
-		display: block;
-		animation: fadein 2s;
-	}
-
-	@keyframes fadein {
-		from {
-			opacity: 0;
-		}
-		to {
-			opacity: 1;
-		}
-	}
-
-	#particles-js {
-		width: 100%;
-		height: 100%;
-		position: fixed;
-		z-index: -10;
-		top: 0;
-		left: 0;
-	}
-
-	ul {
-		list-style-type: none;
-		margin: 0;
-		padding: 0;
-		line-height: 1.35;
-	}
-
+<style is:global>
+	header a,
 	p a {
-		@apply text-space-300;
-	}
-
-	a {
-		text-decoration: none;
-		color: inherit;
-		&:hover {
-			@apply text-space-200;
-			.label {
-				@apply text-space-100;
-			}
-		}
+		@apply text-space-700 hover:text-space-800 dark:text-space-300 dark:hover:text-space-200;
 	}
 </style>
