@@ -1,4 +1,4 @@
-import type { Places } from "./places"
+import type { PlaceWithFetchDate } from "./remoteData"
 
 // Takes a list of strings and returns an list of unique strings and their number of occurences.
 export default function getUniqueValuesAndOccurences(strings: (string[] | undefined)[]) {
@@ -9,7 +9,7 @@ export default function getUniqueValuesAndOccurences(strings: (string[] | undefi
 	)
 }
 
-export function getUniquePlacesAndOccurences(places: Places[][]) {
+export function getUniquePlacesAndOccurences(places: PlaceWithFetchDate[][]) {
 	const flattenedPlaces = places.flat()
 	const uniquePlaces = [...new Set(flattenedPlaces)]
 	return Object.fromEntries(

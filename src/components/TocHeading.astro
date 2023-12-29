@@ -20,8 +20,7 @@ const { heading } = Astro.props
 </li>
 
 <style lang="scss" is:global>
-	nav.toc,
-	.future nav.toc {
+	nav.toc {
 		ol {
 			counter-reset: toc 0;
 		}
@@ -45,9 +44,8 @@ const { heading } = Astro.props
 			}
 		}
 		ul {
-			@apply list-none pl-0;
+			@apply list-none pl-0 font-normal;
 			font-feature-settings: "smcp" 0;
-			font-weight: 400;
 			li {
 				@apply text-zinc-400;
 				font-size: smaller;
@@ -55,6 +53,11 @@ const { heading } = Astro.props
 					@apply font-normal hover:text-zinc-500;
 				}
 			}
+		}
+	}
+	.cormorant nav.toc {
+		a {
+			@apply font-normal;
 		}
 	}
 </style>

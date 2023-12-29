@@ -5,6 +5,7 @@ import { ViewTransitions } from "astro:transitions"
 import MediumZoom from "$components/MediumZoom.astro"
 import GoogleStructuredData from "$components/meta/GoogleStructuredData.astro"
 import NavBar, { type NavBarProps } from "$components/navbar/NavBar.astro"
+import type { Layouts } from "$utils/layouts"
 
 type Color =
 	| {
@@ -18,7 +19,7 @@ export interface Props {
 	description?: string
 	date?: Date
 	image?: string
-	layout?: string[]
+	layout?: Layouts[]
 	bg?: Color
 	bgDark?: string
 	popupColor?: string
@@ -40,6 +41,7 @@ const {
 	description,
 	date,
 	image,
+	layout,
 	bg,
 	popupColor,
 	popupActiveColor,

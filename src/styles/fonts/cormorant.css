@@ -1,0 +1,41 @@
+@font-face {
+	font-family: "Cormorant";
+	font-style: normal;
+	font-weight: 400;
+	src: url("/fonts/Cormorant/Cormorant-Regular.woff2") format("woff2");
+}
+
+@font-face {
+	font-family: "Cormorant";
+	font-style: italic;
+	font-weight: 400;
+	src: url("/fonts/Cormorant/Cormorant-Italic.woff2") format("woff2");
+}
+
+@font-face {
+	font-family: "Cormorant Garamond";
+	font-style: normal;
+	font-weight: 400;
+	src: url("/fonts/Cormorant/CormorantGaramond-Regular.woff2") format("woff2");
+}
+
+@font-face {
+	font-family: "Cormorant Garamond";
+	font-style: italic;
+	font-weight: 400;
+	src: url("/fonts/Cormorant/CormorantGaramond-Italic.woff2") format("woff2");
+}
+
+@font-face {
+	font-family: "Cormorant Unicase";
+	font-style: normal;
+	font-weight: 400;
+	src: url("/fonts/Cormorant/CormorantUnicase-Regular.woff2") format("woff2");
+}
+
+@font-face {
+	font-family: "Cormorant Upright";
+	font-style: normal;
+	font-weight: 400;
+	src: url("/fonts/Cormorant/CormorantUpright-Regular.woff2") format("woff2");
+}

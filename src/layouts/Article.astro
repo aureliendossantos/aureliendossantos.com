@@ -6,6 +6,8 @@ import ArticleHeader from "$components/ArticleHeader.astro"
 import TableOfContents from "$components/TableOfContents.astro"
 import type { MarkdownHeading } from "astro"
 import "src/styles/articles.scss"
+import { Layouts } from "$utils/layouts"
+import getRelatedArticles from "$utils/getRelatedArticles"
 
 interface Props {
 	article: CollectionEntry<"blog"> | CollectionEntry<"pages">
@@ -17,6 +19,7 @@ const data = article.data
 const date = "date" in data ? data.date : undefined
 const wide = "categories" in data && data.categories.includes("Photos")
 const customLayout = data.customLayout
+const cormorant = data.layouts?.includes(Layouts.cormorant)
 const ogImage = data.opengraph || data.image
 const coverImage = data.cover && data.image ? data.image : undefined
 const palette = getPalette(data.palette)
@@ -63,6 +66,7 @@ const relatedArticles =
 					date={date}
 					cover={coverImage}
 					palette={palette}
+					layouts={data.layouts}
 					wide={wide}
 					anchorTop={data.imageAnchorTop}
 				/>
@@ -75,7 +79,8 @@ const relatedArticles =
 			<div
 				class:list={[
 					{ "blog-article m-auto": !customLayout },
-					{ "max-w-prose": !customLayout && !wide },
+					{ "max-w-prose": !cormorant && !customLayout && !wide },
+					{ "max-w-[75ch]": cormorant && !customLayout && !wide },
 					{ "max-w-[700px]": wide },
 				]}
 			>

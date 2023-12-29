@@ -2,6 +2,7 @@
 import type { Palette } from "src/utils/palettes"
 import ArticleDate from "./ArticleDate.astro"
 import { getImage } from "astro:assets"
+import { Layouts } from "$utils/layouts"
 
 interface Props {
 	title?: string
@@ -9,12 +10,14 @@ interface Props {
 	date?: Date
 	cover?: ImageMetadata
 	palette: Palette
+	layouts: Layouts[]
 	wide?: boolean
 	anchorTop?: boolean
 }
-const { title, description, date, cover, palette, wide, anchorTop } = Astro.props
+const { title, description, date, cover, palette, layouts, wide, anchorTop } = Astro.props
 
 const optimizedCover = cover && (await getImage({ src: cover, width: Math.min(1920, cover.width) }))
+const cormorant = layouts.includes(Layouts.cormorant)
 ---
 
 <header
@@ -33,19 +36,42 @@ const optimizedCover = cover && (await getImage({ src: cover, width: Math.min(19
 		backgroundPosition: anchorTop ? "top" : "center",
 	}}
 >
-	<div class:list={["m-auto pt-8", { "max-w-[700px]": wide, "max-w-prose": !wide }]}>
+	<div
+		class:list={[
+			"m-auto",
+			{
+				"pb-20 pt-20": cormorant,
+				"pt-8": !cormorant,
+				"max-w-[700px]": wide,
+				"max-w-[75ch]": !wide && cormorant,
+				"max-w-prose": !wide && !cormorant,
+			},
+		]}
+	>
 		<h1
+			class:list={{ "mb-0 !leading-tight": cormorant }}
 			style={{
 				color: cover ? "#fbf8f2" : palette.mainColor,
 				fontFamily: palette.headingsFont,
+				fontStyle: cormorant ? "italic" : undefined,
+				fontFeatureSettings: cormorant ? '"ss01" 01, "dlig" 1' : undefined,
 			}}
 		>
 			{title}
 		</h1>
-		{description && <p>{description}</p>}
+		{
+			description && (
+				<p
+					class:list={{ "!my-[1em]": cormorant }}
+					style={{ fontFamily: cormorant ? "'Cormorant Upright', Cormorant, serif" : undefined }}
+				>
+					{description}
+				</p>
+			)
+		}
 		{
 			date && (
-				<p>
+				<p style={{ fontFamily: cormorant ? "'Cormorant Unicase'" : undefined }}>
 					<ArticleDate date={date} /> – <a href={Astro.site}>Aurélien Dos Santos</a>
 				</p>
 			)

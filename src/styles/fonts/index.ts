@@ -24,5 +24,6 @@ import "@fontsource/space-mono"
 import "@fontsource/space-mono/400-italic.css"
 // Custom fonts
 import "$styles/fonts/anek-latin.css"
+import "$styles/fonts/cormorant.css"
 import "$styles/fonts/et-book.css"
 import "$styles/fonts/source-serif.css"

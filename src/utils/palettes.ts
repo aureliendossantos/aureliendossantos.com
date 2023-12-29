@@ -27,6 +27,7 @@ export enum Palettes {
 	guidebook = "guidebook",
 	nature = "nature",
 	sourceSerif = "source-serif",
+	cormorant = "cormorant",
 	snow = "snow",
 	notebook = "notebook",
 	"green-notes" = "green-notes",
@@ -176,6 +177,22 @@ export default function getPalette(name: Palettes | undefined): Palette {
 				specialFont: "monospace",
 				fontSize: "18px",
 				lineHeight: "1.45",
+			}
+		case "cormorant":
+			return {
+				mainColor: "#121212",
+				secondaryColor: "#121212",
+				popupColor: "#d4d4d8",
+				popupActiveColor: "#e4e4e7",
+				specialColor: "#121212",
+				backgroundColor: "#ffffff",
+				mentionColor: "#ebfcde",
+				mentionHoverColor: "#dcf7cd",
+				headingsFont: "'Cormorant', serif",
+				mainFont: "'Cormorant', serif",
+				specialFont: "monospace",
+				fontSize: "18px",
+				lineHeight: "1.30",
 			}
 		case "snow":
 			return {

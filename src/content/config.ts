@@ -1,5 +1,6 @@
 import { defineCollection, z } from "astro:content"
 import { Palettes } from "$utils/palettes"
+import { Layouts } from "$utils/layouts"
 // Export a single `collections` object to register your collection(s)
 // This key should match your collection directory name in "src/content"
 export const collections = {
@@ -21,7 +22,7 @@ export const collections = {
 				depth: z.onumber(),
 				draft: z.boolean().default(false),
 				palette: z.nativeEnum(Palettes).default(Palettes.default),
-				layouts: z.array(z.string()).default(["classic"]),
+				layouts: z.array(z.nativeEnum(Layouts)).default([Layouts.classic]),
 				games: z.array(z.string()).default([]),
 				books: z.array(z.string()).default([]),
 				places: z.array(z.string()).default([]),
@@ -41,7 +42,7 @@ export const collections = {
 				depth: z.onumber(),
 				draft: z.boolean().default(false),
 				palette: z.nativeEnum(Palettes).default(Palettes.default),
-				layouts: z.array(z.string()).default(["classic"]),
+				layouts: z.array(z.nativeEnum(Layouts)).default([Layouts.classic]),
 			}),
 	}),
 	diary: defineCollection({
