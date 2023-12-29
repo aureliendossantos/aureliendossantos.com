@@ -43,7 +43,6 @@ export default defineConfig({
 				"$components/mdx/PhotoGallery.astro",
 				"$components/mdx/Popup.astro",
 				"$components/mdx/Ref.astro",
-				"$components/mdx/SpotifyAlbum.astro",
 				"$components/mdx/SpotifyTrack.astro",
 				"$components/mdx/Video.astro",
 				// Tabs is not imported by default because it loads a CSS file

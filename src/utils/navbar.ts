@@ -1,7 +1,7 @@
 export const toggleNavbar = () => {
 	const navbar = document.querySelector("#navbar") as HTMLDivElement
-	if (navbar.classList.contains("hidden")) {
-		navbar.classList.remove("hidden")
+	if (navbar.classList.contains("invisible")) {
+		navbar.classList.remove("invisible")
 		setTimeout(() => {
 			navbar.classList.remove("-bottom-7")
 			navbar.classList.add("bottom-0")
@@ -10,7 +10,7 @@ export const toggleNavbar = () => {
 		navbar.classList.add("-bottom-7")
 		navbar.classList.remove("bottom-0")
 		setTimeout(() => {
-			navbar.classList.add("hidden")
+			navbar.classList.add("invisible")
 		}, 160)
 	}
 	const homeButton = document.querySelector("#blog-home-navbar-toggle") as HTMLButtonElement
