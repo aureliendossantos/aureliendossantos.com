@@ -14,7 +14,7 @@
 		},
 		{
 			"source": "/page/:path*",
-			"destination": "/blog"
+			"destination": "/"
 		},
 		{
 			"source": "/category/:path*",
@@ -25,9 +25,8 @@
 			"destination": "/tags/:path*"
 		},
 		{
-			"source": "/exemple-storyline",
-			"destination": "https://www.youtube.com/watch?v=VDOfHWYnfBc",
-			"permanent": false
+			"source": "/blog",
+			"destination": "/"
 		}
 	]
 }
