@@ -1,0 +1,25 @@
+---
+import download from "$styles/icons/download.svg?raw"
+
+interface Props {
+	id: string
+	label: string
+	shortLabel: string
+	href: string
+}
+const { id, label, shortLabel, href } = Astro.props
+---
+
+<a
+	id={id}
+	style="padding-block: unset;"
+	class="m-0 flex h-full items-center justify-center gap-2 border-0 border-r border-solid border-neutral-700 bg-black p-0 pl-2 pr-3 font-work-sans text-sm text-white hover:bg-white hover:text-black medium:pr-2"
+	href={href}
+	download
+>
+	<div id="navbar-link-icon" class="h-[17px] w-[17px]">
+		<Fragment set:html={download} />
+	</div>
+	<div id={`${id}-text`} class="medium:hidden">{label}</div>
+	<div class="hidden medium:block">{shortLabel}</div>
+</a>

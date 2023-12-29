@@ -26,14 +26,6 @@ const {
 
 const src = "then" in srcToResolve ? (await srcToResolve).default : srcToResolve
 
-/* const avif = await getImage({
-	src: src,
-	width: width,
-	height: height,
-	quality: quality,
-	format: "avif",
-	...attributes,
-}) */
 const webp = await getImage({
 	src: src,
 	width: width,
@@ -70,6 +62,12 @@ const placeholderURL = await imageService.generatePlaceholder(src.src, src.width
 		alt={alt}
 		data-zoomable={!notZoomable}
 		data-zoom-src={zoomedImage?.src}
+		data-zoom-width={zoomedImage?.attributes.width}
+		data-zoom-height={zoomedImage?.attributes.height}
+		data-original-src={src.src}
+		data-original-width={src.width}
+		data-original-height={src.height}
+		data-original-format={src.format}
 		{...webp.attributes}
 	/>
 </picture>

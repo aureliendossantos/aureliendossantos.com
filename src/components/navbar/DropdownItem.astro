@@ -2,15 +2,15 @@
 interface Props {
 	label: string
 	href?: string
-	width: number
+	width?: number
 }
 const { label, href, width } = Astro.props
 ---
 
 <a
 	href={href}
-	class="flex py-[6px] items-center leading-tight line-clamp-2 border-x-0 bg-black px-3 text-sm text-white !no-underline hover:bg-white hover:text-black"
-	style={{width: `${width}px`}}
+	class="line-clamp-2 flex items-center border-x-0 bg-black px-3 py-[6px] text-sm leading-tight text-white hover:bg-white hover:text-black"
+	style={{ width: width ? `${width}px` : undefined }}
 >
 	{label}
 </a>

@@ -4,6 +4,7 @@ import linkIcon from "$styles/icons/link.svg?raw"
 import spinner from "$styles/icons/loading.svg?raw"
 import checkmark from "$styles/icons/checkmark.svg?raw"
 import DropdownMenu from "./DropdownMenu.astro"
+import DownloadLink from "./DownloadLink.astro"
 
 /**
  * These props are used to populate the initial navbar, so it works even if JS is disabled.
@@ -27,40 +28,52 @@ const { title, related } = Astro.props
 	transition:persist
 	transition:animate="none"
 	id="navbar"
-	class="fixed invisible -bottom-7 flex h-7 w-full bg-black font-work-sans text-sm text-white transition-all"
+	class="invisible fixed -bottom-7 z-[999] flex h-7 w-full bg-black font-work-sans text-sm text-white transition-all"
 >
-	<button
-		id="navbar-copy-link"
-		style="padding-block: unset;"
-		class="m-0 flex h-full items-center justify-center gap-2 border-0 border-r border-solid border-neutral-700 bg-black p-0 pl-2 medium:pr-2 pr-3 font-work-sans text-sm text-white hover:bg-white hover:text-black"
-	>
-		<div id="navbar-link-icon" class="h-[17px] w-[17px]">
-			<Fragment set:html={linkIcon} />
-		</div>
-		<div id="navbar-link-checkmark" class="hidden h-[17px] w-[17px]">
-			<Fragment set:html={checkmark} />
-		</div>
-		<div id="navbar-loading-icon" class="hidden h-[17px] w-[17px] animate-spin">
-			<Fragment set:html={spinner} />
-		</div>
-		<div id="navbar-title" class="medium:hidden">{title}</div>
-	</button>
-	<DropdownMenu
-		id="navbar-related"
-		label="Articles similaires"
-		borderRight
-		initiallyHidden={!related || related.length == 0}
-	>
-		{
-			[0, 1, 2].map((i) => (
-				<DropdownItem
-					label={(related && related[i]?.title) || "undefined"}
-					href={(related && related[i]?.href) || "#"}
-					width={192}
-				/>
-			))
-		}
-	</DropdownMenu>
+	<div id="navbar-main-actions" class="flex">
+		<button
+			id="navbar-copy-link"
+			style="padding-block: unset;"
+			class="m-0 flex h-full items-center justify-center gap-2 border-0 border-r border-solid border-neutral-700 bg-black p-0 pl-2 pr-3 font-work-sans text-sm text-white hover:bg-white hover:text-black medium:pr-2"
+		>
+			<div id="navbar-link-icon" class="h-[17px] w-[17px]">
+				<Fragment set:html={linkIcon} />
+			</div>
+			<div id="navbar-link-checkmark" class="hidden h-[17px] w-[17px]">
+				<Fragment set:html={checkmark} />
+			</div>
+			<div id="navbar-loading-icon" class="hidden h-[17px] w-[17px] animate-spin">
+				<Fragment set:html={spinner} />
+			</div>
+			<div id="navbar-title" class="medium:hidden">{title}</div>
+		</button>
+		<DropdownMenu
+			id="navbar-related"
+			label="Articles similaires"
+			borderRight
+			initiallyHidden={!related || related.length == 0}
+		>
+			{
+				[0, 1, 2].map((i) => (
+					<DropdownItem
+						label={(related && related[i]?.title) || "undefined"}
+						href={(related && related[i]?.href) || "#"}
+						width={192}
+					/>
+				))
+			}
+		</DropdownMenu>
+	</div>
+	<div id="navbar-image-actions" class="flex hidden">
+		<DownloadLink id="navbar-download-lowres-image" label="Basse qualité" shortLabel="SD" href="" />
+		<DownloadLink id="navbar-download-hires-image" label="Haute qualité" shortLabel="HD" href="" />
+		<DownloadLink
+			id="navbar-download-original-image"
+			label="Original (png)"
+			shortLabel="Original"
+			href=""
+		/>
+	</div>
 	<div class="grow"></div>
 	<DropdownMenu id="navbar-explore" label="Explorer" alignRight borderLeft borderRight>
 		<DropdownItem label="Blog" href="/" />
@@ -113,6 +126,44 @@ const { title, related } = Astro.props
 		} else {
 			parent.classList.add("hidden")
 		}
+	})
+</script>
+
+<script>
+	// Display download links when an image is opened with MediumZoom
+	window.mediumZoom.on("open", (event: any) => {
+		// Toggle visibility
+		;(document.querySelector("#navbar-main-actions") as HTMLDivElement).classList.add("hidden")
+		;(document.querySelector("#navbar-image-actions") as HTMLDivElement).classList.remove("hidden")
+		// Get divs
+		const img = event.detail.zoom.getZoomedImage() as HTMLImageElement
+		const lowResLink = document.querySelector("#navbar-download-lowres-image") as HTMLLinkElement
+		const hiResLink = document.querySelector("#navbar-download-hires-image") as HTMLLinkElement
+		const originalLink = document.querySelector(
+			"#navbar-download-original-image"
+		) as HTMLLinkElement
+		// Low res link
+		lowResLink.href = img.src
+		;(document.querySelector("#navbar-download-lowres-image-text") as HTMLDivElement).innerText =
+			`${img.width}×${img.height} (webp)`
+		// Original link
+		originalLink.href = img.dataset.originalSrc as string
+		;(document.querySelector("#navbar-download-original-image-text") as HTMLDivElement).innerText =
+			`${img.dataset.originalWidth}×${img.dataset.originalHeight} (${img.dataset.originalFormat} original)`
+		// Hi res link
+		if (img.dataset.zoomSrc) {
+			;(document.querySelector("#navbar-download-hires-image-text") as HTMLDivElement).innerText =
+				`${img.dataset.zoomWidth}×${img.dataset.zoomHeight} (webp)`
+			hiResLink.href = img.dataset.zoomSrc
+			hiResLink.classList.remove("hidden")
+		} else {
+			hiResLink.classList.add("hidden")
+		}
+	})
+	// Hide download links when an image is closed with MediumZoom
+	window.mediumZoom.on("close", () => {
+		;(document.querySelector("#navbar-image-actions") as HTMLLinkElement).classList.add("hidden")
+		;(document.querySelector("#navbar-main-actions") as HTMLLinkElement).classList.remove("hidden")
 	})
 </script>
 
@@ -182,3 +233,9 @@ const { title, related } = Astro.props
 		;(document.querySelector("#navbar-loading-icon") as HTMLDivElement).classList.add("hidden")
 	})
 </script>
+
+<style is:global>
+	#navbar a:link {
+		@apply no-underline;
+	}
+</style>

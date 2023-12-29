@@ -73,6 +73,7 @@ const articles = await getBlogPosts()
 
 	document.addEventListener("astro:page-load", () => {
 		const button = document.querySelector("#blog-home-navbar-toggle") as HTMLButtonElement
+		if (!button) return
 		button.addEventListener("click", () => {
 			toggleNavbar()
 		})
