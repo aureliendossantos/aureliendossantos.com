@@ -4,6 +4,7 @@ import linkIcon from "$styles/icons/link.svg?raw"
 import spinner from "$styles/icons/loading.svg?raw"
 import checkmark from "$styles/icons/checkmark.svg?raw"
 import downArrow from "$styles/icons/double-down-arrow.svg?raw"
+import searchIcon from "$styles/icons/search.svg?raw"
 import DropdownMenu from "./DropdownMenu.astro"
 import DownloadLink from "./DownloadLink.astro"
 
@@ -82,6 +83,15 @@ const { title, related } = Astro.props
 		/>
 	</div>
 	<div class="grow"></div>
+	<a
+		style="padding-block: unset;"
+		class="m-0 flex h-full items-center justify-center gap-2 border-0 border-solid border-neutral-700 bg-black p-0 px-[10px] font-work-sans text-sm text-white hover:bg-white hover:text-black medium:px-2"
+		href="/search"
+	>
+		<div class="h-[17px] w-[17px]">
+			<Fragment set:html={searchIcon} />
+		</div>
+	</a>
 	<DropdownMenu id="navbar-explore" label="Explorer" alignRight borderLeft borderRight>
 		<DropdownItem label="Blog" href="/" />
 		<DropdownItem label="Appareils" href="/gear" />
