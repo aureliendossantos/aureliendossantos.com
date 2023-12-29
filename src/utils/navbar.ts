@@ -28,10 +28,14 @@ export const isMac = () => {
 	return platform.includes("mac")
 }
 
-export const getToggleText = (touchScreenText: string) => {
+export const isTouchScreen = () => {
 	const platform = navigator.platform.toLowerCase()
 	const touchPlatforms = ["iphone", "ipod", "ipad", "android", "blackberry"]
-	if (touchPlatforms.some((p) => platform.includes(p))) return touchScreenText
+	return touchPlatforms.some((p) => platform.includes(p))
+}
+
+export const getToggleText = (touchScreenText: string) => {
+	if (isTouchScreen()) return touchScreenText
 	if (isMac()) return "⌘K"
 	return "Ctrl+K"
 }

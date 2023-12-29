@@ -3,6 +3,7 @@ import DropdownItem from "$components/navbar/DropdownItem.astro"
 import linkIcon from "$styles/icons/link.svg?raw"
 import spinner from "$styles/icons/loading.svg?raw"
 import checkmark from "$styles/icons/checkmark.svg?raw"
+import downArrow from "$styles/icons/double-down-arrow.svg?raw"
 import DropdownMenu from "./DropdownMenu.astro"
 import DownloadLink from "./DownloadLink.astro"
 
@@ -81,16 +82,18 @@ const { title, related } = Astro.props
 		<DropdownItem label="/website" href="/website" />
 	</DropdownMenu>
 	<button
-		id="navbar-toggle"
+		id="navbar-toggle-button"
 		aria-label="Toggle navigation bar"
 		style="padding-block: unset;"
-		class="group m-0 flex h-full items-center justify-center border-none bg-black p-0 px-3"
+		class="group m-0 flex h-full items-center justify-center border-none bg-black p-0 px-3 medium:px-2"
 	>
 		<div
-			id="navbar-toggle-text"
-			class="rounded-sm border border-solid border-neutral-500 px-[4px] font-work-sans text-sm leading-tight text-neutral-400 group-hover:border-white group-hover:text-white"
+			class="rounded-sm border border-solid border-neutral-500 font-work-sans text-sm leading-tight text-neutral-400 group-hover:border-white group-hover:text-white"
 		>
-			Masquer
+			<div id="navbar-toggle-text" class="px-[4px]">Ctrl+K</div>
+			<div id="navbar-toggle-icon" class="hidden h-[17px] w-[17px]">
+				<Fragment set:html={downArrow} />
+			</div>
 		</div>
 	</button>
 </div>
@@ -168,12 +171,20 @@ const { title, related } = Astro.props
 </script>
 
 <script>
-	// Button in the navbar to toggle it
-	import { getToggleText, toggleNavbar } from "$utils/navbar"
+	// Toggle button contents
+	import { isTouchScreen, isMac, toggleNavbar } from "$utils/navbar"
 
-	const button = document.querySelector("#navbar-toggle") as HTMLButtonElement
+	const button = document.querySelector("#navbar-toggle-button") as HTMLButtonElement
+	const buttonIcon = document.querySelector("#navbar-toggle-icon") as HTMLDivElement
 	const buttonText = document.querySelector("#navbar-toggle-text") as HTMLDivElement
-	buttonText.innerText = getToggleText("Masquer")
+	if (isTouchScreen()) {
+		buttonText.classList.add("hidden")
+		buttonIcon.classList.remove("hidden")
+	} else if (isMac()) {
+		buttonText.innerText = "⌘K"
+	} else {
+		buttonText.innerText = "Ctrl+K"
+	}
 	button.addEventListener("click", () => {
 		toggleNavbar()
 	})
