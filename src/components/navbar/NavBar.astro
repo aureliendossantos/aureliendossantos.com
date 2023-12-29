@@ -1,0 +1,184 @@
+---
+import DropdownItem from "$components/navbar/DropdownItem.astro"
+import linkIcon from "$styles/icons/link.svg?raw"
+import spinner from "$styles/icons/loading.svg?raw"
+import checkmark from "$styles/icons/checkmark.svg?raw"
+import DropdownMenu from "./DropdownMenu.astro"
+
+/**
+ * These props are used to populate the initial navbar, so it works even if JS is disabled.
+ * They are also used to populate the hidden #navbar-data div, which is read when the page
+ * changes (during the "after-swap" event of Astro ViewTransitions).
+ */
+export type NavBarProps = {
+	title: string
+	related?: {
+		title: string
+		href: string
+	}[]
+}
+
+interface Props extends NavBarProps {}
+
+const { title, related } = Astro.props
+---
+
+<div
+	transition:persist
+	transition:animate="none"
+	id="navbar"
+	class="fixed bottom-0 flex h-7 w-full bg-black font-work-sans text-sm text-white transition-all"
+>
+	<button
+		id="navbar-copy-link"
+		style="padding-block: unset;"
+		class="m-0 flex h-full items-center justify-center gap-2 border-0 border-r border-solid border-neutral-700 bg-black p-0 pl-2 medium:pr-2 pr-3 font-work-sans text-sm text-white hover:bg-white hover:text-black"
+	>
+		<div id="navbar-link-icon" class="h-[17px] w-[17px]">
+			<Fragment set:html={linkIcon} />
+		</div>
+		<div id="navbar-link-checkmark" class="hidden h-[17px] w-[17px]">
+			<Fragment set:html={checkmark} />
+		</div>
+		<div id="navbar-loading-icon" class="hidden h-[17px] w-[17px] animate-spin">
+			<Fragment set:html={spinner} />
+		</div>
+		<div id="navbar-title" class="medium:hidden">{title}</div>
+	</button>
+	<DropdownMenu
+		id="navbar-related"
+		label="Articles similaires"
+		borderRight
+		initiallyHidden={!related || related.length == 0}
+	>
+		{
+			[0, 1, 2].map((i) => (
+				<DropdownItem
+					label={(related && related[i]?.title) || "undefined"}
+					href={(related && related[i]?.href) || "#"}
+					width={192}
+				/>
+			))
+		}
+	</DropdownMenu>
+	<div class="grow"></div>
+	<DropdownMenu id="navbar-explore" label="Explorer" alignRight borderLeft borderRight>
+		<DropdownItem label="Blog" href="/" />
+		<DropdownItem label="Appareils" href="/gear" />
+		<DropdownItem label="/website" href="/website" />
+	</DropdownMenu>
+	<button
+		id="navbar-toggle"
+		aria-label="Toggle navigation bar"
+		style="padding-block: unset;"
+		class="group m-0 flex h-full items-center justify-center border-none bg-black p-0 px-3"
+	>
+		<div
+			id="navbar-toggle-text"
+			class="rounded-sm border border-solid border-neutral-500 px-[4px] font-work-sans text-sm leading-tight text-neutral-400 group-hover:border-white group-hover:text-white"
+		>
+			Masquer
+		</div>
+	</button>
+</div>
+
+<div id="navbar-data" class="hidden" data-props={JSON.stringify(Astro.props)}></div>
+
+<script>
+	// Update when the page changes, according to the props in #navbar-data
+	import type { NavBarProps } from "$components/navbar/NavBar.astro"
+
+	document.addEventListener("astro:after-swap", () => {
+		const dataDiv = document.getElementById("navbar-data") as HTMLDivElement
+		const props = JSON.parse(dataDiv.dataset.props as string) as NavBarProps
+		// Update title
+		;(document.querySelector("#navbar-title") as HTMLDivElement).innerText = props.title
+		// Update related articles
+		const parent = document.querySelector("#navbar-related-parent") as HTMLDivElement
+		if (props.related && props.related.length > 0) {
+			parent.classList.remove("hidden")
+			const items = document.querySelectorAll(
+				"#navbar-related-dropdown a"
+			) as NodeListOf<HTMLLinkElement>
+			items.forEach((item, index) => {
+				const related = props.related![index]
+				if (related) {
+					item.classList.remove("hidden")
+					item.innerText = related.title
+					item.href = related.href
+				} else {
+					item.classList.add("hidden")
+				}
+			})
+		} else {
+			parent.classList.add("hidden")
+		}
+	})
+</script>
+
+<script>
+	// Button in the navbar to toggle it
+	import { getToggleText, toggleNavbar } from "$utils/navbar"
+
+	const button = document.querySelector("#navbar-toggle") as HTMLButtonElement
+	const buttonText = document.querySelector("#navbar-toggle-text") as HTMLDivElement
+	buttonText.innerText = getToggleText("Masquer")
+	button.addEventListener("click", () => {
+		toggleNavbar()
+	})
+</script>
+
+<script>
+	// Keyboard shortcut to toggle navbar
+	import { toggleNavbar, isMac } from "$utils/navbar"
+
+	const keyDownHandler = (event: KeyboardEvent) => {
+		const mac = isMac()
+		if (!mac && event.ctrlKey && event.key === "k") {
+			toggleNavbar()
+		}
+		if (mac && event.metaKey && event.key === "k") {
+			toggleNavbar()
+		}
+	}
+	window.addEventListener("keydown", keyDownHandler)
+</script>
+
+<script>
+	// Copy link button (without anchors)
+	const button = document.querySelector("#navbar-copy-link") as HTMLButtonElement
+	button.addEventListener("click", () => {
+		navigator.clipboard.writeText(window.location.href.split("#")[0])
+		const linkIcon = document.querySelector("#navbar-link-icon") as HTMLDivElement
+		const checkmark = document.querySelector("#navbar-link-checkmark") as HTMLDivElement
+		linkIcon.classList.add("hidden")
+		checkmark.classList.remove("hidden")
+		setTimeout(() => {
+			checkmark.classList.add("hidden")
+			if (!window.nextPageIsLoading) {
+				linkIcon.classList.remove("hidden")
+			}
+		}, 1000)
+	})
+</script>
+
+<script>
+	// Page loading spinner
+	document.addEventListener("astro:before-preparation", () => {
+		// display only if the loading is longer than 200ms to avoid flickering
+		window.nextPageIsLoading = true
+		setTimeout(() => {
+			if (window.nextPageIsLoading) {
+				;(document.querySelector("#navbar-link-icon") as HTMLDivElement).classList.add("hidden")
+				;(document.querySelector("#navbar-loading-icon") as HTMLDivElement).classList.remove(
+					"hidden"
+				)
+			}
+		}, 200)
+	})
+	document.addEventListener("astro:after-preparation", () => {
+		window.nextPageIsLoading = false
+		;(document.querySelector("#navbar-link-icon") as HTMLDivElement).classList.remove("hidden")
+		;(document.querySelector("#navbar-loading-icon") as HTMLDivElement).classList.add("hidden")
+	})
+</script>

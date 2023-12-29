@@ -1,0 +1,59 @@
+---
+interface Props {
+	id: string
+	label: string
+	alignRight?: boolean
+	initiallyHidden?: boolean
+	borderLeft?: boolean
+	borderRight?: boolean
+}
+const { id, label, alignRight, initiallyHidden, borderLeft, borderRight } = Astro.props
+---
+
+<div id={`${id}-parent`} class:list={["relative", { hidden: initiallyHidden }]}>
+	<button
+		id={`${id}-button`}
+		aria-haspopup="true"
+		style="padding-block: unset;"
+		class:list={[
+			"m-0 h-full border-0 border-solid border-neutral-700 bg-black p-0 px-3 font-work-sans text-sm text-white hover:bg-white hover:text-black",
+			{ "border-l": borderLeft, "border-r": borderRight },
+		]}
+	>
+		{label}
+	</button>
+	<div
+		id={`${id}-dropdown`}
+		class:list={[
+			"invisible absolute bottom-7 z-10 bg-black",
+			{ "left-0": !alignRight, "right-0": alignRight },
+		]}
+		role="menu"
+		aria-orientation="vertical"
+		aria-labelledby="menu-button"
+		tabindex="-1"
+	>
+		<div role="none" class="divide-y divide-solid divide-neutral-700">
+			<slot />
+		</div>
+	</div>
+</div>
+
+<script define:vars={{ id }}>
+	// Prevent the script to be ran when the page changes
+	if (!window[id]) {
+		window[id] = true
+		// Open the dropdown menu on click
+		const button = document.getElementById(`${id}-button`)
+		const dropdown = document.getElementById(`${id}-dropdown`)
+		button.addEventListener("click", () => {
+			dropdown.classList.toggle("invisible")
+		})
+		// Close the dropdown menu if the user clicks outside of it
+		window.addEventListener("click", (event) => {
+			if (!button.contains(event.target)) {
+				dropdown.classList.add("invisible")
+			}
+		})
+	}
+</script>

@@ -32,6 +32,16 @@ const articles = await getBlogPosts()
 							/>
 							<div class="grow"></div>
 						</div>
+						<div class="flex">
+							<div class="grow"></div>
+							<button
+								id="blog-home-navbar-toggle"
+								aria-haspopup="true"
+								class="active:ring-space-400 -mx-2 -my-1 rounded px-2 leading-tight opacity-0 ring-space-300 transition-all hover:text-space-600 hover:ring-1 active:bg-space-100 active:text-space-500 dark:ring-space-700 dark:hover:text-space-500 dark:hover:ring-space-600 dark:active:bg-space-blue dark:active:text-space-300 dark:active:ring-space-500 medium:mx-0 medium:ring-1"
+							>
+								Explorer
+							</button>
+						</div>
 					</header>
 					<p class="relative mb-[58px] 2xl:mb-12">
 						Bonjour, je suis <NinjaLink text="Aurélien Dos Santos" label="/about" href="/about" />,
@@ -57,3 +67,17 @@ const articles = await getBlogPosts()
 		@apply text-space-700 hover:text-space-800 dark:text-space-300 dark:hover:text-space-200;
 	}
 </style>
+
+<script>
+	import { getToggleText, toggleNavbar } from "$utils/navbar"
+
+	document.addEventListener("astro:page-load", () => {
+		const button = document.querySelector("#blog-home-navbar-toggle") as HTMLButtonElement
+		button.addEventListener("click", () => {
+			toggleNavbar()
+		})
+		button.innerText = getToggleText("Explorer")
+		button.classList.remove("opacity-0")
+		button.classList.add("opacity-100")
+	})
+</script>

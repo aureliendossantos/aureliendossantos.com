@@ -8,5 +8,6 @@ import("medium-zoom").then((module) => {
 interface Window {
 	mediumZoom: Zoom
 	popupZindex: number
+	nextPageIsLoading: boolean
 	initAllMaps: () => void
 }

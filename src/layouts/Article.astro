@@ -31,6 +31,9 @@ const color = palette.mainColor
 const fontFamily = palette.mainFont
 const fontSize = palette.fontSize || "initial"
 const lineHeight = palette.lineHeight || 1.25
+// Related articles
+const relatedArticles =
+	"categories" in data ? await getRelatedArticles(article as CollectionEntry<"blog">) : undefined
 ---
 
 <BaseLayout
@@ -43,6 +46,13 @@ const lineHeight = palette.lineHeight || 1.25
 	popupColor={palette.popupColor}
 	popupActiveColor={palette.popupActiveColor}
 	layout={data.layouts}
+	navBarProps={{
+		title: data.title,
+		related: relatedArticles?.map((a) => ({
+			title: a.article.data.title,
+			href: `/blog/${a.article.slug}`,
+		})),
+	}}
 >
 	<div class="article-styling">
 		{

@@ -4,6 +4,7 @@ import "$styles/fonts"
 import { ViewTransitions } from "astro:transitions"
 import MediumZoom from "$components/MediumZoom.astro"
 import GoogleStructuredData from "$components/meta/GoogleStructuredData.astro"
+import NavBar, { type NavBarProps } from "$components/navbar/NavBar.astro"
 
 type Color =
 	| {
@@ -19,9 +20,11 @@ export interface Props {
 	image?: string
 	layout?: string[]
 	bg?: Color
+	bgDark?: string
 	popupColor?: string
 	popupActiveColor?: string
 	font?: "Work Sans"
+	navBarProps?: NavBarProps
 	ogType:
 		| "website"
 		| "article"
@@ -32,8 +35,18 @@ export interface Props {
 		| "music.album"
 		| "music.playlist"
 }
-const { title, description, date, image, layout, bg, popupColor, popupActiveColor, font, ogType } =
-	Astro.props
+const {
+	title,
+	description,
+	date,
+	image,
+	bg,
+	popupColor,
+	popupActiveColor,
+	font,
+	navBarProps,
+	ogType,
+} = Astro.props
 
 // Base website URL (minus slash at the end) + image URL
 const ogImageURL = image && Astro.site?.toString().replace(/\/$/, "") + image
@@ -64,7 +77,7 @@ const darkBackground = getColor(bg, "dark") || "#17182f"
 		/>
 		<title>{title} - Aurélien Dos Santos</title>
 		{description && <meta name="description" content={description} />}
-		{bg && <meta name="theme-color" content={bg} />}
+		{bg && <meta name="theme-color" content={defaultBackground} />}
 		<meta property="og:title" content={title} />
 		{description && <meta property="og:description" content={description} />}
 		<meta property="og:url" content={Astro.url} />
@@ -109,5 +122,6 @@ const darkBackground = getColor(bg, "dark") || "#17182f"
 	>
 		<slot />
 		<MediumZoom />
+		<NavBar title={navBarProps?.title || title} related={navBarProps?.related} />
 	</body>
 </html>
