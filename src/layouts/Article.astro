@@ -35,8 +35,10 @@ const fontFamily = palette.mainFont
 const fontSize = palette.fontSize || "initial"
 const lineHeight = palette.lineHeight || 1.25
 // Related articles
-const relatedArticles =
-	"categories" in data ? await getRelatedArticles(article as CollectionEntry<"blog">) : undefined
+const isBlog = "categories" in data
+const relatedArticles = isBlog
+	? await getRelatedArticles(article as CollectionEntry<"blog">)
+	: undefined
 ---
 
 <BaseLayout
@@ -51,6 +53,7 @@ const relatedArticles =
 	layout={data.layouts}
 	navBarProps={{
 		title: data.title,
+		parent: isBlog ? { title: "Blog", href: "/" } : undefined,
 		related: relatedArticles?.map((a) => ({
 			title: a.article.data.title,
 			href: `/blog/${a.article.slug}`,

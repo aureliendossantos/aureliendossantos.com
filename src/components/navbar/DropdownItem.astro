@@ -3,13 +3,16 @@ interface Props {
 	label: string
 	href?: string
 	width?: number
+	initiallyHidden?: boolean
 }
-const { label, href, width } = Astro.props
+const { label, href, width, initiallyHidden } = Astro.props
 ---
 
 <a
 	href={href}
-	class="line-clamp-2 flex items-center border-x-0 bg-black px-3 py-[6px] text-sm leading-tight text-white hover:bg-white hover:text-black"
+	class={`line-clamp-2 flex items-center border-x-0 bg-black px-3 py-[6px] text-sm leading-tight text-white hover:bg-white hover:text-black ${
+		initiallyHidden ? "hidden" : ""
+	}`}
 	style={{ width: width ? `${width}px` : undefined }}
 >
 	{label}

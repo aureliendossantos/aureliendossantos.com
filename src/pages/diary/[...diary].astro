@@ -39,7 +39,11 @@ const places = data.places
 
 {
 	!data.customLayout ? (
-		<PlacesLayout title={data.title} ogType="article">
+		<PlacesLayout
+			title={data.title}
+			ogType="article"
+			navBarProps={{ title: data.title, parent: { title: "Journal", href: "/diary" } }}
+		>
 			<div class="m-auto max-w-xl pb-8 text-zinc-900">
 				<header class="flex justify-between px-8 pb-8 pt-10 font-work-sans text-sm text-zinc-400">
 					<p>
@@ -65,7 +69,11 @@ const places = data.places
 			</div>
 		</PlacesLayout>
 	) : (
-		<BaseLayout title={data.title} ogType="article">
+		<BaseLayout
+			title={data.title}
+			ogType="article"
+			navBarProps={{ title: data.title, parent: { title: "Journal", href: "/diary" } }}
+		>
 			<Content />
 		</BaseLayout>
 	)

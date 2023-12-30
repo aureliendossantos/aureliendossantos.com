@@ -48,7 +48,11 @@ const gallery =
 		: undefined
 ---
 
-<PlacesLayout ogType="article" title={data.title}>
+<PlacesLayout
+	ogType="article"
+	title={data.title}
+	navBarProps={{ title: data.title, parent: { title: "Lieux", href: "/places" } }}
+>
 	<div class="m-auto flex max-w-xl flex-col gap-8 text-zinc-900">
 		<img
 			class="h-80 w-full object-cover"

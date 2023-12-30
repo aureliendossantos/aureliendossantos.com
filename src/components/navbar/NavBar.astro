@@ -15,6 +15,10 @@ import DownloadLink from "./DownloadLink.astro"
  */
 export type NavBarProps = {
 	title: string
+	parent?: {
+		title: string
+		href: string
+	}
 	related?: {
 		title: string
 		href: string
@@ -23,7 +27,7 @@ export type NavBarProps = {
 
 interface Props extends NavBarProps {}
 
-const { title, related } = Astro.props
+const { title, parent, related } = Astro.props
 ---
 
 <div
@@ -33,16 +37,32 @@ const { title, related } = Astro.props
 </div>
 
 <div
-	transition:persist
+	transition:persist="navbar"
 	transition:animate="none"
 	id="navbar"
 	class="invisible fixed -bottom-7 z-[999] flex h-7 w-full bg-black font-work-sans text-sm text-white transition-all"
 >
 	<div id="navbar-main-actions" class="flex">
+		<a
+			id="navbar-parent-link"
+			class={`group m-0 relative flex h-full items-center justify-center border-0 border-r border-solid border-neutral-700 bg-black p-0 px-3 font-work-sans text-sm text-white hover:bg-white hover:text-black medium:px-2 ${
+				parent ? "" : "hidden"
+			}`}
+			href={parent?.href}
+		>
+			<div id="navbar-parent-text" class="whitespace-nowrap">
+				{parent?.title}
+			</div>
+			<div
+				class="absolute -right-[3px] top-3 z-[1000] h-[4px] w-[4px] border-0 border-r border-t border-solid border-neutral-700 bg-black group-hover:bg-white medium:hidden"
+				style="transform: rotate(45deg);"
+			>
+			</div>
+		</a>
 		<button
 			id="navbar-copy-link"
 			style="padding-block: unset;"
-			class="m-0 flex h-full items-center justify-center gap-2 border-0 border-r border-solid border-neutral-700 bg-black p-0 pl-2 pr-3 font-work-sans text-sm text-white hover:bg-white hover:text-black medium:pr-2"
+			class="m-0 flex h-full items-center justify-center gap-2 border-0 border-r border-solid border-neutral-700 bg-black p-0 px-3 font-work-sans text-sm text-white hover:bg-white hover:text-black medium:px-2"
 		>
 			<div id="navbar-link-icon" class="h-[17px] w-[17px]">
 				<Fragment set:html={linkIcon} />
@@ -53,7 +73,9 @@ const { title, related } = Astro.props
 			<div id="navbar-loading-icon" class="hidden h-[17px] w-[17px] animate-spin">
 				<Fragment set:html={spinner} />
 			</div>
-			<div id="navbar-title" class="medium:hidden">{title}</div>
+			<div id="navbar-title" class="truncate mediumlarge:max-w-[20vw] medium:hidden">
+				{title}
+			</div>
 		</button>
 		<DropdownMenu
 			id="navbar-related"
@@ -66,13 +88,14 @@ const { title, related } = Astro.props
 					<DropdownItem
 						label={(related && related[i]?.title) || "undefined"}
 						href={(related && related[i]?.href) || "#"}
+						initiallyHidden={!related || !related[i]}
 						width={192}
 					/>
 				))
 			}
 		</DropdownMenu>
 	</div>
-	<div id="navbar-image-actions" class="flex hidden">
+	<div id="navbar-image-actions" class="flex hidden overflow-x-auto">
 		<DownloadLink id="navbar-download-lowres-image" label="Basse qualité" shortLabel="SD" href="" />
 		<DownloadLink id="navbar-download-hires-image" label="Haute qualité" shortLabel="HD" href="" />
 		<DownloadLink
@@ -84,7 +107,6 @@ const { title, related } = Astro.props
 	</div>
 	<div class="grow"></div>
 	<a
-		style="padding-block: unset;"
 		class="m-0 flex h-full items-center justify-center gap-2 border-0 border-solid border-neutral-700 bg-black p-0 px-[10px] font-work-sans text-sm text-white hover:bg-white hover:text-black medium:px-2"
 		href="/search"
 	>
@@ -123,12 +145,22 @@ const { title, related } = Astro.props
 	document.addEventListener("astro:after-swap", () => {
 		const dataDiv = document.getElementById("navbar-data") as HTMLDivElement
 		const props = JSON.parse(dataDiv.dataset.props as string) as NavBarProps
+		// Update parent link
+		const parentLink = document.querySelector("#navbar-parent-link") as HTMLLinkElement
+		const parentText = document.querySelector("#navbar-parent-text") as HTMLLinkElement
+		if (props.parent) {
+			parentText.innerText = props.parent.title
+			parentLink.href = props.parent.href
+			parentLink.classList.remove("hidden")
+		} else {
+			parentLink.classList.add("hidden")
+		}
 		// Update title
 		;(document.querySelector("#navbar-title") as HTMLDivElement).innerText = props.title
 		// Update related articles
-		const parent = document.querySelector("#navbar-related-parent") as HTMLDivElement
+		const relatedParent = document.querySelector("#navbar-related-parent") as HTMLDivElement
 		if (props.related && props.related.length > 0) {
-			parent.classList.remove("hidden")
+			relatedParent.classList.remove("hidden")
 			const items = document.querySelectorAll(
 				"#navbar-related-dropdown a"
 			) as NodeListOf<HTMLLinkElement>
@@ -143,7 +175,7 @@ const { title, related } = Astro.props
 				}
 			})
 		} else {
-			parent.classList.add("hidden")
+			relatedParent.classList.add("hidden")
 		}
 	})
 </script>
@@ -264,7 +296,7 @@ const { title, related } = Astro.props
 	})
 </script>
 
-<style is:global>
+<style lang="scss" is:global>
 	#navbar a:link {
 		@apply no-underline;
 	}

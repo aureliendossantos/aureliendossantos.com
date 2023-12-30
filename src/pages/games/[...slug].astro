@@ -34,7 +34,12 @@ const multiplayerLabels = {
 const igdb = game.igdb as IGDBData
 ---
 
-<BaseLayout title={game.title} ogType="website" bg={{ light: "white", dark: "black" }}>
+<BaseLayout
+	title={game.title}
+	ogType="website"
+	bg={{ light: "white", dark: "black" }}
+	navBarProps={{ title: game.title, parent: { title: "Jeux", href: "/games" } }}
+>
 	<div
 		class="center m-auto flex min-h-screen max-w-[607px] flex-col justify-between space-y-8 px-4 py-8"
 	>

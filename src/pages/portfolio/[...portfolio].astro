@@ -33,6 +33,7 @@ const image = data.image ? await getImage({ src: data.image, width: 1920 }) : un
 	description={data.description}
 	date={data.release}
 	image={data.image?.src}
+	navBarProps={{ title: data.title, parent: { title: "Portfolio", href: "/portfolio" } }}
 >
 	<div
 		class="flex max-h-screen min-h-screen flex-col gap-2 bg-slate-200 p-2 dark:bg-slate-800 medium:max-h-none"

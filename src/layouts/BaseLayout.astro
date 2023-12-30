@@ -124,6 +124,10 @@ const darkBackground = getColor(bg, "dark") || "#17182f"
 	>
 		<slot />
 		<MediumZoom />
-		<NavBar title={navBarProps?.title || title} related={navBarProps?.related} />
+		<NavBar
+			title={navBarProps?.title || title}
+			parent={navBarProps?.parent}
+			related={navBarProps?.related}
+		/>
 	</body>
 </html>

@@ -32,7 +32,12 @@ const paths = { Explorer: undefined, Catégories: "categories", Tags: "tags", Li
 const path = paths[type]
 ---
 
-<BaseLayout ogType="website" title={`${title}`} font="Work Sans">
+<BaseLayout
+	ogType="website"
+	title={title}
+	font="Work Sans"
+	navBarProps={{ title: title, parent: { title: "Blog", href: "/" } }}
+>
 	<div class="mx-auto mb-12 max-w-[500px] px-4" transition:animate="initial">
 		<header class="my-12 px-5">
 			<div class="my-5 mb-6">

@@ -31,7 +31,12 @@ const description =
 const editedTime = notionPage.last_edited_time
 ---
 
-<BaseLayout title={title} ogType="article" bg={{ light: "white", dark: "black" }}>
+<BaseLayout
+	title={title}
+	ogType="article"
+	bg={{ light: "white", dark: "black" }}
+	navBarProps={{ title: title, parent: { title: "Wiki personnel", href: "/wiki" } }}
+>
 	<div class="prose prose-sm prose-neutral mx-auto mb-16 px-4 dark:prose-invert">
 		<header
 			class="not-prose flex justify-between pb-8 pt-10 font-work-sans text-sm text-neutral-400"
