@@ -9,5 +9,6 @@ interface Window {
 	mediumZoom: Zoom
 	popupZindex: number
 	nextPageIsLoading: boolean
+	toastsOpened: number
 	initAllMaps: () => void
 }

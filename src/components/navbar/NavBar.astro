@@ -1,4 +1,5 @@
 ---
+import Toast from "./Toast.astro"
 import DropdownItem from "$components/navbar/DropdownItem.astro"
 import linkIcon from "$styles/icons/link.svg?raw"
 import spinner from "$styles/icons/loading.svg?raw"
@@ -30,11 +31,7 @@ interface Props extends NavBarProps {}
 const { title, parent, related } = Astro.props
 ---
 
-<div
-	id="toast"
-	class="invisible fixed bottom-9 left-2 z-[999] rounded bg-black p-2 font-work-sans text-sm text-white opacity-0 ring-1 ring-white ring-opacity-20 transition-opacity"
->
-</div>
+<Toast />
 
 <div
 	transition:persist="navbar"
@@ -230,7 +227,7 @@ const { title, parent, related } = Astro.props
 
 <script>
 	// Toggle button contents
-	import { isTouchScreen, isMac, toggleNavbar } from "$utils/navbar"
+	import { isTouchScreen, isMac, toggleNavbar, toast } from "$utils/navbar"
 
 	const button = document.querySelector("#navbar-toggle-button") as HTMLButtonElement
 	const buttonIcon = document.querySelector("#navbar-toggle-icon") as HTMLDivElement
@@ -245,6 +242,10 @@ const { title, parent, related } = Astro.props
 	}
 	button.addEventListener("click", () => {
 		toggleNavbar()
+		const message = isTouchScreen()
+			? "Réouvrez la barre de navigation en rechargant la page."
+			: `Réouvrez la barre de navigation avec ${isMac() ? "⌘K" : "Ctrl+K"}.`
+		toast(message, 3000, "right")
 	})
 </script>
 

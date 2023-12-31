@@ -42,13 +42,24 @@ export const getToggleText = (touchScreenText: string) => {
 	return "Ctrl+K"
 }
 
-export const toast = (message: string, number = 2500) => {
+export const toast = (message: string, number = 2500, position: "left" | "right" = "left") => {
 	const toast = document.querySelector("#toast") as HTMLDivElement
+	if (position === "left") {
+		toast.classList.add("left-0")
+		toast.classList.remove("right-0")
+	} else {
+		toast.classList.remove("left-0")
+		toast.classList.add("right-0")
+	}
 	toast.innerText = message
 	toast.classList.remove("invisible")
 	toast.classList.remove("opacity-0")
 	toast.classList.add("opacity-100")
+	if (!window.toastsOpened) window.toastsOpened = 1
+	else window.toastsOpened += 1
 	setTimeout(() => {
+		window.toastsOpened -= 1
+		if (window.toastsOpened > 0) return
 		toast.classList.add("opacity-0")
 		toast.classList.remove("opacity-100")
 		setTimeout(() => {
