@@ -6,13 +6,7 @@ import MediumZoom from "$components/MediumZoom.astro"
 import GoogleStructuredData from "$components/meta/GoogleStructuredData.astro"
 import NavBar, { type NavBarProps } from "$components/navbar/NavBar.astro"
 import type { Layouts } from "$utils/layouts"
-
-type Color =
-	| {
-			light: string
-			dark: string
-	  }
-	| { all: string }
+import { getColor, type Color, getBothColors } from "$utils/palettes"
 
 export interface Props {
 	title: string
@@ -21,9 +15,8 @@ export interface Props {
 	image?: string
 	layout?: Layouts[]
 	bg?: Color
-	bgDark?: string
-	popupColor?: string
-	popupActiveColor?: string
+	popupColor?: Color
+	popupActiveColor?: Color
 	font?: "Work Sans"
 	navBarProps?: NavBarProps
 	ogType:
@@ -53,14 +46,10 @@ const {
 // Base website URL (minus slash at the end) + image URL
 const ogImageURL = image && Astro.site?.toString().replace(/\/$/, "") + image
 
-function getColor(color: Color | undefined, theme: "light" | "dark" = "light") {
-	if (!color) return undefined
-	if ("all" in color) return color.all
-	return color[theme]
-}
-
 const defaultBackground = getColor(bg) || "#f5f5fa"
 const darkBackground = getColor(bg, "dark") || "#17182f"
+const { light: popup, dark: darkPopup } = getBothColors(popupColor)
+const { light: popupActive, dark: darkPopupActive } = getBothColors(popupActiveColor)
 ---
 
 <!doctype html>
@@ -109,7 +98,7 @@ const darkBackground = getColor(bg, "dark") || "#17182f"
 	<body
 		class:list={[
 			layout,
-			"bg-[--bg] dark:bg-[--darkbg] dark:text-slate-200",
+			"bg-[--bg] dark:bg-[--dark-bg] dark:text-slate-200",
 			{
 				"font-sans": !font,
 				"font-work-sans": font == "Work Sans",
@@ -117,9 +106,11 @@ const darkBackground = getColor(bg, "dark") || "#17182f"
 		]}
 		style={{
 			"--bg": defaultBackground,
-			"--darkbg": darkBackground,
-			"--popup": popupColor,
-			"--popup-active": popupActiveColor,
+			"--dark-bg": darkBackground,
+			"--popup": popup,
+			"--dark-popup": darkPopup,
+			"--popup-active": popupActive,
+			"--dark-popup-active": darkPopupActive,
 		}}
 	>
 		<slot />

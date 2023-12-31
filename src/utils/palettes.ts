@@ -1,12 +1,42 @@
+/**
+ * A color is either a string that applies to both light and dark modes, or an object with a `light` and `dark` key.
+ */
+export type Color =
+	| {
+			light: string
+			dark: string
+	  }
+	| string
+
+/**
+ * Get the relevant HTML color from a Color object. Either the light or dark variant, or
+ * the only one existing, if there is only one color for both themes.
+ * @param color Color object
+ * @param theme `light` or `dark` variant of the Color.
+ */
+export function getColor(color: Color | undefined, theme: "light" | "dark" = "light") {
+	if (!color) return undefined
+	if (typeof color === "string") return color
+	return color[theme]
+}
+
+/**
+ * Get an object with both variants of the Color. The two values
+ * will be identical if there is only one color for both themes.
+ */
+export function getBothColors(color: Color | undefined) {
+	return { light: getColor(color, "light"), dark: getColor(color, "dark") }
+}
+
 export type Palette = {
-	mainColor: string
-	secondaryColor: string
-	popupColor?: string
-	popupActiveColor?: string
-	specialColor: string
-	backgroundColor: string
-	mentionColor?: string
-	mentionHoverColor?: string
+	mainColor: Color
+	secondaryColor: Color
+	popupColor?: Color
+	popupActiveColor?: Color
+	specialColor: Color
+	backgroundColor: Color
+	mentionColor?: Color
+	mentionHoverColor?: Color
 	headingsFont: string
 	mainFont: string
 	specialFont?: string
@@ -128,11 +158,11 @@ export default function getPalette(name: Palettes | undefined): Palette {
 			}
 		case "tufte":
 			return {
-				mainColor: "#111111",
-				secondaryColor: "#111111",
-				specialColor: "#111111",
-				popupActiveColor: "#11111138",
-				backgroundColor: "#fffff8",
+				mainColor: { light: "#111111", dark: "#dddddd" },
+				secondaryColor: { light: "#111111", dark: "#dddddd" },
+				specialColor: { light: "#111111", dark: "#dddddd" },
+				popupActiveColor: { light: "#11111138", dark: "#dddddd50" },
+				backgroundColor: { light: "#fffff8", dark: "#151515" },
 				headingsFont: "'Source Serif Subhead', 'Source Serif', serif",
 				mainFont: "'Source Serif', serif",
 			}

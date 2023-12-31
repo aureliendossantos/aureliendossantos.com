@@ -1,37 +1,33 @@
 @charset "UTF-8";
 
-/* Tufte CSS styles */
-
-body.tufte {
+.tufte article {
 	font-size: 14px;
+	font-family: "Source Serif", Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua",
+		Georgia, serif;
+	background-color: #fffff8;
+	color: #111;
+	font-feature-settings: "onum";
 	width: 87.5%;
 	margin-left: auto;
 	margin-right: auto;
+	padding-top: 5rem;
+	padding-bottom: 5rem;
+	padding-right: 0;
 	padding-left: 12.5%;
-	font-family: "Source Serif", Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua",
-		Georgia, serif;
-	font-feature-settings: "onum";
-	background-color: #fffff8;
-	color: #111;
 	max-width: 1400px;
 	counter-reset: sidenote-counter;
-}
-@media (max-width: 760px) {
-	body.tufte {
+
+	@media (max-width: 760px) {
 		width: 84%;
 		padding-left: 0;
 		padding-right: 0;
 	}
-}
 
-/* Adds dark mode */
-@media (prefers-color-scheme: dark) {
-	body.tufte {
+	@media (prefers-color-scheme: dark) {
 		background-color: #151515;
 		color: #ddd;
 	}
-}
-.tufte {
+
 	h1 {
 		font-family: "Source Serif Display", "Source Serif", serif;
 		font-weight: 400;
@@ -96,10 +92,6 @@ body.tufte {
 
 	.danger {
 		color: red;
-	}
-
-	article {
-		padding: 5rem 0rem;
 	}
 
 	section {
@@ -670,7 +662,7 @@ body.tufte {
 		padding-top: initial;
 		padding-bottom: initial;
 	}
-	article > section {
+	& > section {
 		padding-top: 1rem;
 		padding-bottom: 1rem;
 	}

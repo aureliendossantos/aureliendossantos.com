@@ -1,16 +1,17 @@
 export default function formatDate(
 	date: Date,
 	yearOnly: boolean = false,
-	noYear: boolean = false
+	noYear: boolean = false,
+	monthShort: boolean = false
 ): string {
+	const month = monthShort ? "short" : "long"
+	const year = noYear ? undefined : "numeric"
 	const options: Intl.DateTimeFormatOptions = yearOnly
 		? { year: "numeric" }
-		: noYear
-		? { day: "numeric", month: "long" }
 		: {
 				day: "numeric",
-				month: "long",
-				year: "numeric",
+				month: month,
+				year: year,
 		  }
 	return date.toLocaleDateString("fr-FR", options)
 }

@@ -26,18 +26,18 @@ const html = (await Astro.slots.render("default")).replaceAll(
 	description={data.description}
 	date={data.date}
 	image={ogImage?.src}
-	bg={{ all: palette.backgroundColor }}
+	bg={palette.backgroundColor}
 	popupColor={palette.popupColor}
 	popupActiveColor={palette.popupActiveColor}
 	layout={data.layouts}
+	navBarProps={{ title: data.title, parent: { title: "Blog", href: "/" } }}
 >
 	<article>
 		<header>
-			<p class="byline" style="margin-top: 0">◂ <a href="/">Retour au blog</a></p>
 			<h1 class="title">{data.title}</h1>
 			<p class="subtitle">{data.description}</p>
 			<p class="byline">
-				<ArticleDate date={data.date} /> &ndash; Aurélien Dos Santos
+				<ArticleDate date={data.date} /> &ndash; <a href="/">Aurélien Dos Santos</a>
 			</p>
 		</header>
 		<section set:html={html} />
