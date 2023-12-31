@@ -1,22 +1,16 @@
+export const navbarIsOpened = () => {
+	return !(document.querySelector("#navbar") as HTMLDivElement).classList.contains("invisible")
+}
+
 export const toggleNavbar = () => {
 	const navbar = document.querySelector("#navbar") as HTMLDivElement
 	if (navbar.classList.contains("invisible")) {
-		window.mediumZoom.update({
-			container: {
-				height: window.innerHeight - 28,
-			},
-		})
 		navbar.classList.remove("invisible")
 		setTimeout(() => {
 			navbar.classList.remove("-bottom-7")
 			navbar.classList.add("bottom-0")
 		}, 10)
 	} else {
-		window.mediumZoom.update({
-			container: {
-				height: window.innerHeight,
-			},
-		})
 		navbar.classList.add("-bottom-7")
 		navbar.classList.remove("bottom-0")
 		setTimeout(() => {

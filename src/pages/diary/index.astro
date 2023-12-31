@@ -47,6 +47,7 @@ const placesImage = await getImage({
 											href={`/diary/${entry.finalSlug}`}
 										>
 											<div class="font-medium">
+												{entry.data.draft && "[Draft] "}
 												{entry.data.title}
 												{entry.category == "trips" && (
 													<img

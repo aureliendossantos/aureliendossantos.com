@@ -4,10 +4,11 @@ import "medium-zoom/dist/style.css"
 
 <script>
 	import mediumZoom from "medium-zoom/dist/pure"
+	import { navbarIsOpened } from "$utils/navbar"
 
 	window.mediumZoom = mediumZoom("[data-zoomable]", {
 		container: {
-			height: window.innerHeight - 28,
+			height: window.innerHeight - (navbarIsOpened() ? 28 : 0),
 		},
 		margin: 24,
 		background: window.matchMedia("(prefers-color-scheme: dark)").matches
@@ -15,6 +16,15 @@ import "medium-zoom/dist/style.css"
 			: "var(--bg)",
 	})
 	console.log("MediumZoom initialized")
+
+	// Since I use a custom container height, I need to update it manually in case the window has been resized.
+	window.mediumZoom.on("open", (event: any) => {
+		window.mediumZoom.update({
+			container: {
+				height: window.innerHeight - (navbarIsOpened() ? 28 : 0),
+			},
+		})
+	})
 
 	document.addEventListener("astro:before-preparation", () => {
 		window.mediumZoom.detach()

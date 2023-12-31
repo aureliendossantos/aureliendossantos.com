@@ -8,8 +8,13 @@ export default async function getBlogPosts(drafts = true) {
 	return blog.sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
 }
 
-export async function getDiary() {
-	return (await getCollection("diary", ({ data }) => !data.draft))
+export async function getDiary(drafts = true) {
+	return (
+		await getCollection(
+			"diary",
+			({ data }) => data.draft !== true || (import.meta.env.DEV && drafts)
+		)
+	)
 		.map(({ slug, ...rest }) => ({
 			slug: slug,
 			finalSlug: slug.split("/")[2],
@@ -18,6 +23,6 @@ export async function getDiary() {
 			...rest,
 		}))
 		.sort((a, b) =>
-			a.data.date ? b.data.date ? b.data.date.getTime() - a.data.date.getTime() : -1 : 1
+			a.data.date ? (b.data.date ? b.data.date.getTime() - a.data.date.getTime() : -1) : 1
 		)
 }
