@@ -51,7 +51,7 @@ const images =
 
 <RefBlock
 	img={`https://images.igdb.com/igdb/image/upload/t_cover_big/${game.cover.image_id}.jpg`}
-	imgHiRes={`https://images.igdb.com/igdb/image/upload/t_cover_big_2x/${game.cover.image_id}.jpg`}
+	imgHiRes={`https://images.igdb.com/igdb/image/upload/t_original/${game.cover.image_id}.jpg`}
 	title={`${game.name}${game.release_dates ? ` (${game.release_dates[0].y})` : ""}`}
 	infos={infos}
 	links={links}
@@ -64,6 +64,6 @@ const images =
 		  )
 		: undefined}
 	galleryHiRes={popup
-		? images.map((imageId) => `https://images.igdb.com/igdb/image/upload/t_1080p/${imageId}.jpg`)
+		? images.map((imageId) => `https://images.igdb.com/igdb/image/upload/t_original/${imageId}.jpg`)
 		: undefined}
 />

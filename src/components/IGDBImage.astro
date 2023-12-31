@@ -31,10 +31,9 @@ interface Props extends Omit<HTMLAttributes<"img">, "src"> {
 	size: size
 	retina?: boolean
 	zoomable?: boolean
-	zoomedSize?: size
 	zoomedRetina?: boolean
 }
-const { image, size, retina, zoomable, zoomedSize, zoomedRetina, ...attributes } = Astro.props
+const { image, size, retina, zoomable, zoomedRetina, ...attributes } = Astro.props
 ---
 
 <img
@@ -44,8 +43,7 @@ const { image, size, retina, zoomable, zoomedSize, zoomedRetina, ...attributes }
 	width={image.width}
 	height={image.height}
 	data-zoomable={zoomable}
-	data-zoom-src={`https://images.igdb.com/igdb/image/upload/t_${zoomedSize || size}${
-		zoomedRetina ? "_2x" : ""
-	}/${image.image_id}.jpg`}
+	data-zoom-src={zoomable &&
+		`https://images.igdb.com/igdb/image/upload/t_original/${image.image_id}.jpg`}
 	{...attributes}
 />

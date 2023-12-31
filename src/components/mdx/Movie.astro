@@ -43,6 +43,9 @@ links.push(["TMDB", `https://www.themoviedb.org/movie/${id}?language=fr-FR`])
 
 <RefBlock
 	img={movie.poster_path ? `https://image.tmdb.org/t/p/w342${movie.poster_path}` : undefined}
+	imgHiRes={movie.poster_path
+		? `https://image.tmdb.org/t/p/original${movie.poster_path}`
+		: undefined}
 	title={movie.title}
 	infos={infos}
 	links={links}
@@ -54,6 +57,6 @@ links.push(["TMDB", `https://www.themoviedb.org/movie/${id}?language=fr-FR`])
 		.map((i) => `https://image.tmdb.org/t/p/w300${i.file_path}`)
 		.slice(0, 3)}
 	galleryHiRes={movie.images.backdrops
-		.map((i) => `https://image.tmdb.org/t/p/w1280${i.file_path}`)
+		.map((i) => `https://image.tmdb.org/t/p/original${i.file_path}`)
 		.slice(0, 3)}
 />

@@ -188,24 +188,33 @@ const { title, parent, related } = Astro.props
 		;(document.querySelector("#navbar-image-actions") as HTMLDivElement).classList.remove("hidden")
 		// Get divs
 		const img = event.detail.zoom.getZoomedImage() as HTMLImageElement
+		const data = img.dataset
+		const local = data.width
 		const lowResLink = document.querySelector("#navbar-download-lowres-image") as HTMLLinkElement
 		const hiResLink = document.querySelector("#navbar-download-hires-image") as HTMLLinkElement
 		const originalLink = document.querySelector(
 			"#navbar-download-original-image"
 		) as HTMLLinkElement
-		// Low res link
+		// img.src link. When local, it's the low res image (display the resolution).
+		// When remote, it can either be the only available image or the low res one.
 		lowResLink.href = img.src
 		;(document.querySelector("#navbar-download-lowres-image-text") as HTMLDivElement).innerText =
-			`${img.width}×${img.height} (webp)`
-		// Original link
-		originalLink.href = img.dataset.originalSrc as string
-		;(document.querySelector("#navbar-download-original-image-text") as HTMLDivElement).innerText =
-			`${img.dataset.originalWidth}×${img.dataset.originalHeight} (${img.dataset.originalFormat} original)`
-		// Hi res link
-		if (img.dataset.zoomSrc) {
+			local ? `${data.width}×${data.height} (webp)` : data.zoomSrc ? "Basse qualité" : "Télécharger"
+		// Original link for local images
+		if (data.originalSrc) {
+			;(
+				document.querySelector("#navbar-download-original-image-text") as HTMLDivElement
+			).innerText = `${data.originalWidth}×${data.originalHeight} (${data.originalFormat} original)`
+			originalLink.href = data.originalSrc as string
+			originalLink.classList.remove("hidden")
+		} else {
+			originalLink.classList.add("hidden")
+		}
+		// Hi res link for local or remote images. In the case of remote images, it's the best option available.
+		if (data.zoomSrc) {
 			;(document.querySelector("#navbar-download-hires-image-text") as HTMLDivElement).innerText =
-				`${img.dataset.zoomWidth}×${img.dataset.zoomHeight} (webp)`
-			hiResLink.href = img.dataset.zoomSrc
+				local ? `${data.zoomWidth}×${data.zoomHeight} (webp)` : "Original"
+			hiResLink.href = data.zoomSrc
 			hiResLink.classList.remove("hidden")
 		} else {
 			hiResLink.classList.add("hidden")

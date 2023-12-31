@@ -35,6 +35,9 @@ links.push(["TMDB", `https://www.themoviedb.org/person/${id}?language=fr-FR`])
 
 <RefBlock
 	img={person.profile_path ? `https://image.tmdb.org/t/p/w342${person.profile_path}` : undefined}
+	imgHiRes={person.profile_path
+		? `https://image.tmdb.org/t/p/original${person.profile_path}`
+		: undefined}
 	title={person.name}
 	infos={infos}
 	links={links}
