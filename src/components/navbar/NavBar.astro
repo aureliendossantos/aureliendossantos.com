@@ -40,7 +40,7 @@ const { title, parent, related } = Astro.props
 	transition:persist="navbar"
 	transition:animate="none"
 	id="navbar"
-	class="invisible fixed -bottom-7 z-[999] flex h-7 w-full bg-black font-work-sans text-sm text-white transition-all"
+	class="fixed bottom-0 z-[999] flex h-7 w-full max-w-full bg-black font-work-sans text-sm text-white transition-all"
 >
 	<div id="navbar-main-actions" class="flex">
 		<a
@@ -115,6 +115,7 @@ const { title, parent, related } = Astro.props
 		</div>
 	</a>
 	<DropdownMenu id="navbar-explore" label="Explorer" alignRight borderLeft borderRight>
+		<DropdownItem label="Portfolio" href="/portfolio" />
 		<DropdownItem label="Blog" href="/" />
 		<DropdownItem label="Appareils" href="/gear" />
 		<DropdownItem label="/website" href="/website" />

@@ -6,6 +6,9 @@ import "medium-zoom/dist/style.css"
 	import mediumZoom from "medium-zoom/dist/pure"
 
 	window.mediumZoom = mediumZoom("[data-zoomable]", {
+		container: {
+			height: window.innerHeight - 28,
+		},
 		margin: 24,
 		background: window.matchMedia("(prefers-color-scheme: dark)").matches
 			? "var(--dark-bg)"

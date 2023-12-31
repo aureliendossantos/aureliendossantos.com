@@ -5,7 +5,7 @@ import BaseLayout, { type Props as BaseLayoutProps } from "./BaseLayout.astro"
 type Props = BaseLayoutProps
 ---
 
-<BaseLayout {...Astro.props} bg={{ all: "#09090b" }}>
+<BaseLayout {...Astro.props} bg="#09090b">
 	<div class="w-full bg-zinc-950">
 		<div class="m-auto min-h-screen max-w-md bg-white" transition:animate="initial">
 			<slot />
