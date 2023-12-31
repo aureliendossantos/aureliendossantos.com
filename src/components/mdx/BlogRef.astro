@@ -2,18 +2,17 @@
 import RefBlock from "$components/RefBlock.astro"
 import ArticleDate from "$components/ArticleDate.astro"
 import { getEntryBySlug } from "astro:content"
-import getPalette from "$utils/palettes"
+import getPalette, { getColor } from "$utils/palettes"
 import formatDate from "$utils/formatDate"
 
 interface Props {
 	slug: string
-	collection?: "blog" | "pages" | "portfolio"
 	titleOnly?: boolean
 	card?: boolean
 }
-const { slug, collection, titleOnly, card } = Astro.props
+const { slug, titleOnly, card } = Astro.props
 
-const article = await getEntryBySlug(collection || "blog", slug)
+const article = await getEntryBySlug("blog", slug)
 if (!article) return console.error(`BlogRef: article ${slug} can't be found`)
 const palette = getPalette(article.data.palette)
 ---
@@ -24,7 +23,7 @@ const palette = getPalette(article.data.palette)
 			<RefBlock
 				img={article.data.image?.src}
 				title={article.data.title}
-				infos={[formatDate(article.data.date), article.data.description]}
+				infos={[formatDate(article.data.date), article.data.description || ""]}
 				links={[["Blog", `/blog/${slug}`]]}
 				big
 			/>
@@ -32,13 +31,13 @@ const palette = getPalette(article.data.palette)
 			<span
 				class="my-[-1px] rounded border border-solid border-neutral-500 bg-[--background] px-[2px] text-[--main]"
 				style={{
-					"--background": palette.backgroundColor,
-					"--secondary": palette.secondaryColor,
-					"--main": palette.mainColor,
+					"--background": getColor(palette.backgroundColor),
+					"--main": getColor(palette.mainColor),
+					"--secondary": getColor(palette.secondaryColor),
 					fontFamily: palette.mainFont,
 				}}
 			>
-				{!titleOnly && <span style={{ color: palette.secondaryColor }}>Aurélien Dos Santos,</span>}
+				{!titleOnly && <span class="text-[--main]">Aurélien Dos Santos,</span>}
 				<a
 					href={"/blog/" + article.slug}
 					style={{
@@ -50,7 +49,7 @@ const palette = getPalette(article.data.palette)
 					{titleOnly ? article.data.title : `« ${article.data.title} »,`}
 				</a>
 				{!titleOnly && (
-					<span style={{ color: palette.secondaryColor }}>
+					<span class="text-[--main]">
 						<ArticleDate date={article.data.date} />
 					</span>
 				)}

@@ -1,5 +1,5 @@
 ---
-import type { Palette } from "src/utils/palettes"
+import { getColor, type Palette } from "src/utils/palettes"
 import ArticleDate from "./ArticleDate.astro"
 import { getImage } from "astro:assets"
 import { Layouts } from "$utils/layouts"
@@ -22,11 +22,12 @@ const cormorant = layouts.includes(Layouts.cormorant)
 
 <header
 	class:list={[
-		"px-[80px] medium:px-[40px] small:px-[20px]",
+		"px-[80px] text-[--cover] dark:text-[--dark-cover] medium:px-[40px] small:px-[20px]",
 		{ "mb-12 flex min-h-[50vh] bg-cover bg-center pb-8": cover },
 	]}
 	style={{
-		color: cover ? "#fbf8f2" : palette.secondaryColor,
+		"--cover": cover ? "#fbf8f2" : getColor(palette.secondaryColor),
+		"--dark-cover": cover ? "#fbf8f2" : getColor(palette.secondaryColor, "dark"),
 		fontFamily: palette.mainFont,
 		fontSize: palette.fontSize || "initial",
 		lineHeight: palette.lineHeight || 1.25,
@@ -49,9 +50,10 @@ const cormorant = layouts.includes(Layouts.cormorant)
 		]}
 	>
 		<h1
-			class:list={{ "mb-0 !leading-tight": cormorant }}
+			class:list={["text-[--h1] dark:text-[--dark-h1]", { "mb-0 !leading-tight": cormorant }]}
 			style={{
-				color: cover ? "#fbf8f2" : palette.mainColor,
+				"--h1": cover ? "#fbf8f2" : getColor(palette.mainColor),
+				"--dark-h1": cover ? "#fbf8f2" : getColor(palette.mainColor, "dark"),
 				fontFamily: palette.headingsFont,
 				fontStyle: cormorant ? "italic" : undefined,
 				fontFeatureSettings: cormorant ? '"ss01" 01, "dlig" 1' : undefined,

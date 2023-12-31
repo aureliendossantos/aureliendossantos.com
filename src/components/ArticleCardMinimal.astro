@@ -1,7 +1,7 @@
 ---
 import { getEntryBySlug, type CollectionEntry } from "astro:content"
 import { getImage } from "astro:assets"
-import getPalette from "$utils/palettes"
+import getPalette, { getColor } from "$utils/palettes"
 import ArticleDate from "./ArticleDate.astro"
 
 interface Props {
@@ -16,29 +16,28 @@ const optimizedBackground =
 	showCover() && data.image ? await getImage({ src: data.image, width: 500 }) : null
 const place =
 	data.places.length > 0 ? (await getEntryBySlug("places", data.places[0]))?.data.title : undefined
+// text-[--bg] is used to color the shadow
 ---
 
 <a
-	class="duration-80 scale-100 bg-cover bg-center ease-out first:rounded-t-lg last:rounded-b-lg hover:scale-[1.01] hover:rounded-[4px]"
+	class="duration-80 scale-100 bg-[--bg] bg-cover bg-center text-[--bg] ease-out first:rounded-t-lg last:rounded-b-lg hover:scale-[1.01] hover:rounded-[4px]"
 	style={{
-		color: palette.backgroundColor,
-		backgroundColor: palette.backgroundColor,
+		"--bg": getColor(palette.backgroundColor),
+		"--text": getColor(palette.mainColor),
+		"--secondary-text": getColor(palette.secondaryColor),
 		backgroundImage: showCover()
 			? `linear-gradient(${palette.backgroundColor}99, ${palette.backgroundColor}49), url('${optimizedBackground?.src}')`
 			: "none",
 	}}
 	href={"/blog/" + article.slug}
 >
-	<div class="px-4 py-5" style={{ color: palette.mainColor, fontFamily: palette.mainFont }}>
-		<span
-			class="mb-2 text-lg font-bold"
-			style={{ color: palette.mainColor, fontFamily: palette.headingsFont }}
-		>
+	<div class="px-4 py-5 text-[--text]" style={{ fontFamily: palette.mainFont }}>
+		<span class="mb-2 text-lg font-bold" style={{ fontFamily: palette.headingsFont }}>
 			{data.title}{data.draft && " [Draft]"}
 		</span>
 		<span
+			class="text-[--secondary-text]"
 			style={{
-				color: palette.secondaryColor,
 				textShadow: `0 0 1em ${palette.backgroundColor}`,
 			}}
 		>
