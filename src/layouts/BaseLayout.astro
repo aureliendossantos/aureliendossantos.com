@@ -46,7 +46,7 @@ const {
 // Base website URL (minus slash at the end) + image URL
 const ogImageURL = image && Astro.site?.toString().replace(/\/$/, "") + image
 
-const defaultBackground = getColor(bg) || "#f5f5fa"
+const background = getColor(bg) || "#f5f5fa"
 const darkBackground = getColor(bg, "dark") || "#17182f"
 const { light: popup, dark: darkPopup } = getBothColors(popupColor)
 const { light: popupActive, dark: darkPopupActive } = getBothColors(popupActiveColor)
@@ -68,7 +68,8 @@ const { light: popupActive, dark: darkPopupActive } = getBothColors(popupActiveC
 		/>
 		<title>{title} - Aurélien Dos Santos</title>
 		{description && <meta name="description" content={description} />}
-		{bg && <meta name="theme-color" content={defaultBackground} />}
+		<meta name="theme-color" media="(prefers-color-scheme: light)" content={background} />
+		<meta name="theme-color" media="(prefers-color-scheme: dark)" content={darkBackground} />
 		<meta property="og:title" content={title} />
 		{description && <meta property="og:description" content={description} />}
 		<meta property="og:url" content={Astro.url} />
@@ -105,7 +106,7 @@ const { light: popupActive, dark: darkPopupActive } = getBothColors(popupActiveC
 			},
 		]}
 		style={{
-			"--bg": defaultBackground,
+			"--bg": background,
 			"--dark-bg": darkBackground,
 			"--popup": popup,
 			"--dark-popup": darkPopup,
