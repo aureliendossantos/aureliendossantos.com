@@ -33,8 +33,12 @@ export const openPopupNavbar = (
 	;(document.querySelector("#navbar-main-actions") as HTMLDivElement).classList.add("hidden")
 	;(document.querySelector("#navbar-popup-actions") as HTMLDivElement).classList.remove("hidden")
 	// Title
+	const titleParent = document.querySelector("#navbar-popup-title-parent") as HTMLDivElement
 	const titleText = document.querySelector("#navbar-popup-title-text") as HTMLDivElement
 	titleText.innerText = title
+	// If there are two links or more, the title would take too much space so we hide it on mobile
+	if (links && links.length >= 2) titleParent.classList.add("medium:hidden")
+	else titleParent.classList.remove("medium:hidden")
 	// Library link
 	const libraryLink = document.querySelector("#navbar-popup-library") as HTMLLinkElement
 	if (librarySlug) {

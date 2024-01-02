@@ -101,10 +101,11 @@ const { title, parent, related } = Astro.props
 		<InactiveItem id="navbar-popup-title" label="Titre" borderRight truncate />
 		<a
 			id="navbar-popup-library"
-			class={`group m-0 relative flex h-full items-center justify-center border-0 border-r border-solid border-neutral-700 bg-black p-0 px-3 font-work-sans text-sm text-white hover:bg-white hover:text-black medium:px-2`}
+			class={`group m-0 relative flex h-full gap-2 items-center justify-center border-0 border-r border-solid border-neutral-700 bg-black p-0 px-3 font-work-sans text-sm text-white hover:bg-white hover:text-black medium:px-2`}
 			href=""
 		>
-			<div class="whitespace-nowrap">Dans ma bibliothèque</div>
+			<div class="whitespace-nowrap medium:hidden">Dans ma bibliothèque</div>
+			<Icon name="lucide:library-square" class="h-[17px] w-[17px]" />
 		</a>
 		{
 			[1, 2, 3].map((i) => (

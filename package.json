@@ -30,6 +30,7 @@
 		"@iconify-json/ic": "^1.1.17",
 		"@iconify-json/ion": "^1.1.15",
 		"@iconify-json/logos": "^1.1.42",
+		"@iconify-json/lucide": "^1.1.150",
 		"@iconify-json/material-symbols": "^1.1.68",
 		"@iconify-json/material-symbols-light": "^1.1.7",
 		"@iconify-json/tdesign": "^1.1.3",

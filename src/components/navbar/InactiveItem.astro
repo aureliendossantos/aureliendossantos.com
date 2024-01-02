@@ -1,4 +1,6 @@
 ---
+import { Icon } from "astro-icon/components"
+
 interface Props {
 	id: string
 	label: string
@@ -13,10 +15,11 @@ const { id, label, initiallyHidden, borderLeft, borderRight, truncate } = Astro.
 <div id={`${id}-parent`} class:list={{ hidden: initiallyHidden }}>
 	<div
 		class:list={[
-			"m-0 flex h-full items-center justify-center gap-2 whitespace-nowrap border-0 border-solid border-neutral-700 bg-black p-0 px-3 font-work-sans text-sm text-neutral-400",
+			"m-0 flex h-full items-center justify-center gap-2 whitespace-nowrap border-0 border-solid border-neutral-700 bg-black p-0 px-3 font-work-sans text-sm text-neutral-400 medium:px-2",
 			{ "border-l": borderLeft, "border-r": borderRight },
 		]}
 	>
+		<Icon name="lucide:scan" class="h-[17px] w-[17px]" />
 		<div id={`${id}-text`} class:list={{ "truncate mediumlarge:max-w-[20vw]": truncate }}>
 			{label}
 		</div>

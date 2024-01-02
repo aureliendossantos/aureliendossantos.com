@@ -18,6 +18,6 @@ const shortLabel = Astro.props.shortLabel || label
 	href={href}
 >
 	<div id={`${id}-text`} class="whitespace-nowrap medium:hidden">{label}</div>
-	<div id={`${id}-short-text`} class="hidden medium:block">{shortLabel}</div>
+	<div id={`${id}-short-text`} class="hidden whitespace-nowrap medium:block">{shortLabel}</div>
 	<Icon id="navbar-link-icon" name="ic:baseline-launch" class="h-[17px] w-[17px]" />
 </a>

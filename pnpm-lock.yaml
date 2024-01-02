@@ -62,6 +62,9 @@ dependencies:
   '@iconify-json/logos':
     specifier: ^1.1.42
     version: 1.1.42
+  '@iconify-json/lucide':
+    specifier: ^1.1.150
+    version: 1.1.150
   '@iconify-json/material-symbols':
     specifier: ^1.1.68
     version: 1.1.68
@@ -1103,6 +1106,12 @@ packages:
 
   /@iconify-json/logos@1.1.42:
     resolution: {integrity: sha512-/f+frtPm3m3Z30oy8Pk+QqRDkbmAiIaWGPl5CmsCXm15MVfvw9a/V/gD7WzdyuSGAZcFuQaqbHXj92y/n+2ifg==}
+    dependencies:
+      '@iconify/types': 2.0.0
+    dev: false
+
+  /@iconify-json/lucide@1.1.150:
+    resolution: {integrity: sha512-VnG9xLagAPH4B8+ywkziDOGOv/JCelLLR3aBPC0cyVuWi2iuV6A3Yu8fYsZ+BCAwiCy5pkjMDM/HeZnBtlbngQ==}
     dependencies:
       '@iconify/types': 2.0.0
     dev: false

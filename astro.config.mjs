@@ -63,6 +63,7 @@ export default defineConfig({
 				],
 				ion: ["footsteps"],
 				logos: ["spotify-icon"],
+				lucide: ["library-square", "scan"],
 				"material-symbols": ["update-rounded"],
 				"material-symbols-light": ["keyboard-double-arrow-down-rounded"],
 				tdesign: ["map-collection"],

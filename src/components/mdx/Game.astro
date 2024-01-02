@@ -13,9 +13,15 @@ const { slug, data, popupId } = Astro.props
 if (!slug && !data) {
 	throw new Error("You must provide a slug or data for the Game component.")
 }
+const findGameInLibrary = async (slug: string) => {
+	return (await getGamesData()).find((game) => game.igdb && game.slug == slug)
+}
+/**
+ * Get either the data given in props, or the data available in the cache (library), or a fetch from IGDB.
+ */
 const getGame = async () => {
 	if (data) return data
-	const cachedGame = (await getGamesData()).find((game) => game.igdb && game.slug == slug)
+	const cachedGame = await findGameInLibrary(slug!)
 	if (cachedGame) return cachedGame.igdb as IGDBData
 	return (await getIGDBgames([slug!]))[0]
 }
@@ -47,6 +53,8 @@ const links: [string, string][] =
 		: [["IGDB", game.url]]
 const images =
 	game.screenshots && game.screenshots.slice(0, 3).map((screenshot: any) => screenshot.image_id)
+
+const librarySlug = popupId && slug && (await findGameInLibrary(slug)) ? slug : undefined
 ---
 
 <RefBlock
@@ -56,7 +64,7 @@ const images =
 	infos={infos}
 	links={links}
 	popupId={popupId}
-	librarySlug={slug}
+	librarySlug={librarySlug}
 	posterRatio={popupId ? "game" : undefined}
 	big={popupId ? true : false}
 	gallery={popupId
