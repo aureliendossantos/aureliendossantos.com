@@ -4,8 +4,10 @@ export const navbarIsOpened = () => {
 
 export const toggleNavbar = () => {
 	const navbar = document.querySelector("#navbar") as HTMLDivElement
+	const bottomPageMargin = document.querySelector("#bottom-page-margin") as HTMLDivElement
 	if (navbar.classList.contains("invisible")) {
 		navbar.classList.remove("invisible")
+		bottomPageMargin.classList.remove("hidden")
 		setTimeout(() => {
 			navbar.classList.remove("-bottom-7")
 			navbar.classList.add("bottom-0")
@@ -13,6 +15,7 @@ export const toggleNavbar = () => {
 	} else {
 		navbar.classList.add("-bottom-7")
 		navbar.classList.remove("bottom-0")
+		bottomPageMargin.classList.add("hidden")
 		setTimeout(() => {
 			navbar.classList.add("invisible")
 		}, 160)
