@@ -3,6 +3,7 @@ import ArticleDate from "$components/ArticleDate.astro"
 import PlacesLayout from "$layouts/PlacesLayout.astro"
 import { getDiary } from "$utils/getBlogPosts"
 import { getImage } from "astro:assets"
+import { Icon } from "astro-icon/components"
 
 const entries = await getDiary()
 
@@ -50,17 +51,15 @@ const placesImage = await getImage({
 												{entry.data.draft && "[Draft] "}
 												{entry.data.title}
 												{entry.category == "trips" && (
-													<img
-														src="/icons/footsteps.svg"
-														alt="Icône de pas"
-														class="mb-[0.15em] ml-1 inline-block h-[0.9em]"
+													<Icon
+														name="ion:footsteps"
+														class="mb-[0.15em] ml-1 inline-block h-[0.9em] text-zinc-500"
 													/>
 												)}
 												{entry.category == "lists" && (
-													<img
-														src="/icons/map-collection.svg"
-														alt="Icône de carte"
-														class="mb-[0.11em] ml-1 inline-block h-[1.1em]"
+													<Icon
+														name="tdesign:map-collection"
+														class="mb-[0.11em] ml-1 inline-block h-[1.1em] text-zinc-500"
 													/>
 												)}
 											</div>

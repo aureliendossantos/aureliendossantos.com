@@ -122,5 +122,10 @@ const { light: popupActive, dark: darkPopupActive } = getBothColors(popupActiveC
 			parent={navBarProps?.parent}
 			related={navBarProps?.related}
 		/>
+		<style is:global>
+			[data-icon] {
+				width: unset;
+			}
+		</style>
 	</body>
 </html>

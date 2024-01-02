@@ -6,6 +6,7 @@ import { getPlacesData, type PlaceWithFetchDate } from "$utils/remoteData"
 import getBlogPosts, { getDiary } from "$utils/getBlogPosts"
 import ArticleDate from "$components/ArticleDate.astro"
 import getPalette, { getColor } from "$utils/palettes"
+import { Icon } from "astro-icon/components"
 
 export async function getStaticPaths() {
 	const places = await getCollection("places")
@@ -120,10 +121,9 @@ const gallery =
 										<div class="font-medium">
 											{entry.data.title}
 											{entry.category == "trips" && (
-												<img
-													src="/icons/footsteps.svg"
-													alt="Icône de pas"
-													class="mb-[0.15em] ml-1 inline-block h-[0.9em]"
+												<Icon
+													name="ion:footsteps"
+													class="mb-[0.15em] ml-1 inline-block h-[0.9em] text-zinc-500"
 												/>
 											)}
 										</div>

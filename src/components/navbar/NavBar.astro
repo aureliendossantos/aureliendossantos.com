@@ -1,15 +1,12 @@
 ---
 import Toast from "./Toast.astro"
 import DropdownItem from "$components/navbar/DropdownItem.astro"
-import linkIcon from "$styles/icons/link.svg?raw"
 import spinner from "$styles/icons/loading.svg?raw"
-import checkmark from "$styles/icons/checkmark.svg?raw"
-import downArrow from "$styles/icons/double-down-arrow.svg?raw"
-import searchIcon from "$styles/icons/search.svg?raw"
 import DropdownMenu from "./DropdownMenu.astro"
 import DownloadLink from "./DownloadLink.astro"
 import ExternalLink from "./ExternalLink.astro"
 import InactiveItem from "./InactiveItem.astro"
+import { Icon } from "astro-icon/components"
 
 /**
  * These props are used to populate the initial navbar, so it works even if JS is disabled.
@@ -63,12 +60,8 @@ const { title, parent, related } = Astro.props
 			style="padding-block: unset;"
 			class="m-0 flex h-full items-center justify-center gap-2 border-0 border-r border-solid border-neutral-700 bg-black p-0 px-3 font-work-sans text-sm text-white hover:bg-white hover:text-black medium:px-2"
 		>
-			<div id="navbar-link-icon" class="h-[17px] w-[17px]">
-				<Fragment set:html={linkIcon} />
-			</div>
-			<div id="navbar-link-checkmark" class="hidden h-[17px] w-[17px]">
-				<Fragment set:html={checkmark} />
-			</div>
+			<Icon id="navbar-link-icon" name="ic:baseline-link" class="h-[17px] w-[17px]" />
+			<Icon id="navbar-link-checkmark" name="ic:baseline-check" class="hidden h-[17px] w-[17px]" />
 			<div id="navbar-loading-icon" class="hidden h-[17px] w-[17px] animate-spin">
 				<Fragment set:html={spinner} />
 			</div>
@@ -124,9 +117,7 @@ const { title, parent, related } = Astro.props
 		class="m-0 flex h-full items-center justify-center gap-2 border-0 border-solid border-neutral-700 bg-black p-0 px-[10px] font-work-sans text-sm text-white hover:bg-white hover:text-black medium:px-2"
 		href="/search"
 	>
-		<div class="h-[17px] w-[17px]">
-			<Fragment set:html={searchIcon} />
-		</div>
+		<Icon name="ic:baseline-search" class="h-[17px] w-[17px]" />
 	</a>
 	<DropdownMenu id="navbar-explore" label="Explorer" alignRight borderLeft borderRight>
 		<DropdownItem label="Portfolio" href="/portfolio" />
@@ -144,9 +135,11 @@ const { title, parent, related } = Astro.props
 			class="rounded-sm border border-solid border-neutral-500 font-work-sans text-sm leading-tight text-neutral-400 group-hover:border-white group-hover:text-white"
 		>
 			<div id="navbar-toggle-text" class="px-[4px]">Ctrl+K</div>
-			<div id="navbar-toggle-icon" class="hidden h-[17px] w-[17px]">
-				<Fragment set:html={downArrow} />
-			</div>
+			<Icon
+				id="navbar-toggle-icon"
+				name="material-symbols-light:keyboard-double-arrow-down-rounded"
+				class="hidden h-[17px] w-[17px]"
+			/>
 		</div>
 	</button>
 </div>

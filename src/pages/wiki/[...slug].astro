@@ -6,8 +6,8 @@ import BaseLayout from "$layouts/BaseLayout.astro"
 import slugify from "slugify"
 import getDatabase from "$utils/notion/getDatabase"
 import NotionPageContent from "$components/notion/NotionPageContent.astro"
-import svg from "$styles/icons/update.svg?raw"
 import formatDate from "$utils/formatDate"
+import { Icon } from "astro-icon/components"
 
 let results = await getDatabase(import.meta.env.NOTION_WIKI_PAGES_DB)
 
@@ -50,7 +50,7 @@ const editedTime = notionPage.last_edited_time
 			{description && <p class="lead">{description}</p>}
 			<div class="not-prose font-work-sans text-sm text-neutral-500">
 				<p class="text-neutral-500">
-					<Fragment set:html={svg} />
+					<Icon name="material-symbols:update-rounded" class="mb-[0.15em] inline-block" />
 					{formatDate(new Date(editedTime))}
 				</p>
 			</div>

@@ -3,6 +3,7 @@ import AutoImport from "astro-auto-import"
 import tailwind from "@astrojs/tailwind"
 import mdx from "@astrojs/mdx"
 import vercel from "@astrojs/vercel/serverless"
+import icon from "astro-icon"
 
 // https://astro.build/config
 export default defineConfig({
@@ -51,13 +52,28 @@ export default defineConfig({
 			],
 		}),
 		mdx(),
+		icon({
+			include: {
+				ic: [
+					"baseline-check",
+					"baseline-launch",
+					"baseline-link",
+					"baseline-search",
+					"outline-file-download",
+				],
+				ion: ["footsteps"],
+				logos: ["spotify-icon"],
+				"material-symbols": ["update-rounded"],
+				"material-symbols-light": ["keyboard-double-arrow-down-rounded"],
+				tdesign: ["map-collection"],
+			},
+		}),
 	],
 	markdown: {
 		shikiConfig: {
 			// https://github.com/shikijs/shiki/blob/main/docs/themes.md
 			theme: "slack-ochin", // "vitesse-light", //"slack-ochin", //github-light //dark: nord
 		},
-
 		remarkRehype: {
 			footnoteLabel: "Notes et références",
 		},

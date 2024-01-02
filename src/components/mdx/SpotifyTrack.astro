@@ -1,7 +1,7 @@
 ---
 import formatDate from "$utils/formatDate"
 import { fetchSpotifyEndpoint, getSpotifyDate } from "$utils/spotify"
-import spotifyIcon from "$styles/icons/spotify.svg?raw"
+import { Icon } from "astro-icon/components"
 
 interface Props {
 	id: string
@@ -28,7 +28,7 @@ const duration = `${Math.floor(seconds / 60)}:${(seconds % 60).toString().padSta
 		<p>
 			{track.artists.map((a) => a.name).join(", ")} ({year})
 			<a href={track.external_urls.spotify}>
-				<Fragment set:html={spotifyIcon} />
+				<Icon name="logos:spotify-icon" class="mb-[0.15em] inline-block h-[0.9em]" />
 				<span class="text-[#1ED760]">{duration}</span>
 			</a>
 		</p>

@@ -1,5 +1,5 @@
 ---
-import externalLink from "$styles/icons/external-link.svg?raw"
+import { Icon } from "astro-icon/components"
 
 interface Props {
 	id: string
@@ -19,7 +19,5 @@ const shortLabel = Astro.props.shortLabel || label
 >
 	<div id={`${id}-text`} class="whitespace-nowrap medium:hidden">{label}</div>
 	<div id={`${id}-short-text`} class="hidden medium:block">{shortLabel}</div>
-	<div id="navbar-link-icon" class="h-[17px] w-[17px]">
-		<Fragment set:html={externalLink} />
-	</div>
+	<Icon id="navbar-link-icon" name="ic:baseline-launch" class="h-[17px] w-[17px]" />
 </a>
