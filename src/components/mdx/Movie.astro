@@ -5,9 +5,9 @@ import formatDate from "$utils/formatDate"
 interface Props {
 	id: string
 	posterOnly?: boolean
-	popup?: boolean
+	popupId?: string
 }
-const { id, posterOnly, popup } = Astro.props
+const { id, posterOnly, popupId } = Astro.props
 
 console.log(`Getting TMDB data for ID ${id}...`)
 
@@ -50,8 +50,8 @@ links.push(["TMDB", `https://www.themoviedb.org/movie/${id}?language=fr-FR`])
 	infos={infos}
 	links={links}
 	imgOnly={posterOnly}
-	popup={popup}
-	posterRatio={popup ? "movie" : undefined}
+	popupId={popupId}
+	posterRatio={popupId ? "movie" : undefined}
 	big
 	gallery={movie.images.backdrops
 		.map((i) => `https://image.tmdb.org/t/p/w300${i.file_path}`)

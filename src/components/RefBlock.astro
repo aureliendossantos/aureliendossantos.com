@@ -1,4 +1,5 @@
 ---
+import { getDomainName } from "$utils/formatUrl"
 import OptionalLink from "./OptionalLink.astro"
 interface Props {
 	img?: string
@@ -8,7 +9,8 @@ interface Props {
 	infos: string[]
 	links: [string, string | false][]
 	imgOnly?: boolean
-	popup?: boolean
+	popupId?: string
+	librarySlug?: string
 	posterRatio?: "movie" | "game"
 	big?: boolean
 	gallery?: string[]
@@ -22,7 +24,8 @@ const {
 	infos,
 	links,
 	imgOnly,
-	popup,
+	popupId,
+	librarySlug,
 	posterRatio,
 	big,
 	gallery,
@@ -30,11 +33,23 @@ const {
 } = Astro.props
 ---
 
+{
+	popupId && (
+		<div
+			id={`${popupId}-data`}
+			class="hidden"
+			data-title={title}
+			data-library-slug={librarySlug}
+			data-links={JSON.stringify(links.map((l) => ({ title: getDomainName(l[0]), url: l[1] })))}
+		/>
+	)
+}
+
 {/* Conteneur */}
 <div
 	class:list={[
 		"ref-block",
-		{ "mb-[1em]": !popup },
+		{ "mb-[1em]": !popupId },
 		{ "flex flex-row gap-2": !big },
 		{ "flex max-h-[240px] flex-row place-content-between": posterRatio },
 		{
@@ -42,7 +57,7 @@ const {
 				big && !posterRatio,
 		},
 		{ "overflow-hidden rounded-md": big },
-		{ "bg-white": big && !popup },
+		{ "bg-white": big && !popupId },
 	]}
 >
 	{/* Image principale */}
@@ -88,7 +103,7 @@ const {
 				}}
 			>
 				<OptionalLink
-					href={!popup && links[links.length - 1][1]}
+					href={!popupId && links[links.length - 1][1]}
 					style="text-decoration-line: none"
 				>
 					<h3 class="text-normal-size mb-[0.1em] mt-0 leading-snug text-inherit">
@@ -110,20 +125,7 @@ const {
 					style={big ? "font-size: smaller;" : ""}
 				>
 					{links.map((item) => (
-						<li>
-							{item[1] ? (
-								<a href={item[1]}>
-									{item[0]
-										.replace("http://", "")
-										.replace("https://", "")
-										.replace("www.", "")
-										// only keep domain name
-										.replace(/\/.*/, "")}
-								</a>
-							) : (
-								item[0]
-							)}
-						</li>
+						<li>{item[1] ? <a href={item[1]}>{getDomainName(item[0])}</a> : item[0]}</li>
 					))}
 				</ul>
 				{/* Galerie */}

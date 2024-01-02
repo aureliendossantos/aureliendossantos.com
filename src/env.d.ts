@@ -7,6 +7,7 @@ import("medium-zoom").then((module) => {
 
 interface Window {
 	mediumZoom: Zoom
+	popupsOpened: number
 	popupZindex: number
 	nextPageIsLoading: boolean
 	toastsOpened: number

@@ -6,9 +6,9 @@ import { getGamesData } from "$utils/remoteData"
 interface Props {
 	slug?: string
 	data?: IGDBData
-	popup?: boolean
+	popupId?: string
 }
-const { slug, data, popup } = Astro.props
+const { slug, data, popupId } = Astro.props
 
 if (!slug && !data) {
 	throw new Error("You must provide a slug or data for the Game component.")
@@ -55,15 +55,16 @@ const images =
 	title={`${game.name}${game.release_dates ? ` (${game.release_dates[0].y})` : ""}`}
 	infos={infos}
 	links={links}
-	popup={popup}
-	posterRatio={popup ? "game" : undefined}
-	big={popup}
-	gallery={popup
+	popupId={popupId}
+	librarySlug={slug}
+	posterRatio={popupId ? "game" : undefined}
+	big={popupId ? true : false}
+	gallery={popupId
 		? images.map(
 				(imageId) => `https://images.igdb.com/igdb/image/upload/t_cover_big/${imageId}.jpg`
 		  )
 		: undefined}
-	galleryHiRes={popup
+	galleryHiRes={popupId
 		? images.map((imageId) => `https://images.igdb.com/igdb/image/upload/t_original/${imageId}.jpg`)
 		: undefined}
 />

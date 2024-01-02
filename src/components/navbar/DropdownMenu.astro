@@ -6,8 +6,9 @@ interface Props {
 	initiallyHidden?: boolean
 	borderLeft?: boolean
 	borderRight?: boolean
+	truncate?: boolean
 }
-const { id, label, alignRight, initiallyHidden, borderLeft, borderRight } = Astro.props
+const { id, label, alignRight, initiallyHidden, borderLeft, borderRight, truncate } = Astro.props
 ---
 
 <div id={`${id}-parent`} class:list={["relative", { hidden: initiallyHidden }]}>
@@ -17,7 +18,11 @@ const { id, label, alignRight, initiallyHidden, borderLeft, borderRight } = Astr
 		style="padding-block: unset;"
 		class:list={[
 			"m-0 h-full whitespace-nowrap border-0 border-solid border-neutral-700 bg-black p-0 px-3 font-work-sans text-sm text-white hover:bg-white hover:text-black",
-			{ "border-l": borderLeft, "border-r": borderRight },
+			{
+				"border-l": borderLeft,
+				"border-r": borderRight,
+				"truncate mediumlarge:max-w-[20vw]": truncate,
+			},
 		]}
 	>
 		{label}

@@ -8,6 +8,8 @@ import downArrow from "$styles/icons/double-down-arrow.svg?raw"
 import searchIcon from "$styles/icons/search.svg?raw"
 import DropdownMenu from "./DropdownMenu.astro"
 import DownloadLink from "./DownloadLink.astro"
+import ExternalLink from "./ExternalLink.astro"
+import InactiveItem from "./InactiveItem.astro"
 
 /**
  * These props are used to populate the initial navbar, so it works even if JS is disabled.
@@ -92,7 +94,7 @@ const { title, parent, related } = Astro.props
 			}
 		</DropdownMenu>
 	</div>
-	<div id="navbar-image-actions" class="flex hidden overflow-x-auto">
+	<div id="navbar-image-actions" class="flex hidden">
 		<DownloadLink id="navbar-download-lowres-image" label="Basse qualité" shortLabel="SD" href="" />
 		<DownloadLink id="navbar-download-hires-image" label="Haute qualité" shortLabel="HD" href="" />
 		<DownloadLink
@@ -101,6 +103,21 @@ const { title, parent, related } = Astro.props
 			shortLabel="Original"
 			href=""
 		/>
+	</div>
+	<div id="navbar-popup-actions" class="flex hidden">
+		<InactiveItem id="navbar-popup-title" label="Titre" borderRight truncate />
+		<a
+			id="navbar-popup-library"
+			class={`group m-0 relative flex h-full items-center justify-center border-0 border-r border-solid border-neutral-700 bg-black p-0 px-3 font-work-sans text-sm text-white hover:bg-white hover:text-black medium:px-2`}
+			href=""
+		>
+			<div class="whitespace-nowrap">Dans ma bibliothèque</div>
+		</a>
+		{
+			[1, 2, 3].map((i) => (
+				<ExternalLink id={`navbar-popup-link-${i}`} label={`Lien ${i}`} href="" />
+			))
+		}
 	</div>
 	<div class="grow"></div>
 	<a
@@ -183,6 +200,7 @@ const { title, parent, related } = Astro.props
 	window.mediumZoom.on("open", (event: any) => {
 		// Toggle visibility
 		;(document.querySelector("#navbar-main-actions") as HTMLDivElement).classList.add("hidden")
+		;(document.querySelector("#navbar-popup-actions") as HTMLDivElement).classList.add("hidden")
 		;(document.querySelector("#navbar-image-actions") as HTMLDivElement).classList.remove("hidden")
 		// Get divs
 		const img = event.detail.zoom.getZoomedImage() as HTMLImageElement
@@ -221,7 +239,15 @@ const { title, parent, related } = Astro.props
 	// Hide download links when an image is closed with MediumZoom
 	window.mediumZoom.on("close", () => {
 		;(document.querySelector("#navbar-image-actions") as HTMLLinkElement).classList.add("hidden")
-		;(document.querySelector("#navbar-main-actions") as HTMLLinkElement).classList.remove("hidden")
+		if (window.popupsOpened > 0) {
+			;(document.querySelector("#navbar-popup-actions") as HTMLLinkElement).classList.remove(
+				"hidden"
+			)
+		} else {
+			;(document.querySelector("#navbar-main-actions") as HTMLLinkElement).classList.remove(
+				"hidden"
+			)
+		}
 	})
 </script>
 

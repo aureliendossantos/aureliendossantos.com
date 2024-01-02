@@ -113,7 +113,9 @@ const { light: popupActive, dark: darkPopupActive } = getBothColors(popupActiveC
 			"--dark-popup-active": darkPopupActive,
 		}}
 	>
-		<slot />
+		<main>
+			<slot />
+		</main>
 		<MediumZoom />
 		<NavBar
 			title={navBarProps?.title || title}

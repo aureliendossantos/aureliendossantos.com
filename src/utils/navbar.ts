@@ -19,6 +19,48 @@ export const toggleNavbar = () => {
 	}
 }
 
+export const closePopupNavbar = () => {
+	;(document.querySelector("#navbar-popup-actions") as HTMLDivElement).classList.add("hidden")
+	;(document.querySelector("#navbar-main-actions") as HTMLDivElement).classList.remove("hidden")
+}
+
+export const openPopupNavbar = (
+	title: string,
+	librarySlug?: string,
+	links?: { title: string; shortTitle?: string; url: string }[]
+) => {
+	// Toggle visibility
+	;(document.querySelector("#navbar-main-actions") as HTMLDivElement).classList.add("hidden")
+	;(document.querySelector("#navbar-popup-actions") as HTMLDivElement).classList.remove("hidden")
+	// Title
+	const titleText = document.querySelector("#navbar-popup-title-text") as HTMLDivElement
+	titleText.innerText = title
+	// Library link
+	const libraryLink = document.querySelector("#navbar-popup-library") as HTMLLinkElement
+	if (librarySlug) {
+		libraryLink.classList.remove("hidden")
+		libraryLink.href = `/games/${librarySlug}`
+	} else {
+		libraryLink.classList.add("hidden")
+	}
+	// External links
+	;[0, 1, 2].forEach((i) => {
+		const link = document.querySelector(`#navbar-popup-link-${i + 1}`) as HTMLLinkElement
+		const text = document.querySelector(`#navbar-popup-link-${i + 1}-text`) as HTMLDivElement
+		const shortText = document.querySelector(
+			`#navbar-popup-link-${i + 1}-short-text`
+		) as HTMLDivElement
+		if (links && links[i]) {
+			link.classList.remove("hidden")
+			link.href = links[i].url
+			text.innerText = links[i].title
+			shortText.innerText = links[i].shortTitle || links[i].title
+		} else {
+			link.classList.add("hidden")
+		}
+	})
+}
+
 export const isMac = () => {
 	const platform = navigator.platform.toLowerCase()
 	return platform.includes("mac")
