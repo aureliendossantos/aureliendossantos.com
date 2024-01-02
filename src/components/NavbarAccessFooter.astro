@@ -1,9 +1,9 @@
 ---
-import getPalette, { getColor, type Palettes } from "$utils/palettes"
+import getPalette, { getColor, type PaletteName } from "$utils/palettes"
 import { Icon } from "astro-icon/components"
 
 interface Props {
-	palette: Palettes
+	palette: PaletteName
 }
 
 const palette = getPalette(Astro.props.palette)

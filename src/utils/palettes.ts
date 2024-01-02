@@ -31,8 +31,8 @@ export function getBothColors(color: Color | undefined) {
 export type Palette = {
 	mainColor: Color
 	secondaryColor: Color
-	popupColor?: Color
-	popupActiveColor?: Color
+	popupBorderColor?: Color
+	popupLabelActiveBgColor?: Color
 	specialColor: Color
 	backgroundColor: Color
 	mentionColor?: Color
@@ -44,7 +44,7 @@ export type Palette = {
 	lineHeight?: string
 }
 
-export enum Palettes {
+export enum PaletteName {
 	default = "default",
 	air = "air",
 	tufte = "tufte",
@@ -65,14 +65,14 @@ export enum Palettes {
 	desolate = "desolate",
 }
 
-export default function getPalette(name: Palettes | undefined): Palette {
+export default function getPalette(name: PaletteName | undefined): Palette {
 	switch (name) {
 		default:
 			return {
 				mainColor: "#000000",
 				secondaryColor: "#636363",
-				popupColor: "#636363",
-				popupActiveColor: "#b1b1b1",
+				popupBorderColor: "#636363",
+				popupLabelActiveBgColor: "#b1b1b1",
 				specialColor: "#515bcd",
 				backgroundColor: "#f5f5fa",
 				headingsFont: "serif",
@@ -105,8 +105,8 @@ export default function getPalette(name: Palettes | undefined): Palette {
 				mainColor: "#000000",
 				secondaryColor: "#8a8a94",
 				specialColor: "#6d75d3",
-				popupColor: "#6d75d3",
-				popupActiveColor: "#9ba0de",
+				popupBorderColor: "#6d75d3",
+				popupLabelActiveBgColor: "#9ba0de",
 				backgroundColor: "#ffffff",
 				headingsFont: "sans-serif",
 				mainFont: "serif",
@@ -138,8 +138,8 @@ export default function getPalette(name: Palettes | undefined): Palette {
 			return {
 				mainColor: "#e6e6e7",
 				secondaryColor: "#8c7569",
-				popupColor: "#8c7569",
-				popupActiveColor: "#8c7569",
+				popupBorderColor: "#8c7569",
+				popupLabelActiveBgColor: "#8c7569",
 				specialColor: "#939293",
 				backgroundColor: "#584a44",
 				headingsFont: "sans-serif",
@@ -161,7 +161,7 @@ export default function getPalette(name: Palettes | undefined): Palette {
 				mainColor: { light: "#111111", dark: "#dddddd" },
 				secondaryColor: { light: "#111111", dark: "#dddddd" },
 				specialColor: { light: "#111111", dark: "#dddddd" },
-				popupActiveColor: { light: "#11111138", dark: "#dddddd50" },
+				popupLabelActiveBgColor: { light: "#11111138", dark: "#dddddd50" },
 				backgroundColor: { light: "#fffff8", dark: "#151515" },
 				headingsFont: "'Source Serif Subhead', 'Source Serif', serif",
 				mainFont: "'Source Serif', serif",
@@ -196,8 +196,8 @@ export default function getPalette(name: Palettes | undefined): Palette {
 			return {
 				mainColor: "#000000",
 				secondaryColor: "#8a8a94",
-				popupColor: "#d4d4d8",
-				popupActiveColor: "#e4e4e7",
+				popupBorderColor: "#d4d4d8",
+				popupLabelActiveBgColor: "#e4e4e7",
 				specialColor: "#91d36d",
 				backgroundColor: "#ffffff",
 				mentionColor: "#ebfcde",
@@ -212,8 +212,8 @@ export default function getPalette(name: Palettes | undefined): Palette {
 			return {
 				mainColor: "#121212",
 				secondaryColor: "#121212",
-				popupColor: "#d4d4d8",
-				popupActiveColor: "#e4e4e7",
+				popupBorderColor: "#d4d4d8",
+				popupLabelActiveBgColor: "#e4e4e7",
 				specialColor: "#121212",
 				backgroundColor: "#ffffff",
 				mentionColor: "#ebfcde",
@@ -243,8 +243,8 @@ export default function getPalette(name: Palettes | undefined): Palette {
 				mainColor: "#404040",
 				secondaryColor: "#686868",
 				specialColor: "#c45c7f",
-				popupColor: "#a1a1aa",
-				popupActiveColor: "#d4d4d8",
+				popupBorderColor: "#a1a1aa",
+				popupLabelActiveBgColor: "#d4d4d8",
 				backgroundColor: "#f0efdd",
 				headingsFont: "'Work Sans', sans-serif",
 				mainFont: "'Work Sans', 'Noto Sans', sans-serif",
@@ -257,8 +257,8 @@ export default function getPalette(name: Palettes | undefined): Palette {
 				mainColor: "#F4F1DE",
 				secondaryColor: "#C6D499", // "#97B754",
 				specialColor: "#C6D499",
-				popupColor: "#65818C",
-				popupActiveColor: "#65818C",
+				popupBorderColor: "#65818C",
+				popupLabelActiveBgColor: "#65818C",
 				backgroundColor: "#516174", // "#3D405B", // #65818C couleur entre les deux,
 				headingsFont: "'Work Sans', sans-serif",
 				mainFont: "'Lato', sans-serif",

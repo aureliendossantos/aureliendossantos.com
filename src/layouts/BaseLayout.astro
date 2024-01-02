@@ -15,8 +15,8 @@ export interface Props {
 	image?: string
 	layout?: Layouts[]
 	bg?: Color
-	popupColor?: Color
-	popupActiveColor?: Color
+	popupBorderColor?: Color
+	popupLabelActiveBgColor?: Color
 	font?: "Work Sans"
 	navBarProps?: NavBarProps
 	ogType:
@@ -36,8 +36,8 @@ const {
 	image,
 	layout,
 	bg,
-	popupColor,
-	popupActiveColor,
+	popupBorderColor,
+	popupLabelActiveBgColor,
 	font,
 	navBarProps,
 	ogType,
@@ -48,8 +48,8 @@ const ogImageURL = image && Astro.site?.toString().replace(/\/$/, "") + image
 
 const background = getColor(bg) || "#f5f5fa"
 const darkBackground = getColor(bg, "dark") || "#17182f"
-const { light: popup, dark: darkPopup } = getBothColors(popupColor)
-const { light: popupActive, dark: darkPopupActive } = getBothColors(popupActiveColor)
+const { light: popup, dark: darkPopup } = getBothColors(popupBorderColor)
+const { light: popupLabelActiveBg, dark: darkPopupActive } = getBothColors(popupLabelActiveBgColor)
 ---
 
 <!doctype html>
@@ -110,7 +110,7 @@ const { light: popupActive, dark: darkPopupActive } = getBothColors(popupActiveC
 			"--dark-bg": darkBackground,
 			"--popup": popup,
 			"--dark-popup": darkPopup,
-			"--popup-active": popupActive,
+			"--popup-active": popupLabelActiveBg,
 			"--dark-popup-active": darkPopupActive,
 		}}
 	>

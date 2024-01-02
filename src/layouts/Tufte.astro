@@ -27,8 +27,8 @@ const html = (await Astro.slots.render("default")).replaceAll(
 	date={data.date}
 	image={ogImage?.src}
 	bg={palette.backgroundColor}
-	popupColor={palette.popupColor}
-	popupActiveColor={palette.popupActiveColor}
+	popupBorderColor={palette.popupBorderColor}
+	popupLabelActiveBgColor={palette.popupLabelActiveBgColor}
 	layout={data.layouts}
 	navBarProps={{ title: data.title, parent: { title: "Blog", href: "/" } }}
 >
