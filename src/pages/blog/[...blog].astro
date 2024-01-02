@@ -1,9 +1,10 @@
 ---
 import { type CollectionEntry, getCollection } from "astro:content"
 import Article from "$layouts/Article.astro"
-import BackHome from "$components/BackHome.astro"
+import NavbarAccessFooter from "$components/NavbarAccessFooter.astro"
 import Tufte from "$layouts/Tufte.astro"
 import ArticleReferences from "$components/ArticleReferences.astro"
+import { Layouts } from "$utils/layouts"
 
 export async function getStaticPaths() {
 	const blogEntries = await getCollection("blog", ({ data }) => {
@@ -25,7 +26,7 @@ const data = article.data
 ---
 
 {
-	data.layouts.includes("tufte") ? (
+	data.layouts.includes(Layouts.tufte) ? (
 		<Tufte article={article}>
 			<Content />
 		</Tufte>
@@ -39,7 +40,7 @@ const data = article.data
 					<p class="license">{data.license}</p>
 				</>
 			)}
-			{!data.customLayout && <BackHome />}
+			{!data.customLayout && <NavbarAccessFooter palette={data.palette} />}
 		</Article>
 	)
 }

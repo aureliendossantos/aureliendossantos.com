@@ -15,67 +15,60 @@ const placesImage = await getImage({
 ---
 
 <PlacesLayout ogType="website" title="Journal">
-	<div class="m-auto flex max-w-xl flex-col gap-8 pt-10 text-zinc-900">
-		<header class="flex justify-between px-8 font-work-sans text-sm text-zinc-400">
-			<p>
-				<a href="/" class="hover:text-amber-700">← Accueil du site</a>
-			</p>
+	<main class="flex flex-col pb-8 text-zinc-900">
+		<header class="prose prose-zinc mb-8 mt-16 px-8 small:prose-sm">
+			<h1>Journal</h1>
 		</header>
-		<main class="mb-8 flex flex-col">
-			<header class="prose prose-zinc mb-8 px-8 small:prose-sm">
-				<h1>Journal</h1>
-			</header>
-			<a
-				href="/places"
-				class="relative h-64 w-full bg-amber-700 bg-cover transition hover:brightness-125 hover:contrast-75"
-				style={{ backgroundImage: `url('${placesImage.src}')` }}
-			>
-				<p class="absolute bottom-8 left-8 text-xl font-medium text-zinc-50">Lieux →</p>
-			</a>
-			{
-				[2023, 2022, 2020, 2016].map((year) => (
-					<>
-						<h2 class="mb-2 mt-8 border-b border-zinc-300 px-8 pb-4 font-work-sans text-sm font-semibold">
-							{year}
-						</h2>
-						<div class="flex flex-col">
-							{entries
-								.filter((entry) => entry.year == year)
-								.map((entry) => {
-									return (
-										<a
-											class="place flex px-8 py-2 text-sm text-zinc-700 transition-colors hover:bg-zinc-100"
-											href={`/diary/${entry.finalSlug}`}
-										>
-											<div class="font-medium">
-												{entry.data.draft && "[Draft] "}
-												{entry.data.title}
-												{entry.category == "trips" && (
-													<Icon
-														name="ion:footsteps"
-														class="mb-[0.15em] ml-1 inline-block h-[0.9em] text-zinc-500"
-													/>
-												)}
-												{entry.category == "lists" && (
-													<Icon
-														name="tdesign:map-collection"
-														class="mb-[0.11em] ml-1 inline-block h-[1.1em] text-zinc-500"
-													/>
-												)}
-											</div>
-											<div class="grow" />
-											{entry.data.date && (
-												<div>
-													<ArticleDate noYear date={entry.data.date} />
-												</div>
+		<a
+			href="/places"
+			class="relative h-64 w-full bg-amber-700 bg-cover transition hover:brightness-125 hover:contrast-75"
+			style={{ backgroundImage: `url('${placesImage.src}')` }}
+		>
+			<p class="absolute bottom-8 left-8 text-xl font-medium text-zinc-50">Lieux →</p>
+		</a>
+		{
+			[2023, 2022, 2020, 2016].map((year) => (
+				<>
+					<h2 class="mb-2 mt-8 border-b border-zinc-300 px-8 pb-4 font-work-sans text-sm font-semibold">
+						{year}
+					</h2>
+					<div class="flex flex-col">
+						{entries
+							.filter((entry) => entry.year == year)
+							.map((entry) => {
+								return (
+									<a
+										class="place flex px-8 py-2 text-sm text-zinc-700 transition-colors hover:bg-zinc-100"
+										href={`/diary/${entry.finalSlug}`}
+									>
+										<div class="font-medium">
+											{entry.data.draft && "[Draft] "}
+											{entry.data.title}
+											{entry.category == "trips" && (
+												<Icon
+													name="ion:footsteps"
+													class="mb-[0.15em] ml-1 inline-block h-[0.9em] text-zinc-500"
+												/>
 											)}
-										</a>
-									)
-								})}
-						</div>
-					</>
-				))
-			}
-		</main>
-	</div>
+											{entry.category == "lists" && (
+												<Icon
+													name="tdesign:map-collection"
+													class="mb-[0.11em] ml-1 inline-block h-[1.1em] text-zinc-500"
+												/>
+											)}
+										</div>
+										<div class="grow" />
+										{entry.data.date && (
+											<div>
+												<ArticleDate noYear date={entry.data.date} />
+											</div>
+										)}
+									</a>
+								)
+							})}
+					</div>
+				</>
+			))
+		}
+	</main>
 </PlacesLayout>

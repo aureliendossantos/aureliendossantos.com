@@ -30,49 +30,39 @@ const places = (await getCollection("places", ({ data }) => !data.hide))
 ---
 
 <PlacesLayout ogType="website" title="Lieux">
-	<div class="m-auto flex max-w-xl flex-col gap-8 pt-10 text-zinc-900">
-		<header class="flex justify-between px-8 font-work-sans text-sm text-zinc-400">
-			<p>
-				<a href="/" class="hover:text-amber-700">← Accueil du site</a>
-			</p>
-			<p>
-				<a href="/diary" class="hover:text-amber-700">Journal ↑</a>
-			</p>
+	<main class="flex flex-col text-zinc-900">
+		<header class="prose prose-zinc mb-8 mt-16 px-8 small:prose-sm">
+			<h1>Lieux</h1>
 		</header>
-		<main class="flex flex-col">
-			<header class="prose prose-zinc mb-8 px-8 small:prose-sm">
-				<h1>Lieux</h1>
-			</header>
-			<PlacesList
-				title="À Toulouse"
-				places={places.filter((place) => place.category == "toulouse")}
-				lat={43.602}
-				lng={1.446}
-				zoom={13}
-			/>
-			<PlacesList
-				title="En Occitanie"
-				places={places.filter((place) => place.category == "occitanie")}
-				lat={43.968}
-				lng={2.562}
-				zoom={7}
-			/>
-			<PlacesList
-				title="En Aquitaine"
-				places={places.filter((place) => place.category == "aquitaine")}
-				lat={43.356}
-				lng={-0.51}
-				zoom={8}
-			/>
-			<PlacesList
-				title="En Europe"
-				places={places.filter((place) => place.category == "europe")}
-				lat={47.058}
-				lng={3.697}
-				zoom={4}
-			/>
-		</main>
-	</div>
+		<PlacesList
+			title="À Toulouse"
+			places={places.filter((place) => place.category == "toulouse")}
+			lat={43.602}
+			lng={1.446}
+			zoom={13}
+		/>
+		<PlacesList
+			title="En Occitanie"
+			places={places.filter((place) => place.category == "occitanie")}
+			lat={43.968}
+			lng={2.562}
+			zoom={7}
+		/>
+		<PlacesList
+			title="En Aquitaine"
+			places={places.filter((place) => place.category == "aquitaine")}
+			lat={43.356}
+			lng={-0.51}
+			zoom={8}
+		/>
+		<PlacesList
+			title="En Europe"
+			places={places.filter((place) => place.category == "europe")}
+			lat={47.058}
+			lng={3.697}
+			zoom={4}
+		/>
+	</main>
 </PlacesLayout>
 
 <InitMaps />

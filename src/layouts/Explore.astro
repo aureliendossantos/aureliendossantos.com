@@ -23,12 +23,12 @@ export async function getStaticPaths() {
 
 type Props = {
 	title: string
-	type: "Explorer" | "Catégories" | "Tags" | "Lieux"
+	type: "Blog" | "Catégories" | "Tags" | "Lieux"
 	animation: "categories" | "tags" | "places"
 }
 const { title, type, animation } = Astro.props
 
-const paths = { Explorer: undefined, Catégories: "categories", Tags: "tags", Lieux: "blog/places" }
+const paths = { Blog: "/", Catégories: "/categories", Tags: "/tags", Lieux: "/blog/places" }
 const path = paths[type]
 ---
 
@@ -40,23 +40,13 @@ const path = paths[type]
 >
 	<div class="mx-auto mb-12 max-w-[500px] px-4" transition:animate="initial">
 		<header class="my-12 px-5">
-			<div class="my-5 mb-6">
-				◂
-				<a href="/">Retour au blog</a>
-			</div>
 			<h2 class="text-sm uppercase leading-tight text-slate-300 dark:text-slate-700">
-				{
-					path ? (
-						<a
-							href={`/${path}`}
-							class="bg-transparent hover:bg-slate-200 hover:text-slate-400 active:bg-slate-300 dark:hover:bg-slate-800 dark:hover:text-slate-600 dark:active:bg-slate-700"
-						>
-							{type}/
-						</a>
-					) : (
-						<>{type}/</>
-					)
-				}
+				<a
+					href={path}
+					class="bg-transparent hover:bg-slate-200 hover:text-slate-400 active:bg-slate-300 dark:hover:bg-slate-800 dark:hover:text-slate-600 dark:active:bg-slate-700"
+				>
+					{type}/
+				</a>
 			</h2>
 			<h1 class="text-2xl leading-tight text-slate-500">
 				<span>{title}</span>
@@ -66,9 +56,3 @@ const path = paths[type]
 		<slot />
 	</div>
 </BaseLayout>
-
-<style>
-	a {
-		@apply bg-slate-200 hover:bg-slate-300 active:bg-slate-400 dark:bg-slate-800 dark:hover:bg-slate-700 dark:active:bg-slate-600;
-	}
-</style>

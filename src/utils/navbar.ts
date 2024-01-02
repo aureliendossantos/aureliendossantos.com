@@ -6,20 +6,51 @@ export const toggleNavbar = () => {
 	const navbar = document.querySelector("#navbar") as HTMLDivElement
 	const bottomPageMargin = document.querySelector("#bottom-page-margin") as HTMLDivElement
 	if (navbar.classList.contains("invisible")) {
+		// Display the navbar
 		navbar.classList.remove("invisible")
 		bottomPageMargin.classList.remove("hidden")
+		closeFooterWithNavbarButton()
 		setTimeout(() => {
 			navbar.classList.remove("-bottom-7")
 			navbar.classList.add("bottom-0")
 		}, 10)
 	} else {
+		// Hide the navbar
 		navbar.classList.add("-bottom-7")
 		navbar.classList.remove("bottom-0")
 		bottomPageMargin.classList.add("hidden")
+		openFooterWithNavbarButton()
 		setTimeout(() => {
 			navbar.classList.add("invisible")
 		}, 160)
 	}
+}
+
+const footerButtonAnimation = "animate-[custom-pulse_3s_cubic-bezier(0.4,0,0.6,1)_infinite]"
+
+export const openFooterWithNavbarButton = () => {
+	const footer = document.querySelector("#footer-for-navbar-toggle")
+	const button = document.querySelector("button#in-page-navbar-toggle") as HTMLButtonElement
+	if (!footer || !button) return
+	footer.classList.remove("min-h-0", "mt-0")
+	footer.classList.add("min-h-[2em]", "mt-[3em]")
+	setTimeout(() => {
+		button.classList.remove("hidden", "opacity-0")
+		button.classList.add(footerButtonAnimation, "opacity-100")
+	}, 300)
+}
+
+export const closeFooterWithNavbarButton = () => {
+	const footer = document.querySelector("#footer-for-navbar-toggle")
+	const button = document.querySelector("button#in-page-navbar-toggle") as HTMLButtonElement
+	if (!footer || !button) return
+	button.classList.add("opacity-0")
+	button.classList.remove(footerButtonAnimation, "opacity-100")
+	setTimeout(() => {
+		button.classList.add("hidden")
+		footer.classList.add("min-h-0", "mt-0")
+		footer.classList.remove("min-h-[2em]", "mt-[3em]")
+	}, 300)
 }
 
 export const closePopupNavbar = () => {

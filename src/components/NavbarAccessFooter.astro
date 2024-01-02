@@ -1,0 +1,51 @@
+---
+import getPalette, { getColor, type Palettes } from "$utils/palettes"
+import { Icon } from "astro-icon/components"
+
+interface Props {
+	palette: Palettes
+}
+
+const palette = getPalette(Astro.props.palette)
+---
+
+<footer
+	id="footer-for-navbar-toggle"
+	class="mt-0 flex min-h-0 w-full justify-center transition-all duration-300"
+>
+	<button
+		id="in-page-navbar-toggle"
+		aria-haspopup="true"
+		class="hidden cursor-pointer rounded border border-solid border-[--text] bg-[--bg] p-[0.5em] font-[family-name:--font] text-[length:--size] text-[--text] opacity-0 transition-all duration-300 hover:animate-none dark:border-[--dark-text] dark:bg-[--dark-bg] dark:text-[--dark-text]"
+		style={{
+			"--bg": getColor(palette.backgroundColor),
+			"--dark-bg": getColor(palette.backgroundColor, "dark"),
+			"--text": getColor(palette.secondaryColor),
+			"--dark-text": getColor(palette.secondaryColor, "dark"),
+			"--font": palette.mainFont,
+			"--size": palette.fontSize,
+		}}
+	>
+		Naviguer
+	</button>
+</footer>
+
+<script>
+	import { getToggleText, toggleNavbar } from "$utils/navbar"
+
+	document.addEventListener("astro:page-load", () => {
+		const button = document.querySelector("button#in-page-navbar-toggle") as HTMLButtonElement
+		button.addEventListener("click", () => {
+			toggleNavbar()
+		})
+		button.innerText = getToggleText("Naviguer")
+	})
+</script>
+
+<style>
+	@keyframes custom-pulse {
+		50% {
+			opacity: 0.6;
+		}
+	}
+</style>
