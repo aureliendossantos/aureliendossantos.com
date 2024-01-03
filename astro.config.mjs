@@ -65,7 +65,10 @@ export default defineConfig({
 				logos: ["spotify-icon"],
 				lucide: ["library-square", "scan"],
 				"material-symbols": ["update-rounded"],
-				"material-symbols-light": ["keyboard-double-arrow-down-rounded"],
+				"material-symbols-light": [
+					"keyboard-double-arrow-down-rounded",
+					"keyboard-double-arrow-up-rounded",
+				],
 				tdesign: ["map-collection"],
 			},
 		}),

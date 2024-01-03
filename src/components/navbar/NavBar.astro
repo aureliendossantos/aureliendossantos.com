@@ -7,6 +7,7 @@ import DownloadLink from "./DownloadLink.astro"
 import ExternalLink from "./ExternalLink.astro"
 import InactiveItem from "./InactiveItem.astro"
 import { Icon } from "astro-icon/components"
+import NavbarToggleButton from "./NavbarToggleButton.astro"
 
 /**
  * These props are used to populate the initial navbar, so it works even if JS is disabled.
@@ -129,23 +130,10 @@ const { title, parent, related } = Astro.props
 		<DropdownItem label="Wiki personnel" href="/wiki" />
 		<DropdownItem label="/website" href="/website" />
 	</DropdownMenu>
-	<button
-		id="navbar-toggle-button"
-		aria-label="Toggle navigation bar"
-		style="padding-block: unset;"
-		class="group m-0 flex h-full items-center justify-center border-none bg-black p-0 px-3 medium:px-2"
-	>
-		<div
-			class="rounded-sm border border-solid border-neutral-500 font-work-sans text-sm leading-tight text-neutral-400 group-hover:border-white group-hover:text-white"
-		>
-			<div id="navbar-toggle-text" class="px-[4px]">Ctrl+K</div>
-			<Icon
-				id="navbar-toggle-icon"
-				name="material-symbols-light:keyboard-double-arrow-down-rounded"
-				class="inline-block hidden h-[17px] w-[17px] align-top"
-			/>
-		</div>
-	</button>
+	<NavbarToggleButton
+		bgClasses="bg-black"
+		textAndBorderClasses="border-neutral-500 text-neutral-400 group-hover:border-white group-hover:text-white"
+	/>
 </div>
 
 <div id="navbar-data" class="hidden" data-props={JSON.stringify(Astro.props)}></div>
@@ -245,30 +233,6 @@ const { title, parent, related } = Astro.props
 				"hidden"
 			)
 		}
-	})
-</script>
-
-<script>
-	// Toggle button contents
-	import { isTouchScreen, isMac, toggleNavbar, toast } from "$utils/navbar"
-
-	const button = document.querySelector("#navbar-toggle-button") as HTMLButtonElement
-	const buttonIcon = document.querySelector("#navbar-toggle-icon") as HTMLDivElement
-	const buttonText = document.querySelector("#navbar-toggle-text") as HTMLDivElement
-	if (isTouchScreen()) {
-		buttonText.classList.add("hidden")
-		buttonIcon.classList.remove("hidden")
-	} else if (isMac()) {
-		buttonText.innerText = "⌘K"
-	} else {
-		buttonText.innerText = "Ctrl+K"
-	}
-	button.addEventListener("click", () => {
-		toggleNavbar()
-		const message = isTouchScreen()
-			? "Réouvrez la barre de navigation en rechargant la page."
-			: `Réouvrez la barre de navigation avec ${isMac() ? "⌘K" : "Ctrl+K"}.`
-		toast(message, 3000, "right")
 	})
 </script>
 

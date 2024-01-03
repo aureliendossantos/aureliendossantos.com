@@ -1,0 +1,17 @@
+---
+import ArticleDate from "$components/ArticleDate.astro"
+interface Props {
+	title: string
+	description?: string
+	date?: Date
+}
+const { title, description, date } = Astro.props
+---
+
+<header>
+	<h1 class="title">{title}</h1>
+	<p class="subtitle">{description}</p>
+	<p class="byline">
+		{date && <ArticleDate date={date} />} &ndash; <a href="/">Aurélien Dos Santos</a>
+	</p>
+</header>

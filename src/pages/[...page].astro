@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content"
 import Article from "$layouts/Article.astro"
 import NavbarAccessFooter from "$components/NavbarAccessFooter.astro"
+import NavbarToggleButton from "$components/navbar/NavbarToggleButton.astro"
 
 export async function getStaticPaths() {
 	const individualPages = await getCollection("pages", ({ data }) => {
@@ -19,5 +20,4 @@ const { Content, headings } = await article.render()
 
 <Article article={article} headings={headings}>
 	<Content />
-	<NavbarAccessFooter palette={article.data.palette} />
 </Article>

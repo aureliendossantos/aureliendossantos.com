@@ -2,6 +2,9 @@ export const navbarIsOpened = () => {
 	return !(document.querySelector("#navbar") as HTMLDivElement).classList.contains("invisible")
 }
 
+/**
+ * @returns `true` if the navbar is now opened, `false` if it's now closed
+ */
 export const toggleNavbar = () => {
 	const navbar = document.querySelector("#navbar") as HTMLDivElement
 	const bottomPageMargin = document.querySelector("#bottom-page-margin") as HTMLDivElement
@@ -14,6 +17,7 @@ export const toggleNavbar = () => {
 			navbar.classList.remove("-bottom-7")
 			navbar.classList.add("bottom-0")
 		}, 10)
+		return true
 	} else {
 		// Hide the navbar
 		navbar.classList.add("-bottom-7")
@@ -23,20 +27,22 @@ export const toggleNavbar = () => {
 		setTimeout(() => {
 			navbar.classList.add("invisible")
 		}, 160)
+		return false
 	}
 }
 
-const footerButtonAnimation = "animate-[custom-pulse_3s_cubic-bezier(0.4,0,0.6,1)_infinite]"
+const footerButton = { height: "min-h-[22px]", margin: "mt-[3em]" }
 
 export const openFooterWithNavbarButton = () => {
 	const footer = document.querySelector("#footer-for-navbar-toggle")
 	const button = document.querySelector("button#in-page-navbar-toggle") as HTMLButtonElement
 	if (!footer || !button) return
 	footer.classList.remove("min-h-0", "mt-0")
-	footer.classList.add("min-h-[2em]", "mt-[3em]")
+	footer.classList.add(footerButton.height, footerButton.margin)
+	button.classList.remove("hidden")
 	setTimeout(() => {
-		button.classList.remove("hidden", "opacity-0")
-		button.classList.add(footerButtonAnimation, "opacity-100")
+		button.classList.remove("opacity-0")
+		button.classList.add("opacity-100")
 	}, 300)
 }
 
@@ -45,11 +51,11 @@ export const closeFooterWithNavbarButton = () => {
 	const button = document.querySelector("button#in-page-navbar-toggle") as HTMLButtonElement
 	if (!footer || !button) return
 	button.classList.add("opacity-0")
-	button.classList.remove(footerButtonAnimation, "opacity-100")
+	button.classList.remove("opacity-100")
 	setTimeout(() => {
 		button.classList.add("hidden")
 		footer.classList.add("min-h-0", "mt-0")
-		footer.classList.remove("min-h-[2em]", "mt-[3em]")
+		footer.classList.remove(footerButton.height, footerButton.margin)
 	}, 300)
 }
 
@@ -104,6 +110,10 @@ export const isMac = () => {
 	return platform.includes("mac")
 }
 
+/**
+ * It is entirely possible for a phone/tablet to not be detected
+ * by this function. It's only meant to be used as a polishing touch.
+ */
 export const isTouchScreen = () => {
 	const platform = navigator.platform.toLowerCase()
 	const touchPlatforms = ["iphone", "ipod", "ipad", "android", "blackberry"]

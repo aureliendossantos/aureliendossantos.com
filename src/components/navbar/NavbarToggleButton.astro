@@ -1,0 +1,73 @@
+---
+import type { HTMLAttributes } from "astro/types"
+import { Icon } from "astro-icon/components"
+
+interface Props extends HTMLAttributes<"div"> {
+	bgClasses?: HTMLAttributes<"button">["class"]
+	textAndBorderClasses?: HTMLAttributes<"div">["class"]
+	arrowIcon?: "up" | "down"
+	id?: string
+}
+const { bgClasses, textAndBorderClasses, id, arrowIcon } = Astro.props
+
+const dir = arrowIcon || "down"
+---
+
+<button
+	id={id}
+	aria-label="Toggle navigation bar"
+	style="padding-block: unset;"
+	class={`navbar-toggle-button cursor-pointer group m-0 flex h-full items-center justify-center border-none p-0 px-3 medium:px-2 ${bgClasses}`}
+>
+	<div
+		class={`rounded-sm border border-solid font-work-sans text-sm leading-tight ${textAndBorderClasses}`}
+	>
+		<div class="navbar-toggle-text px-[4px] medium:hidden">Ctrl+K</div>
+		<Icon
+			name={dir == "down"
+				? "material-symbols-light:keyboard-double-arrow-down-rounded"
+				: "material-symbols-light:keyboard-double-arrow-up-rounded"}
+			class="navbar-toggle-icon inline-block hidden h-[17px] w-[17px] align-top medium:inline-block"
+		/>
+	</div>
+</button>
+
+<script>
+	// Button contents. There might be multiple buttons on the page.
+	import { isTouchScreen, isMac, toggleNavbar, toast } from "$utils/navbar"
+
+	document.addEventListener("astro:page-load", () => {
+		const buttons = document.querySelectorAll(
+			".navbar-toggle-button"
+		) as NodeListOf<HTMLButtonElement>
+		const buttonIcons = document.querySelectorAll(
+			".navbar-toggle-icon"
+		) as NodeListOf<HTMLDivElement>
+		const buttonTexts = document.querySelectorAll(
+			".navbar-toggle-text"
+		) as NodeListOf<HTMLDivElement>
+		// isTouchScreen() might not detect all phones/tablets. That's why we also
+		// use a CSS breakpoint. This is merely a polishing touch.
+		if (isTouchScreen()) {
+			buttonTexts.forEach((t) => t.classList.add("hidden"))
+			buttonIcons.forEach((i) => i.classList.remove("hidden"))
+		} else if (isMac()) {
+			buttonTexts.forEach((t) => (t.innerText = "⌘K"))
+		} else {
+			buttonTexts.forEach((t) => (t.innerText = "Ctrl+K"))
+		}
+		buttons.forEach((button) => {
+			console.log("event added")
+			button.onclick = () => {
+				console.log("clicked")
+				const isOpened = toggleNavbar()
+				if (isOpened) return
+				const message =
+					isTouchScreen() || window.innerWidth < 600
+						? "Réouvrez la barre de navigation en rechargant la page."
+						: `Réouvrez la barre de navigation avec ${isMac() ? "⌘K" : "Ctrl+K"}.`
+				toast(message, 3000, "right")
+			}
+		})
+	})
+</script>

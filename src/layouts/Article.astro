@@ -6,8 +6,11 @@ import ArticleHeader from "$components/ArticleHeader.astro"
 import TableOfContents from "$components/TableOfContents.astro"
 import type { MarkdownHeading } from "astro"
 import "src/styles/articles.scss"
+import "$styles/tufte.scss"
 import { Layouts } from "$utils/layouts"
 import getRelatedArticles from "$utils/getRelatedArticles"
+import TufteHeader from "$components/blog/TufteHeader.astro"
+import NavbarAccessFooter from "$components/NavbarAccessFooter.astro"
 
 interface Props {
 	article: CollectionEntry<"blog"> | CollectionEntry<"pages">
@@ -18,8 +21,15 @@ const { article, headings } = Astro.props
 const data = article.data
 const date = "date" in data ? data.date : undefined
 const wide = "categories" in data && data.categories.includes("Photos")
+// Alternative layouts
 const customLayout = data.customLayout
 const cormorant = data.layouts?.includes(Layouts.cormorant)
+const tufte = data.layouts?.includes(Layouts.tufte)
+const tufteHtml = (await Astro.slots.render("default")).replaceAll(
+	"<section-switch></section-switch>",
+	"</section><section>"
+)
+// Images
 const ogImage = data.opengraph || data.image
 const coverImage = data.cover && data.image ? data.image : undefined
 const palette = getPalette(data.palette)
@@ -53,44 +63,59 @@ const relatedArticles = isBlog
 		class="article-styling"
 		style={{
 			"--base-color": getColor(palette.baseColor),
+			"--dark-base-color": getColor(palette.baseColor, "dark"),
 			"--secondary-color": getColor(palette.secondaryColor),
+			"--dark-secondary-color": getColor(palette.secondaryColor, "dark"),
 			"--bg-color": getColor(palette.bgColor),
+			"--dark-bg-color": getColor(palette.bgColor, "dark"),
 			"--base-font": palette.baseFont,
 			"--font-size": palette.fontSize,
 			"--line-height": palette.lineHeight,
-			"--dark-base-color": getColor(palette.baseColor, "dark"),
 		}}
 	>
 		{
-			!customLayout && (
-				<ArticleHeader
-					title={data.title}
-					description={data.description}
-					date={date}
-					cover={coverImage}
-					palette={palette}
-					layouts={data.layouts}
-					wide={wide}
-					anchorTop={data.imageAnchorTop}
-				/>
+			!customLayout &&
+				(tufte ? (
+					<TufteHeader title={data.title} description={data.description} date={date} />
+				) : (
+					<ArticleHeader
+						title={data.title}
+						description={data.description}
+						date={date}
+						cover={coverImage}
+						palette={palette}
+						layouts={data.layouts}
+						wide={wide}
+						anchorTop={data.imageAnchorTop}
+					/>
+				))
+		}
+		{
+			tufte ? (
+				<>
+					<section set:html={tufteHtml} />
+					<NavbarAccessFooter />
+				</>
+			) : (
+				<main
+					class:list={{ "px-[80px] pb-16 medium:px-[40px] small:px-[20px]": !customLayout }}
+					class="font-[family-name:--base-font] text-[length:--font-size] leading-[--line-height] text-[color:--base-color] dark:text-[color:--dark-base-color]"
+				>
+					<div
+						class:list={[
+							{ "blog-article m-auto": !customLayout },
+							{ "max-w-prose": !cormorant && !customLayout && !wide },
+							{ "max-w-[75ch]": cormorant && !customLayout && !wide },
+							{ "max-w-[700px]": wide },
+						]}
+					>
+						{article.data.toc && <TableOfContents headings={headings} depth={article.data.depth} />}
+						<slot />
+						{!customLayout && <NavbarAccessFooter />}
+					</div>
+				</main>
 			)
 		}
-		<main
-			class:list={{ "px-[80px] pb-16 medium:px-[40px] small:px-[20px]": !customLayout }}
-			class="font-[family-name:--base-font] text-[length:--font-size] leading-[--line-height] text-[color:--base-color] dark:text-[color:--dark-base-color]"
-		>
-			<div
-				class:list={[
-					{ "blog-article m-auto": !customLayout },
-					{ "max-w-prose": !cormorant && !customLayout && !wide },
-					{ "max-w-[75ch]": cormorant && !customLayout && !wide },
-					{ "max-w-[700px]": wide },
-				]}
-			>
-				{article.data.toc && <TableOfContents headings={headings} depth={article.data.depth} />}
-				<slot />
-			</div>
-		</main>
 	</div>
 </BaseLayout>
 
