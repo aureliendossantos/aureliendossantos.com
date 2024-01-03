@@ -57,7 +57,6 @@ const dir = arrowIcon || "down"
 			buttonTexts.forEach((t) => (t.innerText = "Ctrl+K"))
 		}
 		buttons.forEach((button) => {
-			console.log("event added")
 			button.onclick = () => {
 				console.log("clicked")
 				const isOpened = toggleNavbar()

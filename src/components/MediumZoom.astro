@@ -15,7 +15,6 @@ import "medium-zoom/dist/style.css"
 			? "var(--dark-bg)"
 			: "var(--bg)",
 	})
-	console.log("MediumZoom initialized")
 
 	// Since I use a custom container height, I need to update it manually in case the window has been resized.
 	window.mediumZoom.on("open", (event: any) => {

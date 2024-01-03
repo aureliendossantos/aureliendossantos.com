@@ -1,6 +1,15 @@
 ---
-// Table of Contents Heading
-// The tricky part of rendering our headings is that they may contain subheadings, which may contain subheadings, and so on. We need to create a recursive TocHeading component. To do this, Astro provides Astro.self as a way to reference the current component from within itself.
+import type { HeadingWithSubs } from "./TableOfContents.astro"
+
+/**
+ * ### Table of Contents Heading
+ * The tricky part of rendering our headings is that they may contain subheadings, which may
+ * contain subheadings, and so on. We need to create a recursive TocHeading component. To do
+ * this, Astro provides Astro.self as a way to reference the current component from within itself.
+ */
+interface Props {
+	heading: HeadingWithSubs
+}
 const { heading } = Astro.props
 ---
 
@@ -20,7 +29,7 @@ const { heading } = Astro.props
 </li>
 
 <style is:global>
-	nav.toc {
+	.article-styling nav.toc {
 		ol {
 			counter-reset: toc 0;
 		}

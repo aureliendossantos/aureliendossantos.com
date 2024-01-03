@@ -62,6 +62,7 @@ const parent = !isBlog && data.parent && (await getEntry("pages", data.parent))
 			: parent && { title: parent.data.title, href: `/${parent.slug}` },
 		related: relatedArticles,
 		relatedTitle: isBlog ? "Articles similaires" : "Voir aussi",
+		headings: headings,
 	}}
 >
 	<div

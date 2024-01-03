@@ -4,7 +4,8 @@ import "$styles/fonts"
 import { ViewTransitions } from "astro:transitions"
 import MediumZoom from "$components/MediumZoom.astro"
 import GoogleStructuredData from "$components/meta/GoogleStructuredData.astro"
-import NavBar, { type NavBarProps } from "$components/navbar/NavBar.astro"
+import NavBar from "$components/navbar/NavBar.astro"
+import type { NavBarProps } from "$utils/navbar"
 import type { Layouts } from "$utils/layouts"
 import { getColor, type Color, getBothColors } from "$utils/palettes"
 
@@ -118,12 +119,7 @@ const { light: popupLabelActiveBg, dark: darkPopupActive } = getBothColors(popup
 			<slot />
 		</main>
 		<MediumZoom />
-		<NavBar
-			title={navBarProps?.title || title}
-			parent={navBarProps?.parent}
-			related={navBarProps?.related}
-			relatedTitle={navBarProps?.relatedTitle}
-		/>
+		<NavBar {...navBarProps} />
 		<style is:global>
 			[data-icon] {
 				width: unset;

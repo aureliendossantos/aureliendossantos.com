@@ -1,3 +1,5 @@
+import type { MarkdownHeading } from "astro"
+
 export const navbarIsOpened = () => {
 	return !(document.querySelector("#navbar") as HTMLDivElement).classList.contains("invisible")
 }
@@ -18,6 +20,7 @@ export type NavBarProps = {
 		href: string
 	}[]
 	relatedTitle?: string
+	headings?: MarkdownHeading[]
 }
 
 /**

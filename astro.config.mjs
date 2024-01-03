@@ -60,6 +60,7 @@ export default defineConfig({
 					"baseline-launch",
 					"baseline-link",
 					"baseline-search",
+					"baseline-toc",
 					"outline-file-download",
 				],
 				ion: ["footsteps"],
