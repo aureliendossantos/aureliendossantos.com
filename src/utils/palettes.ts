@@ -28,21 +28,34 @@ export function getBothColors(color: Color | undefined) {
 	return { light: getColor(color, "light"), dark: getColor(color, "dark") }
 }
 
-export type Palette = {
-	mainColor: Color
-	secondaryColor: Color
+/**
+ * `_Color` values are for text, while `_BgColor` values are for background and `_BorderColor` are for borders.
+ * If an optional color isn't given, the `baseColor` is used.
+ * If a `special` or `headings` font isn't given, the `baseFont` is used.
+ * The `displayFont` is only for the main heading. It falls back to the `headingsFont` or `baseFont` if not given.
+ */
+type PaletteDeclaration = {
+	baseColor: Color
+	secondaryColor?: Color
+	specialColor?: Color
+	bgColor: Color
 	popupBorderColor?: Color
 	popupLabelActiveBgColor?: Color
-	specialColor: Color
-	backgroundColor: Color
-	mentionColor?: Color
-	mentionHoverColor?: Color
-	headingsFont: string
-	mainFont: string
+	mentionBgColor?: Color
+	mentionHoverBgColor?: Color
+	baseFont: string
+	headingsFont?: string
+	displayFont?: string
 	specialFont?: string
+	codeFont?: string
 	fontSize?: string
 	lineHeight?: string
 }
+
+/**
+ * A `Palette` has all its optional values filled in (except for `fontSize` and `lineHeight`) according to the rules in `PaletteDeclaration`.
+ */
+export type Palette = Required<PaletteDeclaration>
 
 export enum PaletteName {
 	default = "default",
@@ -66,226 +79,248 @@ export enum PaletteName {
 }
 
 export default function getPalette(name: PaletteName | undefined): Palette {
+	const p = getPaletteDeclaration(name)
+	return {
+		baseColor: p.baseColor,
+		secondaryColor: p.secondaryColor || p.baseColor,
+		specialColor: p.specialColor || p.baseColor,
+		bgColor: p.bgColor,
+		popupBorderColor: p.popupBorderColor || p.baseColor,
+		popupLabelActiveBgColor: p.popupLabelActiveBgColor || p.baseColor,
+		mentionBgColor: p.mentionBgColor || p.bgColor,
+		mentionHoverBgColor: p.mentionHoverBgColor || p.bgColor,
+		baseFont: p.baseFont,
+		headingsFont: p.headingsFont || p.baseFont,
+		displayFont: p.displayFont || p.headingsFont || p.baseFont,
+		specialFont: p.specialFont || p.baseFont,
+		codeFont: p.codeFont || "monospace",
+		fontSize: p.fontSize || "initial",
+		lineHeight: p.lineHeight || "1.25",
+	}
+}
+
+const getPaletteDeclaration = (name: PaletteName | undefined): PaletteDeclaration => {
 	switch (name) {
 		default:
 			return {
-				mainColor: "#000000",
+				baseColor: "#000000",
 				secondaryColor: "#636363",
 				popupBorderColor: "#636363",
 				popupLabelActiveBgColor: "#b1b1b1",
 				specialColor: "#515bcd",
-				backgroundColor: "#f5f5fa",
+				bgColor: "#f5f5fa",
 				headingsFont: "serif",
-				mainFont: "serif",
+				baseFont: "serif",
 				specialFont: "monospace",
 			}
 		case "air":
 			return {
-				mainColor: "#000000",
+				baseColor: "#000000",
 				secondaryColor: "#636363",
 				specialColor: "#515bcd",
-				backgroundColor: "#fafafc",
+				bgColor: "#fafafc",
 				headingsFont: "'Work Sans', sans-serif",
-				mainFont: "'Work Sans', sans-serif",
+				baseFont: "'Work Sans', sans-serif",
 				specialFont: "'Work Sans', monospace",
 				lineHeight: "1.5",
 			}
 		case "black":
 			return {
-				mainColor: "#e2e2ee",
+				baseColor: "#e2e2ee",
 				secondaryColor: "#636363",
 				specialColor: "#6d75d3",
-				backgroundColor: "#000000",
+				bgColor: "#000000",
 				headingsFont: "sans-serif",
-				mainFont: "serif",
+				baseFont: "serif",
 				specialFont: "monospace",
 			}
 		case "white":
 			return {
-				mainColor: "#000000",
+				baseColor: "#000000",
 				secondaryColor: "#8a8a94",
 				specialColor: "#6d75d3",
 				popupBorderColor: "#6d75d3",
 				popupLabelActiveBgColor: "#9ba0de",
-				backgroundColor: "#ffffff",
+				bgColor: "#ffffff",
 				headingsFont: "sans-serif",
-				mainFont: "serif",
+				baseFont: "serif",
 				specialFont: "monospace",
 			}
 		case "darkgrey":
 			return {
-				mainColor: "#e2e2ee",
+				baseColor: "#e2e2ee",
 				secondaryColor: "#555555",
 				specialColor: "#cccccc",
-				backgroundColor: "#222222",
+				bgColor: "#222222",
 				headingsFont: "sans-serif",
-				mainFont: "serif",
+				baseFont: "serif",
 				specialFont: "monospace",
 			}
 		case "blue":
 			return {
-				mainColor: "#d1d3eC",
+				baseColor: "#d1d3eC",
 				secondaryColor: "#81839C",
 				specialColor: "#B66DC2",
-				backgroundColor: "#27314D",
+				bgColor: "#27314D",
 				headingsFont: "'Anek Latin', sans-serif",
-				mainFont: "'Urbanist', sans-serif",
+				baseFont: "'Urbanist', sans-serif",
 				specialFont: "'Urbanist', monospace",
 				fontSize: "17px",
 				lineHeight: "1.55",
 			}
 		case "brown":
 			return {
-				mainColor: "#e6e6e7",
+				baseColor: "#e6e6e7",
 				secondaryColor: "#8c7569",
 				popupBorderColor: "#8c7569",
 				popupLabelActiveBgColor: "#8c7569",
 				specialColor: "#939293",
-				backgroundColor: "#584a44",
+				bgColor: "#584a44",
 				headingsFont: "sans-serif",
-				mainFont: "serif",
+				baseFont: "serif",
 				specialFont: "monospace",
 			}
 		case "green":
 			return {
-				mainColor: "white",
+				baseColor: "white",
 				secondaryColor: "lightgrey",
 				specialColor: "#BFA97C",
-				backgroundColor: "#458f44",
+				bgColor: "#458f44",
 				headingsFont: "sans-serif",
-				mainFont: "serif",
+				baseFont: "serif",
 				specialFont: "monospace",
 			}
 		case "tufte":
 			return {
-				mainColor: { light: "#111111", dark: "#dddddd" },
+				baseColor: { light: "#111111", dark: "#dddddd" },
 				secondaryColor: { light: "#111111", dark: "#dddddd" },
 				specialColor: { light: "#111111", dark: "#dddddd" },
 				popupLabelActiveBgColor: { light: "#11111138", dark: "#dddddd50" },
-				backgroundColor: { light: "#fffff8", dark: "#151515" },
+				bgColor: { light: "#fffff8", dark: "#151515" },
+				displayFont: '"Source Serif Display", "Source Serif", serif',
 				headingsFont: "'Source Serif Subhead', 'Source Serif', serif",
-				mainFont: "'Source Serif', serif",
+				baseFont: "'Source Serif', serif",
 			}
 		case "guidebook":
 			return {
-				mainColor: "#333333",
+				baseColor: "#333333",
 				secondaryColor: "#686868",
 				specialColor: "#5c80c4",
-				backgroundColor: "#f9f9f9",
+				bgColor: "#f9f9f9",
 				headingsFont: "'Nunito', sans-serif",
-				mainFont: "'Lato', sans-serif",
+				baseFont: "'Lato', sans-serif",
 				specialFont: "'Lato', monospace",
 				fontSize: "17px",
 				lineHeight: "1.6",
 			}
 		case "nature":
 			return {
-				mainColor: "#000000",
+				baseColor: "#000000",
 				secondaryColor: "#8a8a94",
 				specialColor: "#91d36d",
-				backgroundColor: "#ffffff",
-				mentionColor: "#ebfcde",
-				mentionHoverColor: "#dcf7cd",
+				bgColor: "#ffffff",
+				mentionBgColor: "#ebfcde",
+				mentionHoverBgColor: "#dcf7cd",
 				headingsFont: "Vollkorn, serif",
-				mainFont: "Lora, serif",
+				baseFont: "Lora, serif",
 				specialFont: "monospace",
 				fontSize: "18px",
 				lineHeight: "1.325",
 			}
 		case "source-serif":
 			return {
-				mainColor: "#000000",
+				baseColor: "#000000",
 				secondaryColor: "#8a8a94",
 				popupBorderColor: "#d4d4d8",
 				popupLabelActiveBgColor: "#e4e4e7",
 				specialColor: "#91d36d",
-				backgroundColor: "#ffffff",
-				mentionColor: "#ebfcde",
-				mentionHoverColor: "#dcf7cd",
-				headingsFont: "'Source Serif', serif",
-				mainFont: "'Source Serif', serif",
-				specialFont: "monospace",
+				bgColor: "#ffffff",
+				mentionBgColor: "#ebfcde",
+				mentionHoverBgColor: "#dcf7cd",
+				baseFont: "'Source Serif', serif",
+				displayFont: '"Source Serif Display", "Source Serif", serif',
+				codeFont: '"Source Code Pro", monospace',
 				fontSize: "18px",
 				lineHeight: "1.45",
 			}
 		case "cormorant":
 			return {
-				mainColor: "#121212",
+				baseColor: "#121212",
 				secondaryColor: "#121212",
 				popupBorderColor: "#d4d4d8",
 				popupLabelActiveBgColor: "#e4e4e7",
 				specialColor: "#121212",
-				backgroundColor: "#ffffff",
-				mentionColor: "#ebfcde",
-				mentionHoverColor: "#dcf7cd",
+				bgColor: "#ffffff",
+				mentionBgColor: "#ebfcde",
+				mentionHoverBgColor: "#dcf7cd",
 				headingsFont: "'Cormorant', serif",
-				mainFont: "'Cormorant', serif",
+				baseFont: "'Cormorant', serif",
 				specialFont: "monospace",
 				fontSize: "18px",
 				lineHeight: "1.30",
 			}
 		case "snow":
 			return {
-				mainColor: "#e9dcd0",
+				baseColor: "#e9dcd0",
 				secondaryColor: "#eeab8e",
 				specialColor: "#eeab8e",
-				backgroundColor: "#353336",
-				mentionColor: "#ebfcde",
-				mentionHoverColor: "#dcf7cd",
+				bgColor: "#353336",
+				mentionBgColor: "#ebfcde",
+				mentionHoverBgColor: "#dcf7cd",
 				headingsFont: "'Source Serif', serif",
-				mainFont: "'Source Serif', serif",
+				baseFont: "'Source Serif', serif",
 				specialFont: "monospace",
 				fontSize: "18px",
 				lineHeight: "1.45",
 			}
 		case "notebook":
 			return {
-				mainColor: "#404040",
+				baseColor: "#404040",
 				secondaryColor: "#686868",
 				specialColor: "#c45c7f",
 				popupBorderColor: "#a1a1aa",
 				popupLabelActiveBgColor: "#d4d4d8",
-				backgroundColor: "#f0efdd",
+				bgColor: "#f0efdd",
 				headingsFont: "'Work Sans', sans-serif",
-				mainFont: "'Work Sans', 'Noto Sans', sans-serif",
+				baseFont: "'Work Sans', 'Noto Sans', sans-serif",
 				specialFont: "'Work Sans', monospace",
 				fontSize: "18px",
 				lineHeight: "1.5",
 			}
 		case "green-notes":
 			return {
-				mainColor: "#F4F1DE",
+				baseColor: "#F4F1DE",
 				secondaryColor: "#C6D499", // "#97B754",
 				specialColor: "#C6D499",
 				popupBorderColor: "#65818C",
 				popupLabelActiveBgColor: "#65818C",
-				backgroundColor: "#516174", // "#3D405B", // #65818C couleur entre les deux,
+				bgColor: "#516174", // "#3D405B", // #65818C couleur entre les deux,
 				headingsFont: "'Work Sans', sans-serif",
-				mainFont: "'Lato', sans-serif",
+				baseFont: "'Lato', sans-serif",
 				specialFont: "'Lato', monospace",
 				fontSize: "17px",
 				lineHeight: "1.6",
 			}
 		case "whiteboard":
 			return {
-				mainColor: "#404040",
+				baseColor: "#404040",
 				secondaryColor: "#686868",
 				specialColor: "#c45c7f",
-				backgroundColor: "#ffffff",
+				bgColor: "#ffffff",
 				headingsFont: "'Space Grotesk', sans-serif",
-				mainFont: "'Space Grotesk', 'Noto Sans', sans-serif",
+				baseFont: "'Space Grotesk', 'Noto Sans', sans-serif",
 				specialFont: "'Space Grotesk', monospace",
 				fontSize: "18px",
 				lineHeight: "1.5",
 			}
 		case "desolate":
 			return {
-				mainColor: "#d0d9d7",
+				baseColor: "#d0d9d7",
 				secondaryColor: "#9aaca9",
 				specialColor: "#927961",
-				backgroundColor: "#24272f",
+				bgColor: "#24272f",
 				headingsFont: "'Work Sans', sans-serif",
-				mainFont: "'Work Sans', 'Noto Sans', sans-serif",
+				baseFont: "'Work Sans', 'Noto Sans', sans-serif",
 				specialFont: "'Work Sans', monospace",
 				fontSize: "18px",
 				lineHeight: "1.5",

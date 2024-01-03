@@ -22,7 +22,7 @@ const person = await fetch(`https://api.themoviedb.org/3/person/${id}?language=f
 	.then((response) => response.json())
 	.catch((err) => console.error(err))
 
-if (person.success == false) console.error(movie)
+if (person.success == false) console.error(person)
 // Response format: https://developer.themoviedb.org/reference/movie-details
 const year =
 	formatDate(new Date(person.birthday), true) + person.deathday

@@ -22,23 +22,23 @@ const place =
 <a
 	class="duration-80 scale-100 bg-[--bg] bg-cover bg-center text-[--bg] ease-out first:rounded-t-lg last:rounded-b-lg hover:scale-[1.01] hover:rounded-[4px]"
 	style={{
-		"--bg": getColor(palette.backgroundColor),
-		"--text": getColor(palette.mainColor),
+		"--bg": getColor(palette.bgColor),
+		"--text": getColor(palette.baseColor),
 		"--secondary-text": getColor(palette.secondaryColor),
 		backgroundImage: showCover()
-			? `linear-gradient(${palette.backgroundColor}99, ${palette.backgroundColor}49), url('${optimizedBackground?.src}')`
+			? `linear-gradient(${palette.bgColor}99, ${palette.bgColor}49), url('${optimizedBackground?.src}')`
 			: "none",
 	}}
 	href={"/blog/" + article.slug}
 >
-	<div class="px-4 py-5 text-[--text]" style={{ fontFamily: palette.mainFont }}>
+	<div class="px-4 py-5 text-[--text]" style={{ fontFamily: palette.baseFont }}>
 		<span class="mb-2 text-lg font-bold" style={{ fontFamily: palette.headingsFont }}>
 			{data.title}{data.draft && " [Draft]"}
 		</span>
 		<span
 			class="text-[--secondary-text]"
 			style={{
-				textShadow: `0 0 1em ${palette.backgroundColor}`,
+				textShadow: `0 0 1em ${palette.bgColor}`,
 			}}
 		>
 			<ArticleDate date={article.data.date} nonBreakingSpaces />{

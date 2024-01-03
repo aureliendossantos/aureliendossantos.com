@@ -13,7 +13,7 @@ const tags = getUniqueValuesAndOccurences(rawTags)
 	<div class="mt-5" slot="header">
 		<p>
 			{
-				Object.entries(tags).map(([key, value], i) => (
+				Object.entries(tags).map(([key, value]) => (
 					<>
 						<TagLabel label={key} count={value} type={"tag"} />{" "}
 					</>

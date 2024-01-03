@@ -7,15 +7,24 @@ import { getCollection } from "astro:content"
 
 const gear = (await getCollection("gear"))
 	.map((gear) => ({
-		...gear,
+		collectionEntry: gear,
 		category: gear.slug.split("/")[0],
 		slug: gear.slug.split("/")[1],
 	}))
 	.sort((a, b) => {
-		if (!a.data.obtained) return 1
-		if (!b.data.obtained) return -1
-		return b.data.obtained - a.data.obtained
+		if (!a.collectionEntry.data.obtained) return 1
+		if (!b.collectionEntry.data.obtained) return -1
+		return b.collectionEntry.data.obtained.getTime() - a.collectionEntry.data.obtained.getTime()
 	})
+
+const categories = [
+	{ title: "Ordinateurs", slug: "computers" },
+	{ title: "Téléphones", slug: "phones" },
+	{ title: "Écrans", slug: "screens" },
+	{ title: "Consoles", slug: "consoles" },
+	{ title: "Son", slug: "sound" },
+	{ title: "Caméra", slug: "cameras" },
+]
 ---
 
 <BaseLayout
@@ -31,28 +40,17 @@ const gear = (await getCollection("gear"))
 			</p>
 		</header>
 		<div class="grid grid-cols-2 gap-4 medium:grid-cols-1">
-			<GearCategory title="Ordinateurs">
-				{
-					gear
-						.filter((gear) => gear.category == "computers")
-						.map((gear) => <GearItem gear={gear} />)
-				}
-			</GearCategory>
-			<GearCategory title="Téléphones">
-				{gear.filter((gear) => gear.category == "phones").map((gear) => <GearItem gear={gear} />)}
-			</GearCategory>
-			<GearCategory title="Écrans">
-				{gear.filter((gear) => gear.category == "screens").map((gear) => <GearItem gear={gear} />)}
-			</GearCategory>
-			<GearCategory title="Consoles">
-				{gear.filter((gear) => gear.category == "consoles").map((gear) => <GearItem gear={gear} />)}
-			</GearCategory>
-			<GearCategory title="Son">
-				{gear.filter((gear) => gear.category == "sound").map((gear) => <GearItem gear={gear} />)}
-			</GearCategory>
-			<GearCategory title="Caméra">
-				{gear.filter((gear) => gear.category == "cameras").map((gear) => <GearItem gear={gear} />)}
-			</GearCategory>
+			{
+				categories.map((category) => (
+					<GearCategory title={category.title}>
+						{gear
+							.filter((gear) => gear.category == category.slug)
+							.map((gear) => (
+								<GearItem gear={gear.collectionEntry} />
+							))}
+					</GearCategory>
+				))
+			}
 		</div>
 	</div>
 </BaseLayout>

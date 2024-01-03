@@ -4,6 +4,7 @@ import type {
 	ChildDatabaseBlockObjectResponse,
 	PageObjectResponse,
 } from "@notionhq/client/build/src/api-endpoints"
+import type { ResponseResult, Title, RichText, Number } from "$utils/notion/types"
 import type { BlockObjectResponseWithChildren } from "$utils/notion/getChildren"
 import SpotifyTrack from "$components/mdx/SpotifyTrack.astro"
 import FortniteFestivalTag from "./FortniteFestivalTag.astro"
@@ -17,6 +18,14 @@ const database = blocks.find(
 	(block) => block.type == "child_database"
 ) as ChildDatabaseBlockObjectResponse & {
 	children: PageObjectResponse[]
+}
+
+type TracksEntry = ResponseResult & {
+	properties: {
+		Nom: Title
+		"Spotify ID": RichText
+		Rating: Number
+	}
 }
 
 const maps = [
@@ -41,7 +50,7 @@ const maps = [
 
 <div class="not-prose">
 	{
-		database.children.map((page) => {
+		(database.children as TracksEntry[]).map((page) => {
 			const title = page.properties.Nom.title[0].plain_text
 			const trackId = page.properties["Spotify ID"].rich_text[0]?.plain_text
 			return (

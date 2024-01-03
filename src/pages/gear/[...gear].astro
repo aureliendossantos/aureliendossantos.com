@@ -18,7 +18,7 @@ interface Props {
 	gear: CollectionEntry<"gear">
 }
 const { gear } = Astro.props
-const { Content, headings } = await gear.render()
+const { Content } = await gear.render()
 const data = gear.data
 const category = gear.slug.split("/")[0]
 ---
@@ -34,7 +34,7 @@ const category = gear.slug.split("/")[0]
 				<a href="/gear" class="hover:text-indigo-700 hover:dark:text-indigo-400">← Appareils</a>
 			</p>
 		</header>
-		<div class="prose prose-slate dark:prose-invert small:prose-sm prose-h1:mb-2">
+		<div class="prose prose-slate small:prose-sm dark:prose-invert prose-h1:mb-2">
 			<header>
 				<h1>{data.name}</h1>
 				<div class="font-work-sans text-sm text-slate-400">

@@ -1,6 +1,5 @@
 ---
 import getPalette, { getColor, type PaletteName } from "$utils/palettes"
-import { Icon } from "astro-icon/components"
 
 interface Props {
 	palette: PaletteName
@@ -16,14 +15,12 @@ const palette = getPalette(Astro.props.palette)
 	<button
 		id="in-page-navbar-toggle"
 		aria-haspopup="true"
-		class="hidden cursor-pointer rounded border border-solid border-[--text] bg-[--bg] p-[0.5em] font-[family-name:--font] text-[length:--size] text-[--text] opacity-0 transition-all duration-300 hover:animate-none dark:border-[--dark-text] dark:bg-[--dark-bg] dark:text-[--dark-text]"
+		class="hidden cursor-pointer rounded-sm border border-solid border-[--text] border-neutral-500 bg-[--bg] p-[0.5em] font-work-sans text-sm leading-tight text-[--text] opacity-0 transition-all duration-300 hover:animate-none dark:border-[--dark-text] dark:bg-[--dark-bg] dark:text-[--dark-text]"
 		style={{
-			"--bg": getColor(palette.backgroundColor),
-			"--dark-bg": getColor(palette.backgroundColor, "dark"),
+			"--bg": getColor(palette.bgColor),
+			"--dark-bg": getColor(palette.bgColor, "dark"),
 			"--text": getColor(palette.secondaryColor),
 			"--dark-text": getColor(palette.secondaryColor, "dark"),
-			"--font": palette.mainFont,
-			"--size": palette.fontSize,
 		}}
 	>
 		Naviguer

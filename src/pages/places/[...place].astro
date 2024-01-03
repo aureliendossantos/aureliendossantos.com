@@ -23,7 +23,7 @@ interface Props {
 }
 const { place, mapsData } = Astro.props
 
-const renderReview = (review: string) => {
+const renderReview = () => {
 	switch (data.review) {
 		case "loved":
 			return " et adoré"
@@ -39,7 +39,7 @@ const articles = (await getBlogPosts()).filter((article) =>
 )
 const diaryEntries = (await getDiary()).filter((entry) => entry.data.places.includes(place.slug))
 
-const { Content, headings } = await place.render()
+const { Content } = await place.render()
 const data = place.data
 
 const headerImage = mapsData.photos[0].photo_reference
@@ -69,7 +69,7 @@ const gallery =
 					<p class="mb-2">{getClosedStatus(mapsData)}</p>
 					<p>
 						{data.status == "done" ? "Déjà visité" : "Pas encore visité"}{
-							data.review && renderReview(data.review)
+							data.review && renderReview()
 						}.
 					</p>
 				</div>
@@ -88,10 +88,10 @@ const gallery =
 									<a
 										class="flex bg-[--bg] px-8 py-2 text-sm text-[--text] transition-all hover:brightness-110 hover:contrast-75 dark:bg-[--dark-bg] dark:text-[--dark-text]"
 										style={{
-											"--bg": getColor(palette.backgroundColor),
-											"--dark-bg": getColor(palette.backgroundColor, "dark"),
-											"--text": getColor(palette.mainColor),
-											"--dark-text": getColor(palette.mainColor, "dark"),
+											"--bg": getColor(palette.bgColor),
+											"--dark-bg": getColor(palette.bgColor, "dark"),
+											"--text": getColor(palette.baseColor),
+											"--dark-text": getColor(palette.baseColor, "dark"),
 										}}
 										href={`/blog/${article.slug}`}
 									>

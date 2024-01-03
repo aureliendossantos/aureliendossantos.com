@@ -20,167 +20,148 @@ const passNumerique = await getEntryBySlug("portfolio", "pass-numerique")
 const portfolio = await getEntryBySlug("portfolio", "portfolio")
 const powerup = await getEntryBySlug("portfolio", "powerup")
 const qrpg = await getEntryBySlug("portfolio", "qrpg")
+// bg dark: slate-800
 ---
 
 <BaseLayout
 	ogType="website"
+	bg={{ light: "white", dark: "rgb(30 41 59)" }}
 	title="Portfolio"
 	description="Portfolio d'Aurélien Dos Santos présentant des projets d'ingénierie pédagogique, de game design et de développement web et multimédia."
 >
-	<!-- Find a way to fix ViewTransitions bug -->
-	<div class="flex min-h-screen flex-col gap-2 bg-slate-200 p-2 dark:bg-slate-700">
-		<main class="flex grow flex-col gap-2 overflow-hidden">
-			<aside class="order-1 px-2 font-sofia-sans text-sm">
+	<div class="m-auto max-w-[820px] px-6 pb-24 pt-14">
+		<header class="font-sofia-sans text-2xl">
+			<div class="text-slate-400 dark:text-slate-400">Aurélien Dos Santos /</div>
+			<div class="text-slate-600 dark:text-slate-300">Portfolio</div>
+		</header>
+		<div class="mt-6 max-w-[280px] font-sofia-sans text-xl">
+			<LinkItem
+				href="https://www.youtube.com/@GameDevAlliance"
+				site="YouTube"
+				username="@Game Dev Alliance"
+			/>
+			<LinkItem
+				href="https://www.linkedin.com/in/aureliendossantos/"
+				site="LinkedIn"
+				username="@aureliendossantos"
+			/>
+			<LinkItem
+				href="https://github.com/aureliendossantos/wiki"
+				site="GitHub"
+				username="@aureliendossantos"
+			/>
+			<div class="mt-6">
 				<a
-					href="/"
-					class="text-slate-500 hover:text-slate-400 dark:text-slate-400 dark:hover:text-slate-300"
-					>Aurélien Dos Santos</a
+					class="text-slate-500 hover:text-slate-400 dark:hover:text-slate-300"
+					href="mailto:aureliendsantos@gmail.com"
 				>
-				<span class="text-slate-500 dark:text-slate-400">/</span>
-				<span class="text-slate-600 dark:text-slate-300">Portfolio</span>
-			</aside>
-		</main>
-		<div class="order-2 col-span-2 grow overflow-auto rounded-lg bg-white p-6 dark:bg-slate-800">
-			<div class="m-auto max-w-[820px] pb-24 pt-4">
-				<header class="font-sofia-sans text-2xl">
-					<a
-						href="/"
-						class="text-slate-400 hover:text-slate-300 dark:text-slate-400 dark:hover:text-slate-300"
-						>Aurélien Dos Santos</a
-					>
-					<span class="text-slate-400 dark:text-slate-400">/</span>
-					<div class="text-slate-600 dark:text-slate-300">Portfolio</div>
-				</header>
-				<div class="mt-6 max-w-[280px] font-sofia-sans text-xl">
-					<LinkItem
-						href="https://www.youtube.com/@GameDevAlliance"
-						site="YouTube"
-						username="@Game Dev Alliance"
-					/>
-					<LinkItem
-						href="https://www.linkedin.com/in/aureliendossantos/"
-						site="LinkedIn"
-						username="@aureliendossantos"
-					/>
-					<LinkItem
-						href="https://github.com/aureliendossantos/wiki"
-						site="GitHub"
-						username="@aureliendossantos"
-					/>
-					<div class="mt-6">
-						<a
-							class="text-slate-500 hover:text-slate-400 dark:hover:text-slate-300"
-							href="mailto:aureliendsantos@gmail.com"
-						>
-							aureliendsantos@gmail.com
-						</a>
-					</div>
-				</div>
-				<div class="mt-6 font-sofia-sans text-xl text-slate-500 dark:text-slate-400">
-					<p>
-						<Em>Je suis Aurélien</Em> et j'ai conclu des études en alternance d’<Em>
-							ingénierie pédagogique
-						</Em> et de <Em>conception e-learning</Em>. Je suis également passionné par le <Em>
-							développement informatique
-						</Em> (web et jeux vidéo), le <Em>game design</Em> et la photographie.
-					</p>
-					<p class="mt-6">
-						Je suis en quête d’opportunités en tant qu’<Em>ingénieur pédagogique</Em>,
-						<Em>concepteur pédagogique</Em>
-						 (écrit, vidéo),
-						<Em>développeur multimédia</Em>
-						 (Unity, web) ou toute mission à la croisée de ces compétences.
-					</p>
-				</div>
-				<CategoryHeading>Projets de formation</CategoryHeading>
-				<CardContainer>
-					<CardGrid>
-						<Card project={capCuisine} />
-						<Card project={faireDesJeux} />
-					</CardGrid>
-				</CardContainer>
-				<CategoryHeading>Développement web</CategoryHeading>
-				<CardContainer>
-					<CardGrid>
-						<Card project={dashboard} />
-						<Card project={grimoire} />
-					</CardGrid>
-				</CardContainer>
-				<CategoryHeading>Jeux et multimédia</CategoryHeading>
-				<CardContainer>
-					<CardGrid>
-						<Card project={powerup} />
-						<Card project={qrpg} />
-						<Card project={jeuDeSurvie} />
-					</CardGrid>
-				</CardContainer>
-				<CategoryHeading>Formation</CategoryHeading>
-				<div class="mt-6 font-sofia-sans text-xl text-slate-600 dark:text-slate-400">
-					<School
-						degree="Master MEEF Ingénierie de Formation, parcours Conception de Ressources Numériques"
-						school="Université Toulouse Jean-Jaurès ∙ 2021-2023"
-					/>
-					<ul
-						class="list-inside list-disc text-base leading-snug text-slate-600 marker:text-slate-400 dark:text-slate-300 dark:marker:text-slate-400"
-					>
-						<li class="my-2">Ingénierie pédagogique</li>
-						<li class="my-2">
-							Conception pédagogique multimédia
-							<ul
-								class="list-inside list-disc text-slate-400 marker:text-white dark:text-slate-400 dark:marker:text-slate-800"
-							>
-								<li>Rise, Storyline, Genially, Vyond</li>
-								<li>Adobe Premiere, Photoshop, InDesign</li>
-							</ul>
-						</li>
-						<li class="my-2">
-							Développement web
-							<ul
-								class="list-inside list-disc text-slate-400 marker:text-white dark:text-slate-400 dark:marker:text-slate-800"
-							>
-								<li>HTML & CSS, JavaScript, PHP, SQL, React, Next.js, Elixir</li>
-							</ul>
-						</li>
-						<li class="my-2">
-							Développement d'applications et jeux sérieux
-							<ul
-								class="list-inside list-disc text-slate-400 marker:text-white dark:text-slate-400 dark:marker:text-slate-800"
-							>
-								<li>Unity (C#), Ren’Py (Python)</li>
-							</ul>
-						</li>
-					</ul>
-					<School
-						degree="Licence Langues, Littératures et Civilisations Étrangères, parcours Anglais"
-						school="Université de Pau ∙ 2018-2021"
-					/>
-					<School
-						degree="IUT Statistique et Informatique Décisionnelle"
-						school="Université de Pau ∙ 2014-2016"
-					/>
-				</div>
+					aureliendsantos@gmail.com
+				</a>
 			</div>
 		</div>
+		<div class="mt-6 font-sofia-sans text-xl text-slate-500 dark:text-slate-400">
+			<p>
+				<Em>Je suis Aurélien</Em> et j'ai conclu des études en alternance d’<Em>
+					ingénierie pédagogique
+				</Em> et de <Em>conception e-learning</Em>. Je suis également passionné par le <Em>
+					développement informatique
+				</Em> (web et jeux vidéo), le <Em>game design</Em> et la photographie.
+			</p>
+			<p class="mt-6">
+				Je suis en quête d’opportunités en tant qu’<Em>ingénieur pédagogique</Em>,
+				<Em>concepteur pédagogique</Em>
+				 (écrit, vidéo),
+				<Em>développeur multimédia</Em>
+				 (Unity, web) ou toute mission à la croisée de ces compétences.
+			</p>
+		</div>
+		<CategoryHeading>Projets de formation</CategoryHeading>
+		<CardContainer>
+			<CardGrid>
+				<Card project={capCuisine} />
+				<Card project={faireDesJeux} />
+			</CardGrid>
+		</CardContainer>
+		<CategoryHeading>Développement web</CategoryHeading>
+		<CardContainer>
+			<CardGrid>
+				<Card project={dashboard} />
+				<Card project={grimoire} />
+			</CardGrid>
+		</CardContainer>
+		<CategoryHeading>Jeux et multimédia</CategoryHeading>
+		<CardContainer>
+			<CardGrid>
+				<Card project={powerup} />
+				<Card project={qrpg} />
+				<Card project={jeuDeSurvie} />
+			</CardGrid>
+		</CardContainer>
+		<CategoryHeading>Formation</CategoryHeading>
+		<div class="mt-6 font-sofia-sans text-xl text-slate-600 dark:text-slate-400">
+			<School
+				degree="Master MEEF Ingénierie de Formation, parcours Conception de Ressources Numériques"
+				school="Université Toulouse Jean-Jaurès ∙ 2021-2023"
+			/>
+			<ul
+				class="list-inside list-disc text-base leading-snug text-slate-600 marker:text-slate-400 dark:text-slate-300 dark:marker:text-slate-400"
+			>
+				<li class="my-2">Ingénierie pédagogique</li>
+				<li class="my-2">
+					Conception pédagogique multimédia
+					<ul
+						class="list-inside list-disc text-slate-400 marker:text-white dark:text-slate-400 dark:marker:text-slate-800"
+					>
+						<li>Rise, Storyline, Genially, Vyond</li>
+						<li>Adobe Premiere, Photoshop, InDesign</li>
+					</ul>
+				</li>
+				<li class="my-2">
+					Développement web
+					<ul
+						class="list-inside list-disc text-slate-400 marker:text-white dark:text-slate-400 dark:marker:text-slate-800"
+					>
+						<li>HTML & CSS, JavaScript, PHP, SQL, React, Next.js, Elixir</li>
+					</ul>
+				</li>
+				<li class="my-2">
+					Développement d'applications et jeux sérieux
+					<ul
+						class="list-inside list-disc text-slate-400 marker:text-white dark:text-slate-400 dark:marker:text-slate-800"
+					>
+						<li>Unity (C#), Ren’Py (Python)</li>
+					</ul>
+				</li>
+			</ul>
+			<School
+				degree="Licence Langues, Littératures et Civilisations Étrangères, parcours Anglais"
+				school="Université de Pau ∙ 2018-2021"
+			/>
+			<School
+				degree="IUT Statistique et Informatique Décisionnelle"
+				school="Université de Pau ∙ 2014-2016"
+			/>
+		</div>
 	</div>
-
-	<style is:global>
-		::-webkit-scrollbar-thumb {
-			background-color: rgb(226 232 240);
-			border: 4px solid transparent;
-			background-clip: content-box;
-			border-radius: 10px;
-		}
-
-		@media (prefers-color-scheme: dark) {
-			::-webkit-scrollbar-thumb {
-				background-color: rgb(51 65 85);
-			}
-		}
-
-		::-webkit-scrollbar,
-		::-webkit-scrollbar-track {
-			width: 14px;
-			background-color: transparent;
-		}
-	</style>
 </BaseLayout>
+
+<style is:global>
+	::-webkit-scrollbar-thumb {
+		background-color: rgb(226 232 240);
+		border: 4px solid transparent;
+		background-clip: content-box;
+		border-radius: 10px;
+	}
+
+	@media (prefers-color-scheme: dark) {
+		::-webkit-scrollbar-thumb {
+			background-color: rgb(51 65 85);
+		}
+	}
+
+	::-webkit-scrollbar,
+	::-webkit-scrollbar-track {
+		width: 14px;
+		background-color: transparent;
+	}
+</style>

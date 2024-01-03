@@ -13,7 +13,7 @@ const categories = getUniqueValuesAndOccurences(rawCategories)
 	<div class="mt-5" slot="header">
 		<p>
 			{
-				Object.entries(categories).map(([key, value], i) => (
+				Object.entries(categories).map(([key, value]) => (
 					<>
 						<TagLabel label={key} count={value} type={"category"} />{" "}
 					</>

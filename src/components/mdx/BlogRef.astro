@@ -29,27 +29,27 @@ const palette = getPalette(article.data.palette)
 			/>
 		) : (
 			<span
-				class="my-[-1px] rounded border border-solid border-neutral-500 bg-[--background] px-[2px] text-[--main]"
+				class="my-[-1px] rounded border border-solid border-neutral-500 bg-[--bg-color] px-[2px] text-[--base-color]"
 				style={{
-					"--background": getColor(palette.backgroundColor),
-					"--main": getColor(palette.mainColor),
-					"--secondary": getColor(palette.secondaryColor),
-					fontFamily: palette.mainFont,
+					"--bg-color": getColor(palette.bgColor),
+					"--base-color": getColor(palette.baseColor),
+					"--secondary-color": getColor(palette.secondaryColor),
+					fontFamily: palette.baseFont,
 				}}
 			>
-				{!titleOnly && <span class="text-[--main]">Aurélien Dos Santos,</span>}
+				{!titleOnly && <span class="text-[--base-color]">Aurélien Dos Santos,</span>}
 				<a
 					href={"/blog/" + article.slug}
 					style={{
 						fontFamily: palette.headingsFont,
 						textDecoration: "none",
-						backgroundColor: "transparent !important",
+						bgColor: "transparent !important",
 					}}
 				>
 					{titleOnly ? article.data.title : `« ${article.data.title} »,`}
 				</a>
 				{!titleOnly && (
-					<span class="text-[--main]">
+					<span class="text-[--base-cover]">
 						<ArticleDate date={article.data.date} />
 					</span>
 				)}

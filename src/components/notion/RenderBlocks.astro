@@ -88,7 +88,7 @@ let numbered_list: RichTextItemResponse[][] = []
 					bulleted_list = []
 					return (
 						<ul>
-							{toRender.map((item, index) => (
+							{toRender.map((item) => (
 								<li>
 									<RenderRichText text={item} />
 								</li>
@@ -105,7 +105,7 @@ let numbered_list: RichTextItemResponse[][] = []
 					numbered_list = []
 					return (
 						<ol>
-							{toRender.map((item, index) => (
+							{toRender.map((item) => (
 								<li>
 									<RenderRichText text={item} />
 								</li>

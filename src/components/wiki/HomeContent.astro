@@ -1,0 +1,62 @@
+---
+import formatDate from "$utils/formatDate"
+import getDatabase from "$utils/notion/getDatabase"
+import type { CategoriesEntry, PagesEntry } from "$utils/notion/wiki"
+import slugify from "slugify"
+import { Icon } from "astro-icon/components"
+
+const categories = (
+	(await getDatabase(import.meta.env.NOTION_WIKI_CATEGORIES_DB)) as CategoriesEntry[]
+).map((page) => ({
+	id: page.id,
+	title: page.properties.Nom.title[0].plain_text,
+	description: page.properties.Description.rich_text[0]
+		? page.properties.Description.rich_text[0].plain_text
+		: null,
+}))
+const pages = ((await getDatabase(import.meta.env.NOTION_WIKI_PAGES_DB)) as PagesEntry[]).map(
+	(page) => ({
+		id: page.id,
+		title: page.properties.Nom.title[0].plain_text,
+		description: page.properties.Description.rich_text[0]
+			? page.properties.Description.rich_text[0].plain_text
+			: null,
+		category: page.properties.Catégorie.relation[0].id,
+		edited_time: page.last_edited_time,
+	})
+)
+
+const regex = /[*+~.()'"!:@«»]/g
+---
+
+{
+	categories.map((category) => (
+		<>
+			<h2 class:list={[{ "mb-0": category.description }]}>{category.title}</h2>
+			{category.description && <p class="text-neutral-500">{category.description}</p>}
+			<ul class="not-prose -mx-3 flex flex-col">
+				{pages
+					.filter((page) => page.category == category.id)
+					.sort((a, b) => new Date(a.edited_time).getTime() - new Date(b.edited_time).getTime())
+					.map((page) => {
+						const slug = slugify(page.title, { remove: regex, lower: true })
+						return (
+							<a
+								class="z-0 -mt-[1px] border border-neutral-300 px-3 py-3 leading-snug transition first:mt-0 first:rounded-t last:rounded-b hover:z-10 hover:border-neutral-500 dark:border-neutral-700"
+								href={`/wiki/${slug}`}
+							>
+								<div class="flex justify-between">
+									<h3>{page.title}</h3>
+									<p class="text-neutral-500">
+										<Icon name="material-symbols:update-rounded" class="mb-[0.2em] inline-block" />
+										{formatDate(new Date(page.edited_time))}
+									</p>
+								</div>
+								{page.description && <p class="text-neutral-500">{page.description}</p>}
+							</a>
+						)
+					})}
+			</ul>
+		</>
+	))
+}

@@ -21,7 +21,7 @@ interface Props {
 }
 const { entry } = Astro.props
 
-const { Content, headings } = await entry.render()
+const { Content } = await entry.render()
 const data = entry.data
 
 const googleMapsData = await getPlacesData()

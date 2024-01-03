@@ -1,28 +1,17 @@
 import "dotenv/config"
-import type {
-	QueryDatabaseParameters,
-	QueryDatabaseResponse,
-} from "@notionhq/client/build/src/api-endpoints"
+import type { QueryDatabaseParameters } from "@notionhq/client/build/src/api-endpoints"
 import getDatabase from "./getDatabase"
 import getChildren from "./getChildren"
 import getIGDBgames, { type IGDBData } from "$utils/getIGDBgame"
-
-type ResponseResult = Extract<
-	QueryDatabaseResponse["results"][number],
-	{ properties: Record<string, unknown> }
->
-type PropertyMap = ResponseResult["properties"]
-type Property = PropertyMap[string]
-type PropertyType = Property["type"]
-type ExtractedProperty<TType extends PropertyType> = Extract<Property, { type: TType }>
-
-type Title = ExtractedProperty<"title">
-type RichText = ExtractedProperty<"rich_text">
-type Select = ExtractedProperty<"select">
-type MultiSelect = ExtractedProperty<"multi_select">
-type Status = ExtractedProperty<"status">
-type Number = ExtractedProperty<"number">
-type Checkbox = ExtractedProperty<"checkbox">
+import type {
+	ResponseResult,
+	Title,
+	RichText,
+	Select,
+	Status,
+	MultiSelect,
+	Checkbox,
+} from "./types"
 
 type GameEntry = ResponseResult & {
 	properties: {

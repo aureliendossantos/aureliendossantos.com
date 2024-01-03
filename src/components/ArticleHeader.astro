@@ -22,15 +22,15 @@ const cormorant = layouts.includes(Layouts.cormorant)
 
 <header
 	class:list={[
-		"px-[80px] text-[--cover] dark:text-[--dark-cover] medium:px-[40px] small:px-[20px]",
+		"px-[80px] text-[--cover] medium:px-[40px] small:px-[20px] dark:text-[--dark-cover]",
 		{ "mb-12 flex min-h-[50vh] bg-cover bg-center pb-8": cover },
 	]}
 	style={{
 		"--cover": cover ? "#fbf8f2" : getColor(palette.secondaryColor),
 		"--dark-cover": cover ? "#fbf8f2" : getColor(palette.secondaryColor, "dark"),
-		fontFamily: palette.mainFont,
-		fontSize: palette.fontSize || "initial",
-		lineHeight: palette.lineHeight || 1.25,
+		fontFamily: palette.baseFont,
+		fontSize: palette.fontSize,
+		lineHeight: palette.lineHeight,
 		backgroundImage: optimizedCover
 			? `linear-gradient(rgba(56, 48, 28, 0.394), rgba(75, 65, 35, 0.395)), url('${optimizedCover.src}')`
 			: "none",
@@ -52,9 +52,9 @@ const cormorant = layouts.includes(Layouts.cormorant)
 		<h1
 			class:list={["text-[--h1] dark:text-[--dark-h1]", { "mb-0 !leading-tight": cormorant }]}
 			style={{
-				"--h1": cover ? "#fbf8f2" : getColor(palette.mainColor),
-				"--dark-h1": cover ? "#fbf8f2" : getColor(palette.mainColor, "dark"),
-				fontFamily: palette.headingsFont,
+				"--h1": cover ? "#fbf8f2" : getColor(palette.baseColor),
+				"--dark-h1": cover ? "#fbf8f2" : getColor(palette.baseColor, "dark"),
+				fontFamily: palette.displayFont,
 				fontStyle: cormorant ? "italic" : undefined,
 				fontFeatureSettings: cormorant ? '"ss01" 01, "dlig" 1' : undefined,
 			}}

@@ -221,8 +221,7 @@ tag {
 		}
 	}
 	h1 {
-		font-family: "Source Serif Display", "Source Serif", serif !important;
-		font-weight: 700;
+		font-weight: 700; // TODO: Is this useful anywhere?
 		@apply leading-snug;
 	}
 	h2,
@@ -233,7 +232,6 @@ tag {
 	}
 	h2,
 	h3 {
-		font-family: "Source Serif", "Source Serif", serif !important;
 		font-size: 1.2em;
 	}
 	h3 {
@@ -301,7 +299,6 @@ tag {
 		@apply mx-0 w-full not-italic text-inherit;
 	}
 	code {
-		font-family: "Source Code Pro", monospace;
 		@apply bg-inherit;
 	}
 }

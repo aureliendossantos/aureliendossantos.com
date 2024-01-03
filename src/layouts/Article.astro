@@ -1,7 +1,7 @@
 ---
 import { type CollectionEntry } from "astro:content"
 import BaseLayout from "./BaseLayout.astro"
-import getPalette from "$utils/palettes"
+import getPalette, { getColor } from "$utils/palettes"
 import ArticleHeader from "$components/ArticleHeader.astro"
 import TableOfContents from "$components/TableOfContents.astro"
 import type { MarkdownHeading } from "astro"
@@ -23,17 +23,6 @@ const cormorant = data.layouts?.includes(Layouts.cormorant)
 const ogImage = data.opengraph || data.image
 const coverImage = data.cover && data.image ? data.image : undefined
 const palette = getPalette(data.palette)
-// CSS variables
-const headingsFont = palette.headingsFont
-const secondaryColor = palette.secondaryColor
-const specialColor = palette.specialColor
-const backgroundColor = palette.backgroundColor
-const mentionColor = palette.mentionColor || "rgb(229 231 235)"
-const mentionHoverColor = palette.mentionHoverColor || "rgb(209 213 219"
-const color = palette.mainColor
-const fontFamily = palette.mainFont
-const fontSize = palette.fontSize || "initial"
-const lineHeight = palette.lineHeight || 1.25
 // Related articles
 const isBlog = "categories" in data
 const relatedArticles = isBlog
@@ -47,7 +36,7 @@ const relatedArticles = isBlog
 	description={data.description}
 	date={date}
 	image={ogImage?.src}
-	bg={palette.backgroundColor}
+	bg={palette.bgColor}
 	popupBorderColor={palette.popupBorderColor}
 	popupLabelActiveBgColor={palette.popupLabelActiveBgColor}
 	layout={data.layouts}
@@ -60,7 +49,18 @@ const relatedArticles = isBlog
 		})),
 	}}
 >
-	<div class="article-styling">
+	<div
+		class="article-styling"
+		style={{
+			"--base-color": getColor(palette.baseColor),
+			"--secondary-color": getColor(palette.secondaryColor),
+			"--bg-color": getColor(palette.bgColor),
+			"--base-font": palette.baseFont,
+			"--font-size": palette.fontSize,
+			"--line-height": palette.lineHeight,
+			"--dark-base-color": getColor(palette.baseColor, "dark"),
+		}}
+	>
 		{
 			!customLayout && (
 				<ArticleHeader
@@ -77,7 +77,7 @@ const relatedArticles = isBlog
 		}
 		<main
 			class:list={{ "px-[80px] pb-16 medium:px-[40px] small:px-[20px]": !customLayout }}
-			class="font-[family-name:--fontFamily] text-[length:--fontSize] leading-[--lineHeight] text-[color:--color]"
+			class="font-[family-name:--base-font] text-[length:--font-size] leading-[--line-height] text-[color:--base-color] dark:text-[color:--dark-base-color]"
 		>
 			<div
 				class:list={[
@@ -94,9 +94,15 @@ const relatedArticles = isBlog
 	</div>
 </BaseLayout>
 
-<style lang="scss" define:vars={{ headingsFont }} is:global>
+<style
+	lang="scss"
+	define:vars={{ displayFont: palette.displayFont, headingsFont: palette.headingsFont }}
+	is:global
+>
 	.article-styling {
-		h1,
+		h1 {
+			font-family: var(--displayFont);
+		}
 		h2,
 		h3,
 		h4,
@@ -109,14 +115,11 @@ const relatedArticles = isBlog
 
 <style
 	define:vars={{
-		color,
-		secondaryColor,
-		specialColor,
-		fontFamily,
-		fontSize,
-		lineHeight,
-		mentionColor,
-		mentionHoverColor,
+		secondaryColor: palette.secondaryColor,
+		specialColor: palette.specialColor,
+		fontSize: palette.fontSize,
+		mentionBgColor: palette.mentionBgColor,
+		mentionHoverBgColor: palette.mentionHoverBgColor,
 	}}
 	is:global
 >
@@ -135,9 +138,9 @@ const relatedArticles = isBlog
 		font-size: var(--fontSize);
 	}
 	.bg-mention {
-		background-color: var(--mentionColor);
+		background-color: var(--mentionBgColor);
 	}
 	.bg-mention:hover {
-		background-color: var(--mentionHoverColor);
+		background-color: var(--mentionHoverBgColor);
 	}
 </style>

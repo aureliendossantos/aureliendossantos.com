@@ -31,12 +31,13 @@ const image = data.image ? await getImage({ src: data.image, width: 1920 }) : un
 	ogType="article"
 	title={`${data.title} - Portfolio d'Aurélien Dos Santos`}
 	description={data.description}
+	bg={{ light: "rgb(226 232 240)", dark: "rgb(30 41 59)" }}
 	date={data.release}
 	image={data.image?.src}
 	navBarProps={{ title: data.title, parent: { title: "Portfolio", href: "/portfolio" } }}
 >
 	<div
-		class="flex max-h-screen min-h-screen flex-col gap-2 bg-slate-200 p-2 dark:bg-slate-800 medium:max-h-none"
+		class="flex max-h-[calc(100vh-28px)] min-h-[calc(100vh-28px)] flex-col gap-2 bg-slate-200 p-2 medium:max-h-none dark:bg-slate-800"
 	>
 		<header
 			class="flex min-h-[12rem] flex-none flex-col rounded-lg object-cover object-top px-8 py-4 mediumlarge:min-h-[9rem]"
@@ -67,7 +68,7 @@ const image = data.image ? await getImage({ src: data.image, width: 1920 }) : un
 			{
 				data.lede && (
 					<div class="max-w-prose">
-						<p class="rounded rounded-tl-none bg-slate-200 px-3 py-1 text-xl italic leading-relaxed text-slate-600 dark:bg-slate-800 dark:text-slate-400 medium:text-lg medium:leading-normal">
+						<p class="rounded rounded-tl-none bg-slate-200 px-3 py-1 text-xl italic leading-relaxed text-slate-600 medium:text-lg medium:leading-normal dark:bg-slate-800 dark:text-slate-400">
 							{data.lede}
 						</p>
 					</div>
@@ -76,17 +77,17 @@ const image = data.image ? await getImage({ src: data.image, width: 1920 }) : un
 		</header>
 		<main class="flex min-h-[50vh] grow flex-row gap-2 overflow-hidden medium:flex-col">
 			<article
-				class="order-1 col-span-2 grow overflow-auto rounded-lg bg-white px-6 py-12 dark:bg-black mediumlarge:py-6 medium:order-2"
+				class="order-1 col-span-2 grow overflow-auto rounded-lg bg-white px-6 py-12 mediumlarge:py-6 medium:order-2 dark:bg-black"
 			>
 				<Prose>
 					<Content />
 				</Prose>
 			</article>
 			<aside
-				class="order-2 w-[327px] overflow-auto text-slate-800 dark:text-slate-200 medium:order-1 medium:w-auto"
+				class="order-2 w-[327px] overflow-auto text-slate-800 medium:order-1 medium:w-auto dark:text-slate-200"
 			>
 				<div
-					class="mb-2 rounded-lg bg-slate-100 p-4 dark:bg-slate-900 medium:mb-0 medium:rounded-b-none medium:pb-2"
+					class="mb-2 rounded-lg bg-slate-100 p-4 medium:mb-0 medium:rounded-b-none medium:pb-2 dark:bg-slate-900"
 				>
 					<h3 class="mb-2 font-semibold medium:hidden">
 						{allRoles.length > 1 ? "Mes rôles" : "Mon rôle"}
@@ -102,7 +103,7 @@ const image = data.image ? await getImage({ src: data.image, width: 1920 }) : un
 					</div>
 				</div>
 				<div
-					class="mb-2 rounded-lg bg-slate-100 p-4 dark:bg-slate-900 medium:rounded-t-none medium:pt-0"
+					class="mb-2 rounded-lg bg-slate-100 p-4 medium:rounded-t-none medium:pt-0 dark:bg-slate-900"
 				>
 					<h3 class="mb-2 font-semibold medium:hidden">
 						{allTools.length > 1 ? "Outils" : "Outil"}

@@ -11,7 +11,7 @@ export async function getStaticPaths() {
 	const rawCategories = allArticles.map((article) => article.data.categories)
 	const categories = getUniqueValuesAndOccurences(rawCategories)
 
-	return Object.entries(categories).map(([category, amount], i) => {
+	return Object.entries(categories).map(([category, amount]) => {
 		const filteredArticles = allArticles.filter((article) =>
 			article.data.categories.includes(category)
 		)
@@ -35,7 +35,7 @@ const { articles, categories } = Astro.props
 	<div class="mt-5" slot="header">
 		<p>
 			{
-				Object.entries(categories).map(([key, value], i) => (
+				Object.entries(categories).map(([key, value]) => (
 					<>
 						<TagLabel label={key} count={value} type={"category"} disabled={category == key} />{" "}
 					</>
