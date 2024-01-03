@@ -1,5 +1,5 @@
 ---
-import "$styles/base.scss"
+import "$styles/base.css"
 import BaseLayout from "$layouts/BaseLayout.astro"
 import { getCollection } from "astro:content"
 import formatDate from "$utils/formatDate"
@@ -148,7 +148,7 @@ const entries = rawEntries.map(({ slug, data: { date, ...rest } }) => ({
 	</script>
 </BaseLayout>
 
-<style lang="scss" is:global>
+<style is:global>
 	canvas {
 		display: block;
 	}

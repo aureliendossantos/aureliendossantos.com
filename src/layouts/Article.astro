@@ -5,8 +5,8 @@ import getPalette, { getColor } from "$utils/palettes"
 import ArticleHeader from "$components/ArticleHeader.astro"
 import TableOfContents from "$components/TableOfContents.astro"
 import type { MarkdownHeading } from "astro"
-import "src/styles/articles.scss"
-import "$styles/tufte.scss"
+import "src/styles/articles.css"
+import "$styles/tufte.css"
 import { Layouts } from "$utils/layouts"
 import getRelatedArticles from "$utils/getRelatedArticles"
 import TufteHeader from "$components/blog/TufteHeader.astro"
@@ -120,7 +120,6 @@ const relatedArticles = isBlog
 </BaseLayout>
 
 <style
-	lang="scss"
 	define:vars={{ displayFont: palette.displayFont, headingsFont: palette.headingsFont }}
 	is:global
 >

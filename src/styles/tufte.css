@@ -219,8 +219,8 @@
 		text-decoration: none;
 		background:
 			-webkit-linear-gradient(#fffff8, #fffff8),
-			- webkit-linear-gradient(#fffff8, #fffff8),
-			- webkit-linear-gradient(currentColor, currentColor);
+			-webkit-linear-gradient(#fffff8, #fffff8),
+			-webkit-linear-gradient(currentColor, currentColor);
 		background: linear-gradient(#fffff8, #fffff8), linear-gradient(#fffff8, #fffff8),
 			linear-gradient(currentColor, currentColor);
 		-webkit-background-size:
@@ -529,9 +529,9 @@
 		}
 	}
 
-	// ------------------
+	/* ------------------
 	// tufte-extra.css
-	// ------------------
+	// ------------------ */
 
 	img:not(.unstyled) {
 		height: auto;
@@ -575,7 +575,7 @@
 	}
 
 	/* To get spacing between lists, use paragraphs.
- * 0.25rem of spacing between list elements looks bad. */
+	* 0.25rem of spacing between list elements looks bad. */
 	li:not(:first-child) {
 		margin-top: initial;
 	}
@@ -644,9 +644,9 @@
 		top: -0.3rem;
 	}
 
-	// ----------------
+	/* ----------------
 	// pandoc.css
-	// ----------------
+	// ---------------- */
 
 	/* For smart quotes */
 	q {
@@ -654,8 +654,8 @@
 	}
 
 	/* Override section behavior.
- * We only want the top-level <section> to have padding.
- * This makes it easier to work with --section-divs. */
+	* We only want the top-level <section> to have padding.
+	* This makes it easier to work with --section-divs. */
 	section {
 		padding-top: initial;
 		padding-bottom: initial;

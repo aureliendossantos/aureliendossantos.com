@@ -1,7 +1,7 @@
 body {
 	@apply m-0;
-	// Hides horizontal scrollbar created by full galleries & 100vw.
-	// https://stackoverflow.com/a/57677879
+	/* Hides horizontal scrollbar created by full galleries & 100vw.
+	https://stackoverflow.com/a/57677879 */
 	overflow-x: hidden;
 }
 
@@ -80,8 +80,8 @@ tag {
 		}
 	}
 
-	// A photo gallery (multiple gallery lines) has the same outer my than a single line,
-	// but my between inner lines are smaller.
+	/* A photo gallery (multiple gallery lines) has the same outer my than a single line,
+	but my between inner lines are smaller. */
 	.photo-gallery {
 		@apply my-6;
 		.gallery {
@@ -221,7 +221,7 @@ tag {
 		}
 	}
 	h1 {
-		font-weight: 700; // TODO: Is this useful anywhere?
+		font-weight: 700; /* TODO: Is this useful anywhere? */
 		@apply leading-snug;
 	}
 	h2,

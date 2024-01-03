@@ -1,5 +1,5 @@
 ---
-import "$styles/base.scss"
+import "$styles/base.css"
 import IGDBImage from "$components/IGDBImage.astro"
 import RenderBlocks from "$components/notion/RenderBlocks.astro"
 import BaseLayout from "$layouts/BaseLayout.astro"
@@ -43,7 +43,7 @@ const igdb = game.igdb as IGDBData
 	<div
 		class="center m-auto flex min-h-screen max-w-[607px] flex-col justify-between space-y-8 px-4 py-8"
 	>
-		<div class="flex justify-center gap-6 text-slate-700 dark:text-slate-300 small:flex-col">
+		<div class="flex justify-center gap-6 text-slate-700 small:flex-col dark:text-slate-300">
 			<aside class="order-1 flex max-w-[180px] flex-col gap-2 small:order-2 small:max-w-none">
 				<IGDBImage
 					image={igdb.cover}
@@ -68,12 +68,7 @@ const igdb = game.igdb as IGDBData
 			<main class="order-2 small:order-1">
 				<div class="flex gap-4">
 					<div class="hidden min-w-[70px] max-w-[70px] small:block">
-						<IGDBImage
-							image={igdb.cover}
-							size="cover_big"
-							zoomable
-							class="rounded bg-slate-500"
-						/>
+						<IGDBImage image={igdb.cover} size="cover_big" zoomable class="rounded bg-slate-500" />
 					</div>
 					<header>
 						<h1
