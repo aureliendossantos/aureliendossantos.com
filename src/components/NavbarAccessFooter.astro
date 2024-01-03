@@ -13,3 +13,13 @@ import NavbarToggleButton from "./navbar/NavbarToggleButton.astro"
 		textAndBorderClasses="border-[--secondary-color] dark:border-[--dark-secondary-color] text-[--secondary-color] dark:text-[--dark-secondary-color]"
 	/>
 </footer>
+
+<script>
+	import { navbarIsOpened, openFooterWithNavbarButton } from "$utils/navbar"
+
+	document.addEventListener("astro:page-load", () => {
+		if (!navbarIsOpened()) {
+			openFooterWithNavbarButton()
+		}
+	})
+</script>
