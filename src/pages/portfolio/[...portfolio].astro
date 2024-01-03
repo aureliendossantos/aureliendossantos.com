@@ -68,7 +68,7 @@ const image = data.image ? await getImage({ src: data.image, width: 1920 }) : un
 			{
 				data.lede && (
 					<div class="max-w-prose">
-						<p class="rounded rounded-tl-none bg-slate-200 px-3 py-1 text-xl italic leading-relaxed text-slate-600 medium:text-lg medium:leading-normal dark:bg-slate-800 dark:text-slate-400">
+						<p class="rounded rounded-tl-none bg-slate-200 px-3 py-1 text-xl italic leading-relaxed text-slate-600 medium:text-base medium:leading-normal dark:bg-slate-800 dark:text-slate-400">
 							{data.lede}
 						</p>
 					</div>
@@ -95,7 +95,7 @@ const image = data.image ? await getImage({ src: data.image, width: 1920 }) : un
 					<div class="flex flex-wrap gap-2">
 						{
 							allRoles.map((role) => (
-								<Badge square color="sky">
+								<Badge small square color="sky">
 									{role}
 								</Badge>
 							))
@@ -109,7 +109,7 @@ const image = data.image ? await getImage({ src: data.image, width: 1920 }) : un
 						{allTools.length > 1 ? "Outils" : "Outil"}
 					</h3>
 					<div class="flex flex-wrap gap-2">
-						{allTools.map((tool) => <Badge>{tool}</Badge>)}
+						{allTools.map((tool) => <Badge small>{tool}</Badge>)}
 					</div>
 				</div>
 				{
@@ -117,7 +117,7 @@ const image = data.image ? await getImage({ src: data.image, width: 1920 }) : un
 						<a
 							href={data.link}
 							target="_blank"
-							class="group mb-2 inline-block w-full rounded-lg bg-gradient-to-r from-indigo-500 via-fuchsia-500 to-rose-400 bg-[length:400%_400%] bg-pos-0 p-1 shadow transition-all duration-500 hover:bg-gradient-to-r hover:bg-pos-100 hover:shadow-none"
+							class="group mb-2 inline-block w-full rounded-lg bg-gradient-to-r from-indigo-500 via-fuchsia-500 to-rose-400 bg-[length:400%_400%] bg-pos-0 p-1 shadow transition-all duration-500 hover:bg-gradient-to-r hover:bg-pos-100 hover:shadow-none medium:text-sm"
 						>
 							<span class="block rounded-md bg-slate-200 px-5 py-3 dark:bg-slate-800">
 								<>
@@ -132,7 +132,7 @@ const image = data.image ? await getImage({ src: data.image, width: 1920 }) : un
 				}
 				<a
 					href="/portfolio"
-					class="hover:-bg-pos-100 inline-block w-full rounded-lg bg-gradient-to-l from-slate-200 via-white to-white bg-[length:400%_400%] bg-pos-100 p-1 transition-all duration-500 hover:bg-pos-0 dark:from-slate-800 dark:via-slate-500 dark:to-slate-300"
+					class="hover:-bg-pos-100 inline-block w-full rounded-lg bg-gradient-to-l from-slate-200 via-white to-white bg-[length:400%_400%] bg-pos-100 p-1 transition-all duration-500 hover:bg-pos-0 medium:text-sm dark:from-slate-800 dark:via-slate-500 dark:to-slate-300"
 				>
 					<span class="block rounded-md bg-slate-200 px-5 py-3 dark:bg-slate-800"
 						>Retour au portfolio</span

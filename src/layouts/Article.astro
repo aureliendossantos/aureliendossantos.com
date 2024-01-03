@@ -70,6 +70,7 @@ const relatedArticles = isBlog
 			"--dark-bg-color": getColor(palette.bgColor, "dark"),
 			"--base-font": palette.baseFont,
 			"--font-size": palette.fontSize,
+			"--sm-font-size": Math.max(16, Number(palette.fontSize.replace("px", "")) - 2) + "px",
 			"--line-height": palette.lineHeight,
 		}}
 	>
@@ -99,7 +100,7 @@ const relatedArticles = isBlog
 			) : (
 				<main
 					class:list={{ "px-[80px] pb-16 medium:px-[40px] small:px-[20px]": !customLayout }}
-					class="font-[family-name:--base-font] text-[length:--font-size] leading-[--line-height] text-[color:--base-color] dark:text-[color:--dark-base-color]"
+					class="font-[family-name:--base-font] text-[length:--font-size] leading-[--line-height] text-[color:--base-color] small:text-[length:--sm-font-size] dark:text-[color:--dark-base-color]"
 				>
 					<div
 						class:list={[
@@ -141,7 +142,6 @@ const relatedArticles = isBlog
 	define:vars={{
 		secondaryColor: palette.secondaryColor,
 		specialColor: palette.specialColor,
-		fontSize: palette.fontSize,
 		mentionBgColor: palette.mentionBgColor,
 		mentionHoverBgColor: palette.mentionHoverBgColor,
 	}}
@@ -157,9 +157,6 @@ const relatedArticles = isBlog
 	figcaption,
 	.secondary-color {
 		color: var(--secondaryColor);
-	}
-	.text-normal-size {
-		font-size: var(--fontSize);
 	}
 	.bg-mention {
 		background-color: var(--mentionBgColor);

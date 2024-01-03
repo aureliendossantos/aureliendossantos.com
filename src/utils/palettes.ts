@@ -33,6 +33,7 @@ export function getBothColors(color: Color | undefined) {
  * If an optional color isn't given, the `baseColor` is used.
  * If a `special` or `headings` font isn't given, the `baseFont` is used.
  * The `displayFont` is only for the main heading. It falls back to the `headingsFont` or `baseFont` if not given.
+ * Font size must be in pixels. The value will be -2 on mobile (with a minimum of 16px).
  */
 type PaletteDeclaration = {
 	baseColor: Color
@@ -48,7 +49,7 @@ type PaletteDeclaration = {
 	displayFont?: string
 	specialFont?: string
 	codeFont?: string
-	fontSize?: string
+	fontSize?: `${string}px`
 	lineHeight?: string
 }
 
@@ -94,7 +95,7 @@ export default function getPalette(name: PaletteName | undefined): Palette {
 		displayFont: p.displayFont || p.headingsFont || p.baseFont,
 		specialFont: p.specialFont || p.baseFont,
 		codeFont: p.codeFont || "monospace",
-		fontSize: p.fontSize || "initial",
+		fontSize: p.fontSize || "16px",
 		lineHeight: p.lineHeight || "1.25",
 	}
 }
