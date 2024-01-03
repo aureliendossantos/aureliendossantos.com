@@ -13,7 +13,7 @@ tag {
 	@apply -mx-1 rounded-sm border-y border-dotted border-slate-400 bg-slate-100 px-1 text-slate-600;
 }
 
-.classic {
+.classic .article-styling {
 	blockquote {
 		@apply my-[1em] ml-[-80px] w-[70%] italic mediumlarge:ml-[-40px] medium:ml-[-20px] small:ml-[0];
 	}
@@ -130,7 +130,7 @@ tag {
 	}
 }
 
-.cute {
+.cute .article-styling {
 	img,
 	figure {
 		@apply overflow-hidden rounded;
@@ -147,7 +147,7 @@ tag {
 	}
 }
 
-.future {
+.future .article-styling {
 	nav.toc li {
 		@apply text-[#4a8bf3];
 		a {
@@ -196,7 +196,7 @@ tag {
 	}
 }
 
-.typography {
+.typography .article-styling {
 	.ref-block {
 		h3 {
 			font-feature-settings: "smcp" 0;
@@ -303,15 +303,15 @@ tag {
 	}
 }
 
-.typography {
+.typography .article-styling {
 	abbr,
 	.sc {
 		font-variant-numeric: tabular-nums;
 	}
 }
 
-.typography,
-.cormorant {
+.typography .article-styling,
+.cormorant .article-styling {
 	abbr,
 	.sc {
 		font-feature-settings: "c2sc";
@@ -355,7 +355,7 @@ tag {
 	}
 }
 
-.cormorant {
+.cormorant .article-styling {
 	sup a {
 		border-width: 1px;
 		border-style: dotted;
@@ -416,7 +416,7 @@ tag {
 	}
 }
 
-.book {
+.book .article-styling {
 	p {
 		text-indent: 2em;
 		@apply my-0;

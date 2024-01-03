@@ -33,6 +33,8 @@ export const collections = {
 			z.object({
 				title: z.string(),
 				description: z.string().optional(),
+				parent: z.string().optional(),
+				seeAlso: z.array(z.string()).default([]),
 				opengraph: image().optional(),
 				image: image().optional(),
 				imageAnchorTop: z.boolean().optional(),

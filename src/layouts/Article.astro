@@ -1,5 +1,5 @@
 ---
-import { type CollectionEntry } from "astro:content"
+import { getEntry, type CollectionEntry } from "astro:content"
 import BaseLayout from "./BaseLayout.astro"
 import getPalette, { getColor } from "$utils/palettes"
 import ArticleHeader from "$components/ArticleHeader.astro"
@@ -11,6 +11,7 @@ import { Layouts } from "$utils/layouts"
 import getRelatedArticles from "$utils/getRelatedArticles"
 import TufteHeader from "$components/blog/TufteHeader.astro"
 import NavbarAccessFooter from "$components/NavbarAccessFooter.astro"
+import getSeeAlso from "$utils/getSeeAlso"
 
 interface Props {
 	article: CollectionEntry<"blog"> | CollectionEntry<"pages">
@@ -36,8 +37,12 @@ const palette = getPalette(data.palette)
 // Related articles
 const isBlog = "categories" in data
 const relatedArticles = isBlog
-	? await getRelatedArticles(article as CollectionEntry<"blog">)
-	: undefined
+	? (await getRelatedArticles(article as CollectionEntry<"blog">)).map((a) => ({
+			title: a.article.data.title,
+			href: `/blog/${a.article.slug}`,
+	  }))
+	: await getSeeAlso(data.seeAlso)
+const parent = !isBlog && data.parent && (await getEntry("pages", data.parent))
 ---
 
 <BaseLayout
@@ -52,11 +57,11 @@ const relatedArticles = isBlog
 	layout={data.layouts}
 	navBarProps={{
 		title: data.title,
-		parent: isBlog ? { title: "Blog", href: "/" } : undefined,
-		related: relatedArticles?.map((a) => ({
-			title: a.article.data.title,
-			href: `/blog/${a.article.slug}`,
-		})),
+		parent: isBlog
+			? { title: "Blog", href: "/" }
+			: parent && { title: parent.data.title, href: `/${parent.slug}` },
+		related: relatedArticles,
+		relatedTitle: isBlog ? "Articles similaires" : "Voir aussi",
 	}}
 >
 	<div

@@ -3,6 +3,24 @@ export const navbarIsOpened = () => {
 }
 
 /**
+ * These props are used to populate the initial navbar, so it works even if JS is disabled.
+ * They are also used to populate the hidden #navbar-data div, which is read when the page
+ * changes (during the "after-swap" event of Astro ViewTransitions).
+ */
+export type NavBarProps = {
+	title: string
+	parent?: {
+		title: string
+		href: string
+	}
+	related?: {
+		title: string
+		href: string
+	}[]
+	relatedTitle?: string
+}
+
+/**
  * @returns `true` if the navbar is now opened, `false` if it's now closed
  */
 export const toggleNavbar = () => {

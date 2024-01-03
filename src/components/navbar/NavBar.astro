@@ -8,27 +8,12 @@ import ExternalLink from "./ExternalLink.astro"
 import InactiveItem from "./InactiveItem.astro"
 import { Icon } from "astro-icon/components"
 import NavbarToggleButton from "./NavbarToggleButton.astro"
-
-/**
- * These props are used to populate the initial navbar, so it works even if JS is disabled.
- * They are also used to populate the hidden #navbar-data div, which is read when the page
- * changes (during the "after-swap" event of Astro ViewTransitions).
- */
-export type NavBarProps = {
-	title: string
-	parent?: {
-		title: string
-		href: string
-	}
-	related?: {
-		title: string
-		href: string
-	}[]
-}
+import type { NavBarProps } from "$utils/navbar"
 
 interface Props extends NavBarProps {}
 
 const { title, parent, related } = Astro.props
+const relatedTitle = Astro.props.relatedTitle || "Voir aussi"
 ---
 
 <Toast />
@@ -74,7 +59,7 @@ const { title, parent, related } = Astro.props
 		</button>
 		<DropdownMenu
 			id="navbar-related"
-			label="Articles similaires"
+			label={relatedTitle}
 			borderRight
 			initiallyHidden={!related || related.length == 0}
 		>
@@ -159,7 +144,9 @@ const { title, parent, related } = Astro.props
 		;(document.querySelector("#navbar-title") as HTMLDivElement).innerText = props.title
 		// Update related articles
 		const relatedParent = document.querySelector("#navbar-related-parent") as HTMLDivElement
+		const relatedButton = document.querySelector("#navbar-related-button") as HTMLDivElement
 		if (props.related && props.related.length > 0) {
+			relatedButton.innerText = props.relatedTitle || "Voir aussi"
 			relatedParent.classList.remove("hidden")
 			const items = document.querySelectorAll(
 				"#navbar-related-dropdown a"

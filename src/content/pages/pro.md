@@ -1,8 +1,8 @@
 ---
 title: Mes expériences pro
-aliases:
-  - contact
-  - aurelien
+seeAlso:
+  - portfolio
+  - about
 palette: whiteboard
 layouts:
   - classic
