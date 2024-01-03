@@ -22,14 +22,13 @@ const cormorant = layouts.includes(Layouts.cormorant)
 
 <header
 	class:list={[
-		"px-[80px] text-[length:--font-size] text-[--cover] medium:px-[40px] small:px-[20px] small:text-[length:--sm-font-size] dark:text-[--dark-cover]",
+		"px-[80px] text-[length:--font-size] leading-[--line-height] text-[--cover] medium:px-[40px] small:px-[20px] small:text-[length:--sm-font-size] small:leading-[--sm-line-height] dark:text-[--dark-cover]",
 		{ "mb-12 flex min-h-[50vh] bg-cover bg-center pb-8": cover },
 	]}
 	style={{
 		"--cover": cover ? "#fbf8f2" : getColor(palette.secondaryColor),
 		"--dark-cover": cover ? "#fbf8f2" : getColor(palette.secondaryColor, "dark"),
 		fontFamily: palette.baseFont,
-		lineHeight: palette.lineHeight,
 		backgroundImage: optimizedCover
 			? `linear-gradient(rgba(56, 48, 28, 0.394), rgba(75, 65, 35, 0.395)), url('${optimizedCover.src}')`
 			: "none",

@@ -33,7 +33,8 @@ export function getBothColors(color: Color | undefined) {
  * If an optional color isn't given, the `baseColor` is used.
  * If a `special` or `headings` font isn't given, the `baseFont` is used.
  * The `displayFont` is only for the main heading. It falls back to the `headingsFont` or `baseFont` if not given.
- * Font size must be in pixels. The value will be -2 on mobile (with a minimum of 16px).
+ * `fontSize` must be in pixels. The value will be -1 on mobile (with a minimum of 16px).
+ * `lineHeight` is a number. The value will be slightly higher on mobile (×1.1) to compensate for the smaller text.
  */
 type PaletteDeclaration = {
 	baseColor: Color
@@ -50,7 +51,7 @@ type PaletteDeclaration = {
 	specialFont?: string
 	codeFont?: string
 	fontSize?: `${string}px`
-	lineHeight?: string
+	lineHeight?: number
 }
 
 /**
@@ -96,7 +97,7 @@ export default function getPalette(name: PaletteName | undefined): Palette {
 		specialFont: p.specialFont || p.baseFont,
 		codeFont: p.codeFont || "monospace",
 		fontSize: p.fontSize || "16px",
-		lineHeight: p.lineHeight || "1.25",
+		lineHeight: p.lineHeight || 1.25,
 	}
 }
 
@@ -106,8 +107,8 @@ const getPaletteDeclaration = (name: PaletteName | undefined): PaletteDeclaratio
 			return {
 				baseColor: "#000000",
 				secondaryColor: "#636363",
-				popupBorderColor: "#636363",
-				popupLabelActiveBgColor: "#b1b1b1",
+				popupBorderColor: "#898989",
+				popupLabelActiveBgColor: "#c2c2c2",
 				specialColor: "#515bcd",
 				bgColor: "#f5f5fa",
 				headingsFont: "serif",
@@ -123,7 +124,7 @@ const getPaletteDeclaration = (name: PaletteName | undefined): PaletteDeclaratio
 				headingsFont: "'Work Sans', sans-serif",
 				baseFont: "'Work Sans', sans-serif",
 				specialFont: "'Work Sans', monospace",
-				lineHeight: "1.5",
+				lineHeight: 1.5,
 			}
 		case "black":
 			return {
@@ -167,7 +168,7 @@ const getPaletteDeclaration = (name: PaletteName | undefined): PaletteDeclaratio
 				baseFont: "'Urbanist', sans-serif",
 				specialFont: "'Urbanist', monospace",
 				fontSize: "17px",
-				lineHeight: "1.55",
+				lineHeight: 1.55,
 			}
 		case "brown":
 			return {
@@ -212,7 +213,7 @@ const getPaletteDeclaration = (name: PaletteName | undefined): PaletteDeclaratio
 				baseFont: "'Lato', sans-serif",
 				specialFont: "'Lato', monospace",
 				fontSize: "17px",
-				lineHeight: "1.6",
+				lineHeight: 1.6,
 			}
 		case "nature":
 			return {
@@ -226,7 +227,7 @@ const getPaletteDeclaration = (name: PaletteName | undefined): PaletteDeclaratio
 				baseFont: "Lora, serif",
 				specialFont: "monospace",
 				fontSize: "18px",
-				lineHeight: "1.325",
+				lineHeight: 1.325,
 			}
 		case "source-serif":
 			return {
@@ -242,7 +243,7 @@ const getPaletteDeclaration = (name: PaletteName | undefined): PaletteDeclaratio
 				displayFont: '"Source Serif Display", "Source Serif", serif',
 				codeFont: '"Source Code Pro", monospace',
 				fontSize: "18px",
-				lineHeight: "1.45",
+				lineHeight: 1.45,
 			}
 		case "cormorant":
 			return {
@@ -258,7 +259,7 @@ const getPaletteDeclaration = (name: PaletteName | undefined): PaletteDeclaratio
 				baseFont: "'Cormorant', serif",
 				specialFont: "monospace",
 				fontSize: "18px",
-				lineHeight: "1.30",
+				lineHeight: 1.3,
 			}
 		case "snow":
 			return {
@@ -272,7 +273,7 @@ const getPaletteDeclaration = (name: PaletteName | undefined): PaletteDeclaratio
 				baseFont: "'Source Serif', serif",
 				specialFont: "monospace",
 				fontSize: "18px",
-				lineHeight: "1.45",
+				lineHeight: 1.45,
 			}
 		case "notebook":
 			return {
@@ -286,7 +287,7 @@ const getPaletteDeclaration = (name: PaletteName | undefined): PaletteDeclaratio
 				baseFont: "'Work Sans', 'Noto Sans', sans-serif",
 				specialFont: "'Work Sans', monospace",
 				fontSize: "18px",
-				lineHeight: "1.5",
+				lineHeight: 1.5,
 			}
 		case "green-notes":
 			return {
@@ -300,7 +301,7 @@ const getPaletteDeclaration = (name: PaletteName | undefined): PaletteDeclaratio
 				baseFont: "'Lato', sans-serif",
 				specialFont: "'Lato', monospace",
 				fontSize: "17px",
-				lineHeight: "1.6",
+				lineHeight: 1.6,
 			}
 		case "whiteboard":
 			return {
@@ -312,7 +313,7 @@ const getPaletteDeclaration = (name: PaletteName | undefined): PaletteDeclaratio
 				baseFont: "'Space Grotesk', 'Noto Sans', sans-serif",
 				specialFont: "'Space Grotesk', monospace",
 				fontSize: "18px",
-				lineHeight: "1.5",
+				lineHeight: 1.5,
 			}
 		case "desolate":
 			return {
@@ -324,7 +325,7 @@ const getPaletteDeclaration = (name: PaletteName | undefined): PaletteDeclaratio
 				baseFont: "'Work Sans', 'Noto Sans', sans-serif",
 				specialFont: "'Work Sans', monospace",
 				fontSize: "18px",
-				lineHeight: "1.5",
+				lineHeight: 1.5,
 			}
 	}
 }

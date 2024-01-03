@@ -265,7 +265,7 @@ tag {
 	}
 	aside {
 		@apply mx-0 my-10 bg-inherit px-8 py-0 medium:px-4;
-		font-size: 1rem;
+		font-size: 0.9em;
 		h3 {
 			font-feature-settings: "smcp";
 			@apply my-0 font-normal;

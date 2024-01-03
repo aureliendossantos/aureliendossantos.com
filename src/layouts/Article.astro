@@ -70,8 +70,9 @@ const relatedArticles = isBlog
 			"--dark-bg-color": getColor(palette.bgColor, "dark"),
 			"--base-font": palette.baseFont,
 			"--font-size": palette.fontSize,
-			"--sm-font-size": Math.max(16, Number(palette.fontSize.replace("px", "")) - 2) + "px",
+			"--sm-font-size": Math.max(16, Number(palette.fontSize.replace("px", "")) - 1) + "px",
 			"--line-height": palette.lineHeight,
+			"--sm-line-height": palette.lineHeight * 1.1,
 		}}
 	>
 		{
@@ -100,7 +101,7 @@ const relatedArticles = isBlog
 			) : (
 				<main
 					class:list={{ "px-[80px] pb-16 medium:px-[40px] small:px-[20px]": !customLayout }}
-					class="font-[family-name:--base-font] text-[length:--font-size] leading-[--line-height] text-[color:--base-color] small:text-[length:--sm-font-size] dark:text-[color:--dark-base-color]"
+					class="font-[family-name:--base-font] text-[length:--font-size] leading-[--line-height] text-[color:--base-color] small:text-[length:--sm-font-size] small:leading-[--sm-line-height] dark:text-[color:--dark-base-color]"
 				>
 					<div
 						class:list={[
@@ -144,6 +145,7 @@ const relatedArticles = isBlog
 		specialColor: palette.specialColor,
 		mentionBgColor: palette.mentionBgColor,
 		mentionHoverBgColor: palette.mentionHoverBgColor,
+		codeFont: palette.codeFont,
 	}}
 	is:global
 >
@@ -163,5 +165,9 @@ const relatedArticles = isBlog
 	}
 	.bg-mention:hover {
 		background-color: var(--mentionHoverBgColor);
+	}
+	code,
+	pre {
+		font-family: var(--codeFont);
 	}
 </style>
