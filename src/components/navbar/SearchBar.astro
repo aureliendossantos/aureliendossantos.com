@@ -6,12 +6,13 @@ interface Props {
 	ssr?: boolean
 }
 
-// With SSR, the SearchBar takes a long time to load on Vercel. Even if it's at the
-// bottom of the page, it's kinda blocking cause we use ViewTransitions. This is a temp fix.
-const entries = Astro.props.ssr ? [] : await getSearchEntries()
+// With SSR, `getSearchEntries()` takes a long time on Vercel. Even if this component is at the
+// bottom of the page, it's kinda blocking because we use ViewTransitions. To solve this,
+// we will later fetch the entries client-side from a static API endpoint.
+const preRenderedEntries = Astro.props.ssr ? [] : await getSearchEntries()
 ---
 
-<div class:list={["relative", { hidden: entries.length == 0 }]}>
+<div class="relative">
 	<label
 		id="navbar-search-label"
 		class="group flex h-full items-center hover:bg-white hover:text-black"
@@ -19,7 +20,7 @@ const entries = Astro.props.ssr ? [] : await getSearchEntries()
 		<Icon name="ic:baseline-search" class="h-[17px] pl-[10px] pr-2 medium:px-2" />
 		<input
 			id="navbar-search"
-			class="peer w-[90px] border-0 bg-transparent p-0 font-work-sans text-sm text-white placeholder:text-white hover:text-black placeholder:hover:text-black focus:text-white focus:outline-none placeholder:focus:text-neutral-500 disabled:cursor-not-allowed disabled:line-through disabled:opacity-50 focus:group-hover:text-black medium:w-0 medium:focus:w-[90px] medium:active:w-[90px]"
+			class="peer w-[90px] border-0 bg-transparent p-0 font-work-sans text-sm text-white placeholder:text-white hover:text-black placeholder:hover:text-black focus:text-white focus:outline-none placeholder:focus:text-neutral-500 focus:group-hover:text-black medium:w-0 medium:focus:w-[90px] medium:active:w-[90px]"
 			style="transition: width 0.2s ease-out;"
 			placeholder="Rechercher"
 			autocomplete="off"
@@ -50,7 +51,15 @@ const entries = Astro.props.ssr ? [] : await getSearchEntries()
 	customElements.define("search-card", SearchCard)
 </script>
 
-<script define:vars={{ entries }}>
+<script define:vars={{ preRenderedEntries }}>
+	// If the page is not pre-rendered, we asynchronously fetch the entries from the API.
+	// Until the fetch is done, the search bar will simply not find any result.
+	let entries = []
+	;(async () => {
+		if (preRenderedEntries.length > 0) entries = preRenderedEntries
+		else entries = await (await fetch("/api/search/entries")).json()
+	})()
+
 	// Get the HTML elements
 	const input = document.getElementById("navbar-search")
 	const outputContainer = document.getElementById("navbar-search-items-container")
