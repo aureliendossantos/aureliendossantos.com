@@ -4,12 +4,11 @@ import { pathToFileURL } from "node:url"
 
 /**
  * Fetches the games in my Notion database according to custom filters then
- * saves the results in a `games.json` file that can be read by `getGamesData()`.
+ * saves the results as a JSON file in the games collection.
  * @returns The number of games in the new data file.
  */
 export default async function updateGames() {
 	const rootPath = pathToFileURL(process.cwd() + "/")
-	const filePath = new URL(`node_modules/.my-cache/games.json`, rootPath)
 	const games = await getGames({
 		and: [
 			{ property: "Nom", title: { is_not_empty: true } },
@@ -23,6 +22,15 @@ export default async function updateGames() {
 			},
 		],
 	})
-	fs.writeFileSync(filePath, JSON.stringify(games, null, 2))
+	// Create content collection folder if it doesn't exist or empty its contents
+	const gamesDir = new URL(`src/content/games`, rootPath)
+	if (fs.existsSync(gamesDir)) fs.rmdirSync(gamesDir, { recursive: true })
+	fs.mkdirSync(gamesDir)
+	// Write the data to a JSON file for each game
+	games.forEach((game) => {
+		const filename = game.igdb ? game.igdb.slug : crypto.randomUUID()
+		const entryPath = new URL(`src/content/games/${filename}.json`, rootPath)
+		fs.writeFileSync(entryPath, JSON.stringify(game, null, 2))
+	})
 	return games.length
 }

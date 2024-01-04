@@ -5,22 +5,21 @@ import RenderBlocks from "$components/notion/RenderBlocks.astro"
 import BaseLayout from "$layouts/BaseLayout.astro"
 import enumerate from "$utils/enumerateStrings"
 import type { IGDBData } from "$utils/getIGDBgame"
-import type getGames from "$utils/notion/getGames"
 import { emotes } from "$utils/notion/reviewEmotes"
-import { getGamesData } from "$utils/remoteData"
+import { getCollection, type CollectionEntry } from "astro:content"
 
 export async function getStaticPaths() {
-	const games = await getGamesData()
+	const games = await getCollection("games")
 	return games
-		.filter((game) => game.igdb)
+		.filter(({ data }) => data.igdb)
 		.map((game) => ({
-			params: { slug: game.slug },
+			params: { slug: game.data.slug },
 			props: { game },
 		}))
 }
 
 interface Props {
-	game: Awaited<ReturnType<typeof getGames>>[number]
+	game: CollectionEntry<"games">
 }
 const { game } = Astro.props
 
@@ -31,14 +30,15 @@ const multiplayerLabels = {
 	Versus: "🆚 Versus",
 }
 
-const igdb = game.igdb as IGDBData
+const data = game.data
+const igdb = data.igdb as IGDBData
 ---
 
 <BaseLayout
-	title={game.title}
+	title={data.title}
 	ogType="website"
 	bg={{ light: "white", dark: "black" }}
-	navBarProps={{ title: game.title, parent: { title: "Jeux", href: "/games" } }}
+	navBarProps={{ title: data.title, parent: { title: "Jeux", href: "/games" } }}
 >
 	<div
 		class="m-auto flex min-h-screen max-w-[607px] justify-center gap-6 px-4 py-8 text-slate-700 small:flex-col dark:text-slate-300"
@@ -78,9 +78,9 @@ const igdb = game.igdb as IGDBData
 				<header>
 					<h1
 						class="text-xl text-slate-900 dark:text-slate-100"
-						ondblclick={`window.location='${game.notionUrl}'`}
+						ondblclick={`window.location='${data.notionUrl}'`}
 					>
-						{game.title}
+						{data.title}
 					</h1>
 					<p class="text-slate-500">
 						{igdb.release_dates[0].y} • {igdb.developers}{
@@ -94,12 +94,12 @@ const igdb = game.igdb as IGDBData
 									{p.abbreviation}
 								</div>
 							))
-						}
+						}data
 					</div>
 					{
-						game.multiplayer.length > 0 && (
+						data.multiplayer.length > 0 && (
 							<div class="my-3 flex gap-1">
-								{game.multiplayer.map((string) => (
+								{data.multiplayer.map((string) => (
 									<div class=" rounded-sm bg-slate-200 px-1 text-sm text-slate-500 dark:bg-slate-800">
 										{multiplayerLabels[string]}
 									</div>
@@ -110,34 +110,34 @@ const igdb = game.igdb as IGDBData
 				</header>
 			</div>
 			<h2 class="mt-6 text-xl font-semibold text-slate-400 dark:text-slate-600">Mon historique</h2>
-			{game.firstPlayedYear && <p>J'y ai joué pour la première fois en {game.firstPlayedYear}.</p>}
+			{data.firstPlayedYear && <p>J'y ai joué pour la première fois en {data.firstPlayedYear}.</p>}
 			{
-				game.myPlatforms.length > 0 ? (
+				data.myPlatforms.length > 0 ? (
 					<p>
-						J'y ai joué sur {enumerate(game.myPlatforms)} ({game.progress?.toLowerCase()}).
+						J'y ai joué sur {enumerate(data.myPlatforms)} ({data.progress?.toLowerCase()}).
 					</p>
 				) : (
-					<p>{game.progress}.</p>
+					<p>{data.progress}.</p>
 				)
 			}
 			{
-				(game.quickReview || game.review) && (
+				(data.quickReview || data.review) && (
 					<h2 class="mt-6 text-xl font-semibold text-slate-400 dark:text-slate-600">
 						Mes impressions
 					</h2>
 				)
 			}
 			{
-				game.quickReview && (
+				data.quickReview && (
 					<p class="text-slate-500">
-						{emotes[game.quickReview]}
-						{game.quickReview}
+						{emotes[data.quickReview]}
+						{data.quickReview}
 					</p>
 				)
 			}
-			{game.review && <p>{game.review}</p>}
+			{data.review && <p>{data.review}</p>}
 			<div class="prose prose-sm prose-slate mt-3 dark:prose-invert">
-				<RenderBlocks blocks={game.blocks} />
+				<RenderBlocks blocks={data.blocks} />
 			</div>
 		</main>
 	</div>

@@ -1,9 +1,8 @@
 ---
-import type { CollectionEntry } from "astro:content"
+import { getCollection, type CollectionEntry } from "astro:content"
 import Game from "./mdx/Game.astro"
 import Book from "./mdx/Book.astro"
 import getIGDBgames, { type IGDBData } from "$utils/getIGDBgame"
-import { getGamesData } from "$utils/remoteData"
 
 interface Props {
 	article: CollectionEntry<"blog">
@@ -21,12 +20,12 @@ const references = [...data.games, ...data.books]
  * @returns List of IGDBData.
  */
 const getGames = async (slugs: string[]) => {
-	const cacheData = await getGamesData()
+	const cacheData = await getCollection("games")
 	const cachedGames = (
 		await Promise.all(
 			slugs.map(async (slug) => {
-				const cachedGame = cacheData.find((game) => game.igdb && game.slug == slug)
-				if (cachedGame) return cachedGame.igdb
+				const cachedGame = cacheData.find(({data}) => data.igdb && data.slug == slug)
+				if (cachedGame) return cachedGame.data.igdb
 				return null
 			})
 		)

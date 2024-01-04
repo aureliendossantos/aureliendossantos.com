@@ -1,7 +1,7 @@
 ---
 import RefBlock from "$components/RefBlock.astro"
 import getIGDBgames, { type IGDBData } from "$utils/getIGDBgame"
-import { getGamesData } from "$utils/remoteData"
+import { getCollection } from "astro:content"
 
 interface Props {
 	slug?: string
@@ -14,7 +14,7 @@ if (!slug && !data) {
 	throw new Error("You must provide a slug or data for the Game component.")
 }
 const findGameInLibrary = async (slug: string) => {
-	return (await getGamesData()).find((game) => game.igdb && game.slug == slug)
+	return (await getCollection("games")).find(({data}) => data.igdb && data.slug == slug)
 }
 /**
  * Get either the data given in props, or the data available in the cache (library), or a fetch from IGDB.
@@ -22,7 +22,7 @@ const findGameInLibrary = async (slug: string) => {
 const getGame = async () => {
 	if (data) return data
 	const cachedGame = await findGameInLibrary(slug!)
-	if (cachedGame) return cachedGame.igdb as IGDBData
+	if (cachedGame) return cachedGame.data.igdb as IGDBData
 	return (await getIGDBgames([slug!]))[0]
 }
 

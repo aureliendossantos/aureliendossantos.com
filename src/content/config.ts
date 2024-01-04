@@ -98,4 +98,33 @@ export const collections = {
 			clickable: z.boolean().default(false),
 		}),
 	}),
+	games: defineCollection({
+		type: "data",
+		schema: z.object({
+			title: z.string(),
+			slug: z.string().nullish(),
+			quickReview: z
+				.enum([
+					"Coup de cœur",
+					"Aimé",
+					"Sympa un moment",
+					"Whatever",
+					"Mitigé",
+					"Décevant",
+					"J'aime pas",
+					"Mauvais",
+					"Pas pour moi",
+				])
+				.nullish(),
+			review: z.string().nullish(),
+			firstPlayedYear: z.number().nullish(),
+			progress: z.string(),
+			multiplayer: z.array(z.enum(["En ligne", "Local", "Coop", "Versus"])),
+			myPlatforms: z.array(z.string()),
+			blocks: z.array(z.any()),
+			notionUrl: z.string(),
+			lastEditedTime: z.string(),
+			igdb: z.any().nullish(),
+		}),
+	}),
 }

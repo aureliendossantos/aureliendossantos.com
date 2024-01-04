@@ -5,9 +5,9 @@ import OptionalLink from "$components/OptionalLink.astro"
 import FilterButton from "$components/games/FilterButton.astro"
 import BaseLayout from "$layouts/BaseLayout.astro"
 import { emotes } from "$utils/notion/reviewEmotes"
-import { getGamesData } from "$utils/remoteData"
+import { getCollection } from "astro:content"
 
-const games = await getGamesData()
+const games = await getCollection("games")
 
 const reviewsOrder = [
 	"Coup de cœur",
@@ -24,7 +24,7 @@ const reviewsOrder = [
 ]
 
 games.sort(
-	(a, b) =>
+	({ data: a }, { data: b }) =>
 		reviewsOrder.indexOf(a.quickReview) - reviewsOrder.indexOf(b.quickReview) ||
 		a.title.localeCompare(b.title)
 )
@@ -46,20 +46,23 @@ games.sort(
 				<div class="not-prose grid grid-cols-6 gap-3 medium:grid-cols-5 small:grid-cols-4">
 					{
 						games
-							.filter((game) => game.igdb && game.quickReview == "Coup de cœur")
-							.sort((a, b) => b.igdb!.first_release_date - a.igdb!.first_release_date)
+							.filter(({ data }) => data.igdb && data.quickReview == "Coup de cœur")
+							.sort(
+								({ data: a }, { data: b }) =>
+									b.igdb!.first_release_date - a.igdb!.first_release_date
+							)
 							.slice(0, 12)
-							.map((game) => (
+							.map(({ data }) => (
 								<a
-									href={`/games/${game.slug}`}
+									href={`/games/${data.slug}`}
 									class="group scale-100 transition ease-out hover:scale-[1.03] medium:[&:nth-child(n+11)]:hidden small:[&:nth-child(n+9)]:hidden"
 								>
 									<IGDBImage
-										image={game.igdb!.cover}
+										image={data.igdb!.cover}
 										size="cover_small"
 										retina
 										class="rounded bg-slate-500 shadow-sm transition-shadow group-hover:shadow"
-										alt={game.title}
+										alt={data.title}
 									/>
 								</a>
 							))
@@ -107,30 +110,30 @@ games.sort(
 				</thead>
 				<tbody class="text-slate-900 dark:text-slate-200">
 					{
-						games.map((item) => (
+						games.map(({ data }) => (
 							<tr
 								class="even:bg-slate-50 dark:even:bg-slate-900"
-								style={{ display: item.progress == "À essayer" ? "none" : "" }}
+								style={{ display: data.progress == "À essayer" ? "none" : "" }}
 							>
 								<td
 									class:list={[
 										"max-w-[26ch] py-3 pl-4",
 										{
-											"text-indigo-700 dark:text-indigo-400": item.igdb,
+											"text-indigo-700 dark:text-indigo-400": data.igdb,
 										},
 									]}
 								>
-									<OptionalLink href={item.igdb ? `/games/${item.slug}` : undefined}>
-										{item.title}
-										{item.blocks.length > 0 ? " 📖" : item.review && " 📝"}
+									<OptionalLink href={data.igdb ? `/games/${data.slug}` : undefined}>
+										{data.title}
+										{data.blocks.length > 0 ? " 📖" : data.review && " 📝"}
 									</OptionalLink>
 								</td>
-								<td>{emotes[item.quickReview] || item.quickReview}</td>
-								<td class="text-slate-500">{item.progress}</td>
-								<td>{item.multiplayer.includes("Local") && "🛋️"}</td>
-								<td>{item.multiplayer.includes("En ligne") && "🛜"}</td>
-								<td>{item.multiplayer.includes("Coop") && "🤝"}</td>
-								<td class="pr-4">{item.multiplayer.includes("Versus") && "🆚"}</td>
+								<td>{emotes[data.quickReview] || data.quickReview}</td>
+								<td class="text-slate-500">{data.progress}</td>
+								<td>{data.multiplayer.includes("Local") && "🛋️"}</td>
+								<td>{data.multiplayer.includes("En ligne") && "🛜"}</td>
+								<td>{data.multiplayer.includes("Coop") && "🤝"}</td>
+								<td class="pr-4">{data.multiplayer.includes("Versus") && "🆚"}</td>
 							</tr>
 						))
 					}

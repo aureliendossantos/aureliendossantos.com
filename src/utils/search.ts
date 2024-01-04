@@ -1,6 +1,5 @@
-import { getCollection, type CollectionEntry, type ContentCollectionKey } from "astro:content"
+import { getCollection, type CollectionEntry, type CollectionKey } from "astro:content"
 import getBlogPosts, { getDiary } from "$utils/getBlogPosts"
-import { getGamesData } from "$utils/remoteData"
 import formatDate from "$utils/formatDate"
 import type getGames from "$utils/notion/getGames"
 
@@ -13,7 +12,7 @@ interface SearchEntry {
 }
 
 const mapToSearchEntry = (
-	entry: CollectionEntry<ContentCollectionKey> | Awaited<ReturnType<typeof getGames>>[number],
+	entry: CollectionEntry<CollectionKey>,
 	slug: string,
 	categories?: string[],
 	date?: Date,
@@ -67,7 +66,7 @@ export const getSearchEntries = async (): Promise<SearchEntry[]> => [
 	...(await getCollection("places")).map((entry) =>
 		mapToSearchEntry(entry, `places/${entry.slug.split("/")[1]}`, ["Lieu"])
 	),
-	...(await getGamesData())
-		.filter((game) => game.slug)
-		.map((game) => mapToSearchEntry(game, `games/${game.slug}`, ["Jeu"], undefined, game.title)),
+	...(await getCollection("games"))
+		.filter((game) => game.data.slug)
+		.map((game) => mapToSearchEntry(game, `games/${game.data.slug}`, ["Jeu"], undefined)),
 ]
