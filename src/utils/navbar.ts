@@ -131,6 +131,11 @@ export const isMac = () => {
 	return platform.includes("mac")
 }
 
+export const isIOS = () => {
+	const platform = navigator.platform.toLowerCase()
+	return ["iphone", "ipod", "ipad"].some((p) => platform.includes(p))
+}
+
 /**
  * It is entirely possible for a phone/tablet to not be detected
  * by this function. It's only meant to be used as a polishing touch.

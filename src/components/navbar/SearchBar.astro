@@ -130,3 +130,31 @@ const entries = await getSearchEntries()
 	})
 	*/
 </script>
+
+<script>
+	import { isIOS } from "$utils/navbar"
+
+	/**
+	 * Disable zoom on iOS so the browser doesn't zoom in when we click on
+	 * the input. We could argue that it's bad for accessibility, but the
+	 * website is very legible on landscape and the zoom reduces the access
+	 * to the search results.
+	 * @see https://stackoverflow.com/a/57527009
+	 */
+	const disablePageZoom = () => {
+		console.log("Disabling page zoom")
+		const meta = document.querySelector("meta[name=viewport]") as HTMLMetaElement
+		let content = meta.getAttribute("content") as string
+		let regex = /maximum\-scale=[0-9\.]+/g
+		meta.setAttribute(
+			"content",
+			regex.test(content)
+				? content.replace(regex, "maximum-scale=1.0")
+				: content.concat(", maximum-scale=1.0")
+		)
+	}
+
+	document.addEventListener("astro:page-load", () => {
+		if (isIOS()) disablePageZoom()
+	})
+</script>

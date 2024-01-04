@@ -53,7 +53,7 @@ const relatedTitle = Astro.props.relatedTitle || "Voir aussi"
 		>
 			<Icon id="navbar-link-icon" name="ic:baseline-link" class="h-[17px]" />
 			<Icon id="navbar-link-checkmark" name="ic:baseline-check" class="hidden h-[17px]" />
-			<div id="navbar-loading-icon" class="hidden h-[17px] animate-spin">
+			<div id="navbar-loading-icon" class="hidden h-[17px] w-[17px] animate-spin">
 				<Fragment set:html={spinner} />
 			</div>
 			<div id="navbar-title" class="truncate mediumlarge:max-w-[20vw] medium:hidden">
@@ -96,6 +96,7 @@ const relatedTitle = Astro.props.relatedTitle || "Voir aussi"
 				slot="icon"
 			/>
 			<div
+				id="navbar-related-mobile-title"
 				class="line-clamp-2 hidden w-[192px] border-x-0 bg-black px-3 py-[6px] text-sm leading-tight text-neutral-500 medium:block"
 			>
 				{relatedTitle}
@@ -203,8 +204,12 @@ const relatedTitle = Astro.props.relatedTitle || "Voir aussi"
 		// Update related articles
 		const relatedParent = document.querySelector("#navbar-related-parent") as HTMLDivElement
 		const relatedText = document.querySelector("#navbar-related-text") as HTMLDivElement
+		const relatedMobileText = document.querySelector(
+			"#navbar-related-mobile-title"
+		) as HTMLDivElement
 		if (props.related && props.related.length > 0) {
 			relatedText.innerText = props.relatedTitle || "Voir aussi"
+			relatedMobileText.innerText = props.relatedTitle || "Voir aussi"
 			relatedParent.classList.remove("hidden")
 			const items = document.querySelectorAll(
 				"#navbar-related-dropdown a"
