@@ -89,7 +89,7 @@ export const collections = {
 	}),
 	gear: defineCollection({
 		schema: z.object({
-			name: z.string(),
+			title: z.string(),
 			etat: z.string(),
 			utilisation: z.string().optional(),
 			obtained: z.date().optional(),

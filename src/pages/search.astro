@@ -1,60 +1,9 @@
 ---
 import "$styles/base.css"
 import BaseLayout from "$layouts/BaseLayout.astro"
-import { getCollection } from "astro:content"
-import formatDate from "$utils/formatDate"
-import getBlogPosts, { getDiary } from "$utils/getBlogPosts"
-import { getGamesData } from "$utils/remoteData"
+import { getSearchEntries } from "$utils/search"
 
-const rawEntries = [
-	{ slug: "blog", data: { title: "Blog" } },
-	{ slug: "portfolio", data: { title: "Portfolio" } },
-	{ slug: "diary", data: { title: "Journal" } },
-	{ slug: "gear", data: { title: "Mes appareils" } },
-	{ slug: "places", data: { title: "Lieux" } },
-	{ slug: "games", data: { title: "Jeux" } },
-	...(await getBlogPosts()).map(({ slug, data }) => ({
-		slug: `blog/${slug}`,
-		data: data,
-	})),
-	...(await getCollection("portfolio")).map(({ slug, data: { release, ...rest } }) => ({
-		slug: `portfolio/${slug}`,
-		data: { categories: ["Portfolio"], date: release, ...rest },
-	})),
-	...(await getCollection("pages", ({ data }) => !data.draft)).map(({ slug, data }) => ({
-		slug: slug,
-		data: { categories: ["Page"], ...data },
-	})),
-	...(await getDiary()).map(({ finalSlug, year, data: { date, ...rest } }) => ({
-		slug: `diary/${finalSlug}`,
-		data: { categories: ["Journal"], date: date || new Date(year, 12, 29), ...rest },
-	})),
-	...(await getCollection("gear"))
-		.filter((gear) => gear.data.clickable)
-		.map(({ slug, data: { name, obtained, ...rest } }) => ({
-			slug: `gear/${slug.split("/")[1]}`,
-			data: { categories: ["Mon appareil"], title: name, date: obtained, ...rest },
-		})),
-	...(await getCollection("places")).map(({ slug, data }) => ({
-		slug: `places/${slug.split("/")[1]}`,
-		data: { categories: ["Lieu"], ...data },
-	})),
-	...(await getGamesData())
-		.filter((game) => game.slug)
-		.map((game) => ({
-			slug: `games/${game.slug}`,
-			data: { categories: ["Jeu"], title: game.title },
-		})),
-]
-
-// can't use formatDate/1 in a script inline, so here we go 🧙
-const entries = rawEntries.map(({ slug, data: { date, ...rest } }) => ({
-	slug,
-	data: {
-		date: date ? formatDate(date, true) : undefined,
-		...rest,
-	},
-}))
+const entries = await getSearchEntries()
 ---
 
 <BaseLayout title="Recherche" bg="#17182f" ogType="website">
@@ -73,9 +22,8 @@ const entries = rawEntries.map(({ slug, data: { date, ...rest } }) => ({
 			/>
 			<ul id="output" class="flex flex-col gap-6 !px-3"></ul>
 			<script>
-				/* Can't import & use "define:vars" cause script inline gnagna
-    see here -> https://docs.astro.build/en/reference/directives-reference/#definevars */
-				import { SearchCard } from "$components/SearchCard.js"
+				import { SearchCard } from "$components/SearchCard"
+
 				/**
 				 * Use a JS vanilla component because Astro component should only be use SSG (cause ViteJS)
 				 * This SearchCard will be used to display search's results, see ->
@@ -103,10 +51,10 @@ const entries = rawEntries.map(({ slug, data: { date, ...rest } }) => ({
 						results = entries.filter((entry) =>
 							searchKeywords.every(
 								(keyword) =>
-									entry.data.title.toLowerCase().includes(keyword) ||
-									entry.data.description?.toLowerCase().includes(keyword) ||
-									entry.data.categories?.some((cat) => cat.toLowerCase().includes(keyword)) ||
-									entry.data.tags?.some((tag) => tag.toLowerCase().includes(keyword))
+									entry.title.toLowerCase().includes(keyword) ||
+									entry.description?.toLowerCase().includes(keyword) ||
+									entry.categories?.some((cat) => cat.toLowerCase().includes(keyword)) ||
+									entry.tags?.some((tag) => tag.toLowerCase().includes(keyword))
 							)
 						)
 					} else {
@@ -116,11 +64,9 @@ const entries = rawEntries.map(({ slug, data: { date, ...rest } }) => ({
 						// For every result, insert a SearchCard in the output
 						output.insertAdjacentHTML(
 							"beforeend",
-							`<search-card title="${result.data.title}" slug="${result.slug}" date="${
-								result.data.date
-							}" tags="${result.data.categories?.join(", ")}" description="${
-								result.data.description
-							}"></search-card>`
+							`<search-card title="${result.title}" slug="${result.slug}" ${
+								result.date ? `date="${result.date}"` : ""
+							} ${result.categories ? `tags="${result.categories.join(", ")}"` : ""}></search-card>`
 						)
 					})
 				}
