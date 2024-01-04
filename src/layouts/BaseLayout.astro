@@ -119,7 +119,7 @@ const { light: popupLabelActiveBg, dark: darkPopupActive } = getBothColors(popup
 			<slot />
 		</main>
 		<MediumZoom />
-		<NavBar {...navBarProps} />
+		<NavBar {...navBarProps || { title: title }} />
 		<style is:global>
 			[data-icon] {
 				width: unset;
