@@ -135,9 +135,10 @@ Malheureusement, les choses n'iront pas en s'arrangeant. Une autre complication 
 
 Sur le web, on peut afficher les petites capitales avec des propriétés <abbr>CSS</abbr>. Le plus simple est d'appliquer un style à l'élément [`<abbr>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/abbr), qui représente une abréviation ou un acronyme. J'ai commencé en utilisant `font-variant: unicase`, qui promet de transformer les majuscules en petites capitales sans modifier les minuscules. Ce serait très pratique pour englober les minuscules dans les noms stylisés.
 
-{/* prettier-ignore */}
+import FontCompatibility from "$components/mdx/FontCompatibility.astro"
+
 <example>
-	<font>Source Serif</font>
+	<FontCompatibility font="Source Serif" firefox safari/>
 
     Le magazine <span style="font-variant: unicase;">LOGiN</span> et le modèle <span style="font-variant: unicase;">GPT-3.5-turbo</span>
 
@@ -197,15 +198,15 @@ Nous pouvons englober des minuscules sans les altérer et le tout fonctionne par
 
 {/* prettier-ignore */}
 <example>
-	<font>Source Serif (`font-feature-settings: c2sc`)</font>
+    <FontCompatibility font="Source Serif" css="font-variant: unicase" />
 
     Le magazine <abbr><i>LOGiN</i></abbr>
 
-    <font>Source Serif (`font-variant: unicase`)</font>
+    <FontCompatibility css="font-variant: unicase" firefox safari/>
 
     Le magazine <i><span style="font-variant: unicase;">LOGiN</span></i>
 
-    <font>Source Serif (`font-variant: all-small-caps`)</font>
+    <FontCompatibility css="font-variant: all-small-caps" />
 
     Le magazine <i><span style="font-variant: all-small-caps;">LOGiN</span></i>
 
@@ -271,15 +272,15 @@ Le problème, c'est que cet espacement n'est pas vraiment appliqué entre les ca
 
 {/* prettier-ignore */}
 <example>
-	<font>Source Serif</font>
+    <FontCompatibility font="Source Serif" css="letter-spacing: normal" />
 
     L'entreprise <span style="font-feature-settings: 'c2sc';">ASCII</span> Corporation
 
-    <font>Source Serif (`letter-spacing: 0.05em`)</font>
+    <FontCompatibility css="letter-spacing: 0.05em" />
 
     L'entreprise <abbr style="margin-right: 0">ASCII</abbr> Corporation
 
-    <font>Source Serif (`letter-spacing: 0.05em, margin-right: -0.05em`)</font>
+    <FontCompatibility css="letter-spacing: 0.05em, margin-right: -0.05em" />
 
     L'entreprise <abbr>ASCII</abbr> Corporation
 
