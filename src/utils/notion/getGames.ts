@@ -49,7 +49,18 @@ export default async function getGames(
 			return {
 				title: p.Nom.title[0].type == "text" ? p.Nom.title[0].text.content : "default",
 				slug: p.slug.rich_text[0] && p.slug.rich_text[0].plain_text,
-				quickReview: p.Appréciation.select && p.Appréciation.select.name,
+				quickReview:
+					p.Appréciation.select &&
+					(p.Appréciation.select.name as
+						| "Coup de cœur"
+						| "Aimé"
+						| "Sympa un moment"
+						| "Whatever"
+						| "Mitigé"
+						| "Décevant"
+						| "J'aime pas"
+						| "Mauvais"
+						| "Pas pour moi"),
 				review: p.Commentaire.rich_text[0] && p.Commentaire.rich_text[0].plain_text,
 				firstPlayedYear: p["Année de découverte"].number,
 				progress: p.Progression.status && p.Progression.status.name,
