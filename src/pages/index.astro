@@ -14,39 +14,30 @@ const articles = await getBlogPosts()
 	description="Blog personnel d'Aurélien Dos Santos."
 	font="Work Sans"
 >
-	<div>
-		<main class="grid grid-cols-3 items-center xl:flex xl:grid-cols-none xl:flex-col">
-			<div></div>
-			<div class="flex justify-center">
-				<div
-					class="ml-8 mr-16 flex max-w-xs flex-col text-space-500 2xl:ml-7 2xl:mr-14 2xl:max-w-[17.5rem] 2xl:text-sm small:mx-0 small:max-w-[20rem]"
-				>
-					<header class="relative mb-11 mt-12 flex justify-between 2xl:mb-9 2xl:mt-10">
-						<a href="/portfolio">Portfolio</a>
-						<a href="https://www.youtube.com/@GameDevAlliance">YouTube</a>
-						<a href="https://www.linkedin.com/in/aureliendossantos/">LinkedIn</a>
-					</header>
-					<p class="relative mb-[58px] 2xl:mb-12">
-						Bonjour, je suis <NinjaLink text="Aurélien Dos Santos" label="/about" href="/about" />,
-						ingénieur pédagogique, réalisateur vidéo et développeur web/Unity. Bienvenue sur mon
-						blog personnel.
-					</p>
-				</div>
+	<header class="flex justify-center">
+		<div
+			class="ml-8 mr-16 flex max-w-xs flex-col text-space-500 2xl:ml-7 2xl:mr-14 2xl:max-w-[17.5rem] 2xl:text-sm small:mx-0 small:max-w-[20rem]"
+		>
+			<div class="relative mb-11 mt-12 flex justify-between 2xl:mb-9 2xl:mt-10">
+				<a href="/portfolio">Portfolio</a>
+				<a href="https://www.youtube.com/@GameDevAlliance">YouTube</a>
+				<a href="https://www.linkedin.com/in/aureliendossantos/">LinkedIn</a>
 			</div>
-		</main>
-		<div>
-			{
-				articles.map((article, index) => (
-					<ArticleCard article={article} entryIndex={articles.length - index} />
-				))
-			}
+			<p class="relative mb-[58px] 2xl:mb-12">
+				Bonjour, je suis <a href="/about">Aurélien Dos Santos</a>, ingénieur pédagogique,
+				réalisateur vidéo et développeur web/Unity. Bienvenue sur mon blog personnel.
+			</p>
 		</div>
-	</div>
+	</header>
+	{
+		articles.map((article, index) => (
+			<ArticleCard article={article} entryIndex={articles.length - index} />
+		))
+	}
 </BaseLayout>
 
-<style is:global>
-	header a,
-	p a {
-		@apply text-space-700 hover:text-space-800 dark:text-space-300 dark:hover:text-space-200;
+<style>
+	header a {
+		@apply text-space-700 decoration-space-300 underline-offset-4 hover:text-space-800 hover:underline dark:text-space-300 dark:decoration-space-600 dark:hover:text-space-200;
 	}
 </style>
