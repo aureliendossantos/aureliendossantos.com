@@ -1,5 +1,6 @@
 import getGames from "$utils/notion/getGames"
 import fs from "node:fs"
+import crypto from "node:crypto"
 import { pathToFileURL } from "node:url"
 
 /**
