@@ -12,7 +12,7 @@ import type { NavBarProps } from "$utils/navbar"
 import SearchBar from "./SearchBar.astro"
 
 interface Props extends NavBarProps {
-	ssr: boolean
+	ssr?: boolean
 }
 
 const { title, parent, related, headings, ssr } = Astro.props
@@ -140,11 +140,7 @@ const relatedTitle = Astro.props.relatedTitle || "Voir aussi"
 		}
 	</div>
 	<div class="grow"></div>
-	{
-		/* TEMP: With SSR, the SearchBar takes a long time to load on Vercel. Even if it's at the
-		bottom of the page, it's kinda blocking cause we use ViewTransitions. This is a temp fix. */
-	}
-	{!ssr && <SearchBar />}
+	<SearchBar ssr={ssr} />
 	<DropdownMenu id="navbar-explore" label="Explorer" alignRight borderLeft borderRight>
 		<DropdownItem label="Portfolio" href="/portfolio" />
 		<DropdownItem label="Blog" href="/" />

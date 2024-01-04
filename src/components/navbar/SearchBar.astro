@@ -2,10 +2,16 @@
 import { getSearchEntries } from "$utils/search"
 import { Icon } from "astro-icon/components"
 
-const entries = await getSearchEntries()
+interface Props {
+	ssr?: boolean
+}
+
+// With SSR, the SearchBar takes a long time to load on Vercel. Even if it's at the
+// bottom of the page, it's kinda blocking cause we use ViewTransitions. This is a temp fix.
+const entries = Astro.props.ssr ? [] : await getSearchEntries()
 ---
 
-<div class="relative">
+<div class:list={["relative", { hidden: entries.length == 0 }]}>
 	<label
 		id="navbar-search-label"
 		class="group flex h-full items-center hover:bg-white hover:text-black"
@@ -13,7 +19,7 @@ const entries = await getSearchEntries()
 		<Icon name="ic:baseline-search" class="h-[17px] pl-[10px] pr-2 medium:px-2" />
 		<input
 			id="navbar-search"
-			class="peer w-[90px] border-0 bg-transparent p-0 font-work-sans text-sm text-white placeholder:text-white hover:text-black placeholder:hover:text-black focus:text-white focus:outline-none placeholder:focus:text-neutral-500 focus:group-hover:text-black medium:w-0 medium:focus:w-[90px] medium:active:w-[90px]"
+			class="peer w-[90px] border-0 bg-transparent p-0 font-work-sans text-sm text-white placeholder:text-white hover:text-black placeholder:hover:text-black focus:text-white focus:outline-none placeholder:focus:text-neutral-500 disabled:cursor-not-allowed disabled:line-through disabled:opacity-50 focus:group-hover:text-black medium:w-0 medium:focus:w-[90px] medium:active:w-[90px]"
 			style="transition: width 0.2s ease-out;"
 			placeholder="Rechercher"
 			autocomplete="off"

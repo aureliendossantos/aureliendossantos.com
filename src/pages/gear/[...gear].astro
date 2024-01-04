@@ -25,8 +25,8 @@ const category = gear.slug.split("/")[0]
 
 <BaseLayout
 	ogType="website"
-	title={data.name}
-	navBarProps={{ title: data.name, parent: { title: "Appareils", href: "/gear" } }}
+	title={data.title}
+	navBarProps={{ title: data.title, parent: { title: "Appareils", href: "/gear" } }}
 >
 	<div class="m-auto my-10 flex max-w-xl flex-col gap-8 px-8 text-slate-900 dark:text-slate-200">
 		<header class="flex justify-between font-work-sans text-sm text-slate-400 dark:text-slate-600">
@@ -36,7 +36,7 @@ const category = gear.slug.split("/")[0]
 		</header>
 		<div class="prose prose-slate small:prose-sm dark:prose-invert prose-h1:mb-2">
 			<header>
-				<h1>{data.name}</h1>
+				<h1>{data.title}</h1>
 				<div class="font-work-sans text-sm text-slate-400">
 					{data.etat}{data.utilisation && " • " + data.utilisation}
 				</div>
