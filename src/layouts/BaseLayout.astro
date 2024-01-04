@@ -20,6 +20,7 @@ export interface Props {
 	popupLabelActiveBgColor?: Color
 	font?: "Work Sans"
 	navBarProps?: NavBarProps
+	ssr?: boolean
 	ogType:
 		| "website"
 		| "article"
@@ -41,6 +42,7 @@ const {
 	popupLabelActiveBgColor,
 	font,
 	navBarProps,
+	ssr,
 	ogType,
 } = Astro.props
 
@@ -125,7 +127,7 @@ navBarPropsWithFallback.title ??= title
 			<slot />
 		</main>
 		<MediumZoom />
-		<NavBar {...navBarPropsWithFallback} />
+		<NavBar ssr={ssr} {...navBarPropsWithFallback} />
 		<style is:global>
 			[data-icon] {
 				width: unset;
