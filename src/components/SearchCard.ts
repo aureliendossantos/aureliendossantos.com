@@ -22,20 +22,20 @@ export class SearchCard extends HTMLElement {
 	connectedCallback() {
 		const template = document.createElement("template")
 		template.innerHTML = `
-		<li>
-			<a class="result" href="/${this.slug}">
-		  		<div class="title">
-              		${this.title}
-			  	</div>
-				${
-					this.tags || this.date
-						? `<span class="info">
-            			${this.tags} · ${this.date}
-            			</span>`
-						: ""
-				}
-          	</a>
-		</li>`
+		<a class="border-x-0 flex flex-col w-full bg-black px-3 py-[6px] leading-tight text-white hover:bg-white hover:text-black" href="/${
+			this.slug
+		}">
+			<div class="line-clamp-2">
+				${this.title}
+			</div>
+			${
+				this.tags || this.date
+					? `<div class="text-neutral-500 line-clamp-1">
+					${this.tags}${this.date ? ` · ${this.date}` : ""}
+					</div>`
+					: ""
+			}
+		</a>`
 		this.appendChild(template.content)
 	}
 }

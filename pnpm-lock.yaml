@@ -53,6 +53,9 @@ dependencies:
   '@fontsource/work-sans':
     specifier: ^4.5.14
     version: 4.5.14
+  '@iconify-json/bi':
+    specifier: ^1.1.22
+    version: 1.1.22
   '@iconify-json/ic':
     specifier: ^1.1.17
     version: 1.1.17
@@ -1092,6 +1095,12 @@ packages:
 
   /@fontsource/work-sans@4.5.14:
     resolution: {integrity: sha512-AFBSDBA3hnSCXHwb52qBOMEGqF5nfdbANp+y5/hbE1PMjYfFY0lUdtUwL5J7mRAdyn1NJwobJlhduHtlAyPzmA==}
+    dev: false
+
+  /@iconify-json/bi@1.1.22:
+    resolution: {integrity: sha512-6hg+xd6PW1TVm6bj4SIpWEyIk67O7Ms8NPBSOp3p0hUdL4AVmY4iYEh3Fst33sSI0yblPacfa2zcpP8WCJ/h3A==}
+    dependencies:
+      '@iconify/types': 2.0.0
     dev: false
 
   /@iconify-json/ic@1.1.17:

@@ -55,6 +55,7 @@ export default defineConfig({
 		mdx(),
 		icon({
 			include: {
+				bi: ["stars"],
 				ic: [
 					"baseline-check",
 					"baseline-launch",

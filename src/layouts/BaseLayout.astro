@@ -51,6 +51,12 @@ const background = getColor(bg) || "#f5f5fa"
 const darkBackground = getColor(bg, "dark") || "#17182f"
 const { light: popup, dark: darkPopup } = getBothColors(popupBorderColor)
 const { light: popupLabelActiveBg, dark: darkPopupActive } = getBothColors(popupLabelActiveBgColor)
+
+// A page might not send props.
+let navBarPropsWithFallback = navBarProps || { title: title }
+// A page might also send props without a title. In that case,
+// we want to fallback to the page title.
+navBarPropsWithFallback.title ??= title
 ---
 
 <!doctype html>
@@ -119,7 +125,7 @@ const { light: popupLabelActiveBg, dark: darkPopupActive } = getBothColors(popup
 			<slot />
 		</main>
 		<MediumZoom />
-		<NavBar {...navBarProps || { title: title }} />
+		<NavBar {...navBarPropsWithFallback} />
 		<style is:global>
 			[data-icon] {
 				width: unset;

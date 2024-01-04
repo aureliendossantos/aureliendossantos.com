@@ -9,6 +9,7 @@ import InactiveItem from "./InactiveItem.astro"
 import { Icon } from "astro-icon/components"
 import NavbarToggleButton from "./NavbarToggleButton.astro"
 import type { NavBarProps } from "$utils/navbar"
+import SearchBar from "./SearchBar.astro"
 
 interface Props extends NavBarProps {}
 
@@ -48,9 +49,9 @@ const relatedTitle = Astro.props.relatedTitle || "Voir aussi"
 			style="padding-block: unset;"
 			class="m-0 flex h-full items-center justify-center gap-2 border-0 border-r border-solid border-neutral-700 bg-black p-0 px-3 font-work-sans text-sm text-white hover:bg-white hover:text-black medium:px-2"
 		>
-			<Icon id="navbar-link-icon" name="ic:baseline-link" class="h-[17px] w-[17px]" />
-			<Icon id="navbar-link-checkmark" name="ic:baseline-check" class="hidden h-[17px] w-[17px]" />
-			<div id="navbar-loading-icon" class="hidden h-[17px] w-[17px] animate-spin">
+			<Icon id="navbar-link-icon" name="ic:baseline-link" class="h-[17px]" />
+			<Icon id="navbar-link-checkmark" name="ic:baseline-check" class="hidden h-[17px]" />
+			<div id="navbar-loading-icon" class="hidden h-[17px] animate-spin">
 				<Fragment set:html={spinner} />
 			</div>
 			<div id="navbar-title" class="truncate mediumlarge:max-w-[20vw] medium:hidden">
@@ -67,7 +68,7 @@ const relatedTitle = Astro.props.relatedTitle || "Voir aussi"
 			<Icon
 				id="navbar-link-icon"
 				name="ic:baseline-toc"
-				class="h-[17px] w-[17px]"
+				class="h-[17px]"
 				style={{ transform: "rotate(180deg)" }}
 				slot="icon"
 			/>
@@ -82,9 +83,21 @@ const relatedTitle = Astro.props.relatedTitle || "Voir aussi"
 		<DropdownMenu
 			id="navbar-related"
 			label={relatedTitle}
+			truncate
 			borderRight
 			initiallyHidden={!related || related.length == 0}
 		>
+			<Icon
+				id="navbar-link-icon"
+				name="bi:stars"
+				class="hidden h-[17px] medium:block"
+				slot="icon"
+			/>
+			<div
+				class="line-clamp-2 hidden w-[192px] border-x-0 bg-black px-3 py-[6px] text-sm leading-tight text-neutral-500 medium:block"
+			>
+				{relatedTitle}
+			</div>
 			{
 				[0, 1, 2].map((i) => (
 					<DropdownItem
@@ -115,7 +128,7 @@ const relatedTitle = Astro.props.relatedTitle || "Voir aussi"
 			href=""
 		>
 			<div class="whitespace-nowrap medium:hidden">Dans ma bibliothèque</div>
-			<Icon name="lucide:library-square" class="h-[17px] w-[17px]" />
+			<Icon name="lucide:library-square" class="h-[17px]" />
 		</a>
 		{
 			[1, 2, 3].map((i) => (
@@ -124,12 +137,7 @@ const relatedTitle = Astro.props.relatedTitle || "Voir aussi"
 		}
 	</div>
 	<div class="grow"></div>
-	<a
-		class="m-0 flex h-full items-center justify-center gap-2 border-0 border-solid border-neutral-700 bg-black p-0 px-[10px] font-work-sans text-sm text-white hover:bg-white hover:text-black medium:px-2"
-		href="/search"
-	>
-		<Icon name="ic:baseline-search" class="h-[17px] w-[17px]" />
-	</a>
+	<SearchBar />
 	<DropdownMenu id="navbar-explore" label="Explorer" alignRight borderLeft borderRight>
 		<DropdownItem label="Portfolio" href="/portfolio" />
 		<DropdownItem label="Blog" href="/" />

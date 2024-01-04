@@ -1,0 +1,132 @@
+---
+import { getSearchEntries } from "$utils/search"
+import { Icon } from "astro-icon/components"
+
+const entries = await getSearchEntries()
+---
+
+<div class="relative">
+	<label
+		id="navbar-search-label"
+		class="group flex h-full items-center hover:bg-white hover:text-black"
+	>
+		<Icon name="ic:baseline-search" class="h-[17px] pl-[10px] pr-2 medium:px-2" />
+		<input
+			id="navbar-search"
+			class="peer w-[90px] border-0 bg-transparent p-0 font-work-sans text-sm text-white placeholder:text-white hover:text-black placeholder:hover:text-black focus:text-white focus:outline-none placeholder:focus:text-neutral-500 focus:group-hover:text-black medium:w-0 medium:focus:w-[90px] medium:active:w-[90px]"
+			style="transition: width 0.2s ease-out;"
+			placeholder="Rechercher"
+			autocomplete="off"
+			type="text"
+		/>
+	</label>
+	<div
+		id="navbar-search-dropdown"
+		class="absolute bottom-7 z-10 bg-black"
+		role="menu"
+		aria-orientation="vertical"
+		aria-labelledby="menu-button"
+		tabindex="-1"
+	>
+		<div
+			id="navbar-search-items-container"
+			role="none"
+			class="divide-y divide-solid divide-neutral-700"
+		>
+			<slot />
+		</div>
+	</div>
+</div>
+
+<script>
+	import { SearchCard } from "$components/SearchCard"
+
+	customElements.define("search-card", SearchCard)
+</script>
+
+<script define:vars={{ entries }}>
+	// Get the HTML elements
+	const input = document.getElementById("navbar-search")
+	const outputContainer = document.getElementById("navbar-search-items-container")
+
+	/**
+	 * Called at each search. Empties the results div then fills it with a
+	 * list of SearchCard corresponding to the keywords provided in input.
+	 * @param {string} input - What's the search input?
+	 * @return {Array<blogEntry>} - Articles returned by the search
+	 */
+	const applyInput = (input) => {
+		outputContainer.innerHTML = ""
+		const searchKeywords = input.toLowerCase().split(" ")
+		if (input.length < 3) {
+			results = []
+		} else if (searchKeywords.length > 0) {
+			// Filter block entries based on their title, abstract & tags
+			// should match every keywords provided by search input !
+			results = entries.filter((entry) =>
+				searchKeywords.every(
+					(keyword) =>
+						entry.slug.toLowerCase().includes(keyword) ||
+						entry.title.toLowerCase().includes(keyword) ||
+						entry.description?.toLowerCase().includes(keyword) ||
+						entry.categories?.some((cat) => cat.toLowerCase().includes(keyword)) ||
+						entry.tags?.some((tag) => tag.toLowerCase().includes(keyword))
+				)
+			)
+		} else {
+			results = []
+		}
+		results.forEach((result, index) => {
+			// Limit at 9 results
+			if (index >= 8) return
+			// For every result, insert a SearchCard in the output
+			outputContainer.insertAdjacentHTML(
+				"beforeend",
+				`<search-card title="${result.title}" slug="${result.slug}" ${
+					result.date ? `date="${result.date}"` : ""
+				} ${
+					result.categories ? `tags="${result.categories.join(", ")}"` : ""
+				} class="flex border-0 w-[192px]"></search-card>`
+			)
+		})
+	}
+
+	// On the first page load, initialize the output with an empty search.
+	applyInput("")
+
+	// Call applyInput() at any keypress or click in the search input
+	input.addEventListener("input", (event) => {
+		if (event.target) {
+			const element = event.currentTarget
+			applyInput(element.value)
+		}
+	})
+	input.addEventListener("click", (event) => {
+		if (event.target) {
+			const element = event.currentTarget
+			applyInput(element.value)
+		}
+	})
+
+	// Clear the search results when we click away or are about to change page
+	window.addEventListener("click", (event) => {
+		if (!input.contains(event.target) && !outputContainer.contains(event.target)) {
+			outputContainer.innerHTML = ""
+		}
+	})
+	document.addEventListener("astro:before-preparation", () => {
+		outputContainer.innerHTML = ""
+	})
+	/** 
+	// Make the input visible on mobile when we click on the label.
+	const label = document.getElementById("navbar-search-label")
+	label.addEventListener("click", () => {
+		input.focus()
+		// Ensure the input is focused when the user releases the click.
+		label.addEventListener("mouseup", (event) => {
+			event.preventDefault()
+			input.focus()
+		})
+	})
+	*/
+</script>

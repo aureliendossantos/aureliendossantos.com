@@ -27,6 +27,7 @@
 		"@fontsource/urbanist": "^4.5.17",
 		"@fontsource/vollkorn": "^4.5.14",
 		"@fontsource/work-sans": "^4.5.14",
+		"@iconify-json/bi": "^1.1.22",
 		"@iconify-json/ic": "^1.1.17",
 		"@iconify-json/ion": "^1.1.15",
 		"@iconify-json/logos": "^1.1.42",
