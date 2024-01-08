@@ -5,6 +5,7 @@ import type {
 } from "@notionhq/client/build/src/api-endpoints"
 import RenderRichText from "./RenderRichText.astro"
 import type { BlockObjectResponseWithChildren } from "$utils/notion/getChildren"
+import { getBackgroundColor } from "$utils/notion/wiki"
 
 interface Props {
 	blocks: BlockObjectResponse[] | BlockObjectResponseWithChildren[]
@@ -49,11 +50,8 @@ let numbered_list: RichTextItemResponse[][] = []
 					</blockquote>
 				)
 			case "code":
-				return (
-					<pre>
-						<RenderRichText text={block.code.rich_text} />
-					</pre>
-				)
+				// prettier-ignore
+				return <pre><RenderRichText text={block.code.rich_text} /></pre>
 			case "to_do":
 				return (
 					<p>
@@ -126,8 +124,36 @@ let numbered_list: RichTextItemResponse[][] = []
 				)
 			case "callout":
 				return (
-					<p class="rounded bg-slate-200 p-[1em] dark:bg-slate-800">
-						<RenderRichText text={block.callout.rich_text} />
+					<p
+						class:list={[
+							"flex items-center gap-[1em] rounded p-[1em]",
+							getBackgroundColor(block.callout.color),
+						]}
+					>
+						{block.callout.icon && (
+							<span
+								class:list={[
+									"not-prose h-[1.4em] w-[1.4em] shrink-0",
+									{ "self-baseline": block.callout.icon.type == "emoji" },
+								]}
+							>
+								{(() => {
+									switch (block.callout.icon.type) {
+										case "emoji":
+											return block.callout.icon.emoji
+										case "external":
+											return <img src={block.callout.icon.external.url} />
+										case "file":
+											return <img src={block.callout.icon.file.url} />
+										default:
+											return null
+									}
+								})()}
+							</span>
+						)}
+						<span class="m-0 p-0">
+							<RenderRichText text={block.callout.rich_text} />
+						</span>
 					</p>
 				)
 			case "link_preview":
