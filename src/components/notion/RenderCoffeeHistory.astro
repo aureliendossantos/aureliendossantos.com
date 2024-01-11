@@ -1,0 +1,93 @@
+---
+import type {
+	BlockObjectResponse,
+	ChildDatabaseBlockObjectResponse,
+} from "@notionhq/client/build/src/api-endpoints"
+import type { ResponseResult, Title, RichText, NotionDate, Select } from "$utils/notion/types"
+import type { BlockObjectResponseWithChildren } from "$utils/notion/getChildren"
+import formatDate from "$utils/formatDate"
+
+interface Props {
+	blocks: BlockObjectResponse[] | BlockObjectResponseWithChildren[]
+}
+const { blocks } = Astro.props
+
+type CoffeeEntry = ResponseResult & {
+	properties: {
+		Nom: Title
+		Action: Select
+		Endroit: RichText
+		Notes: RichText
+		Date: NotionDate
+	}
+}
+
+const database = blocks.find(
+	(block) => block.type == "child_database"
+) as ChildDatabaseBlockObjectResponse & {
+	children: CoffeeEntry[]
+}
+
+const entries = database.children
+	.map((entry) => ({
+		title: entry.properties.Nom.title[0].plain_text,
+		action:
+			entry.properties.Action.select &&
+			"name" in entry.properties.Action.select &&
+			entry.properties.Action.select.name,
+		endroit: entry.properties.Endroit.rich_text[0]?.plain_text,
+		notes: entry.properties.Notes.rich_text[0]?.plain_text,
+		sortDate: entry.properties.Date.date ? new Date(entry.properties.Date.date.start).getTime() : 0,
+		date: entry.properties.Date.date && formatDate(new Date(entry.properties.Date.date.start)),
+	}))
+	.sort((a, b) => b.sortDate - a.sortDate)
+---
+
+<div class="not-prose timeline relative mt-8 font-work-sans">
+	{
+		entries.map((entry) => {
+			return (
+				<div class="content container relative">
+					<p class="mb-1 text-sm text-neutral-500">{entry.date}</p>
+					<h2 class="text-2xl font-bold">{entry.title}</h2>
+					<p class="mb-1 text-sm text-neutral-500">{entry.notes}</p>
+					<p class="text-sm text-neutral-500">
+						{entry.action} à {entry.endroit}
+					</p>
+				</div>
+			)
+		})
+	}
+</div>
+
+<style>
+	/* The actual timeline (the vertical ruler) */
+	.timeline::after {
+		content: "";
+		position: absolute;
+		width: 0;
+		top: 0;
+		bottom: 0;
+		left: 6.5px;
+		border-right: 3px dotted #a6d7aa;
+	}
+
+	/* The circles on the timeline */
+	.container::after {
+		content: "";
+		position: absolute;
+		width: 16px;
+		height: 16px;
+		left: 0;
+		background-color: white;
+		border: 3px solid #a6d7aa;
+		top: 15px;
+		border-radius: 50%;
+		z-index: 1;
+	}
+
+	.content {
+		padding: 14px 30px;
+		position: relative;
+	}
+</style>
