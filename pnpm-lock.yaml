@@ -119,6 +119,9 @@ dependencies:
   typescript:
     specifier: ^5.3.2
     version: 5.3.2
+  wikipedia:
+    specifier: ^2.1.1
+    version: 2.1.2
   yt-channel-info:
     specifier: ^3.2.1
     version: 3.2.1
@@ -2336,6 +2339,11 @@ packages:
     resolution: {integrity: sha512-QOSvevhslijgYwRx6Rv7zKdMF8lbRmx+uQGx2+vDc+KI/eBnsy9kit5aj23AgGu3pa4t9AgwbnXWqS+iOY+2aA==}
     engines: {node: '>= 6'}
 
+  /camelcase@4.1.0:
+    resolution: {integrity: sha512-FxAv7HpHrXbh3aPo4o2qxHay2lkLY3x5Mw3KeE4KQE8ysVfziWeRZDwcjauvwBSGEC/nXUPzZy8zeh4HokqOnw==}
+    engines: {node: '>=4'}
+    dev: false
+
   /camelcase@7.0.1:
     resolution: {integrity: sha512-xlx1yCK2Oc1APsPXDL2LdlNP6+uu8OCDdhOBSVT279M/S+y75O30C2VuD8T2ogdePBBl7PfPF4504tnLgX3zfw==}
     engines: {node: '>=14.16'}
@@ -3421,6 +3429,12 @@ packages:
     dependencies:
       once: 1.4.0
       wrappy: 1.0.2
+
+  /infobox-parser@3.6.4:
+    resolution: {integrity: sha512-d2lTlxKZX7WsYxk9/UPt51nkmZv5tbC75SSw4hfHqZ3LpRAn6ug0oru9xI2X+S78va3aUAze3xl/UqMuwLmJUw==}
+    dependencies:
+      camelcase: 4.1.0
+    dev: false
 
   /inherits@2.0.4:
     resolution: {integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==}
@@ -6034,6 +6048,16 @@ packages:
     engines: {node: '>=12'}
     dependencies:
       string-width: 5.1.2
+    dev: false
+
+  /wikipedia@2.1.2:
+    resolution: {integrity: sha512-RAYaMpXC9/E873RaSEtlEa8dXK4e0p5k98GKOd210MtkE5emm6fcnwD+N6ZA4cuffjDWagvhaQKtp/mGp2BOVQ==}
+    engines: {node: '>=10'}
+    dependencies:
+      axios: 1.6.2
+      infobox-parser: 3.6.4
+    transitivePeerDependencies:
+      - debug
     dev: false
 
   /wrap-ansi@7.0.0:

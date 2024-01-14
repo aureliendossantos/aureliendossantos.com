@@ -76,6 +76,7 @@ const parent = !isBlog && data.parent && (await getEntry("pages", data.parent))
 			"--dark-bg-color": getColor(palette.bgColor, "dark"),
 			"--base-font": palette.baseFont,
 			"--font-size": palette.fontSize,
+			"--code-font": palette.codeFont,
 			"--sm-font-size": Math.max(16, Number(palette.fontSize.replace("px", "")) - 1) + "px",
 			"--line-height": palette.lineHeight,
 			"--sm-line-height": palette.lineHeight * 1.1,
