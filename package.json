@@ -4,11 +4,11 @@
 	"version": "0.0.1",
 	"scripts": {
 		"dev": "astro dev",
-		"start": "astro dev",
-		"build": "tsx ./scripts/writeGitmodules.ts && git pull --recurse-submodules && tsx ./scripts/updateRemoteData.ts && astro build",
+		"update": "tsx ./scripts/updateRemoteData.ts",
+		"build": "astro build",
+		"vercel-build": "tsx ./scripts/writeGitmodules.ts && git submodule update --init --recursive && tsx ./scripts/updateRemoteData.ts && astro build",
 		"preview": "astro preview",
-		"astro": "astro",
-		"update": "tsx ./scripts/updateRemoteData.ts"
+		"astro": "astro"
 	},
 	"dependencies": {
 		"@astrojs/check": "^0.3.4",
