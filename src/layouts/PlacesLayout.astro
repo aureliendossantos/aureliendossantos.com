@@ -14,8 +14,11 @@ type Props = BaseLayoutProps
 </BaseLayout>
 
 <style is:global>
-	figure:has(img) {
-		@apply -mx-8;
+	figure:has(img):first-of-type {
+		@apply -ml-8;
+	}
+	figure:has(img):last-of-type {
+		@apply -mr-8;
 	}
 	figcaption {
 		@apply mx-8 -mt-8 text-center;

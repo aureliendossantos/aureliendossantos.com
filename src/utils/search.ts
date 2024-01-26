@@ -1,7 +1,6 @@
 import { getCollection, type CollectionEntry, type CollectionKey } from "astro:content"
 import getBlogPosts, { getDiary } from "$utils/getBlogPosts"
 import formatDate from "$utils/formatDate"
-import type getGames from "$utils/notion/getGames"
 
 interface SearchEntry {
 	slug: string

@@ -8,8 +8,8 @@ interface Props {
 	caption?: string
 	rounded?: boolean
 	shadow?: boolean
-	half?: boolean
-	third?: boolean
+	resolution: "third" | "half" | "normal" | "high"
+	percentWidth?: number
 	zoomQuality?: ImageQuality
 }
 const {
@@ -18,8 +18,8 @@ const {
 	caption,
 	rounded,
 	shadow,
-	half,
-	third,
+	resolution,
+	percentWidth,
 	zoomQuality,
 	...attributes
 } = Astro.props
@@ -28,18 +28,25 @@ const src = "then" in srcToResolve ? (await srcToResolve).default : srcToResolve
 const classes: AstroBuiltinAttributes["class:list"] = { "rounded-md": rounded, shadow: shadow }
 
 function getMaxWidth() {
-	if (third) return 640
-	if (half) return 960
-	return 1920
+	switch (resolution) {
+		case "third":
+			return 640
+		case "half":
+			return 960
+		case "normal":
+			return 1280
+		case "high":
+			return 1920
+	}
 }
 
-const width = Math.min(src.width, getMaxWidth())
+const imgWidth = Math.min(src.width, getMaxWidth())
 ---
 
-<figure>
+<figure style={{ maxWidth: percentWidth && `${percentWidth}%` }}>
 	<Image
 		src={src}
-		width={width}
+		width={imgWidth}
 		zoomQuality={zoomQuality}
 		alt={alt || ""}
 		class:list={classes}

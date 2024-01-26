@@ -11,7 +11,6 @@ import BaseLayout from "$layouts/BaseLayout.astro"
 import { getCollection, getEntryBySlug } from "astro:content"
 import getSeeAlso from "$utils/getSeeAlso"
 
-const projects = await getCollection("portfolio")
 const capCuisine = await getEntryBySlug("portfolio", "cap-cuisine")
 const dashboard = await getEntryBySlug("portfolio", "dashboard")
 const faireDesJeux = await getEntryBySlug("portfolio", "fairedesjeux")
@@ -29,7 +28,7 @@ const qrpg = await getEntryBySlug("portfolio", "qrpg")
 	bg={{ light: "white", dark: "rgb(30 41 59)" }}
 	title="Portfolio"
 	description="Portfolio d'Aurélien Dos Santos présentant des projets d'ingénierie pédagogique, de game design et de développement web et multimédia."
-	navBarProps={{ related: await getSeeAlso(["pro"]) }}
+	navBarProps={{ title: "Portfolio", related: await getSeeAlso(["pro"]) }}
 >
 	<div class="m-auto max-w-[820px] px-6 pb-24 pt-14 text-xl medium:text-lg">
 		<header class="font-sofia-sans text-2xl">
@@ -82,6 +81,7 @@ const qrpg = await getEntryBySlug("portfolio", "qrpg")
 			<CardGrid>
 				<Card project={capCuisine} />
 				<Card project={faireDesJeux} />
+				<Card project={passNumerique} />
 			</CardGrid>
 		</CardContainer>
 		<CategoryHeading>Développement web</CategoryHeading>

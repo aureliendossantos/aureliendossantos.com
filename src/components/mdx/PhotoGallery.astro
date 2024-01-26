@@ -4,10 +4,21 @@ import Figure from "./Figure.astro"
 import Gallery from "./Gallery.astro"
 
 interface Props {
-	lines: [(ImageMetadata | Promise<{ default: ImageMetadata }>)[], "wide" | "full" | undefined][]
+	lines: [
+		(ImageMetadata | Promise<{ default: ImageMetadata }>)[],
+		"wide" | "full" | undefined,
+		number[],
+	][]
 	zoomQuality?: ImageQuality
 }
 
+function getResolution(line: any) {
+	if (line[1] == "full" && line[0].length >= 2) return "normal"
+	if (line[1] == "wide" || line[1] == "full") return "high"
+	if (line[0].length == 2) return "half"
+	if (line[0].length >= 3) return "third"
+	return "normal"
+}
 const { lines, zoomQuality } = Astro.props
 ---
 
@@ -15,11 +26,8 @@ const { lines, zoomQuality } = Astro.props
 	{
 		lines.map((line) => (
 			<Gallery wide={line[1] == "wide"} full={line[1] == "full"}>
-				{line[0].map((photo) => (
 					<Figure
 						src={photo}
-						half={line[0].length == 2}
-						third={line[0].length >= 3}
 						zoomQuality={zoomQuality}
 					/>
 				))}

@@ -17,7 +17,7 @@ import "medium-zoom/dist/style.css"
 	})
 
 	// Since I use a custom container height, I need to update it manually in case the window has been resized.
-	window.mediumZoom.on("open", (event: any) => {
+	window.mediumZoom.on("open", () => {
 		window.mediumZoom.update({
 			container: {
 				height: window.innerHeight - (navbarIsOpened() ? 28 : 0),

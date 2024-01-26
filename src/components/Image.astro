@@ -35,12 +35,14 @@ const webp = await getImage({
 })
 
 /* If the source image is larger than the width of the processed image,
-we generate a larger image for medium-zoom, that won't exceed 3840px. */
+we generate a larger image for medium-zoom, that won't exceed 2160px in height
+(in rare cases, a 3840px max width might be more relevant). */
 const zoomedImage =
 	width && src.width > width
 		? await getImage({
 				src: src,
-				width: Math.min(src.width, 3840),
+				width: src.height < 2160 && Math.min(src.width, 3840),
+				height: src.height >= 2160 && Math.min(src.height, 2160),
 				quality: zoomQuality || quality,
 				...attributes,
 		  })
