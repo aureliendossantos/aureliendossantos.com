@@ -6,7 +6,7 @@
 		"dev": "astro dev",
 		"update": "tsx ./scripts/updateRemoteData.ts",
 		"build": "astro build",
-		"vercel-build": "tsx ./scripts/writeGitmodules.ts && git submodule update --init --recursive && tsx ./scripts/updateRemoteData.ts && astro build",
+		"vercel-build": "tsx ./scripts/writeGitmodules.ts && git submodule update --init --remote --merge && tsx ./scripts/updateRemoteData.ts && astro build",
 		"preview": "astro preview",
 		"astro": "astro"
 	},
