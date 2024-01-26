@@ -6,11 +6,9 @@ dist/
 .astro/
 .vercel/
 
-# generated collections
-src/content/games/
-
 # dependencies
 node_modules/
+.gitmodules
 
 # logs
 npm-debug.log*

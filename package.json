@@ -5,7 +5,7 @@
 	"scripts": {
 		"dev": "astro dev",
 		"start": "astro dev",
-		"build": "tsx ./scripts/updateRemoteData.ts && astro build",
+		"build": "tsx ./scripts/writeGitmodules.ts && git pull --recurse-submodules && tsx ./scripts/updateRemoteData.ts && astro build",
 		"preview": "astro preview",
 		"astro": "astro",
 		"update": "tsx ./scripts/updateRemoteData.ts"
