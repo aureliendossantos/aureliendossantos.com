@@ -8,10 +8,11 @@ type singleSrc = string | Promise<{ default: string }>
  */
 interface Props extends Omit<HTMLAttributes<"video">, "src"> {
 	src: singleSrc | { src: singleSrc; type?: string }[]
+	compat?: singleSrc
 	caption?: string
 	gif?: boolean
 }
-const { src, caption, gif, ...attributes } = Astro.props
+const { src, compat, caption, gif, ...attributes } = Astro.props
 
 const resolveSrc = async (src: singleSrc) => {
 	if (typeof src === "string") return src
@@ -24,12 +25,20 @@ const sources = Array.isArray(src)
 			src.map(async (item) => ({ src: await resolveSrc(item.src), type: item.type }))
 	  )
 	: [{ src: await resolveSrc(src) }]
+
+// Add the xxx-compat.mp4 fallback
+if (compat) {
+	sources.push({
+		src: await resolveSrc(compat),
+		type: "video/mp4",
+	})
+}
 ---
 
 <figure>
 	<video
-		width="1920"
-		height="1080"
+		width={attributes.width || "1920"}
+		height={attributes.height || "1080"}
 		autoplay={gif}
 		muted={gif}
 		loop={gif}
