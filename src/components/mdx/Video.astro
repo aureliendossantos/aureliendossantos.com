@@ -3,16 +3,15 @@ import type { HTMLAttributes } from "astro/types"
 
 type singleSrc = string | Promise<{ default: string }>
 
+/**
+ * @param {boolean} [gif] Preset for `autoplay muted loop playsinline`
+ */
 interface Props extends Omit<HTMLAttributes<"video">, "src"> {
 	src: singleSrc | { src: singleSrc; type?: string }[]
-	autoplay?: boolean
-	muted?: boolean
-	loop?: boolean
-	controls?: boolean
-	poster?: string
 	caption?: string
+	gif?: boolean
 }
-const { src, autoplay, muted, loop, controls, poster, caption, ...attributes } = Astro.props
+const { src, caption, gif, ...attributes } = Astro.props
 
 const resolveSrc = async (src: singleSrc) => {
 	if (typeof src === "string") return src
@@ -31,11 +30,10 @@ const sources = Array.isArray(src)
 	<video
 		width="1920"
 		height="1080"
-		autoplay={autoplay}
-		muted={muted}
-		loop={loop}
-		controls={controls}
-		poster={poster}
+		autoplay={gif}
+		muted={gif}
+		loop={gif}
+		playsinline={gif}
 		{...attributes}
 	>
 		{
