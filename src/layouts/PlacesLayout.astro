@@ -6,7 +6,7 @@ type Props = BaseLayoutProps
 ---
 
 <BaseLayout {...Astro.props} bg="#09090b">
-	<div class="w-full bg-zinc-950">
+	<div class="diary-layout w-full bg-zinc-950">
 		<div class="m-auto min-h-screen max-w-md bg-white" transition:animate="initial">
 			<slot />
 		</div>
@@ -14,13 +14,24 @@ type Props = BaseLayoutProps
 </BaseLayout>
 
 <style is:global>
-	figure:has(img):first-of-type {
-		@apply -ml-8;
-	}
-	figure:has(img):last-of-type {
-		@apply -mr-8;
-	}
-	figcaption {
-		@apply mx-8 -mt-8 text-center;
+	.diary-layout {
+		figure:has(img):first-of-type {
+			@apply -ml-8;
+		}
+		figure:has(img):last-of-type {
+			@apply -mr-8;
+		}
+		.gallery figure + figure {
+			@apply !ml-0;
+		}
+		figcaption {
+			@apply mx-8 -mt-8 text-center;
+		}
+		.prose .bg-mention {
+			@apply bg-zinc-200 hover:bg-zinc-300;
+		}
+		.prose .bg-mention img {
+			@apply mb-[0.2em];
+		}
 	}
 </style>
