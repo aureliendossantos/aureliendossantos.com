@@ -28,7 +28,7 @@ const src = "then" in srcToResolve ? (await srcToResolve).default : srcToResolve
 const classes: AstroBuiltinAttributes["class:list"] = { "rounded-md": rounded, shadow: shadow }
 
 function getMaxWidth() {
-	switch (resolution) {
+	switch (resolution || "high") {
 		case "third":
 			return 640
 		case "half":

@@ -153,6 +153,12 @@ const qrpg = await getEntryBySlug("portfolio", "qrpg")
 		border: 4px solid transparent;
 		background-clip: content-box;
 		border-radius: 10px;
+		&:hover {
+			background-color: rgb(204 214 221);
+		}
+		&:active {
+			background-color: rgb(179 194 204);
+		}
 	}
 
 	@media (prefers-color-scheme: dark) {
@@ -164,6 +170,7 @@ const qrpg = await getEntryBySlug("portfolio", "qrpg")
 	::-webkit-scrollbar,
 	::-webkit-scrollbar-track {
 		width: 14px;
+		height: 14px;
 		background-color: transparent;
 	}
 </style>

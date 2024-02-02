@@ -95,7 +95,7 @@ const image = data.image ? await getImage({ src: data.image, width: 1920 }) : un
 					<div class="flex flex-wrap gap-2">
 						{
 							allRoles.map((role) => (
-								<Badge small square color="sky">
+								<Badge square color="sky">
 									{role}
 								</Badge>
 							))
@@ -109,7 +109,7 @@ const image = data.image ? await getImage({ src: data.image, width: 1920 }) : un
 						{allTools.length > 1 ? "Outils" : "Outil"}
 					</h3>
 					<div class="flex flex-wrap gap-2">
-						{allTools.map((tool) => <Badge small>{tool}</Badge>)}
+						{allTools.map((tool) => <Badge>{tool}</Badge>)}
 					</div>
 				</div>
 				{

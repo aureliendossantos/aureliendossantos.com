@@ -9,8 +9,7 @@ const { square, color, small } = Astro.props
 
 <span
 	class:list={[
-		"py-[2px] font-sofia-sans",
-		{ "small:text-sm": small },
+		"py-[2px] font-sofia-sans text-base medium:text-sm",
 		{ "rounded px-2": square },
 		{ "rounded-full px-3": !square },
 		{ "bg-slate-200 text-slate-800 dark:bg-slate-700 dark:text-slate-200": !color },
