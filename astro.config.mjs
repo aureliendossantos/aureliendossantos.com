@@ -70,6 +70,7 @@ export default defineConfig({
 				lucide: ["library-square", "scan"],
 				"material-symbols": ["update-rounded"],
 				"material-symbols-light": [
+					"keyboard-arrow-up-rounded",
 					"keyboard-double-arrow-down-rounded",
 					"keyboard-double-arrow-up-rounded",
 				],
