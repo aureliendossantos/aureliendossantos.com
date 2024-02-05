@@ -9,7 +9,7 @@ const parser = new MarkdownIt()
 export async function GET(context: APIContext) {
 	const blog: RSSFeedItem[] = await Promise.all(
 		(await getBlogPosts()).map(async (post) => {
-			const link = `/blog/${post.slug}/`
+			const link = `/${post.slug}/`
 			const image = post.data.opengraph || post.data.image
 			const optimizedImage =
 				image && (await getImage({ src: image, width: Math.min(1920, image.width), format: "jpg" }))

@@ -24,7 +24,7 @@ const palette = getPalette(article.data.palette)
 				img={article.data.image?.src}
 				title={article.data.title}
 				infos={[formatDate(article.data.date), article.data.description || ""]}
-				links={[["Blog", `/blog/${slug}`]]}
+				links={[["Blog", `/${slug}`]]}
 				big
 			/>
 		) : (
@@ -39,7 +39,7 @@ const palette = getPalette(article.data.palette)
 			>
 				{!titleOnly && <span class="text-[--base-color]">Aurélien Dos Santos,</span>}
 				<a
-					href={"/blog/" + article.slug}
+					href={"/" + article.slug}
 					style={{
 						fontFamily: palette.headingsFont,
 						textDecoration: "none",

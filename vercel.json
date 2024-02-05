@@ -1,16 +1,20 @@
 {
 	"redirects": [
 		{
+			"source": "/blog/2023/grottes-des-eaux-chaudes-laruns",
+			"destination": "diary/grottes-des-eaux-chaudes-laruns"
+		},
+		{
+			"source": "/blog/randonnees/7-villages-vallee-d-aspe",
+			"destination": "diary/7-villages-vallee-d-aspe"
+		},
+		{
 			"source": "/post/:path*",
-			"destination": "/blog/:path*"
+			"destination": "/:path*"
 		},
 		{
 			"source": "/photos/:path*",
-			"destination": "/blog/:path*"
-		},
-		{
-			"source": "/randonnees/:path*",
-			"destination": "/blog/:path*"
+			"destination": "/:path*"
 		},
 		{
 			"source": "/page/:path*",
@@ -23,6 +27,10 @@
 		{
 			"source": "/tag/:path*",
 			"destination": "/tags/:path*"
+		},
+		{
+			"source": "/blog/:path*",
+			"destination": "/:path*"
 		},
 		{
 			"source": "/blog",
