@@ -80,10 +80,13 @@ tag {
 	}
 
 	figure {
-		@apply mx-0 my-6;
-
+		width: fit-content;
+		@apply mx-auto my-6;
+		img {
+			@apply mx-auto block;
+		}
 		figcaption {
-			@apply ml-[20%] flex justify-end text-right text-[0.8rem];
+			@apply ml-auto mt-[0.5em] flex max-w-prose justify-end text-right text-[0.8rem];
 
 			p {
 				@apply m-0 max-w-prose;

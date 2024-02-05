@@ -65,12 +65,11 @@ export default defineConfig({
 					"baseline-toc",
 					"outline-file-download",
 				],
-				ion: ["footsteps"],
+				ion: ["footsteps", "eye"],
 				logos: ["spotify-icon"],
 				lucide: ["library-square", "scan"],
 				"material-symbols": ["update-rounded"],
 				"material-symbols-light": [
-					"keyboard-arrow-up-rounded",
 					"keyboard-double-arrow-down-rounded",
 					"keyboard-double-arrow-up-rounded",
 				],

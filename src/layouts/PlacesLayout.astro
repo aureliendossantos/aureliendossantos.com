@@ -15,17 +15,20 @@ type Props = BaseLayoutProps
 
 <style is:global>
 	.diary-layout {
-		figure:has(img):first-of-type {
+		figure {
+			@apply -mx-8;
+		}
+		.gallery figure:has(img) {
+			@apply mx-0;
+		}
+		.gallery figure:has(img):first-of-type {
 			@apply -ml-8;
 		}
-		figure:has(img):last-of-type {
+		.gallery figure:has(img):last-of-type {
 			@apply -mr-8;
 		}
-		.gallery figure + figure {
-			@apply !ml-0;
-		}
 		figcaption {
-			@apply mx-8 -mt-8 text-center;
+			@apply mx-8 text-center;
 		}
 		.prose .bg-mention {
 			@apply bg-zinc-200 hover:bg-zinc-300;
