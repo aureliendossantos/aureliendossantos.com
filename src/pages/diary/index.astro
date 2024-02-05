@@ -12,6 +12,12 @@ const placesImage = await getImage({
 	width: 800,
 	alt: "Rue de Lisbonne",
 })
+
+const filters = [
+	{ label: "Listes", category: "lists", default: true },
+	{ label: "Voyages", category: "trips", default: true },
+	{ label: "Intime", category: "personal", default: false },
+]
 ---
 
 <PlacesLayout ogType="website" title="Journal">
@@ -38,8 +44,9 @@ const placesImage = await getImage({
 							.map((entry) => {
 								return (
 									<a
-										class="place flex px-8 py-2 text-sm text-zinc-700 transition-colors hover:bg-zinc-100"
+										class="diary-entry flex px-8 py-2 text-sm text-zinc-700 transition-colors hover:bg-zinc-100"
 										href={`/diary/${entry.finalSlug}`}
+										data-category={entry.category}
 									>
 										<div class="font-medium">
 											{entry.data.draft && "[Draft] "}
@@ -70,5 +77,111 @@ const placesImage = await getImage({
 				</>
 			))
 		}
+		{/* Filters dropdown */}
+		<div class="mt-6 flex justify-end px-8">
+			<div class="relative inline-block text-left">
+				<button
+					type="button"
+					class="inline-flex w-full justify-center rounded-md border border-zinc-300 bg-white px-4 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-50"
+					id="filters-button"
+					aria-expanded="true"
+					aria-haspopup="true"
+				>
+					Filtres
+					<Icon
+						name="material-symbols-light:keyboard-arrow-up-rounded"
+						class="-mr-1 ml-2 h-5 w-5 text-zinc-500"
+						aria-hidden="true"
+					/>
+				</button>
+				<div
+					class="invisible absolute bottom-10 right-0 mt-2 w-32 rounded-md bg-zinc-950 font-work-sans text-zinc-300 shadow-lg"
+					id="filters-dropdown"
+					role="menu"
+					aria-orientation="vertical"
+					aria-labelledby="options-menu"
+				>
+					<div class="py-1" role="none">
+						{
+							filters.map((filter) => (
+								<label class="block px-4 py-2 text-right text-sm hover:bg-zinc-800" role="menuitem">
+									{filter.label}
+									<input
+										type="checkbox"
+										id={filter.category}
+										checked={filter.default}
+										class="diary-filter ml-2"
+									/>
+								</label>
+							))
+						}
+					</div>
+				</div>
+			</div>
+		</div>
 	</main>
 </PlacesLayout>
+
+<script>
+	function runFilters() {
+		const entries = document.querySelectorAll(".diary-entry") as NodeListOf<HTMLLinkElement>
+		const checkboxes = document.querySelectorAll(
+			"input[type=checkbox].diary-filter"
+		) as NodeListOf<HTMLInputElement>
+		checkboxes.forEach((checkbox) => {
+			entries.forEach((entry) => {
+				if (entry.dataset.category === checkbox.id) {
+					entry.style.display = checkbox.checked ? "flex" : "none"
+				}
+			})
+		})
+		// Hide the year headers if there are no visible entries in that year
+		const years = document.querySelectorAll("h2") as NodeListOf<HTMLHeadingElement>
+		years.forEach((year) => {
+			const entriesInYear = Array.from(year.nextElementSibling.children).filter(
+				(entry) => entry.style.display !== "none"
+			)
+			year.style.display = entriesInYear.length ? "block" : "none"
+		})
+	}
+
+	function initFiltering() {
+		window.diaryFilters ??= {
+			lists: true,
+			trips: true,
+			personal: false,
+		}
+		// Open the dropdown menu on click
+		const button = document.getElementById(`filters-button`) as HTMLButtonElement | null
+		if (!button) return
+		const dropdown = document.getElementById(`filters-dropdown`) as HTMLDivElement
+		button.addEventListener("click", () => {
+			dropdown.classList.toggle("invisible")
+		})
+		// Close the dropdown menu if the user clicks outside of it
+		window.addEventListener("click", (event) => {
+			if (!button.contains(event.target) && !dropdown.contains(event.target)) {
+				dropdown.classList.add("invisible")
+			}
+		})
+		// Filter when the user clicks on a checkbox
+		const checkboxes = document.querySelectorAll(
+			"input[type=checkbox].diary-filter"
+		) as NodeListOf<HTMLInputElement>
+		checkboxes.forEach((checkbox) => {
+			checkbox.checked = window.diaryFilters[checkbox.id]
+			checkbox.addEventListener("change", () => {
+				window.diaryFilters[checkbox.id] = checkbox.checked
+				runFilters()
+			})
+		})
+		// Filter once
+		runFilters()
+	}
+
+	document.addEventListener("astro:after-swap", () => {
+		initFiltering()
+	})
+
+	initFiltering()
+</script>
