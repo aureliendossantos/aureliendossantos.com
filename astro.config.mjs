@@ -33,6 +33,7 @@ export default defineConfig({
 				"$components/mdx/Application.astro",
 				"$components/mdx/BlogRef.astro",
 				"$components/mdx/Book.astro",
+				"$components/mdx/DiaryRef.astro",
 				"$components/mdx/Discogs.astro",
 				"$components/mdx/Figure.astro",
 				"$components/mdx/Gallery.astro",

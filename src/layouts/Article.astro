@@ -39,7 +39,7 @@ const isBlog = "categories" in data
 const relatedArticles = isBlog
 	? (await getRelatedArticles(article as CollectionEntry<"blog">)).map((a) => ({
 			title: a.article.data.title,
-			href: `/blog/${a.article.slug}`,
+			href: `/${a.article.slug}`,
 	  }))
 	: await getSeeAlso(data.seeAlso)
 const parent = !isBlog && data.parent && (await getEntry("pages", data.parent))
