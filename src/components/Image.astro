@@ -50,14 +50,15 @@ const zoomedImage =
 
 // Using the custom imageService to generate a placeholder image
 const imageService = (await getConfiguredImageService()) as LocalImageServiceWithPlaceholder
-const placeholderURL = await imageService.generatePlaceholder(src.src, src.width, src.height)
+// Placeholders are temporarily disabled to avoid a "no such file or directory" bug during build
+// const placeholderURL = await imageService.generatePlaceholder(src.src, src.width, src.height)
 ---
 
 <picture>
 	{/*src.format != "gif" && <source srcset={avif.src} type={"image/" + avif.options.format} />*/}
 	<img
 		src={webp.src}
-		style={`background-size: cover;background-image: url(${placeholderURL});image-rendering:auto;`}
+		style={`background-size: cover;background-color:rgba(0.5,0.5,0.5,0.5);image-rendering:auto;`}
 		onload="
 		this.style.backgroundImage = 'none';
 		"
