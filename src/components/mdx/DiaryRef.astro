@@ -1,0 +1,33 @@
+---
+import ArticleDate from "$components/ArticleDate.astro"
+import { getDiaryEntry } from "$utils/getBlogPosts"
+
+interface Props {
+	slug: string
+	titleOnly?: boolean
+}
+const { slug, titleOnly } = Astro.props
+
+const article = await getDiaryEntry(slug)
+if (!article) return console.error(`DiaryRef: entry ${slug} can't be found`)
+---
+
+<span class="my-[-1px] rounded border border-solid border-zinc-300 bg-white px-[2px] text-zinc-900">
+	{!titleOnly && <span>Aurélien Dos Santos,</span>}
+	<a
+		href={"/diary/" + article.finalSlug}
+		style={{
+			textDecoration: "none",
+			bgColor: "transparent !important",
+		}}
+	>
+		{titleOnly ? article.data.title : `« ${article.data.title} »,`}
+	</a>
+	{
+		!titleOnly && article.data.date && (
+			<span class="text-[--base-cover]">
+				<ArticleDate date={article.data.date} />
+			</span>
+		)
+	}
+</span>
