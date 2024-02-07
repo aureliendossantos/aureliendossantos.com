@@ -1,32 +1,10 @@
 ---
 import PlacesList from "$components/places/PlacesList.astro"
-import { getCollection } from "astro:content"
 import DiaryLayout from "$layouts/DiaryLayout.astro"
-import { type PlaceWithFetchDate, getPlacesData } from "$utils/remoteData/googleMaps"
-import getBlogPosts, { getDiary } from "$utils/getCollection"
+import { getPlaceCollection } from "$utils/getCollection"
 import InitMaps from "$components/places/InitMaps.astro"
 
-const googleMapsData = await getPlacesData()
-
-const reviewsOrder = ["loved", "liked", "okay", null]
-const articles = await getBlogPosts()
-const diaryEntries = await getDiary()
-
-const places = (await getCollection("places", ({ data }) => !data.hide))
-	.map((place) => ({
-		...place,
-		category: place.slug.split("/")[0],
-		slug: place.slug.split("/")[1],
-		maps: googleMapsData.find((p) => p.place_id == place.data.id) as PlaceWithFetchDate,
-		articles: articles.filter((a) => a.data.places.includes(place.slug)).length,
-		diaryEntries: diaryEntries.filter((a) => a.data.places.includes(place.slug)).length,
-	}))
-	.sort(
-		(a, b) =>
-			reviewsOrder.indexOf(a.data.review || null) - reviewsOrder.indexOf(b.data.review || null)
-	)
-	.sort((a, b) => a.data.status.localeCompare(b.data.status))
-	.sort((a, b) => a.maps.icon.localeCompare(b.maps.icon))
+const places = await getPlaceCollection()
 ---
 
 <DiaryLayout ogType="website" title="Lieux">
@@ -66,4 +44,3 @@ const places = (await getCollection("places", ({ data }) => !data.hide))
 </DiaryLayout>
 
 <InitMaps />
- $utils/getCollection $utils/remoteData/remoteData $utils/remoteData/googleMaps

@@ -1,8 +1,9 @@
 ---
-import { getCollection, type CollectionEntry } from "astro:content"
+import { type CollectionEntry } from "astro:content"
 import Game from "../mdx/mediaBlocks/Game.astro"
 import Book from "../mdx/mediaBlocks/Book.astro"
-import getIGDBgames, { type IGDBData } from "$utils/remoteData/igdb"
+import getIGDBgames from "$utils/remoteData/igdb"
+import { getCacheOrFetch } from "$utils/cache"
 
 interface Props {
 	article: CollectionEntry<"blog">
@@ -12,29 +13,18 @@ const { article } = Astro.props
 const data = article.data
 const references = [...data.games, ...data.books]
 
-/**
- * Check if all referenced games are present in the cache data.
- * If not, fetch all referenced games from IGDB in a single request,
- * which is faster than fetching only the missing ones, one by one.
- * @param slugs List of games slugs referenced in the article.
- * @returns List of IGDBData.
- */
-const getGames = async (slugs: string[]) => {
-	const cacheData = await getCollection("games")
-	const cachedGames = (
-		await Promise.all(
-			slugs.map(async (slug) => {
-				const cachedGame = cacheData.find(({ data }) => data.igdb && data.slug == slug)
-				if (cachedGame) return cachedGame.data.igdb
-				return null
-			})
+const gamesData = await Promise.all(
+	data.games.map(async (slug) => {
+		return await getCacheOrFetch(
+			slug,
+			"igdb",
+			async () => {
+				return (await getIGDBgames([slug!]))[0]
+			},
+			1
 		)
-	).filter((game) => game)
-	if (cachedGames.length == slugs.length) return cachedGames as IGDBData[]
-	return await getIGDBgames(slugs)
-}
-
-const gamesData = data.games.length > 0 ? await getGames(data.games) : []
+	})
+)
 ---
 
 {

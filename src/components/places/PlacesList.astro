@@ -1,31 +1,21 @@
 ---
-import { getPlacesData } from "$utils/remoteData/googleMaps"
-import { getEntry } from "astro:content"
+import { getPlaceCollectionEntry } from "$utils/getCollection"
 import crypto from "node:crypto"
 
 interface Props {
 	title?: string
-	places: any[]
+	places: string[] | Awaited<ReturnType<typeof getPlaceCollectionEntry>>[]
 	lat?: number
 	lng?: number
 	zoom?: number
 }
 const { title, lat, lng, zoom } = Astro.props
 
-const googleMapsData = await getPlacesData()
-
 const places = (
 	await Promise.all(
 		Astro.props.places.map(async (place) => {
 			if (typeof place === "string") {
-				const test = place
-				place = await getEntry("places", place)
-				if (!place) {
-					console.error(`Place ${test} not found`)
-					return null
-				}
-				place.slug = place.slug.split("/")[1]
-				place.maps = googleMapsData.find((p) => p.place_id == place.data.id)
+				return await getPlaceCollectionEntry(place)
 			}
 			return place
 		})
@@ -93,4 +83,3 @@ const uid = crypto.randomUUID()
 		)
 	}
 </div>
- $utils/remoteData/remoteData $utils/remoteData/googleMaps

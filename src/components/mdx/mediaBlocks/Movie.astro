@@ -1,5 +1,6 @@
 ---
 import RefBlock from "$components/RefBlock.astro"
+import { getCacheOrFetch } from "$utils/cache"
 import formatDate from "$utils/formatting/formatDate"
 
 interface Props {
@@ -9,23 +10,29 @@ interface Props {
 }
 const { id, posterOnly, popupId } = Astro.props
 
-console.log(`Getting TMDB data for ID ${id}...`)
-
-const options = {
-	method: "GET",
-	headers: {
-		accept: "application/json",
-		Authorization: `Bearer ${import.meta.env.TMDB_READ_ACCESS_TOKEN}`,
+const movie = await getCacheOrFetch(
+	id,
+	"tmdb-movie",
+	async () => {
+		const options = {
+			method: "GET",
+			headers: {
+				accept: "application/json",
+				Authorization: `Bearer ${import.meta.env.TMDB_READ_ACCESS_TOKEN}`,
+			},
+		}
+		const movie = await fetch(
+			`https://api.themoviedb.org/3/movie/${id}?language=fr-Fr&append_to_response=credits,images&include_image_language=null`,
+			options
+		)
+			.then((response) => response.json())
+			.catch((err) => console.error(err))
+		if (movie.success == false) throw new Error(`TMDB API error: ${movie}`)
+		return movie
 	},
-}
-const movie = await fetch(
-	`https://api.themoviedb.org/3/movie/${id}?language=fr-Fr&append_to_response=credits,images&include_image_language=null`,
-	options
+	1
 )
-	.then((response) => response.json())
-	.catch((err) => console.error(err))
 
-if (movie.success == false) console.error(movie)
 // Response format: https://developer.themoviedb.org/reference/movie-details
 const year = formatDate(new Date(movie.release_date), true)
 const infos = []

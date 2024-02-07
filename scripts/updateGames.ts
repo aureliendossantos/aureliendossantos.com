@@ -5,8 +5,8 @@ import { pathToFileURL } from "node:url"
 
 /**
  * Fetches the games in my Notion database according to custom filters then
- * saves the results as a JSON file in the games collection.
- * @returns The number of games in the new data file.
+ * saves the results as data entries in the games collection.
+ * @returns The number of games in the collection.
  */
 export default async function updateGames() {
 	const rootPath = pathToFileURL(process.cwd() + "/")

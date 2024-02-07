@@ -1,5 +1,6 @@
 ---
 import RefBlock from "$components/RefBlock.astro"
+import { getCacheOrFetch } from "$utils/cache"
 import formatDate from "$utils/formatting/formatDate"
 
 interface Props {
@@ -9,20 +10,26 @@ interface Props {
 }
 const { id, posterOnly, popupId } = Astro.props
 
-console.log(`Getting TMDB data for Person ID ${id}...`)
-
-const options = {
-	method: "GET",
-	headers: {
-		accept: "application/json",
-		Authorization: `Bearer ${import.meta.env.TMDB_READ_ACCESS_TOKEN}`,
+const person = await getCacheOrFetch(
+	id,
+	"tmdb-person",
+	async () => {
+		const options = {
+			method: "GET",
+			headers: {
+				accept: "application/json",
+				Authorization: `Bearer ${import.meta.env.TMDB_READ_ACCESS_TOKEN}`,
+			},
+		}
+		const person = await fetch(`https://api.themoviedb.org/3/person/${id}?language=fr-Fr`, options)
+			.then((response) => response.json())
+			.catch((err) => console.error(err))
+		if (person.success == false) throw new Error(`TMDB API Error: ${person}`)
+		return person
 	},
-}
-const person = await fetch(`https://api.themoviedb.org/3/person/${id}?language=fr-Fr`, options)
-	.then((response) => response.json())
-	.catch((err) => console.error(err))
+	1
+)
 
-if (person.success == false) console.error(person)
 // Response format: https://developer.themoviedb.org/reference/movie-details
 const year =
 	formatDate(new Date(person.birthday), true) + person.deathday

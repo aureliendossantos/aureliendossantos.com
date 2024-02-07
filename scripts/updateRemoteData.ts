@@ -1,22 +1,14 @@
 import fs from "node:fs"
-import { pathToFileURL } from "node:url"
 import updateGames from "./updateGames"
-import updatePlaces from "./updatePlaces"
+import { ensureCacheFolderExists } from "$utils/cache"
 
 // Creates the cache folder if it doesn't exist
-const rootPath = pathToFileURL(process.cwd() + "/")
-const cacheDir = new URL(`node_modules/.my-cache`, rootPath)
-if (!fs.existsSync(cacheDir)) {
-	console.warn("Cache folder doesn't exist. Creating it...")
-	fs.mkdirSync(cacheDir)
-} else {
-	console.log("Cache folder found.")
-}
+ensureCacheFolderExists()
 
 // When this script is ran (see package.json), runs all the scripts updating remote data.
-const [gameCount, placesCount] = await Promise.all([updateGames(), updatePlaces()])
+const [gameCount] = await Promise.all([updateGames()])
 
-console.log(`Got data for ${gameCount} games & ${placesCount} places.`)
+console.log(`Got data for ${gameCount} games.`)
 
 /**
  * Get a list of all directories in a given content collection.

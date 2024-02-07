@@ -1,8 +1,8 @@
 ---
 import { getCollection, type CollectionEntry } from "astro:content"
 import DiaryLayout from "$layouts/DiaryLayout.astro"
-import { getClosedStatus, getGoogleImage } from "$utils/remoteData/googleMaps"
-import { getPlacesData, type PlaceWithFetchDate } from "$utils/remoteData/googleMaps"
+import { getClosedStatus, getGoogleImage, getPlace } from "$utils/remoteData/googleMaps"
+import { type PlaceWithFetchDate } from "$utils/remoteData/googleMaps"
 import getBlogPosts, { getDiary } from "$utils/getCollection"
 import ArticleDate from "$components/articles/ArticleDate.astro"
 import getPalette, { getColor } from "$utils/design/palettes"
@@ -10,11 +10,12 @@ import { Icon } from "astro-icon/components"
 
 export async function getStaticPaths() {
 	const places = await getCollection("places")
-	const googleMapsData = await getPlacesData()
-	return places.map((place) => ({
-		params: { place: place.slug.split("/")[1] },
-		props: { place, mapsData: googleMapsData.find((p) => p.place_id === place.data.id) },
-	}))
+	return await Promise.all(
+		places.map(async (place) => ({
+			params: { place: place.slug.split("/")[1] },
+			props: { place, mapsData: await getPlace(place.data.id) },
+		}))
+	)
 }
 
 interface Props {
@@ -179,5 +180,3 @@ const gallery =
 		@apply mb-[0.2em];
 	}
 </style>
- $utils/getCollection $utils/design/palettes $utils/remoteData/remoteData
-$utils/remoteData/googleMaps $utils/remoteData/places
