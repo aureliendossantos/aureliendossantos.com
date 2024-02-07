@@ -2,9 +2,13 @@
 import "$styles/base.css"
 import ArticleCard from "$components/blog/ArticleCard.astro"
 import BaseLayout from "$layouts/BaseLayout.astro"
-import getBlogPosts from "$utils/getCollection"
+import getBlogPosts, { getDiary } from "$utils/getCollection"
+import DiaryWrapup from "$components/blog/DiaryWrapup.astro"
 
 const articles = await getBlogPosts()
+
+const diary = (await getDiary()).filter((entry) => entry.data.highlight)
+const years = Array.from(new Set(diary.map((entry) => entry.year)))
 ---
 
 <BaseLayout
@@ -30,7 +34,15 @@ const articles = await getBlogPosts()
 	</header>
 	{
 		articles.map((article, index) => (
-			<ArticleCard article={article} entryIndex={articles.length - index} />
+			<>
+				<ArticleCard article={article} entryIndex={articles.length - index} />
+				{(() => {
+					if (!articles[index + 1]) return
+					const year = article.data.date.getFullYear()
+					const nextYear = articles[index + 1].data.date.getFullYear()
+					if (year != nextYear && years.find((y) => y == year)) return <DiaryWrapup year={year} />
+				})()}
+			</>
 		))
 	}
 </BaseLayout>
@@ -40,3 +52,21 @@ const articles = await getBlogPosts()
 		@apply text-space-700 decoration-space-300 underline-offset-4 hover:text-space-800 hover:underline dark:text-space-300 dark:decoration-space-600 dark:hover:text-space-200;
 	}
 </style>
+
+<script>
+	// Display the corresponding image cover on link hover.
+	// Only toggles images of the current year.
+	const images = document.querySelectorAll("[id$='-image']")
+	const links = document.querySelectorAll("[id$='-link']")
+	links.forEach((link) => {
+		link.addEventListener("mouseenter", () => {
+			const year = link.getAttribute("data-year")
+			images.forEach((image) => {
+				if (image.getAttribute("data-year") == year) {
+					const id = image.id.replace("-image", "")
+					image.classList.toggle("hidden", `${id}-link` != link.id)
+				}
+			})
+		})
+	})
+</script>

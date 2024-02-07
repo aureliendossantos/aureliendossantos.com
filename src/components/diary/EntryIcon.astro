@@ -1,0 +1,24 @@
+---
+import type { getDiaryData } from "$utils/getCollection"
+import { Icon } from "astro-icon/components"
+
+interface Props {
+	entry: Awaited<ReturnType<typeof getDiaryData>>
+}
+
+const { entry } = Astro.props
+---
+
+{
+	entry.category == "trips" && (
+		<Icon name="ion:footsteps" class="mb-[0.15em] ml-1 inline-block h-[0.9em] text-zinc-500" />
+	)
+}
+{
+	entry.category == "lists" && (
+		<Icon
+			name="tdesign:map-collection"
+			class="mb-[0.11em] ml-1 inline-block h-[1.1em] text-zinc-500"
+		/>
+	)
+}

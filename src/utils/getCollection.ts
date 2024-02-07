@@ -9,7 +9,7 @@ export default async function getBlogPosts(drafts = true) {
 	return blog.sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
 }
 
-function getDiaryData(entry: CollectionEntry<"diary">) {
+export function getDiaryData(entry: CollectionEntry<"diary">) {
 	const { slug, ...rest } = entry
 	return {
 		slug: slug,

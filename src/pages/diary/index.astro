@@ -4,6 +4,7 @@ import DiaryLayout from "$layouts/DiaryLayout.astro"
 import { getDiary } from "$utils/getCollection"
 import { getImage } from "astro:assets"
 import { Icon } from "astro-icon/components"
+import EntryIcon from "$components/diary/EntryIcon.astro"
 
 const entries = await getDiary()
 // Get a list of unique years in diary entries
@@ -46,27 +47,15 @@ const filters = [
 							.map((entry) => {
 								return (
 									<a
-										class="diary-entry flex px-8 py-2 text-sm text-zinc-700 transition-colors hover:bg-zinc-100"
+										class="diary-entry flex justify-between px-8 py-2 text-sm text-zinc-700 transition-colors hover:bg-zinc-100"
 										href={`/diary/${entry.finalSlug}`}
 										data-category={entry.category}
 									>
 										<div class="font-medium">
 											{entry.data.draft && "[Draft] "}
 											{entry.data.title}
-											{entry.category == "trips" && (
-												<Icon
-													name="ion:footsteps"
-													class="mb-[0.15em] ml-1 inline-block h-[0.9em] text-zinc-500"
-												/>
-											)}
-											{entry.category == "lists" && (
-												<Icon
-													name="tdesign:map-collection"
-													class="mb-[0.11em] ml-1 inline-block h-[1.1em] text-zinc-500"
-												/>
-											)}
+											<EntryIcon entry={entry} />
 										</div>
-										<div class="grow" />
 										{entry.data.date && (
 											<div>
 												<ArticleDate noYear date={entry.data.date} />

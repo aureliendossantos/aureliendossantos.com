@@ -1,0 +1,98 @@
+---
+import ArticleDate from "$components/articles/ArticleDate.astro"
+import EntryIcon from "$components/diary/EntryIcon.astro"
+import { getDiary } from "$utils/getCollection"
+import { getImage } from "astro:assets"
+
+interface Props {
+	year: number
+}
+
+const { year } = Astro.props
+
+const diary = await Promise.all(
+	(await getDiary())
+		.filter((entry) => entry.data.highlight)
+		.map(async (entry) => ({
+			...entry,
+			image: entry.data.image && (await getImage({ src: entry.data.image, width: 900 })),
+		}))
+)
+const entries = diary.filter((entry) => entry.year == year)
+
+const wrapups = {
+	2023: "2023 est marqué par la fin de mes études mais aussi par un voyage d'une semaine en voiture, que je n'ai pas encore inscrit dans le journal.",
+	2022: "2022 fut l'année du premier été à Toulouse.",
+	2021: "2021 fut la première année où j'ai documenté une escapade dans mon journal.",
+}
+if (!(year in wrapups)) throw new Error(`Year ${year} not in wrapup`)
+---
+
+<div
+	class="grid w-full grid-cols-3 items-center bg-white text-zinc-900 xl:grid-cols-2 mediumlarge:flex mediumlarge:grid-cols-none mediumlarge:flex-col"
+>
+	{
+		entries.map((entry, index) => {
+			return (
+				<div
+					id={`${entry.slug}-image`}
+					data-year={year}
+					class:list={[
+						"h-full w-full mediumlarge:m-auto mediumlarge:h-44 mediumlarge:max-w-md",
+						{ hidden: index > 0 },
+					]}
+					style={{
+						backgroundImage: entry.image && `url(${entry.image.src})`,
+						backgroundSize: "cover",
+						backgroundPosition: entry.data.imageAnchorTop ? "top" : "center",
+					}}
+				/>
+			)
+		})
+	}
+	<div class="flex justify-center">
+		<div
+			class:list={[
+				"ml-8 mr-16 flex min-w-[20rem] max-w-xs flex-col 2xl:ml-7 2xl:mr-14 2xl:min-w-[17.5rem] 2xl:max-w-[17.5rem] xl:mt-11 small:mx-0 small:min-w-[20rem] small:max-w-[20rem]",
+			]}
+		>
+			<div class="order-2">
+				<h2 class="mb-2 mt-8 text-2xl font-bold 2xl:text-xl xl:mt-0 small:text-2xl">
+					{year} dans mon journal
+				</h2>
+				<p class="my-2 hidden text-sm xl:block small:text-base">{wrapups[year]}</p>
+			</div>
+			<div class="order-3 -mx-8 mb-8 flex flex-col">
+				{
+					entries.map((entry) => (
+						<a
+							id={`${entry.slug}-link`}
+							data-year={year}
+							class="diary-entry px-8 py-2 text-sm text-zinc-700 transition-colors hover:bg-zinc-100"
+							href={`/diary/${entry.finalSlug}`}
+							data-category={entry.category}
+						>
+							<div class="font-medium">
+								{entry.data.draft && "[Draft] "}
+								{entry.data.title}
+								<EntryIcon entry={entry} />
+							</div>
+							{entry.data.date && (
+								<div>
+									<ArticleDate noYear date={entry.data.date} />
+								</div>
+							)}
+						</a>
+					))
+				}
+			</div>
+		</div>
+	</div>
+	<div class="flex justify-center xl:hidden">
+		<p
+			class="my-14 ml-8 mr-16 min-w-[20rem] max-w-[20rem] 2xl:my-12 2xl:min-w-[17.5rem] 2xl:max-w-[17.5rem] 2xl:text-sm"
+		>
+			{wrapups[year]}
+		</p>
+	</div>
+</div>
