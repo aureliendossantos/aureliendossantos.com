@@ -25,7 +25,7 @@ export default async function updateGames() {
 	})
 	// Create content collection folder if it doesn't exist or empty its contents
 	const gamesDir = new URL(`src/content/games`, rootPath)
-	if (fs.existsSync(gamesDir)) fs.rmdirSync(gamesDir, { recursive: true })
+	if (fs.existsSync(gamesDir)) fs.rmSync(gamesDir, { recursive: true })
 	fs.mkdirSync(gamesDir)
 	// Write the data to a JSON file for each game
 	games.forEach((game) => {

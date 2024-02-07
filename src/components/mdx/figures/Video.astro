@@ -5,6 +5,7 @@ type singleSrc = string | Promise<{ default: string }>
 
 /**
  * @param {boolean} [gif] Preset for `autoplay muted loop playsinline`
+ * @param {singleSrc} compat The most compatible video format should use the following ffmpeg parameters: `-vcodec libx264 -profile:v main -level 3.1 -pix_fmt:v yuv420p -movflags faststart`
  */
 interface Props extends Omit<HTMLAttributes<"video">, "src"> {
 	src: singleSrc | { src: singleSrc; type?: string }[]

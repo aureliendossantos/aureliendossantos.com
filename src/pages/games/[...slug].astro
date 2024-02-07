@@ -3,8 +3,8 @@ import "$styles/base.css"
 import IGDBImage from "$components/IGDBImage.astro"
 import RenderBlocks from "$components/notion/RenderBlocks.astro"
 import BaseLayout from "$layouts/BaseLayout.astro"
-import enumerate from "$utils/enumerateStrings"
-import type { IGDBData } from "$utils/getIGDBgame"
+import enumerate from "$utils/formatting/enumerateStrings"
+import type { IGDBData } from "$utils/remoteData/igdb"
 import { emotes } from "$utils/notion/reviewEmotes"
 import { getCollection, type CollectionEntry } from "astro:content"
 
@@ -142,3 +142,4 @@ const igdb = data.igdb as IGDBData
 		</main>
 	</div>
 </BaseLayout>
+ $utils/formatting/enumerateStrings$utils/remoteData/getIGDBgame $utils/remoteData/igdb

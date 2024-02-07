@@ -3,7 +3,7 @@ import fs from "node:fs"
 import { pathToFileURL } from "node:url"
 import matter from "gray-matter"
 import { getContentDirs } from "./updateRemoteData"
-import { getPlacesData, type PlaceWithFetchDate } from "$utils/remoteData"
+import { getPlacesData, type PlaceWithFetchDate } from "$utils/remoteData/googleMaps"
 
 /**
  * For each file in the `places` content collection, fetches Google Maps data

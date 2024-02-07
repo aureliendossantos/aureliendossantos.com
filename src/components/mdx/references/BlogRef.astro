@@ -1,9 +1,9 @@
 ---
 import RefBlock from "$components/RefBlock.astro"
-import ArticleDate from "$components/ArticleDate.astro"
+import ArticleDate from "$components/articles/ArticleDate.astro"
 import { getEntryBySlug } from "astro:content"
-import getPalette, { getColor } from "$utils/palettes"
-import formatDate from "$utils/formatDate"
+import getPalette, { getColor } from "$utils/design/palettes"
+import formatDate from "$utils/formatting/formatDate"
 
 interface Props {
 	slug: string
@@ -56,3 +56,4 @@ const palette = getPalette(article.data.palette)
 			</span>
 		))
 }
+ $utils/design/palettes

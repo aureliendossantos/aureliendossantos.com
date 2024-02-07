@@ -2,7 +2,7 @@ import rss, { type RSSFeedItem } from "@astrojs/rss"
 import type { APIContext } from "astro"
 import sanitizeHtml from "sanitize-html"
 import MarkdownIt from "markdown-it"
-import getBlogPosts, { getDiary } from "$utils/getBlogPosts"
+import getBlogPosts, { getDiary } from "$utils/getCollection"
 import { getImage } from "astro:assets"
 const parser = new MarkdownIt()
 

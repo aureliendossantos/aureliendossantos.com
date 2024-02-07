@@ -1,6 +1,10 @@
 import type { CollectionEntry } from "astro:content"
-import getBlogPosts from "./getBlogPosts"
+import getBlogPosts from "./getCollection"
 
+/**
+ * Returns the 3 most related articles to the given article.
+ * It uses a scoring system based on several criteria.
+ */
 export default async function getRelatedArticles(article: CollectionEntry<"blog">) {
 	const articles = (await getBlogPosts()).filter((a) => a.id != article.id && !a.data.draft)
 

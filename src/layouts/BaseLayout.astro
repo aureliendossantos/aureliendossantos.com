@@ -6,8 +6,8 @@ import MediumZoom from "$components/MediumZoom.astro"
 import GoogleStructuredData from "$components/meta/GoogleStructuredData.astro"
 import NavBar from "$components/navbar/NavBar.astro"
 import type { NavBarProps } from "$utils/navbar"
-import type { Layouts } from "$utils/layouts"
-import { getColor, type Color, getBothColors } from "$utils/palettes"
+import type { Layouts } from "$utils/design/layouts"
+import { getColor, type Color, getBothColors } from "$utils/design/palettes"
 
 export interface Props {
 	title: string
@@ -133,5 +133,8 @@ navBarPropsWithFallback.title ??= title
 				width: unset;
 			}
 		</style>
+
+		 $utils/design/layouts
 	</body>
+	 $utils/design/palettes
 </html>

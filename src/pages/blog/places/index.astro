@@ -1,8 +1,8 @@
 ---
-import ArticleCardMinimal from "$components/ArticleCardMinimal.astro"
+import ArticleCardMinimal from "$components/blog/ArticleCardMinimal.astro"
 import Explore from "$layouts/Explore.astro"
 import { getEntryBySlug } from "astro:content"
-import getBlogPosts from "$utils/getBlogPosts"
+import getBlogPosts from "$utils/getCollection"
 import { getUniquePlacesAndOccurences } from "$utils/getUniqueValuesAndOccurences"
 
 const articles = await getBlogPosts()
@@ -64,3 +64,4 @@ Object.entries(places).forEach(([key, value]) => {
 		}
 	</main>
 </Explore>
+ $utils/getCollection

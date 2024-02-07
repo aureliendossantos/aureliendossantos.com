@@ -1,12 +1,12 @@
 ---
 import { type CollectionEntry, getCollection } from "astro:content"
 import BaseLayout from "$layouts/BaseLayout.astro"
-import PlacesLayout from "$layouts/PlacesLayout.astro"
+import DiaryLayout from "$layouts/DiaryLayout.astro"
 import PlacesList from "$components/places/PlacesList.astro"
-import { getPlacesData } from "$utils/remoteData"
-import { getDiary } from "$utils/getBlogPosts"
-import ArticleDate from "$components/ArticleDate.astro"
-import InitMaps from "$components/InitMaps.astro"
+import { getPlacesData } from "$utils/remoteData/googleMaps"
+import { getDiary } from "$utils/getCollection"
+import ArticleDate from "$components/articles/ArticleDate.astro"
+import InitMaps from "$components/places/InitMaps.astro"
 
 export async function getStaticPaths() {
 	const entries = await getDiary()
@@ -39,7 +39,7 @@ const places = data.places
 
 {
 	!data.customLayout ? (
-		<PlacesLayout
+		<DiaryLayout
 			title={data.title}
 			ogType="article"
 			navBarProps={{ title: data.title, parent: { title: "Journal", href: "/diary" } }}
@@ -67,7 +67,7 @@ const places = data.places
 					<Content />
 				</main>
 			</div>
-		</PlacesLayout>
+		</DiaryLayout>
 	) : (
 		<BaseLayout
 			title={data.title}
@@ -80,3 +80,4 @@ const places = data.places
 }
 
 <InitMaps />
+ $utils/getCollection $utils/remoteData/remoteData $utils/remoteData/googleMaps

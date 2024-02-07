@@ -1,9 +1,9 @@
 ---
-import ArticleCardMinimal from "$components/ArticleCardMinimal.astro"
-import TagLabel from "$components/TagLabel.astro"
+import ArticleCardMinimal from "$components/blog/ArticleCardMinimal.astro"
+import TagLabel from "$components/blog/TagLabel.astro"
 import Explore from "$layouts/Explore.astro"
 import type { CollectionEntry } from "astro:content"
-import getBlogPosts from "$utils/getBlogPosts"
+import getBlogPosts from "$utils/getCollection"
 import getUniqueValuesAndOccurences from "$utils/getUniqueValuesAndOccurences"
 
 export async function getStaticPaths() {
@@ -45,3 +45,4 @@ const { articles, tags } = Astro.props
 		{articles.map((article) => <ArticleCardMinimal article={article} />)}
 	</main>
 </Explore>
+ $utils/getCollection

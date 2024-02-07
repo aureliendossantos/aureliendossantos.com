@@ -1,5 +1,5 @@
 import "dotenv/config"
-import enumerate from "./enumerateStrings"
+import enumerate from "../formatting/enumerateStrings"
 
 export type IGDBImage = {
 	image_id: string

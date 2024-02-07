@@ -1,6 +1,6 @@
 ---
 import RefBlock from "$components/RefBlock.astro"
-import { getClosedStatus } from "$utils/places"
+import { getClosedStatus } from "$utils/remoteData/googleMaps"
 
 interface Props {
 	id: string
@@ -56,3 +56,4 @@ const galleryUrls =
 	big={big}
 	gallery={galleryUrls}
 />
+ $utils/remoteData/places

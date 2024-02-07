@@ -1,11 +1,11 @@
 ---
 import { getCollection, type CollectionEntry } from "astro:content"
-import PlacesLayout from "$layouts/PlacesLayout.astro"
-import { getClosedStatus, getGoogleImage } from "$utils/places"
-import { getPlacesData, type PlaceWithFetchDate } from "$utils/remoteData"
-import getBlogPosts, { getDiary } from "$utils/getBlogPosts"
-import ArticleDate from "$components/ArticleDate.astro"
-import getPalette, { getColor } from "$utils/palettes"
+import DiaryLayout from "$layouts/DiaryLayout.astro"
+import { getClosedStatus, getGoogleImage } from "$utils/remoteData/googleMaps"
+import { getPlacesData, type PlaceWithFetchDate } from "$utils/remoteData/googleMaps"
+import getBlogPosts, { getDiary } from "$utils/getCollection"
+import ArticleDate from "$components/articles/ArticleDate.astro"
+import getPalette, { getColor } from "$utils/design/palettes"
 import { Icon } from "astro-icon/components"
 
 export async function getStaticPaths() {
@@ -49,7 +49,7 @@ const gallery =
 		: undefined
 ---
 
-<PlacesLayout
+<DiaryLayout
 	ogType="article"
 	title={data.title}
 	navBarProps={{ title: data.title, parent: { title: "Lieux", href: "/places" } }}
@@ -169,7 +169,7 @@ const gallery =
 			</p>
 		</footer>
 	</div>
-</PlacesLayout>
+</DiaryLayout>
 
 <style is:global>
 	.prose .bg-mention {
@@ -179,3 +179,5 @@ const gallery =
 		@apply mb-[0.2em];
 	}
 </style>
+ $utils/getCollection $utils/design/palettes $utils/remoteData/remoteData
+$utils/remoteData/googleMaps $utils/remoteData/places

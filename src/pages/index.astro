@@ -1,8 +1,8 @@
 ---
 import "$styles/base.css"
-import ArticleCard from "$components/ArticleCard.astro"
+import ArticleCard from "$components/blog/ArticleCard.astro"
 import BaseLayout from "$layouts/BaseLayout.astro"
-import getBlogPosts from "$utils/getBlogPosts"
+import getBlogPosts from "$utils/getCollection"
 
 const articles = await getBlogPosts()
 ---

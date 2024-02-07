@@ -1,8 +1,8 @@
 ---
 interface Props {
-	navBarTitle: string
-	navBarLinks: { title: string; url: string }[]
-	url: string
+	navBarTitle?: string
+	navBarLinks?: { title: string; url: string }[]
+	url?: string
 	padding?: boolean
 }
 const { navBarTitle, navBarLinks, url, padding } = Astro.props
@@ -23,24 +23,29 @@ const uid = crypto.randomUUID()
 		class={`popup absolute bottom-[25px] shadow-md hidden rounded border border-solid border-[--popup] bg-[--bg] indent-0 dark:border-[--dark-popup] dark:bg-[--dark-bg]`}
 		style={{ transform: "translateX(-50%)" }}
 	>
-		<div
-			id={`${uid}-data`}
-			class="hidden"
-			data-title={navBarTitle}
-			data-links={JSON.stringify(navBarLinks)}
-		>
-		</div>
+		{
+			navBarTitle && navBarLinks && (
+				<div
+					id={`${uid}-data`}
+					class="hidden"
+					data-title={navBarTitle}
+					data-links={JSON.stringify(navBarLinks)}
+				/>
+			)
+		}
 		<div class="flex flex-col">
 			<div class=`overflow-auto max-h-[200px] ${padding ? "p-8" : ""}`>
 				<slot name="popup-contents" />
 			</div>
-			<div
-				class="source truncate border-0 border-t border-dotted px-8 py-2 font-[family-name:--code-font] text-xs"
-			>
-				<a href={url} class="no-underline">
-					{url}
-				</a>
-			</div>
+			{
+				url && (
+					<div class="source truncate border-0 border-t border-dotted px-8 py-2 font-[family-name:--code-font] text-xs">
+						<a href={url} class="no-underline">
+							{url}
+						</a>
+					</div>
+				)
+			}
 		</div>
 	</div>
 </template>
@@ -107,8 +112,9 @@ const uid = crypto.randomUUID()
 					return
 				}
 				// updating the navbar
-				const data = (document.getElementById(`${uid}-data`) as HTMLDivElement).dataset
-				openPopupNavbar(data.title as string, data.librarySlug, JSON.parse(data.links as string))
+				const data = document.getElementById(`${uid}-data`)?.dataset
+				if (data)
+					openPopupNavbar(data.title as string, data.librarySlug, JSON.parse(data.links as string))
 				// opening popup
 				opened = true
 				window.popupsOpened += 1

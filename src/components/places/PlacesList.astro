@@ -1,5 +1,5 @@
 ---
-import { getPlacesData } from "$utils/remoteData"
+import { getPlacesData } from "$utils/remoteData/googleMaps"
 import { getEntry } from "astro:content"
 import crypto from "node:crypto"
 
@@ -93,3 +93,4 @@ const uid = crypto.randomUUID()
 		)
 	}
 </div>
+ $utils/remoteData/remoteData $utils/remoteData/googleMaps

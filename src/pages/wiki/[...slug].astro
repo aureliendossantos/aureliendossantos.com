@@ -7,7 +7,7 @@ import slugify from "slugify"
 import getDatabase from "$utils/notion/getDatabase"
 import NotionPageContent from "$components/notion/NotionPageContent.astro"
 import type { PagesEntry } from "$utils/notion/wiki"
-import formatDate from "$utils/formatDate"
+import formatDate from "$utils/formatting/formatDate"
 import { Icon } from "astro-icon/components"
 
 let results = (await getDatabase(import.meta.env.NOTION_WIKI_PAGES_DB)) as PagesEntry[]

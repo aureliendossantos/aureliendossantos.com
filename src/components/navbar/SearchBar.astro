@@ -46,7 +46,7 @@ const preRenderedEntries = Astro.props.ssr ? [] : await getSearchEntries()
 </div>
 
 <script>
-	import { SearchCard } from "$components/SearchCard"
+	import { SearchCard } from "$components/navbar/SearchCard"
 
 	customElements.define("search-card", SearchCard)
 </script>

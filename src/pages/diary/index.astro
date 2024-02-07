@@ -1,7 +1,7 @@
 ---
-import ArticleDate from "$components/ArticleDate.astro"
-import PlacesLayout from "$layouts/PlacesLayout.astro"
-import { getDiary } from "$utils/getBlogPosts"
+import ArticleDate from "$components/articles/ArticleDate.astro"
+import DiaryLayout from "$layouts/DiaryLayout.astro"
+import { getDiary } from "$utils/getCollection"
 import { getImage } from "astro:assets"
 import { Icon } from "astro-icon/components"
 
@@ -22,7 +22,7 @@ const filters = [
 ]
 ---
 
-<PlacesLayout ogType="website" title="Journal">
+<DiaryLayout ogType="website" title="Journal">
 	<main class="flex flex-col pb-8 text-zinc-900">
 		<header class="prose prose-zinc mb-8 mt-16 px-8 small:prose-sm">
 			<h1>Journal</h1>
@@ -121,7 +121,7 @@ const filters = [
 			</div>
 		</div>
 	</main>
-</PlacesLayout>
+</DiaryLayout>
 
 <script>
 	function runFilters() {
@@ -186,3 +186,4 @@ const filters = [
 
 	initFiltering()
 </script>
+ $utils/getCollection

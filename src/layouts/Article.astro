@@ -1,16 +1,16 @@
 ---
 import { getEntry, type CollectionEntry } from "astro:content"
 import BaseLayout from "./BaseLayout.astro"
-import getPalette, { getColor } from "$utils/palettes"
-import ArticleHeader from "$components/ArticleHeader.astro"
-import TableOfContents from "$components/TableOfContents.astro"
+import getPalette, { getColor } from "$utils/design/palettes"
+import ArticleHeader from "$components/articles/ArticleHeader.astro"
+import TableOfContents from "$components/articles/TableOfContents.astro"
 import type { MarkdownHeading } from "astro"
 import "src/styles/articles.css"
 import "$styles/tufte.css"
-import { Layouts } from "$utils/layouts"
+import { Layouts } from "$utils/design/layouts"
 import getRelatedArticles from "$utils/getRelatedArticles"
-import TufteHeader from "$components/blog/TufteHeader.astro"
-import NavbarAccessFooter from "$components/NavbarAccessFooter.astro"
+import TufteHeader from "$components/articles/TufteHeader.astro"
+import NavbarAccessFooter from "$components/navbar/NavbarAccessFooter.astro"
 import getSeeAlso from "$utils/getSeeAlso"
 
 interface Props {

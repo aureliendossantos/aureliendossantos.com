@@ -1,9 +1,9 @@
 ---
 import { getEntryBySlug, type CollectionEntry } from "astro:content"
 import { getImage } from "astro:assets"
-import getPalette, { getColor } from "$utils/palettes"
-import ArticleDate from "./ArticleDate.astro"
-import { Layouts } from "$utils/layouts"
+import getPalette, { getColor } from "$utils/design/palettes"
+import ArticleDate from "../articles/ArticleDate.astro"
+import { Layouts } from "$utils/design/layouts"
 
 interface Props {
 	article: CollectionEntry<"blog">

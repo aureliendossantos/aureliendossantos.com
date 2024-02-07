@@ -12,4 +12,7 @@ interface Window {
 	nextPageIsLoading: boolean
 	toastsOpened: number
 	initAllMaps: () => void
+	diaryFilters: {
+		[key: string]: boolean
+	}
 }

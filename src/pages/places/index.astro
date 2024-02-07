@@ -1,10 +1,10 @@
 ---
 import PlacesList from "$components/places/PlacesList.astro"
 import { getCollection } from "astro:content"
-import PlacesLayout from "$layouts/PlacesLayout.astro"
-import { type PlaceWithFetchDate, getPlacesData } from "$utils/remoteData"
-import getBlogPosts, { getDiary } from "$utils/getBlogPosts"
-import InitMaps from "$components/InitMaps.astro"
+import DiaryLayout from "$layouts/DiaryLayout.astro"
+import { type PlaceWithFetchDate, getPlacesData } from "$utils/remoteData/googleMaps"
+import getBlogPosts, { getDiary } from "$utils/getCollection"
+import InitMaps from "$components/places/InitMaps.astro"
 
 const googleMapsData = await getPlacesData()
 
@@ -29,7 +29,7 @@ const places = (await getCollection("places", ({ data }) => !data.hide))
 	.sort((a, b) => a.maps.icon.localeCompare(b.maps.icon))
 ---
 
-<PlacesLayout ogType="website" title="Lieux">
+<DiaryLayout ogType="website" title="Lieux">
 	<main class="flex flex-col text-zinc-900">
 		<header class="prose prose-zinc mb-8 mt-16 px-8 small:prose-sm">
 			<h1>Lieux</h1>
@@ -63,6 +63,7 @@ const places = (await getCollection("places", ({ data }) => !data.hide))
 			zoom={4}
 		/>
 	</main>
-</PlacesLayout>
+</DiaryLayout>
 
 <InitMaps />
+ $utils/getCollection $utils/remoteData/remoteData $utils/remoteData/googleMaps

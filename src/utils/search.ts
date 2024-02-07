@@ -1,6 +1,6 @@
 import { getCollection, type CollectionEntry, type CollectionKey } from "astro:content"
-import getBlogPosts, { getDiary } from "$utils/getBlogPosts"
-import formatDate from "$utils/formatDate"
+import getBlogPosts, { getDiary } from "$utils/getCollection"
+import formatDate from "$utils/formatting/formatDate"
 
 interface SearchEntry {
 	slug: string

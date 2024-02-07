@@ -1,4 +1,4 @@
-import type { PlaceWithFetchDate } from "./remoteData"
+import type { PlaceWithFetchDate } from "./remoteData/googleMaps"
 
 // Takes a list of strings and returns an list of unique strings and their number of occurences.
 export default function getUniqueValuesAndOccurences(strings: (string[] | undefined)[]) {

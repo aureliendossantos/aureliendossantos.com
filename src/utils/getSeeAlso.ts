@@ -6,8 +6,11 @@ function capitalize(string: string) {
 }
 
 /**
- * If the slug can't be found in the pages collection, it's assumed that it's a .astro page.
+ * "See also" is like "related articles" but for pages. Unlike articles, it's a list of manually defined slugs.
+ * If the slug corresponds to an entry in the pages collection, we display its title.
+ * If the entry can't be found, it's assumed that it's an `.astro` page. We simply capitalize the slug and hope that the result will look good.
  * @param slugs slugs from the pages collection or from a .astro page
+ * @see `getRelatedArticles.ts`
  */
 export default async function getSeeAlso(slugs: string[]): Promise<NavBarProps["related"]> {
 	return await Promise.all(

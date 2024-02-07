@@ -1,6 +1,6 @@
 ---
-import ArticleDate from "$components/ArticleDate.astro"
-import { getDiaryEntry } from "$utils/getBlogPosts"
+import ArticleDate from "$components/articles/ArticleDate.astro"
+import { getDiaryEntry } from "$utils/getCollection"
 
 interface Props {
 	slug: string
@@ -31,3 +31,4 @@ if (!article) return console.error(`DiaryRef: entry ${slug} can't be found`)
 		)
 	}
 </span>
+ $utils/getCollection
