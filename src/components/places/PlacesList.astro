@@ -8,8 +8,9 @@ interface Props {
 	lat?: number
 	lng?: number
 	zoom?: number
+	inDiary?: boolean
 }
-const { title, lat, lng, zoom } = Astro.props
+const { title, lat, lng, zoom, inDiary } = Astro.props
 
 const places = (
 	await Promise.all(
@@ -38,7 +39,7 @@ const uid = crypto.randomUUID()
 			return (
 				<a
 					class={
-						"place flex gap-2 px-6 py-2 text-sm transition-colors hover:bg-zinc-100" +
+						"place flex gap-2 px-8 py-2 text-sm transition-colors hover:bg-zinc-100" +
 						(place.data.status == "done" ? " text-zinc-700" : " text-zinc-500")
 					}
 					href={`/places/${place.slug}`}
@@ -51,11 +52,12 @@ const uid = crypto.randomUUID()
 						{place.data.title}
 					</div>
 					<div class="grow" />
-					{place.diaryEntries > 0 && (
-						<div class="text-zinc-500">
-							{place.articles > 1 ? `${place.articles} entrées` : "1 entrée"}
-						</div>
-					)}
+					{(inDiary && place.diaryEntries > 2) ||
+						(!inDiary && place.diaryEntries > 1 && (
+							<div class="text-zinc-500">
+								{place.diaryEntries > 1 ? `${place.diaryEntries} entrées` : "1 entrée"}
+							</div>
+						))}
 					{place.articles > 0 && (
 						<div class="text-zinc-500">
 							{place.articles > 1 ? `${place.articles} articles` : "1 article"}
@@ -78,7 +80,7 @@ const uid = crypto.randomUUID()
 				data-lng={lng}
 				data-zoom={zoom}
 			>
-				<div class="px-[43px] py-2 text-sm font-medium text-zinc-500">Afficher la carte</div>
+				<div class="px-8 py-2 text-sm font-medium text-zinc-500">Afficher la carte</div>
 			</div>
 		)
 	}

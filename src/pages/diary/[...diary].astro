@@ -51,8 +51,14 @@ const places = await Promise.all(
 						</span>
 					</h1>
 					{!data.hidePlaces && (
-						<div class="not-prose -mx-6">
-							<PlacesList places={places} lat={data.mapLat} lng={data.mapLng} zoom={data.mapZoom} />
+						<div class="not-prose -mx-8">
+							<PlacesList
+								inDiary
+								places={places}
+								lat={data.mapLat}
+								lng={data.mapLng}
+								zoom={data.mapZoom}
+							/>
 						</div>
 					)}
 					<Content />
