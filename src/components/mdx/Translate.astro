@@ -1,0 +1,11 @@
+---
+import NewPopup from "./PopupV2.astro"
+const html = await Astro.slots.render("to")
+---
+
+<NewPopup padding>
+	<slot />
+	<Fragment slot="popup-contents">
+		<Fragment set:html={html} />
+	</Fragment>
+</NewPopup>
