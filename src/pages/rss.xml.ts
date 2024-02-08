@@ -42,7 +42,7 @@ export async function GET(context: APIContext) {
 			return {
 				title: post.data.title,
 				author: "Aurélien Dos Santos",
-				pubDate: post.data.date as Date,
+				pubDate: post.data.end || post.data.date,
 				description: "Entrée de journal",
 				customData: `<language>fr-fr</language>`,
 				link: link,
