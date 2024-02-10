@@ -4,6 +4,7 @@ import tailwind from "@astrojs/tailwind"
 import mdx from "@astrojs/mdx"
 import vercel from "@astrojs/vercel/serverless"
 import icon from "astro-icon"
+import { remarkConvertImports } from "./src/utils/remark/convertImports"
 
 // https://astro.build/config
 export default defineConfig({
@@ -88,6 +89,7 @@ export default defineConfig({
 			footnoteLabel: "Notes et références",
 		},
 		smartypants: true,
+		remarkPlugins: [remarkConvertImports],
 	},
 	adapter: vercel(),
 })
