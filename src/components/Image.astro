@@ -60,6 +60,7 @@ const imageService = (await getConfiguredImageService()) as LocalImageServiceWit
 		src={webp.src}
 		style={`background-size: cover;background-color:rgba(0.5,0.5,0.5,0.5);image-rendering:auto;`}
 		onload="
+		this.style.backgroundColor = 'unset';
 		this.style.backgroundImage = 'none';
 		"
 		alt={alt}

@@ -18,23 +18,25 @@ type Props = BaseLayoutProps
 		figure {
 			@apply -mx-8;
 		}
-		.gallery figure:has(img) {
-			@apply mx-0;
-		}
-		.gallery figure:has(img):first-of-type {
-			@apply -ml-8;
-		}
-		.gallery figure:has(img):last-of-type {
-			@apply -mr-8;
+		.gallery {
+			figure:has(img) {
+				@apply mx-0;
+			}
+			figure:has(img):first-of-type {
+				@apply -ml-8;
+			}
+			figure:has(img):last-of-type {
+				@apply -mr-8;
+			}
 		}
 		figcaption {
 			@apply mx-8 text-center;
 		}
 		.prose .bg-mention {
 			@apply bg-zinc-200 hover:bg-zinc-300;
-		}
-		.prose .bg-mention img {
-			@apply mb-[0.2em];
+			img {
+				@apply mb-[0.2em];
+			}
 		}
 	}
 </style>

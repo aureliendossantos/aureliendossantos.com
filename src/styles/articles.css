@@ -347,8 +347,11 @@ tag {
 		border-style: dotted;
 		@apply rounded-sm border-0 mediumlarge:border mediumlarge:px-1;
 	}
-	blockquote footer {
-		@apply text-right font-['Cormorant_Unicase'];
+	blockquote {
+		@apply font-['Cormorant_Upright'];
+		footer {
+			@apply text-right font-['Cormorant_Unicase'];
+		}
 	}
 	nav.toc {
 		font-family: "Cormorant", serif;
