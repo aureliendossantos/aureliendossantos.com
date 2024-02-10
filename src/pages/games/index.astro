@@ -25,7 +25,7 @@ const reviewsOrder = [
 
 games.sort(
 	({ data: a }, { data: b }) =>
-		reviewsOrder.indexOf(a.quickReview) - reviewsOrder.indexOf(b.quickReview) ||
+		reviewsOrder.indexOf(a.quickReview || null) - reviewsOrder.indexOf(b.quickReview || null) ||
 		a.title.localeCompare(b.title)
 )
 ---
@@ -128,7 +128,11 @@ games.sort(
 										{data.blocks.length > 0 ? " 📖" : data.review && " 📝"}
 									</OptionalLink>
 								</td>
-								<td>{emotes[data.quickReview] || data.quickReview}</td>
+								<td>
+									{data.quickReview && data.quickReview in emotes
+										? emotes[data.quickReview]
+										: data.quickReview}
+								</td>
 								<td class="text-slate-500">{data.progress}</td>
 								<td>{data.multiplayer.includes("Local") && "🛋️"}</td>
 								<td>{data.multiplayer.includes("En ligne") && "🛜"}</td>

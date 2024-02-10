@@ -4,6 +4,7 @@ import GearCategory from "$components/gear/GearCategory.astro"
 import GearItem from "$components/gear/GearItem.astro"
 import BaseLayout from "$layouts/BaseLayout.astro"
 import { getCollection } from "astro:content"
+import { dateSort } from "$utils/sort"
 
 const gear = (await getCollection("gear"))
 	.map((gear) => ({
@@ -11,11 +12,7 @@ const gear = (await getCollection("gear"))
 		category: gear.slug.split("/")[0],
 		slug: gear.slug.split("/")[1],
 	}))
-	.sort((a, b) => {
-		if (!a.collectionEntry.data.obtained) return 1
-		if (!b.collectionEntry.data.obtained) return -1
-		return b.collectionEntry.data.obtained.getTime() - a.collectionEntry.data.obtained.getTime()
-	})
+	.sort((a, b) => dateSort(a.collectionEntry.data.obtained, b.collectionEntry.data.obtained))
 
 const categories = [
 	{ title: "Ordinateurs", slug: "computers" },

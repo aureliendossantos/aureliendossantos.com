@@ -4,6 +4,7 @@ import getDatabase from "$utils/notion/getDatabase"
 import type { CategoriesEntry, PagesEntry } from "$utils/notion/wiki"
 import slugify from "slugify"
 import { Icon } from "astro-icon/components"
+import { dateSort } from "$utils/sort"
 
 const categories = (
 	(await getDatabase(import.meta.env.NOTION_WIKI_CATEGORIES_DB)) as CategoriesEntry[]
@@ -22,7 +23,7 @@ const pages = ((await getDatabase(import.meta.env.NOTION_WIKI_PAGES_DB)) as Page
 			? page.properties.Description.rich_text[0].plain_text
 			: null,
 		category: page.properties.Catégorie.relation[0].id,
-		edited_time: page.last_edited_time,
+		edited_time: new Date(page.last_edited_time),
 	})
 )
 
@@ -37,7 +38,7 @@ const regex = /[*+~.()'"!:@«»]/g
 			<ul class="not-prose -mx-3 flex flex-col">
 				{pages
 					.filter((page) => page.category == category.id)
-					.sort((a, b) => new Date(a.edited_time).getTime() - new Date(b.edited_time).getTime())
+					.sort((a, b) => dateSort(a.edited_time, b.edited_time))
 					.map((page) => {
 						const slug = slugify(page.title, { remove: regex, lower: true })
 						return (

@@ -4,6 +4,7 @@ import sanitizeHtml from "sanitize-html"
 import MarkdownIt from "markdown-it"
 import getBlogPosts, { getDiary } from "$utils/getCollection"
 import { getImage } from "astro:assets"
+import { dateSort } from "$utils/sort"
 const parser = new MarkdownIt()
 
 export async function GET(context: APIContext) {
@@ -62,6 +63,6 @@ export async function GET(context: APIContext) {
 		description: "Contenu récent sur le site d'Aurélien Dos Santos.",
 		site: context.site + "",
 		customData: `<language>fr-fr</language>`,
-		items: [...blog, ...diary].sort((a, b) => (a.pubDate > b.pubDate ? -1 : 1)),
+		items: [...blog, ...diary].sort((a, b) => dateSort(a.pubDate, b.pubDate)),
 	})
 }

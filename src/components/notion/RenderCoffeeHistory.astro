@@ -6,6 +6,7 @@ import type {
 import type { ResponseResult, Title, RichText, NotionDate, Select } from "$utils/notion/types"
 import type { BlockObjectResponseWithChildren } from "$utils/notion/getChildren"
 import formatDate from "$utils/formatting/formatDate"
+import { dateSort } from "$utils/sort"
 
 interface Props {
 	blocks: BlockObjectResponse[] | BlockObjectResponseWithChildren[]
@@ -37,10 +38,10 @@ const entries = database.children
 			entry.properties.Action.select.name,
 		endroit: entry.properties.Endroit.rich_text[0]?.plain_text,
 		notes: entry.properties.Notes.rich_text[0]?.plain_text,
-		sortDate: entry.properties.Date.date ? new Date(entry.properties.Date.date.start).getTime() : 0,
+		sortDate: entry.properties.Date.date ? new Date(entry.properties.Date.date.start) : undefined,
 		date: entry.properties.Date.date && formatDate(new Date(entry.properties.Date.date.start)),
 	}))
-	.sort((a, b) => b.sortDate - a.sortDate)
+	.sort((a, b) => dateSort(a.sortDate, b.sortDate))
 ---
 
 <div class="not-prose timeline relative mt-8 font-work-sans">
