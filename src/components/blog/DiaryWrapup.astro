@@ -7,8 +7,7 @@ import { getImage } from "astro:assets"
 interface Props {
 	year: number
 }
-
-const { year } = Astro.props
+const { year } = Astro.props as { year: keyof typeof wrapups }
 
 const diary = await Promise.all(
 	(await getDiary())
@@ -60,7 +59,6 @@ if (!(year in wrapups)) throw new Error(`Year ${year} not in wrapup`)
 				<h2 class="mb-2 mt-8 text-2xl font-bold 2xl:text-xl xl:mt-0 small:text-2xl">
 					{year} dans mon journal
 				</h2>
-				<p class="my-2 hidden text-sm xl:block small:text-base">{wrapups[year]}</p>
 			</div>
 			<div class="order-3 -mx-8 mb-8 flex flex-col">
 				{
