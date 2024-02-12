@@ -113,6 +113,7 @@ const filters = [
 </DiaryLayout>
 
 <script>
+	import Cookies from "js-cookie"
 	function runFilters() {
 		const entries = document.querySelectorAll(".diary-entry") as NodeListOf<HTMLLinkElement>
 		const checkboxes = document.querySelectorAll(
@@ -128,15 +129,24 @@ const filters = [
 		// Hide the year headers if there are no visible entries in that year
 		const years = document.querySelectorAll("h2") as NodeListOf<HTMLHeadingElement>
 		years.forEach((year) => {
-			const entriesInYear = Array.from(year.nextElementSibling.children).filter(
-				(entry) => entry.style.display !== "none"
-			)
+			const entriesInYear = (
+				Array.from((year.nextElementSibling as HTMLDivElement).children) as HTMLLinkElement[]
+			).filter((entry) => entry.style.display !== "none")
 			year.style.display = entriesInYear.length ? "block" : "none"
 		})
 	}
 
 	function initFiltering() {
-		window.diaryFilters ??= {
+		const cookieName = "diaryFilters"
+		// Parsing the cookie containing
+		let parsedCookie = undefined
+		try {
+			const cookie = Cookies.get(cookieName)
+			parsedCookie = cookie && JSON.parse(cookie)
+		} catch (error) {
+			console.error("Invalid cookie:", error)
+		}
+		window.diaryFilters ??= parsedCookie || {
 			lists: true,
 			trips: true,
 			personal: false,
@@ -150,7 +160,11 @@ const filters = [
 		})
 		// Close the dropdown menu if the user clicks outside of it
 		window.addEventListener("click", (event) => {
-			if (!button.contains(event.target) && !dropdown.contains(event.target)) {
+			if (
+				event.target instanceof Node &&
+				!button.contains(event.target) &&
+				!dropdown.contains(event.target)
+			) {
 				dropdown.classList.add("invisible")
 			}
 		})
@@ -162,6 +176,7 @@ const filters = [
 			checkbox.checked = window.diaryFilters[checkbox.id]
 			checkbox.addEventListener("change", () => {
 				window.diaryFilters[checkbox.id] = checkbox.checked
+				Cookies.set(cookieName, JSON.stringify(window.diaryFilters), { expires: 365 })
 				runFilters()
 			})
 		})

@@ -41,6 +41,7 @@
 		"astro-embed": "^0.6.1",
 		"astro-icon": "^1.0.2",
 		"discojs": "^2.2.0",
+		"js-cookie": "^3.0.5",
 		"markdown-it": "^13.0.2",
 		"medium-zoom": "^1.1.0",
 		"open-graph-scraper": "^6.3.2",
@@ -56,6 +57,7 @@
 	"devDependencies": {
 		"@tailwindcss/typography": "^0.5.10",
 		"@types/google.maps": "^3.54.10",
+		"@types/js-cookie": "^3.0.6",
 		"@types/markdown-it": "^12.2.3",
 		"@types/sanitize-html": "^2.9.5",
 		"dotenv": "^16.3.1",
