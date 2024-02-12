@@ -13,6 +13,10 @@ tag {
 	@apply -mx-1 rounded-sm border-y border-dotted border-slate-400 bg-slate-100 px-1 text-slate-600;
 }
 
+kbd {
+	@apply rounded-md border border-solid border-[--popup] px-1 font-[family-name:--code-font] dark:border-[--dark-popup];
+}
+
 .popup {
 	p {
 		&:first-child {

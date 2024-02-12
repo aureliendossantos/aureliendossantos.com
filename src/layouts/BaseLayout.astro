@@ -51,7 +51,7 @@ const ogImageURL = image && Astro.site?.toString().replace(/\/$/, "") + image
 
 const background = getColor(bg) || "#f5f5fa"
 const darkBackground = getColor(bg, "dark") || "#17182f"
-const { light: popup, dark: darkPopup } = getBothColors(popupBorderColor)
+const { light: popupBorder, dark: darkPopupBorder } = getBothColors(popupBorderColor)
 const { light: popupLabelActiveBg, dark: darkPopupActive } = getBothColors(popupLabelActiveBgColor)
 
 // A page might not send props.
@@ -117,8 +117,8 @@ navBarPropsWithFallback.title ??= title
 		style={{
 			"--bg": background,
 			"--dark-bg": darkBackground,
-			"--popup": popup,
-			"--dark-popup": darkPopup,
+			"--popup": popupBorder,
+			"--dark-popup": darkPopupBorder,
 			"--popup-active": popupLabelActiveBg,
 			"--dark-popup-active": darkPopupActive,
 		}}
