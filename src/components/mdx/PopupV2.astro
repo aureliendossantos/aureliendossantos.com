@@ -4,24 +4,33 @@ interface Props {
 	navBarLinks?: { title: string; url: string }[]
 	url?: string
 	padding?: boolean
+	diary?: boolean
 }
-const { navBarTitle, navBarLinks, url, padding } = Astro.props
+const { navBarTitle, navBarLinks, url, padding, diary } = Astro.props
 
 const uid = crypto.randomUUID()
 ---
 
-<span id={`span-${uid}`} class="relative inline"
+<span id={`span-${uid}`} class="not-prose relative inline"
 	><a
 		id={`text-${uid}`}
-		class="popup-link unstyled cursor-context-menu rounded-sm underline decoration-[--popup] decoration-1 underline-offset-3 dark:decoration-[--dark-popup]"
+		class={`popup-link unstyled cursor-context-menu rounded-sm underline decoration-[--popup] decoration-1 underline-offset-3 dark:decoration-[--dark-popup]`}
 		><slot /></a
 	></span
 >
 
 <template class="new-popup-template" id={uid}>
 	<div
-		class={`popup absolute bottom-[25px] shadow-md hidden rounded border border-solid border-[--popup] bg-[--bg] indent-0 dark:border-[--dark-popup] dark:bg-[--dark-bg]`}
-		style={{ transform: "translateX(-50%)" }}
+		class={`popup absolute bottom-[25px] shadow-md hidden rounded border border-solid border-[--popup] bg-[--bg] indent-0 dark:border-[--dark-popup] dark:bg-[--dark-bg] prose-headings:text-inherit prose-headings:mt-0 prose-a:text-inherit`}
+		style={diary
+			? {
+					"--popup": "#52525b",
+					"--dark-popup": "#52525b",
+					"--code-font": "Work Sans",
+					color: "white",
+					transform: "translateX(-50%)",
+			  }
+			: { transform: "translateX(-50%)" }}
 	>
 		{
 			navBarTitle && navBarLinks && (
@@ -39,11 +48,14 @@ const uid = crypto.randomUUID()
 			</div>
 			{
 				url && (
-					<div class="source truncate border-0 border-t border-dotted px-8 py-2 font-[family-name:--code-font] text-xs">
-						<a href={url} class="no-underline">
-							{url}
-						</a>
-					</div>
+					<>
+						{/* Repeating the border color rule is useful when tailwind base is active */}
+						<div class="source truncate border-0 border-t border-dotted border-[--popup] px-8 py-2 font-[family-name:--code-font] text-xs dark:border-[--dark-popup]">
+							<a href={url} class="no-underline">
+								{decodeURI(url)}
+							</a>
+						</div>
+					</>
 				)
 			}
 		</div>

@@ -5,8 +5,9 @@ import NewPopup from "../PopupV2.astro"
 interface Props {
 	title: string
 	lang?: string
+	diary?: boolean
 }
-const { title, lang } = Astro.props
+const { title, lang, diary } = Astro.props
 
 const summary = await getWikipediaPage(title, lang)
 const url = summary.content_urls.desktop.page
@@ -17,6 +18,7 @@ const url = summary.content_urls.desktop.page
 	navBarLinks={[{ title: "Wikipédia", url: url }]}
 	url={url}
 	padding
+	diary={diary}
 >
 	<slot />
 	<Fragment slot="popup-contents">
@@ -34,7 +36,7 @@ const url = summary.content_urls.desktop.page
 				/>
 			)
 		}
-		<h3>{summary.title}</h3>
+		<!--<h3>{summary.title}</h3>-->
 		<Fragment set:html={summary.extract_html} />
 		<!--<p class="source"><a href={url}>Continuer sur Wikipédia{lang == "en" && " en anglais"}</a></p> -->
 	</Fragment>

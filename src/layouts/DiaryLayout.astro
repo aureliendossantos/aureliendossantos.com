@@ -32,8 +32,9 @@ type Props = BaseLayoutProps
 		figcaption {
 			@apply mx-8 text-center;
 		}
-		.prose .bg-mention {
-			@apply bg-zinc-200 hover:bg-zinc-300;
+		.prose .bg-mention,
+		a.popup-link {
+			@apply bg-zinc-200 no-underline hover:bg-zinc-300;
 			img {
 				@apply mb-[0.2em];
 			}
