@@ -79,7 +79,12 @@ const uid = crypto.randomUUID()
 			article.addEventListener("click", (event) => {
 				if (opened) clicks += 1
 				else clicks = 0
-				if (clicks >= 2 && !window.mediumZoom.getZoomedImage() && !popup.contains(event.target)) {
+				if (
+					clicks >= 2 &&
+					!window.mediumZoom.getZoomedImage() &&
+					event.target instanceof Node &&
+					!popup.contains(event.target)
+				) {
 					closePopup()
 					clicks = 0
 				}

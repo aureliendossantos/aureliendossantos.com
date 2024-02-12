@@ -41,6 +41,7 @@ export type MultiSelect = ExtractedProperty<"multi_select">
 export type Status = ExtractedProperty<"status">
 export type Number = ExtractedProperty<"number">
 export type Checkbox = ExtractedProperty<"checkbox">
+export type NotionDate = ExtractedProperty<"date">
 export type Relation = {
 	type: "relation"
 	relation: {

@@ -99,7 +99,8 @@ const uid = crypto.randomUUID()
 				if (
 					clicks >= 2 &&
 					!window.mediumZoom.getZoomedImage() &&
-					!popup.contains(event.target as Node)
+					event.target instanceof Node &&
+					!popup.contains(event.target)
 				) {
 					closePopup()
 					clicks = 0

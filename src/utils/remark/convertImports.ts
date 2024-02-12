@@ -25,7 +25,6 @@ const validNodes = new Set(["Image", "Figure", "Video", "TufteFigure", "MarginIm
  */
 function checkNode(node: any) {
 	if (!validNodes.has(node.name)) return false
-	console.log(node.type, node.name)
 	replaceAttributeValue(node, "src")
 	if (node.name === "Video") {
 		replaceAttributeValue(node, "compat")
