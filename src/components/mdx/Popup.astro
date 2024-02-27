@@ -20,18 +20,16 @@ const uid = crypto.randomUUID()
 		class="popup-link unstyled cursor-context-menu rounded-sm underline decoration-[--popup] decoration-1 underline-offset-3 dark:decoration-[--dark-popup]"
 		><slot /></a
 	></span
->
-
-<template class="popup-template" id={uid}>
-	<div
+><template class="popup-template" id={uid}
+	><div
 		class="popup absolute bottom-[25px] hidden h-[240px] rounded-md border-2 border-solid border-[--popup] bg-[--bg] indent-0 dark:border-[--dark-popup] dark:bg-[--dark-bg]"
 		style={{ transform: "translateX(-50%)" }}
 	>
 		{movie && <Movie id={movie} popupId={uid} />}
 		{moviePerson && <MoviePerson id={moviePerson} popupId={uid} />}
 		{game && <Game slug={game} popupId={uid} />}
-	</div>
-</template>
+	</div></template
+>
 
 <script>
 	import { closePopupNavbar, openPopupNavbar } from "$utils/navbar"
