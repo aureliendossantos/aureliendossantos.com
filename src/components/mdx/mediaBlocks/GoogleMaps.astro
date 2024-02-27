@@ -1,6 +1,6 @@
 ---
 import RefBlock from "$components/RefBlock.astro"
-import { getClosedStatus, getPlace } from "$utils/remoteData/googleMaps"
+import { getClosedStatus, getGoogleImage, getPlace } from "$utils/remoteData/googleMaps"
 
 interface Props {
 	id: string
@@ -30,19 +30,15 @@ const links: [string, string][] = place.website
 	: [["Google Maps", place.url]]
 const galleryUrls =
 	gallery && place.photos.length >= 3
-		? [1, 2, 3].map(
-				(i) =>
-					`https://maps.googleapis.com/maps/api/place/photo?maxwidth=200&photo_reference=${
-						place.photos[i].photo_reference
-					}&key=${import.meta.env.GOOGLE_MAPS_TOKEN}`
+		? await Promise.all(
+				[1, 2, 3].map(async (i) => await getGoogleImage(200, place.photos[i].photo_reference))
 		  )
 		: undefined
+const img = await getGoogleImage(big ? 800 : 120, place.photos[0].photo_reference)
 ---
 
 <RefBlock
-	img={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=${
-		big ? 800 : 120
-	}&photo_reference=${place.photos[0].photo_reference}&key=${import.meta.env.GOOGLE_MAPS_TOKEN}`}
+	img={img}
 	icon={place.icon}
 	title={place.name}
 	infos={infos}

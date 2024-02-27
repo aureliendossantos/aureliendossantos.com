@@ -40,8 +40,10 @@ export function getClosedStatus(place: PlaceWithFetchDate) {
 	return null
 }
 
-export function getGoogleImage(maxWidth: number, photoReference: string): string {
-	return `https://maps.googleapis.com/maps/api/place/photo?maxwidth=${maxWidth}&photoreference=${photoReference}&key=${
+export async function getGoogleImage(maxWidth: number, photoReference: string): Promise<string> {
+	const path = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=${maxWidth}&photoreference=${photoReference}&key=${
 		import.meta.env.GOOGLE_MAPS_TOKEN
 	}`
+	// this path redirects to an image url without the token exposed
+	return await fetch(path).then((res) => res.url)
 }
