@@ -89,7 +89,7 @@ kbd {
 		img {
 			@apply mx-auto block;
 		}
-		figcaption {
+		:not(.expressive-code) figcaption {
 			@apply ml-auto mt-[0.5em] flex max-w-prose justify-end text-right text-[0.8rem];
 
 			p {

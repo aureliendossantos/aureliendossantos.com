@@ -8,6 +8,7 @@ import NavBar from "$components/navbar/NavBar.astro"
 import type { NavBarProps } from "$utils/navbar"
 import type { Layouts } from "$utils/design/layouts"
 import { getColor, type Color, getBothColors } from "$utils/design/palettes"
+import type { ShikiConfig } from "astro"
 
 export interface Props {
 	title: string
@@ -19,6 +20,7 @@ export interface Props {
 	popupBorderColor?: Color
 	popupLabelActiveBgColor?: Color
 	font?: "Work Sans"
+	codeTheme?: ShikiConfig["theme"]
 	navBarProps?: NavBarProps
 	ssr?: boolean
 	ogType:
@@ -41,6 +43,7 @@ const {
 	popupBorderColor,
 	popupLabelActiveBgColor,
 	font,
+	codeTheme,
 	navBarProps,
 	ssr,
 	ogType,
@@ -62,7 +65,7 @@ navBarPropsWithFallback.title ??= title
 ---
 
 <!doctype html>
-<html lang="fr">
+<html lang="fr" data-theme={codeTheme}>
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />

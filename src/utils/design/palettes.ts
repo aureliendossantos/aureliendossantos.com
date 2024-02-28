@@ -1,3 +1,5 @@
+import type { ShikiConfig } from "astro"
+
 /**
  * A color is either a string that applies to both light and dark modes, or an object with a `light` and `dark` key.
  */
@@ -45,6 +47,7 @@ type PaletteDeclaration = {
 	popupLabelActiveBgColor?: Color
 	mentionBgColor?: Color
 	mentionHoverBgColor?: Color
+	codeTheme?: ShikiConfig["theme"]
 	baseFont: string
 	headingsFont?: string
 	displayFont?: string
@@ -91,6 +94,7 @@ export default function getPalette(name: PaletteName | undefined): Palette {
 		popupLabelActiveBgColor: p.popupLabelActiveBgColor || p.baseColor,
 		mentionBgColor: p.mentionBgColor || p.bgColor,
 		mentionHoverBgColor: p.mentionHoverBgColor || p.bgColor,
+		codeTheme: p.codeTheme || "min-light",
 		baseFont: p.baseFont,
 		headingsFont: p.headingsFont || p.baseFont,
 		displayFont: p.displayFont || p.headingsFont || p.baseFont,
@@ -199,6 +203,7 @@ const getPaletteDeclaration = (name: PaletteName | undefined): PaletteDeclaratio
 				specialColor: { light: "#111111", dark: "#dddddd" },
 				popupLabelActiveBgColor: { light: "#11111138", dark: "#dddddd50" },
 				bgColor: { light: "#fffff8", dark: "#151515" },
+				codeTheme: "vitesse-dark",
 				displayFont: '"Source Serif Display", "Source Serif", serif',
 				headingsFont: "'Source Serif Subhead', 'Source Serif', serif",
 				baseFont: "'Source Serif', serif",
@@ -209,6 +214,7 @@ const getPaletteDeclaration = (name: PaletteName | undefined): PaletteDeclaratio
 				secondaryColor: "#686868",
 				specialColor: "#5c80c4",
 				bgColor: "#f9f9f9",
+				codeTheme: "slack-ochin",
 				headingsFont: "'Nunito', sans-serif",
 				baseFont: "'Lato', sans-serif",
 				specialFont: "'Lato', monospace",
@@ -239,6 +245,7 @@ const getPaletteDeclaration = (name: PaletteName | undefined): PaletteDeclaratio
 				bgColor: "#ffffff",
 				mentionBgColor: "#ebfcde",
 				mentionHoverBgColor: "#dcf7cd",
+				codeTheme: "vitesse-light",
 				baseFont: "'Source Serif', serif",
 				displayFont: '"Source Serif Display", "Source Serif", serif',
 				codeFont: '"Source Code Pro", monospace',
@@ -309,6 +316,7 @@ const getPaletteDeclaration = (name: PaletteName | undefined): PaletteDeclaratio
 				secondaryColor: "#686868",
 				specialColor: "#c45c7f",
 				bgColor: "#ffffff",
+				codeTheme: "github-light",
 				headingsFont: "'Space Grotesk', sans-serif",
 				baseFont: "'Space Grotesk', 'Noto Sans', sans-serif",
 				specialFont: "'Space Grotesk', monospace",

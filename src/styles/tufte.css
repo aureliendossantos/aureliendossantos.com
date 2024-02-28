@@ -717,33 +717,7 @@
 		display: initial;
 	}
 
-	.sourceCode.numberLines a:link {
-		text-decoration: initial;
-		background: initial;
-		text-shadow: initial;
-	}
-
-	div.sourceCode,
-	pre:not(.sourceCode) {
-		padding: 1.4rem;
-		margin: -0.7rem -1.4rem;
-		width: 55%;
-		overflow-x: auto;
-	}
-
-	.fullwidth div.sourceCode,
-	.fullwidth pre:not(.sourceCode) {
-		width: 100%;
-	}
-
 	@media (max-width: 760px) {
-		div.sourceCode,
-		pre:not(.sourceCode) {
-			padding: 1.4rem 8vw;
-			margin: -0.7rem -8vw;
-			width: 100%;
-		}
-
 		.fullwidth {
 			max-width: 100%;
 		}
