@@ -1,0 +1,34 @@
+@font-face {
+	font-family: "Louize";
+	font-style: normal;
+	font-weight: 400;
+	src: url("/fonts/Louize/LouizeRegular.woff2") format("woff2");
+}
+
+@font-face {
+	font-family: "Louize";
+	font-style: italic;
+	font-weight: 400;
+	src: url("/fonts/Louize/LouizeItalic.woff2") format("woff2");
+}
+
+@font-face {
+	font-family: "Louize";
+	font-style: normal;
+	font-weight: 700;
+	src: url("/fonts/Louize/LouizeMedium.woff2") format("woff2");
+}
+
+@font-face {
+	font-family: "Louize Display";
+	font-style: normal;
+	font-weight: 400;
+	src: url("/fonts/Louize/LouizeDisplayRegular.woff2") format("woff2");
+}
+
+@font-face {
+	font-family: "Louize Display";
+	font-style: italic;
+	font-weight: 400;
+	src: url("/fonts/Louize/LouizeDisplayItalic.woff2") format("woff2");
+}

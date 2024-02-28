@@ -7,7 +7,7 @@ import GoogleStructuredData from "$components/meta/GoogleStructuredData.astro"
 import NavBar from "$components/navbar/NavBar.astro"
 import type { NavBarProps } from "$utils/navbar"
 import type { Layouts } from "$utils/design/layouts"
-import { getColor, type Color, getBothColors } from "$utils/design/palettes"
+import { getColor, type Color, getBothColors, PaletteName } from "$utils/design/palettes"
 import type { ShikiConfig } from "astro"
 
 export interface Props {
@@ -21,6 +21,7 @@ export interface Props {
 	popupLabelActiveBgColor?: Color
 	font?: "Work Sans"
 	codeTheme?: ShikiConfig["theme"]
+	paletteName?: PaletteName
 	navBarProps?: NavBarProps
 	ssr?: boolean
 	ogType:
@@ -44,6 +45,7 @@ const {
 	popupLabelActiveBgColor,
 	font,
 	codeTheme,
+	paletteName,
 	navBarProps,
 	ssr,
 	ogType,
@@ -65,7 +67,7 @@ navBarPropsWithFallback.title ??= title
 ---
 
 <!doctype html>
-<html lang="fr" data-theme={codeTheme}>
+<html lang="fr" data-theme={codeTheme} data-palette={paletteName}>
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />

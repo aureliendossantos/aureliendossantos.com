@@ -39,6 +39,7 @@ export function getBothColors(color: Color | undefined) {
  * `lineHeight` is a number. The value will be slightly higher on mobile (×1.1) to compensate for the smaller text.
  */
 type PaletteDeclaration = {
+	name?: PaletteName
 	baseColor: Color
 	secondaryColor?: Color
 	specialColor?: Color
@@ -54,7 +55,10 @@ type PaletteDeclaration = {
 	specialFont?: string
 	codeFont?: string
 	fontSize?: `${string}px`
+	titleWeight?: number
 	lineHeight?: number
+	pageWidth?: `${number}ch`
+	internalLinks?: "solid" | "dotted"
 }
 
 /**
@@ -75,6 +79,7 @@ export enum PaletteName {
 	guidebook = "guidebook",
 	nature = "nature",
 	sourceSerif = "source-serif",
+	louize = "louize",
 	cormorant = "cormorant",
 	snow = "snow",
 	notebook = "notebook",
@@ -86,6 +91,7 @@ export enum PaletteName {
 export default function getPalette(name: PaletteName | undefined): Palette {
 	const p = getPaletteDeclaration(name)
 	return {
+		name: name || PaletteName.default,
 		baseColor: p.baseColor,
 		secondaryColor: p.secondaryColor || p.baseColor,
 		specialColor: p.specialColor || p.baseColor,
@@ -101,7 +107,10 @@ export default function getPalette(name: PaletteName | undefined): Palette {
 		specialFont: p.specialFont || p.baseFont,
 		codeFont: p.codeFont || "monospace",
 		fontSize: p.fontSize || "16px",
+		titleWeight: p.titleWeight || 700,
 		lineHeight: p.lineHeight || 1.25,
+		pageWidth: p.pageWidth || "65ch",
+		internalLinks: p.internalLinks || "solid",
 	}
 }
 
@@ -252,6 +261,26 @@ const getPaletteDeclaration = (name: PaletteName | undefined): PaletteDeclaratio
 				fontSize: "18px",
 				lineHeight: 1.45,
 			}
+		case "louize":
+			return {
+				baseColor: "#000000",
+				secondaryColor: "#8a8a94",
+				popupBorderColor: "#d4d4d8",
+				popupLabelActiveBgColor: "#e4e4e7",
+				specialColor: "#91d36d",
+				bgColor: "#ffffff",
+				mentionBgColor: "#ebfcde",
+				mentionHoverBgColor: "#dcf7cd",
+				codeTheme: "vitesse-light",
+				baseFont: "Louize, serif",
+				displayFont: '"Louize Display", Louize, serif',
+				codeFont: '"Source Code Pro", monospace',
+				fontSize: "20px",
+				titleWeight: 400,
+				lineHeight: 1.45,
+				pageWidth: "55ch",
+				internalLinks: "dotted",
+			}
 		case "cormorant":
 			return {
 				baseColor: "#121212",
@@ -266,6 +295,7 @@ const getPaletteDeclaration = (name: PaletteName | undefined): PaletteDeclaratio
 				baseFont: "'Cormorant', serif",
 				specialFont: "monospace",
 				fontSize: "18px",
+				pageWidth: "75ch",
 				lineHeight: 1.3,
 			}
 		case "snow":

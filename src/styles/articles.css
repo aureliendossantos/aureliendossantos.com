@@ -28,6 +28,32 @@ kbd {
 	}
 }
 
+.expressive-code {
+	@apply my-[--font-size];
+}
+
+:root[data-palette="louize"] {
+	.article-styling {
+		@apply relative;
+		a {
+			@apply -mt-1 rounded pt-1;
+		}
+		h2 {
+			counter-reset: h3counter;
+			font-feature-settings: "c2sc", "smcp";
+			box-shadow: 0px 1px 5px 3px white;
+			line-height: 1.1;
+			letter-spacing: 0.1em;
+			@apply sticky top-0 -mt-2 bg-white pt-2 font-normal;
+		}
+		h3:before {
+			content: counter(h3counter, upper-alpha) ".\0000a0";
+			counter-increment: h3counter;
+			font-feature-settings: "c2sc";
+		}
+	}
+}
+
 .classic .article-styling {
 	blockquote {
 		@apply my-[1em] ml-[-80px] w-[70%] italic mediumlarge:ml-[-40px] medium:ml-[-20px] small:ml-[0];
@@ -51,16 +77,31 @@ kbd {
 }
 
 .article-styling {
-	.bg-mention img {
-		@apply -mb-[0.1em];
+	.bg-mention {
+		@apply bg-[--bg-mention-color] dark:bg-[--dark-bg-mention-color];
+		&:hover {
+			@apply bg-[--bg-mention-hover-color] dark:bg-[--dark-bg-mention-hover-color];
+		}
+		img {
+			@apply -mb-[0.1em];
+		}
 	}
 
 	a {
 		@apply text-inherit;
 	}
 
+	a[href^="/"] {
+		text-decoration-style: var(--internal-link-decoration);
+	}
+
 	hr {
 		@apply my-[2em] max-w-[15%] border-[1px] border-solid;
+	}
+
+	code,
+	pre {
+		@apply font-[family-name:--code-font];
 	}
 
 	pre {
@@ -81,6 +122,19 @@ kbd {
 	img:not(.unstyled),
 	video {
 		@apply max-w-full;
+	}
+
+	figcaption,
+	.secondary-color {
+		@apply text-[--secondary-color] dark:text-[--dark-secondary-color];
+	}
+
+	blockquote,
+	.note,
+	.license,
+	hr,
+	.special-color {
+		@apply text-[--special-color] dark:text-[--dark-special-color];
 	}
 
 	figure {
@@ -175,7 +229,7 @@ kbd {
 		@apply text-[#4a8bf3];
 	}
 	a:not(.unstyled) {
-		@apply bg-[#4a8bf3]/15 decoration-[#4a8bf3] decoration-2 underline-offset-3 hover:bg-[#4a8bf3]/20 hover:decoration-[3px] hover:underline-offset-2 active:bg-[#4a8bf3]/30 active:decoration-2 active:underline-offset-3;
+		@apply decoration-[#4a8bf3] decoration-2 underline-offset-3 hover:bg-[#4a8bf3]/15;
 	}
 	h2,
 	h3 {

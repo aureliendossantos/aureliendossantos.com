@@ -55,6 +55,7 @@ const parent = !isBlog && data.parent && (await getEntry("pages", data.parent))
 	popupBorderColor={palette.popupBorderColor}
 	popupLabelActiveBgColor={palette.popupLabelActiveBgColor}
 	codeTheme={palette.codeTheme}
+	paletteName={palette.name}
 	layout={data.layouts}
 	navBarProps={{
 		title: data.title,
@@ -73,14 +74,22 @@ const parent = !isBlog && data.parent && (await getEntry("pages", data.parent))
 			"--dark-base-color": getColor(palette.baseColor, "dark"),
 			"--secondary-color": getColor(palette.secondaryColor),
 			"--dark-secondary-color": getColor(palette.secondaryColor, "dark"),
+			"--special-color": getColor(palette.specialColor),
+			"--dark-special-color": getColor(palette.specialColor, "dark"),
 			"--bg-color": getColor(palette.bgColor),
 			"--dark-bg-color": getColor(palette.bgColor, "dark"),
+			"--bg-mention-color": getColor(palette.mentionBgColor),
+			"--dark-bg-mention-color": getColor(palette.mentionBgColor, "dark"),
+			"--bg-mention-hover-color": getColor(palette.mentionHoverBgColor),
+			"--dark-bg-mention-hover-color": getColor(palette.mentionHoverBgColor, "dark"),
 			"--base-font": palette.baseFont,
-			"--font-size": palette.fontSize,
 			"--code-font": palette.codeFont,
-			"--sm-font-size": Math.max(16, Number(palette.fontSize.replace("px", "")) - 1) + "px",
+			"--font-size": palette.fontSize,
+			"--sm-font-size": "16px",
 			"--line-height": palette.lineHeight,
 			"--sm-line-height": palette.lineHeight * 1.1,
+			"--page-width": palette.pageWidth,
+			"--internal-link-decoration": palette.internalLinks,
 		}}
 	>
 		{
@@ -114,8 +123,7 @@ const parent = !isBlog && data.parent && (await getEntry("pages", data.parent))
 					<div
 						class:list={[
 							{ "blog-article m-auto": !customLayout },
-							{ "max-w-prose": !cormorant && !customLayout && !wide },
-							{ "max-w-[75ch]": cormorant && !customLayout && !wide },
+							{ "max-w-[--page-width]": !customLayout && !wide },
 							{ "max-w-[700px]": wide },
 						]}
 					>
@@ -147,35 +155,3 @@ const parent = !isBlog && data.parent && (await getEntry("pages", data.parent))
 	}
 </style>
 
-<style
-	define:vars={{
-		secondaryColor: palette.secondaryColor,
-		specialColor: palette.specialColor,
-		mentionBgColor: palette.mentionBgColor,
-		mentionHoverBgColor: palette.mentionHoverBgColor,
-		codeFont: palette.codeFont,
-	}}
-	is:global
->
-	blockquote,
-	.note,
-	.license,
-	hr,
-	.special-color {
-		color: var(--specialColor);
-	}
-	figcaption,
-	.secondary-color {
-		color: var(--secondaryColor);
-	}
-	.bg-mention {
-		background-color: var(--mentionBgColor);
-	}
-	.bg-mention:hover {
-		background-color: var(--mentionHoverBgColor);
-	}
-	code,
-	pre {
-		font-family: var(--codeFont);
-	}
-</style>
