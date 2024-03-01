@@ -3,6 +3,7 @@ import "$styles/components-utilities.css"
 import "$styles/fonts"
 import { ViewTransitions } from "astro:transitions"
 import MediumZoom from "$components/MediumZoom.astro"
+import FullscreenSpinner from "$components/wiki/FullscreenSpinner.astro"
 import GoogleStructuredData from "$components/meta/GoogleStructuredData.astro"
 import NavBar from "$components/navbar/NavBar.astro"
 import type { NavBarProps } from "$utils/navbar"
@@ -131,6 +132,7 @@ navBarPropsWithFallback.title ??= title
 		<main>
 			<slot />
 		</main>
+		<FullscreenSpinner />
 		<MediumZoom />
 		<NavBar ssr={ssr} {...navBarPropsWithFallback} />
 		<style is:global>

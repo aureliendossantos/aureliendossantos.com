@@ -1,0 +1,44 @@
+---
+import spinner from "$styles/icons/loading.svg?raw"
+---
+
+<div
+	id="wiki-spinner"
+	transition:persist="wiki-spinner"
+	transition:animate="none"
+	class="invisible fixed left-0 top-0 z-50 flex h-full w-full items-center justify-center gap-2 bg-[--bg] font-work-sans text-sm text-neutral-400 opacity-0 transition-opacity dark:bg-[--dark-bg]"
+>
+	<div class="h-[17px] w-[17px] animate-spin">
+		<Fragment set:html={spinner} />
+	</div>
+	<div id="wiki-spinner-text"></div>
+</div>
+
+<script>
+	import type { TransitionBeforePreparationEvent } from "astro:transitions/client"
+
+	// If the next page pathname starts with /wiki, displays a fullscreen spinner when the loading starts (cause it's gonna be long)
+	document.addEventListener("astro:before-preparation", (ev) => {
+		const event = ev as TransitionBeforePreparationEvent
+		if (event.to.pathname.startsWith("/wiki")) {
+			const spinnerText = document.getElementById("wiki-spinner-text") as HTMLDivElement
+			spinnerText.textContent = event.to.pathname
+			const spinner = document.getElementById("wiki-spinner") as HTMLDivElement
+			spinner.classList.remove("invisible")
+			spinner.classList.add("opacity-100")
+		}
+	})
+
+	// Hides the spinner when the loading is done, after a little delay to wait for the base transition in the background
+	document.addEventListener("astro:after-swap", (ev) => {
+		if ((ev.target as Document).location.pathname.startsWith("/wiki")) {
+			const spinner = document.getElementById("wiki-spinner") as HTMLDivElement
+			setTimeout(() => {
+				spinner.classList.remove("opacity-100")
+				setTimeout(() => {
+					spinner.classList.add("invisible")
+				}, 160)
+			}, 160)
+		}
+	})
+</script>
