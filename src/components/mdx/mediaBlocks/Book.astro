@@ -22,7 +22,8 @@ if (book.details.authors)
 	infos.push(book.details.authors.map((author: any) => author.name).join(", "))
 infos.push(book.details.publishers ? `${book.details.publishers?.join(", ")} (${year})` : year)
 const links = []
-if (book.details.isbn_13) links.push([`ISBN ${book.details.isbn_13?.join(", ")}`, false])
+if (book.details.isbn_13)
+	links.push([`<abbr>ISBN</abbr> ${book.details.isbn_13?.join(", ")}`, false])
 links.push(["Open Library", book.info_url])
 ---
 

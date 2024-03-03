@@ -30,7 +30,7 @@ const gamesData = await Promise.all(
 {
 	references.length > 0 && (
 		<>
-			<h2>Dans cet article</h2>
+			<h2 class="no-numbering">Dans cet article</h2>
 			{gamesData.map((data) => (
 				<Game data={data} />
 			))}

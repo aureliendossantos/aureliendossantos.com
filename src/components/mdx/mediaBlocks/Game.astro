@@ -24,9 +24,14 @@ const getGame = async () => {
 	if (data) return data
 	const cachedGame = await findGameInLibrary(slug!)
 	if (cachedGame) return cachedGame.data.igdb as IGDBData
-	return getCacheOrFetch(slug!, "igdb", async () => {
-		return (await getIGDBgames([slug!]))[0]
-	}, 1)
+	return getCacheOrFetch(
+		slug!,
+		"igdb",
+		async () => {
+			return (await getIGDBgames([slug!]))[0]
+		},
+		1
+	)
 }
 
 const game = await getGame()
@@ -51,9 +56,9 @@ const links: [string, string][] =
 	officialWebsites?.length > 0
 		? [
 				[officialWebsites[0].url, officialWebsites[0].url],
-				["IGDB", game.url],
+				["<abbr>IGDB</abbr>", game.url],
 		  ]
-		: [["IGDB", game.url]]
+		: [["<abbr>IGDB</abbr>", game.url]]
 const images =
 	game.screenshots && game.screenshots.slice(0, 3).map((screenshot: any) => screenshot.image_id)
 

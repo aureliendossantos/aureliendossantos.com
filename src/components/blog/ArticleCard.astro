@@ -55,7 +55,10 @@ const mini = (data.categories.includes("Micro-blog") || data.categories.includes
 			<div class="order-2">
 				<h2
 					class="mb-2 text-2xl font-bold 2xl:text-xl small:text-2xl"
-					style={{ fontFamily: palette.displayFont }}
+					style={{
+						fontFamily: palette.displayFont,
+						fontWeight: Math.max(600, palette.titleWeight),
+					}}
 				>
 					{data.title}{data.draft && " [Draft]"}
 				</h2>

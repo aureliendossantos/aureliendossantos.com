@@ -1,5 +1,6 @@
 ---
 import { getDomainName } from "$utils/formatting/formatUrl"
+import MarkdownIt from "markdown-it"
 import OptionalLink from "./OptionalLink.astro"
 interface Props {
 	img?: string
@@ -31,6 +32,8 @@ const {
 	gallery,
 	galleryHiRes,
 } = Astro.props
+
+const markdown = new MarkdownIt({ html: true })
 ---
 
 {
@@ -40,7 +43,7 @@ const {
 			class="hidden"
 			data-title={title}
 			data-library-slug={librarySlug}
-			data-links={JSON.stringify(links.map((l) => ({ title: getDomainName(l[0]), url: l[1] })))}
+			data-links={JSON.stringify(links.map((l) => ({ title: l[0], url: l[1] })))}
 		/>
 	)
 }
@@ -101,17 +104,18 @@ const {
 					"col-span-2 mediumlarge:col-span-3 medium:col-span-4": big && !posterRatio,
 					"col-span-2": big && posterRatio,
 				}}
+				style={{ fontSize: big ? "smaller" : "" }}
 			>
 				<OptionalLink
 					href={!popupId && links[links.length - 1][1]}
 					style="text-decoration-line: none"
 				>
-					<h3 class="mb-[0.1em] mt-0 text-[length:--font-size] leading-snug text-inherit small:text-[length:--sm-font-size]">
+					<h4 class="no-numbering my-0 text-[length:--font-size] leading-snug text-inherit small:text-[length:--sm-font-size]">
 						{icon && <img src={icon} class="mr-[0.2em] max-h-[0.8em]" />}
 						{title}
-					</h3>
+					</h4>
 				</OptionalLink>
-				<ul class="my-0 list-none pl-0" style={big ? "font-size: smaller;" : ""}>
+				<ul class="my-0 list-none pl-0">
 					{infos.map((item) => (
 						<li class="whitespace-pre-line">{item}</li>
 					))}
@@ -119,13 +123,19 @@ const {
 				{big && <div class="grow" />}
 				<ul
 					class:list={[
-						"special-color my-0 flex list-none pl-0 font-mono",
+						"special-color my-0 flex list-none pl-0",
 						{ "gap-2": !big, "flex-col": big },
 					]}
-					style={big ? "font-size: smaller;" : ""}
+					style={{ fontFeatureSettings: '"lnum", "tnum"' }}
 				>
 					{links.map((item) => (
-						<li>{item[1] ? <a href={item[1]}>{getDomainName(item[0])}</a> : item[0]}</li>
+						<li>
+							{item[1] ? (
+								<a href={item[1]} set:html={markdown.renderInline(item[0])} />
+							) : (
+								<span set:html={markdown.renderInline(item[0])} />
+							)}
+						</li>
 					))}
 				</ul>
 				{/* Galerie */}

@@ -8,10 +8,12 @@ interface Props {
 const { title, description, date } = Astro.props
 ---
 
-<header>
+<header class="text-[--base-color] dark:text-[--dark-base-color]">
 	<h1 class="title">{title}</h1>
 	<p class="subtitle">{description}</p>
-	<p class="byline">
+	<p
+		class="font-[family-name:--base-font] text-[length:--font-size] leading-[--line-height] small:text-[length:--sm-font-size] small:leading-[--sm-line-height]"
+	>
 		{date && <ArticleDate date={date} />} &ndash; <a href="/">Aurélien Dos Santos</a>
 	</p>
 </header>

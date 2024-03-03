@@ -35,7 +35,9 @@ const { heading } = Astro.props
 		}
 		ol > li {
 			counter-increment: toc;
-			font-feature-settings: "smcp" 1;
+			font-feature-settings:
+				"c2sc" 1,
+				"smcp" 1;
 			/* temp: Pour retirer les numéros roses de .future */
 			&::before {
 				content: none;
@@ -47,7 +49,7 @@ const { heading } = Astro.props
 			}
 		}
 		a {
-			@apply font-semibold no-underline;
+			@apply no-underline;
 			&:hover {
 				@apply rounded-sm bg-zinc-200;
 			}

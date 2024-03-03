@@ -216,6 +216,9 @@ const getPaletteDeclaration = (name: PaletteName | undefined): PaletteDeclaratio
 				displayFont: '"Source Serif Display", "Source Serif", serif',
 				headingsFont: "'Source Serif Subhead', 'Source Serif', serif",
 				baseFont: "'Source Serif', serif",
+				fontSize: "19px",
+				titleWeight: 400,
+				lineHeight: 1.46,
 			}
 		case "guidebook":
 			return {
@@ -259,7 +262,9 @@ const getPaletteDeclaration = (name: PaletteName | undefined): PaletteDeclaratio
 				displayFont: '"Source Serif Display", "Source Serif", serif',
 				codeFont: '"Source Code Pro", monospace',
 				fontSize: "18px",
+				titleWeight: 600,
 				lineHeight: 1.45,
+				internalLinks: "dotted",
 			}
 		case "louize":
 			return {

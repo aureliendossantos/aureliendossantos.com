@@ -32,24 +32,89 @@ kbd {
 	@apply my-[--font-size];
 }
 
-:root[data-palette="louize"] {
-	.article-styling {
+/* Headings counter */
+body,
+h1 {
+	counter-reset: h2counter;
+}
+h2 {
+	counter-reset: h3counter;
+	&:before {
+		counter-increment: h2counter;
+	}
+}
+h3:before {
+	counter-increment: h3counter;
+}
+/* End */
+
+:root[data-palette="louize"] .article-styling {
+	@apply relative;
+	a {
+		@apply -mt-[0.2em] rounded pt-[0.2em];
+	}
+	p {
+		@apply my-[0.9em];
+	}
+	h2,
+	h3 {
+		font-size: 1.2em;
+		font-weight: 400;
+	}
+	h2 {
+		font-feature-settings: "c2sc", "smcp";
+		line-height: 1.1;
+		letter-spacing: 0.1em;
+		@apply sticky top-0 -mt-2 bg-[--bg] pt-2 font-normal shadow-[0_1px_5px_3px_var(--bg)] dark:bg-[--dark-bg] dark:shadow-[0_1px_5px_3px_var(--dark-bg)];
+	}
+	h3:before {
+		content: counter(h3counter, upper-alpha) ".\0000a0";
+		font-feature-settings: "c2sc";
+	}
+}
+
+:root[data-palette="source-serif"] .article-styling {
+	/* ml and pl are used to position the counter */
+	h2,
+	h3 {
+		@apply my-[1.5em] -ml-[1.3em] pl-[1.3em];
+	}
+	nav + h2:not(.no-numbering) {
+		@apply mt-[4em];
+	}
+	h2:not(.no-numbering) {
+		font-feature-settings: "c2sc", "smcp";
 		@apply relative;
-		a {
-			@apply -mt-1 rounded pt-1;
+		&:before {
+			content: counter(h2counter);
+			color: var(--secondary-color);
+			font-feature-settings: "pnum", "onum";
+			@apply absolute -bottom-1 left-0 -translate-x-full -translate-y-0 rotate-0 skew-x-0 skew-y-0 scale-100 text-[4em] leading-none opacity-50 medium:-bottom-6 medium:translate-x-0 medium:text-[6em] medium:opacity-20;
 		}
-		h2 {
-			counter-reset: h3counter;
-			font-feature-settings: "c2sc", "smcp";
-			box-shadow: 0px 1px 5px 3px white;
-			line-height: 1.1;
-			letter-spacing: 0.1em;
-			@apply sticky top-0 -mt-2 bg-white pt-2 font-normal;
+		&#footnote-label:before {
+			content: "*";
+			@apply -bottom-[0.45em];
 		}
-		h3:before {
-			content: counter(h3counter, upper-alpha) ".\0000a0";
-			counter-increment: h3counter;
-			font-feature-settings: "c2sc";
+	}
+	h3:not(.no-numbering) {
+		@apply italic;
+		&:before {
+			content: counter(h2counter) "." counter(h3counter) "\0000a0\0000a0\0000a0\0000a0";
+			@apply not-italic;
+		}
+	}
+	figcaption:not(.header) {
+		font-family: "Source Serif Caption", "Source Serif", serif;
+	}
+	aside,
+	aside h3 {
+		font-family: "Source Serif SmText", "Source Serif", serif;
+	}
+	aside h3 {
+		font-feature-settings: "smcp";
+		@apply my-0 mb-[0.5em] not-italic;
+		&:before {
+			content: none;
 		}
 	}
 }
@@ -91,7 +156,9 @@ kbd {
 		@apply text-inherit;
 	}
 
-	a[href^="/"] {
+	/* Internal links begins with / or # */
+	a[href^="/"],
+	a[href^="#"] {
 		text-decoration-style: var(--internal-link-decoration);
 	}
 
@@ -129,7 +196,7 @@ kbd {
 		@apply text-[--secondary-color] dark:text-[--dark-secondary-color];
 	}
 
-	blockquote,
+	:root:not([data-palette="louize"]) blockquote,
 	.note,
 	.license,
 	hr,
@@ -143,9 +210,9 @@ kbd {
 		img {
 			@apply mx-auto block;
 		}
-		:not(.expressive-code) figcaption {
+		figcaption:not(.header) {
+			/* .header targets Expressive Code frame headers */
 			@apply ml-auto mt-[0.5em] flex max-w-prose justify-end text-right text-[0.8rem];
-
 			p {
 				@apply m-0 max-w-prose;
 			}
@@ -257,7 +324,6 @@ kbd {
 		@apply my-10;
 		a {
 			font-family: "Source Serif", serif;
-			font-weight: 600;
 		}
 		ul li a {
 			font-family: "Source Serif SmText", "Source Serif", serif;
@@ -272,21 +338,19 @@ kbd {
 	h3,
 	msc {
 		font-feature-settings: "smcp";
-		font-weight: 600;
 	}
 	h2,
 	h3 {
-		font-size: 1.2em;
-	}
-	h3 {
-		font-size: 1.05em;
+		font-size: 1em;
 		font-weight: 400;
 	}
-	aside h3 {
-		font-size: 1.17em;
+	h4 {
+		font-size: 1em;
+		font-weight: 700;
 	}
 	img,
-	video {
+	video,
+	lite-youtube {
 		@apply rounded;
 	}
 	.unicase-italic {
@@ -309,7 +373,7 @@ kbd {
 	}
 	aside {
 		@apply mx-0 my-10 bg-inherit px-8 py-0 medium:px-4;
-		font-size: 0.9em;
+		font-size: 0.85em;
 		h3 {
 			font-feature-settings: "smcp";
 			@apply my-0 font-normal;
@@ -376,8 +440,8 @@ kbd {
 			counter-increment: footnote;
 		}
 		li::marker {
-			content: counter(footnote) "  ";
-			font-feature-settings: "onum";
+			content: counter(footnote) "    ";
+			font-feature-settings: "smcp";
 		}
 	}
 	/* Prevent superscripts and subscripts from affecting line-height */

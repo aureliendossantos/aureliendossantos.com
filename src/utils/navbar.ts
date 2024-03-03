@@ -1,4 +1,5 @@
 import type { MarkdownHeading } from "astro"
+import MarkdownIt from "markdown-it"
 
 export const navbarIsOpened = () => {
 	return !(document.querySelector("#navbar") as HTMLDivElement).classList.contains("invisible")
@@ -109,6 +110,7 @@ export const openPopupNavbar = (
 		libraryLink.classList.add("hidden")
 	}
 	// External links
+	const markdown = new MarkdownIt({ html: true })
 	;[0, 1, 2].forEach((i) => {
 		const link = document.querySelector(`#navbar-popup-link-${i + 1}`) as HTMLLinkElement
 		const text = document.querySelector(`#navbar-popup-link-${i + 1}-text`) as HTMLDivElement
@@ -118,8 +120,9 @@ export const openPopupNavbar = (
 		if (links && links[i]) {
 			link.classList.remove("hidden")
 			link.href = links[i].url
-			text.innerText = links[i].title
-			shortText.innerText = links[i].shortTitle || links[i].title
+			const title = markdown.renderInline(links[i].title)
+			text.innerHTML = title
+			shortText.innerHTML = links[i].shortTitle || title
 		} else {
 			link.classList.add("hidden")
 		}

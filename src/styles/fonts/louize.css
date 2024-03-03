@@ -20,6 +20,13 @@
 }
 
 @font-face {
+	font-family: "Louize";
+	font-style: italic;
+	font-weight: 700;
+	src: url("/fonts/Louize/LouizeMediumItalic.woff2") format("woff2");
+}
+
+@font-face {
 	font-family: "Louize Display";
 	font-style: normal;
 	font-weight: 400;
