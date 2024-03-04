@@ -1,4 +1,6 @@
 ---
+import MarkdownIt from "markdown-it"
+
 interface Props {
 	navBarTitle?: string
 	navBarLinks?: { title: string; url: string }[]
@@ -9,17 +11,27 @@ interface Props {
 const { navBarTitle, navBarLinks, url, padding, diary } = Astro.props
 
 const uid = crypto.randomUUID()
+
+const markdown = new MarkdownIt({ html: true })
+const labelHtml = markdown
+	.renderInline(await Astro.slots.render("default"))
+	// Removing line returns in the slot render, as they can create unwanted spaces in the page
+	.replace(/\n/g, "")
 ---
 
 <span id={`span-${uid}`} class="not-prose relative inline"
 	><a
 		id={`text-${uid}`}
-		class={`popup-link unstyled cursor-context-menu rounded-sm underline decoration-[--popup] decoration-1 underline-offset-3 dark:decoration-[--dark-popup]`}
-		><slot /></a
+		data-icon={icon}
+		class={`popup-link unstyled cursor-context-menu rounded-sm ${
+			noUnderline ? "!no-underline" : "underline"
+		} ${
+			kitchen
+				? "decoration-dotted decoration-2 decoration-stone-400 underline-offset-4"
+				: "decoration-[--popup] decoration-1 dark:decoration-[--dark-popup] underline-offset-3"
+		}`}><Fragment set:html={labelHtml} /></a
 	></span
->
-
-<template class="new-popup-template" id={uid}>
+><template class="new-popup-template" id={uid}>
 	<div
 		class={`popup absolute bottom-[25px] shadow-md hidden rounded border border-solid border-[--popup] bg-[--bg] indent-0 dark:border-[--dark-popup] dark:bg-[--dark-bg] prose-headings:text-inherit prose-headings:mt-0 prose-a:text-inherit`}
 		style={diary
@@ -48,14 +60,14 @@ const uid = crypto.randomUUID()
 			</div>
 			{
 				url && (
-					<>
+					<div class="source truncate border-0 border-t border-dotted border-[--popup] px-8 py-2 font-[family-name:--code-font] text-xs dark:border-[--dark-popup]">
 						{/* Repeating the border color rule is useful when tailwind base is active */}
-						<div class="source truncate border-0 border-t border-dotted border-[--popup] px-8 py-2 font-[family-name:--code-font] text-xs dark:border-[--dark-popup]">
-							<a href={url} class="no-underline">
-								{decodeURI(url)}
-							</a>
-						</div>
-					</>
+						{/* TODO: No idea why but the following <a> is copied in the document (creating a space) even when `url` is undefined.
+						I'll investigate when I need the <Wiki> component. */}
+						{/*<a href={url} class="no-underline">
+							{decodeURI(url)}
+						</a>*/}
+					</div>
 				)
 			}
 		</div>
@@ -71,7 +83,6 @@ const uid = crypto.randomUUID()
 		const templates = document.querySelectorAll(
 			`template.new-popup-template`
 		) as NodeListOf<HTMLTemplateElement>
-		console.log(templates)
 		templates.forEach((template) => {
 			const uid = template.id
 			const templateClone = (template.content.firstElementChild as HTMLDivElement).cloneNode(true)
@@ -134,7 +145,6 @@ const uid = crypto.randomUUID()
 				var textRect = text.getBoundingClientRect()
 				// Popup dimensions
 				// here -2 is the borders width, 64 is the padding
-				console.log(document.documentElement.clientWidth)
 				popup.style.width = Math.min(460, document.documentElement.clientWidth - 20 - 64 - 2) + "px"
 				// the popup height should be at most 240px, or less if the contents is smaller
 				popup.style.left = textRect.width / 2 + "px"
