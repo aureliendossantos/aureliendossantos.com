@@ -155,6 +155,12 @@ export const getToggleText = (touchScreenText: string) => {
 	return "Ctrl+K"
 }
 
+/**
+ * Displays a toast notification in a bottom corner of the screen.
+ * @param message The contents of the notification
+ * @param number Time before disparition in ms.
+ * @param position Bottom left or bottom right.
+ */
 export const toast = (message: string, number = 2500, position: "left" | "right" = "left") => {
 	const toast = document.querySelector("#toast") as HTMLDivElement
 	if (position === "left") {

@@ -1,0 +1,45 @@
+---
+import IngredientCard from "./IngredientCard.astro"
+import { type CollectionEntry } from "astro:content"
+import ClipboardButton from "./ClipboardButton.astro"
+interface Props {
+	ingredients: CollectionEntry<"ingredients">[]
+	quantities?: (string | null | undefined)[]
+	copyButtons?: boolean
+}
+const { ingredients, quantities, copyButtons } = Astro.props
+
+const clipboardIngredients = ingredients.map((ingredient, index) => {
+	const quantity = quantities && quantities[index]
+	return ingredient.data.title + (quantity ? ` : ${quantity}` : "")
+})
+const googleKeep = clipboardIngredients.join("\n")
+const notion = clipboardIngredients.map((ingredient) => `- [ ] ${ingredient}`).join("\n")
+---
+
+<div class="not-prose grid grid-cols-6 gap-2 text-center medium:grid-cols-5 small:grid-cols-4">
+	{
+		ingredients.map((ingredient, index) => (
+			<IngredientCard ingredient={ingredient} quantity={quantities && quantities[index]} />
+		))
+	}
+</div>
+
+{
+	copyButtons && (
+		<>
+			<ClipboardButton
+				clipboard={googleKeep}
+				notification="Les ingrédients ont été copiés. Vous pouvez\ncoller le texte dans une liste Google Keep."
+			>
+				Keep
+			</ClipboardButton>
+			<ClipboardButton
+				clipboard={notion}
+				notification="Les ingrédients ont été copiés. Vous pouvez\ncoller le texte dans une page Notion."
+			>
+				Notion
+			</ClipboardButton>
+		</>
+	)
+}

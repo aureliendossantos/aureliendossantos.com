@@ -1,0 +1,60 @@
+---
+import KitchenLayout from "$layouts/KitchenLayout.astro"
+import { type CollectionEntry, getCollection } from "astro:content"
+import Image from "$components/Image.astro"
+
+export async function getStaticPaths() {
+	const ingredients = await getCollection("ingredients")
+	return ingredients.map((ingredient) => ({
+		params: { ingredient: ingredient.slug },
+		props: { ingredient },
+	}))
+}
+
+interface Props {
+	ingredient: CollectionEntry<"ingredients">
+}
+const { ingredient } = Astro.props
+const { Content } = await ingredient.render()
+
+const recipes = (await getCollection("recipes")).filter(
+	(recipe) =>
+		recipe.data.ingredients.filter((i) => (Array.isArray(i) ? i[0] : i).slug == ingredient.slug)
+			.length > 0
+)
+---
+
+<KitchenLayout
+	ogType="article"
+	title={ingredient.data.title}
+	navBarProps={{ title: ingredient.data.title, parent: { title: "Cuisine", href: "/kitchen" } }}
+>
+	{
+		ingredient.data.icon && (
+			<>
+				<Image
+					src={ingredient.data.icon}
+					alt={`Dessin de ${ingredient.data.title}`}
+					class="float-right medium:w-40 small:w-32"
+					id="shape-outside"
+				/>
+				<style
+					is:inline
+					set:html={`@media(max-width:600px){img#shape-outside{shape-outside:url(${ingredient.data.icon.src});}`}
+				/>
+			</>
+		)
+	}
+	<h1>{ingredient.data.title}</h1>
+	<Content />
+	{recipes.length > 0 && <h2>Recettes</h2>}
+	<ul>
+		{
+			recipes.map((recipe) => (
+				<li>
+					<a href={`/kitchen/${recipe.slug}`}>{recipe.data.title}</a>
+				</li>
+			))
+		}
+	</ul>
+</KitchenLayout>

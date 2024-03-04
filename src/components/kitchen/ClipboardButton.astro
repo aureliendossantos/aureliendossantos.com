@@ -1,0 +1,31 @@
+---
+import { Icon } from "astro-icon/components"
+interface Props {
+	clipboard: string
+	notification: string
+}
+const { clipboard, notification } = Astro.props
+---
+
+<button
+	class="copy-ingredients mt-2 rounded-md border border-stone-600 px-2 py-1 font-sans text-sm text-stone-600 transition hover:border-stone-400 hover:text-stone-400 active:border-white active:text-white medium:text-xs"
+	data-text={clipboard}
+	data-toast={notification}
+>
+	<Icon name="tabler:copy" class="mb-[0.2em] inline-block" />
+	<slot />
+</button>
+
+<script>
+	import { toast } from "$utils/navbar"
+
+	const copyIngredients = (event: any) => {
+		navigator.clipboard.writeText(event.target.dataset.text)
+		toast(event.target.dataset.toast, 4500)
+	}
+	document.addEventListener("astro:page-load", () => {
+		document.querySelectorAll(".copy-ingredients").forEach((button) => {
+			button.addEventListener("click", copyIngredients)
+		})
+	})
+</script>

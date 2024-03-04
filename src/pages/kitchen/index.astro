@@ -1,0 +1,48 @@
+---
+import IngredientList from "$components/kitchen/IngredientList.astro"
+import KitchenLayout from "$layouts/KitchenLayout.astro"
+import { getCollection } from "astro:content"
+// This is a clunky way of filtering ingredients having content.
+// Only works if they contain at least one heading.
+const ingredients = (
+	await Promise.all(
+		(await getCollection("ingredients")).map(async (entry) => {
+			const { headings } = await entry.render()
+			return { entry, headingsLength: headings.length }
+		})
+	)
+)
+	.filter((item) => item.headingsLength > 0)
+	.map((item) => item.entry)
+const recipes = await getCollection("recipes")
+---
+
+<KitchenLayout ogType="website" title="Cuisine" footer>
+	<main>
+		<h1 class="text-center">Cuisine</h1>
+		<h2>Ingrédients</h2>
+		<IngredientList ingredients={ingredients} />
+		<h2>Recettes</h2>
+		<ul>
+			{
+				recipes.map((recipe) => (
+					<li>
+						<a href={`/kitchen/${recipe.slug}`}>{recipe.data.title}</a>
+					</li>
+				))
+			}
+		</ul>
+	</main>
+	<div class="grow"></div>
+	<footer class="not-prose mt-8 border-t border-stone-700 pt-8 font-sans text-sm text-stone-500">
+		Inspiré par <a href="https://grimgrains.com" target="_blank">Grimgrains</a>. Illustrations par
+		Rek Bell
+		<a href="https://grimgrains.com/site/about.html" target="_blank"> <abbr>BY-NC-SA-4.0</abbr></a>.
+	</footer>
+</KitchenLayout>
+
+<style>
+	footer a {
+		@apply font-bold underline-offset-2 hover:underline;
+	}
+</style>

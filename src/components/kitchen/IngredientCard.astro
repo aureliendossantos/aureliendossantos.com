@@ -1,0 +1,20 @@
+---
+import { type CollectionEntry } from "astro:content"
+import Image from "$components/Image.astro"
+interface Props {
+	ingredient: CollectionEntry<"ingredients">
+	quantity?: string | null | undefined
+}
+const { ingredient, quantity } = Astro.props
+---
+
+<a
+	href={`/kitchen/${ingredient.slug}`}
+	class="flex flex-col justify-end rounded-md border border-stone-600 p-2 pb-4 transition hover:border-white medium:p-0 medium:pb-2"
+>
+	{ingredient.data.icon && <Image src={ingredient.data.icon} alt="" notZoomable />}
+	<div class="mx-1 mt-1 text-sm leading-tight medium:text-xs medium:leading-tight">
+		{ingredient.data.title}
+	</div>
+	{quantity && <div class="mt-[0.1em] text-xs text-stone-400 medium:mt-0">{quantity}</div>}
+</a>

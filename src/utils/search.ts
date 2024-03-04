@@ -36,6 +36,7 @@ export const getSearchEntries = async (): Promise<SearchEntry[]> => [
 	{ slug: "diary", title: "Journal" },
 	{ slug: "gear", title: "Mes appareils" },
 	{ slug: "places", title: "Lieux" },
+	{ slug: "kitchen", title: "Cuisine" },
 	{ slug: "games", title: "Jeux" },
 	...(await getBlogPosts()).map((entry) => mapToSearchEntry(entry, `blog/${entry.slug}`)),
 	...(await getCollection("portfolio")).map((entry) =>
@@ -64,6 +65,12 @@ export const getSearchEntries = async (): Promise<SearchEntry[]> => [
 		),
 	...(await getCollection("places")).map((entry) =>
 		mapToSearchEntry(entry, `places/${entry.slug.split("/")[1]}`, ["Lieu"])
+	),
+	...(await getCollection("recipes")).map((entry) =>
+		mapToSearchEntry(entry, `kitchen/${entry.slug}`, ["Recette"])
+	),
+	...(await getCollection("ingredients")).map((entry) =>
+		mapToSearchEntry(entry, `kitchen/${entry.slug}`, ["Ingrédient"])
 	),
 	...(await getCollection("games"))
 		.filter((game) => game.data.slug)
