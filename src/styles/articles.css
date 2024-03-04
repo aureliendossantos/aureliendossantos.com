@@ -52,9 +52,14 @@ h3:before {
 	@apply relative;
 	a {
 		@apply -mt-[0.2em] rounded pt-[0.2em];
+		&[href^="/"],
+		&[href^="#"] {
+			@apply decoration-2 small:decoration-auto;
+		}
 	}
 	p {
-		@apply my-[0.9em];
+		hyphenate-character: "-";
+		@apply my-[0.9em] hyphens-auto;
 	}
 	h2,
 	h3 {
@@ -106,12 +111,13 @@ h3:before {
 	figcaption:not(.header) {
 		font-family: "Source Serif Caption", "Source Serif", serif;
 	}
+	/* below, :not(.no-numbering) is needed to increase specificity */
 	aside,
-	aside h3 {
+	aside h3:not(.no-numbering) {
 		font-family: "Source Serif SmText", "Source Serif", serif;
 	}
-	aside h3 {
-		font-feature-settings: "smcp";
+	aside h3:not(.no-numbering) {
+		font-feature-settings: "c2sc", "smcp";
 		@apply my-0 mb-[0.5em] not-italic;
 		&:before {
 			content: none;
@@ -317,7 +323,7 @@ h3:before {
 	a {
 		@apply underline decoration-1 underline-offset-3;
 		&:hover {
-			@apply rounded-sm bg-zinc-200;
+			@apply rounded-sm bg-[--popup-active] dark:bg-[--dark-popup-active];
 		}
 	}
 	nav.toc {

@@ -1,0 +1,13 @@
+/* https://clagnut.com/blog/2395 */
+
+html {
+	/* Safari supports limit-chars only via legacy prefixes */
+	hyphenate-limit-chars: 6 3 2;
+	-webkit-hyphenate-limit-before: 3;
+	-webkit-hyphenate-limit-after: 2;
+	/* limit-lines currently only supported by Safari with prefix */
+	hyphenate-limit-lines: 2;
+	-webkit-hyphenate-limit-lines: 2;
+	/* limit-last was supported by Edge but is not currently supported by any browser */
+	hyphenate-limit-last: always;
+}

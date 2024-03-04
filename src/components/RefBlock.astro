@@ -1,5 +1,4 @@
 ---
-import { getDomainName } from "$utils/formatting/formatUrl"
 import MarkdownIt from "markdown-it"
 import OptionalLink from "./OptionalLink.astro"
 interface Props {
@@ -67,7 +66,7 @@ const markdown = new MarkdownIt({ html: true })
 	{
 		big && !posterRatio ? (
 			<a
-				href={links[links.length - 1][1]}
+				href={links[links.length - 1][1] || null}
 				class="order-2 min-h-[140px] bg-cover bg-center mediumlarge:col-span-2 medium:col-span-1 small:order-1"
 				style={`background-image: url('${img}');`}
 			/>
