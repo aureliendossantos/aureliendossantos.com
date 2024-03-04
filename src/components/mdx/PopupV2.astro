@@ -6,9 +6,12 @@ interface Props {
 	navBarLinks?: { title: string; url: string }[]
 	url?: string
 	padding?: boolean
+	noUnderline?: boolean
 	diary?: boolean
+	kitchen?: boolean
+	icon?: "wikipedia" | "chef-hat"
 }
-const { navBarTitle, navBarLinks, url, padding, diary } = Astro.props
+const { navBarTitle, navBarLinks, url, padding, noUnderline, diary, kitchen, icon } = Astro.props
 
 const uid = crypto.randomUUID()
 
@@ -19,7 +22,7 @@ const labelHtml = markdown
 	.replace(/\n/g, "")
 ---
 
-<span id={`span-${uid}`} class="not-prose relative inline"
+<span id={`span-${uid}`} class={`relative inline ${!kitchen && "not-prose"}`}
 	><a
 		id={`text-${uid}`}
 		data-icon={icon}
@@ -73,6 +76,34 @@ const labelHtml = markdown
 		</div>
 	</div>
 </template>
+
+<style>
+	/* targets any a that has a data-icon attribute */
+	a[data-icon]::after {
+		content: "";
+		mask-size: cover;
+		mask-repeat: no-repeat;
+		@apply relative inline-block;
+	}
+	a[data-icon="wikipedia"]::after {
+		mask: url("/icons/wikipedia.svg") 50% 50%;
+		background-color: #999;
+		width: 2em;
+		height: 1.6em;
+		zoom: 30%;
+		top: -0.9em;
+		margin-right: -0.2em;
+	}
+	a[data-icon="chef-hat"]::after {
+		mask: url("/icons/chef-hat.svg") 50% 50%;
+		width: 2em;
+		height: 2em;
+		zoom: 40%;
+		top: -0.8em;
+		margin-right: -0.1em;
+		@apply bg-stone-400;
+	}
+</style>
 
 <script>
 	import { closePopupNavbar, openPopupNavbar } from "$utils/navbar"
