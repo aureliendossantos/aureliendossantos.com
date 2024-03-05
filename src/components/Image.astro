@@ -24,6 +24,10 @@ const {
 	...attributes
 } = Astro.props
 
+if (typeof srcToResolve != "object") {
+	console.error("srcToResolve is not an object:", srcToResolve)
+	throw new Error("srcToResolve is not an object")
+}
 const src = "then" in srcToResolve ? (await srcToResolve).default : srcToResolve
 
 const webp = await getImage({
