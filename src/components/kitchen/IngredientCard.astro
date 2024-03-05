@@ -32,10 +32,9 @@ const { ingredient, quantity, listOnMobile } = Astro.props
 	<div class:list={["grow", { hidden: listOnMobile }]}></div>
 	<div
 		class:list={[
-			"mx-1 mt-2 text-sm leading-tight medium:mx-0",
+			"mx-1 mt-2 text-sm leading-tight medium:mx-0 medium:mt-1 medium:text-xs medium:leading-tight",
 			{
-				"medium:mt-1 medium:text-xs medium:leading-tight": !listOnMobile,
-				"small:mt-0": listOnMobile,
+				"small:mt-0 small:text-sm small:leading-tight": listOnMobile,
 				"small:mr-[0.5em]": listOnMobile && quantity,
 			},
 		]}

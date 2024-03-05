@@ -1,5 +1,9 @@
 // Serif
 import "@fontsource/lora"
+import "@fontsource/lora/500.css" /* used by prose for links */
+import "@fontsource/lora/700.css"
+import "@fontsource/lora/400-italic.css"
+import "@fontsource/lora/500-italic.css"
 import "@fontsource/vollkorn"
 // Sans serif
 import "@fontsource/lato"
