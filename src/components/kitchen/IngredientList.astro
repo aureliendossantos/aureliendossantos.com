@@ -2,12 +2,19 @@
 import IngredientCard from "./IngredientCard.astro"
 import { type CollectionEntry } from "astro:content"
 import ClipboardButton from "./ClipboardButton.astro"
+
+/**
+ * @param inRecipe In a recipe, buttons are displayed to copy the ingredient list to the
+ * clipboard. Also, the list is displayed in a 2-column grid on mobile, without images.
+ */
 interface Props {
 	ingredients: CollectionEntry<"ingredients">[]
 	quantities?: (string | null | undefined)[]
-	copyButtons?: boolean
+	inRecipe?: boolean
 }
-const { ingredients, quantities, copyButtons } = Astro.props
+const { ingredients, quantities, inRecipe } = Astro.props
+
+const mobileGridRows = Math.ceil(ingredients.length / 2)
 
 const clipboardIngredients = ingredients.map((ingredient, index) => {
 	const quantity = quantities && quantities[index]
@@ -17,17 +24,31 @@ const googleKeep = clipboardIngredients.join("\n")
 const notion = clipboardIngredients.map((ingredient) => `- [ ] ${ingredient}`).join("\n")
 ---
 
-<div class="not-prose grid grid-cols-6 gap-2 text-center medium:grid-cols-5 small:grid-cols-4">
+<div
+	class:list={[
+		"not-prose grid grid-cols-6 gap-2 text-center medium:grid-cols-5",
+		{
+			"small:grid-cols-4": !inRecipe,
+			"small:grid-flow-col small:grid-cols-2 small:grid-rows-[--rows] small:gap-y-1 small:text-left":
+				inRecipe,
+		},
+	]}
+	style={{ "--rows": `repeat(${mobileGridRows}, minmax(0, 1fr))` }}
+>
 	{
 		ingredients.map((ingredient, index) => (
-			<IngredientCard ingredient={ingredient} quantity={quantities && quantities[index]} />
+			<IngredientCard
+				ingredient={ingredient}
+				quantity={quantities && quantities[index]}
+				listOnMobile={inRecipe}
+			/>
 		))
 	}
 </div>
 
 {
-	copyButtons && (
-		<>
+	inRecipe && (
+		<div class="mt-2 small:float-right">
 			<ClipboardButton
 				clipboard={googleKeep}
 				notification="Les ingrédients ont été copiés. Vous pouvez\ncoller le texte dans une liste Google Keep."
@@ -40,6 +61,6 @@ const notion = clipboardIngredients.map((ingredient) => `- [ ] ${ingredient}`).j
 			>
 				Notion
 			</ClipboardButton>
-		</>
+		</div>
 	)
 }

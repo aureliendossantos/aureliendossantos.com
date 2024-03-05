@@ -4,17 +4,49 @@ import Image from "$components/Image.astro"
 interface Props {
 	ingredient: CollectionEntry<"ingredients">
 	quantity?: string | null | undefined
+	listOnMobile?: boolean
 }
-const { ingredient, quantity } = Astro.props
+const { ingredient, quantity, listOnMobile } = Astro.props
 ---
 
 <a
 	href={`/kitchen/${ingredient.slug}`}
-	class="flex flex-col justify-end rounded-md border border-stone-600 p-2 pb-4 transition hover:border-white medium:p-0 medium:pb-2"
+	class:list={[
+		"flex flex-col justify-end rounded-md border border-stone-600 px-2 pb-4 transition hover:border-white medium:pb-3",
+		{
+			"small:flex-row small:flex-wrap small:items-baseline small:justify-start small:px-3 small:py-2":
+				listOnMobile,
+		},
+	]}
 >
-	{ingredient.data.icon && <Image src={ingredient.data.icon} alt="" notZoomable />}
-	<div class="mx-1 mt-1 text-sm leading-tight medium:text-xs medium:leading-tight">
+	{
+		ingredient.data.icon && (
+			<Image
+				class:list={{ "small:hidden": listOnMobile }}
+				src={ingredient.data.icon}
+				alt=""
+				notZoomable
+			/>
+		)
+	}
+	<div class:list={["grow", { hidden: listOnMobile }]}></div>
+	<div
+		class:list={[
+			"mx-1 mt-2 text-sm leading-tight medium:mx-0",
+			{
+				"medium:mt-1 medium:text-xs medium:leading-tight": !listOnMobile,
+				"small:mt-0": listOnMobile,
+				"small:mr-[0.5em]": listOnMobile && quantity,
+			},
+		]}
+	>
 		{ingredient.data.title}
 	</div>
-	{quantity && <div class="mt-[0.1em] text-xs text-stone-400 medium:mt-0">{quantity}</div>}
+	{
+		quantity && (
+			<div class="mt-[0.1em] text-xs text-stone-400 medium:mt-0 medium:leading-tight">
+				{quantity}
+			</div>
+		)
+	}
 </a>
