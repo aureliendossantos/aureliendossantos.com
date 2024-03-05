@@ -43,17 +43,21 @@ const diaryEntries = (await getDiary()).filter((entry) => entry.data.places.incl
 const { Content } = await place.render()
 const data = place.data
 
+const coverPath = await getGoogleImage(800, mapsData.photos[0].photo_reference)
 const cover = {
-	small: await getGoogleImage(800, mapsData.photos[0].photo_reference),
-	large: await getGoogleImage(1920, mapsData.photos[0].photo_reference),
+	small: coverPath,
+	large: coverPath.replace("-w800", "-w1920"),
 }
 const gallery =
 	mapsData.photos.length >= 3
 		? await Promise.all(
-				mapsData.photos.slice(1, 5).map(async (photo) => ({
-					small: await getGoogleImage(400, photo.photo_reference),
-					large: await getGoogleImage(1920, photo.photo_reference),
-				}))
+				mapsData.photos.slice(1, 5).map(async (photo) => {
+					const path = await getGoogleImage(400, photo.photo_reference)
+					return {
+						small: path,
+						large: path.replace("-w400", "-w1920"),
+					}
+				})
 		  )
 		: undefined
 ---
