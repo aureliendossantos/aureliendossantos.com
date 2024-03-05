@@ -58,7 +58,7 @@ const labelHtml = markdown
 			)
 		}
 		<div class="flex flex-col">
-			<div class=`overflow-auto max-h-[200px] ${padding ? "p-8" : ""}`>
+			<div class=`overflow-auto max-h-[260px] medium:max-h-[230px] ${padding ? "p-8" : ""}`>
 				<slot name="popup-contents" />
 			</div>
 			{
@@ -102,6 +102,19 @@ const labelHtml = markdown
 		top: -0.8em;
 		margin-right: -0.1em;
 		@apply bg-stone-400;
+	}
+</style>
+
+<style is:global>
+	.popup {
+		p {
+			&:first-child {
+				margin-top: 0;
+			}
+			&:last-child {
+				margin-bottom: 0;
+			}
+		}
 	}
 </style>
 
@@ -175,8 +188,8 @@ const labelHtml = markdown
 				window.popupsOpened += 1
 				var textRect = text.getBoundingClientRect()
 				// Popup dimensions
-				// here -2 is the borders width, 64 is the padding
-				popup.style.width = Math.min(460, document.documentElement.clientWidth - 20 - 64 - 2) + "px"
+				// here -2 is the borders width
+				popup.style.width = Math.min(460, document.documentElement.clientWidth - 20 - 2) + "px"
 				// the popup height should be at most 240px, or less if the contents is smaller
 				popup.style.left = textRect.width / 2 + "px"
 				popup.style.display = "block"

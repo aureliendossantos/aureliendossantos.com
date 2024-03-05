@@ -17,17 +17,6 @@ kbd {
 	@apply rounded-md border border-solid border-[--popup] px-1 font-[family-name:--code-font] dark:border-[--dark-popup];
 }
 
-.popup {
-	p {
-		&:first-child {
-			margin-top: 0;
-		}
-		&:last-child {
-			margin-bottom: 0;
-		}
-	}
-}
-
 .expressive-code {
 	@apply my-[--font-size];
 }
