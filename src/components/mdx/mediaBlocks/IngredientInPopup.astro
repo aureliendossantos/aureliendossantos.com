@@ -1,0 +1,20 @@
+---
+import type { CollectionEntry } from "astro:content"
+import { getEntry } from "astro:content"
+
+// This component replaces `Ingredient.astro` inside popups. Unlike `Ingredient.astro`,
+// this doesn't render the linked page in order to avoid infinite loops.
+interface Props {
+	slug: CollectionEntry<"ingredients">["slug"]
+}
+const { slug } = Astro.props
+
+const ingredient = await getEntry("ingredients", slug)
+---
+
+<a
+	data-icon="chef-hat"
+	href={`/kitchen/${ingredient.slug}`}
+	class="unstyled decoration-stone-400 decoration-dotted decoration-2 underline-offset-4"
+	><slot /></a
+>

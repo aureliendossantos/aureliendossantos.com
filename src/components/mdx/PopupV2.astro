@@ -36,7 +36,7 @@ const labelHtml = markdown
 	></span
 ><template class="new-popup-template" id={uid}>
 	<div
-		class={`popup absolute bottom-[25px] shadow-md hidden rounded border border-solid border-[--popup] bg-[--bg] indent-0 dark:border-[--dark-popup] dark:bg-[--dark-bg] prose-headings:text-inherit prose-headings:mt-0 prose-a:text-inherit`}
+		class="popup absolute bottom-[25px] hidden h-fit rounded border border-solid border-[--popup] bg-[--bg] indent-0 shadow-md prose-headings:mt-0 prose-headings:text-inherit prose-a:text-inherit dark:border-[--dark-popup] dark:bg-[--dark-bg]"
 		style={diary
 			? {
 					"--popup": "#52525b",
@@ -77,8 +77,10 @@ const labelHtml = markdown
 	</div>
 </template>
 
-<style>
-	/* targets any a that has a data-icon attribute */
+<style is:global>
+	/* if this style is global, all links with data-icon are affected,
+	which can be convenient. See IngredientInPopup.astro for example. */
+
 	a[data-icon]::after {
 		content: "";
 		mask-size: cover;

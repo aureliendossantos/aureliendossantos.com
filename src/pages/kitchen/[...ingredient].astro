@@ -1,5 +1,6 @@
 ---
 import KitchenLayout from "$layouts/KitchenLayout.astro"
+import Ingredient from "$components/mdx/mediaBlocks/Ingredient.astro"
 import { type CollectionEntry, getCollection } from "astro:content"
 import Image from "$components/Image.astro"
 
@@ -46,7 +47,7 @@ const recipes = (await getCollection("recipes")).filter(
 		)
 	}
 	<h1>{ingredient.data.title}</h1>
-	<Content />
+	<Content components={{ Ing: Ingredient }} />
 	{recipes.length > 0 && <h2>Recettes</h2>}
 	<ul>
 		{

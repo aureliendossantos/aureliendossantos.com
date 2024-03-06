@@ -53,7 +53,6 @@ export default defineConfig({
 				"$components/mdx/mediaBlocks/Discogs.astro",
 				"$components/mdx/mediaBlocks/Game.astro",
 				"$components/mdx/mediaBlocks/GoogleMaps.astro",
-				"$components/mdx/mediaBlocks/Ingredient.astro",
 				"$components/mdx/mediaBlocks/Movie.astro",
 				"$components/mdx/mediaBlocks/OpenGraph.astro",
 				"$components/mdx/mediaBlocks/SpotifyTrack.astro",

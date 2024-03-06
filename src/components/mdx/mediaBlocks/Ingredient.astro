@@ -2,6 +2,7 @@
 import type { CollectionEntry } from "astro:content"
 import NewPopup from "../PopupV2.astro"
 import { getEntry } from "astro:content"
+import IngredientInPopup from "$components/mdx/mediaBlocks/IngredientInPopup.astro"
 
 interface Props {
 	slug: CollectionEntry<"ingredients">["slug"]
@@ -22,6 +23,6 @@ const data = ingredient.data
 >
 	<slot />
 	<div slot="popup-contents" class="prose-sm prose-stone prose-invert">
-		<Content />
+		<Content components={{ Ing: IngredientInPopup }} />
 	</div>
 </NewPopup>
