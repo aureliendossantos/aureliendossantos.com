@@ -15,10 +15,11 @@ const hasIcon = Boolean(ingredient.data.icon)
 <a
 	href={`/kitchen/${ingredient.slug}`}
 	class:list={[
-		"flex flex-col rounded-md border border-stone-600 px-2 pb-4 transition hover:border-white medium:pb-3",
+		"flex flex-col rounded-md border border-stone-600 px-2 transition hover:border-white",
 		{
 			"small:flex-row small:flex-wrap small:items-baseline small:justify-normal small:px-3 small:py-2":
 				listOnMobile,
+			"pb-4 medium:pb-3": hasIcon,
 			"justify-center pb-2 medium:pb-1": !hasIcon,
 			"hidden small:flex": visibleOnlyOnMobile && !hidden,
 			hidden: hidden,
