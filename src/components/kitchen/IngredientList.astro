@@ -12,7 +12,12 @@ interface Props {
 	quantities?: (string | null | undefined)[]
 	inRecipe?: boolean
 }
-const { ingredients, quantities, inRecipe } = Astro.props
+const { inRecipe } = Astro.props
+
+const ingredients = Astro.props.ingredients.map((ingredient, index) => ({
+	...ingredient,
+	quantity: Astro.props.quantities && Astro.props.quantities[index],
+}))
 
 const ingredientsWithoutIcon = ingredients.filter((ingredient) => !ingredient.data.icon)
 const firstIngredientHasIcon = Boolean(ingredients[0].data.icon)
@@ -23,8 +28,7 @@ const mobileGridRows = Math.ceil(ingredients.length / 2)
 const noIconSectionCols = Math.ceil(ingredientsWithoutIcon.length / 3)
 
 const clipboardIngredients = ingredients.map((ingredient, index) => {
-	const quantity = quantities && quantities[index]
-	return ingredient.data.title + (quantity ? ` : ${quantity}` : "")
+	return ingredient.data.title + (ingredient.quantity ? ` : ${ingredient.quantity}` : "")
 })
 const googleKeep = clipboardIngredients.join("\n")
 const notion = clipboardIngredients.map((ingredient) => `- [ ] ${ingredient}`).join("\n")
@@ -45,10 +49,10 @@ const notion = clipboardIngredients.map((ingredient) => `- [ ] ${ingredient}`).j
 		/* This displays either only the items with an icon, or all the items in a 2-column grid when in a recipe on mobile */
 	}
 	{
-		ingredients.map((ingredient, index) => (
+		ingredients.map((ingredient) => (
 			<IngredientCard
 				ingredient={ingredient}
-				quantity={quantities && quantities[index]}
+				quantity={ingredient.quantity}
 				listOnMobile={inRecipe}
 				visibleOnlyOnMobile={inRecipe && !ingredient.data.icon}
 				hidden={!inRecipe && !ingredient.data.icon}
@@ -70,10 +74,10 @@ const notion = clipboardIngredients.map((ingredient) => `- [ ] ${ingredient}`).j
 		}}
 	>
 		{
-			ingredientsWithoutIcon.map((ingredient, index) => (
+			ingredientsWithoutIcon.map((ingredient) => (
 				<IngredientCard
 					ingredient={ingredient}
-					quantity={quantities && quantities[index]}
+					quantity={ingredient.quantity}
 					listOnMobile={inRecipe}
 				/>
 			))
