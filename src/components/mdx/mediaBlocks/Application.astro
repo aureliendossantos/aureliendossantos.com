@@ -1,5 +1,6 @@
 ---
 import Image from "$components/Image.astro"
+import { getDomainName } from "$utils/formatting/formatUrl"
 
 interface Props {
 	name: string
@@ -22,9 +23,9 @@ const { name, link, image } = Astro.props
 	}
 	<div class="application flex-grow">
 		<p>
-			<span class="font-bold">{name} ~</span>
-			<a href={link} class="font-sofia-sans !text-gray-500 no-underline"
-				>{link.replace("https://", "").replace(/\/$/, "")}</a
+			<span class="mr-1 font-bold">{name}</span>
+			<a href={link} class="font-work-sans text-sm !text-gray-500 no-underline"
+				>{getDomainName(link)}</a
 			>
 		</p>
 		<slot />
@@ -32,10 +33,12 @@ const { name, link, image } = Astro.props
 </div>
 
 <style is:global>
-	.application p:first-of-type {
-		@apply mb-0;
-	}
-	.application p:last-of-type {
-		@apply mt-0;
+	.application {
+		p:first-of-type {
+			@apply !mb-0;
+		}
+		p:last-of-type {
+			@apply !mt-0;
+		}
 	}
 </style>

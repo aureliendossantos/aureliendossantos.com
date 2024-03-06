@@ -12,10 +12,9 @@ const { ingredient, quantity, listOnMobile } = Astro.props
 <a
 	href={`/kitchen/${ingredient.slug}`}
 	class:list={[
-		"flex flex-col justify-end rounded-md border border-stone-600 px-2 pb-4 transition hover:border-white medium:pb-3",
+		"flex flex-col rounded-md border border-stone-600 px-2 pb-4 transition hover:border-white medium:pb-3",
 		{
-			"small:flex-row small:flex-wrap small:items-baseline small:justify-start small:px-3 small:py-2":
-				listOnMobile,
+			"small:flex-row small:flex-wrap small:items-baseline small:px-3 small:py-2": listOnMobile,
 		},
 	]}
 >
@@ -29,7 +28,7 @@ const { ingredient, quantity, listOnMobile } = Astro.props
 			/>
 		)
 	}
-	<div class:list={["grow", { hidden: listOnMobile }]}></div>
+	<div class:list={["grow", { "small:hidden": listOnMobile }]}></div>
 	<div
 		class:list={[
 			"mx-1 mt-2 text-sm leading-tight medium:mx-0 medium:mt-1 medium:text-xs medium:leading-tight",

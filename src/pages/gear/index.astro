@@ -10,7 +10,6 @@ const gear = (await getCollection("gear"))
 	.map((gear) => ({
 		collectionEntry: gear,
 		category: gear.slug.split("/")[0],
-		slug: gear.slug.split("/")[1],
 	}))
 	.sort((a, b) => dateSort(a.collectionEntry.data.obtained, b.collectionEntry.data.obtained))
 

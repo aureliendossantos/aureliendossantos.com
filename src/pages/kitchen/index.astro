@@ -2,18 +2,10 @@
 import IngredientList from "$components/kitchen/IngredientList.astro"
 import KitchenLayout from "$layouts/KitchenLayout.astro"
 import { getCollection } from "astro:content"
-// This is a clunky way of filtering ingredients having content.
-// Only works if they contain at least one heading.
-const ingredients = (
-	await Promise.all(
-		(await getCollection("ingredients")).map(async (entry) => {
-			const { headings } = await entry.render()
-			return { entry, headingsLength: headings.length }
-		})
-	)
+// Filters ingredients having text content.
+const ingredients = (await getCollection("ingredients")).filter(
+	(entry) => entry.body.trim().length > 0
 )
-	.filter((item) => item.headingsLength > 0)
-	.map((item) => item.entry)
 const recipes = await getCollection("recipes")
 ---
 
