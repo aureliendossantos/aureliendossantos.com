@@ -1,8 +1,6 @@
 ---
 import type { IGDBImage } from "$utils/remoteData/igdb"
 import type { HTMLAttributes } from "astro/types"
-import Image from "$components/Image.astro"
-import { getImage } from "astro:assets"
 
 /* cover_small	90 x 128	Fit
 screenshot_med	569 x 320	Lfill, Center gravity
@@ -35,30 +33,17 @@ interface Props extends Omit<HTMLAttributes<"img">, "src"> {
 	zoomable?: boolean
 	zoomedRetina?: boolean
 }
-const { size, retina, zoomable, zoomedRetina, ...attributes } = Astro.props
-
-/* using getImage to infer the size of the image so it can be displayed in the navbar */
-const image = await getImage({
-	src: `https://images.igdb.com/igdb/image/upload/t_${size}${retina ? "_2x" : ""}/${
-		Astro.props.image.image_id
-	}.jpg`,
-	inferSize: true,
-	...attributes,
-})
-const original = await getImage({
-	src: `https://images.igdb.com/igdb/image/upload/t_original/${Astro.props.image.image_id}.jpg`,
-	inferSize: true,
-})
+const { image, size, retina, zoomable, zoomedRetina, ...attributes } = Astro.props
 ---
 
 <img
-	src={image.src}
+	src={`https://images.igdb.com/igdb/image/upload/t_${size}${retina ? "_2x" : ""}/${
+		image.image_id
+	}.jpg`}
+	width={image.width}
+	height={image.height}
 	data-zoomable={zoomable}
-	data-zoom-src={zoomable && original.src}
-	data-width={image.attributes.width}
-	data-height={image.attributes.height}
-	data-zoom-width={original.attributes.width}
-	data-zoom-height={original.attributes.height}
-	data-original-format="jpg"
-	{...image.attributes}
+	data-zoom-src={zoomable &&
+		`https://images.igdb.com/igdb/image/upload/t_original/${image.image_id}.jpg`}
+	{...attributes}
 />
