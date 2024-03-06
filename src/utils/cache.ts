@@ -2,12 +2,19 @@ import "dotenv/config"
 import fs from "node:fs"
 import { pathToFileURL } from "node:url"
 
-// 10 days  = 864000000 ms (wikipedia cache duration)
-// 100 days = 8640000000 ms (google maps cache duration)
+/**
+ * This function is useful to get any kind of data from the Internet that can (or should) be cached.
+ * Gets the data from the cache if it exists and is not too old, otherwise fetches it and caches it.
+ * @param title The filename of the cache
+ * @param folder The folder name indicating some kind of category, useful to avoid name conflicts
+ * @param fetchFunction A function that returns a promise of the data to be fetched. The return value must be an object, it will be stringified and cached.
+ * @param cacheDays The duration of the cache in days. Default is 100 days, which is good for Google Maps. 10 days is good for Wikipedia. A day is 86400000 ms.
+ * @returns
+ */
 export async function getCacheOrFetch<T>(
 	title: string,
 	folder: string,
-	fetchFunction: () => Promise<T>,
+	fetchFunction: () => Promise<object>,
 	cacheDays = 100
 ): Promise<T> {
 	ensureCacheFolderExists()
