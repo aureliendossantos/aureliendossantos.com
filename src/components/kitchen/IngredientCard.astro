@@ -5,8 +5,11 @@ interface Props {
 	ingredient: CollectionEntry<"ingredients">
 	quantity?: string | null | undefined
 	listOnMobile?: boolean
+	visibleOnlyOnMobile?: boolean
+	hidden?: boolean
 }
-const { ingredient, quantity, listOnMobile } = Astro.props
+const { ingredient, quantity, listOnMobile, visibleOnlyOnMobile, hidden } = Astro.props
+const hasIcon = Boolean(ingredient.data.icon)
 ---
 
 <a
@@ -14,7 +17,11 @@ const { ingredient, quantity, listOnMobile } = Astro.props
 	class:list={[
 		"flex flex-col rounded-md border border-stone-600 px-2 pb-4 transition hover:border-white medium:pb-3",
 		{
-			"small:flex-row small:flex-wrap small:items-baseline small:px-3 small:py-2": listOnMobile,
+			"small:flex-row small:flex-wrap small:items-baseline small:justify-normal small:px-3 small:py-2":
+				listOnMobile,
+			"justify-center pb-2 medium:pb-1": !hasIcon,
+			"hidden small:flex": visibleOnlyOnMobile && !hidden,
+			hidden: hidden,
 		},
 	]}
 >
@@ -28,7 +35,7 @@ const { ingredient, quantity, listOnMobile } = Astro.props
 			/>
 		)
 	}
-	<div class:list={["grow", { "small:hidden": listOnMobile }]}></div>
+	<div class:list={[{ grow: hasIcon, "small:hidden": listOnMobile }]}></div>
 	<div
 		class:list={[
 			"mx-1 mt-2 text-sm leading-tight medium:mx-0 medium:mt-1 medium:text-xs medium:leading-tight",

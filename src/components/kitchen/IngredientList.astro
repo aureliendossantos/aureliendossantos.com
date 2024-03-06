@@ -14,7 +14,13 @@ interface Props {
 }
 const { ingredients, quantities, inRecipe } = Astro.props
 
+const ingredientsWithoutIcon = ingredients.filter((ingredient) => !ingredient.data.icon)
+const firstIngredientHasIcon = Boolean(ingredients[0].data.icon)
+
+// How many rows are needed to display the list in a 2-column grid on mobile?
 const mobileGridRows = Math.ceil(ingredients.length / 2)
+// How many columns are needed to display ingredients without icon in a 3-row grid list?
+const noIconSectionCols = Math.ceil(ingredientsWithoutIcon.length / 3)
 
 const clipboardIngredients = ingredients.map((ingredient, index) => {
 	const quantity = quantities && quantities[index]
@@ -36,14 +42,43 @@ const notion = clipboardIngredients.map((ingredient) => `- [ ] ${ingredient}`).j
 	style={{ "--rows": `repeat(${mobileGridRows}, minmax(0, 1fr))` }}
 >
 	{
+		/* This displays either only the items with an icon, or all the items in a 2-column grid when in a recipe on mobile */
+	}
+	{
 		ingredients.map((ingredient, index) => (
 			<IngredientCard
 				ingredient={ingredient}
 				quantity={quantities && quantities[index]}
 				listOnMobile={inRecipe}
+				visibleOnlyOnMobile={inRecipe && !ingredient.data.icon}
+				hidden={!inRecipe && !ingredient.data.icon}
 			/>
 		))
 	}
+	{/* This displays the iconless items when we're in the view with icons */}
+	<div
+		class:list={[
+			"col-[--cols] grid grid-flow-col grid-cols-subgrid grid-rows-[--rows] gap-2",
+			{
+				"small:hidden": inRecipe,
+				"order-first": !firstIngredientHasIcon,
+			},
+		]}
+		style={{
+			"--cols": `span ${noIconSectionCols} / span ${noIconSectionCols}`,
+			"--rows": `repeat(${Math.min(3, ingredientsWithoutIcon.length)}, minmax(0, 1fr))`,
+		}}
+	>
+		{
+			ingredientsWithoutIcon.map((ingredient, index) => (
+				<IngredientCard
+					ingredient={ingredient}
+					quantity={quantities && quantities[index]}
+					listOnMobile={inRecipe}
+				/>
+			))
+		}
+	</div>
 </div>
 
 {
