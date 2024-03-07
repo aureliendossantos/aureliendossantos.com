@@ -49,9 +49,11 @@ const service: LocalImageServiceWithPlaceholder = {
 	generatePlaceholder: async (src: string, width: number, height: number, quality = 100) => {
 		const placeholderDimensions = getBitmapDimensions(width, height, quality)
 
-		// HACK: It'd be nice to be able to get a Buffer out from an ESM import or `getImage`, wonder how we could do that..
+		// HACK: It'd be nice to be able to get a Buffer out from an ESM import or `getImage`, wonder how we could do that.
+		// SSG: readFileSync("./dist/" + src)
+		// SSR with Vercel: readFileSync("./.vercel/output/_functions/" + src)
 		const originalFileBuffer = import.meta.env.PROD
-			? readFileSync("./dist/" + src)
+			? readFileSync("./.vercel/output/_functions/" + src)
 			: await fetch(new URL(src, getBaseSiteURL()))
 					.then((response) => response.arrayBuffer())
 					.then((buffer) => Buffer.from(buffer))
