@@ -5,6 +5,7 @@ import mdx from "@astrojs/mdx"
 import vercel from "@astrojs/vercel/serverless"
 import icon from "astro-icon"
 import expressiveCode from "astro-expressive-code"
+import { pluginCollapsibleSections } from "@expressive-code/plugin-collapsible-sections"
 import { remarkConvertImports } from "./src/utils/remark/convertImports"
 
 // https://astro.build/config
@@ -23,18 +24,7 @@ export default defineConfig({
 			applyBaseStyles: false,
 			nesting: true,
 		}),
-		expressiveCode({
-			useDarkModeMediaQuery: false,
-			themes: ["github-light", "min-light", "slack-ochin", "vitesse-light"],
-			defaultProps: {
-				wrap: true,
-			},
-			styleOverrides: {
-				frames: {
-					frameBoxShadowCssValue: "unset",
-				},
-			},
-		}),
+		expressiveCode(),
 		AutoImport({
 			imports: [
 				"$components/mdx/customComponents/Age.astro",
