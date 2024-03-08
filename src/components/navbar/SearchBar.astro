@@ -12,21 +12,21 @@ interface Props {
 const preRenderedEntries = Astro.props.ssr ? [] : await getSearchEntries()
 ---
 
-<div class="relative">
-	<label
-		id="navbar-search-label"
-		class="group flex h-full items-center hover:bg-white hover:text-black"
-	>
-		<Icon name="ic:baseline-search" class="h-[17px] pl-[10px] pr-2 medium:px-2" />
+<div class="relative border-r border-neutral-700">
+	<div class="group flex h-full items-center hover:bg-white hover:text-black">
+		<label for="navbar-search-toggle">
+			<Icon name="ic:baseline-search" class="h-[17px] pl-[10px] pr-2 medium:px-2" />
+		</label>
+		<input type="checkbox" id="navbar-search-toggle" class="peer hidden" aria-hidden="true" />
 		<input
 			id="navbar-search"
-			class="peer w-[90px] bg-transparent p-0 placeholder:text-white hover:text-black placeholder:hover:text-black focus:text-white focus:outline-none placeholder:focus:text-neutral-500 focus:group-hover:text-black medium:w-0 medium:focus:w-[90px] medium:active:w-[90px]"
+			class="w-[90px] bg-transparent p-0 placeholder:text-white focus:text-white focus:outline-none placeholder:focus:text-neutral-500 group-hover:text-black placeholder:group-hover:text-black focus:group-hover:text-black medium:w-0 medium:active:w-[90px] medium:peer-checked:w-[90px]"
 			style="transition: width 0.2s ease-out;"
 			placeholder="Rechercher"
 			autocomplete="off"
 			type="text"
 		/>
-	</label>
+	</div>
 	<div
 		id="navbar-search-dropdown"
 		class="absolute bottom-7 z-10"
@@ -49,6 +49,28 @@ const preRenderedEntries = Astro.props.ssr ? [] : await getSearchEntries()
 	import { SearchCard } from "$components/navbar/SearchCard"
 
 	customElements.define("search-card", SearchCard)
+</script>
+
+<script>
+	// When the hidden checkbox is checked, focus on the search input.
+	// If the search input hasn't been focused for 3 seconds, uncheck the box.
+	// The checkbox automatically shows and hides the search input on mobile.
+	let isFocused = false
+	const checkbox = document.getElementById("navbar-search-toggle") as HTMLInputElement
+	const searchInput = document.getElementById("navbar-search") as HTMLInputElement
+
+	checkbox.addEventListener("change", () => {
+		if (checkbox.checked) searchInput.focus()
+	})
+	searchInput.addEventListener("focus", () => {
+		isFocused = true
+	})
+	searchInput.addEventListener("blur", () => {
+		isFocused = false
+		setTimeout(() => {
+			if (!isFocused) checkbox.checked = false
+		}, 3000)
+	})
 </script>
 
 <script define:vars={{ preRenderedEntries }}>
@@ -132,18 +154,6 @@ const preRenderedEntries = Astro.props.ssr ? [] : await getSearchEntries()
 	document.addEventListener("astro:before-preparation", () => {
 		outputContainer.innerHTML = ""
 	})
-	/** 
-	// Make the input visible on mobile when we click on the label.
-	const label = document.getElementById("navbar-search-label")
-	label.addEventListener("click", () => {
-		input.focus()
-		// Ensure the input is focused when the user releases the click.
-		label.addEventListener("mouseup", (event) => {
-			event.preventDefault()
-			input.focus()
-		})
-	})
-	*/
 </script>
 
 <script>
