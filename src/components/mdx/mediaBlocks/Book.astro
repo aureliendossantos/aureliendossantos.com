@@ -1,5 +1,6 @@
 ---
 import RefBlock from "$components/RefBlock.astro"
+import { getCacheOrFetch } from "$utils/cache"
 import formatDate from "$utils/formatting/formatDate"
 
 interface Props {
@@ -7,14 +8,24 @@ interface Props {
 	olid?: string
 }
 const { isbn, olid } = Astro.props
+if (!isbn && !olid) throw new Error("You must provide either an ISBN or an OLID")
+
 // TODO: handle errors
-const result = await fetch(
-	`https://openlibrary.org/api/books?bibkeys=${
-		isbn ? `ISBN:${isbn}` : `OLID:${olid}`
-	}&jscmd=details&format=json`
-).then((response) => response.json())
-// Response format: https://openlibrary.org/dev/docs/api/books
-const book: any = Object.values(result)[0]
+const book = await getCacheOrFetch(
+	(isbn || olid) as string,
+	"openlibrary",
+	async () => {
+		const result = await fetch(
+			`https://openlibrary.org/api/books?bibkeys=${
+				isbn ? `ISBN:${isbn}` : `OLID:${olid}`
+			}&jscmd=details&format=json`
+		).then((response) => response.json())
+		// Response format: https://openlibrary.org/dev/docs/api/books
+		return Object.values(result)[0] as any
+	},
+	1
+)
+
 const year = formatDate(new Date(book.details.publish_date), true)
 const infos = []
 if (book.details.subtitle) infos.push(book.details.subtitle)
