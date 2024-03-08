@@ -52,9 +52,19 @@ const preRenderedEntries = Astro.props.ssr ? [] : await getSearchEntries()
 </script>
 
 <script>
-	// When the hidden checkbox is checked, focus on the search input.
-	// If the search input hasn't been focused for 3 seconds, uncheck the box.
-	// The checkbox automatically shows and hides the search input on mobile.
+	/** *My first idea*
+	 * Using the search icon as a <label> for the search input, so that on mobile,
+	 * clicking on the icon brings the input into focus. It works everywhere except on iOS.
+	 * *The new method*
+	 * The search icon is a <label> for a hidden checkbox, and the input is shown if that
+	 * checkbox is checked. It works, but to automatically hide the input, we need this
+	 * script to listen to the blur event and uncheck the box. There's still a problem
+	 * though. On iOS (again), the keyboard appears above the navbar and hides the input.
+	 * So, on iOS only, the input is not focused automatically. Instead, the user has a
+	 * 3-second delay to focus on the input after clicking the icon.
+	 */
+	import { isIOS } from "$utils/navbar"
+
 	let isFocused = false
 	const checkbox = document.getElementById("navbar-search-toggle") as HTMLInputElement
 	const searchInput = document.getElementById("navbar-search") as HTMLInputElement
@@ -68,7 +78,7 @@ const preRenderedEntries = Astro.props.ssr ? [] : await getSearchEntries()
 	searchInput.addEventListener("blur", () => {
 		isFocused = false
 		setTimeout(() => {
-			if (!isFocused) checkbox.checked = false
+			if (!isFocused && !isIOS) checkbox.checked = false
 		}, 3000)
 	})
 </script>
