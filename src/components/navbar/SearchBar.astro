@@ -70,7 +70,7 @@ const preRenderedEntries = Astro.props.ssr ? [] : await getSearchEntries()
 	const searchInput = document.getElementById("navbar-search") as HTMLInputElement
 
 	checkbox.addEventListener("change", () => {
-		if (checkbox.checked) searchInput.focus()
+		if (checkbox.checked && !isIOS) searchInput.focus()
 	})
 	searchInput.addEventListener("focus", () => {
 		isFocused = true
@@ -78,7 +78,7 @@ const preRenderedEntries = Astro.props.ssr ? [] : await getSearchEntries()
 	searchInput.addEventListener("blur", () => {
 		isFocused = false
 		setTimeout(() => {
-			if (!isFocused && !isIOS) checkbox.checked = false
+			if (!isFocused) checkbox.checked = false
 		}, 3000)
 	})
 </script>
