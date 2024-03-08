@@ -10,6 +10,7 @@ interface Props {
 const { slug } = Astro.props
 
 const ingredient = await getEntry("ingredients", slug)
+if (!ingredient) throw new Error(`Ingredient not found: ${slug}`)
 const { Content } = await ingredient.render()
 const data = ingredient.data
 ---
