@@ -64,6 +64,8 @@ export default defineConfig({
 		icon({
 			include: {
 				bi: ["stars"],
+				carbon: ["network-1"],
+				charm: ["home"],
 				ic: [
 					"baseline-check",
 					"baseline-launch",
@@ -81,6 +83,7 @@ export default defineConfig({
 					"keyboard-double-arrow-up-rounded",
 				],
 				mdi: ["github"],
+				ph: ["share-network"],
 				tabler: ["copy"],
 				tdesign: ["map-collection"],
 			},

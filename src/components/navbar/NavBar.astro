@@ -30,28 +30,42 @@ const relatedTitle = Astro.props.relatedTitle || "Voir aussi"
 	class="fixed bottom-0 z-[999] flex h-7 w-full max-w-full border-neutral-700 bg-black font-work-sans text-sm text-white transition-all"
 >
 	<div id="navbar-main-actions" class="flex">
+		<DropdownMenu id="navbar-explore" label="Explorer" truncate="medium" borderRight chevron>
+			<Icon name="carbon:network-1" class="h-[17px]" slot="icon" />
+			<div class="hidden border-x-0 px-3 py-[6px] leading-tight text-neutral-500 medium:block">
+				Explorer
+			</div>
+			<DropdownItem width={106} label="Portfolio" href="/portfolio" />
+			<DropdownItem label="Blog" href="/" />
+			<DropdownItem label="Appareils" href="/gear" />
+			<DropdownItem label="Cuisine" href="/kitchen" />
+			<DropdownItem label="Journal" href="/diary" />
+			<DropdownItem label="Wiki" href="/wiki" />
+			<DropdownItem label="À propos" href="/website" />
+		</DropdownMenu>
 		<a
 			id="navbar-parent-link"
 			class:list={[
-				"group relative m-0 flex h-full items-center justify-center border-r border-neutral-700 p-0 px-3 hover:bg-white hover:text-black",
+				"group relative m-0 flex h-full items-center justify-center gap-2 border-r border-neutral-700 p-0 px-3 hover:bg-white hover:text-black",
 				{
 					hidden: !parent,
 				},
 			]}
 			href={parent?.href}
 		>
-			<div id="navbar-parent-text" class="whitespace-nowrap">
+			<Icon name="charm:home" class="h-[14px]" />
+			<div id="navbar-parent-text" class="truncate whitespace-nowrap small:max-w-[20vw]">
 				{parent?.title}
 			</div>
 			<div
-				class="absolute -right-[3px] top-3 z-[1000] h-[4px] w-[4px] rotate-45 border-r border-t border-neutral-700 bg-black group-hover:bg-white medium:hidden"
+				class="absolute -right-[3px] top-3 z-[1000] h-[4px] w-[4px] rotate-45 border-r border-t border-neutral-700 bg-black group-hover:bg-white"
 			>
 			</div>
 		</a>
 		<button
 			id="navbar-copy-link"
 			style="padding-block: unset;"
-			class="m-0 flex h-full items-center justify-center gap-2 border-r border-neutral-700 p-0 px-3 hover:bg-white hover:text-black medium:px-2"
+			class="group relative m-0 flex h-full items-center justify-center gap-2 border-r border-neutral-700 p-0 px-3 hover:bg-white hover:text-black medium:px-2"
 		>
 			<Icon id="navbar-link-icon" name="ic:baseline-link" class="h-[17px]" />
 			<Icon id="navbar-link-checkmark" name="ic:baseline-check" class="hidden h-[17px]" />
@@ -71,7 +85,6 @@ const relatedTitle = Astro.props.relatedTitle || "Voir aussi"
 		>
 			<Icon id="navbar-link-icon" name="ic:baseline-toc" class="h-[17px] rotate-180" slot="icon" />
 			<div
-				id="navbar-related-mobile-title"
 				class="line-clamp-2 hidden w-[192px] border-x-0 px-3 py-[6px] leading-tight text-neutral-500 medium:block"
 			>
 				Table des matières
@@ -91,12 +104,7 @@ const relatedTitle = Astro.props.relatedTitle || "Voir aussi"
 			borderRight
 			initiallyHidden={!related || related.length == 0}
 		>
-			<Icon
-				id="navbar-link-icon"
-				name="bi:stars"
-				class="hidden h-[17px] medium:block"
-				slot="icon"
-			/>
+			<Icon name="ph:share-network" class="h-[16px]" slot="icon" />
 			<div
 				id="navbar-related-mobile-title"
 				class="line-clamp-2 hidden w-[192px] border-x-0 px-3 py-[6px] leading-tight text-neutral-500 medium:block"
@@ -143,17 +151,7 @@ const relatedTitle = Astro.props.relatedTitle || "Voir aussi"
 	</div>
 	<div class="grow"></div>
 	<SearchBar ssr={ssr} />
-	<DropdownMenu id="navbar-explore" label="Explorer" alignRight borderLeft borderRight>
-		<DropdownItem label="Portfolio" href="/portfolio" />
-		<DropdownItem label="Blog" href="/" />
-		<DropdownItem label="Appareils" href="/gear" />
-		<DropdownItem label="Cuisine" href="/kitchen" />
-		<DropdownItem label="Journal" href="/diary" />
-		<DropdownItem label="Wiki" href="/wiki" />
-		<DropdownItem label="/website" href="/website" />
-	</DropdownMenu>
 	<NavbarToggleButton
-		bgClasses=""
 		textAndBorderClasses="border-neutral-500 text-neutral-400 group-hover:border-white group-hover:text-white"
 	/>
 </div>
