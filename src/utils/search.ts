@@ -1,6 +1,7 @@
 import { getCollection, type CollectionEntry, type CollectionKey } from "astro:content"
-import getBlogPosts, { getDiary } from "$utils/getCollection"
+import getBlogPosts, { getDiary, getWikiPages } from "$utils/getCollection"
 import formatDate from "$utils/formatting/formatDate"
+import { getCacheOrFetch } from "./cache"
 
 interface SearchEntry {
 	slug: string
@@ -75,4 +76,22 @@ export const getSearchEntries = async (): Promise<SearchEntry[]> => [
 	...(await getCollection("games"))
 		.filter((game) => game.data.slug)
 		.map((game) => mapToSearchEntry(game, `games/${game.data.slug}`, ["Jeu"], undefined)),
+	// Notion results are cached, else this is queried for each page during build
+	...(
+		await getCacheOrFetch(
+			"search-results",
+			"notion",
+			async () => ({
+				results: (await getWikiPages()).map((page) => {
+					console.log("doing something")
+					return {
+						slug: `wiki/${page.slug}`,
+						title: page.title,
+						categories: [`Wiki · ${page.category}`],
+					}
+				}),
+			}),
+			1
+		)
+	).results,
 ]

@@ -2,41 +2,28 @@
 export const prerender = false
 
 import BaseLayout from "$layouts/BaseLayout.astro"
-import slugify from "slugify"
-import getDatabase from "$utils/notion/getDatabase"
 import NotionPageContent from "$components/notion/NotionPageContent.astro"
-import type { PagesEntry } from "$utils/notion/wiki"
 import formatDate from "$utils/formatting/formatDate"
 import { Icon } from "astro-icon/components"
+import { getWikiPages } from "$utils/getCollection"
 
-let results = (await getDatabase(import.meta.env.NOTION_WIKI_PAGES_DB)) as PagesEntry[]
+let pages = await getWikiPages()
+const page = pages.find((page) => page.slug == Astro.params.slug)
 
-const notionPage = results.find(
-	(page) =>
-		slugify(page.properties.Nom.title[0].plain_text, { remove: /[*+~.()'"!:@«»]/g, lower: true }) ==
-		Astro.params.slug
-)
-
-if (!notionPage) {
+if (!page) {
 	return new Response(null, {
 		status: 404,
 		statusText: "Page introuvable",
 	})
 }
-
-const title = notionPage.properties.Nom.title[0].plain_text
-const description =
-	notionPage.properties.Description.rich_text[0] &&
-	notionPage.properties.Description.rich_text[0].plain_text
-const editedTime = notionPage.last_edited_time
 ---
 
 <BaseLayout
 	ssr
-	title={title}
+	title={page.title}
 	ogType="article"
 	bg={{ light: "white", dark: "black" }}
-	navBarProps={{ title: title, parent: { title: "Wiki personnel", href: "/wiki" } }}
+	navBarProps={{ title: page.title, parent: { title: "Wiki personnel", href: "/wiki" } }}
 >
 	<div class="prose prose-sm prose-neutral mx-auto mb-16 px-4 dark:prose-invert">
 		<header
@@ -47,15 +34,15 @@ const editedTime = notionPage.last_edited_time
 			</p>
 		</header>
 		<main class="">
-			<h1>{title}</h1>
-			{description && <p class="lead">{description}</p>}
+			<h1>{page.title}</h1>
+			{page.description && <p class="lead">{page.description}</p>}
 			<div class="not-prose font-work-sans text-sm text-neutral-500">
 				<p class="text-neutral-500">
 					<Icon name="material-symbols:update-rounded" class="mb-[0.15em] inline-block" />
-					{formatDate(new Date(editedTime))}
+					{formatDate(new Date(page.editedTime))}
 				</p>
 			</div>
-			<NotionPageContent id={notionPage.id} />
+			<NotionPageContent id={page.id} />
 		</main>
 	</div>
 </BaseLayout>

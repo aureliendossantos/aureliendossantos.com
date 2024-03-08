@@ -1,33 +1,10 @@
 ---
 import formatDate from "$utils/formatting/formatDate"
-import getDatabase from "$utils/notion/getDatabase"
-import type { CategoriesEntry, PagesEntry } from "$utils/notion/wiki"
-import slugify from "slugify"
 import { Icon } from "astro-icon/components"
-import { dateSort } from "$utils/sort"
+import { getWikiCategories, getWikiPages } from "$utils/getCollection"
 
-const categories = (
-	(await getDatabase(import.meta.env.NOTION_WIKI_CATEGORIES_DB)) as CategoriesEntry[]
-).map((page) => ({
-	id: page.id,
-	title: page.properties.Nom.title[0].plain_text,
-	description: page.properties.Description.rich_text[0]
-		? page.properties.Description.rich_text[0].plain_text
-		: null,
-}))
-const pages = ((await getDatabase(import.meta.env.NOTION_WIKI_PAGES_DB)) as PagesEntry[]).map(
-	(page) => ({
-		id: page.id,
-		title: page.properties.Nom.title[0].plain_text,
-		description: page.properties.Description.rich_text[0]
-			? page.properties.Description.rich_text[0].plain_text
-			: null,
-		category: page.properties.Catégorie.relation[0].id,
-		edited_time: new Date(page.last_edited_time),
-	})
-)
-
-const regex = /[*+~.()'"!:@«»]/g
+const categories = await getWikiCategories()
+const pages = await getWikiPages()
 ---
 
 {
@@ -37,20 +14,18 @@ const regex = /[*+~.()'"!:@«»]/g
 			{category.description && <p class="text-neutral-500">{category.description}</p>}
 			<ul class="not-prose -mx-3 flex flex-col">
 				{pages
-					.filter((page) => page.category == category.id)
-					.sort((a, b) => dateSort(a.edited_time, b.edited_time))
+					.filter((page) => page.categoryId == category.id)
 					.map((page) => {
-						const slug = slugify(page.title, { remove: regex, lower: true })
 						return (
 							<a
 								class="z-0 -mt-[1px] border border-neutral-300 px-3 py-3 leading-snug transition first:mt-0 first:rounded-t last:rounded-b hover:z-10 hover:border-neutral-500 dark:border-neutral-700"
-								href={`/wiki/${slug}`}
+								href={`/wiki/${page.slug}`}
 							>
 								<div class="flex justify-between">
 									<h3>{page.title}</h3>
 									<p class="text-neutral-500">
 										<Icon name="material-symbols:update-rounded" class="mb-[0.2em] inline-block" />
-										{formatDate(new Date(page.edited_time))}
+										{formatDate(new Date(page.editedTime))}
 									</p>
 								</div>
 								{page.description && <p class="text-neutral-500">{page.description}</p>}

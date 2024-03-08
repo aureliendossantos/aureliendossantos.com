@@ -61,7 +61,7 @@ const preRenderedEntries = Astro.props.ssr ? [] : await getSearchEntries()
 	 * script to listen to the blur event and uncheck the box. There's still a problem
 	 * though. On iOS (again), the keyboard appears above the navbar and hides the input.
 	 * So, on iOS only, the input is not focused automatically. Instead, the user has a
-	 * 3-second delay to focus on the input after clicking the icon.
+	 * 3-second delay to manually focus on the input after clicking the icon.
 	 */
 	import { isIOS } from "$utils/navbar"
 

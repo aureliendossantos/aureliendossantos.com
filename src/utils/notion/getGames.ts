@@ -1,19 +1,14 @@
 import "dotenv/config"
-import type { QueryDatabaseParameters } from "@notionhq/client/build/src/api-endpoints"
+import type {
+	PageObjectResponse,
+	QueryDatabaseParameters,
+} from "@notionhq/client/build/src/api-endpoints"
 import getDatabase from "./getDatabase"
 import getChildren from "./getChildren"
 import getIGDBgames, { type IGDBData } from "$utils/remoteData/igdb"
-import type {
-	ResponseResult,
-	Title,
-	RichText,
-	Select,
-	Status,
-	MultiSelect,
-	Checkbox,
-} from "./types"
+import type { Title, RichText, Select, Status, MultiSelect, Checkbox } from "./types"
 
-type GameEntry = ResponseResult & {
+type GameEntry = PageObjectResponse & {
 	properties: {
 		Nom: Title
 		slug: RichText

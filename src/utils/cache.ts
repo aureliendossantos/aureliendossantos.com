@@ -7,7 +7,7 @@ import { pathToFileURL } from "node:url"
  * Gets the data from the cache if it exists and is not too old, otherwise fetches it and caches it.
  * @param title The filename of the cache
  * @param folder The folder name indicating some kind of category, useful to avoid name conflicts
- * @param fetchFunction A function that returns a promise of the data to be fetched. The return value must be an object, it will be stringified and cached.
+ * @param fetchFunction A function that returns a promise of the data to be fetched. The return value must be an object, it will be stringified and cached. It CAN'T be an array, the first level must have keys.
  * @param cacheDays The duration of the cache in days. Default is 100 days, which is good for Google Maps. 10 days is good for Wikipedia. A day is 86400000 ms.
  * @returns
  */

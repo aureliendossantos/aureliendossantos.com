@@ -1,13 +1,14 @@
-import type { ResponseResult, Title, RichText, Relation } from "$utils/notion/types"
+import type { Title, RichText, Relation } from "$utils/notion/types"
+import type { PageObjectResponse } from "@notionhq/client/build/src/api-endpoints"
 
-export type CategoriesEntry = ResponseResult & {
+export type CategoriesEntry = PageObjectResponse & {
 	properties: {
 		Nom: Title
 		Description: RichText
 	}
 }
 
-export type PagesEntry = ResponseResult & {
+export type PagesEntry = PageObjectResponse & {
 	properties: {
 		Nom: Title
 		Description: RichText
