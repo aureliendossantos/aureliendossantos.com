@@ -1,0 +1,51 @@
+/* if this style is global, all links with data-icon are affected,
+	which can be convenient. See IngredientInPopup.astro for example. */
+
+/* Common to all icons */
+a[data-icon="wikipedia"],
+a[data-icon="chef-hat"] {
+	&::after {
+		content: "";
+		mask-size: cover;
+		mask-repeat: no-repeat;
+		@apply relative inline-block;
+	}
+}
+a[data-icon="github"] {
+	&::before {
+		content: "";
+		mask-size: cover;
+		mask-repeat: no-repeat;
+		@apply relative inline-block;
+	}
+}
+
+/* Specific to each icon */
+a[data-icon="wikipedia"]::after {
+	mask: url("/icons/wikipedia.svg") 50% 50%;
+	background-color: #999;
+	width: 2em;
+	height: 1.6em;
+	zoom: 30%;
+	top: -0.9em;
+	margin-right: -0.2em;
+}
+
+a[data-icon="chef-hat"]::after {
+	mask: url("/icons/chef-hat.svg") 0 0/12px 12px;
+	width: 12px;
+	height: 12px;
+	top: -0.3em;
+	margin-right: -0.1em;
+	@apply bg-stone-400;
+}
+
+a[data-icon="github"]::before {
+	mask: url("/icons/github.svg") 0 0/0.9em 0.9em;
+	background-color: #999;
+	width: 0.9em;
+	height: 0.9em;
+	top: 0.11em;
+	margin-right: 0.1em;
+	@apply bg-[--secondary-color] opacity-50;
+}

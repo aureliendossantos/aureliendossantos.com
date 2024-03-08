@@ -14,11 +14,11 @@ import { pathToFileURL } from "node:url"
 export async function getCacheOrFetch<T>(
 	title: string,
 	folder: string,
-	fetchFunction: () => Promise<object>,
+	fetchFunction: () => Promise<T>,
 	cacheDays = 100
 ): Promise<T> {
 	ensureCacheFolderExists()
-	ensureFolderExists(`node_modules/.my-cache/${folder}`)
+	ensureFolderExists(`node_modules/.my-cache/${folder}`, "create")
 	const rootPath = pathToFileURL(process.cwd() + "/")
 	const filePath = new URL(`node_modules/.my-cache/${folder}/${title}.json`, rootPath)
 	// Gets the current json, if it exists, and maybe use its data
@@ -35,15 +35,16 @@ export async function getCacheOrFetch<T>(
 	return data
 }
 
-function ensureFolderExists(folderPath: string) {
+export function ensureFolderExists(folderPath: string, behavior: "create" | "throw" = "throw") {
 	const rootPath = pathToFileURL(process.cwd() + "/")
 	const dir = new URL(folderPath, rootPath)
 	if (!fs.existsSync(dir)) {
+		if (behavior === "throw") throw new Error(`Path ${folderPath} doesn't exist.`)
 		console.warn(`Folder ${folderPath} doesn't exist. Creating it...`)
 		fs.mkdirSync(dir)
 	}
 }
 
 export function ensureCacheFolderExists() {
-	ensureFolderExists("node_modules/.my-cache")
+	ensureFolderExists("node_modules/.my-cache", "create")
 }

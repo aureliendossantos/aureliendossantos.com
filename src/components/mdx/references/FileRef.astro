@@ -1,0 +1,37 @@
+---
+import { ensureFolderExists } from "$utils/cache"
+
+interface Props {
+	file: string
+	type: "component" | "page" | "util"
+	noText?: boolean
+}
+const { file, type, noText } = Astro.props
+
+const githubUrl = "https://github.com/aureliendossantos/aureliendossantos.com/blob/master/"
+const folderUrl = () => {
+	switch (type) {
+		case "component":
+			return "src/components"
+		case "page":
+			return "src/pages"
+		case "util":
+			return "src/utils"
+	}
+}
+const url = `${githubUrl}${folderUrl()}/${file}`
+
+ensureFolderExists(`${folderUrl()}/${file}`, "throw")
+
+// transform a `file` like "mdx/mediaBlocks/IngredientInPopup.astro" into "<IngredientInPopup>"
+const filename = file.split("/").pop() as string
+const label = type == "component" ? "<" + filename.split(".")[0] + ">" : filename
+---
+
+<a
+	href={url}
+	target="_blank"
+	data-icon="github"
+	class="font-[family-name:--code-font] not-italic !text-[--secondary-color] !no-underline dark:!text-[--dark-secondary-color]"
+	><slot>{!noText && label}</slot></a
+>
