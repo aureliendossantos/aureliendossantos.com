@@ -30,13 +30,15 @@ const gamesData = await Promise.all(
 {
 	references.length > 0 && (
 		<>
-			<h2 class="no-numbering">Dans cet article</h2>
-			{gamesData.map((data) => (
-				<Game data={data} />
-			))}
-			{data.books.map((id: string) =>
-				id.startsWith("OL") ? <Book olid={id} /> : <Book isbn={id} />
-			)}
+			<h2 id="reference-label">Références</h2>
+			<div class="references">
+				{gamesData.map((data) => (
+					<Game data={data} />
+				))}
+				{data.books.map((id: string) =>
+					id.startsWith("OL") ? <Book olid={id} /> : <Book isbn={id} />
+				)}
+			</div>
 		</>
 	)
 }

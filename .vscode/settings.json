@@ -1,5 +1,6 @@
 {
 	"files.associations": {
 		"*.css": "tailwindcss"
-	}
+	},
+	"tailwindCSS.classAttributes": ["class", "class:list"]
 }

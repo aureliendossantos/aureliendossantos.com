@@ -6,7 +6,7 @@ interface Props {
 	initiallyHidden?: boolean
 	borderLeft?: boolean
 	borderRight?: boolean
-	truncate?: boolean
+	truncate?: "medium" | "mediumlarge"
 }
 const { id, label, alignRight, initiallyHidden, borderLeft, borderRight, truncate } = Astro.props
 ---
@@ -24,7 +24,11 @@ const { id, label, alignRight, initiallyHidden, borderLeft, borderRight, truncat
 		<slot name="icon" />
 		<div
 			id={`${id}-text`}
-			class:list={{ "truncate mediumlarge:max-w-[20vw] medium:hidden": truncate }}
+			class:list={{
+				truncate: truncate,
+				"mediumlarge:max-w-[20vw] medium:hidden": truncate == "medium",
+				"mediumlarge:hidden": truncate == "mediumlarge",
+			}}
 		>
 			{label}
 		</div>

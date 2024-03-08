@@ -89,6 +89,10 @@ h3:before {
 			content: "*";
 			@apply -bottom-[0.45em];
 		}
+		&#reference-label:before {
+			content: "†";
+			@apply -bottom-[0.15em] medium:-bottom-8;
+		}
 	}
 	h3:not(.no-numbering) {
 		@apply italic;

@@ -63,7 +63,7 @@ const relatedTitle = Astro.props.relatedTitle || "Voir aussi"
 		<DropdownMenu
 			id="navbar-toc"
 			label="Table des matières"
-			truncate
+			truncate="mediumlarge"
 			borderRight
 			initiallyHidden={!headings || headings.length <= 1}
 		>
@@ -74,6 +74,12 @@ const relatedTitle = Astro.props.relatedTitle || "Voir aussi"
 				style={{ transform: "rotate(180deg)" }}
 				slot="icon"
 			/>
+			<div
+				id="navbar-related-mobile-title"
+				class="line-clamp-2 hidden w-[192px] border-x-0 bg-black px-3 py-[6px] text-sm leading-tight text-neutral-500 medium:block"
+			>
+				Table des matières
+			</div>
 			{
 				headings
 					?.filter((h) => h.depth == 2)
@@ -85,7 +91,7 @@ const relatedTitle = Astro.props.relatedTitle || "Voir aussi"
 		<DropdownMenu
 			id="navbar-related"
 			label={relatedTitle}
-			truncate
+			truncate="medium"
 			borderRight
 			initiallyHidden={!related || related.length == 0}
 		>

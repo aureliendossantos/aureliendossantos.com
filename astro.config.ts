@@ -92,7 +92,7 @@ export default defineConfig({
 			theme: "slack-ochin", // "vitesse-light", //"slack-ochin", //github-light //dark: nord
 		},
 		remarkRehype: {
-			footnoteLabel: "Notes et références",
+			footnoteLabel: "Notes",
 		},
 		smartypants: true,
 		remarkPlugins: [remarkConvertImports],

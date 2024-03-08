@@ -24,7 +24,7 @@ const place =
 	style={{
 		"--bg": getColor(palette.bgColor),
 		"--text": getColor(palette.baseColor),
-		"--secondary-text": getColor(palette.secondaryColor),
+		"--secondary-color": getColor(palette.secondaryColor),
 		backgroundImage: showCover()
 			? `linear-gradient(${palette.bgColor}99, ${palette.bgColor}49), url('${optimizedBackground?.src}')`
 			: "none",
@@ -36,7 +36,7 @@ const place =
 			{data.title}{data.draft && " [Draft]"}
 		</span>
 		<span
-			class="text-[--secondary-text]"
+			class="text-[--secondary-color]"
 			style={{
 				textShadow: `0 0 1em ${palette.bgColor}`,
 			}}

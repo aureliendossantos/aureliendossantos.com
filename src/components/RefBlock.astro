@@ -52,7 +52,7 @@ const markdown = new MarkdownIt({ html: true })
 	class:list={[
 		"ref-block",
 		{ "mb-[1em]": !popupId },
-		{ "flex flex-row gap-2": !big },
+		{ "flex flex-row gap-4": !big },
 		{ "flex max-h-[240px] flex-row place-content-between": posterRatio },
 		{
 			"grid grid-cols-5 shadow transition-shadow hover:shadow-md small:grid-cols-1 small:grid-rows-1":
@@ -88,6 +88,8 @@ const markdown = new MarkdownIt({ html: true })
 						style={posterRatio ? "border-radius:0;" : ""}
 						data-zoomable
 						data-zoom-src={imgHiRes}
+						class="bg-[--secondary-color]"
+						width="100%"
 					/>
 				</div>
 			)
@@ -109,12 +111,12 @@ const markdown = new MarkdownIt({ html: true })
 					href={!popupId && links[links.length - 1][1]}
 					style="text-decoration-line: none"
 				>
-					<h4 class="no-numbering my-0 text-[length:--font-size] leading-snug text-inherit small:text-[length:--sm-font-size]">
+					<div class="leading-snug">
 						{icon && <img src={icon} class="mr-[0.2em] max-h-[0.8em]" />}
 						{title}
-					</h4>
+					</div>
 				</OptionalLink>
-				<ul class="my-0 list-none pl-0">
+				<ul class="my-0 list-none pl-0" style={{ fontSize: !big ? "smaller" : "" }}>
 					{infos.map((item) => (
 						<li class="whitespace-pre-line">{item}</li>
 					))}
@@ -125,7 +127,7 @@ const markdown = new MarkdownIt({ html: true })
 						"special-color my-0 flex list-none pl-0",
 						{ "gap-2": !big, "flex-col": big },
 					]}
-					style={{ fontFeatureSettings: '"lnum", "tnum"' }}
+					style={{ fontFeatureSettings: '"lnum", "tnum"', fontSize: !big ? "smaller" : "" }}
 				>
 					{links.map((item) => (
 						<li>
