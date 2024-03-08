@@ -83,7 +83,7 @@ h3:before {
 			content: counter(h2counter);
 			color: var(--secondary-color);
 			font-feature-settings: "pnum", "onum";
-			@apply absolute -bottom-1 left-0 -translate-x-full -translate-y-0 rotate-0 skew-x-0 skew-y-0 scale-100 text-[4em] leading-none opacity-50 medium:-bottom-6 medium:translate-x-0 medium:text-[6em] medium:opacity-20;
+			@apply absolute -bottom-1 left-0 -translate-x-full text-[4em] leading-none opacity-50 medium:-bottom-6 medium:translate-x-0 medium:text-[6em] medium:opacity-20;
 		}
 		&#footnote-label:before {
 			content: "*";

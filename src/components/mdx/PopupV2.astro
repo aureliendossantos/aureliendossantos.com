@@ -22,30 +22,32 @@ const labelHtml = markdown
 	.replace(/\n/g, "")
 ---
 
-<span id={`span-${uid}`} class={`relative inline ${!kitchen && "not-prose"}`}
+<span id={`span-${uid}`} class:list={["relative inline", { "not-prose": !kitchen }]}
 	><a
 		id={`text-${uid}`}
 		data-icon={icon}
-		class={`popup-link unstyled cursor-context-menu rounded-sm ${
-			noUnderline ? "!no-underline" : "underline"
-		} ${
-			kitchen
-				? "decoration-dotted decoration-2 decoration-stone-400 underline-offset-4"
-				: "decoration-[--popup] decoration-1 dark:decoration-[--dark-popup] underline-offset-3"
-		}`}><Fragment set:html={labelHtml} /></a
+		class:list={[
+			"popup-link unstyled cursor-context-menu rounded-sm",
+			{
+				"!no-underline": noUnderline,
+				underline: !noUnderline,
+				"decoration-stone-400 decoration-dotted decoration-2 underline-offset-4": kitchen,
+				"decoration-[--popup] decoration-1 underline-offset-3 dark:decoration-[--dark-popup]":
+					!kitchen,
+			},
+		]}><Fragment set:html={labelHtml} /></a
 	></span
 ><template class="new-popup-template" id={uid}>
 	<div
-		class="popup absolute bottom-[25px] hidden h-fit rounded border border-solid border-[--popup] bg-[--bg] indent-0 shadow-md prose-headings:mt-0 prose-headings:text-inherit prose-a:text-inherit dark:border-[--dark-popup] dark:bg-[--dark-bg]"
+		class="popup absolute bottom-[25px] hidden h-fit -translate-x-1/2 rounded border border-solid border-[--popup] bg-[--bg] indent-0 shadow-md prose-headings:mt-0 prose-headings:text-inherit prose-a:text-inherit dark:border-[--dark-popup] dark:bg-[--dark-bg]"
 		style={diary
 			? {
 					"--popup": "#52525b",
 					"--dark-popup": "#52525b",
 					"--code-font": "Work Sans",
 					color: "white",
-					transform: "translateX(-50%)",
-			  }
-			: { transform: "translateX(-50%)" }}
+				}
+			: null}
 	>
 		{
 			navBarTitle && navBarLinks && (
@@ -58,7 +60,7 @@ const labelHtml = markdown
 			)
 		}
 		<div class="flex flex-col">
-			<div class=`overflow-auto max-h-[260px] medium:max-h-[230px] ${padding ? "p-8" : ""}`>
+			<div class:list={["max-h-[260px] overflow-auto medium:max-h-[230px]", { "p-8": padding }]}>
 				<slot name="popup-contents" />
 			</div>
 			{

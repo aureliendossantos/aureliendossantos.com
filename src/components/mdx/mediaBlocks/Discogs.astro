@@ -16,10 +16,10 @@ const client = new Discojs({
 const data: any = master
 	? await client.getMaster(master).then((data) => {
 			return data
-	  })
+		})
 	: await client.getRelease(release || 0).then((data) => {
 			return data
-	  })
+		})
 
 const infos = []
 infos.push(data.artists.map((artist: any) => artist.name).join(", "))

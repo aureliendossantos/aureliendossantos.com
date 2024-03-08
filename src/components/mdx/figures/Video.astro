@@ -24,7 +24,7 @@ const resolveSrc = async (src: singleSrc) => {
 const sources = Array.isArray(src)
 	? await Promise.all(
 			src.map(async (item) => ({ src: await resolveSrc(item.src), type: item.type }))
-	  )
+		)
 	: [{ src: await resolveSrc(src) }]
 
 // Add the xxx-compat.mp4 fallback
@@ -54,7 +54,7 @@ if (compat) {
 		<p>
 			Désolé, votre navigateur ne peut pas lire cette vidéo. Vous pouvez
 			<a href="/about">me contacter</a>
-			 pour me signaler le problème ou
+			pour me signaler le problème ou
 			<a href={sources[0].src}>télécharger la vidéo</a>.
 		</p>
 	</video>

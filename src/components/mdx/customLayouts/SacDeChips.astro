@@ -1,10 +1,11 @@
-<main>
+<main class="notw overflow-x-hidden">
 	<slot />
 </main>
 
 <style is:global>
 	::-webkit-scrollbar {
 		width: 10px;
+		height: 0;
 	}
 	::-webkit-scrollbar-track {
 		background: gray;
@@ -16,55 +17,55 @@
 		background: #5e5e5e;
 	}
 
-	.embed-container {
-		position: relative;
-		padding-bottom: 56.25%;
-		height: 0;
-		overflow: hidden;
-		max-width: 100%;
-	}
-	.embed-container iframe,
-	.embed-container object,
-	.embed-container embed {
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-	}
-
-	main {
+	main.notw {
 		background-color: gray;
 		font-family: Arial, sans-serif;
 		color: #f0f0f0;
 		@apply pb-[130px] pl-[130px] pr-[18px] pt-[20px] leading-tight medium:px-[18px];
-	}
 
-	img {
-		@apply inline;
-	}
+		.embed-container {
+			position: relative;
+			padding-bottom: 56.25%;
+			height: 0;
+			overflow: hidden;
+			max-width: 100%;
+		}
+		.embed-container iframe,
+		.embed-container object,
+		.embed-container embed {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+		}
 
-	p,
-	a {
-		font-size: x-small;
-		margin-top: 0.3em;
-		margin-bottom: 1.5em;
-	}
+		img {
+			@apply inline;
+		}
 
-	section {
-		max-width: 1200px;
-		margin-top: 100px;
-	}
+		p,
+		a {
+			font-size: x-small;
+			margin-top: 0.3em;
+			margin-bottom: 1.5em;
+		}
 
-	section:nth-of-type(3n-2) {
-		margin-top: 190px;
-	}
+		section {
+			max-width: 1200px;
+			margin-top: 100px;
+		}
 
-	section:nth-of-type(4n + 1) {
-		margin-left: 90px;
-	}
+		section:nth-of-type(3n-2) {
+			margin-top: 190px;
+		}
 
-	section:nth-of-type(3n + 2) {
-		margin-left: 30px;
+		section:nth-of-type(4n + 1) {
+			margin-left: 90px;
+		}
+
+		section:nth-of-type(3n + 2) {
+			margin-left: 30px;
+		}
 	}
 </style>

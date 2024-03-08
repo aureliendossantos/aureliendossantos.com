@@ -10,9 +10,12 @@ const { label, href, width, initiallyHidden } = Astro.props
 
 <a
 	href={href}
-	class={`line-clamp-2 flex items-center border-x-0 bg-black px-3 py-[6px] text-sm leading-tight text-white hover:bg-white hover:text-black ${
-		initiallyHidden ? "hidden" : ""
-	}`}
+	class:list={[
+		"line-clamp-2 flex items-center border-x-0 px-3 py-[6px] text-sm leading-tight hover:bg-white hover:text-black",
+		{
+			hidden: initiallyHidden,
+		},
+	]}
 	style={{ width: width ? `${width}px` : undefined }}
 >
 	{label}

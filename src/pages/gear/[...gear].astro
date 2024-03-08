@@ -1,5 +1,4 @@
 ---
-import "$styles/base.css"
 import { type CollectionEntry, getCollection } from "astro:content"
 import BaseLayout from "$layouts/BaseLayout.astro"
 import formatDate from "$utils/formatting/formatDate"
@@ -44,7 +43,7 @@ const category = gear.slug.split("/")[0]
 					{
 						data.obtainedInfo
 							? data.obtainedInfo +
-							  (data.obtained
+								(data.obtained
 									? ` (${formatDate(data.obtained)}` + (data.price ? `, ${data.price})` : ")")
 									: "")
 							: data.obtained && formatDate(data.obtained) + (data.price ? `, ${data.price}` : "")

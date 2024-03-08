@@ -26,13 +26,13 @@ const links: [string, string][] = place.website
 	? [
 			[place.website, place.website],
 			["Google Maps", place.url],
-	  ]
+		]
 	: [["Google Maps", place.url]]
 const galleryUrls =
 	gallery && place.photos.length >= 3
 		? await Promise.all(
 				[1, 2, 3].map(async (i) => await getGoogleImage(200, place.photos[i].photo_reference))
-		  )
+			)
 		: undefined
 const img = await getGoogleImage(big ? 800 : 120, place.photos[0].photo_reference)
 ---

@@ -1,5 +1,6 @@
 import type { Config } from "tailwindcss"
 import defaultTheme from "tailwindcss/defaultTheme"
+import { scopedPreflightStyles, isolateOutsideOfContainer } from "tailwindcss-scoped-preflight"
 
 export default {
 	content: ["./src/**/*.{astro,md,mdx,ts,tsx}"],
@@ -53,5 +54,11 @@ export default {
 			small: { max: "430px" },
 		},
 	},
-	plugins: [require("@tailwindcss/typography")],
+	plugins: [
+		require("@tailwindcss/typography"),
+		scopedPreflightStyles({
+			// pretty minimalistic example. Same options as in the previous example are available
+			isolationStrategy: isolateOutsideOfContainer(".notw"),
+		}),
+	],
 } satisfies Config

@@ -57,7 +57,7 @@ const links: [string, string][] =
 		? [
 				[officialWebsites[0].url, officialWebsites[0].url],
 				["<abbr>IGDB</abbr>", game.url],
-		  ]
+			]
 		: [["<abbr>IGDB</abbr>", game.url]]
 const images =
 	game.screenshots && game.screenshots.slice(0, 3).map((screenshot: any) => screenshot.image_id)
@@ -78,7 +78,7 @@ const librarySlug = popupId && slug && (await findGameInLibrary(slug)) ? slug : 
 	gallery={popupId
 		? images.map(
 				(imageId) => `https://images.igdb.com/igdb/image/upload/t_cover_big/${imageId}.jpg`
-		  )
+			)
 		: undefined}
 	galleryHiRes={popupId
 		? images.map((imageId) => `https://images.igdb.com/igdb/image/upload/t_original/${imageId}.jpg`)

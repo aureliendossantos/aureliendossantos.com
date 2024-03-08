@@ -41,7 +41,7 @@ const relatedArticles = isBlog
 	? (await getRelatedArticles(article as CollectionEntry<"blog">)).map((a) => ({
 			title: a.article.data.title,
 			href: `/${a.article.slug}`,
-	  }))
+		}))
 	: await getSeeAlso(data.seeAlso)
 const parent = !isBlog && data.parent && (await getEntry("pages", data.parent))
 ---
@@ -69,7 +69,7 @@ const parent = !isBlog && data.parent && (await getEntry("pages", data.parent))
 	}}
 >
 	<div
-		class="article-styling"
+		class="article-styling notw"
 		style={{
 			"--base-color": getColor(palette.baseColor),
 			"--dark-base-color": getColor(palette.baseColor, "dark"),
@@ -155,4 +155,3 @@ const parent = !isBlog && data.parent && (await getEntry("pages", data.parent))
 		}
 	}
 </style>
-

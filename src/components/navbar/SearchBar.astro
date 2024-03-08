@@ -20,7 +20,7 @@ const preRenderedEntries = Astro.props.ssr ? [] : await getSearchEntries()
 		<Icon name="ic:baseline-search" class="h-[17px] pl-[10px] pr-2 medium:px-2" />
 		<input
 			id="navbar-search"
-			class="peer w-[90px] border-0 bg-transparent p-0 font-work-sans text-sm text-white placeholder:text-white hover:text-black placeholder:hover:text-black focus:text-white focus:outline-none placeholder:focus:text-neutral-500 focus:group-hover:text-black medium:w-0 medium:focus:w-[90px] medium:active:w-[90px]"
+			class="peer w-[90px] bg-transparent p-0 placeholder:text-white hover:text-black placeholder:hover:text-black focus:text-white focus:outline-none placeholder:focus:text-neutral-500 focus:group-hover:text-black medium:w-0 medium:focus:w-[90px] medium:active:w-[90px]"
 			style="transition: width 0.2s ease-out;"
 			placeholder="Rechercher"
 			autocomplete="off"
@@ -29,7 +29,7 @@ const preRenderedEntries = Astro.props.ssr ? [] : await getSearchEntries()
 	</label>
 	<div
 		id="navbar-search-dropdown"
-		class="absolute bottom-7 z-10 bg-black"
+		class="absolute bottom-7 z-10"
 		role="menu"
 		aria-orientation="vertical"
 		aria-labelledby="menu-button"
@@ -101,7 +101,7 @@ const preRenderedEntries = Astro.props.ssr ? [] : await getSearchEntries()
 					result.date ? `date="${result.date}"` : ""
 				} ${
 					result.categories ? `tags="${result.categories.join(", ")}"` : ""
-				} class="flex border-0 w-[192px]"></search-card>`
+				} class="flex w-[192px]"></search-card>`
 			)
 		})
 	}

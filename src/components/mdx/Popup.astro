@@ -22,8 +22,7 @@ const uid = crypto.randomUUID()
 	></span
 ><template class="popup-template" id={uid}
 	><div
-		class="popup absolute bottom-[25px] hidden h-[240px] rounded-md border-2 border-solid border-[--popup] bg-[--bg] indent-0 dark:border-[--dark-popup] dark:bg-[--dark-bg]"
-		style={{ transform: "translateX(-50%)" }}
+		class="popup absolute bottom-[25px] hidden h-[240px] -translate-x-1/2 rounded-md border-2 border-solid border-[--popup] bg-[--bg] indent-0 dark:border-[--dark-popup] dark:bg-[--dark-bg]"
 	>
 		{movie && <Movie id={movie} popupId={uid} />}
 		{moviePerson && <MoviePerson id={moviePerson} popupId={uid} />}

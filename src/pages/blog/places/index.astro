@@ -42,9 +42,10 @@ Object.entries(places).forEach(([key, value]) => {
 				return (
 					<>
 						<h2
-							class={`mt-10 px-5 text-xl leading-tight ${
-								value.articlesAmount == 0 ? "-mb-8" : "mb-6"
-							}`}
+							class:list={[
+								"mt-10 px-5 text-xl leading-tight",
+								{ "-mb-8": value.articlesAmount == 0, "mb-6": value.articlesAmount != 0 },
+							]}
 						>
 							<a
 								href={`/blog/places/${value.slug}`}

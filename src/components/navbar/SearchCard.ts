@@ -22,7 +22,7 @@ export class SearchCard extends HTMLElement {
 	connectedCallback() {
 		const template = document.createElement("template")
 		template.innerHTML = `
-		<a class="border-x-0 flex flex-col w-full bg-black px-3 py-[6px] leading-tight text-white hover:bg-white hover:text-black" href="/${
+		<a class="border-x-0 flex flex-col w-full bg-black px-3 py-[6px] leading-tight hover:bg-white hover:text-black" href="/${
 			this.slug
 		}">
 			<div class="line-clamp-2">

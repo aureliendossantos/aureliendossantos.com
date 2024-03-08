@@ -12,7 +12,7 @@ export default function formatDate(
 				day: "numeric",
 				month: month,
 				year: year,
-		  }
+			}
 	return date.toLocaleDateString("fr-FR", options)
 }
 

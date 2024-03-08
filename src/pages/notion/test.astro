@@ -1,5 +1,4 @@
 ---
-import "$styles/base.css"
 import BaseLayout from "$layouts/BaseLayout.astro"
 import RenderBlocks from "$components/notion/RenderBlocks.astro"
 import getChildren from "$utils/notion/getChildren"
@@ -19,7 +18,7 @@ const blocks = await getChildren(notionPageId)
 			<p class="lead">
 				Cette page web est un exemple généré à partir d'une
 				<a href={`https://aureliendossantos.notion.site/${notionPageId}`}>page Notion</a>
-				 afin de tester les fonctionnalités supportées par ce site.
+				afin de tester les fonctionnalités supportées par ce site.
 			</p>
 			<RenderBlocks blocks={blocks} />
 		</main>

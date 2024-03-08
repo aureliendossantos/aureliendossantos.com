@@ -5,71 +5,71 @@ const apiKey = import.meta.env.GOOGLE_MAPS_TOKEN
 <div id="key" class="hidden" data-key={apiKey}></div>
 
 <script is:inline>
-async function createMap(event) {
-	const { Map, InfoWindow } = await google.maps.importLibrary("maps")
-	const { Marker } = await google.maps.importLibrary("marker")
-	// the event target is the <div> containing the text, but the eventListener is on the parent <div>
-	const mapDiv = event.target.parentNode
-	mapDiv.removeEventListener("click", createMap)
-	mapDiv.classList.add("bg-zinc-100")
-	mapDiv.classList.remove("cursor-pointer")
-	mapDiv.style.minHeight = "448px"
-	mapDiv.style.marginTop = "8px"
-	const map = new Map(mapDiv, {
-		mapId: "531454af7b16b9f",
-		center: { lat: Number(mapDiv.dataset.lat), lng: Number(mapDiv.dataset.lng) },
-		zoom: Number(mapDiv.dataset.zoom),
-	})
-	// Getting the parent of the map div, which contains all the <a> with places
-	const places = Array.from(mapDiv.parentNode.getElementsByClassName("place")).map((place) => ({
-		lat: Number(place.dataset.lat),
-		lng: Number(place.dataset.lng),
-		icon: place.dataset.icon,
-		title: place.children[0].textContent,
-		href: place.href,
-	}))
-	places.forEach((place) => {
-		const contentString =
-			'<div id="content">' +
-			'<div id="siteNotice">' +
-			"</div>" +
-			`<h1 id="firstHeading" class="firstHeading">${place.title}</h1>` +
-			'<div id="bodyContent">' +
-			`<p><b><a href="${place.href}">Voir la page</a></b></p>` +
-			"</div>" +
-			"</div>"
-		const infowindow = new InfoWindow({
-			content: contentString,
-			ariaLabel: place.title,
+	async function createMap(event) {
+		const { Map, InfoWindow } = await google.maps.importLibrary("maps")
+		const { Marker } = await google.maps.importLibrary("marker")
+		// the event target is the <div> containing the text, but the eventListener is on the parent <div>
+		const mapDiv = event.target.parentNode
+		mapDiv.removeEventListener("click", createMap)
+		mapDiv.classList.add("bg-zinc-100")
+		mapDiv.classList.remove("cursor-pointer")
+		mapDiv.style.minHeight = "448px"
+		mapDiv.style.marginTop = "8px"
+		const map = new Map(mapDiv, {
+			mapId: "531454af7b16b9f",
+			center: { lat: Number(mapDiv.dataset.lat), lng: Number(mapDiv.dataset.lng) },
+			zoom: Number(mapDiv.dataset.zoom),
 		})
-		const marker = new Marker({
-			position: { lat: place.lat, lng: place.lng },
-			map,
-			title: place.title,
-			//icon: place.icon,
-		})
-		marker.addListener("click", () => {
-			infowindow.open({
-				anchor: marker,
+		// Getting the parent of the map div, which contains all the <a> with places
+		const places = Array.from(mapDiv.parentNode.getElementsByClassName("place")).map((place) => ({
+			lat: Number(place.dataset.lat),
+			lng: Number(place.dataset.lng),
+			icon: place.dataset.icon,
+			title: place.children[0].textContent,
+			href: place.href,
+		}))
+		places.forEach((place) => {
+			const contentString =
+				'<div id="content">' +
+				'<div id="siteNotice">' +
+				"</div>" +
+				`<h1 id="firstHeading" class="firstHeading">${place.title}</h1>` +
+				'<div id="bodyContent">' +
+				`<p><b><a href="${place.href}">Voir la page</a></b></p>` +
+				"</div>" +
+				"</div>"
+			const infowindow = new InfoWindow({
+				content: contentString,
+				ariaLabel: place.title,
+			})
+			const marker = new Marker({
+				position: { lat: place.lat, lng: place.lng },
 				map,
+				title: place.title,
+				//icon: place.icon,
+			})
+			marker.addListener("click", () => {
+				infowindow.open({
+					anchor: marker,
+					map,
+				})
 			})
 		})
-	})
-}
+	}
 
-function initAllMaps() {
-	Array.from(document.getElementsByClassName("map")).forEach(function (mapDiv) {
-		mapDiv.addEventListener("click", createMap)
+	function initAllMaps() {
+		Array.from(document.getElementsByClassName("map")).forEach(function (mapDiv) {
+			mapDiv.addEventListener("click", createMap)
+		})
+	}
+	document.addEventListener("astro:page-load", () => {
+		initAllMaps()
 	})
-}
-document.addEventListener("astro:page-load", () => {
-	initAllMaps()
-})
 </script>
 
 <script is:inline>
-if (!window.gmApiKey) window.gmApiKey = document.getElementById("key").dataset.key
-	; ((g) => {
+	if (!window.gmApiKey) window.gmApiKey = document.getElementById("key").dataset.key
+	;((g) => {
 		var h,
 			a,
 			k,

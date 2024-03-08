@@ -24,7 +24,7 @@ const data = gear.data
 		{
 			data.obtainedInfo
 				? data.obtainedInfo +
-				  (data.obtained
+					(data.obtained
 						? ` (${data.obtained.getFullYear()}` + (data.price ? `, ${data.price})` : ")")
 						: "")
 				: data.obtained && data.obtained.getFullYear() + (data.price ? `, ${data.price}` : "")
