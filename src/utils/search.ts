@@ -39,6 +39,7 @@ export const getSearchEntries = async (): Promise<SearchEntry[]> => [
 	{ slug: "places", title: "Lieux" },
 	{ slug: "kitchen", title: "Cuisine" },
 	{ slug: "games", title: "Jeux" },
+	{ slug: "wiki", title: "Wiki" },
 	...(await getBlogPosts()).map((entry) => mapToSearchEntry(entry, `blog/${entry.slug}`)),
 	...(await getCollection("portfolio")).map((entry) =>
 		mapToSearchEntry(entry, `portfolio/${entry.slug}`, ["Portfolio"], entry.data.release)
@@ -82,14 +83,13 @@ export const getSearchEntries = async (): Promise<SearchEntry[]> => [
 			"search-results",
 			"notion",
 			async () => ({
-				results: (await getWikiPages()).map((page) => {
-					console.log("doing something")
-					return {
-						slug: `wiki/${page.slug}`,
-						title: page.title,
-						categories: [`Wiki · ${page.category}`],
-					}
-				}),
+				results: (await getWikiPages()).map((page) => ({
+					slug: `wiki/${page.slug}`,
+					title: page.title,
+					date: formatDate(page.editedTime, true),
+					categories: [`Wiki · ${page.category}`],
+					description: page.description,
+				})),
 			}),
 			1
 		)
