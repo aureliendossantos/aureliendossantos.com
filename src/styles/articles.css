@@ -83,15 +83,16 @@ h3:before {
 			content: counter(h2counter);
 			color: var(--secondary-color);
 			font-feature-settings: "pnum", "onum";
-			@apply absolute -bottom-1 left-0 -translate-x-full text-[4em] leading-none opacity-50 medium:-bottom-6 medium:translate-x-0 medium:text-[6em] medium:opacity-20;
+			transform: translateX(-100%);
+			@apply absolute -left-2 -top-[50px] text-[8em] leading-none opacity-30 medium:-top-[70px] medium:left-0 medium:translate-x-0 medium:text-[8em] medium:opacity-20;
 		}
 		&#footnote-label:before {
 			content: "*";
-			@apply -bottom-[0.45em];
+			@apply -top-10 medium:-left-[12px];
 		}
 		&#reference-label:before {
 			content: "†";
-			@apply -bottom-[0.15em] medium:-bottom-8;
+			@apply -left-[2px] medium:-left-4 medium:-top-14;
 		}
 	}
 	h3:not(.no-numbering) {

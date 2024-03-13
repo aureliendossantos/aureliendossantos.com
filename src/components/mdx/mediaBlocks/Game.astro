@@ -1,6 +1,7 @@
 ---
 import RefBlock from "$components/RefBlock.astro"
 import { getCacheOrFetch } from "$utils/cache"
+import { getDomainName } from "$utils/formatting/formatUrl"
 import getIGDBgames, { type IGDBData } from "$utils/remoteData/igdb"
 import { getCollection } from "astro:content"
 
@@ -55,7 +56,7 @@ const officialWebsites = game.websites?.filter((w: any) => w.category == 1)
 const links: [string, string][] =
 	officialWebsites?.length > 0
 		? [
-				[officialWebsites[0].url, officialWebsites[0].url],
+				[getDomainName(officialWebsites[0].url), officialWebsites[0].url],
 				["<abbr>IGDB</abbr>", game.url],
 			]
 		: [["<abbr>IGDB</abbr>", game.url]]
@@ -75,12 +76,10 @@ const librarySlug = popupId && slug && (await findGameInLibrary(slug)) ? slug : 
 	librarySlug={librarySlug}
 	posterRatio={popupId ? "game" : undefined}
 	big={popupId ? true : false}
-	gallery={popupId
-		? images.map(
-				(imageId) => `https://images.igdb.com/igdb/image/upload/t_cover_big/${imageId}.jpg`
-			)
-		: undefined}
-	galleryHiRes={popupId
-		? images.map((imageId) => `https://images.igdb.com/igdb/image/upload/t_original/${imageId}.jpg`)
-		: undefined}
+	gallery={images.map(
+		(imageId) => `https://images.igdb.com/igdb/image/upload/t_cover_big/${imageId}.jpg`
+	)}
+	galleryHiRes={images.map(
+		(imageId) => `https://images.igdb.com/igdb/image/upload/t_original/${imageId}.jpg`
+	)}
 />

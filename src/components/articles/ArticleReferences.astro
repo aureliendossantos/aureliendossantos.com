@@ -4,6 +4,7 @@ import Game from "../mdx/mediaBlocks/Game.astro"
 import Book from "../mdx/mediaBlocks/Book.astro"
 import getIGDBgames from "$utils/remoteData/igdb"
 import { getCacheOrFetch } from "$utils/cache"
+import Movie from "$components/mdx/mediaBlocks/Movie.astro"
 
 interface Props {
 	article: CollectionEntry<"blog">
@@ -11,7 +12,7 @@ interface Props {
 
 const { article } = Astro.props
 const data = article.data
-const references = [...data.games, ...data.books]
+const references = [...data.games, ...data.books, ...data.movies]
 
 const gamesData = await Promise.all(
 	data.games.map(async (slug) => {
@@ -34,6 +35,9 @@ const gamesData = await Promise.all(
 			<div class="references">
 				{gamesData.map((data) => (
 					<Game data={data} />
+				))}
+				{data.movies.map((id) => (
+					<Movie id={id.toString()} />
 				))}
 				{data.books.map((id: string) =>
 					id.startsWith("OL") ? <Book olid={id} /> : <Book isbn={id} />
