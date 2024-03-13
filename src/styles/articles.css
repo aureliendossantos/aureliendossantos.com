@@ -117,6 +117,15 @@ h3:before {
 			content: none;
 		}
 	}
+
+:root[data-palette="source-serif"],
+:root[data-palette="tufte"] {
+	& .article-styling {
+		.footnotes ol {
+			font-family: "Source Serif Caption", "Source Serif", serif;
+		}
+	}
+}
 }
 
 .classic .article-styling {
@@ -408,6 +417,21 @@ h3:before {
 	}
 	code {
 		@apply bg-inherit;
+	}
+	.footnotes ol {
+		@apply columns-2 gap-10 hyphens-auto pl-0 text-[13px] medium:columns-1 medium:pl-[--indent];
+		li {
+			@apply my-[1em] break-inside-avoid-column;
+			&:first-child {
+				@apply mt-0;
+			}
+			&::marker {
+				font-feature-settings: "lnum";
+			}
+			p {
+				@apply m-0;
+			}
+		}
 	}
 }
 

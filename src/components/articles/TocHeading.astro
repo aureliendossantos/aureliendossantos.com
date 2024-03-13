@@ -11,6 +11,7 @@ interface Props {
 	heading: HeadingWithSubs
 }
 const { heading } = Astro.props
+const subheadings = heading.subheadings
 ---
 
 <li>
@@ -18,9 +19,16 @@ const { heading } = Astro.props
 		{heading.text}
 	</a>
 	{
-		heading.subheadings.length > 0 && (
-			<ul>
-				{heading.subheadings.map((subheading) => (
+		subheadings.length > 0 && (
+			<ul
+				style={{
+					"--max-height":
+						subheadings.length > 5
+							? `calc(var(--indent)*${Math.ceil(subheadings.length / 2)})`
+							: `calc(var(--indent)*${subheadings.length})`,
+				}}
+			>
+				{subheadings.map((subheading) => (
 					<Astro.self heading={subheading} />
 				))}
 			</ul>
@@ -44,7 +52,7 @@ const { heading } = Astro.props
 			}
 			&::marker {
 				content: counter(toc) "    ";
-				font-feature-settings: "onum";
+				font-feature-settings: "smcp";
 				@apply text-zinc-400;
 			}
 		}
@@ -59,7 +67,7 @@ const { heading } = Astro.props
 			font-feature-settings: "smcp" 0;
 			li {
 				@apply text-zinc-400;
-				font-size: smaller;
+				font-size: 0.9rem;
 				a {
 					@apply font-normal hover:text-zinc-500;
 				}
