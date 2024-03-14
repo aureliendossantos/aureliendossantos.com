@@ -70,7 +70,7 @@ const entries = database.children
 		top: 0;
 		bottom: 0;
 		left: 6.5px;
-		border-right: 3px dotted #a6d7aa;
+		@apply border-0 border-r-[3px] border-dotted border-[#a6d7aa] dark:border-[#546d56];
 	}
 
 	/* The circles on the timeline */
@@ -79,12 +79,11 @@ const entries = database.children
 		position: absolute;
 		width: 16px;
 		height: 16px;
-		left: 0;
-		background-color: white;
-		border: 3px solid #a6d7aa;
-		top: 15px;
+		left: -2.5px;
+		top: 13px;
 		border-radius: 50%;
 		z-index: 1;
+		@apply border-[3px] border-solid border-[#a6d7aa] bg-white dark:border-[#546d56] dark:bg-black;
 	}
 
 	.content {
