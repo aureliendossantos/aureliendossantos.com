@@ -5,7 +5,6 @@ import mdx from "@astrojs/mdx"
 import vercel from "@astrojs/vercel/serverless"
 import icon from "astro-icon"
 import expressiveCode from "astro-expressive-code"
-import { pluginCollapsibleSections } from "@expressive-code/plugin-collapsible-sections"
 import { remarkConvertImports } from "./src/utils/remark/convertImports"
 
 // https://astro.build/config
@@ -28,8 +27,6 @@ export default defineConfig({
 		AutoImport({
 			imports: [
 				"$components/mdx/customComponents/Age.astro",
-				"$components/mdx/Tufte/Blockquote.astro",
-				"$components/mdx/Tufte/Epigraph.astro",
 				"$components/mdx/Tufte/MarginNote.astro",
 				"$components/mdx/Tufte/MarginImage.astro",
 				"$components/mdx/Tufte/Sidenote.astro",
@@ -91,8 +88,7 @@ export default defineConfig({
 	],
 	markdown: {
 		shikiConfig: {
-			// https://github.com/shikijs/shiki/blob/main/docs/themes.md
-			theme: "slack-ochin", // "vitesse-light", //"slack-ochin", //github-light //dark: nord
+			theme: "slack-ochin",
 		},
 		remarkRehype: {
 			footnoteLabel: "Notes",

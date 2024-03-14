@@ -13,7 +13,7 @@ const resolvedSrc = "then" in src ? (await src).default : src
 const width = Math.min(resolvedSrc.width, 1920)
 ---
 
-<figure class:list={{ fullwidth: full }}>
+<figure class:list={{ full: full }}>
 	{
 		Astro.slots.has("default") && !full && (
 			<MarginNote>

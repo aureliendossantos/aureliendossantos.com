@@ -5,14 +5,12 @@ import getPalette, { getColor } from "$utils/design/palettes"
 import ArticleHeader from "$components/articles/ArticleHeader.astro"
 import TableOfContents from "$components/articles/TableOfContents.astro"
 import type { MarkdownHeading } from "astro"
+import "$styles/article-layers.css"
 import "$styles/hyphenation.css"
-import "$styles/articles.css"
-import "$styles/tufte.css"
-import { Layouts } from "$utils/design/layouts"
 import getRelatedArticles from "$utils/getRelatedArticles"
-import TufteHeader from "$components/articles/TufteHeader.astro"
 import NavbarAccessFooter from "$components/navbar/NavbarAccessFooter.astro"
 import getSeeAlso from "$utils/getSeeAlso"
+import GenerateSidenotes from "$components/sidenotes/GenerateSidenotes.astro"
 
 interface Props {
 	article: CollectionEntry<"blog"> | CollectionEntry<"pages">
@@ -25,12 +23,7 @@ const date = "date" in data ? data.date : undefined
 const wide = "categories" in data && data.categories.includes("Photos")
 // Alternative layouts
 const customLayout = data.customLayout
-const cormorant = data.layouts?.includes(Layouts.cormorant)
-const tufte = data.layouts?.includes(Layouts.tufte)
-const tufteHtml = (await Astro.slots.render("default")).replaceAll(
-	"<section-switch></section-switch>",
-	"</section><section>"
-)
+const sidenotes = data.sidenotes
 // Images
 const ogImage = data.opengraph || data.image
 const coverImage = data.cover && data.image ? data.image : undefined
@@ -62,7 +55,9 @@ const parent = !isBlog && data.parent && (await getEntry("pages", data.parent))
 		title: data.title,
 		parent: isBlog
 			? { title: "Blog", href: "/" }
-			: parent && { title: parent.data.title, href: `/${parent.slug}` },
+			: parent
+				? { title: parent.data.title, href: `/${parent.slug}` }
+				: undefined,
 		related: relatedArticles,
 		relatedTitle: isBlog ? "Articles similaires" : "Voir aussi",
 		headings: headings,
@@ -89,52 +84,44 @@ const parent = !isBlog && data.parent && (await getEntry("pages", data.parent))
 			"--sm-font-size": "16px",
 			"--line-height": palette.lineHeight,
 			"--sm-line-height": palette.lineHeight * 1.1,
+			"--indent": "calc(var(--font-size) * var(--line-height))",
+			"--sm-indent": "calc(var(--sm-font-size) * var(--sm-line-height))",
 			"--page-width": palette.pageWidth,
 			"--internal-link-decoration": palette.internalLinks,
 		}}
 	>
-		{
-			!customLayout &&
-				(tufte ? (
-					<TufteHeader title={data.title} description={data.description} date={date} />
-				) : (
-					<ArticleHeader
-						title={data.title}
-						description={data.description}
-						date={date}
-						cover={coverImage}
-						palette={palette}
-						layouts={data.layouts}
-						wide={wide}
-						anchorTop={data.imageAnchorTop}
-					/>
-				))
-		}
-		{
-			tufte ? (
-				<div class="font-[family-name:--base-font] text-[length:--font-size] leading-[--line-height] text-[color:--base-color] small:text-[length:--sm-font-size] small:leading-[--sm-line-height] dark:text-[color:--dark-base-color]">
-					<section set:html={tufteHtml} />
-					<NavbarAccessFooter />
-				</div>
-			) : (
-				<main
-					class:list={{ "px-[80px] pb-16 medium:px-[40px] small:px-[20px]": !customLayout }}
-					class="font-[family-name:--base-font] text-[length:--font-size] leading-[--line-height] text-[color:--base-color] small:text-[length:--sm-font-size] small:leading-[--sm-line-height] dark:text-[color:--dark-base-color]"
-				>
-					<div
-						class:list={[
-							{ "blog-article m-auto": !customLayout },
-							{ "max-w-[--page-width]": !customLayout && !wide },
-							{ "max-w-[700px]": wide },
-						]}
-					>
-						{article.data.toc && <TableOfContents headings={headings} depth={article.data.depth} />}
-						<slot />
-						{!customLayout && <NavbarAccessFooter />}
-					</div>
-				</main>
-			)
-		}
+		<ArticleHeader
+			title={data.title}
+			description={data.description}
+			date={date}
+			cover={coverImage}
+			palette={palette}
+			layouts={data.layouts}
+			sidenotes={Boolean(sidenotes)}
+			wide={wide}
+			anchorTop={data.imageAnchorTop}
+		/>
+		<main
+			class:list={{
+				"px-[80px] pb-16 medium:px-[40px] small:px-[20px]": !customLayout && !sidenotes,
+				"m-auto max-w-[calc(var(--page-width)*1.5+4em)] xl:max-w-none xl:px-[80px] xl:pb-16 medium:px-[40px] small:px-[20px]":
+					sidenotes,
+			}}
+			class="font-[family-name:--base-font] text-[length:--font-size] leading-[--line-height] text-[color:--base-color] small:text-[length:--sm-font-size] small:leading-[--sm-line-height] dark:text-[color:--dark-base-color]"
+		>
+			<div
+				class:list={[
+					{ "xl:m-auto": sidenotes },
+					{ "m-auto": !customLayout && !sidenotes },
+					{ "max-w-[--page-width]": !customLayout && !wide },
+					{ "max-w-[700px]": wide },
+				]}
+			>
+				{article.data.toc && <TableOfContents headings={headings} depth={article.data.depth} />}
+				<slot />
+				{!customLayout && <NavbarAccessFooter />}
+			</div>
+		</main>
 	</div>
 </BaseLayout>
 
@@ -155,3 +142,14 @@ const parent = !isBlog && data.parent && (await getEntry("pages", data.parent))
 		}
 	}
 </style>
+
+{
+	data.sidenotes && !data.sidenotes.layoutOnly && (
+		<GenerateSidenotes
+			label={data.sidenotes.label}
+			toggle={data.sidenotes.toggle}
+			visible={data.sidenotes.visible}
+			removeFootnotes={data.sidenotes.removeFootnotes}
+		/>
+	)
+}

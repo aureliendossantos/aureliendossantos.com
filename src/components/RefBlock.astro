@@ -85,6 +85,8 @@ const markdown = new MarkdownIt({ html: true })
 				>
 					<img
 						src={img}
+						loading="lazy"
+						decoding="async"
 						style={posterRatio ? "border-radius:0;" : ""}
 						data-zoomable
 						data-zoom-src={imgHiRes}
@@ -140,7 +142,7 @@ const markdown = new MarkdownIt({ html: true })
 					))}
 				</ul>
 				{/* Galerie */}
-				{gallery && gallery.length > 0 && (
+				{big && gallery && gallery.length > 0 && (
 					<div
 						class:list={[
 							"-mx-2 -mb-2 mt-2 grid gap-1",

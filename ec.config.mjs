@@ -3,7 +3,7 @@ import { pluginCollapsibleSections } from "@expressive-code/plugin-collapsible-s
 
 export default defineEcConfig({
 	useDarkModeMediaQuery: false,
-	themes: ["github-light", "min-light", "slack-ochin", "vitesse-light"],
+	themes: ["github-light", "min-light", "slack-ochin", "vitesse-light", "vitesse-dark"],
 	defaultProps: {
 		wrap: true,
 	},

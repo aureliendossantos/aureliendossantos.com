@@ -30,7 +30,7 @@ const entries = await getSearchEntries()
 				 */
 				customElements.define("search-card", SearchCard)
 			</script>
-			<script define:vars={{ entries }}>
+			<script is:inline define:vars={{ entries }}>
 				// get the HTML elements on which we will interact
 				const input = document.getElementById("search")
 				const output = document.getElementById("output")

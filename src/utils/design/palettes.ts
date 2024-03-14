@@ -110,7 +110,7 @@ export default function getPalette(name: PaletteName | undefined): Palette {
 		titleWeight: p.titleWeight || 700,
 		lineHeight: p.lineHeight || 1.25,
 		pageWidth: p.pageWidth || "65ch",
-		internalLinks: p.internalLinks || "solid",
+		internalLinks: p.internalLinks || "dotted",
 	}
 }
 

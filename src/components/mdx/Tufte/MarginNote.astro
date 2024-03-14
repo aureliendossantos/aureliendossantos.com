@@ -1,15 +1,10 @@
 ---
-import crypto from "node:crypto"
+import Sidenote from './Sidenote.astro'
 
 interface Props {
 	paragraph?: boolean
 }
 const { paragraph } = Astro.props
-const uid = crypto.randomUUID()
 ---
 
-{paragraph ? <p><label for={`mn-${uid}`} class="margin-toggle">⊕</label>
-<input type="checkbox" id={`mn-${uid}`} class="margin-toggle" />
-<span class="marginnote"><slot /></span></p> : <label for={`mn-${uid}`} class="margin-toggle">⊕</label>
-<input type="checkbox" id={`mn-${uid}`} class="margin-toggle" />
-<span class="marginnote"><slot /></span>}
+{paragraph ? <p><Sidenote label="none" toggle={false} visible><slot /></Sidenote></p> : <Sidenote label="none" toggle={false} visible><slot /></Sidenote>}

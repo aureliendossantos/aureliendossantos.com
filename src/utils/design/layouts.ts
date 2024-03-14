@@ -3,7 +3,6 @@ export enum Layouts {
 	classic = "classic",
 	typography = "typography",
 	cormorant = "cormorant",
-	tufte = "tufte",
 	// Additional layouts
 	future = "future",
 	cute = "cute",

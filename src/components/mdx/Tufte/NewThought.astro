@@ -1,0 +1,11 @@
+---
+interface Props {
+	firstParagraph?: boolean
+}
+const { firstParagraph } = Astro.props
+---
+
+<span
+	class:list={["-mr-[0.05em] inline-block tracking-wider", { "mt-[2em]": !firstParagraph }]}
+	style={{ fontFeatureSettings: '"smcp"' }}><slot /></span
+>

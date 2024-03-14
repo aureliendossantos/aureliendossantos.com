@@ -1,11 +1,29 @@
 ---
 import NewPopup from "./PopupV2.astro"
-const html = await Astro.slots.render("to")
+// This file is ignored by Prettier to avoid empty spaces before or after.
 ---
 
-<NewPopup padding>
+<NewPopup padding noUnderline><span class="translation-lang mobile-touch">EN</span><Fragment slot="popup-contents">
 	<slot />
-	<Fragment slot="popup-contents">
-		<Fragment set:html={html} />
-	</Fragment>
-</NewPopup>
+</Fragment></NewPopup>
+
+<style is:global>
+.translation-lang {
+	content: "EN";
+	color: #999;
+	font-feature-settings: "c2sc";
+	font-size: 0.5em;
+	vertical-align: baseline;
+	position: relative;
+	top: -0.55em;
+	margin-left: -0.05em;
+	margin-right: -0.05em;
+	font-size: 0.7em;
+	font-weight: 700;
+}
+:root[data-palette="source-serif"] .translation-lang {
+	font-weight: 400;
+	color: inherit;
+	font-family: "Source Serif Caption", "Source Serif", serif;
+}
+</style>

@@ -1,7 +1,21 @@
 ---
+import Label, { type Props as LabelProps } from "$components/sidenotes/Label.astro"
 import crypto from "node:crypto"
-const uid = crypto.randomUUID()
-// This file is ignored by Prettier so that the star can be stuck to the text before and after.
+/**
+ * This component is an inline sidenote. Don't try to add block elements like <p> in the <slot /> cause the Astro compiler will move them outside. The only way to insert block elements is via JS on the client, like in GenerateSidenotes.astro.
+ * For my own convenience, the label prop is not mandatory, and if it's not provided, I default the sidenote to a togglable symbol.
+ */
+type Props = Partial<LabelProps>
+const props = Astro.props
+if (!props.label) {
+	props.id = crypto.randomUUID()
+	props.label = "symbol"
+	props.toggle = true
+	props.visible = false
+}
 ---
 
-<label for={`sn-${uid}`} class="margin-toggle sidenote-number"></label><input type="checkbox" id={`sn-${uid}`} class="margin-toggle" /><span class="sidenote"><slot /></span>
+<Label {...props as LabelProps} /><span
+	class:list={["sidenote", { symbol: props.label == "symbol", "no-label": props.label == "none" }]}
+	><slot /></span
+>

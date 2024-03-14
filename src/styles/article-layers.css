@@ -1,0 +1,3 @@
+/** Can't use tailwind transforms inside these, because tailwind is not part of a layer (before 4.0), so e.g. translates won't work cause the --tw-translate-x default to 0 will have higher precedence than what would be inside these layers */
+@import "articles.css" layer(articles);
+@import "sidenotes.css" layer(sidenotes);

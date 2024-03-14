@@ -18,6 +18,7 @@ const uid = crypto.randomUUID()
 	><a
 		id={`text-${uid}`}
 		class="popup-link unstyled cursor-context-menu rounded-sm underline decoration-[--popup] decoration-1 underline-offset-3 dark:decoration-[--dark-popup]"
+		style={{textDecorationStyle: "var(--internal-link-decoration)"}}
 		><slot /></a
 	></span
 ><template class="popup-template" id={uid}

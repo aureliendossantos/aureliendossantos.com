@@ -1,0 +1,96 @@
+---
+import Sidenote from "$components/mdx/Tufte/Sidenote.astro"
+import { type Props as LabelProps } from "$components/sidenotes/Label.astro"
+interface Props extends LabelProps {
+	removeFootnotes?: boolean
+}
+const { removeFootnotes } = Astro.props
+---
+
+<!-- prettier-ignore -->
+<template id="sidenote-template" data-remove-footnotes={removeFootnotes && "true"}><Sidenote {...Astro.props} /></template>
+
+<script>
+	document.addEventListener("astro:page-load", () => {
+		console.log("Generating sidenotes...")
+		// The template of future sidenotes. If it's not found, this component was not supposed to be imported, so we don't do anything.
+		const template = document.querySelector(
+			`template#sidenote-template`
+		) as HTMLTemplateElement | null
+		if (!template) return
+		const footnotes = document.querySelectorAll("section[data-footnotes] > ol > li")
+		/**
+		 * By default, a generated footnote link in the markdown will look like this:
+		 * <sup><a
+		 *     href="#user-content-fn-TITLE"
+		 *     id="user-content-fnref-TITLE"
+		 *     data-footnote-ref
+		 *     aria-describedby="footnote-label">1</a></sup>
+		 * We want to replace the sup element with a label, an input and a span, so that we can style the sidenotes.
+		 * ---
+		 * First, we select all sup elements with a data-footnote-ref attribute, UNLESS they are in the footnotes
+		 * section. That's because a footnote can reference another footnote, and we don't want to replace the sup
+		 * element in that case. Keep in mind that reference in footnotes won't alter the numbering, as the footnotes
+		 * are initially rendered at the end of the page.
+		 *
+		 */
+
+		const updateReferenceToSidenote = (a: HTMLAnchorElement) => {
+			a.href = `#${a.id.replace(/-\d+$/, "-contents")}`
+		}
+
+		/** Replace given sup elements with the contents of the template */
+		const replaceSups = (sups: NodeListOf<HTMLElement>) => {
+			sups.forEach((sup) => {
+				// The ID is in the <a> in the <sup>
+				const supLink = sup.querySelector("a")!
+				const id = supLink.id
+				// If the ID ends with "-2" or another number, it's a reference to an existing sidenote.
+				if (id.match(/-\d+$/)) {
+					updateReferenceToSidenote(supLink)
+					return
+				}
+				const sidenote = template.content.cloneNode(true) as DocumentFragment
+				const sidenoteLabel = sidenote.querySelector("label") as HTMLLabelElement
+				sidenoteLabel.setAttribute("for", id)
+				const sidenoteInput = sidenote.querySelector("input") as HTMLInputElement
+				sidenoteInput.setAttribute("id", id)
+				const sidenoteContents = sidenote.querySelector("span") as HTMLSpanElement
+				sidenoteContents.setAttribute("id", `${id}-contents`)
+				const footnote = Array.from(footnotes).find(
+					(footnote) => footnote.id === id.replace("-fnref-", "-fn-")
+				)
+				if (!footnote) console.error("footnote is undefined for id", id, footnote)
+				sidenoteContents.innerHTML = footnote!.innerHTML
+				// Erase the first <a> with data-foontnote-backref in the innerHTML. It's the
+				// back arrow at the end of a footnote. There might be multiple of them.
+				sidenoteContents.querySelector("a[data-footnote-backref]")?.remove()
+				sidenoteContents.querySelectorAll("a[data-footnote-backref] sup").forEach((a) => a.remove())
+				// To erase them all:
+				// sidenoteContents.querySelectorAll("a[data-footnote-backref]").forEach((a) => a.remove())
+				sup.replaceWith(sidenote)
+			})
+		}
+
+		const sups = document.querySelectorAll(
+			"sup:has(a[data-footnote-ref])"
+		) as NodeListOf<HTMLElement>
+		replaceSups(sups)
+
+		// In generated sidenotes, update references to other sidenotes.
+		const sidenoteSups = document.querySelectorAll(
+			".sidenote sup:has(a[data-footnote-ref])"
+		) as NodeListOf<HTMLElement>
+		sidenoteSups.forEach((sup) => {
+			const supLink = sup.querySelector("a")!
+			if (supLink.id.match(/-\d+$/)) updateReferenceToSidenote(supLink)
+		})
+
+		if (template.dataset.removeFootnotes == "true") {
+			const footnotesSection = document.querySelector(
+				"section[data-footnotes]"
+			) as HTMLElement | null
+			if (footnotesSection) footnotesSection.style.display = "none"
+		}
+	})
+</script>

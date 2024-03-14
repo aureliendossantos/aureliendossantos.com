@@ -57,7 +57,6 @@ export default {
 	plugins: [
 		require("@tailwindcss/typography"),
 		scopedPreflightStyles({
-			// pretty minimalistic example. Same options as in the previous example are available
 			isolationStrategy: isolateOutsideOfContainer(".notw"),
 		}),
 	],

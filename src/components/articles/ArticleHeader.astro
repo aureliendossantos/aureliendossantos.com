@@ -12,20 +12,27 @@ interface Props {
 	cover?: ImageMetadata
 	palette: Palette
 	layouts: Layouts[]
+	sidenotes?: boolean
 	wide?: boolean
 	anchorTop?: boolean
 }
-const { title, description, date, cover, palette, layouts, wide, anchorTop } = Astro.props
+const { title, description, date, cover, palette, layouts, sidenotes, wide, anchorTop } =
+	Astro.props
 
 const optimizedCover = cover && (await getImage({ src: cover, width: Math.min(1920, cover.width) }))
 const cormorant = layouts.includes(Layouts.cormorant)
 const louize = palette.name == PaletteName.louize
+const tufte = palette.name == PaletteName.tufte
 ---
 
 <header
 	class:list={[
-		"px-[80px] text-[length:--font-size] leading-[--line-height] text-[--cover] medium:px-[40px] small:px-[20px] small:text-[length:--sm-font-size] small:leading-[--sm-line-height] dark:text-[--dark-cover]",
-		{ "mb-12 flex min-h-[50vh] bg-cover bg-center pb-8": cover },
+		"text-[length:--font-size] leading-[--line-height] text-[--cover] medium:px-[40px] small:px-[20px] small:text-[length:--sm-font-size] small:leading-[--sm-line-height] dark:text-[--dark-cover]",
+		{
+			"px-[80px]": !sidenotes,
+			"xl:px-[80px]": sidenotes,
+			"mb-12 flex min-h-[50vh] bg-cover bg-center pb-8": cover,
+		},
 	]}
 	style={{
 		"--cover": cover ? "#fbf8f2" : getColor(palette.secondaryColor),
@@ -44,45 +51,60 @@ const louize = palette.name == PaletteName.louize
 				"pb-20 pt-20": cormorant,
 				"pt-8": !cormorant,
 				"max-w-[700px]": wide,
-				"max-w-[--page-width]": !wide,
+				"max-w-[--page-width]": !wide && !sidenotes,
+				"max-w-[calc(var(--page-width)*1.5+4em)] xl:max-w-[--page-width]": sidenotes,
 			},
 		]}
 	>
-		<h1
-			class:list={["text-[--h1] dark:text-[--dark-h1]", { "mb-0 !leading-tight": cormorant }]}
-			style={{
-				"--h1": cover ? "#fbf8f2" : getColor(palette.baseColor),
-				"--dark-h1": cover ? "#fbf8f2" : getColor(palette.baseColor, "dark"),
-				fontFamily: palette.displayFont,
-				fontWeight: palette.titleWeight,
-				fontStyle: cormorant ? "italic" : undefined,
-				fontFeatureSettings: cormorant ? '"ss01" 01, "dlig" 1' : undefined,
-				textTransform: louize ? "uppercase" : undefined,
-				letterSpacing: louize ? "0.2em" : undefined,
-				fontSize: louize ? "1.3em" : undefined,
-				marginTop: louize ? "4em" : undefined,
-				marginBottom: louize ? "0.5em" : undefined,
-				lineHeight: louize ? "1" : undefined,
-			}}
-		>
-			{title}
-		</h1>
-		{
-			description && (
-				<p
-					class:list={{ "!my-[1em]": cormorant }}
-					style={{ fontFamily: cormorant ? "'Cormorant Upright', Cormorant, serif" : undefined }}
-				>
-					{description}
-				</p>
-			)
-		}
-		{
-			date && (
-				<p style={{ fontFamily: cormorant ? "'Cormorant Unicase'" : undefined }}>
-					<ArticleDate date={date} /> – <a href="/">Aurélien Dos Santos</a>
-				</p>
-			)
-		}
+		<div class:list={{ "max-w-[--page-width]": sidenotes && !tufte }}>
+			<h1
+				class:list={[
+					"text-[--h1] dark:text-[--dark-h1]",
+					{ "mb-0 !leading-tight": cormorant, "mt-[2.2em]": tufte },
+				]}
+				style={{
+					"--h1": cover ? "#fbf8f2" : getColor(palette.baseColor),
+					"--dark-h1": cover ? "#fbf8f2" : getColor(palette.baseColor, "dark"),
+					fontFamily: palette.displayFont,
+					fontWeight: palette.titleWeight,
+					fontStyle: cormorant ? "italic" : undefined,
+					fontFeatureSettings: cormorant ? '"ss01" 01, "dlig" 1' : undefined,
+					textTransform: louize ? "uppercase" : undefined,
+					letterSpacing: louize ? "0.2em" : undefined,
+					fontSize: louize ? "1.3em" : tufte ? "2.5em" : undefined,
+					marginTop: louize ? "4em" : undefined,
+					marginBottom: louize || tufte ? "0.5em" : undefined,
+					lineHeight: louize || tufte ? "1" : undefined,
+				}}
+			>
+				{title}
+			</h1>
+			{
+				description && (
+					<p
+						class:list={{
+							"!my-[1em]": cormorant,
+							"my-0 text-[1.41em] italic leading-tight": tufte,
+						}}
+						style={{
+							fontFamily: cormorant
+								? "'Cormorant Upright', Cormorant, serif"
+								: tufte
+									? '"Source Serif Subhead", "Source Serif", serif'
+									: undefined,
+						}}
+					>
+						{description}
+					</p>
+				)
+			}
+			{
+				date && (
+					<p style={{ fontFamily: cormorant ? "'Cormorant Unicase'" : undefined }}>
+						<ArticleDate date={date} /> – <a href="/">Aurélien Dos Santos</a>
+					</p>
+				)
+			}
+		</div>
 	</div>
 </header>

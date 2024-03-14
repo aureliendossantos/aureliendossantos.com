@@ -1,0 +1,23 @@
+---
+export interface Props {
+	id?: string
+	label: "number" | "symbol" | "none"
+	/**
+	 * Can the label toggle an input?
+	 */
+	toggle?: boolean
+	/**
+	 * If there is a toggle, is the sidenote visible by default?
+	 */
+	visible?: boolean
+}
+let { id, label, toggle, visible } = Astro.props
+// If `toggle` is false, the id won't be given to the label, so clicking on it won't do anything. The input has to stay in the page for the CSS to work.
+---
+
+<label
+	for={toggle ? id : null}
+	class:list={[
+		"sidenote-number",
+		{ "mobile-touch": toggle, "sidenote-symbol": label == "symbol", hidden: label == "none" },
+	]}></label><input id={toggle ? id : null} type="checkbox" checked={visible} class="peer hidden" />

@@ -83,7 +83,7 @@ const preRenderedEntries = Astro.props.ssr ? [] : await getSearchEntries()
 	})
 </script>
 
-<script define:vars={{ preRenderedEntries }}>
+<script is:inline define:vars={{ preRenderedEntries }}>
 	// If the page is not pre-rendered, we asynchronously fetch the entries from the API.
 	// Until the fetch is done, the search bar will simply not find any result.
 	let entries = []

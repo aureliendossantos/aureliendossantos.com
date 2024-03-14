@@ -65,19 +65,24 @@ h3:before {
 		content: counter(h3counter, upper-alpha) ".\0000a0";
 		font-feature-settings: "c2sc";
 	}
+	blockquote {
+		@apply p-0;
+	}
 }
 
 :root[data-palette="source-serif"] .article-styling {
 	/* ml and pl are used to position the counter */
 	h2,
 	h3 {
-		@apply my-[1.5em] -ml-[1.3em] pl-[1.3em];
+		@apply -ml-[1em] pl-[1em];
+	}
+	blockquote {
+		padding-left: calc(var(--line-height) * 1em);
 	}
 	nav + h2:not(.no-numbering) {
 		@apply mt-[4em];
 	}
 	h2:not(.no-numbering) {
-		font-feature-settings: "c2sc", "smcp";
 		@apply relative;
 		&:before {
 			content: counter(h2counter);
@@ -102,9 +107,6 @@ h3:before {
 			@apply not-italic;
 		}
 	}
-	figcaption:not(.header) {
-		font-family: "Source Serif Caption", "Source Serif", serif;
-	}
 	/* below, :not(.no-numbering) is needed to increase specificity */
 	aside,
 	aside h3:not(.no-numbering) {
@@ -117,15 +119,63 @@ h3:before {
 			content: none;
 		}
 	}
+	.sidenote,
+	example {
+		p {
+			@apply indent-0;
+		}
+	}
+}
 
 :root[data-palette="source-serif"],
 :root[data-palette="tufte"] {
 	& .article-styling {
+		figcaption:not(.header) {
+			font-family: "Source Serif SmText", "Source Serif", serif;
+		}
 		.footnotes ol {
 			font-family: "Source Serif Caption", "Source Serif", serif;
 		}
 	}
 }
+
+:root[data-palette="tufte"] .article-styling {
+	img,
+	video,
+	lite-youtube {
+		@apply rounded-none;
+	}
+	img,
+	figure {
+		@apply my-[--indent];
+		&.full {
+			@apply mb-[calc(var(--indent)*2)] w-[calc(150%+4em)] xl:mb-[--indent] xl:w-full;
+		}
+	}
+	code {
+		@apply rounded border-[#DBD7CAEE] bg-[#121212] px-[0.3em] py-[0.1em] text-[0.8em] text-[#DBD7CAEE] dark:border-[0.5px] dark:border-solid;
+	}
+	/* Simulate Pandoc's table output styles */
+	table,
+	th {
+		@apply border-0 border-solid border-[--base-color] dark:border-[--dark-base-color];
+	}
+	table {
+		@apply my-[calc(var(--indent)*2)] overflow-x-auto border-y py-[0.3em];
+	}
+	th {
+		font-feature-settings: "c2sc", "smcp";
+		@apply font-normal;
+	}
+	td,
+	th {
+		text-align: left;
+		@apply py-[0.4em] first:pl-0 last:pr-0;
+	}
+	/* Tables can be full width if they're wrapped in a figure.full */
+	figure.full table {
+		@apply w-full;
+	}
 }
 
 .classic .article-styling {
@@ -139,10 +189,6 @@ h3:before {
 
 	:not(pre) > code {
 		@apply my-[-0.1em] rounded-md bg-[#efefef] px-[0.3em] py-[0.1em];
-	}
-
-	aside {
-		@apply my-[1em] rounded bg-slate-200 px-4 py-1;
 	}
 
 	a:not(.unstyled) {
@@ -200,7 +246,6 @@ h3:before {
 		@apply max-w-full;
 	}
 
-	figcaption,
 	.secondary-color {
 		@apply text-[--secondary-color] dark:text-[--dark-secondary-color];
 	}
@@ -221,7 +266,7 @@ h3:before {
 		}
 		figcaption:not(.header) {
 			/* .header targets Expressive Code frame headers */
-			@apply ml-auto mt-[0.5em] flex max-w-prose justify-end text-right text-[0.8rem];
+			@apply ml-auto flex max-w-prose justify-end text-right text-[0.9rem];
 			p {
 				@apply m-0 max-w-prose;
 			}
@@ -329,22 +374,40 @@ h3:before {
 			@apply rounded-sm bg-[--popup-active] dark:bg-[--dark-popup-active];
 		}
 	}
+	p,
+	blockquote {
+		@apply hyphens-auto;
+	}
 	nav.toc {
-		@apply my-10;
+		@apply my-[calc(var(--indent)*2)] leading-[--indent];
+		& > ol {
+			@apply my-0;
+			& > li {
+				@apply break-inside-avoid-column;
+			}
+		}
 		a {
 			font-family: "Source Serif", serif;
 		}
-		ul li a {
-			font-family: "Source Serif SmText", "Source Serif", serif;
-			font-weight: 400;
+		ul {
+			@apply flex max-h-[--max-height] flex-col flex-wrap content-start gap-x-[--indent] medium:max-h-none;
+			li a {
+				font-family: "Source Serif SmText", "Source Serif", serif;
+				font-weight: 400;
+			}
 		}
 	}
 	h1 {
-		font-weight: 700; /* TODO: Is this useful anywhere? */
 		@apply leading-snug;
 	}
 	h2,
-	h3,
+	h3 {
+		@apply my-[1em];
+	}
+	h2:not(.no-numbering) {
+		font-feature-settings: "c2sc", "smcp";
+		@apply mt-[2.5em];
+	}
 	msc {
 		font-feature-settings: "smcp";
 	}
@@ -381,7 +444,7 @@ h3:before {
 		font-size: 1.1em;
 	}
 	aside {
-		@apply mx-0 my-10 bg-inherit px-8 py-0 medium:px-4;
+		@apply mx-0 my-[--indent] bg-inherit px-[--indent] py-0 small:my-[--sm-indent] small:px-[--sm-indent];
 		font-size: 0.85em;
 		h3 {
 			font-feature-settings: "smcp";
@@ -392,12 +455,14 @@ h3:before {
 		}
 	}
 	example,
-	blockquote,
-	aside {
-		@apply pl-8 medium:pl-4;
+	blockquote {
+		@apply pl-[--indent] small:pl-[--sm-indent];
+		figcaption {
+			@apply pt-[calc(var(--font-size)-0.9rem)] text-[0.9rem] text-[--secondary-color] small:pt-[calc(var(--sm-font-size)-0.9rem)] dark:text-[--dark-secondary-color];
+		}
 	}
 	example {
-		@apply my-10 flex flex-col;
+		@apply my-[--indent] flex flex-col small:my-[--sm-indent];
 		p,
 		ul {
 			@apply m-0 mb-4;
@@ -413,10 +478,16 @@ h3:before {
 		}
 	}
 	blockquote {
-		@apply mx-0 w-full not-italic text-inherit;
+		@apply mx-0 not-italic text-inherit;
+		& p {
+			@apply my-0;
+		}
 	}
 	code {
 		@apply bg-inherit;
+	}
+	table {
+		font-feature-settings: "tnum";
 	}
 	.footnotes ol {
 		@apply columns-2 gap-10 hyphens-auto pl-0 text-[13px] medium:columns-1 medium:pl-[--indent];
