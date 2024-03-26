@@ -177,11 +177,12 @@ const getPaletteDeclaration = (name: PaletteName | undefined): PaletteDeclaratio
 				secondaryColor: "#81839C",
 				specialColor: "#B66DC2",
 				bgColor: "#27314D",
-				headingsFont: "'Anek Latin', sans-serif",
+				headingsFont: "'Urbanist', sans-serif",
 				baseFont: "'Urbanist', sans-serif",
 				specialFont: "'Urbanist', monospace",
 				fontSize: "17px",
 				lineHeight: 1.55,
+				titleWeight: 400,
 			}
 		case "brown":
 			return {
