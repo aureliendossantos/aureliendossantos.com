@@ -5,6 +5,7 @@ import "@fontsource/lora/700.css"
 import "@fontsource/lora/400-italic.css"
 import "@fontsource/lora/500-italic.css"
 import "@fontsource/vollkorn"
+import "@fontsource/vollkorn/400-italic.css"
 // Sans serif
 import "@fontsource/lato"
 import "@fontsource/noto-sans"
@@ -33,4 +34,3 @@ import "$styles/fonts/et-book.css"
 import "$styles/fonts/louize.css"
 import "$styles/fonts/source-serif.css"
 // Sans serif
-import "$styles/fonts/anek-latin.css"
