@@ -21,7 +21,7 @@ const image = data.image && (await getImage({ src: data.image, width: 900 }))
 ---
 
 <a
-	class="grid w-full grid-cols-3 items-center bg-[--bg-color] text-[--base-color] xl:grid-cols-2 mediumlarge:flex mediumlarge:grid-cols-none mediumlarge:flex-col"
+	class="group grid w-full grid-cols-3 items-center bg-[--bg-color] text-[--base-color] xl:grid-cols-2 mediumlarge:flex mediumlarge:grid-cols-none mediumlarge:flex-col"
 	style={{
 		"--base-color": getColor(palette.baseColor),
 		"--secondary-color": getColor(palette.secondaryColor),
@@ -34,7 +34,7 @@ const image = data.image && (await getImage({ src: data.image, width: 900 }))
 >
 	<div
 		class:list={[
-			"relative h-full w-full",
+			"relative h-full w-full overflow-hidden",
 			{
 				"mediumlarge:m-auto mediumlarge:h-44 mediumlarge:max-w-md small:h-80": image,
 			},
@@ -44,14 +44,13 @@ const image = data.image && (await getImage({ src: data.image, width: 900 }))
 			image && (
 				<>
 					<div
-						class="h-full"
+						class="h-full bg-cover transition-transform duration-500 ease-out group-hover:scale-[1.04] small:group-hover:scale-100"
 						style={{
 							backgroundImage: image ? `url('${image.src}')` : "unset",
-							backgroundSize: "cover",
 							backgroundPosition: data.imageAnchorTop ? "top" : "center",
 						}}
 					/>
-					<div class="absolute bottom-6 ml-2 mr-4 hidden flex-col items-start gap-[1px] text-balance font-work-sans text-xs uppercase text-[--secondary-color] small:flex">
+					<div class="absolute bottom-6 ml-2 mr-4 hidden flex-col items-start text-balance font-work-sans text-xs uppercase text-[--secondary-color] small:flex">
 						<div class="bg-[--bg-color] px-2">
 							{data.date
 								.toLocaleDateString("fr", {
@@ -64,7 +63,7 @@ const image = data.image && (await getImage({ src: data.image, width: 900 }))
 						{labels.length > 0 && <div class="bg-[--bg-color] px-2">{labels.join(", ")}</div>}
 						{place && <div class="bg-[--bg-color] px-2">{place}</div>}
 						<h2
-							class="mt-[1.5px] text-xl font-bold normal-case text-[--base-color]"
+							class="text-xl font-bold normal-case text-[--base-color]"
 							style={{
 								fontFamily: palette.displayFont,
 								fontWeight: Math.max(600, palette.titleWeight),
