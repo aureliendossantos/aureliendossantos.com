@@ -18,7 +18,6 @@ const labels = categories // [...categories, ...tags]
 const place =
 	data.places.length > 0 ? (await getEntryBySlug("places", data.places[0]))?.data.title : undefined
 const image = data.image && (await getImage({ src: data.image, width: 900 }))
-const mini = (data.categories.includes("Micro-blog") || data.categories.includes("Notes")) && !image
 ---
 
 <a
@@ -35,51 +34,73 @@ const mini = (data.categories.includes("Micro-blog") || data.categories.includes
 >
 	<div
 		class:list={[
-			"h-full w-full",
-			{ "mediumlarge:m-auto mediumlarge:h-44 mediumlarge:max-w-md": image },
+			"relative h-full w-full",
+			{
+				"mediumlarge:m-auto mediumlarge:h-44 mediumlarge:max-w-md small:h-80": image,
+			},
 		]}
-		style={{
-			backgroundImage: image ? `url('${image.src}')` : "unset",
-			backgroundSize: "cover",
-			backgroundPosition: data.imageAnchorTop ? "top" : "center",
-		}}
 	>
+		{
+			image && (
+				<>
+					<div
+						class="h-full"
+						style={{
+							backgroundImage: image ? `url('${image.src}')` : "unset",
+							backgroundSize: "cover",
+							backgroundPosition: data.imageAnchorTop ? "top" : "center",
+						}}
+					/>
+					<div class="absolute bottom-6 ml-2 mr-4 hidden flex-col items-start gap-[1px] text-balance font-work-sans text-xs uppercase text-[--secondary-color] small:flex">
+						<div class="bg-[--bg-color] px-2">
+							{data.date
+								.toLocaleDateString("fr", {
+									day: "2-digit",
+									month: "2-digit",
+									year: "numeric",
+								})
+								.replaceAll("/", " · ")}
+						</div>
+						{labels.length > 0 && <div class="bg-[--bg-color] px-2">{labels.join(", ")}</div>}
+						{place && <div class="bg-[--bg-color] px-2">{place}</div>}
+						<h2
+							class="mt-[1.5px] text-xl font-bold normal-case text-[--base-color]"
+							style={{
+								fontFamily: palette.displayFont,
+								fontWeight: Math.max(600, palette.titleWeight),
+							}}
+						>
+							<span class="bg-[--bg-color] box-decoration-clone px-2 py-1">{data.title}</span>
+						</h2>
+					</div>
+				</>
+			)
+		}
 	</div>
-	<div class="flex justify-center">
+	<div class:list={["flex justify-center", { "small:hidden": image }]}>
 		<div
 			class:list={[
-				"ml-8 mr-16 flex min-w-[20rem] max-w-xs flex-col 2xl:ml-7 2xl:mr-14 2xl:min-w-[17.5rem] 2xl:max-w-[17.5rem] small:mx-0 small:min-w-[20rem] small:max-w-[20rem]",
-				{ "my-14 2xl:my-12": !mini, "mb-6 mt-8": mini, "xl:mt-11": image },
+				"my-14 ml-8 mr-16 flex min-w-[20rem] max-w-xs flex-col 2xl:my-12 2xl:ml-7 2xl:mr-14 2xl:min-w-[17.5rem] 2xl:max-w-[17.5rem] small:mx-0 small:my-7 small:w-screen small:max-w-none small:px-4",
+				{ "xl:mt-11": image },
 			]}
 		>
 			<div class="order-2">
 				<h2
-					class="mb-2 text-2xl font-bold 2xl:text-xl small:text-2xl"
+					class="mb-2 text-pretty text-2xl font-bold 2xl:text-xl small:text-xl"
 					style={{
 						fontFamily: palette.displayFont,
 						fontWeight: Math.max(600, palette.titleWeight),
 					}}
 				>
-					{data.title}{data.draft && " [Draft]"}
+					{data.title}{data.draft && <sup>Draft</sup>}
 				</h2>
-				{
-					data.description && (
-						<p
-							class="hidden text-sm xl:block small:text-base"
-							style={{ fontFamily: palette.baseFont }}
-						>
-							{data.description} →
-						</p>
-					)
-				}
 			</div>
 			<div
 				class:list={[
-					"font-sofia-sans text-sm uppercase text-[--secondary-color] opacity-75 2xl:text-xs small:text-sm",
+					"font-sofia-sans text-sm uppercase text-[--secondary-color] opacity-75 2xl:text-xs",
 					{
-						"order-3 mt-2": image,
-						"xl:mt-4": image && data.description,
-						"order-1 mb-4": !image,
+						"order-3 mt-2 xl:mb-[3px] xl:mt-0 small:order-1": image,
+						"order-1 mb-1": !image,
 					},
 				]}
 			>
@@ -97,7 +118,7 @@ const mini = (data.categories.includes("Micro-blog") || data.categories.includes
 					class="my-14 ml-8 mr-16 min-w-[20rem] max-w-[20rem] 2xl:my-12 2xl:min-w-[17.5rem] 2xl:max-w-[17.5rem] 2xl:text-sm"
 					style={{ fontFamily: palette.baseFont }}
 				>
-					{data.description} →
+					{data.description}
 				</p>
 			</div>
 		)

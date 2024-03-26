@@ -28,7 +28,7 @@ if (!(year in wrapups)) throw new Error(`Year ${year} not in wrapup`)
 ---
 
 <div
-	class="grid w-full grid-cols-3 items-center bg-white text-zinc-900 xl:grid-cols-2 mediumlarge:flex mediumlarge:grid-cols-none mediumlarge:flex-col"
+	class="relative grid w-full grid-cols-3 items-center bg-white text-zinc-900 xl:grid-cols-2 mediumlarge:flex mediumlarge:grid-cols-none mediumlarge:flex-col small:h-80 small:items-start"
 >
 	{
 		entries.map((entry, index) => {
@@ -37,7 +37,7 @@ if (!(year in wrapups)) throw new Error(`Year ${year} not in wrapup`)
 					id={`${entry.slug}-image`}
 					data-year={year}
 					class:list={[
-						"h-full w-full mediumlarge:m-auto mediumlarge:h-44 mediumlarge:max-w-md",
+						"h-full w-full mediumlarge:m-auto mediumlarge:h-44 mediumlarge:max-w-md small:absolute small:h-80",
 						{ hidden: index > 0 },
 					]}
 					style={{
@@ -49,24 +49,24 @@ if (!(year in wrapups)) throw new Error(`Year ${year} not in wrapup`)
 			)
 		})
 	}
-	<div class="flex justify-center">
+	<div class="flex justify-center small:absolute small:bottom-6">
 		<div
 			class:list={[
-				"ml-8 mr-16 flex min-w-[20rem] max-w-xs flex-col 2xl:ml-7 2xl:mr-14 2xl:min-w-[17.5rem] 2xl:max-w-[17.5rem] xl:mt-11 small:mx-0 small:min-w-[20rem] small:max-w-[20rem]",
+				"ml-8 mr-16 flex min-w-[20rem] max-w-xs flex-col 2xl:ml-7 2xl:mr-14 2xl:min-w-[17.5rem] 2xl:max-w-[17.5rem] xl:mt-11 small:mx-2",
 			]}
 		>
 			<div class="order-2">
-				<h2 class="mb-2 mt-8 text-2xl font-bold 2xl:text-xl xl:mt-0 small:text-2xl">
-					{year} dans mon journal
+				<h2 class="mb-2 mt-8 text-2xl font-bold 2xl:text-xl xl:mt-0">
+					<span class="bg-white box-decoration-clone px-2 py-1">{year} dans mon journal</span>
 				</h2>
 			</div>
-			<div class="order-3 -mx-8 mb-8 flex flex-col">
+			<div class="order-3 -mx-8 mb-8 flex flex-col small:mx-0 small:mb-0 small:items-start">
 				{
 					entries.map((entry) => (
 						<a
 							id={`${entry.slug}-link`}
 							data-year={year}
-							class="diary-entry px-8 py-2 text-sm text-zinc-700 transition-colors hover:bg-zinc-100"
+							class="diary-entry bg-white px-8 py-2 text-sm text-zinc-700 transition-colors hover:bg-zinc-100 small:px-2 small:py-1"
 							href={`/diary/${entry.finalSlug}`}
 							data-category={entry.category}
 						>
