@@ -28,36 +28,45 @@ if (!(year in wrapups)) throw new Error(`Year ${year} not in wrapup`)
 ---
 
 <div
-	class="relative grid w-full grid-cols-3 items-center bg-white text-zinc-900 xl:grid-cols-2 mediumlarge:flex mediumlarge:grid-cols-none mediumlarge:flex-col small:h-80 small:items-start"
+	class="relative grid w-full grid-cols-3 items-center bg-white font-sans text-zinc-900 xl:grid-cols-2 mediumlarge:flex mediumlarge:grid-cols-none mediumlarge:flex-col small:h-80 small:items-start"
 >
-	{
-		entries.map((entry, index) => {
-			return (
-				<div
-					id={`${entry.slug}-image`}
-					data-year={year}
-					class:list={[
-						"h-full w-full mediumlarge:m-auto mediumlarge:h-44 mediumlarge:max-w-md small:absolute small:h-80",
-						{ hidden: index > 0 },
-					]}
-					style={{
-						backgroundImage: entry.image && `url(${entry.image.src})`,
-						backgroundSize: "cover",
-						backgroundPosition: entry.data.imageAnchorTop ? "top" : "center",
-					}}
-				/>
-			)
-		})
-	}
+	<div
+		class="relative h-full w-full mediumlarge:m-auto mediumlarge:h-44 mediumlarge:max-w-md small:absolute small:h-80"
+	>
+		{
+			entries.map((entry, index) => {
+				return (
+					<div
+						id={`${entry.slug}-image`}
+						data-year={year}
+						class:list={[
+							"absolute h-full w-full transition-opacity",
+							{ "opacity-100": index == 0, "opacity-0": index > 0 },
+						]}
+						style={{
+							zIndex: 3 - index,
+							backgroundImage: entry.image && `url(${entry.image.src})`,
+							backgroundSize: "cover",
+							backgroundPosition: entry.data.imageAnchorTop ? "top" : "center",
+						}}
+					/>
+				)
+			})
+		}
+	</div>
 	<div class="flex justify-center small:absolute small:bottom-6">
 		<div
 			class:list={[
-				"ml-8 mr-16 flex min-w-[20rem] max-w-xs flex-col 2xl:ml-7 2xl:mr-14 2xl:min-w-[17.5rem] 2xl:max-w-[17.5rem] xl:mt-11 small:mx-2",
+				"z-[4] ml-8 mr-16 flex min-w-[20rem] max-w-xs flex-col 2xl:ml-7 2xl:mr-14 2xl:min-w-[17.5rem] 2xl:max-w-[17.5rem] xl:mt-11 small:mx-2 small:max-w-none",
 			]}
 		>
 			<div class="order-2">
-				<h2 class="mb-2 mt-8 text-2xl font-bold 2xl:text-xl xl:mt-0">
-					<span class="bg-white box-decoration-clone px-2 py-1">{year} dans mon journal</span>
+				<h2
+					class="mb-2 mt-8 text-2xl font-bold 2xl:text-xl xl:mt-0 small:mb-0 small:text-lg small:font-extrabold"
+				>
+					<span class="bg-white box-decoration-clone small:px-2 small:py-1"
+						>{year} dans mon journal</span
+					>
 				</h2>
 			</div>
 			<div class="order-3 -mx-8 mb-8 flex flex-col small:mx-0 small:mb-0 small:items-start">
@@ -66,7 +75,7 @@ if (!(year in wrapups)) throw new Error(`Year ${year} not in wrapup`)
 						<a
 							id={`${entry.slug}-link`}
 							data-year={year}
-							class="diary-entry bg-white px-8 py-2 text-sm text-zinc-700 transition-colors hover:bg-zinc-100 small:px-2 small:py-1"
+							class="diary-entry border-dashed border-black/10 bg-white px-8 py-2 text-sm text-zinc-700 transition-colors hover:bg-zinc-100 small:border-t small:px-2 small:py-1"
 							href={`/diary/${entry.finalSlug}`}
 							data-category={entry.category}
 						>
@@ -94,3 +103,28 @@ if (!(year in wrapups)) throw new Error(`Year ${year} not in wrapup`)
 		</p>
 	</div>
 </div>
+
+<script>
+	// Display the corresponding image cover on link hover.
+	// Only toggles images of the current year.
+	document.addEventListener("astro:page-load", () => {
+		const images = Array.from(
+			document.querySelectorAll("[id$='-image']") as NodeListOf<HTMLElement>
+		)
+		const links = document.querySelectorAll("[id$='-link']")
+		links.forEach((link) => {
+			link.addEventListener("mouseenter", () => {
+				const year = link.getAttribute("data-year")
+				images.forEach((image) => {
+					if (image.getAttribute("data-year") == year) {
+						const id = image.id.replace("-image", "")
+						// Show if the image corresponds to the hovered link.
+						image.classList.toggle("opacity-100", `${id}-link` == link.id)
+						// Hide if the link is not the one hovered
+						image.classList.toggle("opacity-0", `${id}-link` != link.id)
+					}
+				})
+			})
+		})
+	})
+</script>

@@ -51,21 +51,3 @@ const years = Array.from(new Set(diary.map((entry) => entry.year)))
 		@apply text-space-700 decoration-space-300 underline-offset-4 hover:text-space-800 hover:underline dark:text-space-300 dark:decoration-space-600 dark:hover:text-space-200;
 	}
 </style>
-
-<script>
-	// Display the corresponding image cover on link hover.
-	// Only toggles images of the current year.
-	const images = document.querySelectorAll("[id$='-image']")
-	const links = document.querySelectorAll("[id$='-link']")
-	links.forEach((link) => {
-		link.addEventListener("mouseenter", () => {
-			const year = link.getAttribute("data-year")
-			images.forEach((image) => {
-				if (image.getAttribute("data-year") == year) {
-					const id = image.id.replace("-image", "")
-					image.classList.toggle("hidden", `${id}-link` != link.id)
-				}
-			})
-		})
-	})
-</script>
