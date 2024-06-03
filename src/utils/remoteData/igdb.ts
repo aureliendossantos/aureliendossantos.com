@@ -58,7 +58,8 @@ export default async function getIGDBgames(slugs: string[]) {
 		)
 	).then((response) => response.json())
 
-	if (!games || !games[0].name) {
+	// Check if games is undefined, is [] or has no name
+	if (!games || games.length == 0 || !("name" in games[0])) {
 		throw new Error(`Game not found: ${slugs[0]}: ${JSON.stringify(games)}`)
 	}
 

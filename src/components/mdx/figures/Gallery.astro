@@ -13,29 +13,29 @@ const { wide, full } = Astro.props
 <style is:global>
 	.gallery {
 		@apply relative my-6 flex flex-row justify-center;
-
 		figure {
 			@apply my-0 grow basis-4;
 		}
-
 		figure + figure {
 			@apply ml-[10px];
 		}
-
 		&.wide {
 			@apply mx-[-80px] mediumlarge:mx-[-40px] medium:mx-[-20px];
 		}
-
-		&.full {
+		img {
+			@apply w-full;
+		}
+		.article-styling:not(.with-sidenotes) &.full {
 			@apply left-1/2 ml-[-50vw] w-screen;
-
 			figcaption {
 				@apply ml-auto mr-[.5em];
 			}
 		}
-
-		img {
-			@apply w-full;
+		.article-styling.with-sidenotes &.full {
+			@apply my-[--indent] mb-[calc(var(--indent)*2)] w-[calc(150%+4em)] xl:mb-[--indent] xl:w-full;
+			figcaption {
+				@apply ml-auto mr-[.5em];
+			}
 		}
 	}
 </style>

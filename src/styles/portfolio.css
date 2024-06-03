@@ -1,0 +1,53 @@
+@import "sidenotes.css";
+
+:root {
+	--font-size: 16px;
+}
+
+section.footnotes {
+	@apply mt-12;
+	h2 {
+		display: none;
+	}
+}
+section.footnotes,
+.sidenote {
+	font-family: "Adelle Sans", sans-serif;
+	@apply text-xs font-semibold leading-snug;
+	a {
+		@apply font-semibold;
+	}
+}
+.sidenote {
+	@apply mr-[calc(-70%-48px)] w-[70%] -translate-y-[27px] border-l-[1.5px] border-t-[1.5px] border-fi-base-100 p-6 xl:mr-0 xl:w-full xl:translate-y-0 xl:border-0 xl:px-0 xl:py-3;
+	&::before {
+		font-feature-settings: "tnum";
+		@apply -left-1 bg-fi-paper text-fi-base-200 xl:-left-4 xl:text-fi-orange-400;
+		/*left-[8.5px]*/
+	}
+}
+.sidenote-number::after {
+	font-family: "Adelle Sans", sans-serif;
+	font-feature-settings:
+		"sups" 0,
+		"tnum" 1,
+		"lnum" 1;
+	@apply mx-[0.2em] inline-block border-[1.5px] border-solid border-fi-base-200 px-[2px] align-text-top text-[0.8em] font-semibold leading-none text-fi-base-300 xl:cursor-pointer xl:peer-checked:border-fi-orange-400 xl:peer-checked:text-fi-orange-400;
+	.hidden& {
+		display: none;
+	}
+}
+
+.pf-gallery {
+	&::-webkit-scrollbar {
+		width: 10px;
+		height: 10px;
+		@apply bg-fi-base-600 pt-2;
+	}
+	&::-webkit-scrollbar-track {
+		@apply border-0 border-t-[1.5px] border-solid border-fi-base-100 bg-fi-base-50;
+	}
+	&::-webkit-scrollbar-thumb {
+		@apply border-0 border-t-[1.5px] border-solid border-fi-base-100 bg-fi-base-150 hover:bg-fi-base-200;
+	}
+}

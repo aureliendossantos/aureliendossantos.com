@@ -8,14 +8,10 @@ const { href, site, username } = Astro.props
 ---
 
 <a class="group flex justify-between" href={href}>
-	<div
-		class="text-slate-500 group-hover:text-slate-400 dark:text-slate-400 dark:group-hover:text-slate-300"
-	>
+	<div class="text-fi-base-600 transition group-hover:text-fi-orange-400">
 		{site}
 	</div>
-	<div
-		class="text-slate-400 group-hover:text-slate-300 dark:text-slate-500 dark:group-hover:text-slate-300"
-	>
+	<div class="text-fi-base-300 transition group-hover:text-fi-orange-400">
 		{username}
 	</div>
 </a>

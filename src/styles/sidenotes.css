@@ -31,7 +31,7 @@
 
 .sidenote {
 	/* The mt aligns the small text with the main one. It's not done cleanly right now. */
-	@apply relative float-right clear-right -mr-[calc(50%+4em)] mb-[1em] mt-[5px] box-border w-1/2 indent-0 text-[0.9rem] not-italic leading-[1.35] xl:m-0 xl:my-[--indent] xl:box-border xl:hidden xl:w-full xl:px-[--indent] xl:text-left xl:leading-[--line-height] xl:peer-checked:block small:my-[--sm-indent] small:px-[--sm-indent] small:leading-[--sm-line-height];
+	@apply relative float-right clear-right -mr-[calc(50%+4*var(--font-size))] mb-[1em] mt-[5px] box-border w-1/2 indent-0 text-[0.9rem] not-italic leading-[1.35] xl:m-0 xl:my-[--indent] xl:box-border xl:hidden xl:w-full xl:px-[--indent] xl:text-left xl:leading-[--line-height] xl:peer-checked:block small:my-[--sm-indent] small:px-[--sm-indent] small:leading-[--sm-line-height];
 	img,
 	video,
 	lite-youtube {
@@ -45,8 +45,11 @@
 	}
 }
 
-.sidenote-number {
+.sidenote-number:not(.hidden) {
 	counter-increment: sidenote-counter;
+}
+
+.sidenote-number {
 	/* The -my compensates for the border width. */
 	@apply inline-block max-h-[2rem] indent-0;
 	&:after {

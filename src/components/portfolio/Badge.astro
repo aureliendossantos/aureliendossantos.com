@@ -1,19 +1,25 @@
 ---
 interface Props {
 	square?: boolean
-	color?: "yellow" | "sky"
-	small?: boolean
+	color?: "yellow" | "sky" | "card"
+	big?: boolean
 }
-const { square, color, small } = Astro.props
+const { square, color, big } = Astro.props
+// HACK: text color is hacky, check if it's still right after the background has been changed
 ---
 
 <span
 	class:list={[
-		"py-[2px] font-sofia-sans text-base medium:text-sm",
+		"cursor-pointer p-[5px] font-adelle-sans ring-0 transition hover:ring-[1.5px]",
+		{ "text-xs": !big },
+		{ "mr-2 text-sm": big },
 		{ "rounded px-2": square },
 		{ "rounded-full px-3": !square },
-		{ "bg-slate-200 text-slate-800 dark:bg-slate-700 dark:text-slate-200": !color },
-		{ "bg-yellow-200 text-yellow-800 dark:bg-yellow-900 dark:text-amber-200": color == "yellow" },
-		{ "bg-sky-200 text-sky-800 dark:bg-sky-800 dark:text-sky-200": color == "sky" },
+		{ "bg-fi-blue-400/10 text-fi-blue-400 ring-fi-blue-400": !color },
+		{
+			"bg-[#ECF0EB] text-fi-blue-400 ring-fi-blue-400": color == "card",
+		},
+		{ "bg-yellow-800": color == "yellow" },
+		{ "bg-fi-orange-400/10 text-fi-orange-400 ring-fi-orange-400": color == "sky" },
 	]}><slot /></span
 >

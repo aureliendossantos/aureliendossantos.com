@@ -1,0 +1,122 @@
+@font-face {
+	font-family: "Adelle";
+	src: url("/fonts/Adelle/Adelle_light.otf");
+	font-weight: 300;
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
+	font-family: "Adelle";
+	src: url("/fonts/Adelle/Adelle_LightItalic.otf");
+	font-weight: 300;
+	font-style: italic;
+	font-display: swap;
+}
+@font-face {
+	font-family: "Adelle";
+	src: url("/fonts/Adelle/Adelle_Reg.otf");
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
+	font-family: "Adelle";
+	src: url("/fonts/Adelle/Adelle_Italic.otf");
+	font-weight: 400;
+	font-style: italic;
+	font-display: swap;
+}
+@font-face {
+	font-family: "Adelle";
+	src: url("/fonts/Adelle/Adelle_Semibold.otf");
+	font-weight: 600;
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
+	font-family: "Adelle";
+	src: url("/fonts/Adelle/Adelle_Bold.otf");
+	font-weight: 700;
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
+	font-family: "Adelle";
+	src: url("/fonts/Adelle/Adelle_ExtraBold.otf");
+	font-weight: 800;
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
+	font-family: "Adelle";
+	src: url("/fonts/Adelle/Adelle_Heavy.otf");
+	font-weight: 900;
+	font-style: normal;
+	font-display: swap;
+}
+
+/* Adelle Sans */
+
+@font-face {
+	font-family: "Adelle Sans";
+	src: url("/fonts/AdelleSans/AdelleSans-Ultrathin.OTF");
+	font-weight: 100;
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
+	font-family: "Adelle Sans";
+	src: url("/fonts/AdelleSans/AdelleSans-Thin.OTF");
+	font-weight: 200;
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
+	font-family: "Adelle Sans";
+	src: url("/fonts/AdelleSans/AdelleSans-Light.OTF");
+	font-weight: 300;
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
+	font-family: "Adelle Sans";
+	src: url("/fonts/AdelleSans/AdelleSans-Regular.OTF");
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
+	font-family: "Adelle Sans";
+	src: url("/fonts/AdelleSans/AdelleSans-Semibold.OTF");
+	font-weight: 600;
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
+	font-family: "Adelle Sans";
+	src: url("/fonts/AdelleSans/AdelleSans-SemiboldItalic.OTF");
+	font-weight: 600;
+	font-style: italic;
+	font-display: swap;
+}
+@font-face {
+	font-family: "Adelle Sans";
+	src: url("/fonts/AdelleSans/AdelleSans-Bold.OTF");
+	font-weight: 700;
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
+	font-family: "Adelle Sans";
+	src: url("/fonts/AdelleSans/AdelleSans-Extrabold.OTF");
+	font-weight: 800;
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
+	font-family: "Adelle Sans";
+	src: url("/fonts/AdelleSans/AdelleSans-Heavy.OTF");
+	font-weight: 900;
+	font-style: normal;
+	font-display: swap;
+}

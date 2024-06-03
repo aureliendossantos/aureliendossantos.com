@@ -3,7 +3,7 @@ import { ensureFolderExists } from "$utils/cache"
 
 interface Props {
 	file: string
-	type: "component" | "page" | "util"
+	type: "component" | "page" | "util" | "style"
 	noText?: boolean
 }
 const { file, type, noText } = Astro.props
@@ -17,6 +17,8 @@ const folderUrl = () => {
 			return "src/pages"
 		case "util":
 			return "src/utils"
+		case "style":
+			return "src/styles"
 	}
 }
 const url = `${githubUrl}${folderUrl()}/${file}`
@@ -32,6 +34,6 @@ const label = type == "component" ? "<" + filename.split(".")[0] + ">" : filenam
 	href={url}
 	target="_blank"
 	data-icon="github"
-	class="font-[family-name:--code-font] not-italic !text-[--secondary-color] !no-underline dark:!text-[--dark-secondary-color]"
+	class="font-[family-name:--code-font] text-[length:--code-font-size] not-italic !text-[--secondary-color] !no-underline dark:!text-[--dark-secondary-color]"
 	><slot>{!noText && label}</slot></a
 >

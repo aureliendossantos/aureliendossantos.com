@@ -7,7 +7,7 @@ interface Props {
 	bookEdition?: string
 	author?: string
 	foreign?: boolean
-	date?: string
+	date?: string | number
 	publisher?: string
 	jp?: boolean
 	page?: number
@@ -52,7 +52,7 @@ if (!book) {
 	}{
 		page && <>, {multiple ? "pages " : "page "}{page}</>
 	}{
-		date && `, le ${date}`
+		date && (typeof date == "number" ? `, ${date}` : `, le ${date}`)
 	}{
 		archive && <> (<a href={archive} target="_blank">{archiveDate ? `archive du ${archiveDate}` : "archive"}</a>)</>
 	}

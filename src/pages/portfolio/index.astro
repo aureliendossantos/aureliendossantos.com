@@ -1,174 +1,124 @@
 ---
-import Card from "$components/portfolio/Card.astro"
-import CardContainer from "$components/portfolio/CardContainer.astro"
-import CardGrid from "$components/portfolio/CardGrid.astro"
-import CategoryHeading from "$components/portfolio/CategoryHeading.astro"
-import Em from "$components/portfolio/Em.astro"
 import LinkItem from "$components/portfolio/LinkItem.astro"
 import School from "$components/portfolio/School.astro"
 import BaseLayout from "$layouts/BaseLayout.astro"
-import { getCollection, getEntryBySlug } from "astro:content"
 import getSeeAlso from "$utils/getSeeAlso"
-
-const capCuisine = await getEntryBySlug("portfolio", "cap-cuisine")
-const dashboard = await getEntryBySlug("portfolio", "dashboard")
-const faireDesJeux = await getEntryBySlug("portfolio", "fairedesjeux")
-const grimoire = await getEntryBySlug("portfolio", "grimoire")
-const jeuDeSurvie = await getEntryBySlug("portfolio", "jeu-de-survie-navigateur")
-const passNumerique = await getEntryBySlug("portfolio", "pass-numerique")
-const portfolio = await getEntryBySlug("portfolio", "portfolio")
-const powerup = await getEntryBySlug("portfolio", "powerup")
-const qrpg = await getEntryBySlug("portfolio", "qrpg")
-// bg dark: slate-800
+import Card from "$components/portfolio/Card.astro"
 ---
 
 <BaseLayout
 	ogType="website"
-	bg={{ light: "white", dark: "rgb(30 41 59)" }}
+	bg="#FFFCF0"
 	title="Portfolio"
 	description="Portfolio d'Aurélien Dos Santos présentant des projets d'ingénierie pédagogique, de game design et de développement web et multimédia."
 	navBarProps={{ title: "Portfolio", related: await getSeeAlso(["pro"]) }}
 >
-	<div class="m-auto max-w-[820px] px-6 pb-24 pt-14 text-xl medium:text-lg">
-		<header class="font-sofia-sans text-2xl">
-			<div class="text-slate-400 dark:text-slate-400">Aurélien Dos Santos /</div>
-			<div class="text-slate-600 dark:text-slate-300">Portfolio</div>
+	<div
+		class="m-auto max-w-[820px] px-[43px] pb-24 pt-14 font-adelle-sans text-xl text-fi-black medium:text-lg"
+	>
+		<header>
+			<div class="text-sm font-semibold text-fi-base-300">Aurélien Dos Santos</div>
+			<div class="text-2xl font-extralight">Portfolio</div>
 		</header>
-		<div class="mt-6 max-w-[280px] font-sofia-sans">
-			<LinkItem
-				href="https://www.youtube.com/@GameDevAlliance"
-				site="YouTube"
-				username="@Game Dev Alliance"
-			/>
-			<LinkItem
-				href="https://www.linkedin.com/in/aureliendossantos/"
-				site="LinkedIn"
-				username="@aureliendossantos"
-			/>
-			<LinkItem
-				href="https://github.com/aureliendossantos/wiki"
-				site="GitHub"
-				username="@aureliendossantos"
-			/>
-			<div class="mt-6">
-				<a
-					class="text-slate-500 hover:text-slate-400 dark:hover:text-slate-300"
-					href="mailto:aureliendsantos@gmail.com"
-				>
-					aureliendsantos@gmail.com
-				</a>
+		<div class="mt-9 grid grid-cols-2 gap-3 text-sm">
+			<div class="flex flex-col justify-between pr-[21.5px]">
+				<div>
+					<LinkItem
+						href="https://www.youtube.com/@GameDevAlliance"
+						site="YouTube"
+						username="@Game Dev Alliance"
+					/>
+					<LinkItem
+						href="https://www.linkedin.com/in/aureliendossantos/"
+						site="LinkedIn"
+						username="@aureliendossantos"
+					/>
+					<LinkItem
+						href="https://github.com/aureliendossantos/wiki"
+						site="GitHub"
+						username="@aureliendossantos"
+					/>
+				</div>
+				<div class="mt-3">
+					<a
+						class="text-fi-base-600 transition hover:text-fi-orange-400"
+						href="mailto:aureliendsantos@gmail.com"
+					>
+						aureliendsantos@gmail.com
+					</a>
+				</div>
+			</div>
+			<p class="pl-[21.5px] text-fi-base-600">
+				Ingénieur pédagogique de formation, je suis en quête de nouvelles opportunités en tant que
+				développeur web et multimédia.
+			</p>
+			<div class="hidden pl-[21.5px] font-adelle font-light">
+				<p>
+					Je suis Aurélien et j'ai conclu des études en alternance d’ingénierie pédagogique et de
+					conception e-learning. Je suis également passionné par le développement informatique (web
+					et jeux vidéo), le game design et la photographie.
+				</p>
+				<p class="mt-3">
+					Je suis en quête d’opportunités en tant qu’ingénieur pédagogique, concepteur pédagogique
+					(écrit, vidéo), développeur multimédia (Unity, web) ou toute mission à la croisée de ces
+					compétences.
+				</p>
 			</div>
 		</div>
-		<div class="mt-6 font-sofia-sans text-slate-500 dark:text-slate-400">
-			<p>
-				<Em>Je suis Aurélien</Em> et j'ai conclu des études en alternance d’<Em>
-					ingénierie pédagogique
-				</Em> et de <Em>conception e-learning</Em>. Je suis également passionné par le <Em>
-					développement informatique
-				</Em> (web et jeux vidéo), le <Em>game design</Em> et la photographie.
-			</p>
-			<p class="mt-6">
-				Je suis en quête d’opportunités en tant qu’<Em>ingénieur pédagogique</Em>,
-				<Em>concepteur pédagogique</Em>
-				(écrit, vidéo),
-				<Em>développeur multimédia</Em>
-				(Unity, web) ou toute mission à la croisée de ces compétences.
-			</p>
+		<h2 class="mb-6 mt-9 text-sm font-medium text-fi-orange-400">Développement web</h2>
+		<div class="-mx-[21.5px] grid grid-cols-2 gap-3 medium:flex medium:flex-col">
+			<Card slug="dashboard" layout="vertical" />
+			<Card slug="minimal-cms" layout="vertical" />
+			<Card slug="jeu-de-survie-navigateur" layout="horizontal" />
+			{/* TODO: <Card slug="site" layout="horizontal" />*/}
 		</div>
-		<CategoryHeading>Projets de formation</CategoryHeading>
-		<CardContainer>
-			<CardGrid>
-				<Card project={capCuisine} />
-				<Card project={faireDesJeux} />
-			</CardGrid>
-		</CardContainer>
-		<CategoryHeading>Développement web</CategoryHeading>
-		<CardContainer>
-			<CardGrid>
-				<Card project={dashboard} />
-				<Card project={grimoire} />
-			</CardGrid>
-		</CardContainer>
-		<CategoryHeading>Jeux et multimédia</CategoryHeading>
-		<CardContainer>
-			<CardGrid>
-				<Card project={powerup} />
-				<Card project={qrpg} />
-				<Card project={jeuDeSurvie} />
-			</CardGrid>
-		</CardContainer>
-		<CategoryHeading>Formation</CategoryHeading>
-		<div class="mt-6 font-sofia-sans text-slate-600 dark:text-slate-400">
-			<School
-				degree="Master MEEF Ingénierie de Formation, parcours Conception de Ressources Numériques"
-				school="Université Toulouse Jean-Jaurès ∙ 2021-2023"
-			/>
-			<ul
-				class="list-inside list-disc text-base leading-snug text-slate-600 marker:text-slate-400 medium:text-sm dark:text-slate-300 dark:marker:text-slate-400"
-			>
-				<li class="my-2">Ingénierie pédagogique</li>
-				<li class="my-2">
-					Conception pédagogique multimédia
-					<ul
-						class="list-inside list-disc text-slate-400 marker:text-white dark:text-slate-400 dark:marker:text-slate-800"
-					>
-						<li>Rise, Storyline, Genially, Vyond</li>
-						<li>Adobe Premiere, Photoshop, InDesign</li>
-					</ul>
-				</li>
-				<li class="my-2">
-					Développement web
-					<ul
-						class="list-inside list-disc text-slate-400 marker:text-white dark:text-slate-400 dark:marker:text-slate-800"
-					>
-						<li>HTML & CSS, JavaScript, PHP, SQL, React, Next.js, Elixir</li>
-					</ul>
-				</li>
-				<li class="my-2">
-					Développement d'applications et jeux sérieux
-					<ul
-						class="list-inside list-disc text-slate-400 marker:text-white dark:text-slate-400 dark:marker:text-slate-800"
-					>
-						<li>Unity (C#), Ren’Py (Python)</li>
-					</ul>
-				</li>
-			</ul>
-			<School
-				degree="Licence Langues, Littératures et Civilisations Étrangères, parcours Anglais"
-				school="Université de Pau ∙ 2018-2021"
-			/>
-			<School
-				degree="IUT Statistique et Informatique Décisionnelle"
-				school="Université de Pau ∙ 2014-2016"
-			/>
+		<h2 class="mb-6 mt-12 text-sm font-medium text-fi-orange-400">Jeux vidéo sur Unity</h2>
+		<div class="-mx-[21.5px] grid grid-cols-2 gap-3 medium:flex medium:flex-col">
+			<Card slug="qrpg" layout="vertical" />
+			<Card slug="powerup" layout="vertical" />
 		</div>
+		<h2 class="mb-6 mt-12 text-sm font-medium text-fi-orange-400">Projets pédagogiques</h2>
+		<div class="-mx-[21.5px] grid grid-cols-2 gap-3 medium:flex medium:flex-col">
+			<Card slug="cap-cuisine" layout="horizontal" />
+			<Card slug="fairedesjeux" layout="horizontal" />
+		</div>
+		<!-- <Toc big /> -->
+		<h2 class="mb-6 mt-12 text-sm font-medium text-fi-orange-400">Formation</h2>
+		<School
+			degree="Master MEEF Ingénierie de Formation, parcours Conception de Ressources Numériques"
+			school="2021-2023 ∙ Université Toulouse Jean-Jaurès"
+		/>
+		<ul
+			class="hidden list-disc text-sm leading-relaxed text-fi-base-600 marker:text-fi-base-100 medium:text-sm"
+		>
+			<li>Ingénierie pédagogique</li>
+			<li>
+				Conception pédagogique multimédia
+				<ul class="text-fi-base-300">
+					<li>Rise, Storyline, Genially, Vyond</li>
+					<li>Adobe Premiere, Photoshop, InDesign</li>
+				</ul>
+			</li>
+			<li>
+				Développement web
+				<ul class="text-fi-base-300">
+					<li>HTML & CSS, JavaScript, PHP, SQL, React, Next.js, Elixir</li>
+				</ul>
+			</li>
+			<li>
+				Développement d'applications et jeux sérieux
+				<ul class="text-fi-base-300">
+					<li>Unity (C#), Ren’Py (Python)</li>
+				</ul>
+			</li>
+		</ul>
+		<School
+			degree="Licence Langues, Littératures et Civilisations Étrangères, parcours Anglais"
+			school="2018-2021 ∙ Université de Pau"
+		/>
+		<School
+			degree="IUT Statistique et Informatique Décisionnelle"
+			school="2014-2016 ∙ Université de Pau"
+		/>
 	</div>
 </BaseLayout>
-
-<style is:global>
-	::-webkit-scrollbar-thumb {
-		background-color: rgb(226 232 240);
-		border: 4px solid transparent;
-		background-clip: content-box;
-		border-radius: 10px;
-		&:hover {
-			background-color: rgb(204 214 221);
-		}
-		&:active {
-			background-color: rgb(179 194 204);
-		}
-	}
-
-	@media (prefers-color-scheme: dark) {
-		::-webkit-scrollbar-thumb {
-			background-color: rgb(51 65 85);
-		}
-	}
-
-	::-webkit-scrollbar,
-	::-webkit-scrollbar-track {
-		width: 14px;
-		height: 14px;
-		background-color: transparent;
-	}
-</style>

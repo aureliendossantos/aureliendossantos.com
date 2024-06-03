@@ -34,3 +34,4 @@ import "$styles/fonts/et-book.css"
 import "$styles/fonts/louize.css"
 import "$styles/fonts/source-serif.css"
 // Sans serif
+import "$styles/fonts/adelle.css"

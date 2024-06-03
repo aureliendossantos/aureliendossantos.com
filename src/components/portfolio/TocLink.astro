@@ -1,0 +1,38 @@
+---
+import type { CollectionEntry } from "astro:content"
+
+interface Props {
+	big?: boolean
+	to: CollectionEntry<"portfolio">
+}
+const { big, to } = Astro.props
+
+const isActive = Astro.url.pathname === `/portfolio/${to.slug}`
+
+const data = to.data
+---
+
+<a
+	class:list={[
+		"group transition",
+		{
+			"line-clamp-2 py-[9px] leading-[1.32] first:pt-[7px]": !big,
+			"line-clamp-3 py-[11px] leading-[1.45] first:pt-[9px]": big,
+			"text-fi-base-300": isActive,
+			"text-fi-black hover:text-fi-orange-400": !isActive,
+		},
+	]}
+	href={`/portfolio/${to.slug}`}
+>
+	<span>{data.title}</span>
+	{
+		big && (
+			<span
+				class="ml-[0.1em] font-extralight text-fi-black transition group-hover:text-fi-orange-400"
+				style={{ fontFeatureSettings: "'onum'" }}
+			>
+				{data.tools.join(", ")}
+			</span>
+		)
+	}
+</a>
