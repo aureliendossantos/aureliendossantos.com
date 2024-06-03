@@ -1,4 +1,5 @@
 ---
+import Image from "$components/Image.astro"
 import IngredientList from "$components/kitchen/IngredientList.astro"
 import KitchenLayout from "$layouts/KitchenLayout.astro"
 import { getCollection } from "astro:content"
@@ -15,15 +16,27 @@ const recipes = await getCollection("recipes")
 		<h2>Ingrédients</h2>
 		<IngredientList ingredients={ingredients} />
 		<h2>Recettes</h2>
-		<ul>
+		<div class="not-prose columns-2 gap-2 medium:columns-1">
 			{
 				recipes.map((recipe) => (
-					<li>
-						<a href={`/kitchen/${recipe.slug}`}>{recipe.data.title}</a>
-					</li>
+					<a
+						class="group mb-2 flex overflow-hidden rounded-md border border-stone-600 transition hover:border-white"
+						href={`/kitchen/${recipe.slug}`}
+					>
+						{recipe.data.cover && (
+							<Image
+								class="h-full w-24 border-r border-stone-700 object-cover"
+								width={200}
+								notZoomable
+								src={recipe.data.cover}
+								alt=""
+							/>
+						)}
+						<div class="p-4 leading-snug">{recipe.data.title}</div>
+					</a>
 				))
 			}
-		</ul>
+		</div>
 	</main>
 	<div class="grow"></div>
 	<footer class="not-prose mt-8 border-t border-stone-700 pt-8 font-sans text-sm text-stone-500">
