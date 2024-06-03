@@ -30,13 +30,14 @@ const relatedTitle = Astro.props.relatedTitle || "Voir aussi"
 	class="fixed bottom-0 z-[999] flex h-7 w-full max-w-full border-neutral-700 bg-black font-work-sans text-sm text-white transition-all"
 >
 	<div id="navbar-main-actions" class="flex">
-		<DropdownMenu id="navbar-explore" label="Explorer" truncate="medium" borderRight chevron>
+		<DropdownMenu id="navbar-explore" label="Portails" truncate="medium" borderRight chevron>
 			<Icon name="carbon:network-1" class="h-[17px]" slot="icon" />
 			<div class="hidden border-x-0 px-3 py-[6px] leading-tight text-neutral-500 medium:block">
 				Explorer
 			</div>
-			<DropdownItem width={106} label="Portfolio" href="/portfolio" />
-			<DropdownItem label="Blog" href="/" />
+			<DropdownItem width={106} label="Accueil" href="/" />
+			<DropdownItem label="Portfolio" href="/portfolio" />
+			<DropdownItem label="Blog" href="/blog" />
 			<DropdownItem label="Appareils" href="/gear" />
 			<DropdownItem label="Cuisine" href="/kitchen" />
 			<DropdownItem label="Journal" href="/diary" />

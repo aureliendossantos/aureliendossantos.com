@@ -27,27 +27,28 @@ type Props = {
 }
 const { title, type, animation } = Astro.props
 
-const paths = { Blog: "/", Catégories: "/categories", Tags: "/tags", Lieux: "/blog/places" }
+const paths = { Blog: "/blog", Catégories: "/categories", Tags: "/tags", Lieux: "/blog/places" }
 const path = paths[type]
 ---
 
 <BaseLayout
 	ogType="website"
 	title={title}
-	font="Work Sans"
+	font="Sofia Sans"
 	navBarProps={{ title: title, parent: { title: "Blog", href: "/" } }}
+	bg={{ light: "white", dark: "black" }}
 >
 	<div class="mx-auto mb-12 max-w-[500px] px-4" transition:animate="initial">
-		<header class="my-12 px-5">
-			<h2 class="text-sm uppercase leading-tight text-slate-300 dark:text-slate-700">
+		<header class="my-10 px-5">
+			<h2 class="text-sm uppercase leading-tight text-neutral-400 dark:text-neutral-700">
 				<a
 					href={path}
-					class="bg-transparent hover:bg-slate-200 hover:text-slate-400 active:bg-slate-300 dark:hover:bg-slate-800 dark:hover:text-slate-600 dark:active:bg-slate-700"
+					class="bg-transparent hover:bg-neutral-200 hover:text-neutral-400 active:bg-neutral-300 dark:hover:bg-neutral-800 dark:hover:text-neutral-600 dark:active:bg-neutral-700"
 				>
 					{type}/
 				</a>
 			</h2>
-			<h1 class="text-2xl leading-tight text-slate-500">
+			<h1 class="text-2xl leading-tight text-neutral-500">
 				<span>{title}</span>
 			</h1>
 			<slot name="header" />

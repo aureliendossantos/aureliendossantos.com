@@ -21,7 +21,7 @@ export interface Props {
 	bg?: Color
 	popupBorderColor?: Color
 	popupLabelActiveBgColor?: Color
-	font?: "Work Sans"
+	font?: "Work Sans" | "Sofia Sans"
 	codeTheme?: ShikiConfig["theme"]
 	paletteName?: PaletteName
 	navBarProps?: NavBarProps
@@ -119,6 +119,7 @@ navBarPropsWithFallback.title ??= title
 			{
 				"font-sans": !font,
 				"font-work-sans": font == "Work Sans",
+				"font-sofia-sans": font == "Sofia Sans",
 			},
 		]}
 		style={{

@@ -35,7 +35,7 @@ const placeEntry = await getEntryBySlug("places", placeId)
 ---
 
 <Explore title={placeEntry?.data.title || ""} type="Lieux" animation="places">
-	<div class="mt-5" slot="header">
+	<div class="mt-3" slot="header">
 		<p>
 			{
 				Object.entries(places).map(([key, value], i) => (

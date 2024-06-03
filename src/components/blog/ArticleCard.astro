@@ -4,6 +4,7 @@ import { getImage } from "astro:assets"
 import getPalette, { getColor } from "$utils/design/palettes"
 import ArticleDate from "../articles/ArticleDate.astro"
 import { Layouts } from "$utils/design/layouts"
+import MarkdownIt from "markdown-it"
 
 interface Props {
 	article: CollectionEntry<"blog">
@@ -18,6 +19,10 @@ const labels = categories // [...categories, ...tags]
 const place =
 	data.places.length > 0 ? (await getEntryBySlug("places", data.places[0]))?.data.title : undefined
 const image = data.image && (await getImage({ src: data.image, width: 900 }))
+
+const markdown = new MarkdownIt({ html: true })
+const title = markdown.renderInline(data.title)
+const description = data.description && markdown.renderInline(data.description)
 ---
 
 <a
@@ -69,7 +74,7 @@ const image = data.image && (await getImage({ src: data.image, width: 900 }))
 								fontWeight: Math.max(600, palette.titleWeight),
 							}}
 						>
-							<span class="bg-[--bg-color] box-decoration-clone px-2 py-1">{data.title}</span>
+							<span set:html={title} class="bg-[--bg-color] box-decoration-clone px-2 py-1" />
 						</h2>
 					</div>
 				</>
@@ -85,14 +90,13 @@ const image = data.image && (await getImage({ src: data.image, width: 900 }))
 		>
 			<div class="order-2">
 				<h2
+					set:html={title + (data.draft ? `<sup>Draft</sup>` : "")}
 					class="mb-2 text-pretty text-2xl font-bold 2xl:text-xl small:text-xl"
 					style={{
 						fontFamily: palette.displayFont,
 						fontWeight: Math.max(600, palette.titleWeight),
 					}}
-				>
-					{data.title}{data.draft && <sup>Draft</sup>}
-				</h2>
+				/>
 			</div>
 			<div
 				class:list={[
@@ -111,14 +115,13 @@ const image = data.image && (await getImage({ src: data.image, width: 900 }))
 		</div>
 	</div>
 	{
-		data.description && (
+		description && (
 			<div class="flex justify-center xl:hidden">
 				<p
+					set:html={description}
 					class="my-14 ml-8 mr-16 min-w-[20rem] max-w-[20rem] 2xl:my-12 2xl:min-w-[17.5rem] 2xl:max-w-[17.5rem] 2xl:text-sm"
 					style={{ fontFamily: palette.baseFont }}
-				>
-					{data.description}
-				</p>
+				/>
 			</div>
 		)
 	}

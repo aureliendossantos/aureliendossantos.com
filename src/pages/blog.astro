@@ -1,0 +1,100 @@
+---
+import ArticleCard from "$components/blog/ArticleCard.astro"
+import BaseLayout from "$layouts/BaseLayout.astro"
+import getBlogPosts, { getDiary } from "$utils/getCollection"
+import DiaryWrapup from "$components/blog/DiaryWrapup.astro"
+import { Icon } from "astro-icon/components"
+
+const articles = await getBlogPosts()
+
+const diary = (await getDiary()).filter((entry) => entry.data.highlight)
+const years = Array.from(new Set(diary.map((entry) => entry.year)))
+---
+
+<BaseLayout
+	ogType="website"
+	title="Blog"
+	description="Blog personnel d'Aurélien Dos Santos."
+	font="Work Sans"
+	bg={{ light: "#ffffff", dark: "#000000" }}
+>
+	<header
+		class="group grid w-full grid-cols-3 items-center bg-white font-sofia-sans text-sm text-black 2xl:text-xs xl:grid-cols-2 mediumlarge:flex mediumlarge:grid-cols-none mediumlarge:flex-col dark:bg-black dark:text-white"
+	>
+		<div class="flex justify-center">
+			<div
+				class="ml-8 mr-16 flex min-w-[20rem] max-w-xs flex-col text-lg 2xl:ml-7 2xl:mr-14 2xl:min-w-[17.5rem] 2xl:max-w-[17.5rem] 2xl:text-base small:mx-0 small:max-w-[20rem]"
+				style={{ fontFamily: "Louize" }}
+			>
+				<div class="my-11 flex justify-between 2xl:my-9 xl:mb-0 xl:mt-6 mediumlarge:mt-9">
+					<h1>
+						<a
+							href="/"
+							class="!text-black decoration-1 underline-offset-4 hover:underline dark:!text-white"
+						>
+							Aurélien Dos Santos</a
+						> / Blog
+					</h1>
+				</div>
+			</div>
+		</div>
+		<div class="flex justify-center">
+			<div
+				class="ml-8 mr-16 flex min-w-[20rem] max-w-xs flex-col uppercase 2xl:ml-7 2xl:mr-14 2xl:min-w-[17.5rem] 2xl:max-w-[17.5rem] small:mx-0 small:max-w-[20rem]"
+			>
+				<div class="my-12 flex gap-5 2xl:my-10 xl:mb-4 mediumlarge:mt-4">
+					<a href="/categories">Catégories</a>
+					<a href="/tags">Tags</a>
+					<a href="/blog/places">Lieux</a>
+				</div>
+			</div>
+		</div>
+		<div class="hidden xl:block"></div>
+		<div class="flex justify-center">
+			<div
+				class="ml-8 mr-16 flex min-w-[20rem] max-w-[20rem] flex-col uppercase 2xl:ml-7 2xl:mr-14 2xl:min-w-[17.5rem]
+				2xl:max-w-[17.5rem] small:mx-0 small:max-w-[20rem]"
+			>
+				<div class="my-12 flex gap-5 2xl:my-10 xl:mt-0">
+					<a href="/portfolio">
+						Portfolio
+						<Icon name="charm:home" class="-mb-[0.11em] inline-block h-[0.85em] align-baseline" />
+					</a>
+					<a href="https://www.youtube.com/@GameDevAlliance">
+						YouTube
+						<Icon
+							name="ic:baseline-launch"
+							class="-mb-[0.1em] inline-block h-[0.9em] align-baseline"
+						/>
+					</a>
+					<a href="https://www.linkedin.com/in/aureliendossantos/">
+						LinkedIn
+						<Icon
+							name="ic:baseline-launch"
+							class="-mb-[0.1em] inline-block h-[0.9em] align-baseline"
+						/>
+					</a>
+				</div>
+			</div>
+		</div>
+	</header>
+	{
+		articles.map((article, index) => (
+			<>
+				<ArticleCard article={article} entryIndex={articles.length - index} />
+				{(() => {
+					if (!articles[index + 1]) return
+					const year = article.data.date.getFullYear()
+					const nextYear = articles[index + 1].data.date.getFullYear()
+					if (year != nextYear && years.find((y) => y == year)) return <DiaryWrapup year={year} />
+				})()}
+			</>
+		))
+	}
+</BaseLayout>
+
+<style>
+	header a {
+		@apply text-neutral-600 hover:text-black dark:text-neutral-300 dark:hover:text-white;
+	}
+</style>

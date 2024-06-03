@@ -30,7 +30,7 @@ const { articles, tags } = Astro.props
 ---
 
 <Explore title={tag || ""} type="Tags" animation="tags">
-	<div class="mt-5" slot="header">
+	<div class="mt-3" slot="header">
 		<p>
 			{
 				Object.entries(tags).map(([key, value]) => (
