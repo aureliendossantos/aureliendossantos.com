@@ -55,6 +55,7 @@ type PaletteDeclaration = {
 	specialFont?: string
 	codeFont?: string
 	fontSize?: `${string}px`
+	codeFontSize?: `${string}em`
 	titleWeight?: number
 	lineHeight?: number
 	pageWidth?: `${number}ch`
@@ -76,6 +77,7 @@ export enum PaletteName {
 	blue = "blue",
 	brown = "brown",
 	green = "green",
+	palermo = "palermo",
 	guidebook = "guidebook",
 	nature = "nature",
 	sourceSerif = "source-serif",
@@ -106,6 +108,7 @@ export default function getPalette(name: PaletteName | undefined): Palette {
 		displayFont: p.displayFont || p.headingsFont || p.baseFont,
 		specialFont: p.specialFont || p.baseFont,
 		codeFont: p.codeFont || "monospace",
+		codeFontSize: p.codeFontSize || "1em",
 		fontSize: p.fontSize || "16px",
 		titleWeight: p.titleWeight || 700,
 		lineHeight: p.lineHeight || 1.25,
@@ -127,6 +130,7 @@ const getPaletteDeclaration = (name: PaletteName | undefined): PaletteDeclaratio
 				headingsFont: "serif",
 				baseFont: "serif",
 				specialFont: "monospace",
+				titleWeight: 400,
 			}
 		case "air":
 			return {
@@ -202,6 +206,16 @@ const getPaletteDeclaration = (name: PaletteName | undefined): PaletteDeclaratio
 				secondaryColor: "lightgrey",
 				specialColor: "#BFA97C",
 				bgColor: "#458f44",
+				headingsFont: "sans-serif",
+				baseFont: "serif",
+				specialFont: "monospace",
+			}
+		case "palermo":
+			return {
+				baseColor: "#BACBB2",
+				secondaryColor: "#E1B978",
+				specialColor: "#E1B978",
+				bgColor: "#222225",
 				headingsFont: "sans-serif",
 				baseFont: "serif",
 				specialFont: "monospace",

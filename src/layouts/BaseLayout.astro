@@ -1,6 +1,6 @@
 ---
-import "$styles/tailwind.css"
 import "$styles/fonts"
+import "$styles/tailwind.css"
 import "$styles/icons.css"
 import { ViewTransitions } from "astro:transitions"
 import MediumZoom from "$components/MediumZoom.astro"
@@ -82,7 +82,7 @@ navBarPropsWithFallback.title ??= title
 			href="/rss.xml"
 			title="Blog d'Aurélien Dos Santos"
 		/>
-		<title>{title} - Aurélien Dos Santos</title>
+		<title>{title} · Aurélien Dos Santos</title>
 		{description && <meta name="description" content={description} />}
 		<meta name="theme-color" media="(prefers-color-scheme: light)" content={background} />
 		<meta name="theme-color" media="(prefers-color-scheme: dark)" content={darkBackground} />
@@ -115,7 +115,7 @@ navBarPropsWithFallback.title ??= title
 	<body
 		class:list={[
 			layout,
-			"bg-[--bg] dark:bg-[--dark-bg] dark:text-slate-200",
+			"bg-[--bg] dark:bg-[--dark-bg]",
 			{
 				"font-sans": !font,
 				"font-work-sans": font == "Work Sans",

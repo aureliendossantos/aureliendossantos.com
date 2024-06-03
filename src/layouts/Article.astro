@@ -20,7 +20,7 @@ interface Props {
 const { article, headings } = Astro.props
 const data = article.data
 const date = "date" in data ? data.date : undefined
-const wide = "categories" in data && data.categories.includes("Photos")
+const wide = "categories" in data && data.categories.includes("Photos") && !data.forceNarrow
 // Alternative layouts
 const customLayout = data.customLayout
 const sidenotes = data.sidenotes
@@ -64,7 +64,7 @@ const parent = !isBlog && data.parent && (await getEntry("pages", data.parent))
 	}}
 >
 	<div
-		class="article-styling notw"
+		class:list={["article-styling notw", { "with-sidenotes": sidenotes }]}
 		style={{
 			"--base-color": getColor(palette.baseColor),
 			"--dark-base-color": getColor(palette.baseColor, "dark"),
@@ -74,6 +74,8 @@ const parent = !isBlog && data.parent && (await getEntry("pages", data.parent))
 			"--dark-special-color": getColor(palette.specialColor, "dark"),
 			"--bg-color": getColor(palette.bgColor),
 			"--dark-bg-color": getColor(palette.bgColor, "dark"),
+			"--border-color": getColor(palette.popupBorderColor),
+			"--dark-border-color": getColor(palette.popupBorderColor, "dark"),
 			"--bg-mention-color": getColor(palette.mentionBgColor),
 			"--dark-bg-mention-color": getColor(palette.mentionBgColor, "dark"),
 			"--bg-mention-hover-color": getColor(palette.mentionHoverBgColor),
@@ -82,6 +84,7 @@ const parent = !isBlog && data.parent && (await getEntry("pages", data.parent))
 			"--code-font": palette.codeFont,
 			"--font-size": palette.fontSize,
 			"--sm-font-size": "16px",
+			"--code-font-size": palette.codeFontSize,
 			"--line-height": palette.lineHeight,
 			"--sm-line-height": palette.lineHeight * 1.1,
 			"--indent": "calc(var(--font-size) * var(--line-height))",
@@ -93,6 +96,7 @@ const parent = !isBlog && data.parent && (await getEntry("pages", data.parent))
 		<ArticleHeader
 			title={data.title}
 			description={data.description}
+			tags={data.tags}
 			date={date}
 			cover={coverImage}
 			palette={palette}
