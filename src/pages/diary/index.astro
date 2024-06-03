@@ -113,7 +113,6 @@ const filters = [
 </DiaryLayout>
 
 <script>
-	import Cookies from "js-cookie"
 	function runFilters() {
 		const entries = document.querySelectorAll(".diary-entry") as NodeListOf<HTMLLinkElement>
 		const checkboxes = document.querySelectorAll(
@@ -137,16 +136,16 @@ const filters = [
 	}
 
 	function initFiltering() {
-		const cookieName = "diaryFilters"
-		// Parsing the cookie containing
-		let parsedCookie = undefined
+		const itemName = "diaryFilters"
+		// Parsing the local storage item containing the filters
+		let parsedItem = undefined
 		try {
-			const cookie = Cookies.get(cookieName)
-			parsedCookie = cookie && JSON.parse(cookie)
+			const item = localStorage.getItem(itemName)
+			parsedItem = item && JSON.parse(item)
 		} catch (error) {
-			console.error("Invalid cookie:", error)
+			console.error("Invalid localStorage item:", error)
 		}
-		window.diaryFilters ??= parsedCookie || {
+		window.diaryFilters ??= parsedItem || {
 			lists: true,
 			trips: true,
 			personal: false,
@@ -176,7 +175,7 @@ const filters = [
 			checkbox.checked = window.diaryFilters[checkbox.id]
 			checkbox.addEventListener("change", () => {
 				window.diaryFilters[checkbox.id] = checkbox.checked
-				Cookies.set(cookieName, JSON.stringify(window.diaryFilters), { expires: 365 })
+				localStorage.setItem(itemName, JSON.stringify(window.diaryFilters))
 				runFilters()
 			})
 		})
