@@ -12,7 +12,6 @@ const { removeFootnotes } = Astro.props
 
 <script>
 	document.addEventListener("astro:page-load", () => {
-		console.log("Generating sidenotes...")
 		// The template of future sidenotes. If it's not found, it means the script is executing even though this component was not supposed to be imported, so we don't do anything.
 		const template = document.querySelector(
 			`template#sidenote-template`

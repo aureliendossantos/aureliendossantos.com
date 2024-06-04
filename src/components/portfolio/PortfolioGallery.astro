@@ -1,16 +1,18 @@
 ---
 import MarginNote from "$components/mdx/Tufte/MarginNote.astro"
+import MarkdownIt from "markdown-it"
 
 interface Props {
 	height: number
 	caption: string
 }
-const { height, caption } = Astro.props
+const { height, caption: c } = Astro.props
+const caption = c && MarkdownIt({ html: true }).renderInline(c)
 ---
 
 <div class="relative">
 	<div
-		class="pf-gallery not-prose -mx-12 my-[1.7em] -mr-[calc(3rem+1.5px)] divide-x-[1.5px] divide-fi-base-100 overflow-x-auto whitespace-nowrap border-y-[1.5px] border-r-[1.5px] border-fi-base-100 bg-fi-base-50"
+		class="pf-gallery not-prose -mx-12 my-[1.7em] -mr-[calc(3rem+1.5px)] divide-x-[1.5px] divide-fi-base-100 overflow-x-auto whitespace-nowrap border-y-[1.5px] border-r-[1.5px] border-fi-base-100 bg-fi-base-50 medium:-mx-6"
 		style={{ height: `${height}px` }}
 	>
 		<slot />
@@ -18,7 +20,7 @@ const { height, caption } = Astro.props
 	{
 		caption && (
 			<div class="absolute bottom-0 w-full translate-y-[38px] xl:static xl:-translate-y-[27px]">
-				<MarginNote>{caption}</MarginNote>
+				<MarginNote set:html={caption} />
 			</div>
 		)
 	}

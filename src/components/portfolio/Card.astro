@@ -1,5 +1,6 @@
 ---
 import Image from "$components/Image.astro"
+import Video from "$components/mdx/figures/Video.astro"
 import Badge from "./Badge.astro"
 import type { ValidContentEntrySlug } from "astro:content"
 import { getEntryBySlug } from "astro:content"
@@ -16,15 +17,25 @@ const data = entry.data
 
 <a
 	class:list={[
-		"group divide-fi-base-100 border-[1.5px] border-fi-base-100 transition duration-300 ease-in-out hover:divide-fi-base-150 hover:border-fi-base-150 active:divide-fi-base-200 active:border-fi-base-200",
+		"group border-[1.5px] border-fi-base-100 transition duration-300 ease-in-out hover:border-fi-base-150 active:border-fi-base-200",
 		{
-			"flex flex-col divide-y-[1.5px]": layout == "vertical",
-			"group col-span-2 flex divide-x-[1.5px] medium:flex medium:flex-col medium:divide-x-0 medium:divide-y-[1.5px]":
-				layout == "horizontal",
+			"flex flex-col": layout == "vertical",
+			"group col-span-2 flex medium:flex medium:flex-col": layout == "horizontal",
 		},
 	]}
 	href={`/portfolio/${entry.slug}`}
 >
+	{
+		data.video && (
+			<Video
+				src={import(data.video)}
+				poster={data.image?.src}
+				gif
+				class="z-10 hidden aspect-[2.3/1] h-full bg-fi-base-200 object-cover brightness-[100%] contrast-[100%] grayscale invert-[26%] sepia-[30%] transition-all duration-300 ease-in-out group-hover:block group-hover:filter-none medium:aspect-[2.6/1] medium:h-auto medium:filter-none"
+				noFallbackText
+			/>
+		)
+	}
 	{
 		data.image && (
 			<Image
@@ -33,15 +44,27 @@ const data = entry.data
 				class:list={[
 					/*"aspect-[2.3/1] h-full bg-fi-base-200 object-cover brightness-[92%] contrast-[93%] grayscale invert-[19%] sepia-[30%] transition-all duration-300 ease-in-out group-hover:filter-none medium:aspect-[2.6/1]",
 					{ "w-[188px] max-w-none medium:w-auto medium:max-w-full": layout == "horizontal" },*/
-					"aspect-[2.3/1] h-full bg-fi-base-200 object-cover brightness-[100%] contrast-[100%] grayscale invert-[26%] sepia-[30%] transition-all duration-300 ease-in-out group-hover:filter-none medium:aspect-[2.6/1]",
-					{ "w-[188px] max-w-none medium:w-auto medium:max-w-full": layout == "horizontal" },
+					"aspect-[2.3/1] h-full bg-fi-base-200 object-cover brightness-[100%] contrast-[100%] grayscale invert-[26%] sepia-[30%] transition-all duration-300 ease-in-out group-hover:filter-none medium:aspect-[2.6/1] medium:h-auto medium:filter-none",
+					{
+						"w-[188px] max-w-none medium:w-auto medium:max-w-full": layout == "horizontal",
+						"object-[50%_22%]": data.imageAnchorTop,
+						"group-hover:hidden": data.video,
+					},
 				]}
 				notZoomable
 				alt=""
 			/>
 		)
 	}
-	<div class="relative p-6 transition">
+	<div
+		class:list={[
+			"relative p-6 transition duration-300 ease-in-out group-hover:border-fi-base-150 group-active:border-fi-base-200",
+			{
+				"border-t-[1.5px]": layout == "vertical",
+				"border-l-[1.5px] medium:border-l-0 medium:border-t-[1.5px]": layout == "horizontal",
+			},
+		]}
+	>
 		<div
 			class:list={{ "flex flex-wrap gap-x-2 gap-y-[6px] medium:flex-col": layout == "horizontal" }}
 		>

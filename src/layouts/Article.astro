@@ -54,7 +54,7 @@ const parent = !isBlog && data.parent && (await getEntry("pages", data.parent))
 	navBarProps={{
 		title: data.title,
 		parent: isBlog
-			? { title: "Blog", href: "/" }
+			? { title: "Blog", href: "/blog" }
 			: parent
 				? { title: parent.data.title, href: `/${parent.slug}` }
 				: undefined,

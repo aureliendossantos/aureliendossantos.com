@@ -12,8 +12,9 @@ interface Props extends Omit<HTMLAttributes<"video">, "src"> {
 	compat?: singleSrc
 	caption?: string
 	gif?: boolean
+	noFallbackText?: boolean
 }
-const { src, compat, caption, gif, ...attributes } = Astro.props
+const { src, compat, caption, gif, noFallbackText, ...attributes } = Astro.props
 
 const resolveSrc = async (src: singleSrc) => {
 	if (typeof src === "string") return src
@@ -51,12 +52,16 @@ if (compat) {
 				<source src={source.src} type={"type" in source ? source.type : undefined} />
 			))
 		}
-		<p>
-			Désolé, votre navigateur ne peut pas lire cette vidéo. Vous pouvez
-			<a href="/about">me contacter</a>
-			pour me signaler le problème ou
-			<a href={sources[0].src}>télécharger la vidéo</a>.
-		</p>
+		{
+			!noFallbackText && (
+				<p>
+					Désolé, votre navigateur ne peut pas lire cette vidéo. Vous pouvez
+					<a href="/about">me contacter</a>
+					pour me signaler le problème ou
+					<a href={sources[0].src}>télécharger la vidéo</a>.
+				</p>
+			)
+		}
 	</video>
 	{
 		Astro.slots.has("default") && (
