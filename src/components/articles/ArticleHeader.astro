@@ -1,6 +1,7 @@
 ---
 import { getColor, type Palette } from "$utils/design/palettes"
 import ArticleDate from "./ArticleDate.astro"
+import MarkdownIt from "markdown-it"
 import { getImage } from "astro:assets"
 import { Layouts } from "$utils/design/layouts"
 import { PaletteName } from "$utils/design/palettes"
@@ -8,6 +9,7 @@ import { PaletteName } from "$utils/design/palettes"
 interface Props {
 	title?: string
 	description?: string
+	tags?: string[]
 	date?: Date
 	cover?: ImageMetadata
 	palette: Palette
@@ -16,13 +18,27 @@ interface Props {
 	wide?: boolean
 	anchorTop?: boolean
 }
-const { title, description, date, cover, palette, layouts, sidenotes, wide, anchorTop } =
-	Astro.props
+const {
+	title: t,
+	description: d,
+	tags,
+	date,
+	cover,
+	palette,
+	layouts,
+	sidenotes,
+	wide,
+	anchorTop,
+} = Astro.props
 
 const optimizedCover = cover && (await getImage({ src: cover, width: Math.min(1920, cover.width) }))
 const cormorant = layouts.includes(Layouts.cormorant)
 const louize = palette.name == PaletteName.louize
 const tufte = palette.name == PaletteName.tufte
+
+const markdown = new MarkdownIt({ html: true })
+const title = t && markdown.renderInline(t)
+const description = d && markdown.renderInline(d)
 ---
 
 <header
@@ -58,6 +74,7 @@ const tufte = palette.name == PaletteName.tufte
 	>
 		<div class:list={{ "max-w-[--page-width]": sidenotes && !tufte }}>
 			<h1
+				set:html={title}
 				class:list={[
 					"text-[--h1] dark:text-[--dark-h1]",
 					{ "mb-0 !leading-tight": cormorant, "mt-[2.2em]": tufte },
@@ -73,15 +90,14 @@ const tufte = palette.name == PaletteName.tufte
 					letterSpacing: louize ? "0.2em" : undefined,
 					fontSize: louize ? "1.3em" : tufte ? "2.5em" : undefined,
 					marginTop: louize ? "4em" : undefined,
-					marginBottom: louize || tufte ? "0.5em" : undefined,
+					marginBottom: louize || tufte ? "calc(var(--indent) - 6px)" : undefined,
 					lineHeight: louize || tufte ? "1" : undefined,
 				}}
-			>
-				{title}
-			</h1>
+			/>
 			{
 				description && (
 					<p
+						set:html={description}
 						class:list={{
 							"!my-[1em]": cormorant,
 							"my-0 text-[1.41em] italic leading-tight": tufte,
@@ -93,9 +109,7 @@ const tufte = palette.name == PaletteName.tufte
 									? '"Source Serif Subhead", "Source Serif", serif'
 									: undefined,
 						}}
-					>
-						{description}
-					</p>
+					/>
 				)
 			}
 			{

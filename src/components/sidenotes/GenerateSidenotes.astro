@@ -13,7 +13,7 @@ const { removeFootnotes } = Astro.props
 <script>
 	document.addEventListener("astro:page-load", () => {
 		console.log("Generating sidenotes...")
-		// The template of future sidenotes. If it's not found, this component was not supposed to be imported, so we don't do anything.
+		// The template of future sidenotes. If it's not found, it means the script is executing even though this component was not supposed to be imported, so we don't do anything.
 		const template = document.querySelector(
 			`template#sidenote-template`
 		) as HTMLTemplateElement | null
@@ -32,7 +32,6 @@ const { removeFootnotes } = Astro.props
 		 * section. That's because a footnote can reference another footnote, and we don't want to replace the sup
 		 * element in that case. Keep in mind that reference in footnotes won't alter the numbering, as the footnotes
 		 * are initially rendered at the end of the page.
-		 *
 		 */
 
 		const updateReferenceToSidenote = (a: HTMLAnchorElement) => {

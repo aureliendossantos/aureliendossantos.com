@@ -17,11 +17,16 @@ import Card from "$components/portfolio/Card.astro"
 		class="m-auto max-w-[820px] px-[43px] pb-24 pt-14 font-adelle-sans text-xl text-fi-black medium:text-lg"
 	>
 		<header>
-			<div class="text-sm font-semibold text-fi-base-300">Aurélien Dos Santos</div>
+			<a
+				href="/"
+				class="text-sm font-semibold text-fi-base-300 transition hover:text-fi-orange-400"
+			>
+				Aurélien Dos Santos
+			</a>
 			<div class="text-2xl font-extralight">Portfolio</div>
 		</header>
-		<div class="mt-9 grid grid-cols-2 gap-3 text-sm">
-			<div class="flex flex-col justify-between pr-[21.5px]">
+		<div class="mt-9 grid grid-cols-2 gap-3 text-sm medium:grid-cols-1">
+			<div class="flex flex-col justify-between pr-[21.5px] medium:order-2 medium:pr-0">
 				<div>
 					<LinkItem
 						href="https://www.youtube.com/@GameDevAlliance"
@@ -48,7 +53,7 @@ import Card from "$components/portfolio/Card.astro"
 					</a>
 				</div>
 			</div>
-			<p class="pl-[21.5px] text-fi-base-600">
+			<p class="pl-[21.5px] text-fi-base-600 medium:pl-0">
 				Ingénieur pédagogique de formation, je suis en quête de nouvelles opportunités en tant que
 				développeur web et multimédia.
 			</p>

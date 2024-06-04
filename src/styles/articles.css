@@ -223,7 +223,7 @@ h3:before {
 
 	code,
 	pre {
-		@apply font-[family-name:--code-font];
+		@apply font-[family-name:--code-font] text-[length:--code-font-size];
 	}
 
 	pre {

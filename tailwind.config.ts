@@ -28,8 +28,9 @@ export default {
 				"snow-2": "#595555",
 				"snow-3": "#353336",
 				"dandelion-1": "#2C3744",
-				"dandelion-2": "#E7E9B7",
-				"dandelion-3": "#FBF6EB",
+				"dandelion-2": "#2c443e",
+				"dandelion-3": "#E7E9B7",
+				"dandelion-4": "##FBF4EA",
 				"fi-black": "#100F0F", // text
 				"fi-base-600": "#6F6E69", // muted text
 				"fi-base-300": "#B7B5AC", // faint text
