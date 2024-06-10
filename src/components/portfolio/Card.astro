@@ -28,7 +28,7 @@ const data = entry.data
 	{
 		data.video && (
 			<Video
-				src={import(data.video)}
+				src={data.video}
 				poster={data.image?.src}
 				gif
 				class="z-10 hidden aspect-[2.3/1] h-full bg-fi-base-200 object-cover brightness-[100%] contrast-[100%] grayscale invert-[26%] sepia-[30%] transition-all duration-300 ease-in-out group-hover:block group-hover:filter-none medium:aspect-[2.6/1] medium:h-auto medium:filter-none"
