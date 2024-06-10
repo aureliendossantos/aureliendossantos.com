@@ -32,18 +32,14 @@ const { articles, categories } = Astro.props
 ---
 
 <Explore title={category || ""} type="Catégories" animation="categories">
-	<div class="mt-3" slot="header">
-		<p>
-			{
-				Object.entries(categories).map(([key, value]) => (
-					<>
-						<TagLabel label={key} count={value} type={"category"} disabled={category == key} />{" "}
-					</>
-				))
-			}
-		</p>
-	</div>
-	<main class="flex flex-col shadow">
-		{articles.map((article) => <ArticleCardMinimal article={article} />)}
-	</main>
+	<p slot="tags">
+		{
+			Object.entries(categories).map(([key, value]) => (
+				<>
+					<TagLabel label={key} count={value} type={"category"} disabled={category == key} />{" "}
+				</>
+			))
+		}
+	</p>
+	{articles.map((article) => <ArticleCardMinimal article={article} />)}
 </Explore>

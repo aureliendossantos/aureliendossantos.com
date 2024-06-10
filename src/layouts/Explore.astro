@@ -22,13 +22,13 @@ export async function getStaticPaths() {
 
 type Props = {
 	title: string
-	type: "Blog" | "Catégories" | "Tags" | "Lieux"
+	type?: "Catégories" | "Tags" | "Lieux"
 	animation: "categories" | "tags" | "places"
 }
 const { title, type, animation } = Astro.props
 
-const paths = { Blog: "/blog", Catégories: "/categories", Tags: "/tags", Lieux: "/blog/places" }
-const path = paths[type]
+const paths = { Catégories: "/categories", Tags: "/tags", Lieux: "/blog/places" }
+const path = type && paths[type]
 ---
 
 <BaseLayout
@@ -38,21 +38,35 @@ const path = paths[type]
 	navBarProps={{ title: title, parent: { title: "Blog", href: "/" } }}
 	bg={{ light: "white", dark: "black" }}
 >
-	<div class="mx-auto mb-12 max-w-[500px] px-4" transition:animate="initial">
-		<header class="my-10 px-5">
-			<h2 class="text-sm uppercase leading-tight text-neutral-400 dark:text-neutral-700">
-				<a
-					href={path}
-					class="bg-transparent hover:bg-neutral-200 hover:text-neutral-400 active:bg-neutral-300 dark:hover:bg-neutral-800 dark:hover:text-neutral-600 dark:active:bg-neutral-700"
-				>
-					{type}/
-				</a>
+	<div transition:animate="initial">
+		<header class="mx-auto my-10 mb-12 max-w-[500px] px-5">
+			<h2 class="text-sm uppercase text-neutral-600 dark:text-neutral-300">
+				<a href="/blog" class="hover:text-black dark:hover:text-white"> Blog </a>
+				/
+				{
+					path && (
+						<>
+							<a href={path} class="hover:text-black dark:hover:text-white">
+								{type}
+							</a>
+							/
+						</>
+					)
+				}
 			</h2>
-			<h1 class="text-2xl leading-tight text-neutral-500">
+			<h1 class="text-2xl leading-snug text-black dark:text-white" style={{ fontFamily: "Louize" }}>
 				<span>{title}</span>
 			</h1>
-			<slot name="header" />
+			{
+				Astro.slots.has("tags") && (
+					<div class="mt-3">
+						<slot name="tags" />
+					</div>
+				)
+			}
 		</header>
-		<slot />
+		<main class="flex flex-col overflow-hidden">
+			<slot />
+		</main>
 	</div>
 </BaseLayout>

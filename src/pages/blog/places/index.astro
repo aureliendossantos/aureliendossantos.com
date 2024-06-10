@@ -32,10 +32,7 @@ Object.entries(places).forEach(([key, value]) => {
 })
 ---
 
-<Explore title={"Lieux"} type="Blog" animation="places">
-	<div class="mt-[42px]" slot="header">
-		<p></p>
-	</div>
+<Explore title={"Lieux"} animation="places">
 	<main>
 		{
 			Object.entries(places).map(([key, value]) => {
@@ -43,18 +40,19 @@ Object.entries(places).forEach(([key, value]) => {
 					<>
 						<h2
 							class:list={[
-								"mt-[42px] px-5 text-base leading-tight",
+								"mx-auto mt-[42px] max-w-[500px] px-5 text-base leading-tight",
 								{ "-mb-8": value.articlesAmount == 0, "mb-[14px]": value.articlesAmount != 0 },
 							]}
+							style={{ fontFamily: "Louize" }}
 						>
 							<a
 								href={`/blog/places/${value.slug}`}
-								class="text-neutral-500 hover:text-neutral-400 active:text-neutral-500 dark:hover:text-neutral-600 dark:active:text-neutral-500"
+								class="text-black hover:text-neutral-500 dark:text-white dark:hover:text-neutral-500"
 							>
 								{value.place?.data.title}
 							</a>
 						</h2>
-						<main class="flex flex-col shadow">
+						<main class="flex flex-col">
 							{value.articles.map((article) => (
 								<ArticleCardMinimal article={article} noPlace />
 							))}

@@ -52,7 +52,7 @@ const placeEntry = await getEntryBySlug("places", placeId)
 			}
 		</p>
 	</div>
-	<main class="flex flex-col shadow">
+	<main class="flex flex-col">
 		{articles.map((article) => <ArticleCardMinimal article={article} noPlace />)}
 	</main>
 </Explore>

@@ -9,16 +9,14 @@ const rawCategories = allArticles.map((article) => article.data.categories)
 const categories = getUniqueValuesAndOccurences(rawCategories)
 ---
 
-<Explore title="Catégories" type="Blog" animation="categories">
-	<div class="mt-3" slot="header">
-		<p>
-			{
-				Object.entries(categories).map(([key, value]) => (
-					<>
-						<TagLabel label={key} count={value} type={"category"} />{" "}
-					</>
-				))
-			}
-		</p>
-	</div>
+<Explore title="Catégories" animation="categories">
+	<p slot="tags">
+		{
+			Object.entries(categories).map(([key, value]) => (
+				<>
+					<TagLabel label={key} count={value} type={"category"} />{" "}
+				</>
+			))
+		}
+	</p>
 </Explore>
