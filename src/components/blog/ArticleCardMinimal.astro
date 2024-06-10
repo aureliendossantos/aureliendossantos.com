@@ -20,18 +20,24 @@ const place =
 ---
 
 <a
-	class="duration-80 scale-100 bg-[--bg] bg-cover bg-center text-[--bg] ease-out hover:z-10 hover:scale-[1.02]"
+	class="duration-80 scale-100 bg-[--bg] ease-out hover:z-10 hover:scale-[1.02]"
 	style={{
+		fontFamily: palette.baseFont,
 		"--bg": getColor(palette.bgColor),
 		"--text": getColor(palette.baseColor),
 		"--secondary-color": getColor(palette.secondaryColor),
-		backgroundImage: showCover()
-			? `linear-gradient(${palette.bgColor}99, ${palette.bgColor}49), url('${optimizedBackground?.src}')`
-			: "none",
 	}}
 	href={"/" + article.slug}
 >
-	<div class="px-5 py-[14px] text-[--text]" style={{ fontFamily: palette.baseFont }}>
+	<div
+		class="mx-auto max-w-[calc(500px+2em)] bg-[--bg] bg-cover bg-center px-[calc(20px+1em)] py-[14px] text-[--text] small:px-5"
+		style={{
+			backgroundImage: showCover()
+				? `linear-gradient(${palette.bgColor}99, ${palette.bgColor}49), url('${optimizedBackground?.src}')`
+				: "none",
+			boxShadow: "inset 2em 0 1em -1em var(--bg), inset -2em 0 1em -1em var(--bg)",
+		}}
+	>
 		<span class="mb-2 text-lg font-bold" style={{ fontFamily: palette.headingsFont }}>
 			{data.title}{data.draft && " [Draft]"}
 		</span>

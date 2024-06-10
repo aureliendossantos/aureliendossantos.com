@@ -1,58 +1,15 @@
 ---
-import RefBlock from "$components/RefBlock.astro"
 import ArticleDate from "$components/articles/ArticleDate.astro"
 import { getEntryBySlug } from "astro:content"
-import getPalette, { getColor } from "$utils/design/palettes"
-import formatDate from "$utils/formatting/formatDate"
 
 interface Props {
 	slug: string
-	titleOnly?: boolean
-	card?: boolean
+	date?: boolean
 }
-const { slug, titleOnly, card } = Astro.props
+const { slug, date } = Astro.props
 
 const article = await getEntryBySlug("blog", slug)
-if (!article) return console.error(`BlogRef: article ${slug} can't be found`)
-const palette = getPalette(article.data.palette)
+if (!article) throw new Error(`BlogRef: article ${slug} can't be found`)
 ---
 
-{
-	article &&
-		(card ? (
-			<RefBlock
-				img={article.data.image?.src}
-				title={article.data.title}
-				infos={[formatDate(article.data.date), article.data.description || ""]}
-				links={[["Blog", `/${slug}`]]}
-				big
-			/>
-		) : (
-			<span
-				class="my-[-1px] rounded border border-solid border-neutral-500 bg-[--bg-color] px-[2px] text-[--base-color]"
-				style={{
-					"--bg-color": getColor(palette.bgColor),
-					"--base-color": getColor(palette.baseColor),
-					"--secondary-color": getColor(palette.secondaryColor),
-					fontFamily: palette.baseFont,
-				}}
-			>
-				{!titleOnly && <span class="text-[--base-color]">Aurélien Dos Santos,</span>}
-				<a
-					href={"/" + article.slug}
-					style={{
-						fontFamily: palette.headingsFont,
-						textDecoration: "none",
-						bgColor: "transparent !important",
-					}}
-				>
-					{titleOnly ? article.data.title : `« ${article.data.title} »,`}
-				</a>
-				{!titleOnly && (
-					<span class="text-[--base-cover]">
-						<ArticleDate date={article.data.date} />
-					</span>
-				)}
-			</span>
-		))
-}
+<a href={"/" + article.slug}>{article.data.title}</a>{date && <span> (<ArticleDate date={article.data.date} yearOnly />)</span>}
