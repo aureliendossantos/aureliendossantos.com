@@ -1,0 +1,29 @@
+---
+import { getColor, type Palette } from "$utils/design/palettes"
+
+interface Props {
+	palette: Palette
+	big?: boolean
+}
+const { palette, big } = Astro.props
+---
+
+<div
+	class:list={["flex items-stretch rounded p-[2px] gap-[2px] ring-1 ring-[--ring]", { "h-[1em] w-[1em]": !big, "h-28 w-40": big}]}
+	style={{
+		color: getColor(palette.baseColor),
+		backgroundColor: getColor(palette.bgColor),
+		"--ring": getColor(palette.baseColor),
+	}}
+>
+	<div class="max-w-1 h-full w-[33%] flex flex-col gap-[0.05em]">
+		<div class="rounded-sm grow" style={{ backgroundColor: getColor(palette.baseColor) }}></div>
+		<div class="rounded-sm grow" style={{ backgroundColor: getColor(palette.secondaryColor) }}></div>
+		<div class="rounded-sm grow" style={{ backgroundColor: getColor(palette.specialColor) }}></div>
+	</div>
+	<div
+		class:list={[{ "text-center text-[10px] leading-none": !big, "text-sm leading-tight p-2 pb-[6px] pt-[10px] flex flex-col justify-between": big }]}
+	>
+		{big ? <h3 class="capitalize text-lg" style={{ fontFamily: palette.displayFont, fontWeight: palette.titleWeight }}>{palette.name}</h3><p class="text-balance" style={{ fontFamily: palette.baseFont, lineHeight: palette.lineHeight }}>This text is a content paragraph.</p> : <span style={{ fontFamily: palette.baseFont }}>A<!--Aa--></span>}
+	</div>
+</div>

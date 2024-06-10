@@ -1,0 +1,19 @@
+---
+import getPalette from "$utils/design/palettes"
+import { PaletteName } from "$utils/design/palettes"
+import PalettePreview from "$components/PalettePreview.astro"
+import BaseLayout from "$layouts/BaseLayout.astro"
+
+// map over each item of the PaletteName enum and apply getPalette() to them
+const palettes = Object.values(PaletteName).map((paletteName) => getPalette(paletteName))
+---
+
+<BaseLayout
+	ogType="website"
+	title="Palettes"
+	description="A collection of color palettes available on this website."
+>
+	<div class="flex flex-wrap gap-x-6 gap-y-3 p-12">
+		{palettes.map((palette) => <PalettePreview big palette={palette} />)}
+	</div>
+</BaseLayout>
