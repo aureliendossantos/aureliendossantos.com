@@ -1,38 +1,45 @@
 ---
 import formatDate from "$utils/formatting/formatDate"
 import { Icon } from "astro-icon/components"
-import { getWikiCategories, getWikiPages } from "$utils/getCollection"
+import { getWikiPages } from "$utils/getCollection"
+import { getCollection } from "astro:content"
 
-const categories = await getWikiCategories()
 const pages = await getWikiPages()
+const tags = await getCollection("tags")
 ---
 
-{
-	categories.map((category) => (
-		<>
-			<h2 class:list={[{ "mb-0": category.description }]}>{category.title}</h2>
-			{category.description && <p class="text-neutral-500">{category.description}</p>}
-			<ul class="not-prose -mx-3 flex flex-col">
-				{pages
-					.filter((page) => page.categoryId == category.id)
-					.map((page) => {
-						return (
-							<a
-								class="z-0 -mt-[1px] border border-neutral-300 px-3 py-3 leading-snug transition first:mt-0 first:rounded-t last:rounded-b hover:z-10 hover:border-neutral-500 dark:border-neutral-700"
-								href={`/wiki/${page.slug}`}
-							>
-								<div class="flex justify-between">
-									<h3>{page.title}</h3>
-									<p class="text-neutral-500">
-										<Icon name="material-symbols:update-rounded" class="mb-[0.2em] inline-block" />
-										{formatDate(new Date(page.editedTime))}
-									</p>
+<h2>Toutes les pages</h2>
+<ul class="not-prose flex flex-col">
+	{
+		pages.map((page) => {
+			const pageTags = tags.filter((tag) => page.tags.includes(tag.slug))
+			return (
+				<div class="z-0 py-[10px] leading-snug transition">
+					<div class="flex gap-2">
+						{page.status && page.status.icon}
+						<div class="grow">
+							<div class="flex grow gap-2">
+								<a href={`/wiki/${page.slug}`} class="grow">
+									{page.title}
+								</a>
+								{pageTags.map((tag) => (
+									<a
+										href={`/tags/${tag.slug}`}
+										class="rounded bg-neutral-100 px-1 text-neutral-500 transition hover:bg-neutral-200"
+									>
+										{tag.data.title}
+									</a>
+								))}
+								<div class="text-neutral-500">
+									<Icon name="material-symbols:update-rounded" class="mb-[0.2em] inline-block" />
+									{formatDate(new Date(page.editedTime))}
 								</div>
-								{page.description && <p class="text-neutral-500">{page.description}</p>}
-							</a>
-						)
-					})}
-			</ul>
-		</>
-	))
-}
+							</div>
+							{page.description && <p class="text-neutral-500">{page.description}</p>}
+						</div>
+					</div>
+				</div>
+			)
+		})
+	}
+</ul>

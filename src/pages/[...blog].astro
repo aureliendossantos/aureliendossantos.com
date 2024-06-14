@@ -2,6 +2,7 @@
 import { type CollectionEntry, getCollection } from "astro:content"
 import Article from "$layouts/Article.astro"
 import ArticleReferences from "$components/articles/ArticleReferences.astro"
+import MarkdownIt from "markdown-it"
 
 export async function getStaticPaths() {
 	const blogEntries = await getCollection("blog", ({ data }) => {
@@ -20,16 +21,17 @@ interface Props {
 const { article } = Astro.props
 const { Content, headings } = await article.render()
 const data = article.data
+const license = data.license && MarkdownIt({ html: true }).renderInline(data.license)
 ---
 
-<Article article={article} headings={headings}>
+<Article article={article} collection="blog" headings={headings}>
 	<Content />
 	<ArticleReferences article={article} />
 	{
-		data.license && (
+		license && (
 			<>
 				<hr />
-				<p class="license">{data.license}</p>
+				<p set:html={license} class="license" />
 			</>
 		)
 	}

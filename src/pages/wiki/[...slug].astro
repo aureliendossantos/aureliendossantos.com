@@ -7,7 +7,7 @@ import formatDate from "$utils/formatting/formatDate"
 import { Icon } from "astro-icon/components"
 import { getWikiPages } from "$utils/getCollection"
 
-let pages = await getWikiPages()
+const pages = await getWikiPages(true)
 const page = pages.find((page) => page.slug == Astro.params.slug)
 
 if (!page) {
@@ -33,11 +33,19 @@ if (!page) {
 				<a href="/wiki" class="hover:text-neutral-200">← Wiki personnel</a>
 			</p>
 		</header>
-		<main class="">
+		<main>
 			<h1>{page.title}</h1>
 			{page.description && <p class="lead">{page.description}</p>}
 			<div class="not-prose font-work-sans text-sm text-neutral-500">
 				<p class="text-neutral-500">
+					{
+						page.status && (
+							<>
+								<span>{page.status.icon}</span>
+								<span>{page.status.text} ·</span>
+							</>
+						)
+					}
 					<Icon name="material-symbols:update-rounded" class="mb-[0.15em] inline-block" />
 					{formatDate(new Date(page.editedTime))}
 				</p>

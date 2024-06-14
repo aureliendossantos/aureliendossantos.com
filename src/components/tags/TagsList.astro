@@ -1,0 +1,43 @@
+---
+import TagLabel from "$components/blog/TagLabel.astro"
+import { getEntry, type CollectionEntry } from "astro:content"
+import getBlogPosts, { getWikiCache } from "$utils/getCollection"
+import getUniqueValuesAndOccurences from "$utils/getUniqueValuesAndOccurences"
+
+const articles = await getBlogPosts()
+const wiki = await getWikiCache()
+const rawTagSlugs = [
+	...articles.map((article) => article.data.tags.map((tag) => tag.slug)),
+	...wiki.map((page) =>
+		page.links.filter((link) => link.startsWith("tags/")).map((link) => link.split("/")[1])
+	),
+]
+const tagSlugsToOccurences = getUniqueValuesAndOccurences(rawTagSlugs)
+const tags = (
+	await Promise.all(
+		Object.entries(tagSlugsToOccurences).map(async ([key, value]) => ({
+			count: value,
+			entry: (await getEntry("tags", key))!,
+		}))
+	)
+).filter((tag) => tag.entry) // Some tags may have Notion pages associated to it but no corresponding mdx file, hence the filter
+
+interface Props {
+	currentTag?: CollectionEntry<"tags">
+}
+const { currentTag } = Astro.props
+---
+
+{
+	tags.map((tag) => (
+		<>
+			<TagLabel
+				label={tag.entry.data.title}
+				slug={tag.entry.slug}
+				count={tag.count}
+				type={"tag"}
+				disabled={tag.entry == currentTag}
+			/>{" "}
+		</>
+	))
+}

@@ -11,13 +11,6 @@ export default async function getRelatedArticles(article: CollectionEntry<"blog"
 	const scoredArticles = articles.map((article) => {
 		return { article: article, score: 0 }
 	})
-	// Category +50
-	article.data.categories.forEach((currentCategory) => {
-		scoredArticles.forEach((currentArticle) => {
-			if (currentArticle.article.data.categories.includes(currentCategory))
-				currentArticle.score += 50
-		})
-	})
 	// Tag +30
 	article.data.tags.forEach((currentTag) => {
 		scoredArticles.forEach((currentArticle) => {
@@ -43,6 +36,6 @@ export default async function getRelatedArticles(article: CollectionEntry<"blog"
 	const result = scoredArticles
 		.sort((a, b) => b.score - a.score)
 		.slice(0, 3)
-		.filter((a) => a.score > 50)
+		.filter((a) => a.score > 20)
 	return result
 }

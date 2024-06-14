@@ -22,7 +22,11 @@
 		},
 		{
 			"source": "/category/:path*",
-			"destination": "/categories/:path*"
+			"destination": "/tags/:path*"
+		},
+		{
+			"source": "/categories/:path*",
+			"destination": "/tags/:path*"
 		},
 		{
 			"source": "/tag/:path*",

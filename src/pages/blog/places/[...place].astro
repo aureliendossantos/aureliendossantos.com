@@ -4,15 +4,17 @@ import TagLabel from "$components/blog/TagLabel.astro"
 import Explore from "$layouts/Explore.astro"
 import { getEntryBySlug, type CollectionEntry, getCollection } from "astro:content"
 import getBlogPosts from "$utils/getCollection"
-import { getUniquePlacesAndOccurences } from "$utils/getUniqueValuesAndOccurences"
+import getUniqueValuesAndOccurences from "$utils/getUniqueValuesAndOccurences"
 
 export async function getStaticPaths() {
 	const allArticles = await getBlogPosts()
-	const rawPlaces = allArticles.map((article) => article.data.places)
-	const places = getUniquePlacesAndOccurences(rawPlaces)
+	const rawPlaces = allArticles.map((article) => article.data.places.map((p) => p.slug))
+	const places = getUniqueValuesAndOccurences(rawPlaces)
 
 	return Object.entries(places).map(([place, amount], i) => {
-		const filteredArticles = allArticles.filter((article) => article.data.places.includes(place))
+		const filteredArticles = allArticles.filter((article) =>
+			article.data.places.find((p) => p.slug == place)
+		)
 		const slug = place.split("/")[1]
 		return {
 			params: { place: slug },
@@ -34,7 +36,7 @@ const placeCollection = await getCollection("places")
 const placeEntry = await getEntryBySlug("places", placeId)
 ---
 
-<Explore title={placeEntry?.data.title || ""} type="Lieux" animation="places">
+<Explore title={placeEntry?.data.title || ""} type="Lieux">
 	<div class="mt-3" slot="header">
 		<p>
 			{

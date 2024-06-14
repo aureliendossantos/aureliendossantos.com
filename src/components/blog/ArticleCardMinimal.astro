@@ -1,5 +1,5 @@
 ---
-import { getEntryBySlug, type CollectionEntry } from "astro:content"
+import { getEntries, type CollectionEntry } from "astro:content"
 import { getImage } from "astro:assets"
 import getPalette, { getColor } from "$utils/design/palettes"
 import ArticleDate from "../articles/ArticleDate.astro"
@@ -11,11 +11,10 @@ interface Props {
 const { article, noPlace } = Astro.props
 const data = article.data
 const palette = getPalette(article.data.palette)
-const showCover = () => data.categories && data.categories.includes("Photos") && data.image
+const showCover = () => data.tags.find((tag) => tag.slug == "photos") && data.image
 const optimizedBackground =
 	showCover() && data.image ? await getImage({ src: data.image, width: 500 }) : null
-const place =
-	data.places.length > 0 ? (await getEntryBySlug("places", data.places[0]))?.data.title : undefined
+const place = data.places.length > 0 ? (await getEntries(data.places))[0].data.title : undefined
 // text-[--bg] is used to color the shadow
 ---
 

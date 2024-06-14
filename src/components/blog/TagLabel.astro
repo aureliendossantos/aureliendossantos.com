@@ -3,12 +3,12 @@ interface Props {
 	label: string
 	slug?: string
 	count: number
-	type: "category" | "tag" | "place"
+	type: "tag" | "place"
 	disabled?: boolean
 }
 const { label, slug, count, type, disabled } = Astro.props
 
-const path = { category: "categories", tag: "tags", place: "blog/places" }
+const path = { tag: "tags", place: "blog/places" }
 ---
 
 <a

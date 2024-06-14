@@ -14,13 +14,14 @@ import GenerateSidenotes from "$components/sidenotes/GenerateSidenotes.astro"
 
 interface Props {
 	article: CollectionEntry<"blog"> | CollectionEntry<"pages">
+	collection: "blog" | "pages"
 	headings: MarkdownHeading[]
 }
 
-const { article, headings } = Astro.props
+const { article, collection, headings } = Astro.props
 const data = article.data
 const date = "date" in data ? data.date : undefined
-const wide = "categories" in data && data.categories.includes("Photos") && !data.forceNarrow
+const wide = data.tags.find((tag) => tag.slug == "photos") && !data.forceNarrow
 // Alternative layouts
 const customLayout = data.customLayout
 const sidenotes = data.sidenotes
@@ -29,14 +30,14 @@ const ogImage = data.opengraph || data.image
 const coverImage = data.cover && data.image ? data.image : undefined
 const palette = getPalette(data.palette)
 // Related articles
-const isBlog = "categories" in data
-const relatedArticles = isBlog
-	? (await getRelatedArticles(article as CollectionEntry<"blog">)).map((a) => ({
-			title: a.article.data.title,
-			href: `/${a.article.slug}`,
-		}))
-	: await getSeeAlso(data.seeAlso)
-const parent = !isBlog && data.parent && (await getEntry("pages", data.parent))
+const relatedArticles =
+	collection == "blog"
+		? (await getRelatedArticles(article as CollectionEntry<"blog">)).map((a) => ({
+				title: a.article.data.title,
+				href: `/${a.article.slug}`,
+			}))
+		: await getSeeAlso(data.seeAlso)
+const parent = collection == "pages" && data.parent && (await getEntry("pages", data.parent))
 ---
 
 <BaseLayout
@@ -53,13 +54,14 @@ const parent = !isBlog && data.parent && (await getEntry("pages", data.parent))
 	layout={data.layouts}
 	navBarProps={{
 		title: data.title,
-		parent: isBlog
-			? { title: "Blog", href: "/blog" }
-			: parent
-				? { title: parent.data.title, href: `/${parent.slug}` }
-				: undefined,
+		parent:
+			collection == "blog"
+				? { title: "Blog", href: "/blog" }
+				: parent
+					? { title: parent.data.title, href: `/${parent.slug}` }
+					: undefined,
 		related: relatedArticles,
-		relatedTitle: isBlog ? "Articles similaires" : "Voir aussi",
+		relatedTitle: collection == "blog" ? "Articles similaires" : "Voir aussi",
 		headings: headings,
 	}}
 >

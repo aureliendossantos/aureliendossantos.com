@@ -24,7 +24,7 @@ const { Content } = await entry.render()
 const data = entry.data
 
 const places = await Promise.all(
-	data.places.map(async (slug) => await getPlaceCollectionEntry(slug))
+	data.places.map(async (place) => await getPlaceCollectionEntry(place.slug))
 )
 ---
 

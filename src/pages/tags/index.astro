@@ -1,22 +1,10 @@
 ---
-import TagLabel from "$components/blog/TagLabel.astro"
 import Explore from "$layouts/Explore.astro"
-import getBlogPosts from "$utils/getCollection"
-import getUniqueValuesAndOccurences from "$utils/getUniqueValuesAndOccurences"
-
-const allArticles = await getBlogPosts()
-const rawTags = allArticles.map((article) => article.data.tags)
-const tags = getUniqueValuesAndOccurences(rawTags)
+import TagsList from "$components/tags/TagsList.astro"
 ---
 
-<Explore title="Tags" animation="tags">
+<Explore title="Tags">
 	<p slot="tags">
-		{
-			Object.entries(tags).map(([key, value]) => (
-				<>
-					<TagLabel label={key} count={value} type={"tag"} />{" "}
-				</>
-			))
-		}
+		<TagsList />
 	</p>
 </Explore>

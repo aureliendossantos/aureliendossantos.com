@@ -3,11 +3,11 @@ import ArticleCardMinimal from "$components/blog/ArticleCardMinimal.astro"
 import Explore from "$layouts/Explore.astro"
 import { getEntryBySlug } from "astro:content"
 import getBlogPosts from "$utils/getCollection"
-import { getUniquePlacesAndOccurences } from "$utils/getUniqueValuesAndOccurences"
+import getUniqueValuesAndOccurences from "$utils/getUniqueValuesAndOccurences"
 
 const articles = await getBlogPosts()
-const rawPlaces = articles.map((article) => article.data.places)
-const uniquePlaces = getUniquePlacesAndOccurences(rawPlaces)
+const rawPlaces = articles.map((article) => article.data.places.map((p) => p.slug))
+const uniquePlaces = getUniqueValuesAndOccurences(rawPlaces)
 
 const places = await Promise.all(
 	Object.entries(uniquePlaces).map(async ([placeId, amount]) => {
@@ -15,7 +15,7 @@ const places = await Promise.all(
 			slug: placeId.split("/")[1],
 			place: await getEntryBySlug("places", placeId),
 			articlesAmount: amount,
-			articles: articles.filter((article) => article.data.places.includes(placeId)),
+			articles: articles.filter((article) => article.data.places.find((p) => p.slug == placeId)),
 		}
 	})
 )
@@ -32,7 +32,7 @@ Object.entries(places).forEach(([key, value]) => {
 })
 ---
 
-<Explore title={"Lieux"} animation="places">
+<Explore title={"Lieux"}>
 	<main>
 		{
 			Object.entries(places).map(([key, value]) => {

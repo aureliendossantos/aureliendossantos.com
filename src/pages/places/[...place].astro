@@ -36,9 +36,11 @@ const renderReview = () => {
 }
 
 const articles = (await getBlogPosts()).filter((article) =>
-	article.data.places.includes(place.slug)
+	article.data.places.find((p) => p.slug == place.slug)
 )
-const diaryEntries = (await getDiary()).filter((entry) => entry.data.places.includes(place.slug))
+const diaryEntries = (await getDiary()).filter((entry) =>
+	entry.data.places.find((p) => p.slug == place.slug)
+)
 
 const { Content } = await place.render()
 const data = place.data

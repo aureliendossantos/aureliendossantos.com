@@ -1,45 +1,64 @@
 ---
 import ArticleCardMinimal from "$components/blog/ArticleCardMinimal.astro"
-import TagLabel from "$components/blog/TagLabel.astro"
 import Explore from "$layouts/Explore.astro"
-import type { CollectionEntry } from "astro:content"
-import getBlogPosts from "$utils/getCollection"
-import getUniqueValuesAndOccurences from "$utils/getUniqueValuesAndOccurences"
+import { type CollectionEntry } from "astro:content"
+import getBlogPosts, { getWikiCache } from "$utils/getCollection"
+import { Icon } from "astro-icon/components"
+import { getCollection } from "astro:content"
+import TagsList from "$components/tags/TagsList.astro"
 
 export async function getStaticPaths() {
-	const allArticles = await getBlogPosts()
-	const rawTags = allArticles.map((article) => article.data.tags)
-	const tags = getUniqueValuesAndOccurences(rawTags)
-
-	return Object.entries(tags).map(([tag, amount]) => {
-		const filteredArticles = allArticles.filter((article) => article.data.tags.includes(tag))
-		return {
-			params: { tag },
-			props: { articles: filteredArticles, tags },
-		}
-	})
+	const articles = await getBlogPosts()
+	const wiki = await getWikiCache()
+	const tags = await getCollection("tags")
+	return tags.map((tag) => ({
+		params: { tag: tag.slug },
+		props: { articles, wiki, currentTag: tag },
+	}))
 }
 
 type Props = {
 	articles: CollectionEntry<"blog">[]
-	tags: { [k: string]: number }
+	wiki: Awaited<ReturnType<typeof getWikiCache>>
+	currentTag: CollectionEntry<"tags">
 }
+const { currentTag } = Astro.props
 
-const { tag } = Astro.params
-const { articles, tags } = Astro.props
+const articles = Astro.props.articles.filter((article) =>
+	article.data.tags.find((tag) => tag.slug == currentTag.slug)
+)
+const wiki = Astro.props.wiki.filter((page) => page.links.includes(`tags/${currentTag.slug}`))
 ---
 
-<Explore title={tag || ""} type="Tags" animation="tags">
+<Explore title={currentTag.data.title} type="Tags">
 	<p slot="tags">
-		{
-			Object.entries(tags).map(([key, value]) => (
-				<>
-					<TagLabel label={key} count={value} type={"tag"} disabled={tag == key} />{" "}
-				</>
-			))
-		}
+		<TagsList />
 	</p>
 	<main class="flex flex-col">
 		{articles.map((article) => <ArticleCardMinimal article={article} />)}
+		{
+			wiki && (
+				<ul class="mx-auto flex w-full max-w-[500px] flex-col font-sans text-base text-neutral-800 dark:text-neutral-200">
+					{wiki.map((page) => (
+						<a
+							class="z-0 -mt-[1px] border border-neutral-300 px-3 py-3 leading-snug transition first:mt-0 first:rounded-t last:rounded-b hover:z-10 hover:border-neutral-500 dark:border-neutral-700"
+							href={`/${page.slug}`}
+						>
+							<div class="flex justify-between">
+								<h3>
+									{page.title}
+									{page.status}
+								</h3>
+								<p class="text-neutral-500">
+									<Icon name="material-symbols:update-rounded" class="mb-[0.2em] inline-block" />
+									{page.date}
+								</p>
+							</div>
+							{page.description && <p class="text-neutral-500">{page.description}</p>}
+						</a>
+					))}
+				</ul>
+			)
+		}
 	</main>
 </Explore>
