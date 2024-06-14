@@ -82,6 +82,7 @@ export enum PaletteName {
 	nature = "nature",
 	sourceSerif = "source-serif",
 	louize = "louize",
+	sadLouize = "sad-louize",
 	cormorant = "cormorant",
 	snow = "snow",
 	notebook = "notebook",
@@ -283,19 +284,41 @@ const getPaletteDeclaration = (name: PaletteName | undefined): PaletteDeclaratio
 			}
 		case "louize":
 			return {
-				baseColor: "#000000",
-				secondaryColor: "#8a8a94",
-				popupBorderColor: "#d4d4d8",
-				popupLabelActiveBgColor: "#e4e4e7",
-				specialColor: "#91d36d",
-				bgColor: "#ffffff",
+				baseColor: { light: "#100F0F", dark: "#ffffff" },
+				secondaryColor: "#6F6E69", // previously #8a8a94"
+				specialColor: "#4385BE", // in black and white I was using #4a7dbf (from Prince of Persia book)
+				popupBorderColor: "#E6E4D9", // previously #d4d4d8
+				popupLabelActiveBgColor: { light: "#F2F0E5", dark: "#39393b" }, // previously #e4e4e7
+				bgColor: { light: "#FFFCF0", dark: "#000000" },
 				mentionBgColor: "#ebfcde",
 				mentionHoverBgColor: "#dcf7cd",
-				codeTheme: "vitesse-light",
+				codeTheme: "vitesse-dark",
 				baseFont: "Louize, serif",
 				displayFont: '"Louize Display", Louize, serif',
-				codeFont: '"Source Code Pro", monospace',
+				codeFont: '"nk57", monospace',
 				fontSize: "20px",
+				codeFontSize: "0.85em",
+				titleWeight: 400,
+				lineHeight: 1.45,
+				pageWidth: "55ch",
+				internalLinks: "dotted",
+			}
+		case "sad-louize":
+			return {
+				baseColor: "#d0d9d7",
+				secondaryColor: "#9aaca9",
+				specialColor: "#927961",
+				popupBorderColor: "#E6E4D9",
+				popupLabelActiveBgColor: "#39393b",
+				bgColor: "#24272f",
+				mentionBgColor: "#ebfcde",
+				mentionHoverBgColor: "#dcf7cd",
+				codeTheme: "vitesse-dark",
+				baseFont: "Louize, serif",
+				displayFont: '"Louize Display", Louize, serif',
+				codeFont: '"nk57", monospace',
+				fontSize: "20px",
+				codeFontSize: "0.85em",
 				titleWeight: 400,
 				lineHeight: 1.45,
 				pageWidth: "55ch",
