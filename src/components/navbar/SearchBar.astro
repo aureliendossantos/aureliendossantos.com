@@ -86,10 +86,10 @@ const preRenderedEntries = Astro.props.ssr ? [] : await getSearchEntries()
 <script is:inline define:vars={{ preRenderedEntries }}>
 	// If the page is not pre-rendered, we asynchronously fetch the entries from the API.
 	// Until the fetch is done, the search bar will simply not find any result.
-	let entries = []
+	window.entries = []
 	;(async () => {
-		if (preRenderedEntries.length > 0) entries = preRenderedEntries
-		else entries = await (await fetch("/api/search/entries")).json()
+		if (preRenderedEntries.length > 0) window.entries = preRenderedEntries
+		else window.entries = await (await fetch("/api/search/entries")).json()
 	})()
 
 	// Get the HTML elements
@@ -110,7 +110,7 @@ const preRenderedEntries = Astro.props.ssr ? [] : await getSearchEntries()
 		} else if (searchKeywords.length > 0) {
 			// Filter block entries based on their title, abstract & tags
 			// should match every keywords provided by search input !
-			results = entries.filter((entry) =>
+			results = window.entries.filter((entry) =>
 				searchKeywords.every(
 					(keyword) =>
 						entry.slug.toLowerCase().includes(keyword) ||

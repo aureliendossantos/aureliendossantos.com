@@ -8,9 +8,19 @@ interface Props {
 	borderRight?: boolean
 	truncate?: "medium" | "mediumlarge"
 	chevron?: boolean
+	keepOpenOnClick?: boolean
 }
-const { id, label, alignRight, initiallyHidden, borderLeft, borderRight, truncate, chevron } =
-	Astro.props
+const {
+	id,
+	label,
+	alignRight,
+	initiallyHidden,
+	borderLeft,
+	borderRight,
+	truncate,
+	chevron,
+	keepOpenOnClick,
+} = Astro.props
 ---
 
 <div id={`${id}-parent`} class:list={["relative", { hidden: initiallyHidden }]}>
@@ -57,7 +67,7 @@ const { id, label, alignRight, initiallyHidden, borderLeft, borderRight, truncat
 	</div>
 </div>
 
-<script define:vars={{ id }}>
+<script define:vars={{ id, keepOpenOnClick }}>
 	// Prevent the script to be ran when the page changes
 	if (!window[id]) {
 		window[id] = true
@@ -67,11 +77,13 @@ const { id, label, alignRight, initiallyHidden, borderLeft, borderRight, truncat
 		button.addEventListener("click", () => {
 			dropdown.classList.toggle("invisible")
 		})
-		// Close the dropdown menu if the user clicks outside of it
-		window.addEventListener("click", (event) => {
-			if (!button.contains(event.target)) {
-				dropdown.classList.add("invisible")
-			}
-		})
+		if (!keepOpenOnClick) {
+			// Close the dropdown menu if the user clicks outside of it
+			window.addEventListener("click", (event) => {
+				if (!button.contains(event.target)) {
+					dropdown.classList.add("invisible")
+				}
+			})
+		}
 	}
 </script>

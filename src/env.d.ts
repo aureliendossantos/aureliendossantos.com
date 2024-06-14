@@ -15,4 +15,5 @@ interface Window {
 	diaryFilters: {
 		[key: string]: boolean
 	}
+	entries: SearchEntry[]
 }

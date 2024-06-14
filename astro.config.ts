@@ -70,6 +70,7 @@ export default defineConfig({
 					"baseline-link",
 					"baseline-search",
 					"baseline-toc",
+					"baseline-ios-share",
 					"outline-file-download",
 				],
 				ion: ["footsteps", "eye"],

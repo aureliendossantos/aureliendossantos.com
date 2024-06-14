@@ -1,18 +1,17 @@
-import type { Title, RichText, Relation } from "$utils/notion/types"
-import type { PageObjectResponse } from "@notionhq/client/build/src/api-endpoints"
-
-export type CategoriesEntry = PageObjectResponse & {
-	properties: {
-		Nom: Title
-		Description: RichText
-	}
-}
+import type { Title, RichText } from "$utils/notion/types"
+import type {
+	MultiSelectPropertyItemObjectResponse,
+	PageObjectResponse,
+	SelectPropertyItemObjectResponse,
+} from "@notionhq/client/build/src/api-endpoints"
 
 export type PagesEntry = PageObjectResponse & {
 	properties: {
 		Nom: Title
 		Description: RichText
-		Catégorie: Relation
+		Slug: RichText
+		Related: MultiSelectPropertyItemObjectResponse
+		Status: SelectPropertyItemObjectResponse
 	}
 }
 
