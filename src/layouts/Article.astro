@@ -13,8 +13,8 @@ import getSeeAlso from "$utils/getSeeAlso"
 import GenerateSidenotes from "$components/sidenotes/GenerateSidenotes.astro"
 
 interface Props {
-	article: CollectionEntry<"blog"> | CollectionEntry<"pages">
-	collection: "blog" | "pages"
+	article: CollectionEntry<"blog" | "pages" | "diary">
+	collection: "blog" | "pages" | "diary"
 	headings: MarkdownHeading[]
 }
 
@@ -30,13 +30,19 @@ const ogImage = data.opengraph || data.image
 const coverImage = data.cover && data.image ? data.image : undefined
 const palette = getPalette(data.palette)
 // Related articles
-const relatedArticles =
-	collection == "blog"
-		? (await getRelatedArticles(article as CollectionEntry<"blog">)).map((a) => ({
+const relatedArticles = async () => {
+	switch (collection) {
+		case "blog":
+			return (await getRelatedArticles(article as CollectionEntry<"blog">)).map((a) => ({
 				title: a.article.data.title,
 				href: `/${a.article.slug}`,
 			}))
-		: await getSeeAlso(data.seeAlso)
+		case "pages":
+			return await getSeeAlso(data.seeAlso)
+		default:
+			return undefined
+	}
+}
 const parent = collection == "pages" && data.parent && (await getEntry("pages", data.parent))
 ---
 
@@ -60,7 +66,7 @@ const parent = collection == "pages" && data.parent && (await getEntry("pages", 
 				: parent
 					? { title: parent.data.title, href: `/${parent.slug}` }
 					: undefined,
-		related: relatedArticles,
+		related: await relatedArticles(),
 		relatedTitle: collection == "blog" ? "Articles similaires" : "Voir aussi",
 		headings: headings,
 	}}

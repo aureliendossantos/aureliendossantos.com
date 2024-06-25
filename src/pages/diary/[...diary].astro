@@ -6,11 +6,12 @@ import PlacesList from "$components/places/PlacesList.astro"
 import { getDiary, getPlaceCollectionEntry } from "$utils/getCollection"
 import ArticleDate from "$components/articles/ArticleDate.astro"
 import InitMaps from "$components/places/InitMaps.astro"
+import Article from "$layouts/Article.astro"
 
 export async function getStaticPaths() {
 	const entries = await getDiary()
 	return entries.map((entry) => ({
-		params: { diary: entry.finalSlug },
+		params: { diary: entry.slug },
 		props: { entry },
 	}))
 }
@@ -20,7 +21,7 @@ interface Props {
 }
 const { entry } = Astro.props
 
-const { Content } = await entry.render()
+const { Content, headings } = await entry.render()
 const data = entry.data
 
 const places = await Promise.all(
@@ -29,7 +30,26 @@ const places = await Promise.all(
 ---
 
 {
-	!data.customLayout ? (
+	data.palette && (
+		<Article article={entry} collection="diary" headings={headings}>
+			<Content />
+		</Article>
+	)
+}
+{
+	data.customLayout && (
+		<BaseLayout
+			title={data.title}
+			ogType="article"
+			bg="#262626"
+			navBarProps={{ title: data.title, parent: { title: "Journal", href: "/diary" } }}
+		>
+			<Content />
+		</BaseLayout>
+	)
+}
+{
+	!data.palette && !data.customLayout && (
 		<DiaryLayout
 			title={data.title}
 			ogType="article"
@@ -47,7 +67,7 @@ const places = await Promise.all(
 					<h1>
 						{data.title}
 						<span class="font-work-sans text-[24px] font-light text-zinc-400">
-							{data.date ? <ArticleDate date={data.date} yearOnly /> : entry.slug.split("/")[1]}
+							{data.date ? <ArticleDate date={data.date} yearOnly /> : entry.slug}
 						</span>
 					</h1>
 					{!data.hidePlaces && (
@@ -65,15 +85,6 @@ const places = await Promise.all(
 				</main>
 			</div>
 		</DiaryLayout>
-	) : (
-		<BaseLayout
-			title={data.title}
-			ogType="article"
-			bg="#262626"
-			navBarProps={{ title: data.title, parent: { title: "Journal", href: "/diary" } }}
-		>
-			<Content />
-		</BaseLayout>
 	)
 }
 

@@ -1,32 +1,40 @@
 ---
-import { getEntries, type CollectionEntry } from "astro:content"
+import MarkdownIt from "markdown-it"
+import { getEntries } from "astro:content"
 import { getImage } from "astro:assets"
 import getPalette, { getColor } from "$utils/design/palettes"
 import ArticleDate from "../articles/ArticleDate.astro"
+import type { getContentEntries } from "$utils/getCollection"
 
 interface Props {
-	article: CollectionEntry<"blog">
+	entry: Awaited<ReturnType<typeof getContentEntries>>
 	noPlace?: boolean
 }
-const { article, noPlace } = Astro.props
-const data = article.data
-const palette = getPalette(article.data.palette)
+const { entry, noPlace } = Astro.props
+const data = entry.data
+const palette = getPalette(entry.data.palette)
 const showCover = () => data.tags.find((tag) => tag.slug == "photos") && data.image
 const optimizedBackground =
 	showCover() && data.image ? await getImage({ src: data.image, width: 500 }) : null
-const place = data.places.length > 0 ? (await getEntries(data.places))[0].data.title : undefined
+const place =
+	"places" in data && data.places.length > 0
+		? (await getEntries(data.places))[0].data.title
+		: undefined
+const wiki = "editedTime" in entry
 // text-[--bg] is used to color the shadow
+const markdown = new MarkdownIt({ html: true })
+const title = markdown.renderInline(data.title)
 ---
 
 <a
-	class="duration-80 scale-100 bg-[--bg] ease-out hover:z-10 hover:scale-[1.02]"
+	class="duration-80 border-[--secondary-color] bg-[--bg] ease-out hover:border-l-[16px]"
 	style={{
 		fontFamily: palette.baseFont,
-		"--bg": getColor(palette.bgColor),
+		"--bg": wiki ? "#fbf7ee" : getColor(palette.bgColor),
 		"--text": getColor(palette.baseColor),
 		"--secondary-color": getColor(palette.secondaryColor),
 	}}
-	href={"/" + article.slug}
+	href={`/${entry.slug}`}
 >
 	<div
 		class="mx-auto max-w-[calc(500px+2em)] bg-[--bg] bg-cover bg-center px-[calc(20px+1em)] py-[14px] text-[--text] small:px-5"
@@ -37,8 +45,13 @@ const place = data.places.length > 0 ? (await getEntries(data.places))[0].data.t
 			boxShadow: "inset 2em 0 1em -1em var(--bg), inset -2em 0 1em -1em var(--bg)",
 		}}
 	>
-		<span class="mb-2 text-lg font-bold" style={{ fontFamily: palette.headingsFont }}>
-			{data.title}{data.draft && " [Draft]"}
+		<span
+			class="mb-2 text-lg font-bold leading-snug"
+			style={{
+				fontFamily: wiki ? "Bricolage Grotesque Variable" : palette.headingsFont,
+			}}
+		>
+			<span set:html={title} />{data.draft && " [Draft]"}{data.status && ` ${data.status.icon}`}
 		</span>
 		<span
 			class="font-sofia-sans text-xs uppercase text-[--secondary-color]"
@@ -46,8 +59,13 @@ const place = data.places.length > 0 ? (await getEntries(data.places))[0].data.t
 				textShadow: `0 0 1em ${palette.bgColor}`,
 			}}
 		>
-			<ArticleDate date={article.data.date} nonBreakingSpaces />{
-				place && !noPlace && <span> / {place}</span>
+			{
+				// prettier-ignore
+				"date" in entry.data && (
+					<>
+						<ArticleDate date={entry.data.date} nonBreakingSpaces />{place && !noPlace && <span> / {place}</span>}
+					</>
+				)
 			}
 		</span>
 	</div>
@@ -56,15 +74,5 @@ const place = data.places.length > 0 ? (await getEntries(data.places))[0].data.t
 <style>
 	a {
 		transition: 0.25s;
-	}
-	@media (prefers-color-scheme: dark) {
-		a {
-			box-shadow: 0 0 40px -12px;
-			transition: 0.3s;
-
-			&:hover {
-				box-shadow: 0 10px 80px -6px;
-			}
-		}
 	}
 </style>

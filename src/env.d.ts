@@ -16,4 +16,6 @@ interface Window {
 		[key: string]: boolean
 	}
 	entries: SearchEntry[]
+	previousUrl: string
+	previousTitle: string
 }

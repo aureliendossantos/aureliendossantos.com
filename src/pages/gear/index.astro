@@ -8,7 +8,7 @@ import { dateSort } from "$utils/sort"
 const gear = (await getCollection("gear"))
 	.map((gear) => ({
 		collectionEntry: gear,
-		category: gear.slug.split("/")[0],
+		category: gear.id.split("/")[0],
 	}))
 	.sort((a, b) => dateSort(a.collectionEntry.data.obtained, b.collectionEntry.data.obtained))
 

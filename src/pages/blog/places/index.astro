@@ -1,21 +1,25 @@
 ---
-import ArticleCardMinimal from "$components/blog/ArticleCardMinimal.astro"
+import EntryCardMinimal from "$components/blog/EntryCardMinimal.astro"
 import Explore from "$layouts/Explore.astro"
 import { getEntryBySlug } from "astro:content"
-import getBlogPosts from "$utils/getCollection"
+import getBlogPosts, { getContentEntries } from "$utils/getCollection"
 import getUniqueValuesAndOccurences from "$utils/getUniqueValuesAndOccurences"
 
-const articles = await getBlogPosts()
-const rawPlaces = articles.map((article) => article.data.places.map((p) => p.slug))
+const content = await getContentEntries()
+const rawPlaces = content.map((entry) =>
+	"places" in entry.data ? entry.data.places.map((p) => p.slug) : []
+)
 const uniquePlaces = getUniqueValuesAndOccurences(rawPlaces)
 
 const places = await Promise.all(
-	Object.entries(uniquePlaces).map(async ([placeId, amount]) => {
+	Object.entries(uniquePlaces).map(async ([placeSlug, amount]) => {
 		return {
-			slug: placeId.split("/")[1],
-			place: await getEntryBySlug("places", placeId),
+			slug: placeSlug,
+			place: await getEntryBySlug("places", placeSlug),
 			articlesAmount: amount,
-			articles: articles.filter((article) => article.data.places.find((p) => p.slug == placeId)),
+			articles: content.filter(
+				(entry) => "places" in entry.data && entry.data.places.find((p) => p.slug == placeSlug)
+			),
 		}
 	})
 )
@@ -26,7 +30,6 @@ Object.entries(places).forEach(([key, value]) => {
 	if (
 		allPlacesSlugs.filter((p) => JSON.stringify(p) == JSON.stringify(myArticleSlugs)).length > 1
 	) {
-		value.articlesAmount = 0
 		value.articles = []
 	}
 })
@@ -41,7 +44,10 @@ Object.entries(places).forEach(([key, value]) => {
 						<h2
 							class:list={[
 								"mx-auto mt-[42px] max-w-[500px] px-5 text-base leading-tight",
-								{ "-mb-8": value.articlesAmount == 0, "mb-[14px]": value.articlesAmount != 0 },
+								{
+									"-mb-8 hidden": value.articles.length == 0,
+									"mb-[14px]": value.articles.length > 0,
+								},
 							]}
 							style={{ fontFamily: "Louize" }}
 						>
@@ -54,7 +60,7 @@ Object.entries(places).forEach(([key, value]) => {
 						</h2>
 						<main class="flex flex-col">
 							{value.articles.map((article) => (
-								<ArticleCardMinimal article={article} noPlace />
+								<EntryCardMinimal entry={article} noPlace />
 							))}
 						</main>
 					</>

@@ -1,5 +1,6 @@
 ---
 import type { RichTextItemResponse } from "@notionhq/client/build/src/api-endpoints"
+import { getCollection } from "astro:content"
 
 interface Props {
 	text: RichTextItemResponse[]
@@ -8,7 +9,7 @@ const { text } = Astro.props
 ---
 
 {
-	text.map((text) => {
+	text.map(async (text) => {
 		switch (text.type) {
 			case "text":
 				const content = text.text.content
@@ -32,7 +33,15 @@ const { text } = Astro.props
 				}
 				return <>{content}</>
 			case "mention":
-				return <pre>{JSON.stringify(text, null, 2)}</pre>
+				if (text.mention.type == "page") {
+					const page = (await getCollection("wiki")).find(
+						(page) => page.data.id == text.mention.page.id
+					)
+					if (page) {
+						return <a href={`${page.data.slug}`}>{page.data.title}</a>
+					}
+					return <pre>{JSON.stringify(text, null, 2)}</pre>
+				}
 			case "equation":
 				return <pre>{JSON.stringify(text, null, 2)}</pre>
 		}

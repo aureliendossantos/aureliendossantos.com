@@ -15,7 +15,7 @@ if (!article) return console.error(`DiaryRef: entry ${slug} can't be found`)
 <span class="my-[-1px] rounded border border-solid border-zinc-300 bg-white px-[2px] text-zinc-900">
 	{!titleOnly && <span>Aurélien Dos Santos,</span>}
 	<a
-		href={"/diary/" + article.finalSlug}
+		href={"/diary/" + article.slug}
 		style={{
 			textDecoration: "none",
 			bgColor: "transparent !important",

@@ -7,6 +7,7 @@ import "@fontsource/lora/500-italic.css"
 import "@fontsource/vollkorn"
 import "@fontsource/vollkorn/400-italic.css"
 // Sans serif
+import "@fontsource-variable/bricolage-grotesque/standard.css" // Supports wght 200-800, opsz 12-96, wdth 75-100
 import "@fontsource/lato"
 import "@fontsource/noto-sans"
 import "@fontsource/nunito"

@@ -13,6 +13,7 @@ export default defineConfig({
 	// Remove this when https://github.com/withastro/compiler/issues/852 is fixed
 	compressHTML: false,
 	image: {
+		domains: ["prod-files-secure.s3.us-west-2.amazonaws.com"],
 		service: {
 			entrypoint: "$utils/imageService.ts",
 		},
@@ -41,7 +42,6 @@ export default defineConfig({
 				"$components/mdx/mediaBlocks/Game.astro",
 				"$components/mdx/mediaBlocks/GoogleMaps.astro",
 				"$components/mdx/mediaBlocks/Movie.astro",
-				"$components/mdx/mediaBlocks/OpenGraph.astro",
 				"$components/mdx/mediaBlocks/SpotifyTrack.astro",
 				"$components/mdx/mediaBlocks/Wiki.astro",
 				"$components/mdx/references/BlogRef.astro",
@@ -76,13 +76,14 @@ export default defineConfig({
 				ion: ["footsteps", "eye"],
 				logos: ["spotify-icon"],
 				lucide: ["library-square", "scan"],
-				"material-symbols": ["update-rounded"],
+				"material-symbols": ["update-rounded", "label-rounded"],
 				"material-symbols-light": [
 					"keyboard-double-arrow-down-rounded",
 					"keyboard-double-arrow-up-rounded",
 				],
 				mdi: ["github"],
 				ph: ["share-network"],
+				"radix-icons": ["notion-logo"],
 				tabler: ["copy"],
 				tdesign: ["map-collection"],
 			},

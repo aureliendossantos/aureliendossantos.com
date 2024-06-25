@@ -9,6 +9,7 @@ export default {
 			fontFamily: {
 				adelle: ["Adelle", ...defaultTheme.fontFamily.sans],
 				"adelle-sans": ["Adelle Sans", ...defaultTheme.fontFamily.sans],
+				bricolage: ["Bricolage Grotesque Variable", ...defaultTheme.fontFamily.sans],
 				"work-sans": ["Work Sans", ...defaultTheme.fontFamily.sans],
 				mono: "monospace",
 				"sofia-sans": ["Sofia Sans", ...defaultTheme.fontFamily.sans],

@@ -39,7 +39,7 @@ export async function GET(context: APIContext) {
 	const diary: RSSFeedItem[] = (await getDiary())
 		.filter((post) => post.data.date)
 		.map((post) => {
-			const link = `/diary/${post.finalSlug}/`
+			const link = `/diary/${post.slug}/`
 			return {
 				title: post.data.title,
 				author: "Aurélien Dos Santos",

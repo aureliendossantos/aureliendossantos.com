@@ -1,11 +1,16 @@
+import slugify from "slugify"
+import { dateSort } from "$utils/sort"
 import type { Title, RichText } from "$utils/notion/types"
 import type {
+	BlockObjectResponse,
 	MultiSelectPropertyItemObjectResponse,
 	PageObjectResponse,
 	SelectPropertyItemObjectResponse,
 } from "@notionhq/client/build/src/api-endpoints"
+import getDatabase from "./getDatabase"
+import type { BlockObjectResponseWithChildren } from "./getChildren"
 
-export type PagesEntry = PageObjectResponse & {
+export type PageResponse = PageObjectResponse & {
 	properties: {
 		Nom: Title
 		Description: RichText
@@ -13,6 +18,72 @@ export type PagesEntry = PageObjectResponse & {
 		Related: MultiSelectPropertyItemObjectResponse
 		Status: SelectPropertyItemObjectResponse
 	}
+}
+
+type WikiPageStatus =
+	| "🔒 Private"
+	| "🌱 Seedlings"
+	| "🌿 Budding"
+	| "🌳 Evergreen"
+	| "🍂 Withered"
+	| undefined
+
+const getWikiPageStatus = (status: WikiPageStatus) => {
+	switch (status) {
+		case "🔒 Private":
+			return { icon: "🔒", text: "Privé" }
+		case "🌱 Seedlings":
+			return { icon: "🌱", text: "Pousse" }
+		case "🌿 Budding":
+			return { icon: "🌿", text: "En bourgeon" }
+		case "🌳 Evergreen":
+			return { icon: "🌳", text: "Pérenne" }
+		// Withered
+		case "🍂 Withered":
+			return { icon: "🍂", text: "Fané" }
+		default:
+			return undefined
+	}
+}
+
+const slugifyRegex = /[*+~.()'"!:@«»→,;]/g
+
+export const fetchWikiPages = async (includePrivate = false) => {
+	return (
+		(await getDatabase(
+			import.meta.env ? import.meta.env.NOTION_WIKI_PAGES_DB : process.env.NOTION_WIKI_PAGES_DB,
+			includePrivate
+				? undefined
+				: {
+						property: "Status",
+						select: { does_not_equal: "🔒 Private" },
+					}
+		)) as PageResponse[]
+	)
+		.map((page) => {
+			const title = page.properties.Nom.title[0].plain_text
+			const related = page.properties.Related.multi_select.map((s) => s.name)
+			const slug = page.properties.Slug.rich_text[0]
+				? page.properties.Slug.rich_text[0].plain_text
+				: ""
+			const status =
+				(page.properties.Status.select && page.properties.Status.select.name) || undefined
+
+			return {
+				id: page.id,
+				slug: slug != "" ? slug : slugify(title, { remove: slugifyRegex, lower: true }),
+				title: title,
+				description: page.properties.Description.rich_text[0]
+					? page.properties.Description.rich_text[0].plain_text
+					: "",
+				related: related.filter((r) => !r.startsWith("tags/")),
+				tags: related.filter((r) => r.startsWith("tags/")).map((r) => r.replace("tags/", "")),
+				editedTime: new Date(page.last_edited_time),
+				status: getWikiPageStatus(status),
+				blocks: [] as BlockObjectResponse[] | BlockObjectResponseWithChildren[],
+			}
+		})
+		.sort((a, b) => dateSort(a.editedTime, b.editedTime))
 }
 
 export const getBackgroundColor = (color: string) => {

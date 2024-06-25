@@ -3,16 +3,14 @@ interface Props {
 	label: string
 	slug?: string
 	count: number
-	type: "tag" | "place"
+	parent: string
 	disabled?: boolean
 }
-const { label, slug, count, type, disabled } = Astro.props
-
-const path = { tag: "tags", place: "blog/places" }
+const { label, slug, count, parent, disabled } = Astro.props
 ---
 
 <a
-	href={`/${path[type]}/${slug || label}`}
+	href={`/${parent}/${slug || label}`}
 	style={disabled ? "pointer-events: none;cursor: default;" : ""}
 	class:list={[
 		"mr-[2px] text-sm transition-colors duration-200 ease-in-out",

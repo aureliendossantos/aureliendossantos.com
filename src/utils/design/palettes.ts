@@ -285,10 +285,10 @@ const getPaletteDeclaration = (name: PaletteName | undefined): PaletteDeclaratio
 		case "louize":
 			return {
 				baseColor: { light: "#100F0F", dark: "#ffffff" },
-				secondaryColor: "#6F6E69", // previously #8a8a94"
-				specialColor: "#4385BE", // in black and white I was using #4a7dbf (from Prince of Persia book)
-				popupBorderColor: "#E6E4D9", // previously #d4d4d8
-				popupLabelActiveBgColor: { light: "#F2F0E5", dark: "#39393b" }, // previously #e4e4e7
+				secondaryColor: { light: "#6F6E69", dark: "#cbcac3" },
+				specialColor: { light: "#4385BE", dark: "#4a7dbf" },
+				popupBorderColor: { light: "#E6E4D9", dark: "#6b6a67" },
+				popupLabelActiveBgColor: { light: "#F2F0E5", dark: "#39393b" },
 				bgColor: { light: "#FFFCF0", dark: "#000000" },
 				mentionBgColor: "#ebfcde",
 				mentionHoverBgColor: "#dcf7cd",

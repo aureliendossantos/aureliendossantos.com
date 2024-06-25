@@ -1,13 +1,9 @@
 import { getCollection, getEntryBySlug, type CollectionEntry } from "astro:content"
 import { getPlace } from "./remoteData/googleMaps"
 import { dateSort } from "./sort"
-import getDatabase from "./notion/getDatabase"
-import type { PagesEntry } from "./notion/wiki"
-import slugify from "slugify"
+import { fetchWikiPages } from "./notion/wiki"
 import { getCacheOrFetch } from "./cache"
 import formatDate from "./formatting/formatDate"
-
-const slugifyRegex = /[*+~.()'"!:@«»→,;]/g
 
 // Get all articles that are blog posts
 export default async function getBlogPosts(drafts = true) {
@@ -18,12 +14,11 @@ export default async function getBlogPosts(drafts = true) {
 }
 
 export function getDiaryData(entry: CollectionEntry<"diary">) {
-	const { slug, ...rest } = entry
+	const { id, ...rest } = entry
 	return {
-		slug: slug,
-		finalSlug: slug.split("/")[2],
-		year: Number(slug.split("/")[1]),
-		category: slug.split("/")[0],
+		id: id,
+		year: Number(id.split("/")[1]),
+		category: id.split("/")[0],
 		...rest,
 	}
 }
@@ -46,16 +41,14 @@ export async function getDiaryEntry(slug: string) {
 }
 
 async function getPlaceEntryData(entry: CollectionEntry<"places">) {
-	const { slug, ...rest } = entry
 	const articles = await getBlogPosts()
 	const diaryEntries = await getDiary()
 	return {
-		slug: entry.slug.split("/")[1],
-		category: entry.slug.split("/")[0],
+		category: entry.id.split("/")[0],
 		maps: await getPlace(entry.data.id),
 		articles: articles.filter((a) => a.data.places.includes(entry)).length,
 		diaryEntries: diaryEntries.filter((a) => a.data.places.includes(entry)).length,
-		...rest,
+		...entry,
 	}
 }
 
@@ -81,82 +74,21 @@ export async function getPlaceCollectionEntry(slug: string) {
 	return getPlaceEntryData(entry)
 }
 
-type WikiPageStatus = "🔒 Private" | "🌱 Seedlings" | "🌿 Budding" | "🌳 Evergreen" | undefined
-
-const getWikiPageStatus = (status: WikiPageStatus) => {
-	switch (status) {
-		case "🔒 Private":
-			return { icon: "🔒", text: "Privé" }
-		case "🌱 Seedlings":
-			return { icon: "🌱", text: "Pousse" }
-		case "🌿 Budding":
-			return { icon: "🌿", text: "En bourgeon" }
-		case "🌳 Evergreen":
-			return { icon: "🌳", text: "Pérenne" }
-		default:
-			return undefined
-	}
+export const getContentEntries = async () => {
+	const articles = await getBlogPosts()
+	const portfolio = await getCollection("portfolio")
+	const pages = await getCollection("pages")
+	const diary = await getDiary()
+	const wiki = await getCollection("wiki")
+	return [
+		...articles,
+		...portfolio.map((entry) => ({ ...entry, slug: `portfolio/${entry.slug}` })),
+		...pages,
+		...diary.map((entry) => ({ ...entry, slug: `diary/${entry.slug}` })),
+		...wiki.map((entry) => ({ ...entry.data, data: entry.data })),
+	]
 }
 
-export const getWikiPages = async (includePrivate = false) => {
-	return (
-		(await getDatabase(
-			import.meta.env.NOTION_WIKI_PAGES_DB,
-			includePrivate
-				? undefined
-				: {
-						property: "Status",
-						select: { does_not_equal: "🔒 Private" },
-					}
-		)) as PagesEntry[]
-	)
-		.map((page) => {
-			const title = page.properties.Nom.title[0].plain_text
-			const related = page.properties.Related.multi_select.map((s) => s.name)
-			const slug = page.properties.Slug.rich_text[0]
-				? page.properties.Slug.rich_text[0].plain_text
-				: ""
-			const status =
-				(page.properties.Status.select && page.properties.Status.select.name) || undefined
-
-			return {
-				id: page.id,
-				slug: slug != "" ? slug : slugify(title, { remove: slugifyRegex, lower: true }),
-				title: title,
-				description: page.properties.Description.rich_text[0]
-					? page.properties.Description.rich_text[0].plain_text
-					: "",
-				related: related,
-				tags: related.filter((r) => r.startsWith("tags/")).map((r) => r.replace("tags/", "")),
-				editedTime: new Date(page.last_edited_time),
-				status: getWikiPageStatus(status),
-			}
-		})
-		.sort((a, b) => dateSort(a.editedTime, b.editedTime))
+export const getAnyEntry = async (slugs: string[]) => {
+	return (await getContentEntries()).filter((e) => slugs.includes(e.slug))
 }
-
-export const getWikiCache = async () =>
-	(
-		await getCacheOrFetch(
-			"search-results",
-			"notion",
-			async () => {
-				const pages = await getWikiPages()
-				return {
-					results: [
-						...pages.map((page) => ({
-							slug: `wiki/${page.slug}`,
-							title: page.title,
-							date: formatDate(page.editedTime, true),
-							categories: [`Jardin`],
-							description: page.description,
-							links: [...page.related],
-							status: page.status?.icon,
-							tags: page.tags,
-						})),
-					],
-				}
-			},
-			0.05 // cache invalidated every 1 hour
-		)
-	).results

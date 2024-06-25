@@ -1,42 +1,41 @@
 ---
 import TagLabel from "$components/blog/TagLabel.astro"
 import { getEntry, type CollectionEntry } from "astro:content"
-import getBlogPosts, { getWikiCache } from "$utils/getCollection"
+import { getContentEntries } from "$utils/getCollection"
 import getUniqueValuesAndOccurences from "$utils/getUniqueValuesAndOccurences"
 
-const articles = await getBlogPosts()
-const wiki = await getWikiCache()
+interface Props {
+	collectionKey: "tags" | "places" | "muses"
+	currentEntry?: CollectionEntry<"tags" | "places" | "muses">
+}
+const { collectionKey, currentEntry } = Astro.props
+
+const content = await getContentEntries()
 const rawTagSlugs = [
-	...articles.map((article) => article.data.tags.map((tag) => tag.slug)),
-	...wiki.map((page) =>
-		page.links.filter((link) => link.startsWith("tags/")).map((link) => link.split("/")[1])
+	...content.map((entry) =>
+		collectionKey in entry.data ? entry.data[collectionKey].map((item) => item.slug) : []
 	),
 ]
 const tagSlugsToOccurences = getUniqueValuesAndOccurences(rawTagSlugs)
 const tags = (
 	await Promise.all(
-		Object.entries(tagSlugsToOccurences).map(async ([key, value]) => ({
-			count: value,
-			entry: (await getEntry("tags", key))!,
+		Object.entries(tagSlugsToOccurences).map(async ([tagSlug, occurences]) => ({
+			count: occurences,
+			entry: (await getEntry(collectionKey, tagSlug))!,
 		}))
 	)
-).filter((tag) => tag.entry) // Some tags may have Notion pages associated to it but no corresponding mdx file, hence the filter
-
-interface Props {
-	currentTag?: CollectionEntry<"tags">
-}
-const { currentTag } = Astro.props
+).filter((t) => t.entry) // Some tags may have Notion pages associated to it but no corresponding mdx file, hence the filter
 ---
 
 {
 	tags.map((tag) => (
 		<>
 			<TagLabel
-				label={tag.entry.data.title}
+				label={tag.entry.data.fullTitle || tag.entry.data.title}
 				slug={tag.entry.slug}
 				count={tag.count}
-				type={"tag"}
-				disabled={tag.entry == currentTag}
+				parent={collectionKey == "places" ? "blog/places" : collectionKey}
+				disabled={tag.entry == currentEntry}
 			/>{" "}
 		</>
 	))

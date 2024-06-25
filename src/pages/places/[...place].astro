@@ -12,7 +12,7 @@ export async function getStaticPaths() {
 	const places = await getCollection("places")
 	return await Promise.all(
 		places.map(async (place) => ({
-			params: { place: place.slug.split("/")[1] },
+			params: { place: place.slug },
 			props: { place, mapsData: await getPlace(place.data.id) },
 		}))
 	)

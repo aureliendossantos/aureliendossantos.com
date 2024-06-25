@@ -3,11 +3,11 @@ import BaseLayout from "$layouts/BaseLayout.astro"
 
 type Props = {
 	title: string
-	type?: "Tags" | "Lieux"
+	type?: "Tags" | "Lieux" | "Muses"
 }
 const { title, type } = Astro.props
 
-const paths = { Tags: "/tags", Lieux: "/blog/places" }
+const paths = { Tags: "/tags", Lieux: "/blog/places", Muses: "/muses" }
 const path = type && paths[type]
 ---
 

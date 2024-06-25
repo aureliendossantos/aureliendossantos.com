@@ -1,0 +1,148 @@
+---
+import BaseLayout from "$layouts/BaseLayout.astro"
+import formatDate from "$utils/formatting/formatDate"
+import { Icon } from "astro-icon/components"
+import { getCollection } from "astro:content"
+import RenderBlocks from "$components/notion/RenderBlocks.astro"
+import { getAnyEntry } from "$utils/getCollection"
+
+export async function getStaticPaths() {
+	const wiki = await getCollection("wiki")
+	return wiki.map((page) => ({
+		params: { wikiStatic: page.data.slug },
+		props: { page },
+	}))
+}
+
+const page = Astro.props.page.data
+const related = await getAnyEntry(page.related)
+const pageTags = (await getCollection("tags")).filter((tag) => page.tags.includes(tag.slug))
+---
+
+<BaseLayout
+	ssr
+	title={page.title}
+	ogType="article"
+	bg={{ light: "#fbf7ee", dark: "#101520" }}
+	navBarProps={{ title: page.title, parent: pageTags.length > 0 ?  { title: pageTags[0].data.title, href: `/tags/${pageTags[0].slug}` } : undefined} }
+>
+	<div
+		class="prose mx-auto prose-h1:mb-0 mb-16 mt-8 px-4 font-[350] mediumlarge:prose-sm dark:prose-invert prose-a:text-[--secondary] prose-a:dark:text-[--dark-secondary] prose-a:no-underline prose-quoteless prose-blockquote:font-[350] prose-blockquote:not-italic font-bricolage"
+		style={{
+			"--main": "#fbf7ee",
+			"--dark-main": "#101520",
+			"--gray": "#b8b8b8",
+			"--secondary": "#274b75",
+			"--dark-secondary": "#7188a9",
+			"--tertiary": "#84a59d",
+			"--highlight": "#8f9fa926",
+		}}
+	>
+		<header class="flex justify-between text-[--secondary] dark:text-[--dark-secondary]">
+				<p><a href="/" id="back-link">← Accueil</a></p>
+		</header>
+			<h1>{page.title}</h1>
+			{page.description && <p class="lead">{page.description}</p>}
+			<p class="text-[--gray]">
+				{
+					page.status && (
+						<>
+							<span>{page.status.icon}</span>
+							<span class="text-[#62AC1B]">{page.status.text}</span>
+						</>
+					)
+				}
+				<span class="mx-[0.1em]">·</span>
+				{
+					related.map((entry) => (
+						<a
+							href={`/${entry.slug}`}
+							style={{ marginLeft: "0", marginRight: "0" }}
+							set:html={entry.title}
+						/>
+					))
+				}
+				{
+					pageTags.map((tag) => (
+						<>
+						<!-- prettier-ignore -->
+						<a href={`/tags/${tag.slug}`} style={{ marginLeft: "0", marginRight: "0" }}><Icon name="material-symbols:label-rounded" class="mb-[0.1em] mr-[0.15em] inline-block" />{tag.data.title}</a>
+						</>
+					))
+				}
+				<span class="mx-[0.1em]">·</span>
+				<Icon name="material-symbols:update-rounded" class="mb-[0.15em] inline-block" />
+				{formatDate(new Date(page.editedTime))}
+				<Icon name="radix-icons:notion-logo" class="mb-[0.10em] inline-block" />
+			</p>
+			<RenderBlocks blocks={page.blocks} />
+	</div>
+</BaseLayout>
+
+<script>
+	import type { NavBarProps } from "$utils/navbar"
+
+	document.addEventListener('astro:page-load', ev => {
+		// Get the title and local URL of the current page
+		window.previousTitle = (JSON.parse((document.getElementById("navbar-data") as HTMLElement).dataset.props as string) as NavBarProps).title
+		window.previousUrl = window.location.pathname
+	})
+	document.addEventListener('astro:before-swap', ev => {
+		// Set the page title and URL as the title and href of the link
+		const navLink = ev.newDocument.querySelector('a#back-link') as HTMLAnchorElement | null
+		console.log(navLink)
+		if (navLink && window.previousTitle){
+			navLink.textContent = `← ${window.previousTitle}`
+			navLink.href = window.previousUrl
+		}
+	})
+</script>
+
+<style is:global>
+	.prose a {
+		@apply font-[550] dark:text-[--dark-secondary] text-[--secondary] transition hover:text-[--tertiary];
+		&:not(.link_preview) {
+			@apply -mx-[0.25em] -my-[0.05em] py-[0.05em] rounded-[0.25em] bg-[--highlight] px-[0.25em];
+		}
+	}
+	header a {
+		@apply !bg-transparent;
+	}
+	img {
+		@apply rounded;
+	}
+	nav.toc {
+		a {
+			@apply !bg-transparent no-underline;
+		}
+		ol,
+		ul {
+			@apply list-none;
+		}
+		ul {
+			@apply pl-[2em];
+		}
+	}
+	code {
+		font-family: "nk57", monospace;
+	}
+	.link-preview {
+		@apply leading-snug bg-[--highlight] !flex-row-reverse;
+		.link-preview__content {
+			@apply grow;
+		}
+		a.link-preview__title {
+			@apply px-0 py-[0.2em];
+		}
+		img {
+			width: 33% !important;
+		}
+	}
+	:root {
+		--link-preview-width: 100%;
+		--link-preview-padding-inline: 1em;
+		--link-preview-padding-block: 1em;
+		--link-preview-corners: 0.5em;
+		--link-preview-description-lines: 3;
+	}
+</style>

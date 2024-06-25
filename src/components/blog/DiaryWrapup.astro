@@ -20,6 +20,7 @@ const diary = await Promise.all(
 const entries = diary.filter((entry) => entry.year == year)
 
 const wrapups = {
+	2024: "En 2024, j'ai accepté le passé pour mieux grandir.",
 	2023: "2023 est marqué par la fin de mes études mais aussi par un voyage d'une semaine en voiture, que je n'ai pas encore inscrit dans le journal.",
 	2022: "2022 fut l'année de mon premier été à Toulouse.",
 	2021: "2021 fut la première année où j'ai documenté une escapade dans mon journal.",
@@ -76,7 +77,7 @@ if (!(year in wrapups)) throw new Error(`Year ${year} not in wrapup`)
 							id={`${entry.slug}-link`}
 							data-year={year}
 							class="diary-entry border-dashed border-black/10 bg-white px-8 py-2 text-sm text-zinc-700 transition-colors hover:bg-zinc-100 small:border-t small:px-2 small:py-1"
-							href={`/diary/${entry.finalSlug}`}
+							href={`/diary/${entry.slug}`}
 							data-category={entry.category}
 						>
 							<div class="font-medium">

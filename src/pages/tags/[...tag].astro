@@ -1,64 +1,39 @@
 ---
-import ArticleCardMinimal from "$components/blog/ArticleCardMinimal.astro"
+import EntryCardMinimal from "$components/blog/EntryCardMinimal.astro"
 import Explore from "$layouts/Explore.astro"
 import { type CollectionEntry } from "astro:content"
-import getBlogPosts, { getWikiCache } from "$utils/getCollection"
-import { Icon } from "astro-icon/components"
+import { getContentEntries } from "$utils/getCollection"
 import { getCollection } from "astro:content"
 import TagsList from "$components/tags/TagsList.astro"
+import { dateSort } from "$utils/sort"
 
 export async function getStaticPaths() {
-	const articles = await getBlogPosts()
-	const wiki = await getWikiCache()
+	const content = (await getContentEntries()).sort((a, b) => dateSort(a.data.date, b.data.date))
 	const tags = await getCollection("tags")
 	return tags.map((tag) => ({
 		params: { tag: tag.slug },
-		props: { articles, wiki, currentTag: tag },
+		props: { content, currentTag: tag },
 	}))
 }
 
 type Props = {
-	articles: CollectionEntry<"blog">[]
-	wiki: Awaited<ReturnType<typeof getWikiCache>>
+	content: Awaited<ReturnType<typeof getContentEntries>>
 	currentTag: CollectionEntry<"tags">
 }
 const { currentTag } = Astro.props
 
-const articles = Astro.props.articles.filter((article) =>
-	article.data.tags.find((tag) => tag.slug == currentTag.slug)
+const content = Astro.props.content.filter((entry) =>
+	entry.data.tags.find((t) =>
+		typeof t == "string" ? t == currentTag.slug : t.slug == currentTag.slug
+	)
 )
-const wiki = Astro.props.wiki.filter((page) => page.links.includes(`tags/${currentTag.slug}`))
 ---
 
 <Explore title={currentTag.data.title} type="Tags">
 	<p slot="tags">
-		<TagsList />
+		<TagsList collectionKey="tags" currentEntry={currentTag} />
 	</p>
 	<main class="flex flex-col">
-		{articles.map((article) => <ArticleCardMinimal article={article} />)}
-		{
-			wiki && (
-				<ul class="mx-auto flex w-full max-w-[500px] flex-col font-sans text-base text-neutral-800 dark:text-neutral-200">
-					{wiki.map((page) => (
-						<a
-							class="z-0 -mt-[1px] border border-neutral-300 px-3 py-3 leading-snug transition first:mt-0 first:rounded-t last:rounded-b hover:z-10 hover:border-neutral-500 dark:border-neutral-700"
-							href={`/${page.slug}`}
-						>
-							<div class="flex justify-between">
-								<h3>
-									{page.title}
-									{page.status}
-								</h3>
-								<p class="text-neutral-500">
-									<Icon name="material-symbols:update-rounded" class="mb-[0.2em] inline-block" />
-									{page.date}
-								</p>
-							</div>
-							{page.description && <p class="text-neutral-500">{page.description}</p>}
-						</a>
-					))}
-				</ul>
-			)
-		}
+		{content.map((entry) => <EntryCardMinimal entry={entry} />)}
 	</main>
 </Explore>

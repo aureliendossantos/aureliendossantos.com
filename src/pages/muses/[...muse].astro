@@ -1,0 +1,36 @@
+---
+import EntryCardMinimal from "$components/blog/EntryCardMinimal.astro"
+import Explore from "$layouts/Explore.astro"
+import { type CollectionEntry } from "astro:content"
+import { getContentEntries } from "$utils/getCollection"
+import { getCollection } from "astro:content"
+import TagsList from "$components/tags/TagsList.astro"
+
+export async function getStaticPaths() {
+	const content = await getContentEntries()
+	const muses = await getCollection("muses")
+	return muses.map((muse) => ({
+		params: { muse: muse.slug },
+		props: { content, currentMuse: muse },
+	}))
+}
+
+type Props = {
+	content: Awaited<ReturnType<typeof getContentEntries>>
+	currentMuse: CollectionEntry<"muses">
+}
+const { currentMuse } = Astro.props
+
+const content = Astro.props.content.filter(
+	(entry) => "muses" in entry.data && entry.data.muses.find((m) => m.slug == currentMuse.slug)
+)
+---
+
+<Explore title={currentMuse.data.title} type="Muses">
+	<p slot="tags">
+		<TagsList collectionKey="muses" currentEntry={currentMuse} />
+	</p>
+	<main class="flex flex-col">
+		{content.map((entry) => <EntryCardMinimal entry={entry} />)}
+	</main>
+</Explore>

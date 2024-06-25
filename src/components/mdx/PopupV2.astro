@@ -66,12 +66,11 @@ const labelHtml = markdown
 			{
 				url && (
 					<div class="source truncate border-0 border-t border-dotted border-[--popup] px-8 py-2 font-[family-name:--code-font] text-xs dark:border-[--dark-popup]">
-						{/* Repeating the border color rule is useful when tailwind base is active */}
-						{/* TODO: No idea why but the following <a> is copied in the document (creating a space) even when `url` is undefined.
+						{/* BUG: No idea why but the following <a> is copied in the document (creating a space) even when `url` is undefined.
 						I'll investigate when I need the <Wiki> component. */}
-						{/*<a href={url} class="no-underline">
+						<a href={url} class="no-underline">
 							{decodeURI(url)}
-						</a>*/}
+						</a>
 					</div>
 				)
 			}

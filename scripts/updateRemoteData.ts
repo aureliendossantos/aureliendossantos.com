@@ -1,14 +1,15 @@
 import fs from "node:fs"
 import updateGames from "./updateGames"
+import updateWiki from "./updateWiki"
 import { ensureCacheFolderExists } from "$utils/cache"
 
 // Creates the cache folder if it doesn't exist
 ensureCacheFolderExists()
 
 // When this script is ran (see package.json), runs all the scripts updating remote data.
-const [gameCount] = await Promise.all([updateGames()])
+const [gameCount, wikiCount] = await Promise.all([updateGames(), updateWiki()])
 
-console.log(`Got data for ${gameCount} games.`)
+console.log(`Got data for ${gameCount} games, ${wikiCount} wiki pages.`)
 
 /**
  * Get a list of all directories in a given content collection.

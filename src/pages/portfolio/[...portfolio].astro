@@ -32,7 +32,7 @@ const width = 336 * 2 + 552
 	title={`${data.title} - Portfolio d'Aurélien Dos Santos`}
 	description={data.description}
 	bg="#FFFCF0"
-	date={data.release}
+	date={data.date}
 	image={data.image?.src}
 	navBarProps={{ title: data.title, parent: { title: "Portfolio", href: "/portfolio" } }}
 >
@@ -44,13 +44,13 @@ const width = 336 * 2 + 552
 			style="width: -webkit-fill-available; width: -moz-available; width: stretch;"
 		>
 			{
-				(data.client || data.release) && (
+				(data.client || data.date) && (
 					<p
 						class="mb-2 text-xl font-light text-fi-base-300 transition hover:text-fi-base-600"
 						style={{ fontFeatureSettings: "'tnum', 'lnum'" }}
 					>
-						{data.release && <ArticleDate yearOnly date={data.release} />}
-						{data.client && data.release && <span> · </span>}
+						{data.date && <ArticleDate yearOnly date={data.date} />}
+						{data.client && data.date && <span> · </span>}
 						{data.client}
 					</p>
 				)

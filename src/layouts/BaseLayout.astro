@@ -131,9 +131,7 @@ navBarPropsWithFallback.title ??= title
 			"--dark-popup-active": darkPopupActive,
 		}}
 	>
-		<main>
-			<slot />
-		</main>
+		<slot />
 		<FullscreenSpinner />
 		<MediumZoom />
 		<NavBar ssr={ssr} {...navBarPropsWithFallback} />

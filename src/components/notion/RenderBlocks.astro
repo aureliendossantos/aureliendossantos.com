@@ -6,6 +6,10 @@ import type {
 import RenderRichText from "./RenderRichText.astro"
 import type { BlockObjectResponseWithChildren } from "$utils/notion/getChildren"
 import { getBackgroundColor } from "$utils/notion/wiki"
+import type { MarkdownHeading } from "astro"
+import TableOfContents from "$components/articles/TableOfContents.astro"
+import { Image } from "astro:assets"
+import { LinkPreview } from "astro-embed"
 
 interface Props {
 	blocks: BlockObjectResponse[] | BlockObjectResponseWithChildren[]
@@ -66,9 +70,9 @@ let numbered_list: RichTextItemResponse[][] = []
 					<figure>
 						{/* block.image.file.url is only valid for one hour, but block.image.external.url never changes */}
 						{block.image.type == "external" ? (
-							<img src={block.image.external.url} data-zoomable />
+							<Image src={block.image.external.url} inferSize alt="" />
 						) : (
-							<img src={block.image.file.url} data-zoomable />
+							<Image src={block.image.file.url} inferSize alt="" />
 						)}
 						{block.image.caption[0] ? (
 							<figcaption>
@@ -119,7 +123,9 @@ let numbered_list: RichTextItemResponse[][] = []
 						<summary>
 							<RenderRichText text={block.toggle.rich_text} />
 						</summary>
-						<Astro.self blocks={"children" in block ? block.children : []} />
+						<Astro.self
+							blocks={"children" in block ? (block.children as BlockObjectResponse[]) : []}
+						/>
 					</details>
 				)
 			case "callout":
@@ -157,17 +163,9 @@ let numbered_list: RichTextItemResponse[][] = []
 					</p>
 				)
 			case "link_preview":
-				return (
-					<a class="link_preview" href={block.link_preview.url}>
-						<p>{block.link_preview.url}</p>
-					</a>
-				)
+				return <LinkPreview id={block.link_preview.url} />
 			case "bookmark":
-				return (
-					<a class="link_preview" href={block.bookmark.url}>
-						<p>{block.bookmark.url}</p>
-					</a>
-				)
+				return <LinkPreview id={block.bookmark.url} />
 			case "table":
 				return (
 					<table>
@@ -216,52 +214,47 @@ let numbered_list: RichTextItemResponse[][] = []
 							block.children.map((column) => {
 								return (
 									<div class="column">
-										<Astro.self blocks={"children" in column ? column.children : []} />
+										<Astro.self
+											blocks={
+												"children" in column
+													? (column.children as BlockObjectResponseWithChildren[])
+													: []
+											}
+										/>
 									</div>
 								)
 							})}
 					</div>
 				)
 			case "table_of_contents":
+				const headings: MarkdownHeading[] = blocks
+					.map((block) => {
+						switch (block.type) {
+							case "heading_1":
+								return {
+									depth: 1,
+									slug: block.id,
+									text: block.heading_1.rich_text.map((t) => t.plain_text).join(""),
+								}
+							case "heading_2":
+								return {
+									depth: 2,
+									slug: block.id,
+									text: block.heading_2.rich_text.map((t) => t.plain_text).join(""),
+								}
+							case "heading_3":
+								return {
+									depth: 3,
+									slug: block.id,
+									text: block.heading_3.rich_text.map((t) => t.plain_text).join(""),
+								}
+						}
+					})
+					.filter((heading) => heading)
 				return (
-					<ul class="table-of-contents">
-						{blocks.map((block) => {
-							switch (block.type) {
-								case "heading_1":
-									return (
-										<li>
-											<a href={"#" + block.id}>
-												<RenderRichText text={block.heading_1.rich_text} />
-											</a>
-										</li>
-									)
-								case "heading_2":
-									return (
-										<ul>
-											<li>
-												<a href={"#" + block.id}>
-													<RenderRichText text={block.heading_2.rich_text} />
-												</a>
-											</li>
-										</ul>
-									)
-								case "heading_3":
-									return (
-										<ul>
-											<ul>
-												<li>
-													<a href={"#" + block.id}>
-														<RenderRichText text={block.heading_3.rich_text} />
-													</a>
-												</li>
-											</ul>
-										</ul>
-									)
-								default:
-									return null
-							}
-						})}
-					</ul>
+					<div class="not-prose notw">
+						<TableOfContents headings={headings} firstLevel={1} />
+					</div>
 				)
 			case "unsupported":
 				return <p class="error">{"Erreur : Bloc non supporté par l'API."}</p>

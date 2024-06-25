@@ -1,60 +1,35 @@
 ---
-import ArticleCardMinimal from "$components/blog/ArticleCardMinimal.astro"
-import TagLabel from "$components/blog/TagLabel.astro"
+import EntryCardMinimal from "$components/blog/EntryCardMinimal.astro"
 import Explore from "$layouts/Explore.astro"
-import { getEntryBySlug, type CollectionEntry, getCollection } from "astro:content"
-import getBlogPosts from "$utils/getCollection"
-import getUniqueValuesAndOccurences from "$utils/getUniqueValuesAndOccurences"
+import { type CollectionEntry, getCollection } from "astro:content"
+import { getContentEntries } from "$utils/getCollection"
+import TagsList from "$components/tags/TagsList.astro"
 
 export async function getStaticPaths() {
-	const allArticles = await getBlogPosts()
-	const rawPlaces = allArticles.map((article) => article.data.places.map((p) => p.slug))
-	const places = getUniqueValuesAndOccurences(rawPlaces)
-
-	return Object.entries(places).map(([place, amount], i) => {
-		const filteredArticles = allArticles.filter((article) =>
-			article.data.places.find((p) => p.slug == place)
-		)
-		const slug = place.split("/")[1]
-		return {
-			params: { place: slug },
-			props: { placeId: place, articles: filteredArticles, places },
-		}
-	})
+	const content = await getContentEntries()
+	const places = await getCollection("places")
+	return places.map((place) => ({
+		params: { place: place.slug },
+		props: { content, place },
+	}))
 }
 
 type Props = {
-	placeId: string
-	articles: CollectionEntry<"blog">[]
-	places: { [k: string]: number }
+	content: Awaited<ReturnType<typeof getContentEntries>>
+	place: CollectionEntry<"places">
 }
+const { place } = Astro.props
 
-const { place } = Astro.params
-const { placeId, articles, places } = Astro.props
-
-const placeCollection = await getCollection("places")
-const placeEntry = await getEntryBySlug("places", placeId)
+const content = Astro.props.content.filter(
+	(entry) => "places" in entry.data && entry.data.places.find((p) => p.slug == place.slug)
+)
 ---
 
-<Explore title={placeEntry?.data.title || ""} type="Lieux">
-	<div class="mt-3" slot="header">
-		<p>
-			{
-				Object.entries(places).map(([key, value], i) => (
-					<>
-						<TagLabel
-							label={placeCollection.find((p) => p.slug == key)?.data.title || key}
-							slug={key.split("/")[1]}
-							count={value}
-							type="place"
-							disabled={place == key}
-						/>{" "}
-					</>
-				))
-			}
-		</p>
-	</div>
+<Explore title={place.data.title} type="Lieux">
+	<p slot="tags">
+		<TagsList collectionKey="places" currentEntry={place} />
+	</p>
 	<main class="flex flex-col">
-		{articles.map((article) => <ArticleCardMinimal article={article} noPlace />)}
+		{content.map((entry) => <EntryCardMinimal entry={entry} noPlace />)}
 	</main>
 </Explore>

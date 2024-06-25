@@ -8,7 +8,7 @@ export async function getStaticPaths() {
 		return data.clickable
 	})
 	return gear.map((gear) => ({
-		params: { gear: gear.slug.split("/")[1] },
+		params: { gear: gear.slug },
 		props: { gear },
 	}))
 }
@@ -19,7 +19,6 @@ interface Props {
 const { gear } = Astro.props
 const { Content } = await gear.render()
 const data = gear.data
-const category = gear.slug.split("/")[0]
 ---
 
 <BaseLayout
