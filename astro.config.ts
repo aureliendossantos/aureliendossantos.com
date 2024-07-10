@@ -6,6 +6,7 @@ import vercel from "@astrojs/vercel/serverless"
 import icon from "astro-icon"
 import expressiveCode from "astro-expressive-code"
 import { remarkConvertImports } from "./src/utils/remark/convertImports"
+import { remarkAbbr } from "./src/utils/remark/detectAbbr"
 
 // https://astro.build/config
 export default defineConfig({
@@ -97,7 +98,7 @@ export default defineConfig({
 			footnoteLabel: "Notes",
 		},
 		smartypants: true,
-		remarkPlugins: [remarkConvertImports],
+		remarkPlugins: [remarkConvertImports, remarkAbbr],
 	},
 	adapter: vercel(),
 })
