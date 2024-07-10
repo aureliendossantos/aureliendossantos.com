@@ -67,9 +67,11 @@ p + input + label + .sidenote {
 	counter-reset: sidenote-counter;
 }
 
-:root[data-palette="louize"] h2 {
-	/* Weird hack to prevent floating sidenotes preceding the h2 from disappearing. */
-	@apply float-left;
+:root[data-palette="louize"] {
+	h2:not(#reference-label) {
+		/* Weird hack to prevent floating sidenotes preceding the h2 from disappearing. */
+		@apply float-left;
+	}
 }
 .sidenote {
 	/* The mt aligns the small text with the main one. It's not done cleanly right now. */
