@@ -4,13 +4,13 @@ import TocHeading from "./TocHeading.astro"
 
 interface Props {
 	headings: MarkdownHeading[]
+	title?: string
 	firstLevel?: number
 	depth?: number
 }
-const { headings, firstLevel, depth } = Astro.props
+const { headings, title, firstLevel, depth } = Astro.props
 
 const toc = buildToc(headings)
-console.log(toc)
 
 export type HeadingWithSubs = MarkdownHeading & {
 	subheadings: HeadingWithSubs[]
@@ -45,7 +45,8 @@ function buildToc(flatHeadings: MarkdownHeading[]) {
 }
 ---
 
-<nav class="toc">
+<nav class="toc not-prose">
+	{title && <h2>{title}</h2>}
 	<ol class="pl-0 medium:pl-[40px]">
 		{toc.map((heading) => <TocHeading heading={heading} />)}
 	</ol>

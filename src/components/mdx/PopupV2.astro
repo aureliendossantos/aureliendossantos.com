@@ -27,7 +27,7 @@ const labelHtml = markdown
 		id={`text-${uid}`}
 		data-icon={icon}
 		class:list={[
-			"popup-link unstyled cursor-context-menu rounded-sm",
+			"popup-link unstyled cursor-context-menu rounded-sm transition hover:bg-[--popup-active] dark:hover:bg-[--popup-active]",
 			{
 				"!no-underline": noUnderline,
 				underline: !noUnderline,
@@ -132,7 +132,8 @@ const labelHtml = markdown
 			// because it's the click that opened the popup.
 			// We also ignore clicks on the zoomed images.
 			let clicks = 0
-			const article = document.querySelector("main") as HTMLDivElement
+			const article = (document.querySelector("main") ||
+				document.querySelector("article")) as HTMLDivElement
 			article.addEventListener("click", (event) => {
 				if (opened) clicks += 1
 				else clicks = 0

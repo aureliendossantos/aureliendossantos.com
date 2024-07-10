@@ -17,6 +17,7 @@ export default {
 				"space-mono": ["Space Mono", ...defaultTheme.fontFamily.mono],
 			},
 			colors: {
+				script: "#4a7dbf",
 				"space-blue": "#17182f",
 				"space-100": "#eceff4",
 				"space-200": "#e5e7eb",
@@ -65,6 +66,12 @@ export default {
 					css: {
 						"blockquote p:first-of-type::before": { content: "none" },
 						"blockquote p:first-of-type::after": { content: "none" },
+					},
+				},
+				fenceless: {
+					css: {
+						"code::before": { content: "none" },
+						"code::after": { content: "none" },
 					},
 				},
 			},

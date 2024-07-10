@@ -43,9 +43,11 @@ const subheadings = heading.subheadings
 		}
 		ol > li {
 			counter-increment: toc;
-			font-feature-settings:
-				"c2sc" 1,
-				"smcp" 1;
+			font-feature-settings: "c2sc", "smcp";
+			:root[data-palette*="louize"] & a {
+				font-feature-settings: "smcp" 0;
+				@apply text-[--secondary-color] transition hover:bg-transparent hover:text-[--base-color] dark:text-[--dark-secondary-color] dark:hover:text-[--dark-base-color];
+			}
 			/* temp: Pour retirer les numéros roses de .future */
 			&::before {
 				content: none;

@@ -5,15 +5,18 @@ import MarkdownIt from "markdown-it"
 import { getImage } from "astro:assets"
 import { Layouts } from "$utils/design/layouts"
 import { PaletteName } from "$utils/design/palettes"
+import type { CollectionEntry } from "astro:content"
+import { getEntries } from "astro:content"
 
 interface Props {
 	title?: string
 	description?: string
-	tags?: string[]
+	longDescription?: string
+	tags?: CollectionEntry<"blog">["data"]["tags"]
 	date?: Date
 	cover?: ImageMetadata
 	palette: Palette
-	layouts: Layouts[]
+	layouts?: Layouts[]
 	sidenotes?: boolean
 	wide?: boolean
 	anchorTop?: boolean
@@ -21,7 +24,7 @@ interface Props {
 const {
 	title: t,
 	description: d,
-	tags,
+	longDescription: ld,
 	date,
 	cover,
 	palette,
@@ -32,13 +35,15 @@ const {
 } = Astro.props
 
 const optimizedCover = cover && (await getImage({ src: cover, width: Math.min(1920, cover.width) }))
-const cormorant = layouts.includes(Layouts.cormorant)
-const louize = palette.name == PaletteName.louize
+const cormorant = layouts?.includes(Layouts.cormorant)
+const louize = palette.name.toString().includes("louize")
 const tufte = palette.name == PaletteName.tufte
 
 const markdown = new MarkdownIt({ html: true })
 const title = t && markdown.renderInline(t)
 const description = d && markdown.renderInline(d)
+const longDescription = ld && markdown.renderInline(ld)
+const tags = await getEntries(Astro.props.tags)
 ---
 
 <header
@@ -76,7 +81,7 @@ const description = d && markdown.renderInline(d)
 			<h1
 				set:html={title}
 				class:list={[
-					"text-[--h1] dark:text-[--dark-h1]",
+					"text-pretty text-[--h1] dark:text-[--dark-h1]",
 					{ "mb-0 !leading-tight": cormorant, "mt-[2.2em]": tufte },
 				]}
 				style={{
@@ -85,19 +90,19 @@ const description = d && markdown.renderInline(d)
 					fontFamily: palette.displayFont,
 					fontWeight: palette.titleWeight,
 					fontStyle: cormorant ? "italic" : undefined,
-					fontFeatureSettings: cormorant ? '"ss01" 01, "dlig" 1' : undefined,
+					fontFeatureSettings: cormorant ? '"ss01", "dlig"' : undefined,
 					textTransform: louize ? "uppercase" : undefined,
 					letterSpacing: louize ? "0.2em" : undefined,
 					fontSize: louize ? "1.3em" : tufte ? "2.5em" : undefined,
 					marginTop: louize ? "4em" : undefined,
 					marginBottom: louize || tufte ? "calc(var(--indent) - 6px)" : undefined,
-					lineHeight: louize || tufte ? "1" : undefined,
+					lineHeight: tufte ? "1" : louize ? "var(--indent)" : undefined,
 				}}
 			/>
 			{
 				description && (
 					<p
-						set:html={description}
+						set:html={longDescription || description}
 						class:list={{
 							"!my-[1em]": cormorant,
 							"my-0 text-[1.41em] italic leading-tight": tufte,
@@ -114,11 +119,33 @@ const description = d && markdown.renderInline(d)
 			}
 			{
 				date && (
-					<p style={{ fontFamily: cormorant ? "'Cormorant Unicase'" : undefined }}>
-						<ArticleDate date={date} /> – <a href="/blog">Aurélien Dos Santos</a>
+					<p>
+						<ArticleDate date={date} /> –{" "}
+						<a href="/blog">
+							Aurélien <span class="person">Dos Santos</span>
+						</a>
+						{tags.length > 0 && (
+							<span class:list={{ "lowercase italic": cormorant }}>
+								–
+								{tags.map((tag, index) => (
+									<>
+										{/* prettier-ignore */}
+										<>
+											<a href={`/tags/${tag.slug}`}>{tag.data.title}</a>{index < tags.length - 1 && ", "}
+										</>
+									</>
+								))}
+							</span>
+						)}
 					</p>
 				)
 			}
 		</div>
 	</div>
 </header>
+
+<style is:global>
+	:root[data-palette*="louize"] header h1 em {
+		@apply not-italic;
+	}
+</style>
