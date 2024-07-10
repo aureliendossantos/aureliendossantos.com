@@ -26,7 +26,7 @@ section.footnotes,
 		/*left-[8.5px]*/
 	}
 }
-.sidenote-number::after {
+.sidenote-label.sidenote-number::after {
 	font-family: "Adelle Sans", sans-serif;
 	font-feature-settings:
 		"sups" 0,

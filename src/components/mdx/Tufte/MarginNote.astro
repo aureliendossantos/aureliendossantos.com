@@ -1,10 +1,25 @@
 ---
-import Sidenote from './Sidenote.astro'
+import Sidenote from "./Sidenote.astro"
 
 interface Props {
 	paragraph?: boolean
+	hide?: boolean
+	script?: boolean
+	noMarginTop?: boolean
 }
-const { paragraph } = Astro.props
+const { paragraph, hide, script, noMarginTop } = Astro.props
 ---
 
-{paragraph ? <p><Sidenote label="none" toggle={false} visible><slot /></Sidenote></p> : <Sidenote label="none" toggle={false} visible><slot /></Sidenote>}
+{
+	paragraph ? (
+		<p>
+			<Sidenote label={hide ? "plus" : "none"} toggle={hide} visible={!hide} noMarginTop={noMarginTop} script={script}>
+				<slot />
+			</Sidenote>
+		</p>
+	) : (
+		<Sidenote label={hide ? "plus" : "none"} toggle={hide} visible={!hide} noMarginTop={noMarginTop} script={script}>
+			<slot />
+		</Sidenote>
+	)
+}

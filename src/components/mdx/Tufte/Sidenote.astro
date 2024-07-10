@@ -5,10 +5,13 @@ import crypto from "node:crypto"
  * This component is an inline sidenote. Don't try to add block elements like <p> in the <slot /> cause the Astro compiler will move them outside. The only way to insert block elements is via JS on the client, like in GenerateSidenotes.astro.
  * For my own convenience, the label prop is not mandatory, and if it's not provided, I default the sidenote to a togglable symbol.
  */
-type Props = Partial<LabelProps>
+interface Props extends Partial<LabelProps> {
+	script?: boolean
+	noMarginTop?: boolean
+}
 const props = Astro.props
+// Default option for <Sidenote /> is a togglable asterisk
 if (!props.label) {
-	props.id = crypto.randomUUID()
 	props.label = "symbol"
 	props.toggle = true
 	props.visible = false
@@ -16,6 +19,13 @@ if (!props.label) {
 ---
 
 <Label {...props as LabelProps} /><span
-	class:list={["sidenote", { symbol: props.label == "symbol", "no-label": props.label == "none" }]}
-	><slot /></span
+	class:list={[
+		"sidenote",
+		{
+			symbol: props.label == "symbol",
+			"no-label": props.label == "none" || props.label == "plus",
+			script: props.script,
+			"mt-0": props.noMarginTop,
+		},
+	]}><slot /></span
 >

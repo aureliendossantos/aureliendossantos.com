@@ -1,4 +1,39 @@
-:root[data-palette="tufte"],
+.script {
+	font-family: "Bonnies";
+	line-height: 1.3;
+	@apply text-script;
+}
+.sidenote.script {
+	font-size: 1.3rem;
+	transform: rotate(-1deg);
+	@apply text-balance xl:mr-0 xl:text-pretty small:text-[1.1rem] small:leading-[1.4];
+	a {
+		@apply decoration-2;
+	}
+}
+
+span.highlight {
+	margin: 0 -0.4em;
+	padding: 0.1em 0.4em;
+	border-radius: 0.8em 0.3em;
+	background-image: linear-gradient(
+		to right,
+		hsla(214, 70%, 80%, 0.1),
+		hsla(214, 70%, 80%, 0.6) 4%,
+		hsla(214, 70%, 80%, 0.3)
+	);
+	-webkit-box-decoration-break: clone;
+	box-decoration-break: clone;
+	@media (prefers-color-scheme: dark) {
+		background-image: linear-gradient(
+			to right,
+			hsla(214, 50%, 40%, 0.3),
+			hsla(214, 50%, 40%, 0.7) 4%,
+			hsla(214, 50%, 40%, 0.5)
+		);
+	}
+}
+
 :root[data-palette="source-serif"] {
 	.sidenote {
 		font-family: "Source Serif SmText";
@@ -24,14 +59,25 @@
 		}
 	}
 }
+p + input + label + .sidenote {
+	@apply xl:mt-0;
+}
 
 :root {
 	counter-reset: sidenote-counter;
 }
 
+:root[data-palette="louize"] h2 {
+	/* Weird hack to prevent floating sidenotes preceding the h2 from disappearing. */
+	@apply float-left;
+}
 .sidenote {
 	/* The mt aligns the small text with the main one. It's not done cleanly right now. */
-	@apply relative float-right clear-right -mr-[calc(50%+4*var(--font-size))] mb-[1em] mt-[5px] box-border w-1/2 indent-0 text-[0.9rem] not-italic leading-[1.35] xl:m-0 xl:my-[--indent] xl:box-border xl:hidden xl:w-full xl:px-[--indent] xl:text-left xl:leading-[--line-height] xl:peer-checked:block small:my-[--sm-indent] small:px-[--sm-indent] small:leading-[--sm-line-height];
+	@apply relative float-right clear-right -mr-[calc(50%+4*var(--font-size))] mb-[1em] mt-[5px] w-1/2 indent-0 text-[0.9rem] not-italic leading-[1.35] xl:m-0 xl:my-[--indent] xl:box-border xl:hidden xl:w-full xl:px-[--indent] xl:text-left xl:leading-[--line-height] xl:peer-checked:block small:my-[--sm-indent] small:px-[--sm-indent] small:leading-[--sm-line-height];
+
+	p {
+		@apply my-0;
+	}
 	img,
 	video,
 	lite-youtube {
@@ -40,46 +86,47 @@
 	img {
 		@apply xl:my-[0.4em];
 	}
-	p {
-		@apply my-0;
+	.gallery {
+		/* example of this in the Witness article */
+		@apply !mb-4 !mt-0;
+	}
+
+	/* Numbered sidenote */
+	&::before {
+		content: counter(sidenote-counter);
+		@apply absolute -left-[1.5em] xl:left-[calc(var(--indent)-1em)];
+	}
+	/* Sidenote with asterisk */
+	&.symbol::before {
+		content: "*";
+		transform: translateX(-50%);
+		@apply -left-[1em] -top-[0.3em] xl:left-[calc(var(--indent)/2)];
+	}
+	/* Hidden label (margin note) */
+	&.no-label::before {
+		display: none;
 	}
 }
 
-.sidenote-number:not(.hidden) {
-	counter-increment: sidenote-counter;
-}
-
-.sidenote-number {
+.sidenote-label {
 	/* The -my compensates for the border width. */
 	@apply inline-block max-h-[2rem] indent-0;
-	&:after {
-		content: counter(sidenote-counter);
+
+	&.sidenote-number {
+		&:not(.hidden) {
+			counter-increment: sidenote-counter;
+		}
+		&::after {
+			content: counter(sidenote-counter);
+			font-feature-settings: "sups";
+		}
+	}
+	&.sidenote-symbol::after {
+		content: "*";
 		font-feature-settings: "sups";
 	}
 }
 
 .mobile-touch {
-	@apply rounded border-[--popup] xl:-my-[2px] xl:cursor-pointer xl:border-[1.5px] xl:border-dotted xl:px-[0.2em] dark:border-[--dark-popup];
-}
-
-.sidenote:before {
-	content: counter(sidenote-counter);
-	@apply absolute -left-[1.5em] xl:left-[calc(var(--indent)-1em)];
-}
-
-/* Variant : change sidenote numbers to a symbol */
-/* Label: */
-.sidenote-symbol:after {
-	content: "*";
-	font-feature-settings: "sups";
-}
-/* Sidenote: */
-.sidenote.symbol:before {
-	content: "*";
-	transform: translateX(-50%);
-	@apply -left-[1em] -top-[0.3em] xl:left-[calc(var(--indent)/2)];
-}
-/* Variant : hidden label (like a margin note) */
-.sidenote.no-label:before {
-	display: none;
+	@apply rounded border-[--special-color] xl:-my-[2px] xl:cursor-pointer xl:border-[1.5px] xl:border-dotted xl:px-[0.2em] xl:text-[--special-color] dark:border-[--dark-special-color] dark:xl:text-[--dark-special-color];
 }

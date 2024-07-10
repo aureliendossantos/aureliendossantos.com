@@ -16,12 +16,23 @@ const width = Math.min(resolvedSrc.width, 1920)
 <figure class:list={{ full: full }}>
 	{
 		Astro.slots.has("default") && !full && (
-			<MarginNote>
-				<slot />
-			</MarginNote>
+			<div class="xl:hidden">
+				<MarginNote noMarginTop>
+					<slot />
+				</MarginNote>
+			</div>
 		)
 	}
 	<Image src={resolvedSrc} width={width} alt={alt || ""} />
+	{
+		Astro.slots.has("default") && !full && (
+			<div class="hidden xl:block">
+				<MarginNote noMarginTop>
+					<slot />
+				</MarginNote>
+			</div>
+		)
+	}
 </figure>
 {
 	Astro.slots.has("default") && full && (

@@ -36,5 +36,6 @@ import "$styles/fonts/louize.css"
 import "$styles/fonts/source-serif.css"
 // Sans serif
 import "$styles/fonts/adelle.css"
+import "$styles/fonts/handwritten.css"
 // Monospace
 import "$styles/fonts/nk57.css"

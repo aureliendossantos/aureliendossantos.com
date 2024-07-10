@@ -25,6 +25,7 @@ const wide = data.tags.find((tag) => tag.slug == "photos") && !data.forceNarrow
 // Alternative layouts
 const customLayout = data.customLayout
 const sidenotes = data.sidenotes
+if (sidenotes && headings.at(-1)?.text == "Notes") headings.pop()
 // Images
 const ogImage = data.opengraph || data.image
 const coverImage = data.cover && data.image ? data.image : undefined

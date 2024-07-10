@@ -1,0 +1,7 @@
+@font-face {
+	font-family: "Bonnies";
+	font-weight: 400;
+	font-style: normal;
+	src: url("/fonts/BonniesfontYOFF.otf") format("opentype");
+	font-display: swap;
+}

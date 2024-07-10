@@ -1,0 +1,37 @@
+---
+import MarginNote from "./MarginNote.astro"
+
+interface Props {
+	full?: boolean
+}
+const { full } = Astro.props
+---
+
+{
+	!full && Astro.slots.has("caption") && (
+		<div class="xl:hidden">
+			<MarginNote noMarginTop>
+				<slot name="caption" />
+			</MarginNote>
+		</div>
+	)
+}
+<div class:list={["gallery not-prose", { full: full }]}>
+	<slot />
+</div>
+{
+	!full && Astro.slots.has("caption") && (
+		<div class="hidden xl:block">
+			<MarginNote noMarginTop>
+				<slot name="caption" />
+			</MarginNote>
+		</div>
+	)
+}
+{
+	full && Astro.slots.has("caption") && (
+		<MarginNote noMarginTop>
+			<slot name="caption" />
+		</MarginNote>
+	)
+}

@@ -1,30 +1,42 @@
 ---
 import Image from "$components/Image.astro"
 import MarginNote from "./MarginNote.astro"
+import { paperClasses } from "$utils/design/images"
+import type { AstroBuiltinAttributes } from "astro"
 
+// I can't use the Figure component because it creates a block element, so it's not allowed by the Astro compiler inside a sidenote.
 interface Props {
 	src: ImageMetadata | Promise<{ default: ImageMetadata }>
 	alt?: string
 	caption?: string
 	paragraph?: boolean
+	paper?: boolean
 }
-const { src, alt, caption, paragraph, ...attributes } = Astro.props
+const { src, alt, caption, paragraph, paper, ...attributes } = Astro.props
 
 const resolvedSrc = "then" in src ? (await src).default : src
 const width = Math.min(resolvedSrc.width, 800)
+
+const classes: AstroBuiltinAttributes["class:list"] = [paper && paperClasses]
 ---
 
 {
 	paragraph ? (
 		<p>
 			<MarginNote>
-				<Image src={resolvedSrc} width={width} alt={alt || ""} {...attributes} />
+				<Image
+					src={resolvedSrc}
+					width={width}
+					alt={alt || ""}
+					class:list={classes}
+					{...attributes}
+				/>
 				<slot>{caption}</slot>
 			</MarginNote>
 		</p>
 	) : (
 		<MarginNote>
-			<Image src={resolvedSrc} width={width} alt={alt || ""} {...attributes} />
+			<Image src={resolvedSrc} width={width} alt={alt || ""} class:list={classes} {...attributes} />
 			<slot>{caption}</slot>
 		</MarginNote>
 	)
