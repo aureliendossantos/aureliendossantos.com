@@ -136,7 +136,7 @@ const markdown = new MarkdownIt({ html: true })
 							{item[1] ? (
 								<a href={item[1]} set:html={markdown.renderInline(item[0])} />
 							) : (
-								<span set:html={markdown.renderInline(item[0])} />
+								<Fragment set:html={markdown.renderInline(item[0])} />
 							)}
 						</li>
 					))}

@@ -14,13 +14,15 @@ export default async function getRelatedArticles(article: CollectionEntry<"blog"
 	// Tag +30
 	article.data.tags.forEach((currentTag) => {
 		scoredArticles.forEach((currentArticle) => {
-			if (currentArticle.article.data.tags.includes(currentTag)) currentArticle.score += 30
+			if (currentArticle.article.data.tags.map((t) => t.slug).includes(currentTag.slug))
+				currentArticle.score += 30
 		})
 	})
 	// Location +10
 	article.data.places.forEach((currentPlace) => {
 		scoredArticles.forEach((currentArticle) => {
-			if (currentArticle.article.data.places.includes(currentPlace)) currentArticle.score += 10
+			if (currentArticle.article.data.places.map((p) => p.slug).includes(currentPlace.slug))
+				currentArticle.score += 10
 		})
 	})
 	// Palette +5

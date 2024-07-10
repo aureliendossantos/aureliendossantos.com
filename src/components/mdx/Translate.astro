@@ -3,7 +3,7 @@ import NewPopup from "./PopupV2.astro"
 // This file is ignored by Prettier to avoid empty spaces before or after.
 ---
 
-<NewPopup padding noUnderline><span class="translation-lang text-[--secondary-color] dark:text-[--dark-secondary-color] mobile-touch">EN</span><Fragment slot="popup-contents">
+<NewPopup padding noUnderline><span class="translation-lang mobile-touch">EN</span><Fragment slot="popup-contents">
 	<slot />
 </Fragment></NewPopup>
 
@@ -18,7 +18,7 @@ import NewPopup from "./PopupV2.astro"
 	margin-left: -0.05em;
 	margin-right: -0.05em;
 	font-size: 0.7em;
-	font-weight: 700;
+	font-weight: 400;
 }
 :root[data-palette="source-serif"] .translation-lang {
 	font-weight: 400;

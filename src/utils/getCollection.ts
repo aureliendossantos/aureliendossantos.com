@@ -1,16 +1,15 @@
 import { getCollection, getEntryBySlug, type CollectionEntry } from "astro:content"
 import { getPlace } from "./remoteData/googleMaps"
 import { dateSort } from "./sort"
-import { fetchWikiPages } from "./notion/wiki"
-import { getCacheOrFetch } from "./cache"
-import formatDate from "./formatting/formatDate"
 
 // Get all articles that are blog posts
 export default async function getBlogPosts(drafts = true) {
 	const blog = await getCollection("blog", ({ data }) => {
 		return data.draft !== true || (import.meta.env.DEV && drafts)
 	})
-	return blog.sort((a, b) => dateSort(a.data.date, b.data.date))
+	return blog
+		.sort((a, b) => dateSort(a.data.date, b.data.date))
+		.map((a, i) => ({ ...a, index: blog.length - i }))
 }
 
 export function getDiaryData(entry: CollectionEntry<"diary">) {

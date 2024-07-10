@@ -1,4 +1,4 @@
-import { getCollection, type CollectionEntry, type CollectionKey } from "astro:content"
+import { getCollection, getEntries, type CollectionEntry, type CollectionKey } from "astro:content"
 import getBlogPosts, { getDiary } from "$utils/getCollection"
 import formatDate from "$utils/formatting/formatDate"
 import type { GraphEntry } from "./graph"
@@ -27,9 +27,9 @@ const mapToSearchEntry = (opts: {
 	opts.date ??= "date" in data ? data.date : undefined
 	return {
 		slug: opts.slug,
-		title: opts.title,
+		title: opts.title.replaceAll("*", ""),
 		date: opts.date ? formatDate(opts.date, true) : undefined,
-		categories: opts.categories,
+		categories: opts.categories || [],
 		description: "description" in data ? data.description : undefined,
 		links: [...(opts.parentSlug ? [opts.parentSlug] : []), ...(opts.graphLinks || [])],
 		optional: opts.optionalNode,
@@ -50,6 +50,12 @@ const searchEntryLinks = (
 
 export const getSearchEntries = async (): Promise<SearchEntry[]> => {
 	const tags = await getCollection("tags")
+	const possibleTags: CollectionEntry<"tags">["slug"][] = [
+		"personal-projects",
+		"photos",
+		"tutorial",
+		"mixtape",
+	]
 	const blogPosts = await getBlogPosts()
 	return [
 		{
@@ -93,14 +99,18 @@ export const getSearchEntries = async (): Promise<SearchEntry[]> => {
 			})
 		),
 		...(await Promise.all(
-			blogPosts.map(async (entry) =>
-				mapToSearchEntry({
+			blogPosts.map(async (entry) => {
+				const tags = (
+					await getEntries(entry.data.tags.filter((tag) => possibleTags.includes(tag.slug)))
+				).map((tag) => tag.data.title)
+				return mapToSearchEntry({
 					entry: entry,
 					slug: `${entry.slug}`,
 					parentSlug: "blog",
+					categories: tags.length > 0 ? tags : ["Article"],
 					graphLinks: searchEntryLinks(entry.data),
 				})
-			)
+			})
 		)),
 		...(await getCollection("portfolio")).map((entry) =>
 			mapToSearchEntry({

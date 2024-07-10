@@ -3,13 +3,15 @@ import BaseLayout from "$layouts/BaseLayout.astro"
 import formatDate from "$utils/formatting/formatDate"
 import { Icon } from "astro-icon/components"
 import { getCollection } from "astro:content"
-import RenderBlocks from "$components/notion/RenderBlocks.astro"
 import { getAnyEntry } from "$utils/getCollection"
+import RenderBlocks from "$components/notion/RenderBlocks.astro"
+import RenderCoffeeHistory from "$components/notion/RenderCoffeeHistory.astro"
+import RenderFortniteTracks from "$components/notion/RenderFortniteTracks.astro"
 
 export async function getStaticPaths() {
 	const wiki = await getCollection("wiki")
 	return wiki.map((page) => ({
-		params: { wikiStatic: page.data.slug },
+		params: { wikistatic: page.data.slug },
 		props: { page },
 	}))
 }
@@ -17,6 +19,9 @@ export async function getStaticPaths() {
 const page = Astro.props.page.data
 const related = await getAnyEntry(page.related)
 const pageTags = (await getCollection("tags")).filter((tag) => page.tags.includes(tag.slug))
+
+const renderFortniteTracks = page.id.replaceAll("-", "") == import.meta.env.FORTNITE_FESTIVAL_PAGE_ID
+const renderCoffeeHistory = page.id.replaceAll("-", "") == import.meta.env.COFFEE_PAGE_ID
 ---
 
 <BaseLayout
@@ -27,7 +32,7 @@ const pageTags = (await getCollection("tags")).filter((tag) => page.tags.include
 	navBarProps={{ title: page.title, parent: pageTags.length > 0 ?  { title: pageTags[0].data.title, href: `/tags/${pageTags[0].slug}` } : undefined} }
 >
 	<div
-		class="prose mx-auto prose-h1:mb-0 mb-16 mt-8 px-4 font-[350] mediumlarge:prose-sm dark:prose-invert prose-a:text-[--secondary] prose-a:dark:text-[--dark-secondary] prose-a:no-underline prose-quoteless prose-blockquote:font-[350] prose-blockquote:not-italic font-bricolage"
+		class="prose mx-auto prose-h1:mb-0 mb-16 mt-8 px-4 font-[350] mediumlarge:prose-sm dark:prose-invert prose-a:text-[--secondary] prose-a:dark:text-[--dark-secondary] prose-a:no-underline prose-quoteless prose-blockquote:font-[350] prose-blockquote:not-italic font-bricolage prose-fenceless"
 		style={{
 			"--main": "#fbf7ee",
 			"--dark-main": "#101520",
@@ -75,7 +80,15 @@ const pageTags = (await getCollection("tags")).filter((tag) => page.tags.include
 				{formatDate(new Date(page.editedTime))}
 				<Icon name="radix-icons:notion-logo" class="mb-[0.10em] inline-block" />
 			</p>
-			<RenderBlocks blocks={page.blocks} />
+			{
+				renderFortniteTracks ? (
+					<RenderFortniteTracks blocks={page.blocks} />
+				) : renderCoffeeHistory ? (
+					<RenderCoffeeHistory blocks={page.blocks} />
+				) : (
+					<RenderBlocks blocks={page.blocks} />
+				)
+			}
 	</div>
 </BaseLayout>
 
@@ -90,7 +103,6 @@ const pageTags = (await getCollection("tags")).filter((tag) => page.tags.include
 	document.addEventListener('astro:before-swap', ev => {
 		// Set the page title and URL as the title and href of the link
 		const navLink = ev.newDocument.querySelector('a#back-link') as HTMLAnchorElement | null
-		console.log(navLink)
 		if (navLink && window.previousTitle){
 			navLink.textContent = `← ${window.previousTitle}`
 			navLink.href = window.previousUrl

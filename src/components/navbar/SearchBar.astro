@@ -177,7 +177,6 @@ const preRenderedEntries = Astro.props.ssr ? [] : await getSearchEntries()
 	 * @see https://stackoverflow.com/a/57527009
 	 */
 	const disablePageZoom = () => {
-		console.log("Disabling page zoom")
 		const meta = document.querySelector("meta[name=viewport]") as HTMLMetaElement
 		let content = meta.getAttribute("content") as string
 		let regex = /maximum\-scale=[0-9\.]+/g

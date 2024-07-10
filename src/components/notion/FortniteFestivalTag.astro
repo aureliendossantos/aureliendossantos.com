@@ -11,7 +11,7 @@ const { tags } = Astro.props
 	tags.multi_select.map((tag) => (
 		<span
 			class:list={[
-				"mr-2 rounded-sm px-1 font-bold uppercase italic",
+				"mr-2 rounded-sm px-1 text-sm font-semibold uppercase",
 				{
 					/* "default" | "gray" | "brown" | "orange" | "yellow" | "green" | "blue" | "purple" | "pink" | "red" */
 					"bg-neutral-300 dark:bg-neutral-700": tag.color == "default" || tag.color == "gray",

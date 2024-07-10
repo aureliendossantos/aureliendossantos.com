@@ -328,7 +328,7 @@ const getPaletteDeclaration = (name: PaletteName | undefined): PaletteDeclaratio
 			return {
 				baseColor: "#121212",
 				secondaryColor: "#121212",
-				popupBorderColor: "#d4d4d8",
+				popupBorderColor: "#a8a8a8",
 				popupLabelActiveBgColor: "#e4e4e7",
 				specialColor: "#121212",
 				bgColor: "#ffffff",

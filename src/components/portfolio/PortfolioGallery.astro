@@ -18,9 +18,9 @@ const caption = c && MarkdownIt({ html: true }).renderInline(c)
 		<slot />
 	</div>
 	{
-		caption && (
+		(caption || Astro.slots.has("caption")) && (
 			<div class="absolute bottom-0 w-full translate-y-[38px] xl:static xl:-translate-y-[27px]">
-				<MarginNote set:html={caption} />
+				{caption ? <MarginNote set:html={caption} /> : <slot name="caption" />}
 			</div>
 		)
 	}

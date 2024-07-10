@@ -1,6 +1,7 @@
 ---
 import ArticleDate from "$components/articles/ArticleDate.astro"
 import { getEntryBySlug } from "astro:content"
+import MarkdownIt from "markdown-it"
 
 interface Props {
 	slug: string
@@ -10,6 +11,7 @@ const { slug, date } = Astro.props
 
 const article = await getEntryBySlug("blog", slug)
 if (!article) throw new Error(`BlogRef: article ${slug} can't be found`)
+const title = MarkdownIt({ html: true }).renderInline(article.data.title)
 ---
 
-<a href={"/" + article.slug}>{article.data.title}</a>{date && <span> (<ArticleDate date={article.data.date} yearOnly />)</span>}
+« <a href={"/" + article.slug} set:html={title} /> »{date && <span> (<ArticleDate date={article.data.date} yearOnly />)</span>}

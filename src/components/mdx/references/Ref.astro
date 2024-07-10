@@ -39,15 +39,9 @@ if (!book) {
 }
 ---
 
-<!-- prettier-ignore -->
-<span>
-	{author && `${author},`}
-	<Style quotes={!book}><Style i={foreign || book}>{link ?
-		<a href={link} target="_blank" set:html={title}/>
-		: title
-	}</Style></Style>{
-		bookEdition && <> ({bookEdition})</>
-	}{
+<span>{author && `${author}, `}<Style quotes={!book}><Style i={foreign || book}>{
+		link ? <a href={link} target="_blank" set:html={title}/> : title
+	}</Style></Style>{bookEdition && <> ({bookEdition})</>}{
 		publisher && <>, <Style i={!jp}>{publisher}</Style></>
 	}{
 		page && <>, {multiple ? "pages " : "page "}{page}</>
@@ -55,5 +49,4 @@ if (!book) {
 		date && (typeof date == "number" ? `, ${date}` : `, le ${date}`)
 	}{
 		archive && <> (<a href={archive} target="_blank">{archiveDate ? `archive du ${archiveDate}` : "archive"}</a>)</>
-	}
-</span>
+}</span>

@@ -94,7 +94,6 @@ async function renderGraph(container: string, currentSlug: string) {
 	}
 	// globalData contains all search entries and their links, whereas graphData will contain only the ones in the neighbourhood
 	const globalData = window.entries
-	console.log(globalData)
 	const globalLinks: LinkData[] = []
 
 	// HACK: I don't know why but at some point during the code, source and target of global links in the neighbourhood become objects instead of strings, so I need to check for source.id and target.id

@@ -31,7 +31,7 @@ const relatedTitle = Astro.props.relatedTitle || "Voir aussi"
 	class="fixed bottom-0 z-[999] flex h-7 w-full max-w-full border-neutral-700 bg-black font-work-sans text-sm text-white transition-all"
 >
 	<div id="navbar-main-actions" class="flex">
-		<DropdownMenu id="navbar-graph" label="Explorer" borderRight keepOpenOnClick>
+		<DropdownMenu id="navbar-graph" label="Explorer" borderRight truncate="medium" keepOpenOnClick>
 			<Icon name="carbon:network-1" class="h-[17px]" slot="icon" />
 			<Graph title={title} />
 		</DropdownMenu>
@@ -86,13 +86,13 @@ const relatedTitle = Astro.props.relatedTitle || "Voir aussi"
 		<DropdownMenu
 			id="navbar-toc"
 			label="Table des matières"
-			truncate="mediumlarge"
+			truncate="xl"
 			borderRight
 			initiallyHidden={!headings || headings.length <= 1}
 		>
 			<Icon id="navbar-link-icon" name="ic:baseline-toc" class="h-[17px] rotate-180" slot="icon" />
 			<div
-				class="line-clamp-2 hidden w-[192px] border-x-0 px-3 py-[6px] leading-tight text-neutral-500 medium:block"
+				class="line-clamp-2 hidden w-[192px] border-x-0 px-3 py-[6px] leading-tight text-neutral-500 xl:block"
 			>
 				Table des matières
 			</div>
@@ -107,14 +107,14 @@ const relatedTitle = Astro.props.relatedTitle || "Voir aussi"
 		<DropdownMenu
 			id="navbar-related"
 			label={relatedTitle}
-			truncate="medium"
+			truncate="mediumlarge"
 			borderRight
 			initiallyHidden={!related || related.length == 0}
 		>
 			<Icon name="ph:share-network" class="h-[16px]" slot="icon" />
 			<div
 				id="navbar-related-mobile-title"
-				class="line-clamp-2 hidden w-[192px] border-x-0 px-3 py-[6px] leading-tight text-neutral-500 medium:block"
+				class="line-clamp-2 hidden w-[192px] border-x-0 px-3 py-[6px] leading-tight text-neutral-500 mediumlarge:block"
 			>
 				{relatedTitle}
 			</div>

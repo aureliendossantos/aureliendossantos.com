@@ -22,13 +22,13 @@ a[data-icon="github"] {
 
 /* Specific to each icon */
 a[data-icon="wikipedia"]::after {
-	mask: url("/icons/wikipedia.svg") 50% 50%;
-	background-color: #999;
+	mask-image: url("/icons/wikipedia.svg");
 	width: 2em;
 	height: 1.6em;
 	zoom: 30%;
 	top: -0.9em;
 	margin-right: -0.2em;
+	@apply bg-[--base-color] dark:bg-[--dark-base-color];
 }
 
 a[data-icon="chef-hat"]::after {

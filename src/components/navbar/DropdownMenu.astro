@@ -6,7 +6,7 @@ interface Props {
 	initiallyHidden?: boolean
 	borderLeft?: boolean
 	borderRight?: boolean
-	truncate?: "medium" | "mediumlarge"
+	truncate?: "medium" | "mediumlarge" | "xl"
 	chevron?: boolean
 	keepOpenOnClick?: boolean
 }
@@ -40,6 +40,7 @@ const {
 				truncate: truncate,
 				"mediumlarge:max-w-[20vw] medium:hidden": truncate == "medium",
 				"mediumlarge:hidden": truncate == "mediumlarge",
+				"xl:hidden": truncate == "xl",
 			}}
 		>
 			{label}
