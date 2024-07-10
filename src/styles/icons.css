@@ -42,10 +42,38 @@ a[data-icon="chef-hat"]::after {
 
 a[data-icon="github"]::before {
 	mask: url("/icons/github.svg") 0 0/0.9em 0.9em;
-	background-color: #999;
 	width: 0.9em;
 	height: 0.9em;
 	top: 0.11em;
-	margin-right: 0.1em;
-	@apply bg-[--secondary-color] opacity-50;
+	margin-right: 0.2em;
+	@apply bg-[--secondary-color] dark:bg-[--dark-secondary-color];
+}
+
+a[href*="https://developer.mozilla.org/"]::after
+{
+	content: "mdn";
+	display: inline-block;
+	line-height: 1;
+	font-size: 0.5em;
+	vertical-align: baseline;
+	position: relative;
+	top: -0.55em;
+	margin-left: -0.05em;
+	margin-right: -0.05em;
+	font-size: 0.7em;
+	font-weight: inherit;
+}
+
+a[data-icon="garden"]::after {
+	content: "🌱";
+	display: inline-block;
+	line-height: 1;
+	font-size: 0.5em;
+	vertical-align: baseline;
+	position: relative;
+	top: -0.55em;
+	margin-left: -0.05em;
+	margin-right: -0.05em;
+	font-size: 0.7em;
+	font-weight: inherit;
 }
