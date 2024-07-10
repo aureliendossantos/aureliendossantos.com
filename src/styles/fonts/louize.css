@@ -15,8 +15,22 @@
 @font-face {
 	font-family: "Louize";
 	font-style: normal;
-	font-weight: 700;
+	font-weight: 500;
 	src: url("/fonts/Louize/LouizeMedium.woff2") format("woff2");
+}
+
+@font-face {
+	font-family: "Louize";
+	font-style: italic;
+	font-weight: 500;
+	src: url("/fonts/Louize/LouizeMediumItalic.woff2") format("woff2");
+}
+
+@font-face {
+	font-family: "Louize";
+	font-style: normal;
+	font-weight: 700;
+	src: url("/fonts/Louize/LouizeBold.woff2") format("woff2");
 }
 
 @font-face {
