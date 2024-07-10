@@ -21,7 +21,7 @@ let numbered_list: RichTextItemResponse[][] = []
 ---
 
 {
-	blocks.map((block, index, blocks) => {
+	blocks.map(async (block, index, blocks) => {
 		switch (block.type) {
 			case "heading_1":
 				return (
@@ -59,16 +59,19 @@ let numbered_list: RichTextItemResponse[][] = []
 			case "to_do":
 				return (
 					<p>
-						<>
-							<input type="checkbox" checked={block.to_do.checked} readonly />
-							<RenderRichText text={block.to_do.rich_text} />
-						</>
+						<input type="checkbox" checked={block.to_do.checked} readonly />
+						<RenderRichText text={block.to_do.rich_text} />
 					</p>
 				)
 			case "image":
+				// block.image.file.url is only valid for one hour, but block.image.external.url never changes.
+				// first check if the link return a 200
+				const response = await fetch(
+					block.image.type == "external" ? block.image.external.url : block.image.file.url
+				)
+				if (!response.ok) return <p class="error">{"Erreur : L'image n'a pas pu être chargée."}</p>
 				return (
 					<figure>
-						{/* block.image.file.url is only valid for one hour, but block.image.external.url never changes */}
 						{block.image.type == "external" ? (
 							<Image src={block.image.external.url} inferSize alt="" />
 						) : (
@@ -201,6 +204,29 @@ let numbered_list: RichTextItemResponse[][] = []
 					</table>
 				)
 			case "column_list":
+				// If there is only two columns, the second column will float right. If there is more than two columns, they will be displayed in a grid.
+				if ("children" in block && block.children.length == 2) {
+					return (
+						<>
+							<div class="float-right w-1/2 pl-4">
+								<Astro.self
+									blocks={
+										"children" in block.children[1]
+											? (block.children[1].children as BlockObjectResponse[])
+											: []
+									}
+								/>
+							</div>
+							<Astro.self
+								blocks={
+									"children" in block.children[0]
+										? (block.children[0].children as BlockObjectResponse[])
+										: []
+								}
+							/>
+						</>
+					)
+				}
 				return (
 					<div
 						class="grid gap-4"
