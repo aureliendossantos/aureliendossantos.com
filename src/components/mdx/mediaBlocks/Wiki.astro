@@ -11,6 +11,10 @@ const { title, lang, diary } = Astro.props
 
 const summary = await getWikipediaPage(title, lang)
 const url = summary.content_urls.desktop.page
+// if `extract_html` only contains an HTML comment (I don't know why it happens sometimes), use `extract` instead
+const extract = summary.extract_html.replace(/<!--.*?-->/gs, "").trim()
+	? summary.extract_html
+	: summary.extract
 ---
 
 <NewPopup
@@ -38,7 +42,7 @@ const url = summary.content_urls.desktop.page
 			)
 		}
 		<!--<h3>{summary.title}</h3>-->
-		<Fragment set:html={summary.extract_html} />
+		<Fragment set:html={extract} />
 		<!--<p class="source"><a href={url}>Continuer sur Wikipédia{lang == "en" && " en anglais"}</a></p> -->
 	</Fragment>
 </NewPopup>
