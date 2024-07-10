@@ -58,11 +58,12 @@ const placeholderURL = await imageService.generatePlaceholder(src.src, src.width
 	{/*src.format != "gif" && <source srcset={avif.src} type={"image/" + avif.options.format} />*/}
 	<img
 		src={webp.src}
-		style={`background-size: cover;background-image: url(${placeholderURL});image-rendering:auto;`}
-		onload="
-		this.style.backgroundColor = 'unset';
-		this.style.backgroundImage = 'none';
-		"
+		style={{
+			backgroundSize: "cover",
+			backgroundImage: `url(${placeholderURL})`,
+			imageRendering: "auto",
+		}}
+		onload="this.style.backgroundImage = 'none';"
 		alt={alt}
 		data-zoomable={!notZoomable}
 		data-zoom-src={zoomedImage?.src}

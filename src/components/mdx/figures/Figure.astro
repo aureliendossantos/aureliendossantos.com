@@ -44,7 +44,14 @@ function getMaxWidth() {
 const imgWidth = Math.min(src.width, getMaxWidth())
 ---
 
-<figure class="h-full" style={{ maxWidth: percentWidth && `${percentWidth}%` }}>
+<figure
+	class="h-full"
+	style={{
+		// Resizing images in galleries. You could probably use other constants, but I got these from https://github.com/search?q=repo:CaiJimmy/hugo-theme-stack%20flex-basis&type=code and they work well.
+		flexGrow: `${(src.width * 100) / src.height}`,
+		flexBasis: `${(src.width * 240) / src.height}px`,
+	}}
+>
 	<Image
 		src={src}
 		width={imgWidth}
