@@ -84,7 +84,7 @@ export default defineConfig({
 					"keyboard-double-arrow-down-rounded",
 					"keyboard-double-arrow-up-rounded",
 				],
-				mdi: ["github", "plus-circle-outline"],
+				mdi: ["github", "campfire", "plus-circle-outline"],
 				ph: ["share-network"],
 				"radix-icons": ["notion-logo"],
 				tabler: ["copy"],
