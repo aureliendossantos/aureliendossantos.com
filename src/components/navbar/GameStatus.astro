@@ -1,8 +1,24 @@
 ---
+import { Icon } from "astro-icon/components"
 import { getImage } from "astro:assets"
 import png from "$styles/assets/spritesheet.png"
 const spritesheet = await getImage({ src: png, format: "webp" })
 ---
+
+<div
+	data-state="fullscreen"
+	class="fixed right-0 top-0 h-screen max-h-[calc(100vh-28px)] w-full max-w-md p-2 medium:p-1"
+>
+	<div class="relative h-full">
+		<iframe class="h-full w-full rounded border-2 border-[#1c1817]"></iframe>
+		<a
+			id="fullscreen-to-overview"
+			class="absolute right-0 top-0 cursor-pointer rounded-bl rounded-tr bg-[#1c1817] p-1 text-white hover:bg-white hover:text-[#2b1f1c]"
+		>
+			<Icon name="material-symbols:close-rounded" class="text-[18px]" />
+		</a>
+	</div>
+</div>
 
 <div data-state="intro" class="h-64 w-48 overflow-y-scroll p-3 leading-tight">
 	<p class="mb-3">
@@ -69,6 +85,7 @@ const spritesheet = await getImage({ src: png, format: "webp" })
 			name="characterId"
 			id="characterId"
 			type="text"
+			required
 			class="w-full border bg-black px-2 text-white"
 		/>
 		<button
@@ -105,7 +122,7 @@ const spritesheet = await getImage({ src: png, format: "webp" })
 	</div>
 	<div id="neighbours" class="leading-snug"></div>
 	<a
-		id="open-character"
+		id="overview-to-fullscreen"
 		class="mt-3 block w-full border p-1 text-center leading-snug hover:bg-white hover:text-black"
 	>
 		Ouvrir
@@ -121,8 +138,10 @@ const spritesheet = await getImage({ src: png, format: "webp" })
 			el.classList.toggle("hidden", el.dataset.state != name)
 		)
 		window.gameState = name
-		if (name == "overview" && !characterId) throw new Error("changeGameState: Missing characterId")
-		updateOverview(characterId as string)
+		if (name == "overview") {
+			if (!characterId) throw new Error("changeGameState: Missing characterId")
+			updateOverview(characterId as string)
+		}
 	}
 	async function query(url: string, method: string, body?: any) {
 		return await fetch(url, {
@@ -165,12 +184,10 @@ const spritesheet = await getImage({ src: png, format: "webp" })
 						cell.characters.length > 1 ? "nt" : ""
 					} ici`
 				: ""
-		;(document.getElementById("open-character") as HTMLAnchorElement).href =
-			`https://survie.aureliendossantos.com/character/${character.id}`
 	}
 
 	const characterId = localStorage.getItem("characterId")
-	window.changeGameState(characterId ? "overview" : "intro", characterId)
+	window.changeGameState(characterId ? "overview" : "intro", characterId as string)
 	;(document.getElementById("intro-to-create") as HTMLAnchorElement).addEventListener(
 		"click",
 		async () => {
@@ -226,6 +243,23 @@ const spritesheet = await getImage({ src: png, format: "webp" })
 			const characterId = (document.querySelector("input#characterId") as HTMLInputElement).value
 			localStorage.setItem("characterId", characterId)
 			window.changeGameState("overview", characterId)
+		}
+	)
+	;(document.getElementById("overview-to-fullscreen") as HTMLAnchorElement).addEventListener(
+		"click",
+		async () => {
+			window.changeGameState("fullscreen")
+			const iframe = document.querySelector("iframe") as HTMLIFrameElement
+			iframe.src = `https://survie.aureliendossantos.com/character/${localStorage.getItem(
+				"characterId"
+			)}`
+		}
+	)
+	;(document.getElementById("fullscreen-to-overview") as HTMLAnchorElement).addEventListener(
+		"click",
+		async () => {
+			const characterId = localStorage.getItem("characterId")
+			window.changeGameState(characterId ? "overview" : "intro", characterId as string)
 		}
 	)
 </script>

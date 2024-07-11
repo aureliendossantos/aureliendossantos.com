@@ -15,8 +15,8 @@ interface Window {
 	previousUrl: string
 	previousTitle: string
 	changeGameState: (
-		state: "intro" | "create" | "login" | "overview",
+		state: "intro" | "create" | "login" | "overview" | "fullscreen",
 		characterId?: "string"
 	) => void
-	gameState: "intro" | "create" | "login" | "overview"
+	gameState: "intro" | "create" | "login" | "overview" | "fullscreen"
 }
