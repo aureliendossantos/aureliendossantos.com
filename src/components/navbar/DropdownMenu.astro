@@ -1,7 +1,8 @@
 ---
 interface Props {
 	id: string
-	label: string
+	label?: string
+	/** Align the dropdown to the right. */
 	alignRight?: boolean
 	initiallyHidden?: boolean
 	borderLeft?: boolean
@@ -34,17 +35,21 @@ const {
 		]}
 	>
 		<slot name="icon" />
-		<div
-			id={`${id}-text`}
-			class:list={{
-				truncate: truncate,
-				"mediumlarge:max-w-[20vw] medium:hidden": truncate == "medium",
-				"mediumlarge:hidden": truncate == "mediumlarge",
-				"xl:hidden": truncate == "xl",
-			}}
-		>
-			{label}
-		</div>
+		{
+			label && (
+				<div
+					id={`${id}-text`}
+					class:list={{
+						truncate: truncate,
+						"mediumlarge:max-w-[20vw] medium:hidden": truncate == "medium",
+						"mediumlarge:hidden": truncate == "mediumlarge",
+						"xl:hidden": truncate == "xl",
+					}}
+				>
+					{label}
+				</div>
+			)
+		}
 		{
 			chevron && (
 				<div class="absolute -right-[2px] top-3 z-[1000] h-[4px] w-[4px] rotate-45 border-r border-t border-neutral-700 bg-black group-hover:bg-white" />

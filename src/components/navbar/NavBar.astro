@@ -11,6 +11,7 @@ import NavbarToggleButton from "./NavbarToggleButton.astro"
 import type { NavBarProps } from "$utils/navbar"
 import SearchBar from "./SearchBar.astro"
 import Graph from "$components/Graph.astro"
+import GameStatus from "./GameStatus.astro"
 
 interface Props extends NavBarProps {
 	ssr?: boolean
@@ -158,9 +159,15 @@ const relatedTitle = Astro.props.relatedTitle || "Voir aussi"
 	</div>
 	<div class="grow"></div>
 	<SearchBar ssr={ssr} />
-	<NavbarToggleButton
+	{
+		/*<NavbarToggleButton
 		textAndBorderClasses="border-neutral-500 text-neutral-400 group-hover:border-white group-hover:text-white"
-	/>
+	/>*/
+	}
+	<DropdownMenu id="navbar-game" truncate="medium" keepOpenOnClick alignRight>
+		<Icon name="mdi:campfire" class="h-[17px]" slot="icon" />
+		<GameStatus />
+	</DropdownMenu>
 </div>
 
 <div id="navbar-data" class="hidden" data-props={JSON.stringify(Astro.props)}></div>

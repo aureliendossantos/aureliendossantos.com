@@ -1,0 +1,263 @@
+---
+import { getImage } from "astro:assets"
+import png from "$styles/assets/spritesheet.png"
+const spritesheet = await getImage({ src: png, format: "webp" })
+---
+
+<div data-state="intro" class="h-64 w-48 overflow-y-scroll p-3 leading-tight">
+	<p class="mb-3">
+		Vous vous réveillez sur le sable froid et humide, avec un sacré mal de crâne. Vous vous
+		redressez difficilement et scrutez les alentours.
+	</p>
+	<p>
+		Vous vous trouvez sur le rivage d'une île mystérieuse, entouré par l'immensité de l'océan d'un
+		côté et une forêt dense de l'autre. Vous ne vous souvenez de rien, mais une chose est certaine :
+		vous devez survivre. Votre première priorité est de construire un campement avant que la nuit ne
+		tombe, afin de vous protéger des dangers inconnus qui pourraient rôder dans l'obscurité.
+	</p>
+	<a
+		id="intro-to-create"
+		class="mt-3 block w-full border p-1 text-center leading-snug hover:bg-white hover:text-black"
+	>
+		Commencer
+	</a>
+</div>
+
+<div data-state="create" class="w-48 overflow-hidden p-3 leading-loose">
+	<form id="create-character">
+		<label for="account">Nom de compte</label>
+		<input
+			name="account"
+			id="account"
+			type="text"
+			required
+			class="w-full border bg-black px-2 text-white"
+		/>
+		<label for="character">Nom de personnage</label>
+		<input
+			name="character"
+			id="character"
+			type="text"
+			required
+			class="w-full border bg-black px-2 text-white"
+		/>
+		<label for="map">Choisir un monde</label>
+		<select
+			name="map"
+			id="map"
+			required
+			class="w-full border bg-black p-1 text-white disabled:text-neutral-500"
+		>
+			<option value="" disabled selected>Chargement...</option>
+		</select>
+		<button
+			type="submit"
+			class="mt-3 block w-full border p-1 text-center leading-snug hover:bg-white hover:text-black"
+		>
+			Créer le personnage
+		</button>
+	</form>
+	<a id="create-to-login" class="mt-1 block text-neutral-500 hover:text-white">
+		J'ai déjà un personnage
+	</a>
+</div>
+
+<div data-state="login" class="w-48 overflow-hidden p-3 leading-loose">
+	<form id="character-login">
+		<label for="characterId">ID du personnage</label>
+		<input
+			name="characterId"
+			id="characterId"
+			type="text"
+			class="w-full border bg-black px-2 text-white"
+		/>
+		<button
+			type="submit"
+			class="mt-3 block w-full border p-1 text-center leading-snug hover:bg-white hover:text-black"
+		>
+			Se connecter
+		</button>
+	</form>
+	<a id="login-to-create" class="mt-1 block text-neutral-500 hover:text-white">Retour</a>
+</div>
+
+<div
+	data-state="overview"
+	class="hidden w-48 overflow-hidden p-3 leading-loose"
+	style={{ "--spr": `url(${spritesheet.src})` }}
+>
+	<div id="character-name" class="mt-1 leading-none"></div>
+	<div class="flex justify-between">
+		<div>Énergie</div>
+		<div id="character-stamina"></div>
+	</div>
+	<div class="h-2.5 w-full border border-white">
+		<div id="character-stamina-bar" class="h-full bg-white" style={{ width: "0%" }}></div>
+	</div>
+	<div class="mt-3">
+		<span id="cell-terrain-title"></span> (<span id="cell-x"></span>:<span id="cell-y"></span>)
+	</div>
+	<div class="mb-3 grid grid-cols-4 gap-1">
+		<div class="relative col-span-2 row-span-2 aspect-square border">
+			<div id="cell-terrain-spritesheet" class="spritesheet"></div>
+		</div>
+		<div id="built-structures" class="col-span-2 row-span-2 grid grid-cols-subgrid gap-1"></div>
+	</div>
+	<div id="neighbours" class="leading-snug"></div>
+	<a
+		id="open-character"
+		class="mt-3 block w-full border p-1 text-center leading-snug hover:bg-white hover:text-black"
+	>
+		Ouvrir
+	</a>
+</div>
+
+<script>
+	import enumerate from "$utils/formatting/enumerateStrings"
+
+	// characterId must be present when changing to the "overview" state
+	window.changeGameState = (name, characterId) => {
+		;(document.querySelectorAll("[data-state]") as NodeListOf<HTMLElement>).forEach((el) =>
+			el.classList.toggle("hidden", el.dataset.state != name)
+		)
+		window.gameState = name
+		if (name == "overview" && !characterId) throw new Error("changeGameState: Missing characterId")
+		updateOverview(characterId as string)
+	}
+	async function query(url: string, method: string, body?: any) {
+		return await fetch(url, {
+			method: method,
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify(body),
+		}).then(function (response) {
+			return response.json()
+		})
+	}
+
+	async function updateOverview(characterId: string) {
+		const { character, cell } = await query(
+			`https://survie.aureliendossantos.com/api/characters/${characterId}`,
+			"GET"
+		)
+		const neighbours = cell.characters.filter((c: any) => c.id != character.id)
+		;(document.getElementById("character-name") as HTMLDivElement).textContent = character.name
+		;(document.getElementById("character-stamina") as HTMLDivElement).textContent =
+			character.stamina
+		;(document.getElementById("character-stamina-bar") as HTMLDivElement).style.width =
+			character.stamina * 10 + "%"
+		;(document.getElementById("cell-terrain-title") as HTMLSpanElement).textContent =
+			cell.terrain.title
+		;(document.getElementById("cell-x") as HTMLSpanElement).textContent = cell.x
+		;(document.getElementById("cell-y") as HTMLSpanElement).textContent = cell.y
+		;(document.getElementById("cell-terrain-spritesheet") as HTMLDivElement).className =
+			`spritesheet ${cell.terrain.id}`
+		;(document.getElementById("built-structures") as HTMLDivElement).innerHTML =
+			cell.builtStructures
+				.slice(0, 4)
+				.map(
+					(s: any) =>
+						`<div class="relative aspect-square border"><div class="spritesheet ${s.structure.id}"></div></div>`
+				)
+				.join("")
+		;(document.getElementById("neighbours") as HTMLDivElement).textContent =
+			neighbours.length > 0
+				? `${enumerate(neighbours.map((c: any) => c.name))} se trouve${
+						cell.characters.length > 1 ? "nt" : ""
+					} ici`
+				: ""
+		;(document.getElementById("open-character") as HTMLAnchorElement).href =
+			`https://survie.aureliendossantos.com/character/${character.id}`
+	}
+
+	const characterId = localStorage.getItem("characterId")
+	window.changeGameState(characterId ? "overview" : "intro", characterId)
+	;(document.getElementById("intro-to-create") as HTMLAnchorElement).addEventListener(
+		"click",
+		async () => {
+			window.changeGameState("create")
+			// Fetching available maps (worlds) for the character creation form
+			const maps: { id: number }[] = await query(
+				"https://survie.aureliendossantos.com/api/map",
+				"GET"
+			)
+			const select = document.querySelector("select#map") as HTMLSelectElement
+			select.innerHTML = maps.map((m) => `<option value="${m.id}">Monde ${m.id}</option>`).join("")
+		}
+	)
+	;(document.getElementById("create-to-login") as HTMLAnchorElement).addEventListener("click", () =>
+		window.changeGameState("login")
+	)
+	;(document.getElementById("login-to-create") as HTMLAnchorElement).addEventListener("click", () =>
+		window.changeGameState("create")
+	)
+	;(document.getElementById("create-character") as HTMLFormElement).addEventListener(
+		"submit",
+		async (event) => {
+			event.preventDefault()
+			// Creating user
+			const userBody = {
+				name: (document.querySelector("input#account") as HTMLInputElement).value,
+			}
+			const { data: user } = await query(
+				"https://survie.aureliendossantos.com/api/users",
+				"POST",
+				userBody
+			)
+			console.log("userId: " + user.id)
+			// Creating character for this user
+			const characterBody = {
+				name: (document.querySelector("input#character") as HTMLInputElement).value,
+				userId: user.id,
+				mapId: Number((document.querySelector("select#map") as HTMLInputElement).value),
+			}
+			const { data: character } = await query(
+				"https://survie.aureliendossantos.com/api/characters",
+				"POST",
+				characterBody
+			)
+			localStorage.setItem("characterId", character.id)
+			window.changeGameState("overview", character.id)
+		}
+	)
+	;(document.getElementById("character-login") as HTMLFormElement).addEventListener(
+		"submit",
+		async (event) => {
+			event.preventDefault()
+			const characterId = (document.querySelector("input#characterId") as HTMLInputElement).value
+			localStorage.setItem("characterId", characterId)
+			window.changeGameState("overview", characterId)
+		}
+	)
+</script>
+
+<style is:global>
+	.spritesheet {
+		background-image: var(--spr);
+		background-size: 900% 700%;
+		@apply absolute left-0 top-0 h-full w-full invert;
+	}
+	.plains {
+		@apply bg-[-400%_-300%];
+	}
+	.forest {
+		@apply bg-[-400%_-200%];
+	}
+	.mountains {
+		@apply bg-[-300%_-200%];
+	}
+	.beach {
+		@apply bg-[-500%_-200%];
+	}
+	.sea {
+		@apply bg-[-500%_-300%];
+	}
+	.camp {
+		@apply bg-[-600%_-300%];
+	}
+	.workbench {
+		@apply bg-[-400%_-500%];
+	}
+	.chest {
+		@apply bg-[-500%_-500%];
+	}
+</style>

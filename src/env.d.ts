@@ -14,4 +14,9 @@ interface Window {
 	entries: SearchEntry[]
 	previousUrl: string
 	previousTitle: string
+	changeGameState: (
+		state: "intro" | "create" | "login" | "overview",
+		characterId?: "string"
+	) => void
+	gameState: "intro" | "create" | "login" | "overview"
 }
