@@ -79,7 +79,7 @@ export default defineConfig({
 				ion: ["footsteps", "eye"],
 				logos: ["spotify-icon"],
 				lucide: ["library-square", "scan"],
-				"material-symbols": ["update-rounded", "label-rounded"],
+				"material-symbols": ["close-rounded", "update-rounded", "label-rounded"],
 				"material-symbols-light": [
 					"keyboard-double-arrow-down-rounded",
 					"keyboard-double-arrow-up-rounded",
