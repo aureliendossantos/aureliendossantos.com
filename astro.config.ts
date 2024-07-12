@@ -2,7 +2,6 @@ import { defineConfig } from "astro/config"
 import AutoImport from "astro-auto-import"
 import tailwind from "@astrojs/tailwind"
 import mdx from "@astrojs/mdx"
-import vercel from "@astrojs/vercel/static"
 import icon from "astro-icon"
 import expressiveCode from "astro-expressive-code"
 import { remarkConvertImports } from "./src/utils/remark/convertImports"
@@ -91,9 +90,4 @@ export default defineConfig({
 		smartypants: true,
 		remarkPlugins: [remarkConvertImports, remarkAbbr],
 	},
-	adapter: vercel({
-		webAnalytics: {
-			enabled: true,
-		},
-	}),
 })

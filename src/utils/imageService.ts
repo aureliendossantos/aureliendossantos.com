@@ -53,7 +53,7 @@ const service: LocalImageServiceWithPlaceholder = {
 		// SSG: readFileSync("./dist/" + src)
 		// SSR with Vercel: readFileSync("./.vercel/output/_functions/" + src)
 		const originalFileBuffer = import.meta.env.PROD
-			? readFileSync("./.vercel/output/_functions/" + src)
+			? readFileSync("./dist/" + src)
 			: await fetch(new URL(src, getBaseSiteURL()))
 					.then((response) => response.arrayBuffer())
 					.then((buffer) => Buffer.from(buffer))
