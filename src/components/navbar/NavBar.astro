@@ -21,8 +21,6 @@ const { title, parent, related, headings, ssr } = Astro.props
 const relatedTitle = Astro.props.relatedTitle || "Voir aussi"
 ---
 
-<Toast />
-
 <div transition:persist="navbar-margin" id="bottom-page-margin" class="h-7 w-full"></div>
 
 <div
@@ -164,11 +162,26 @@ const relatedTitle = Astro.props.relatedTitle || "Voir aussi"
 		textAndBorderClasses="border-neutral-500 text-neutral-400 group-hover:border-white group-hover:text-white"
 	/>*/
 	}
-	<DropdownMenu id="navbar-game" truncate="medium" keepOpenOnClick alignRight>
-		<Icon name="mdi:campfire" class="h-[17px]" slot="icon" />
+	<button
+		id="fullscreen-to-overview"
+		class="hidden border-r border-neutral-700 px-3 hover:bg-white hover:text-black medium:px-2"
+	>
+		<Icon name="material-symbols:collapse-content-rounded" class="h-[17px]" />
+	</button>
+	<DropdownMenu id="navbar-game" keepOpenOnClick alignRight>
+		<div slot="icon">
+			<Icon id="navbar-game-main-icon" name="mdi:campfire" class="h-[17px]" />
+			<Icon
+				id="navbar-game-close-icon"
+				name="material-symbols:keyboard-double-arrow-down-rounded"
+				class="hidden h-[17px]"
+			/>
+		</div>
 		<GameStatus />
 	</DropdownMenu>
 </div>
+
+<Toast />
 
 <div id="navbar-data" class="hidden" data-props={JSON.stringify(Astro.props)}></div>
 
