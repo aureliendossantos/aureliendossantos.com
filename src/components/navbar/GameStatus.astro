@@ -16,18 +16,18 @@ const spritesheet = await getImage({ src: png, format: "webp" })
 <div data-state="error" class="w-48 p-3 leading-tight">
 	<p id="error-message">Une erreur inconnue est survenue.</p>
 	<p>Vous pouvez signaler l'erreur à aureliendsantos@ gmail.com</p>
-	<a
+	<button
 		id="reload-page"
 		class="mt-3 block w-full border p-1 text-center leading-snug hover:bg-white hover:text-black"
 	>
 		Recharger la page
-	</a>
-	<a
+	</button>
+	<button
 		id="disconnect-character"
 		class="mt-3 block w-full border p-1 text-center leading-snug hover:bg-white hover:text-black"
 	>
 		Déconnecter le personnage
-	</a>
+	</button>
 </div>
 
 <div data-state="intro" class="h-64 w-48 overflow-y-scroll p-3 leading-tight">
@@ -41,12 +41,12 @@ const spritesheet = await getImage({ src: png, format: "webp" })
 		vous devez survivre. Votre première priorité est de construire un campement avant que la nuit ne
 		tombe, afin de vous protéger des dangers inconnus qui pourraient rôder dans l'obscurité.
 	</p>
-	<a
+	<button
 		id="intro-to-create"
 		class="mt-3 block w-full border p-1 text-center leading-snug hover:bg-white hover:text-black"
 	>
 		Commencer
-	</a>
+	</button>
 </div>
 
 <div data-state="create" class="w-48 overflow-hidden p-3 leading-loose">
@@ -83,9 +83,9 @@ const spritesheet = await getImage({ src: png, format: "webp" })
 			Créer le personnage
 		</button>
 	</form>
-	<a id="create-to-login" class="mt-1 block text-neutral-500 hover:text-white">
+	<button id="create-to-login" class="mt-1 block text-neutral-500 hover:text-white">
 		J'ai déjà un personnage
-	</a>
+	</button>
 </div>
 
 <div data-state="login" class="w-48 overflow-hidden p-3 leading-loose">
@@ -105,7 +105,7 @@ const spritesheet = await getImage({ src: png, format: "webp" })
 			Se connecter
 		</button>
 	</form>
-	<a id="login-to-create" class="mt-1 block text-neutral-500 hover:text-white">Retour</a>
+	<button id="login-to-create" class="mt-1 block text-neutral-500 hover:text-white">Retour</button>
 </div>
 
 <div
@@ -131,12 +131,12 @@ const spritesheet = await getImage({ src: png, format: "webp" })
 		<div id="built-structures" class="col-span-2 row-span-2 grid grid-cols-subgrid gap-1"></div>
 	</div>
 	<div id="neighbours" class="leading-snug"></div>
-	<a
+	<button
 		id="overview-to-fullscreen"
 		class="mt-3 block w-full border p-1 text-center leading-snug hover:bg-white hover:text-black"
 	>
 		Ouvrir
-	</a>
+	</button>
 </div>
 
 <script>
@@ -237,7 +237,7 @@ const spritesheet = await getImage({ src: png, format: "webp" })
 
 	const characterId = localStorage.getItem("characterId")
 	window.changeGameState(characterId ? "overview" : "intro", characterId as string)
-	;(document.getElementById("intro-to-create") as HTMLAnchorElement).addEventListener(
+	;(document.getElementById("intro-to-create") as HTMLButtonElement).addEventListener(
 		"click",
 		async () => {
 			window.changeGameState("create")
@@ -249,10 +249,10 @@ const spritesheet = await getImage({ src: png, format: "webp" })
 			select.innerHTML = maps.map((m) => `<option value="${m.id}">Monde ${m.id}</option>`).join("")
 		}
 	)
-	;(document.getElementById("create-to-login") as HTMLAnchorElement).addEventListener("click", () =>
+	;(document.getElementById("create-to-login") as HTMLButtonElement).addEventListener("click", () =>
 		window.changeGameState("login")
 	)
-	;(document.getElementById("login-to-create") as HTMLAnchorElement).addEventListener("click", () =>
+	;(document.getElementById("login-to-create") as HTMLButtonElement).addEventListener("click", () =>
 		window.changeGameState("create")
 	)
 	;(document.getElementById("create-character") as HTMLFormElement).addEventListener(
@@ -289,7 +289,7 @@ const spritesheet = await getImage({ src: png, format: "webp" })
 			window.changeGameState("overview", characterId)
 		}
 	)
-	;(document.getElementById("overview-to-fullscreen") as HTMLAnchorElement).addEventListener(
+	;(document.getElementById("overview-to-fullscreen") as HTMLButtonElement).addEventListener(
 		"click",
 		async () => {
 			window.changeGameState("fullscreen")
@@ -306,10 +306,10 @@ const spritesheet = await getImage({ src: png, format: "webp" })
 			window.changeGameState(characterId ? "overview" : "intro", characterId as string)
 		}
 	)
-	;(document.getElementById("reload-page") as HTMLAnchorElement).addEventListener("click", () =>
+	;(document.getElementById("reload-page") as HTMLButtonElement).addEventListener("click", () =>
 		location.reload()
 	)
-	;(document.getElementById("disconnect-character") as HTMLAnchorElement).addEventListener(
+	;(document.getElementById("disconnect-character") as HTMLButtonElement).addEventListener(
 		"click",
 		() => {
 			if (
