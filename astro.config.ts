@@ -10,7 +10,7 @@ import { remarkAbbr } from "./src/utils/remark/detectAbbr"
 
 // https://astro.build/config
 export default defineConfig({
-	output: "hybrid",
+	output: "static",
 	// Remove this when https://github.com/withastro/compiler/issues/852 is fixed
 	compressHTML: false,
 	image: {
@@ -64,31 +64,20 @@ export default defineConfig({
 		mdx(),
 		icon({
 			include: {
-				bi: ["stars"],
-				carbon: ["network-1"],
-				charm: ["home"],
-				ic: [
-					"baseline-check",
-					"baseline-launch",
-					"baseline-link",
-					"baseline-search",
-					"baseline-toc",
-					"baseline-ios-share",
-					"outline-file-download",
-				],
-				ion: ["footsteps", "eye"],
-				logos: ["spotify-icon"],
-				lucide: ["library-square", "scan"],
-				"material-symbols": ["close-rounded", "update-rounded", "label-rounded"],
-				"material-symbols-light": [
-					"keyboard-double-arrow-down-rounded",
-					"keyboard-double-arrow-up-rounded",
-				],
-				mdi: ["github", "campfire", "plus-circle-outline"],
-				ph: ["share-network"],
-				"radix-icons": ["notion-logo"],
-				tabler: ["copy"],
-				tdesign: ["map-collection"],
+				bi: ["*"],
+				carbon: ["*"],
+				charm: ["*"],
+				ic: ["*"],
+				ion: ["*"],
+				logos: ["*"],
+				lucide: ["*"],
+				"material-symbols": ["*"],
+				"material-symbols-light": ["*"],
+				mdi: ["*"],
+				ph: ["*"],
+				"radix-icons": ["*"],
+				tabler: ["*"],
+				tdesign: ["*"],
 			},
 		}),
 	],
@@ -102,5 +91,9 @@ export default defineConfig({
 		smartypants: true,
 		remarkPlugins: [remarkConvertImports, remarkAbbr],
 	},
-	adapter: vercel(),
+	adapter: vercel({
+		webAnalytics: {
+			enabled: true,
+		},
+	}),
 })
