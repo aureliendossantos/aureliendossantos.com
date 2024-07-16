@@ -6,23 +6,22 @@ import "medium-zoom/dist/style.css"
 	import mediumZoom from "medium-zoom/dist/pure"
 	import { navbarIsOpened } from "$utils/navbar"
 
-	window.mediumZoom = mediumZoom("[data-zoomable]", {
+	const options = () => ({
 		container: {
 			height: window.innerHeight - (navbarIsOpened() ? 28 : 0),
 		},
-		margin: 24,
+		// No margin on mobile
+		margin: window.innerWidth > 640 ? 24 : 0,
 		background: window.matchMedia("(prefers-color-scheme: dark)").matches
 			? "var(--dark-bg)"
 			: "var(--bg)",
 	})
 
-	// Since I use a custom container height, I need to update it manually in case the window has been resized.
+	window.mediumZoom = mediumZoom("[data-zoomable]", options())
+
+	// I need to update the options in case the navbar has been open/closed, dark mode has been toggled, or the window has been resized.
 	window.mediumZoom.on("open", () => {
-		window.mediumZoom.update({
-			container: {
-				height: window.innerHeight - (navbarIsOpened() ? 28 : 0),
-			},
-		})
+		window.mediumZoom.update(options())
 	})
 
 	document.addEventListener("astro:before-preparation", () => {
