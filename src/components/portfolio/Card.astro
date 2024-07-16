@@ -44,13 +44,13 @@ const data = entry.data
 				class:list={[
 					/*"aspect-[2.3/1] h-full bg-fi-base-200 object-cover brightness-[92%] contrast-[93%] grayscale invert-[19%] sepia-[30%] transition-all duration-300 ease-in-out group-hover:filter-none medium:aspect-[2.6/1]",
 					{ "w-[188px] max-w-none medium:w-auto medium:max-w-full": layout == "horizontal" },*/
-					"aspect-[2.3/1] h-full bg-fi-base-200 object-cover brightness-[100%] contrast-[100%] grayscale invert-[26%] sepia-[30%] transition-all duration-300 ease-in-out group-hover:filter-none medium:aspect-[2.6/1] medium:h-auto medium:filter-none",
+					"aspect-[2.3/1] h-full bg-fi-base-200 object-cover brightness-[100%] contrast-[100%] grayscale invert-[20%] sepia-[22%] transition-all duration-300 ease-in-out group-hover:filter-none medium:aspect-[2.6/1] medium:h-auto medium:filter-none",
 					{
-						"w-[188px] max-w-none medium:w-auto medium:max-w-full": layout == "horizontal",
-						"object-[50%_22%]": data.imageAnchorTop,
+						"w-[188px] max-w-none medium:w-full medium:max-w-full": layout == "horizontal",
 						"group-hover:hidden": data.video,
 					},
 				]}
+				style={{ objectPosition: `50% ${data.imageAnchorTop}%` }}
 				notZoomable
 				alt=""
 			/>

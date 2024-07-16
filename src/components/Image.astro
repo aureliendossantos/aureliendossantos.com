@@ -27,6 +27,9 @@ const {
 if (typeof srcToResolve != "object") throw new Error("srcToResolve is not an object")
 const src = "then" in srcToResolve ? (await srcToResolve).default : srcToResolve
 
+// The style must be a JSX object and not a string to be preserved
+const style = typeof attributes.style == "object" ? attributes.style : null
+
 const webp = await getImage({
 	src: src,
 	width: width,
@@ -62,6 +65,7 @@ const placeholderURL = await imageService.generatePlaceholder(src.src, src.width
 			backgroundSize: "cover",
 			backgroundImage: `url(${placeholderURL})`,
 			imageRendering: "auto",
+			...style,
 		}}
 		onload="this.style.backgroundImage = 'none';"
 		alt={alt}
