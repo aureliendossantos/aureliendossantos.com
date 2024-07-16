@@ -1,5 +1,4 @@
 ---
-import { Icon } from "astro-icon/components"
 import { getImage } from "astro:assets"
 import png from "$styles/assets/spritesheet.png"
 const spritesheet = await getImage({ src: png, format: "webp" })
@@ -30,16 +29,14 @@ const spritesheet = await getImage({ src: png, format: "webp" })
 	</button>
 </div>
 
-<div data-state="intro" class="h-64 w-48 overflow-y-scroll p-3 leading-tight">
+<div data-state="intro" class="max-h-svh w-48 overflow-y-scroll p-3 leading-tight">
 	<p class="mb-3">
 		Vous vous réveillez sur le sable froid et humide, avec un sacré mal de crâne. Vous vous
 		redressez difficilement et scrutez les alentours.
 	</p>
 	<p>
-		Vous vous trouvez sur le rivage d'une île mystérieuse, entouré par l'immensité de l'océan d'un
-		côté et une forêt dense de l'autre. Vous ne vous souvenez de rien, mais une chose est certaine :
-		vous devez survivre. Votre première priorité est de construire un campement avant que la nuit ne
-		tombe, afin de vous protéger des dangers inconnus qui pourraient rôder dans l'obscurité.
+		Vous vous trouvez sur le rivage d'une île mystérieuse, entourée par l'immensité de l'océan. Vous
+		ne vous souvenez de rien, mais une chose est certaine : vous devez survivre.
 	</p>
 	<button
 		id="intro-to-create"
@@ -230,8 +227,8 @@ const spritesheet = await getImage({ src: png, format: "webp" })
 		;(document.getElementById("neighbours") as HTMLDivElement).textContent =
 			neighbours.length > 0
 				? `${enumerate(neighbours.map((c: any) => c.name))} se trouve${
-						cell.characters.length > 1 ? "nt" : ""
-					} ici`
+						neighbours.length > 1 ? "nt" : ""
+					} ici.`
 				: ""
 	}
 

@@ -13,8 +13,9 @@ interface Props extends Omit<HTMLAttributes<"video">, "src"> {
 	caption?: string
 	gif?: boolean
 	noFallbackText?: boolean
+	figureClass?: HTMLAttributes<"figure">["class"]
 }
-const { src, compat, caption, gif, noFallbackText, ...attributes } = Astro.props
+const { src, compat, caption, gif, noFallbackText, figureClass, ...attributes } = Astro.props
 
 const resolveSrc = async (src: singleSrc) => {
 	if (typeof src === "string") return src
@@ -37,7 +38,7 @@ if (compat) {
 }
 ---
 
-<figure>
+<figure class={figureClass}>
 	<video
 		width={attributes.width || "1920"}
 		height={attributes.height || "1080"}

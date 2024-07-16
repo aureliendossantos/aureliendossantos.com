@@ -14,9 +14,9 @@ const jeuDeSurvie = await getEntryBySlug("portfolio", "jeu-de-survie-navigateur"
 const cms = await getEntryBySlug("portfolio", "minimal-cms")
 const powerup = await getEntryBySlug("portfolio", "powerup")
 const qrpg = await getEntryBySlug("portfolio", "qrpg")
-// TODO: const site = await getEntryBySlug("portfolio", "site")
+const site = await getEntryBySlug("portfolio", "site")
 ---
 
-<TocSection big={big} title="Web" entries={[dashboard, cms, jeuDeSurvie]} />
+<TocSection big={big} title="Web" entries={[dashboard, cms, jeuDeSurvie, site]} />
 <TocSection big={big} title="Unity" entries={[powerup, qrpg]} />
 <TocSection big={big} title="Pédagogie" entries={[capCuisine, faireDesJeux]} />
