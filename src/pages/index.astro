@@ -1,201 +1,113 @@
 ---
-import Image from "$components/Image.astro"
+import ArticleCard from "$components/blog/ArticleCard.astro"
 import BaseLayout from "$layouts/BaseLayout.astro"
-import getBlogPosts from "$utils/getCollection"
+import getBlogPosts, { getDiary } from "$utils/getCollection"
+import DiaryWrapup from "$components/blog/DiaryWrapup.astro"
 import { Icon } from "astro-icon/components"
-import { getEntryBySlug } from "astro:content"
-import MarkdownIt from "markdown-it"
+import { dateSort } from "$utils/sort"
 
-const articles = await getBlogPosts(false)
-const blogLength = 4
-const portfolio = [
-	{ entry: await getEntryBySlug("portfolio", "qrpg") },
-	{ entry: await getEntryBySlug("portfolio", "powerup") },
-	{ entry: await getEntryBySlug("portfolio", "minimal-cms") },
-	{ entry: await getEntryBySlug("portfolio", "dashboard") },
-	// TODO: { entry: await getEntryBySlug("portfolio", "site") },
-]
-const portals = [
-	{
-		title: "À propos",
-		slug: "/website",
-		desc: "Détails sur moi et sur les fonctionnalités de ce site.",
-	},
-	{ title: "Journal", slug: "/diary", desc: "Journaux intimes et carnets de voyage." },
-	{ title: "Lieux", slug: "/places", desc: "Lieux favoris alimentés par l'API de Google Maps." },
-	{ title: "Jeux", slug: "/games", desc: "Bibliothèque de jeux gérée avec Notion et IGDB." },
-	{ title: "Appareils", slug: "/gear", desc: "Appareils que je possède et habitudes." },
-	{ title: "Cuisine", slug: "/kitchen", desc: "Recettes et astuces culinaires.", wip: true },
-]
+const articles = [...(await getBlogPosts())].sort((a, b) => dateSort(a.data.date, b.data.date))
+/** sort drafts first
+	.sort((a, b) => {
+		if (a.data.draft && !b.data.draft) return -1
+		if (!a.data.draft && b.data.draft) return 1
+		return 0
+	})
+*/
+const diary = (await getDiary()).filter((entry) => entry.data.highlight)
+const years = Array.from(new Set(diary.map((entry) => entry.year)))
 ---
 
-<BaseLayout title="Accueil" ogType="website" bg={{ light: "#FBF6EB", dark: "#353336" }}>
-	<div class="m-auto max-w-xl py-24 text-dandelion-1 medium:px-5 dark:text-snow-1">
-		<p class="mb-3">Aurélien Dos Santos /</p>
-		<h1 class="mb-10 text-[42px] italic leading-none" style={{ fontFamily: "Louize" }}>
-			Site personnel
-		</h1>
-		<p class="my-3">
-			Bonjour, je suis Aurélien, développeur web et Unity. Je suis également diplômé en ingénierie
-			pédagogique et passionné de cinéma, de typographie et de game design.
-		</p>
-		<h2 class="mb-1 mt-12 font-medium">
-			<a
-				href="/blog"
-				class="transition hover:bg-dandelion-3 hover:shadow-[0px_0_5px_5px_#E7E9B7] dark:hover:bg-snow-1/10 dark:hover:shadow-[0px_0_5px_5px_rgba(233,220,208,0.1)]"
+<BaseLayout
+	ogType="website"
+	title="Blog"
+	description="Blog personnel d'Aurélien Dos Santos."
+	font="Work Sans"
+	bg={{ light: "#ffffff", dark: "#000000" }}
+>
+	<header
+		class="grid w-full grid-cols-3 items-center bg-white font-sofia-sans text-sm text-black 2xl:text-xs xl:grid-cols-2 mediumlarge:flex mediumlarge:grid-cols-none mediumlarge:flex-col dark:bg-black dark:text-white"
+	>
+		<div class="flex justify-center">
+			<div
+				class="ml-8 mr-16 flex min-w-[20rem] max-w-xs flex-col text-lg 2xl:ml-7 2xl:mr-14 2xl:min-w-[17.5rem] 2xl:max-w-[17.5rem] 2xl:text-base small:mx-0 small:max-w-[20rem]"
+				style={{ fontFamily: "Louize" }}
 			>
-				Blog →
-			</a>
-		</h2>
-		<div class="flex flex-col">
-			{
-				articles.slice(0, blogLength).map((a) => (
-					<a
-						class="flex gap-6 border-b border-dandelion-2/20 py-2 transition hover:bg-dandelion-3 hover:shadow-[0px_0_5px_5px_#E7E9B7] dark:border-snow-1/20 dark:hover:bg-snow-1/10 dark:hover:shadow-[0px_0_5px_5px_rgba(233,220,208,0.1)]"
-						href={`/${a.slug}`}
-					>
-						<div class="whitespace-nowrap" style={{ fontFeatureSettings: '"tnum"' }}>
-							{a.data.date.getFullYear()} ·{" "}
-							{(a.data.date.getMonth() + 1).toString().padStart(2, "0")}
-						</div>
-						<h3 set:html={MarkdownIt().renderInline(a.data.title)} />
-					</a>
-				))
-			}
-		</div>
-		<div class="flex h-[41px] items-center justify-center text-sm">
-			<a
-				href="/blog"
-				class="cursor-pointer text-dandelion-2/70 transition hover:bg-dandelion-3 hover:shadow-[0px_0_5px_5px_#E7E9B7] dark:text-snow-1/75 dark:hover:bg-snow-1/10 dark:hover:shadow-[0px_0_5px_5px_rgba(233,220,208,0.1)]"
-			>
-				{articles.length - blogLength} supplémentaires
-			</a>
-		</div>
-		<h2 class="mb-4 mt-6 font-medium">
-			<a
-				href="/portfolio"
-				class="transition hover:bg-dandelion-3 hover:shadow-[0px_0_5px_5px_#E7E9B7] dark:hover:bg-snow-1/10 dark:hover:shadow-[0px_0_5px_5px_rgba(233,220,208,0.1)]"
-			>
-				Portfolio →
-			</a>
-		</h2>
-		<div class="grid grid-cols-2">
-			{
-				portfolio.map((p) => (
-					<a
-						class="group col-span-2 flex gap-6 border-t border-dandelion-2/20 transition duration-300 ease-in-out first:border-t-0 last:border-b hover:bg-dandelion-3 hover:shadow-[0px_0_5px_5px_#E7E9B7] dark:border-snow-1/20 dark:hover:bg-snow-1/10 dark:hover:shadow-[0px_0_5px_5px_rgba(233,220,208,0.1)]"
-						href={`/portfolio/${p.entry.slug}`}
-					>
-						{p.entry.data.image && (
-							<div class="w-[140px] min-w-[140px] py-1">
-								<Image
-									src={p.entry.data.image}
-									width={500}
-									class="h-full w-full rounded-sm object-cover brightness-[92%] contrast-[93%] grayscale invert-[19%] sepia-[30%] transition-all duration-300 ease-in-out group-hover:filter-none"
-									notZoomable
-									alt=""
+				<div class="my-11 flex justify-between 2xl:my-9 xl:mb-0 xl:mt-6 mediumlarge:mt-9">
+					<h1>
+						Aurélien Dos Santos /
+						<span class="group relative">
+							<a
+								href="/portfolio"
+								class="absolute -left-[calc(0.4em+1px)] top-[0.7em] rounded-br border-l border-black bg-white px-[0.4em] pb-[0.1em] pt-[0.3em] !text-black opacity-0 transition-all ease-out hover:!text-neutral-500 group-hover:top-[1em] group-hover:text-neutral-500 group-hover:opacity-100"
+							>
+								Portfolio
+							</a>
+							Blog
+							<span class="transition ease-out group-hover:opacity-0">
+								<Icon
+									name="material-symbols:arrow-drop-down-rounded"
+									class="-ml-[0.1em] -mt-[0.2em] inline-block"
 								/>
-							</div>
-						)}
-						<div class="py-[19px]">
-							<h3>{p.entry.data.title}</h3>
-							<p class="text-sm text-dandelion-2/70 dark:text-snow-1/75">
-								{p.entry.data.tools.join(", ")}
-							</p>
-						</div>
-					</a>
-				))
-			}
+							</span>
+						</span>
+					</h1>
+				</div>
+			</div>
 		</div>
-		<div class="mt-3 flex items-center justify-center text-sm">
-			<a
-				href="/portfolio"
-				class="cursor-pointer text-dandelion-2/70 transition hover:bg-dandelion-3 hover:shadow-[0px_0_5px_5px_#E7E9B7] dark:text-snow-1/75 dark:hover:bg-snow-1/10 dark:hover:shadow-[0px_0_5px_5px_rgba(233,220,208,0.1)]"
+		<div class="flex justify-center">
+			<div
+				class="ml-8 mr-16 flex min-w-[20rem] max-w-xs flex-col uppercase 2xl:ml-7 2xl:mr-14 2xl:min-w-[17.5rem] 2xl:max-w-[17.5rem] small:mx-0 small:max-w-[20rem]"
 			>
-				3 supplémentaires
-			</a>
+				<div class="my-12 flex gap-5 2xl:my-10 xl:mb-4 mediumlarge:mt-4">
+					<a href="/portfolio">Portfolio</a>
+					<a href="/tags">Tags</a>
+					<a href="/website">À propos</a>
+				</div>
+			</div>
 		</div>
-		<h2 class="mb-1 mt-8 font-medium">Autres portails</h2>
-		<div class="flex flex-col divide-y divide-dandelion-2/20 dark:divide-snow-1/20">
-			{
-				portals.map((p) => (
-					<a
-						class="rounded-sm py-2 transition hover:bg-dandelion-3 hover:shadow-[0px_0_5px_5px_#E7E9B7] dark:hover:bg-snow-1/10 dark:hover:shadow-[0px_0_5px_5px_rgba(233,220,208,0.1)]"
-						href={p.slug}
-					>
-						<h3 class="flex items-baseline medium:justify-between">
-							{/*prettier-ignore */}
-							<span class="inline-block w-24">{p.title}{p.wip && <sup>WIP</sup>}</span>
-							<span class="inline-block w-24 font-mono text-sm medium:text-right">{p.slug}</span>
-							{p.desc && (
-								<span class="text-sm text-dandelion-2/70 medium:hidden dark:text-snow-1/75">
-									{p.desc}
-								</span>
-							)}
-						</h3>
-					</a>
-				))
-			}
+		<div class="hidden xl:block"></div>
+		<div class="flex justify-center">
+			<div
+				class="ml-8 mr-16 flex min-w-[20rem] max-w-[20rem] flex-col uppercase 2xl:ml-7 2xl:mr-14 2xl:min-w-[17.5rem] 2xl:max-w-[17.5rem] small:mx-0 small:max-w-[20rem]"
+			>
+				<div class="my-12 flex gap-5 2xl:my-10 xl:mt-0">
+					{
+						[
+							{ title: "YouTube", href: "https://www.youtube.com/@GameDevAlliance" },
+							{ title: "LinkedIn", href: "https://www.linkedin.com/in/aureliendossantos/" },
+							{ title: "GitHub", href: "https://github.com/aureliendossantos" },
+						].map((link) => (
+							<a href={link.href}>
+								{link.title}
+								<Icon
+									name="ic:baseline-launch"
+									class="-mb-[0.1em] inline-block h-[0.9em] align-baseline"
+								/>
+							</a>
+						))
+					}
+				</div>
+			</div>
 		</div>
-		<h2 class="mt-12 font-medium">Contact</h2>
-		<ul class="my-3 flex flex-col gap-3">
-			<li>
-				<a
-					class="transition hover:bg-dandelion-3 hover:shadow-[0px_0_5px_5px_#E7E9B7] dark:hover:bg-snow-1/10 dark:hover:shadow-[0px_0_5px_5px_rgba(233,220,208,0.1)]"
-					href="https://github.com/aureliendossantos"
-				>
-					GitHub
-					<Icon
-						name="ic:baseline-launch"
-						class="-mb-[0.1em] inline-block h-[0.9em] align-baseline"
-					/>
-				</a>
-			</li>
-			<li>
-				<a
-					class="transition hover:bg-dandelion-3 hover:shadow-[0px_0_5px_5px_#E7E9B7] dark:hover:bg-snow-1/10 dark:hover:shadow-[0px_0_5px_5px_rgba(233,220,208,0.1)]"
-					href="https://linkedin.com/in/aureliendossantos"
-				>
-					LinkedIn
-					<Icon
-						name="ic:baseline-launch"
-						class="-mb-[0.1em] inline-block h-[0.9em] align-baseline"
-					/>
-				</a>
-			</li>
-			<li class="-mt-1">
-				<button
-					id="copy-email"
-					class="transition hover:bg-dandelion-3 hover:shadow-[0px_0_5px_5px_#E7E9B7] dark:hover:bg-snow-1/10 dark:hover:shadow-[0px_0_5px_5px_rgba(233,220,208,0.1)]"
-				>
-					<span class="font-mono text-sm">aureliendsantos@gmail.com</span>
-					<span class="mx-1 text-sm text-dandelion-2/70 dark:text-snow-1/75">Copier</span>
-				</button>
-				<a
-					class="border-l border-dandelion-2/20 px-2 py-[2px] text-sm text-dandelion-2/70 transition hover:bg-dandelion-3 hover:shadow-[0px_0_5px_5px_#E7E9B7] dark:border-snow-1/20 dark:text-snow-1/75 dark:hover:bg-snow-1/10 dark:hover:shadow-[0px_0_5px_5px_rgba(233,220,208,0.1)]"
-					href="mailto:aureliendsantos@gmail.com"
-				>
-					Envoyer
-				</a>
-			</li>
-		</ul>
-	</div>
+	</header>
+	{
+		articles.map((article, index) => (
+			<>
+				<ArticleCard article={article} entryIndex={articles.length - index} />
+				{(() => {
+					if (!articles[index + 1]) return
+					const year = article.data.date.getFullYear()
+					const nextYear = articles[index + 1].data.date.getFullYear()
+					if (year != nextYear && years.find((y) => y == year)) return <DiaryWrapup year={year} />
+				})()}
+			</>
+		))
+	}
 </BaseLayout>
 
-<style is:global>
-	sup {
-		@apply ml-[0.05em] text-[65%] font-medium;
+<style>
+	header a {
+		@apply text-neutral-600 hover:text-black dark:text-neutral-300 dark:hover:text-white;
 	}
 </style>
-
-<script>
-	import { toast } from "$utils/navbar"
-
-	document.addEventListener("astro:page-load", () => {
-		const button = document.querySelector("#copy-email") as HTMLButtonElement
-		button?.addEventListener("click", () => {
-			toast("Adresse email copiée dans le presse-papiers.")
-			navigator.clipboard.writeText("aureliendsantos@gmail.com")
-		})
-	})
-</script>

@@ -67,7 +67,7 @@ const maybeRemoveStyle = (str?: string) => str?.replaceAll("*", "")
 		title: removeStyle(data.title),
 		parent:
 			collection == "blog"
-				? { title: "Blog", href: "/blog" }
+				? { title: "Blog", href: "/" }
 				: parent
 					? { title: parent.data.title, href: `/${parent.slug}` }
 					: undefined,
