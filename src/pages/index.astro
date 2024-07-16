@@ -4,6 +4,7 @@ import BaseLayout from "$layouts/BaseLayout.astro"
 import getBlogPosts from "$utils/getCollection"
 import { Icon } from "astro-icon/components"
 import { getEntryBySlug } from "astro:content"
+import MarkdownIt from "markdown-it"
 
 const articles = await getBlogPosts(false)
 const blogLength = 4
@@ -25,12 +26,6 @@ const portals = [
 	{ title: "Jeux", slug: "/games", desc: "Bibliothèque de jeux gérée avec Notion et IGDB." },
 	{ title: "Appareils", slug: "/gear", desc: "Appareils que je possède et habitudes." },
 	{ title: "Cuisine", slug: "/kitchen", desc: "Recettes et astuces culinaires.", wip: true },
-	{
-		title: "Wiki",
-		slug: "/wiki",
-		desc: "Carnet de notes rendu côté serveur via Notion.",
-		wip: true,
-	},
 ]
 ---
 
@@ -63,7 +58,7 @@ const portals = [
 							{a.data.date.getFullYear()} ·{" "}
 							{(a.data.date.getMonth() + 1).toString().padStart(2, "0")}
 						</div>
-						<h3>{a.data.title}</h3>
+						<h3 set:html={MarkdownIt().renderInline(a.data.title)} />
 					</a>
 				))
 			}
