@@ -4,6 +4,24 @@
 	--font-size: 16px;
 }
 
+.popup-link {
+	@apply decoration-dashed !decoration-[1.5px] ring-[--popup] hover:decoration-transparent hover:ring-[1.5px];
+	&.cursor-pointer {
+		/* when the popup is opened */
+		@apply decoration-transparent ring-[1.5px];
+	}
+}
+.popup {
+	@apply !border-[1.5px];
+}
+
+abbr {
+	font-feature-settings: "c2sc";
+}
+.person {
+	font-feature-settings: "smcp";
+}
+
 section.footnotes {
 	@apply mt-12;
 	h2 {
@@ -49,5 +67,32 @@ section.footnotes,
 	}
 	&::-webkit-scrollbar-thumb {
 		@apply border-0 border-t-[1.5px] border-solid border-fi-base-100 bg-fi-base-150 hover:bg-fi-base-200;
+	}
+}
+figure {
+	video,
+	lite-youtube {
+		@apply bg-fi-base-100;
+	}
+	figcaption {
+		@apply mx-12 font-normal;
+	}
+}
+
+nav.toc h2,
+h2.project-link {
+	font-feature-settings: "c2sc", "smcp";
+	@apply mt-[4px] font-adelle text-sm font-normal leading-[20px] text-fi-base-300;
+}
+nav.toc {
+	@apply border-[1.5px] border-fi-base-100 bg-fi-base-50 px-[2em] py-[1em] leading-[24px];
+	ol > li {
+		@apply font-adelle-sans leading-[24px] text-fi-base-600;
+	}
+	ul > li {
+		@apply mt-[2px] pl-[2em] font-adelle leading-[22px] text-[#878580];
+	}
+	a {
+		@apply no-underline transition hover:text-fi-orange-400;
 	}
 }

@@ -7,6 +7,8 @@ import ArticleDate from "$components/articles/ArticleDate.astro"
 import Aside from "$components/portfolio/Aside.astro"
 import { Icon } from "astro-icon/components"
 import GenerateSidenotes from "$components/sidenotes/GenerateSidenotes.astro"
+import TableOfContents from "$components/articles/TableOfContents.astro"
+import MarkdownIt from "markdown-it"
 
 export async function getStaticPaths() {
 	const projects = await getCollection("portfolio")
@@ -20,8 +22,11 @@ interface Props {
 	project: CollectionEntry<"portfolio">
 }
 const { project } = Astro.props
-const { Content } = await project.render()
+const { Content, headings } = await project.render()
 const data = project.data
+const linkTitle = data.linkTitle && MarkdownIt({ html: true }).renderInline(data.linkTitle)
+// If the last heading is named "Notes", remove it from the TOC
+if (headings.at(-1)?.text == "Notes") headings.pop()
 const allRoles = [...data.roles, ...data.moreRoles]
 const allTools = [...data.tools, ...data.moreTools]
 const width = 336 * 2 + 552
@@ -36,7 +41,20 @@ const width = 336 * 2 + 552
 	image={data.image?.src}
 	navBarProps={{ title: data.title, parent: { title: "Portfolio", href: "/portfolio" } }}
 >
-	<div class="m-auto flex min-h-screen w-full">
+	<div
+		class="m-auto flex min-h-screen w-full"
+		style={{
+			"--base-color": "#100F0F", // black
+			"--dark-base-color": "#100F0F",
+			"--secondary-color": "#6F6E69", // 600
+			"--dark-secondary-color": "#6F6E69",
+			"--popup": "#B7B5AC",
+			"--dark-popup": "#B7B5AC",
+			"--popup-active": "#F2F0E5",
+			"--dark-popup-active": "#F2F0E5",
+			"--code-font": "nk57",
+		}}
+	>
 		<div class="grow bg-fi-base-50 mediumlarge:hidden"></div>
 		<Aside />
 		<article
@@ -75,7 +93,8 @@ const width = 336 * 2 + 552
 						href={data.link}
 						target="_blank"
 					>
-						{data.linkTitle || data.link.replace("https://", "")}
+						{data.toc && <h2 class="project-link">Consulter</h2>}
+						<Fragment set:html={linkTitle || data.link.replace("https://", "")} />
 						<Icon
 							name="ic:baseline-launch"
 							class="-mb-[0.1em] inline-block h-[0.9em] align-baseline"
@@ -83,6 +102,7 @@ const width = 336 * 2 + 552
 					</a>
 				)
 			}
+			{data.toc && <TableOfContents title="Sommaire" headings={headings} />}
 			<Content />
 		</article>
 		{/* HACK: Sidenotes width */}
@@ -92,15 +112,3 @@ const width = 336 * 2 + 552
 </BaseLayout>
 
 <GenerateSidenotes label="number" toggle={false} visible={false} removeFootnotes={true} />
-
-<style is:global>
-	figure {
-		video,
-		lite-youtube {
-			@apply border-y-[1.5px] border-fi-base-100 bg-fi-base-100;
-		}
-		figcaption {
-			@apply mx-12 font-normal;
-		}
-	}
-</style>
