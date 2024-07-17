@@ -118,6 +118,13 @@ const spritesheet = await getImage({ src: png, format: "webp" })
 	<div class="h-2.5 w-full border border-white">
 		<div id="character-stamina-bar" class="h-full bg-white" style={{ width: "0%" }}></div>
 	</div>
+	<div class="mt-[1px] flex justify-between">
+		<div>Faim</div>
+		<div id="character-hunger"></div>
+	</div>
+	<div class="h-2.5 w-full border border-white">
+		<div id="character-hunger-bar" class="h-full bg-white" style={{ width: "0%" }}></div>
+	</div>
 	<div class="mt-3">
 		<span id="cell-terrain-title"></span> (<span id="cell-x"></span>:<span id="cell-y"></span>)
 	</div>
@@ -210,6 +217,9 @@ const spritesheet = await getImage({ src: png, format: "webp" })
 			character.stamina
 		;(document.getElementById("character-stamina-bar") as HTMLDivElement).style.width =
 			character.stamina * 10 + "%"
+		;(document.getElementById("character-hunger") as HTMLDivElement).textContent = character.hunger
+		;(document.getElementById("character-hunger-bar") as HTMLDivElement).style.width =
+			character.hunger * 10 + "%"
 		;(document.getElementById("cell-terrain-title") as HTMLSpanElement).textContent =
 			cell.terrain.title
 		;(document.getElementById("cell-x") as HTMLSpanElement).textContent = cell.x
