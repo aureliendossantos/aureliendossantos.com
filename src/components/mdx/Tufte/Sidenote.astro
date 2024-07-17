@@ -1,6 +1,5 @@
 ---
 import Label, { type Props as LabelProps } from "$components/sidenotes/Label.astro"
-import crypto from "node:crypto"
 /**
  * This component is an inline sidenote. Don't try to add block elements like <p> in the <slot /> cause the Astro compiler will move them outside. The only way to insert block elements is via JS on the client, like in GenerateSidenotes.astro.
  * For my own convenience, the label prop is not mandatory, and if it's not provided, I default the sidenote to a togglable symbol.
@@ -8,20 +7,26 @@ import crypto from "node:crypto"
 interface Props extends Partial<LabelProps> {
 	script?: boolean
 	noMarginTop?: boolean
+	/* Should be used for notes inside a paragraph (to avoid cutting it) but not at the end of a paragraph */
+	mobileHalfWidth?: boolean
 }
 const props = Astro.props
 // Default option for <Sidenote /> is a togglable asterisk
-if (!props.label) {
-	props.label = "symbol"
-	props.toggle = true
-	props.visible = false
-}
+props.label ??= "symbol"
+// Before, toggles had be explicitly set to false to be deactivated, but it's an incoherent behaviour
+// props.toggle ??= true
+// props.visible ??= false
+/* Mobile behaviour */
+// If (toggle || no label), .sidenote::before is hidden on mobile
+const hasMobileLabel = !props.toggle && props.label != "none"
 ---
 
 <Label {...props as LabelProps} /><span
 	class:list={[
 		"sidenote",
 		{
+			"has-mobile-label": hasMobileLabel,
+			"mobile-half-width": props.mobileHalfWidth,
 			symbol: props.label == "symbol",
 			"no-label": props.label == "none" || props.label == "plus",
 			script: props.script,

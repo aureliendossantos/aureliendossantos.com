@@ -2,13 +2,13 @@
 	font-family: "Bonnies";
 	line-height: 1.3;
 	@apply text-script;
-}
-.sidenote.script {
-	font-size: 1.3rem;
-	transform: rotate(-1deg);
-	@apply text-balance xl:mr-0 xl:text-pretty small:text-[1.1rem] small:leading-[1.4];
-	a {
-		@apply decoration-2;
+	&.sidenote {
+		font-size: 1.3rem;
+		transform: rotate(-1deg);
+		@apply text-balance xl:mr-0 xl:text-pretty small:text-[1.1rem] small:leading-[1.4];
+		a {
+			@apply decoration-2;
+		}
 	}
 }
 
@@ -34,9 +34,10 @@ span.highlight {
 	}
 }
 
-:root[data-palette="source-serif"] {
+:root[data-palette="source-serif"],
+:root[data-palette="tufte"] {
 	.sidenote {
-		font-family: "Source Serif SmText";
+		@apply font-["Source_Serif_SmText"] small:font-["Source_Serif_Caption"];
 	}
 	/* HACK: If the sidenote is the first element of the <p> following a h3, there's too much margin. */
 	h2 {
@@ -75,22 +76,13 @@ p + input + label + .sidenote {
 }
 .sidenote {
 	/* The mt aligns the small text with the main one. It's not done cleanly right now. */
-	@apply relative float-right clear-right -mr-[calc(50%+4*var(--font-size))] mb-[1em] mt-[5px] w-1/2 indent-0 text-[0.9rem] not-italic leading-[1.35] xl:m-0 xl:my-[--indent] xl:box-border xl:hidden xl:w-full xl:px-[--indent] xl:text-left xl:leading-[--line-height] xl:peer-checked:block small:my-[--sm-indent] small:px-[--sm-indent] small:leading-[--sm-line-height];
+	@apply relative float-right clear-right -mr-[calc(50%+4*var(--font-size))] mb-[1em] mt-[5px] w-1/2 indent-0 text-[length:--note-font-size] not-italic leading-[1.35] xl:m-0 xl:my-[--indent] xl:box-border xl:hidden xl:w-full xl:text-left xl:leading-[--line-height] xl:peer-checked:block small:my-[--sm-indent] small:text-[length:--sm-note-font-size] small:leading-[--sm-line-height];
 
-	p {
-		@apply my-0;
+	&.has-mobile-label {
+		@apply xl:px-[--indent] small:px-[--sm-indent];
 	}
-	img,
-	video,
-	lite-youtube {
-		@apply mb-[0.2em] mt-0;
-	}
-	img {
-		@apply xl:my-[0.4em];
-	}
-	.gallery {
-		/* example of this in the Witness article */
-		@apply !mb-4 !mt-0;
+	&.mobile-half-width {
+		@apply xl:mb-[0.5em] xl:mt-[--font-size] xl:w-auto xl:max-w-[50%] xl:pl-[--indent] xl:pr-0 small:mt-[--sm-font-size] small:pl-[--sm-indent];
 	}
 
 	/* Numbered sidenote */
@@ -106,7 +98,27 @@ p + input + label + .sidenote {
 	}
 	/* Hidden label (margin note) */
 	&.no-label::before {
-		display: none;
+		@apply hidden;
+	}
+	&:not(.has-mobile-label)::before {
+		@apply xl:hidden;
+	}
+
+	/* Content */
+	p {
+		@apply my-0;
+	}
+	img,
+	video,
+	lite-youtube {
+		@apply mb-[0.2em] mt-0;
+	}
+	img {
+		@apply xl:my-[0.4em];
+	}
+	.gallery {
+		/* example of this in the Witness article */
+		@apply !mb-4 !mt-0;
 	}
 }
 
@@ -125,7 +137,9 @@ p + input + label + .sidenote {
 	}
 	&.sidenote-symbol::after {
 		content: "*";
-		font-feature-settings: "sups";
+		.has-plus-icon& {
+			@apply xl:hidden;
+		}
 	}
 }
 

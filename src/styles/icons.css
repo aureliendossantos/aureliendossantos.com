@@ -23,10 +23,9 @@ a[data-icon="github"] {
 /* Specific to each icon */
 a[data-icon="wikipedia"]::after {
 	mask-image: url("/icons/wikipedia.svg");
-	width: 2em;
-	height: 1.6em;
-	zoom: 30%;
-	top: -0.9em;
+	width: calc(2em * 0.3);
+	height: calc(1.6em * 0.3);
+	top: -0.3em;
 	margin-right: -0.2em;
 	@apply bg-[--base-color] dark:bg-[--dark-base-color];
 }

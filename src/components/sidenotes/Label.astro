@@ -10,8 +10,9 @@ export interface Props {
 	visible?: boolean
 }
 let { id, label, toggle, visible } = Astro.props
-if (!id) id = crypto.randomUUID()
+id ??= crypto.randomUUID()
 // If `toggle` is false, the id won't be given to the label, so clicking on it won't do anything. The input has to stay in the page for the CSS to work.
+const hasPlusIcon = toggle && label != "number"
 ---
 
 <input id={toggle ? id : null} type="checkbox" checked={visible} class="peer hidden" /><label
@@ -19,14 +20,24 @@ if (!id) id = crypto.randomUUID()
 	class:list={[
 		"sidenote-label",
 		{
-			"mobile-touch": toggle && label != "plus",
+			"xl:cursor-pointer": toggle,
+			"mobile-touch": toggle && label == "number",
 			"sidenote-number": label == "number",
 			"sidenote-symbol": label == "symbol",
 			hidden: label == "none" || label == "plus",
 			"xl:inline-block": label == "plus",
+			"has-plus-icon": hasPlusIcon,
 		},
 	]}
 	>{
-		label == "plus" && <Icon name="mdi:plus-circle-outline" class="text-[--special-color]" />
+		hasPlusIcon && (
+			<Icon
+				name="mdi:plus-circle-outline"
+				class:list={[
+					"align-top text-[0.7em] text-[--special-color]",
+					{ "hidden xl:inline": label == "symbol" },
+				]}
+			/>
+		)
 	}</label
 >

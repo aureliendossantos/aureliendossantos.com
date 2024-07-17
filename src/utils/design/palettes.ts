@@ -56,6 +56,8 @@ type PaletteDeclaration = {
 	codeFont?: string
 	fontSize?: `${string}px`
 	codeFontSize?: `${string}em`
+	noteFontSize?: `${string}px`
+	smNoteFontSize?: `${string}px`
 	titleWeight?: number
 	lineHeight?: number
 	pageWidth?: `${number}ch`
@@ -111,6 +113,8 @@ export default function getPalette(name: PaletteName | undefined): Palette {
 		codeFont: p.codeFont || "monospace",
 		codeFontSize: p.codeFontSize || "1em",
 		fontSize: p.fontSize || "16px",
+		noteFontSize: p.noteFontSize || "14.4px",
+		smNoteFontSize: p.smNoteFontSize || p.noteFontSize || "14.4px",
 		titleWeight: p.titleWeight || 700,
 		lineHeight: p.lineHeight || 1.25,
 		pageWidth: p.pageWidth || "65ch",
@@ -233,6 +237,7 @@ const getPaletteDeclaration = (name: PaletteName | undefined): PaletteDeclaratio
 				headingsFont: "'Source Serif Subhead', 'Source Serif', serif",
 				baseFont: "'Source Serif', serif",
 				fontSize: "19px",
+				smNoteFontSize: "12px",
 				titleWeight: 400,
 				lineHeight: 1.46,
 			}
@@ -278,6 +283,7 @@ const getPaletteDeclaration = (name: PaletteName | undefined): PaletteDeclaratio
 				displayFont: '"Source Serif Display", "Source Serif", serif',
 				codeFont: '"Source Code Pro", monospace',
 				fontSize: "18px",
+				smNoteFontSize: "12px",
 				titleWeight: 600,
 				lineHeight: 1.45,
 				internalLinks: "dotted",

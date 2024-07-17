@@ -55,7 +55,7 @@ const {
 
 // Base website URL (minus slash at the end) + image URL
 const ogImageURL = image && Astro.site?.toString().replace(/\/$/, "") + image
-const icon = "☕️"
+const icon = "❦"
 
 const background = getColor(bg) || "#f5f5fa"
 const darkBackground = getColor(bg, "dark") || "#17182f"
@@ -89,7 +89,7 @@ navBarPropsWithFallback.title ??= title
 		<meta name="theme-color" media="(prefers-color-scheme: dark)" content={darkBackground} />
 		<link
 			rel="icon"
-			href=`data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>${icon}</text></svg>`
+			href=`data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text text-anchor="middle" x="50" y="80" font-size="90">${icon}</text></svg>`
 		/>
 		<meta property="og:title" content={title} />
 		{description && <meta property="og:description" content={description} />}

@@ -6,11 +6,12 @@ interface Props {
 }
 const { square, color, big } = Astro.props
 // HACK: text color is hacky, check if it's still right after the background has been changed
+// If I ever make them clickable, add hover:ring-[1.5px]
 ---
 
 <span
 	class:list={[
-		"cursor-pointer p-[5px] font-adelle-sans ring-0 transition hover:ring-[1.5px]",
+		"cursor-pointer p-[5px] font-adelle-sans ring-0 transition",
 		{ "text-xs": !big },
 		{ "mr-2 text-sm": big },
 		{ "rounded px-2": square },

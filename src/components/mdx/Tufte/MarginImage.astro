@@ -11,8 +11,9 @@ interface Props {
 	caption?: string
 	paragraph?: boolean
 	paper?: boolean
+	mobileHalfWidth?: boolean
 }
-const { src, alt, caption, paragraph, paper, ...attributes } = Astro.props
+const { src, alt, caption, paragraph, paper, mobileHalfWidth, ...attributes } = Astro.props
 
 const resolvedSrc = "then" in src ? (await src).default : src
 const width = Math.min(resolvedSrc.width, 800)
@@ -23,7 +24,7 @@ const classes: AstroBuiltinAttributes["class:list"] = [paper && paperClasses]
 {
 	paragraph ? (
 		<p>
-			<MarginNote>
+			<MarginNote mobileHalfWidth={mobileHalfWidth}>
 				<Image
 					src={resolvedSrc}
 					width={width}
@@ -35,7 +36,7 @@ const classes: AstroBuiltinAttributes["class:list"] = [paper && paperClasses]
 			</MarginNote>
 		</p>
 	) : (
-		<MarginNote>
+		<MarginNote mobileHalfWidth={mobileHalfWidth}>
 			<Image src={resolvedSrc} width={width} alt={alt || ""} class:list={classes} {...attributes} />
 			<slot>{caption}</slot>
 		</MarginNote>

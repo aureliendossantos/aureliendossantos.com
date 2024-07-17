@@ -6,19 +6,20 @@ interface Props {
 	hide?: boolean
 	script?: boolean
 	noMarginTop?: boolean
+	mobileHalfWidth?: boolean
 }
-const { paragraph, hide, script, noMarginTop } = Astro.props
+const { paragraph, hide, script, noMarginTop, mobileHalfWidth } = Astro.props
 ---
 
 {
 	paragraph ? (
 		<p>
-			<Sidenote label={hide ? "plus" : "none"} toggle={hide} visible={!hide} noMarginTop={noMarginTop} script={script}>
+			<Sidenote label={hide ? "plus" : "none"} toggle={hide} visible={!hide} noMarginTop={noMarginTop} mobileHalfWidth={mobileHalfWidth} script={script}>
 				<slot />
 			</Sidenote>
 		</p>
 	) : (
-		<Sidenote label={hide ? "plus" : "none"} toggle={hide} visible={!hide} noMarginTop={noMarginTop} script={script}>
+		<Sidenote label={hide ? "plus" : "none"} toggle={hide} visible={!hide} noMarginTop={noMarginTop} mobileHalfWidth={mobileHalfWidth} script={script}>
 			<slot />
 		</Sidenote>
 	)
