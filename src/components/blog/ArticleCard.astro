@@ -79,7 +79,7 @@ const description = data.description && markdown.renderInline(data.description)
 							class="text-xl font-bold normal-case text-[--base-color]"
 							style={{
 								fontFamily: palette.displayFont,
-								fontWeight: Math.max(600, palette.titleWeight),
+								fontWeight: palette.cardTitleWeight,
 							}}
 						>
 							<span set:html={title} class="bg-[--bg-color] box-decoration-clone px-2 py-1" />
@@ -102,7 +102,7 @@ const description = data.description && markdown.renderInline(data.description)
 					class="mb-2 text-pretty text-2xl font-bold 2xl:text-xl small:text-xl"
 					style={{
 						fontFamily: palette.displayFont,
-						fontWeight: Math.max(600, palette.titleWeight),
+						fontWeight: palette.cardTitleWeight,
 					}}
 				/>
 			</div>

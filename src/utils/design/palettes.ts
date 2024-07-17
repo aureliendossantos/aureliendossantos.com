@@ -59,6 +59,7 @@ type PaletteDeclaration = {
 	noteFontSize?: `${string}px`
 	smNoteFontSize?: `${string}px`
 	titleWeight?: number
+	cardTitleWeight?: number
 	lineHeight?: number
 	pageWidth?: `${number}ch`
 	internalLinks?: "solid" | "dotted"
@@ -116,6 +117,7 @@ export default function getPalette(name: PaletteName | undefined): Palette {
 		noteFontSize: p.noteFontSize || "14.4px",
 		smNoteFontSize: p.smNoteFontSize || p.noteFontSize || "14.4px",
 		titleWeight: p.titleWeight || 700,
+		cardTitleWeight: p.cardTitleWeight || p.titleWeight || 700,
 		lineHeight: p.lineHeight || 1.25,
 		pageWidth: p.pageWidth || "65ch",
 		internalLinks: p.internalLinks || "dotted",
@@ -136,6 +138,7 @@ const getPaletteDeclaration = (name: PaletteName | undefined): PaletteDeclaratio
 				baseFont: "serif",
 				specialFont: "monospace",
 				titleWeight: 400,
+				cardTitleWeight: 700,
 			}
 		case "air":
 			return {
@@ -239,6 +242,7 @@ const getPaletteDeclaration = (name: PaletteName | undefined): PaletteDeclaratio
 				fontSize: "19px",
 				smNoteFontSize: "12px",
 				titleWeight: 400,
+				cardTitleWeight: 600,
 				lineHeight: 1.46,
 			}
 		case "guidebook":
@@ -285,6 +289,7 @@ const getPaletteDeclaration = (name: PaletteName | undefined): PaletteDeclaratio
 				fontSize: "18px",
 				smNoteFontSize: "12px",
 				titleWeight: 600,
+				cardTitleWeight: 600,
 				lineHeight: 1.45,
 				internalLinks: "dotted",
 			}
@@ -346,6 +351,7 @@ const getPaletteDeclaration = (name: PaletteName | undefined): PaletteDeclaratio
 				fontSize: "18px",
 				pageWidth: "75ch",
 				lineHeight: 1.3,
+				cardTitleWeight: 400,
 			}
 		case "snow":
 			return {
