@@ -5,6 +5,7 @@ import getBlogPosts, { getDiary } from "$utils/getCollection"
 import DiaryWrapup from "$components/blog/DiaryWrapup.astro"
 import { Icon } from "astro-icon/components"
 import { dateSort } from "$utils/sort"
+import fleuron from "$styles/icons/fleuron.svg?raw"
 
 const articles = [...(await getBlogPosts())].sort((a, b) => dateSort(a.data.date, b.data.date))
 /** sort drafts first
@@ -35,8 +36,11 @@ const years = Array.from(new Set(diary.map((entry) => entry.year)))
 			>
 				<div class="my-11 flex justify-between 2xl:my-9 xl:mb-0 xl:mt-6 mediumlarge:mt-9">
 					<h1>
-						Aurélien Dos Santos /
-						<span class="group relative">
+						Aurélien Dos Santos
+						<Fragment set:html={fleuron} />
+						Blog
+						{
+							/*<span class="group relative">
 							<a
 								href="/portfolio"
 								class="absolute -left-[calc(0.4em+1px)] top-[0.7em] rounded-br border-l border-black bg-white px-[0.4em] pb-[0.1em] pt-[0.3em] opacity-0 transition-all ease-out group-hover:top-[1em] group-hover:opacity-100 dark:border-white dark:bg-black"
@@ -50,7 +54,8 @@ const years = Array.from(new Set(diary.map((entry) => entry.year)))
 									class="-ml-[0.1em] -mt-[0.2em] inline-block"
 								/>
 							</span>
-						</span>
+						</span>*/
+						}
 					</h1>
 				</div>
 			</div>
