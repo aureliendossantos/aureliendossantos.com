@@ -1,5 +1,6 @@
 import { defineConfig } from "astro/config"
 import AutoImport from "astro-auto-import"
+import vercel from "@astrojs/vercel/static"
 import tailwind from "@astrojs/tailwind"
 import mdx from "@astrojs/mdx"
 import icon from "astro-icon"
@@ -10,6 +11,9 @@ import { remarkAbbr } from "./src/utils/remark/detectAbbr"
 // https://astro.build/config
 export default defineConfig({
 	output: "static",
+	adapter: vercel({
+		webAnalytics: { enabled: true },
+	}),
 	// Remove this when https://github.com/withastro/compiler/issues/852 is fixed
 	compressHTML: false,
 	image: {

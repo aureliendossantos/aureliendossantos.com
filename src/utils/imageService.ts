@@ -52,8 +52,9 @@ const service: LocalImageServiceWithPlaceholder = {
 		// HACK: It'd be nice to be able to get a Buffer out from an ESM import or `getImage`, wonder how we could do that.
 		// SSG: readFileSync("./dist/" + src)
 		// SSR with Vercel: readFileSync("./.vercel/output/_functions/" + src)
+		// SSG with Vercel: readFileSync("./.vercel/output/static/" + src)
 		const originalFileBuffer = import.meta.env.PROD
-			? readFileSync("./dist/" + src)
+			? readFileSync("./.vercel/output/static/" + src)
 			: await fetch(new URL(src, getBaseSiteURL()))
 					.then((response) => response.arrayBuffer())
 					.then((buffer) => Buffer.from(buffer))
