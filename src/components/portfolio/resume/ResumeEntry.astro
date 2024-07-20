@@ -10,7 +10,5 @@ const entry = await getEntryBySlug("resume", slug)
 const { Content } = await entry.render()
 ---
 
-<div>
-	<h3>{entry.data.title}</h3>
-	<Content />
-</div>
+<h3>{entry.data.title}</h3>
+<Content />
