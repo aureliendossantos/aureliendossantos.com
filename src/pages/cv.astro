@@ -2,7 +2,6 @@
 import ResumeEntry from "$components/portfolio/resume/ResumeEntry.astro"
 import BaseLayout from "$layouts/BaseLayout.astro"
 import { Icon } from "astro-icon/components"
-import { getCollection } from "astro:content"
 
 const title = "Développeur web full-stack et multimédia"
 const bio =
@@ -22,32 +21,28 @@ const links = [
 		href: "https://aureliendossantos.com/portfolio",
 	},
 ]
-
-const entries = await getCollection("resume")
 ---
 
-<BaseLayout title="CV" ogType="website" bg="#ffffff">
-	<div class="mx-auto my-16 max-w-[730px] print:my-0">
-		<header class="flex items-end justify-between">
+<BaseLayout title="CV" ogType="website" bg="#ffffff" description={title}>
+	<div
+		class="mx-auto my-16 max-w-[730px] mediumlarge:mx-16 mediumlarge:max-w-xl medium:mx-4 print:my-0"
+	>
+		<header
+			class="flex items-end justify-between mediumlarge:flex-col mediumlarge:items-stretch mediumlarge:gap-8"
+		>
 			<div>
 				<div class="mb-4 flex gap-4">
-					<button
-						id="download-resume"
-						class="rounded-full px-[10px] py-1 pr-[11px] text-sm ring-[1.2px] ring-black transition hover:bg-neutral-100 print:!hidden"
+					<a
+						href="/cv.pdf"
+						target="_blank"
+						class="rounded-full px-[10px] py-1 pr-[11px] text-sm no-underline ring-[1.2px] ring-black transition hover:bg-neutral-100 print:!hidden"
 					>
 						<Icon name="ph:download-simple" class="-mt-[0.2em] inline-block h-[1.2em]" />
 						PDF
-					</button>
-					<button
-						id="print-resume"
-						class="rounded-full px-[10px] py-1 text-sm ring-[1.2px] ring-black transition hover:bg-neutral-100 print:!hidden"
-					>
-						<Icon name="ph:printer" class="-mt-[0.2em] inline-block h-[1.2em]" />
-						Imprimer
-					</button>
+					</a>
 				</div>
 				<h1>Aurélien Dos Santos</h1>
-				<p class="-mb-[1.5px]">{title}</p>
+				<p class="-mb-[1.5px] print:mb-0">{title}</p>
 			</div>
 			<aside class="text-sm">
 				<ul>
@@ -64,8 +59,10 @@ const entries = await getCollection("resume")
 			</aside>
 		</header>
 		{/* not ideal tweak */}
-		<section class="my-8 mb-[34px]">{bio}</section>
-		<section class="grid grid-cols-[230px_1fr] gap-y-8 print:grid-cols-[33%_1fr]">
+		<section class="my-8 mb-[34px] mediumlarge:text-sm">{bio}</section>
+		<section
+			class="grid grid-cols-[230px_1fr] gap-y-8 mediumlarge:grid-cols-1 print:grid-cols-[33%_1fr]"
+		>
 			<h2>Expérience</h2>
 			<div>
 				<ResumeEntry slug="agence-insolence" />
@@ -121,7 +118,7 @@ const entries = await getCollection("resume")
 		@apply text-2xl font-semibold;
 	}
 	h2 {
-		@apply -mt-[6px] flex items-start gap-4 text-2xl font-[550];
+		@apply -mt-[6px] flex items-start gap-4 text-2xl font-[550] mediumlarge:mt-0;
 		::after {
 			content: "";
 			@apply mr-4 mt-[0.7em] inline-block h-[2px] flex-1 bg-neutral-300;
@@ -160,16 +157,3 @@ const entries = await getCollection("resume")
 		@apply whitespace-nowrap font-[380] text-neutral-500;
 	}
 </style>
-
-<script>
-	;(document.getElementById("print-resume") as HTMLButtonElement).addEventListener("click", () => {
-		window.print()
-	})
-	// Button to download the file located at /cv.pdf
-	;(document.getElementById("download-resume") as HTMLButtonElement).addEventListener(
-		"click",
-		() => {
-			window.open("/cv.pdf", "_blank")
-		}
-	)
-</script>

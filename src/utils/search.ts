@@ -75,6 +75,7 @@ export const getSearchEntries = async (): Promise<SearchEntry[]> => {
 		},
 		{ slug: "blog", title: "Blog" },
 		{ slug: "portfolio", title: "Portfolio" },
+		{ slug: "cv", title: "CV", links: ["portfolio", "blog"] },
 		{ slug: "diary", title: "Journal" },
 		{ slug: "gear", title: "Mes appareils" },
 		{ slug: "places", title: "Lieux" },
