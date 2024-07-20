@@ -1,0 +1,34 @@
+---
+import { Icon } from "astro-icon/components"
+import type { ValidContentEntrySlug } from "astro:content"
+import { getEntryBySlug } from "astro:content"
+
+interface Props {
+	slug?: ValidContentEntrySlug<"portfolio">
+	linkTitle?: string
+	href?: string
+}
+const { slug, linkTitle, href } = Astro.props
+
+const entry = await getEntryBySlug("portfolio", slug)
+if (slug && !entry) throw new Error(`No entry with slug "${slug}"`)
+---
+
+<!-- prettier-ignore -->
+<span class="whitespace-nowrap print:!hidden">
+	{entry && <a href={`/portfolio/${entry.slug}`} class="">Portfolio</a>}
+	{entry && (href || (linkTitle && entry?.data.link)) && <span>·</span>}
+	{
+		(href || (linkTitle && entry?.data.link)) && (
+			<>
+				{/* prettier-ignore */}
+				<a href={href || entry.data.link} target="_blank" class="peer">{linkTitle}</a>
+				<Icon
+					id="navbar-link-icon"
+					name="ic:baseline-launch"
+					class="-mt-[0.1em] inline-block h-[0.9em] transition peer-hover:text-black"
+				/>
+			</>
+		)
+	}
+</span>

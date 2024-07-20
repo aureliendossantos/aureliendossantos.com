@@ -1,0 +1,16 @@
+---
+import type { ValidContentEntrySlug } from "astro:content"
+import { getEntryBySlug } from "astro:content"
+
+interface Props {
+	slug: ValidContentEntrySlug<"resume">
+}
+const { slug } = Astro.props
+const entry = await getEntryBySlug("resume", slug)
+const { Content } = await entry.render()
+---
+
+<div>
+	<h3>{entry.data.title}</h3>
+	<Content />
+</div>

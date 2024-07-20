@@ -1,0 +1,172 @@
+---
+import ResumeEntry from "$components/portfolio/resume/ResumeEntry.astro"
+import BaseLayout from "$layouts/BaseLayout.astro"
+import { Icon } from "astro-icon/components"
+import { getCollection } from "astro:content"
+
+const title = "Développeur web full-stack et multimédia"
+const bio =
+	"Ingénieur pédagogique de formation, avec plusieurs années d’expérience en réalisation vidéo ainsi qu’en développement sur Unity et sur le web, en particulier dans l’écosystème Node.js, je suis en quête de nouvelles opportunités en tant que développeur web. Par ailleurs, je suis passionné de cinéma naturaliste, de photographie de voyage et de typographie."
+const links = [
+	{ title: "Téléphone", label: "06 68 84 92 00", href: "tel:+33668849200" },
+	{ title: "Email", label: "aureliendsantos@gmail.com", href: "mailto:aureliendsantos@gmail.com" },
+	{
+		title: "LinkedIn",
+		label: "linkedin.com/in/aureliendossantos",
+		href: "https://www.linkedin.com/in/aureliendossantos/",
+	},
+	{
+		title: "Portfolio",
+		label: "aureliendossantos.com/portfolio",
+		href: "https://aureliendossantos.com/portfolio",
+	},
+]
+
+const entries = await getCollection("resume")
+---
+
+<BaseLayout title="CV" ogType="website" bg="#ffffff">
+	<div class="mx-auto my-16 max-w-[730px] print:my-0">
+		<header class="flex items-end justify-between">
+			<div>
+				<div class="mb-4 flex gap-4">
+					<button
+						id="download-resume"
+						class="rounded-full px-[10px] py-1 pr-[11px] text-sm ring-[1.2px] ring-black transition hover:bg-neutral-100 print:!hidden"
+					>
+						<Icon name="ph:download-simple" class="-mt-[0.2em] inline-block h-[1.2em]" />
+						PDF
+					</button>
+					<button
+						id="print-resume"
+						class="rounded-full px-[10px] py-1 text-sm ring-[1.2px] ring-black transition hover:bg-neutral-100 print:!hidden"
+					>
+						<Icon name="ph:printer" class="-mt-[0.2em] inline-block h-[1.2em]" />
+						Imprimer
+					</button>
+				</div>
+				<h1>Aurélien Dos Santos</h1>
+				<p class="-mb-[1.5px]">{title}</p>
+			</div>
+			<aside class="text-sm">
+				<ul>
+					{
+						links.map((link) => (
+							<li class="flex gap-4 print:gap-2">
+								<span class="w-20 text-right">{link.title}</span>
+								{/* <span class="hidden text-neutral-400 print:inline">•</span> */}
+								<a href={link.href}>{link.label}</a>
+							</li>
+						))
+					}
+				</ul>
+			</aside>
+		</header>
+		{/* not ideal tweak */}
+		<section class="my-8 mb-[34px]">{bio}</section>
+		<section class="grid grid-cols-[230px_1fr] gap-y-4 print:grid-cols-[33%_1fr]">
+			<h2 class="row-span-3">Expérience</h2>
+			<ResumeEntry slug="agence-insolence" />
+			<ResumeEntry slug="degica" />
+			<ResumeEntry slug="freelance" />
+			<h2 class="row-span-3">Projets</h2>
+			<ResumeEntry slug="game-dev-alliance" />
+			<ResumeEntry slug="projets-web" />
+			<ResumeEntry slug="unity" />
+			<h2 class="row-span-2">Formation</h2>
+			<ResumeEntry slug="toulouse" />
+			<ResumeEntry slug="pau" />
+			<h2 class="row-span-3">Langues</h2>
+			<div>
+				<h3>Français</h3>
+				<h4>Natif</h4>
+			</div>
+			<div>
+				<h3>Anglais</h3>
+				<h4>Capacité professionnelle complète</h4>
+				<p>
+					TOEIC : 955/990 <span class="date">(2016)</span> et licence d'anglais <span class="date"
+						>(2021)</span
+					>
+				</p>
+			</div>
+			<div>
+				<h3>Espagnol et portugais</h3>
+				<h4>Notions</h4>
+			</div>
+		</section>
+	</div>
+</BaseLayout>
+
+<style is:global>
+	header,
+	section {
+		font-family: InterVariable, sans-serif;
+		font-feature-settings:
+			"calt" 1,
+			"dlig" 1,
+			"zero" 0,
+			"liga" 1;
+	}
+	@page {
+		margin: 1in;
+	}
+	a {
+		@apply underline decoration-amber-500 underline-offset-2 transition hover:text-black print:no-underline;
+	}
+	h1 {
+		@apply text-2xl font-semibold;
+	}
+	h2 {
+		@apply -mt-[6px] flex items-start gap-4 text-2xl font-[550];
+		::after {
+			content: "";
+			@apply mr-4 mt-[0.7em] inline-block h-[2px] flex-1 bg-neutral-300;
+		}
+		::before {
+			content: "";
+			@apply mb-4 mt-2 block h-[2px] w-1/3 bg-neutral-300;
+		}
+	}
+	h3 {
+		@apply break-after-avoid font-medium;
+		&:not(:first-child) {
+			@apply mt-2;
+		}
+	}
+	h4 {
+		@apply break-after-avoid pl-5 -indent-5 font-medium;
+		&:not(:first-of-type) {
+			@apply mt-2;
+		}
+		&::before {
+			content: "↳ ";
+			@apply inline w-5 text-neutral-400;
+		}
+		& ~ p {
+			@apply pl-5 text-sm text-neutral-500;
+			& + p {
+				@apply mt-2;
+			}
+		}
+	}
+	p {
+		@apply break-inside-avoid;
+	}
+	.date {
+		@apply whitespace-nowrap font-[380] text-neutral-500;
+	}
+</style>
+
+<script>
+	;(document.getElementById("print-resume") as HTMLButtonElement).addEventListener("click", () => {
+		window.print()
+	})
+	// Button to download the file located at /cv.pdf
+	;(document.getElementById("download-resume") as HTMLButtonElement).addEventListener(
+		"click",
+		() => {
+			window.open("/cv.pdf", "_blank")
+		}
+	)
+</script>
