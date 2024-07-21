@@ -17,7 +17,7 @@ export default defineConfig({
 	// Remove this when https://github.com/withastro/compiler/issues/852 is fixed
 	compressHTML: false,
 	image: {
-		domains: ["prod-files-secure.s3.us-west-2.amazonaws.com"],
+		domains: ["prod-files-secure.s3.us-west-2.amazonaws.com", "upload.wikimedia.org"],
 		service: {
 			entrypoint: "$utils/imageService.ts",
 		},
