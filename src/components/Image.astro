@@ -1,11 +1,15 @@
 ---
-import type { ImageMetadata, ImageQuality } from "astro"
-import type { HTMLAttributes } from "astro/types"
-import { getConfiguredImageService, getImage } from "astro:assets"
+import type { ImageQuality } from "astro"
+import {
+	type LocalImageProps,
+	type RemoteImageProps,
+	getConfiguredImageService,
+	getImage,
+	inferRemoteSize,
+} from "astro:assets"
 import type { LocalImageServiceWithPlaceholder } from "$utils/imageService"
 
-export interface Props extends Omit<HTMLAttributes<"img">, "src"> {
-	src: ImageMetadata | Promise<{ default: ImageMetadata }>
+export type Props = (LocalImageProps | RemoteImageProps) & {
 	alt: string
 	width?: number
 	height?: number
@@ -16,7 +20,7 @@ export interface Props extends Omit<HTMLAttributes<"img">, "src"> {
 const {
 	src: srcToResolve,
 	alt,
-	width,
+	width: maxWidth,
 	height,
 	quality,
 	zoomQuality,
@@ -24,16 +28,21 @@ const {
 	...attributes
 } = Astro.props
 
-if (typeof srcToResolve != "object") throw new Error("srcToResolve is not an object")
-const src = "then" in srcToResolve ? (await srcToResolve).default : srcToResolve
+const src =
+	typeof srcToResolve == "object" && "then" in srcToResolve
+		? (await srcToResolve).default
+		: srcToResolve
 
-// The style must be a JSX object and not a string to be preserved
+const remoteSize = typeof src == "string" ? await inferRemoteSize(src) : null
+const width = remoteSize && maxWidth ? Math.min(remoteSize.width, maxWidth) : maxWidth
+
+// The style must be a JSX object and not a string in order to be preserved
 const style = typeof attributes.style == "object" ? attributes.style : null
 
 const webp = await getImage({
 	src: src,
-	width: width,
-	height: height,
+	width: width || remoteSize?.width,
+	height: height || remoteSize?.height,
 	quality: quality,
 	...attributes,
 })
@@ -42,19 +51,30 @@ const webp = await getImage({
 we generate a larger image for medium-zoom, that won't exceed 2160px in height
 (in rare cases, a 3840px max width might be more relevant). */
 const zoomedImage =
-	width && src.width > width
+	remoteSize && remoteSize.width > webp.attributes.width
 		? await getImage({
 				src: src,
-				width: src.height < 2160 && Math.min(src.width, 3840),
-				height: src.height >= 2160 && Math.min(src.height, 2160),
+				width: remoteSize.width,
+				height: remoteSize.height,
 				quality: zoomQuality || quality,
 				...attributes,
 			})
-		: undefined
+		: width && typeof src != "string" && src.width > width
+			? await getImage({
+					src: src,
+					width: src.height < 2160 && Math.min(src.width, 3840),
+					height: src.height >= 2160 && Math.min(src.height, 2160),
+					quality: zoomQuality || quality,
+					...attributes,
+				})
+			: undefined
 
 // Using the custom imageService to generate a placeholder image
 const imageService = (await getConfiguredImageService()) as LocalImageServiceWithPlaceholder
-const placeholderURL = await imageService.generatePlaceholder(src.src, src.width, src.height)
+const placeholderURL =
+	typeof src == "string"
+		? await imageService.generatePlaceholder(src, remoteSize.width, remoteSize.height)
+		: await imageService.generatePlaceholder(src.src, src.width, src.height)
 ---
 
 <picture>
@@ -72,13 +92,13 @@ const placeholderURL = await imageService.generatePlaceholder(src.src, src.width
 		data-zoomable={!notZoomable}
 		data-zoom-src={zoomedImage?.src}
 		data-width={webp.attributes.width}
-		data-height={webp.attributes.height}
+		data-height={remoteSize ? null : webp.attributes.height}
 		data-zoom-width={zoomedImage?.attributes.width}
-		data-zoom-height={zoomedImage?.attributes.height}
-		data-original-src={src.src}
-		data-original-width={src.width}
-		data-original-height={src.height}
-		data-original-format={src.format}
+		data-zoom-height={remoteSize ? null : zoomedImage?.attributes.height}
+		data-original-src={typeof src == "string" ? src : src.src}
+		data-original-width={remoteSize?.width || src.width}
+		data-original-height={remoteSize ? null : src.height}
+		data-original-format={remoteSize?.format || src.format}
 		{...webp.attributes}
 	/>
 </picture>

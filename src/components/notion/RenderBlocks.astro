@@ -8,7 +8,7 @@ import type { BlockObjectResponseWithChildren } from "$utils/notion/getChildren"
 import { getBackgroundColor } from "$utils/notion/wiki"
 import type { MarkdownHeading } from "astro"
 import TableOfContents from "$components/articles/TableOfContents.astro"
-import { Image } from "astro:assets"
+import Image from "$components/Image.astro"
 import { LinkPreview } from "astro-embed"
 
 interface Props {
@@ -73,9 +73,9 @@ let numbered_list: RichTextItemResponse[][] = []
 				return (
 					<figure>
 						{block.image.type == "external" ? (
-							<Image src={block.image.external.url} inferSize alt="" />
+							<Image src={block.image.external.url} inferSize width={1280} alt="" />
 						) : (
-							<Image src={block.image.file.url} inferSize alt="" />
+							<Image src={block.image.file.url} inferSize width={1280} alt="" />
 						)}
 						{block.image.caption[0] ? (
 							<figcaption>

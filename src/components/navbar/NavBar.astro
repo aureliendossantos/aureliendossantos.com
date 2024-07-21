@@ -276,12 +276,17 @@ const relatedTitle = Astro.props.relatedTitle || "Voir aussi"
 		// When remote, it can either be the only available image or the low res one.
 		lowResLink.href = img.src
 		;(document.querySelector("#navbar-download-lowres-image-text") as HTMLDivElement).innerText =
-			local ? `${data.width}×${data.height} (webp)` : data.zoomSrc ? "Basse qualité" : "Télécharger"
+			local
+				? `${data.width}${data.height ? `×${data.height}` : "w"} (webp)`
+				: data.zoomSrc
+					? "Basse qualité"
+					: "Télécharger"
 		// Original link for local images
 		if (data.originalSrc) {
 			;(
 				document.querySelector("#navbar-download-original-image-text") as HTMLDivElement
-			).innerText = `${data.originalWidth}×${data.originalHeight} (${data.originalFormat} original)`
+			).innerText =
+				`${data.originalWidth}${data.originalHeight ? `×${data.originalHeight}` : "w"} (${data.originalFormat} original)`
 			originalLink.href = data.originalSrc as string
 			originalLink.classList.remove("hidden")
 		} else {
@@ -290,7 +295,9 @@ const relatedTitle = Astro.props.relatedTitle || "Voir aussi"
 		// Hi res link for local or remote images. In the case of remote images, it's the best option available.
 		if (data.zoomSrc) {
 			;(document.querySelector("#navbar-download-hires-image-text") as HTMLDivElement).innerText =
-				local ? `${data.zoomWidth}×${data.zoomHeight} (webp)` : "Original"
+				local
+					? `${data.zoomWidth}${data.zoomHeight ? `×${data.zoomHeight}` : "w"} (webp)`
+					: "Original"
 			hiResLink.href = data.zoomSrc
 			hiResLink.classList.remove("hidden")
 		} else {
