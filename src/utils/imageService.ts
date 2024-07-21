@@ -48,16 +48,18 @@ const service: LocalImageServiceWithPlaceholder = {
 	...sharpService,
 	generatePlaceholder: async (src: string, width: number, height: number, quality = 100) => {
 		const placeholderDimensions = getBitmapDimensions(width, height, quality)
+		const remote = src.startsWith("http")
 
 		// HACK: It'd be nice to be able to get a Buffer out from an ESM import or `getImage`, wonder how we could do that.
-		// SSG: readFileSync("./dist/" + src)
-		// SSR with Vercel: readFileSync("./.vercel/output/_functions/" + src)
-		// SSG with Vercel: readFileSync("./.vercel/output/static/" + src)
-		const originalFileBuffer = import.meta.env.PROD
-			? readFileSync("./.vercel/output/static/" + src)
-			: await fetch(new URL(src, getBaseSiteURL()))
-					.then((response) => response.arrayBuffer())
-					.then((buffer) => Buffer.from(buffer))
+		// SSG: "./dist/" + src
+		// SSR with Vercel: "./.vercel/output/_functions/" + src
+		// SSG with Vercel: "./.vercel/output/static/"
+		const originalFileBuffer =
+			!remote && import.meta.env.PROD
+				? readFileSync("./.vercel/output/static/" + src)
+				: await fetch(remote ? src : new URL(src, getBaseSiteURL()))
+						.then((response) => response.arrayBuffer())
+						.then((buffer) => Buffer.from(buffer))
 
 		const placeholderBuffer = await sharp(originalFileBuffer)
 			.resize(placeholderDimensions.width, placeholderDimensions.height, { fit: "inside" })

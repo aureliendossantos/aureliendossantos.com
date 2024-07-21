@@ -10,10 +10,6 @@ import {
 import type { LocalImageServiceWithPlaceholder } from "$utils/imageService"
 
 export type Props = (LocalImageProps | RemoteImageProps) & {
-	alt: string
-	width?: number
-	height?: number
-	quality?: ImageQuality
 	zoomQuality?: ImageQuality
 	notZoomable?: boolean
 }
@@ -21,7 +17,7 @@ const {
 	src: srcToResolve,
 	alt,
 	width: maxWidth,
-	height,
+	height: maxHeight,
 	quality,
 	zoomQuality,
 	notZoomable,
@@ -35,6 +31,10 @@ const src =
 
 const remoteSize = typeof src == "string" ? await inferRemoteSize(src) : null
 const width = remoteSize && maxWidth ? Math.min(remoteSize.width, maxWidth) : maxWidth
+// getImage can't calculate the height of remote images.
+// If remoteSize is set, we use the remoteSize ratio to calculate the new height.
+// if remoteSize is set, calculate the ratio between the width and the height
+const height = remoteSize && width ? width / (remoteSize.width / remoteSize.height) : maxHeight
 
 // The style must be a JSX object and not a string in order to be preserved
 const style = typeof attributes.style == "object" ? attributes.style : null
