@@ -1,9 +1,10 @@
 ---
 import MuseumLayout from "$layouts/MuseumLayout.astro"
-import { getCollection, type CollectionEntry } from "astro:content"
+import { getCollection } from "astro:content"
 import Image from "$components/Image.astro"
 import { getEntry } from "astro:content"
 import { localePaths } from "$utils/i18n"
+import { author, title } from "$utils/museum"
 
 export function getStaticPaths() {
 	return localePaths
@@ -14,13 +15,12 @@ const col = await getCollection("collections")
 const collections = await Promise.all(
 	col.map(async (entry) => ({ highlight: await getEntry(entry.data.highlight), ...entry }))
 )
-const pieces = await getCollection("pieces")
 ---
 
 <MuseumLayout
-	title="Collections · Personal Museum of Arts and Culture"
+	title=`Collections · ${t("m-title")}`
 	ogType="website"
-	navBarProps={{ title: "Collections", parent: { href: "/museum", title: "Museum" } }}
+	navBarProps={{ title: "Collections", parent: { href: "/museum", title: t("m-museum") } }}
 >
 	<div class="py-8" style={{ fontFamily: "InterVariable, serif" }}>
 		<h2 class="text-2xl font-light">Sélections</h2>
@@ -33,7 +33,7 @@ const pieces = await getCollection("pieces")
 						{col.highlight.data.image && (
 							<Image
 								src={col.highlight.data.image}
-								alt={`${col.highlight.data.title || "Untitled work"} by ${col.highlight.data.author || "unknown author"}`}
+								alt={`${title(col.highlight, Astro.currentLocale)} by ${author(col.highlight, Astro.currentLocale)}`}
 								class="h-full w-full object-cover"
 								notZoomable
 							/>

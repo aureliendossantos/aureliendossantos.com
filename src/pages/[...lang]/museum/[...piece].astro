@@ -5,6 +5,8 @@ import Image from "$components/Image.astro"
 import AudioPlayer from "$components/museum/AudioPlayer.astro"
 import { getDomainName } from "$utils/formatting/formatUrl"
 import { langParams, useTranslations } from "$utils/i18n"
+import PieceTitle from "$components/museum/PieceTitle.astro"
+import { title, author } from "$utils/museum"
 
 export async function getStaticPaths() {
 	const entries = await getCollection("pieces")
@@ -19,16 +21,19 @@ const { entry, t } = Astro.props
 const { Content } = await entry.render()
 const data = entry.data
 
-const author = entry.slug.split("/")[0]
+const authorSlug = entry.slug.split("/")[0]
 // Reasons for the import structure: https://github.com/rollup/plugins/tree/master/packages/dynamic-import-vars#limitations
 const audio =
-	data.audio && (await import(`../../../content/pieces/${author}/${data.audio}.flac`)).default
+	data.audio && (await import(`../../../content/pieces/${authorSlug}/${data.audio}.flac`)).default
 ---
 
 <MuseumLayout
-	title={`${data.title} · ${data.author} · Personal Museum of Arts and Culture`}
+	title={`${title(entry, Astro.currentLocale)} · ${data.author ? `${data.author} · ` : ""}${t("m-title")}`}
 	ogType="website"
-	navBarProps={{ title: data.title || "Untitled", parent: { href: "/museum", title: "Museum" } }}
+	navBarProps={{
+		title: title(entry, Astro.currentLocale),
+		parent: { href: "/museum", title: t("m-museum") },
+	}}
 >
 	<div class="relative">
 		<div class="absolute py-8 mediumlarge:static" style={{ fontFamily: "InterVariable, serif" }}>
@@ -41,7 +46,7 @@ const audio =
 			<div class="flex justify-center p-8 medium:px-0">
 				<Image
 					src={data.image}
-					alt={data.title || "Oeuvre"}
+					alt={`${title(entry, Astro.currentLocale)} by ${author(entry, Astro.currentLocale)}`}
 					class="max-h-[calc(100svh-64px)] w-auto"
 				/>
 			</div>
@@ -62,7 +67,7 @@ const audio =
 		<table class="col-start-2 mediumlarge:col-auto">
 			<tr>
 				<th>Title</th>
-				<td>{data.title != false ? data.title || t("m-unknown title") : t("m-untitled")}</td>
+				<td><PieceTitle piece={entry} /></td>
 			</tr>
 			<tr>
 				<th>Author</th>

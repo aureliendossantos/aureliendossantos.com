@@ -1,0 +1,11 @@
+---
+import { title } from "$utils/museum"
+import type { CollectionEntry } from "astro:content"
+
+interface Props {
+	piece: CollectionEntry<"pieces">
+}
+const { piece } = Astro.props
+---
+
+{title(piece, Astro.currentLocale)}

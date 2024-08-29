@@ -1,0 +1,11 @@
+---
+import { author } from "$utils/museum"
+import type { CollectionEntry } from "astro:content"
+
+interface Props {
+	piece: CollectionEntry<"pieces">
+}
+const { piece } = Astro.props
+---
+
+{author(piece, Astro.currentLocale)}

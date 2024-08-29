@@ -26,9 +26,9 @@ const data = collection.data
 ---
 
 <MuseumLayout
-	title={`${data.title} · Personal Museum of Arts and Culture`}
+	title={`${data.title} · ${t("m-title")}`}
 	ogType="website"
-	navBarProps={{ title: data.title, parent: { href: "/museum", title: "Museum" } }}
+	navBarProps={{ title: data.title, parent: { href: "/museum", title: t("m-museum") } }}
 >
 	<div class="mb-8 py-8" style={{ fontFamily: "InterVariable, serif" }}>
 		<h2 class="text-2xl font-light">{data.title}</h2>
