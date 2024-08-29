@@ -1,0 +1,78 @@
+---
+import { useTranslations } from "$utils/i18n"
+import { getRelativeLocaleUrl } from "astro:i18n"
+const t = useTranslations(Astro.currentLocale)
+const lang = Astro.currentLocale
+---
+
+<header
+	class="my-8 flex flex-wrap justify-between gap-x-8 text-base leading-7"
+	style={{ fontFamily: "Vollkorn, serif" }}
+>
+	<h1 class="text-xl"><a href="/museum">{t("m-title")}</a></h1>
+	<div class="flex gap-x-8">
+		<div><a href="/museum/collections">Collections</a></div>
+		<div class="relative">
+			<label for="customize-museum" class="cursor-pointer">{t("m-customize")}</label>
+			<input id="customize-museum" type="checkbox" class="peer hidden" />
+			<div
+				class="absolute right-0 top-8 z-10 hidden rounded-sm border-[1.5px] border-[--800] bg-[--200] p-4 text-sm peer-checked:block"
+				style={{ fontFamily: "InterVariable, sans-serif" }}
+			>
+				<div class="flex flex-col gap-2">
+					<label class="rounded-sm px-2 ring-[--800] has-[:checked]:ring-[1.5px]">
+						Light
+						<input type="radio" name="theme" value="light" class="hidden" />
+					</label>
+					<label class="rounded-sm px-2 ring-[--800] has-[:checked]:ring-[1.5px]">
+						Dark
+						<input type="radio" name="theme" value="dark" class="hidden" />
+					</label>
+					<label for="customize-museum" class="mt-2 cursor-pointer rounded-sm bg-[--100] px-2">
+						Close
+					</label>
+				</div>
+			</div>
+		</div>
+		<div class="text-sm leading-7">
+			{
+				lang == "fr" ? (
+					<span class="text-[--800]">FR</span>
+				) : (
+					<a href={`/${Astro.url.pathname.split("/").slice(2).join("/")}`}>FR</a>
+				)
+			}<span class="text-[--800]">｜</span>{
+				lang == "en" ? (
+					<span class="text-[--800]">EN</span>
+				) : (
+					<a href={getRelativeLocaleUrl("en", Astro.url.pathname)}>EN</a>
+				)
+			}
+		</div>
+	</div>
+</header>
+
+<script>
+	const initTheme = () => {
+		const themeInputs = document.querySelectorAll(
+			'input[name="theme"]'
+		) as NodeListOf<HTMLInputElement>
+		// apply a class to root
+		themeInputs.forEach((input) => {
+			input.addEventListener("change", () => {
+				document.documentElement.classList.toggle("dark", input.value == "dark")
+				localStorage.setItem("museum-theme", input.value)
+			})
+		})
+		// restore saved theme
+		const theme = localStorage.getItem("museum-theme") || "light"
+		document.documentElement.classList.toggle("dark", theme == "dark")
+		themeInputs.forEach((input) => {
+			if (input.value == theme) input.checked = true
+		})
+	}
+	document.addEventListener("astro:after-swap", () => {
+		initTheme()
+	})
+	initTheme()
+</script>

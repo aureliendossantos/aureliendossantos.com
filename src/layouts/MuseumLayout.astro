@@ -1,0 +1,38 @@
+---
+import BaseLayout, { type Props as BaseLayoutProps } from "./BaseLayout.astro"
+import Header from "$components/museum/Header.astro"
+
+type Props = Omit<BaseLayoutProps, "bg">
+const x = true // fix syntax higlighting issue
+---
+
+<BaseLayout {...Astro.props} bg="var(--100)">
+	<div class="mx-16 text-[--900] mediumlarge:mx-8 small:mx-4">
+		<Header />
+		<slot />
+	</div>
+</BaseLayout>
+
+<style is:global>
+	:root {
+		--100: #f0f0f0;
+		--200: #e1e1e1;
+		--800: #686868;
+		--900: #333;
+	}
+	.dark {
+		--100: #333;
+		--200: #5b5b5b;
+		--800: #bcbcbc;
+		--900: #f0f0f0;
+	}
+</style>
+
+<script>
+	// Scroll directly to the content for pieces. Header is 28px.
+	// To show the header anyway, have a page with the same height as the screen.
+	document.addEventListener("astro:after-swap", () => {
+		console.log("hey")
+		window.scroll({ left: 0, top: 100, behavior: "instant" })
+	})
+</script>

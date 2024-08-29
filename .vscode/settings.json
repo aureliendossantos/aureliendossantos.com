@@ -2,5 +2,6 @@
 	"files.associations": {
 		"*.css": "tailwindcss"
 	},
-	"tailwindCSS.classAttributes": ["class", "class:list"]
+	"tailwindCSS.classAttributes": ["class", "class:list"],
+	"astro.content-intellisense": true
 }

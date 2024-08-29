@@ -1,0 +1,17 @@
+---
+import type { CollectionEntry } from "astro:content"
+
+interface Props {
+	piece: CollectionEntry<"pieces">
+}
+const { piece } = Astro.props
+---
+
+<a href={`/museum/${piece.slug}`} class="pr-2 text-right">
+	{piece.data.title || "Unknown"}
+</a>
+<a href={`/museum/${piece.slug}`}>
+	<span class="text-xs uppercase tracking-wider">
+		{piece.data.author || "Unknown"}
+	</span>
+</a>

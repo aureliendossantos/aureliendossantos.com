@@ -14,6 +14,16 @@ export default defineConfig({
 	adapter: vercel({
 		webAnalytics: { enabled: true },
 	}),
+	experimental: {
+		contentIntellisense: true,
+	},
+	i18n: {
+		defaultLocale: "fr",
+		locales: ["fr", "en"],
+		fallback: {
+			en: "fr",
+		},
+	},
 	// Remove this when https://github.com/withastro/compiler/issues/852 is fixed
 	compressHTML: false,
 	image: {

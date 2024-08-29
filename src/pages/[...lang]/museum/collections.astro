@@ -1,0 +1,49 @@
+---
+import MuseumLayout from "$layouts/MuseumLayout.astro"
+import { getCollection, type CollectionEntry } from "astro:content"
+import Image from "$components/Image.astro"
+import { getEntry } from "astro:content"
+import { localePaths } from "$utils/i18n"
+
+export function getStaticPaths() {
+	return localePaths
+}
+const { t } = Astro.props
+
+const col = await getCollection("collections")
+const collections = await Promise.all(
+	col.map(async (entry) => ({ highlight: await getEntry(entry.data.highlight), ...entry }))
+)
+const pieces = await getCollection("pieces")
+---
+
+<MuseumLayout
+	title="Collections · Personal Museum of Arts and Culture"
+	ogType="website"
+	navBarProps={{ title: "Collections", parent: { href: "/museum", title: "Museum" } }}
+>
+	<div class="py-8" style={{ fontFamily: "InterVariable, serif" }}>
+		<h2 class="text-2xl font-light">Collections</h2>
+	</div>
+	<div class="flex flex-wrap gap-8">
+		{
+			collections.map((col) => (
+				<a href={`/museum/${col.slug}`}>
+					<div class="h-64 w-64 mediumlarge:h-48 mediumlarge:w-48">
+						{col.highlight.data.image && (
+							<Image
+								src={col.highlight.data.image}
+								alt={`${col.highlight.data.title || "Untitled work"} by ${col.highlight.data.author || "unknown author"}`}
+								class="h-full w-full object-cover"
+								notZoomable
+							/>
+						)}
+					</div>
+					<div class="py-4">
+						<h3 class="text-xl font-light">{col.data.title}</h3>
+					</div>
+				</a>
+			))
+		}
+	</div>
+</MuseumLayout>

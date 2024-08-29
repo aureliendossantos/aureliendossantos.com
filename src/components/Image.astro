@@ -59,7 +59,7 @@ const zoomedImage =
 				quality: zoomQuality || quality,
 				...attributes,
 			})
-		: width && typeof src != "string" && src.width > width
+		: width && typeof src != "string" && src.width > Number(width)
 			? await getImage({
 					src: src,
 					width: src.height < 2160 && Math.min(src.width, 3840),
@@ -88,16 +88,16 @@ const placeholderURL =
 			...style,
 		}}
 		onload="this.style.backgroundImage = 'none';"
-		alt={alt}
+		{alt}
 		data-zoomable={!notZoomable}
 		data-zoom-src={zoomedImage?.src}
 		data-width={webp.attributes.width}
-		data-height={remoteSize ? null : webp.attributes.height}
+		data-height={webp.attributes.height}
 		data-zoom-width={zoomedImage?.attributes.width}
-		data-zoom-height={remoteSize ? null : zoomedImage?.attributes.height}
+		data-zoom-height={zoomedImage?.attributes.height}
 		data-original-src={typeof src == "string" ? src : src.src}
 		data-original-width={remoteSize?.width || src.width}
-		data-original-height={remoteSize ? null : src.height}
+		data-original-height={remoteSize?.height || src.height}
 		data-original-format={remoteSize?.format || src.format}
 		{...webp.attributes}
 	/>

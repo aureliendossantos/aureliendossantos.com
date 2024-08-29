@@ -23,11 +23,11 @@ const mapToSearchEntry = (opts: {
 	title?: string
 }): SearchEntry => {
 	const data = "data" in opts.entry ? opts.entry.data : opts.entry
-	opts.title ??= data.title
+	opts.title ??= data.title || undefined
 	opts.date ??= "date" in data ? data.date : undefined
 	return {
 		slug: opts.slug,
-		title: opts.title.replaceAll("*", ""),
+		title: opts.title?.replaceAll("*", "") || "Sans titre",
 		date: opts.date ? formatDate(opts.date, true) : undefined,
 		categories: opts.categories || [],
 		description: "description" in data ? data.description : undefined,
@@ -71,6 +71,7 @@ export const getSearchEntries = async (): Promise<SearchEntry[]> => {
 				"gear",
 				"kitchen",
 				"wiki",
+				"museum",
 			],
 		},
 		{ slug: "blog", title: "Blog" },
@@ -84,6 +85,8 @@ export const getSearchEntries = async (): Promise<SearchEntry[]> => {
 		{ slug: "wiki", title: "Wiki" },
 		{ slug: "tags", title: "Tags" },
 		{ slug: "muses", title: "Muses" },
+		{ slug: "museum", title: "Musée" },
+		{ slug: "museum/collections", title: "Collections", links: ["museum"] },
 		...tags.map((tag) => ({
 			slug: `tags/${tag.slug}`,
 			title: tag.data.title,
@@ -200,6 +203,24 @@ export const getSearchEntries = async (): Promise<SearchEntry[]> => {
 				slug: entry.data.slug,
 				categories: ["Jardin"],
 				graphLinks: [...entry.data.tags.map((t) => `tags/${t}`), ...entry.data.related],
+			})
+		),
+		...(await getCollection("collections")).map((entry) =>
+			mapToSearchEntry({
+				entry: entry,
+				slug: `museum/${entry.slug}`,
+				parentSlug: "museum/collections",
+				categories: ["Collection", "Musée"],
+			})
+		),
+		...(await getCollection("pieces")).map((entry) =>
+			mapToSearchEntry({
+				entry: entry,
+				slug: `museum/${entry.slug}`,
+				parentSlug: "museum",
+				// TODO: lowercase type (ex: "photo")
+				categories: [entry.data.type, "Musée"],
+				graphLinks: entry.data.collections.map((c) => `museum/${c.slug}`),
 			})
 		),
 	]

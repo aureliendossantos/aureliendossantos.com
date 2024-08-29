@@ -6,7 +6,7 @@ export default {
 	trailingComma: "es5",
 	semi: false,
 	plugins: ["prettier-plugin-astro", "prettier-plugin-tailwindcss"],
-	astroAllowShorthand: false,
+	astroAllowShorthand: true,
 	tailwindConfig: "./tailwind.config.ts",
 	overrides: [
 		{

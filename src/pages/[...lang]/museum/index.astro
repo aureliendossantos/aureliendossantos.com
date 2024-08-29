@@ -1,0 +1,62 @@
+---
+import PieceListItem from "$components/museum/PieceListItem.astro"
+import MuseumLayout from "$layouts/MuseumLayout.astro"
+import { localePaths } from "$utils/i18n"
+import { getCollection } from "astro:content"
+
+export function getStaticPaths() {
+	return localePaths
+}
+const { t } = Astro.props
+
+const pieces = await getCollection("pieces")
+---
+
+<MuseumLayout title={t("m-title")} ogType="website">
+	<div class="grid grid-cols-2 mediumlarge:grid-cols-1">
+		<div
+			class="order-2 p-16 text-sm medium:order-1"
+			style={{ fontFamily: "'Space Mono', monospace" }}
+		>
+			<p>
+				The Personal Museum of Arts and Culture is a museum dedicated to the promotion and
+				preservation of a wide range of art pieces and digital crafts, humbly curated by the owner
+				of this website.
+			</p>
+			<p>
+				It is entirely open source and free to visit. I hope that the owners of the showcased pieces
+				will be pleased to have their work displayed here.
+			</p>
+		</div>
+		<div class="flex flex-col py-8">
+			<h2>On Display</h2>
+			<h3 class="text-center text-xs uppercase leading-6 tracking-wider">Pictorial</h3>
+			<div class="grid grid-cols-2">
+				{
+					pieces
+						.filter(
+							(p) =>
+								p.data.type == "painting" || p.data.type == "drawing" || p.data.type == "digital"
+						)
+						.map((piece) => <PieceListItem piece={piece} />)
+				}
+			</div>
+			<h3 class="text-center text-xs uppercase leading-6 tracking-wider">Photography</h3>
+			<div class="grid grid-cols-2">
+				{
+					pieces
+						.filter((p) => p.data.type == "photo")
+						.map((piece) => <PieceListItem piece={piece} />)
+				}
+			</div>
+			<h3 class="text-center text-xs uppercase leading-6 tracking-wider">Music</h3>
+			<div class="grid grid-cols-2">
+				{
+					pieces
+						.filter((p) => p.data.type == "album" || p.data.type == "track")
+						.map((piece) => <PieceListItem piece={piece} />)
+				}
+			</div>
+		</div>
+	</div>
+</MuseumLayout>

@@ -1,0 +1,55 @@
+---
+interface Props {
+	src: string
+}
+const { src } = Astro.props
+---
+
+<div class="audio-player">
+	<template>
+		<media-control-bar mediacontroller="navbar-audio" class="museum-player" style="width: 100%">
+			<media-play-button data-src={src}></media-play-button>
+			<media-time-display showduration notoggle></media-time-display>
+			<media-time-range></media-time-range>
+			<media-mute-button></media-mute-button>
+			<media-volume-range></media-volume-range>
+		</media-control-bar>
+	</template>
+</div>
+
+<style is:global>
+	media-control-bar.museum-player {
+		--media-control-background: var(--200);
+		--media-control-hover-background: var(--100);
+		--media-icon-color: var(--900);
+		--media-text-color: var(--900);
+		--media-primary-color: var(--800);
+		--media-range-track-background: var(--800);
+	}
+</style>
+
+<script>
+	document.addEventListener("astro:page-load", () => {
+		// Init page
+		const emptyPlayers = document.querySelectorAll(".audio-player") as NodeListOf<HTMLElement>
+		emptyPlayers.forEach((player) => {
+			// get template sibling
+			const template = player.querySelector("template") as HTMLTemplateElement
+			player.replaceWith(template.content.cloneNode(true))
+		})
+		// If the audio played in navbar-audio is different from this src, replace it
+		const audio = document.querySelector("#navbar-audio audio") as HTMLAudioElement
+		const playButtons = document.querySelectorAll(
+			"media-play-button[data-src]"
+		) as NodeListOf<HTMLElement>
+		playButtons.forEach((button) => {
+			button.addEventListener("click", () => {
+				if (!button.dataset.src) throw new Error("Missing audio src")
+				if (!audio.src.includes(button.dataset.src)) {
+					audio.src = button.dataset.src
+					audio.play()
+				}
+			})
+		})
+	})
+</script>

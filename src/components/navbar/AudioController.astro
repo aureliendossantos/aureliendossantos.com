@@ -1,0 +1,52 @@
+<div class="border-r border-neutral-700 has-[audio:not([src])]:hidden">
+	<media-controller audio id="navbar-audio">
+		<audio slot="media"></audio>
+		<media-control-bar>
+			<media-play-button style={{ transition: "none" }}></media-play-button>
+			<media-time-display showduration notoggle style={{ fontFeatureSettings: "'tnum'" }}
+			></media-time-display>
+			<media-mute-button style={{ transition: "none" }}></media-mute-button>
+			<div class="volume-range bg-black">
+				<media-volume-range></media-volume-range>
+			</div>
+		</media-control-bar>
+	</media-controller>
+</div>
+
+<style is:global>
+	media-controller#navbar-audio {
+		--media-tooltip-display: none;
+		--media-button-icon-height: 17px;
+		--media-control-height: 28px;
+		--media-control-padding: 0 12px;
+		--media-font-family: "Work Sans", sans-serif;
+		--media-font-size: 14px;
+		--media-font-weight: 400;
+		--media-icon-color: white;
+		--media-secondary-color: black;
+		--media-control-background: black;
+		--media-text-color: white;
+		--media-control-hover-background: white;
+		media-time-range,
+		media-volume-range {
+			--media-control-hover-background: black;
+			--media-primary-color: white;
+			--media-range-track-background: #404040;
+		}
+		.volume-range {
+			transform: rotate(-90deg);
+			@apply absolute -right-8 -top-[60px] hidden py-3;
+		}
+		media-mute-button:hover ~ .volume-range,
+		.volume-range:hover {
+			@apply block;
+		}
+		media-time-display {
+			--media-control-padding: 0;
+		}
+	}
+</style>
+
+<script>
+	import "media-chrome"
+</script>
