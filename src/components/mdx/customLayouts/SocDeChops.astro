@@ -1,0 +1,42 @@
+---
+interface Props {
+	bg?: string
+	text?: string
+}
+const { bg, text } = Astro.props
+---
+
+<div style={{ backgroundColor: bg || "#808080", color: text || "#f0f0f0" }}>
+	<div class="n m-auto max-w-[1100px] py-16 pl-80 pr-8 text-xs medium:pl-8">
+		<slot />
+	</div>
+</div>
+
+<style is:global>
+	.n {
+		font-family: Louize, Arial, sans-serif;
+	}
+	p {
+		@apply mb-[1em];
+	}
+	img {
+		@apply inline shadow-sm;
+	}
+	.gallery {
+		figure + figure {
+			@apply !ml-6;
+		}
+		figure:has(img):first-of-type {
+			@apply medium:-ml-8;
+		}
+		figure:has(img):last-of-type {
+			@apply medium:-mr-8;
+		}
+		figcaption {
+			@apply medium:mr-8;
+		}
+	}
+	figcaption {
+		@apply text-right;
+	}
+</style>
