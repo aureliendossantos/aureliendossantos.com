@@ -1,0 +1,55 @@
+---
+import MuseumLayout from "$layouts/MuseumLayout.astro"
+import { getCollection } from "astro:content"
+import Image from "$components/Image.astro"
+import { localePaths } from "$utils/i18n"
+import { PieceType } from "$content/config"
+
+export function getStaticPaths() {
+	return localePaths
+}
+const { t } = Astro.props
+
+const pieces = await getCollection("pieces")
+const types = Object.values(PieceType)
+---
+
+<MuseumLayout
+	title={t("m-title")}
+	ogType="website"
+	navBarProps={{ title: `Voir tout`, parent: { href: "/museum", title: "Museum" } }}
+>
+	{
+		types.map((type) => (
+			<>
+				<div class="mb-8 py-8" style={{ fontFamily: "InterVariable, serif" }}>
+					<h2 class="text-2xl font-light">{type}</h2>
+				</div>
+				<div class="flex flex-wrap gap-8">
+					{pieces
+						.filter((p) => p.data.type == type)
+						.map((p) => (
+							<a href={`/museum/${p.slug}`} class="w-64 xl:w-48 medium:w-32">
+								<div class="h-64 xl:h-48 medium:h-32">
+									{p.data.image && (
+										<Image
+											src={p.data.image}
+											alt={`${p.data.title || "Untitled work"} by ${p.data.author || "unknown author"}`}
+											class="h-full w-full object-contain"
+											notZoomable
+										/>
+									)}
+								</div>
+								<div class="py-4 text-center">
+									<h3 class="text-md font-light">
+										{p.data.title != false ? p.data.title || "Unknown" : "Untitled"}
+									</h3>
+									<p class="text-xs">{p.data.author}</p>
+								</div>
+							</a>
+						))}
+				</div>
+			</>
+		))
+	}
+</MuseumLayout>

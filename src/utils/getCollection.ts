@@ -1,11 +1,11 @@
-import { getCollection, getEntryBySlug, type CollectionEntry } from "astro:content"
+import { getCollection, getEntry, type CollectionEntry } from "astro:content"
 import { getPlace } from "./remoteData/googleMaps"
 import { dateSort } from "./sort"
 
 // Get all articles that are blog posts
 export default async function getBlogPosts(drafts = true) {
 	const blog = await getCollection("blog", ({ data }) => {
-		return data.draft !== true || (import.meta.env.DEV && drafts)
+		return !data.draft || (import.meta.env.DEV && drafts)
 	})
 	return blog
 		.sort((a, b) => dateSort(a.data.date, b.data.date))
@@ -24,17 +24,14 @@ export function getDiaryData(entry: CollectionEntry<"diary">) {
 
 export async function getDiary(drafts = true) {
 	return (
-		await getCollection(
-			"diary",
-			({ data }) => data.draft !== true || (import.meta.env.DEV && drafts)
-		)
+		await getCollection("diary", ({ data }) => !data.draft || (import.meta.env.DEV && drafts))
 	)
 		.map((entry) => getDiaryData(entry))
 		.sort((a, b) => dateSort(a.data.date, b.data.date))
 }
 
 export async function getDiaryEntry(slug: string) {
-	const entry = await getEntryBySlug("diary", slug)
+	const entry = await getEntry("diary", slug)
 	if (!entry) throw new Error(`No diary entry found for slug: ${slug}`)
 	return getDiaryData(entry)
 }
@@ -68,7 +65,7 @@ export async function getPlaceCollection(hidden = false) {
 }
 
 export async function getPlaceCollectionEntry(slug: string) {
-	const entry = await getEntryBySlug("places", slug)
+	const entry = await getEntry("places", slug)
 	if (!entry) throw new Error(`No place collection entry found for slug: ${slug}`)
 	return getPlaceEntryData(entry)
 }

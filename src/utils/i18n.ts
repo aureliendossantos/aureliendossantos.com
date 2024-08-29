@@ -31,6 +31,7 @@ const museum = {
 		album: "Album",
 		track: "Piste",
 		oil: "Huile sur toile",
+		"oil-cardboard": "carton (huile)",
 		watercolor: "Aquarelle",
 	},
 	en: {
@@ -43,6 +44,7 @@ const museum = {
 		album: "Album",
 		track: "Track",
 		oil: "Oil on canvas",
+		"oil-cardboard": "oil, cardboard",
 		watercolor: "Watercolor",
 	},
 }
