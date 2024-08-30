@@ -2,6 +2,8 @@ import { getCollection, getEntries, type CollectionEntry, type CollectionKey } f
 import getBlogPosts, { getDiary } from "$utils/getCollection"
 import formatDate from "$utils/formatting/formatDate"
 import type { GraphEntry } from "./graph"
+import { title } from "./museum"
+import { useTranslations } from "./i18n"
 
 type SearchEntry = GraphEntry & {
 	slug: string
@@ -18,19 +20,21 @@ const mapToSearchEntry = (opts: {
 	parentSlug?: string
 	categories?: string[]
 	date?: Date
+	description?: string
 	graphLinks?: string[]
 	optionalNode?: boolean
 	title?: string
 }): SearchEntry => {
 	const data = "data" in opts.entry ? opts.entry.data : opts.entry
-	opts.title ??= data.title || undefined
-	opts.date ??= "date" in data ? data.date : undefined
+	opts.title ??= title(data.title) || undefined
+	// TODO: handle custom dates
+	opts.date ??= "date" in data && data.date instanceof Date ? data.date : undefined
 	return {
 		slug: opts.slug,
 		title: opts.title?.replaceAll("*", "") || "Sans titre",
 		date: opts.date ? formatDate(opts.date, true) : undefined,
 		categories: opts.categories || [],
-		description: "description" in data ? data.description : undefined,
+		description: "description" in data ? data.description : opts.description,
 		links: [...(opts.parentSlug ? [opts.parentSlug] : []), ...(opts.graphLinks || [])],
 		optional: opts.optionalNode,
 	}
@@ -48,7 +52,8 @@ const searchEntryLinks = (
 	]
 }
 
-export const getSearchEntries = async (): Promise<SearchEntry[]> => {
+export const getSearchEntries = async (lang: string): Promise<SearchEntry[]> => {
+	const t = useTranslations(lang)
 	const tags = await getCollection("tags")
 	const possibleTags: CollectionEntry<"tags">["slug"][] = [
 		"personal-projects",
@@ -210,7 +215,7 @@ export const getSearchEntries = async (): Promise<SearchEntry[]> => {
 				entry: entry,
 				slug: `museum/${entry.slug}`,
 				parentSlug: "museum/collections",
-				categories: ["Collection", "Musée"],
+				categories: ["Sélection", t("m-museum")],
 			})
 		),
 		...(await getCollection("pieces")).map((entry) =>
@@ -218,8 +223,25 @@ export const getSearchEntries = async (): Promise<SearchEntry[]> => {
 				entry: entry,
 				slug: `museum/${entry.slug}`,
 				parentSlug: "museum",
-				// TODO: lowercase type (ex: "photo")
-				categories: [entry.data.type, "Musée"],
+				// The description (hidden but indexed by search) includes title and author in all available languages
+				description: `${
+					typeof entry.data.title == "object"
+						? Object.entries(entry.data.title)
+								.filter(([k, _]) => k != "original")
+								.map(([_, v]) => v)
+								.join("/")
+						: ""
+				}${
+					entry.data.author
+						? typeof entry.data.author == "object"
+							? Object.entries(entry.data.author)
+									.filter(([k, v]) => k != "original")
+									.map(([k, v]) => v)
+									.join("/")
+							: entry.data.author
+						: ""
+				}`,
+				categories: [t(entry.data.type), t("m-museum")],
 				graphLinks: entry.data.collections.map((c) => `museum/${c.slug}`),
 			})
 		),

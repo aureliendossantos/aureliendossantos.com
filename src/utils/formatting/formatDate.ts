@@ -2,7 +2,8 @@ export default function formatDate(
 	date: Date,
 	yearOnly: boolean = false,
 	noYear: boolean = false,
-	monthShort: boolean = false
+	monthShort: boolean = false,
+	lang: "en" | "fr" = "fr"
 ): string {
 	const month = monthShort ? "short" : "long"
 	const year = noYear ? undefined : "numeric"
@@ -13,7 +14,7 @@ export default function formatDate(
 				month: month,
 				year: year,
 			}
-	return date.toLocaleDateString("fr-FR", options)
+	return date.toLocaleDateString(lang == "fr" ? "fr-FR" : "en-US", options)
 }
 
 export function formatInterval(

@@ -3,7 +3,7 @@ export const languages = {
 	en: "English",
 }
 
-const defaultLanguage = "fr"
+export const defaultLanguage = "fr"
 
 export const langParams = [undefined, "en"] // undefined is root, the default language
 
@@ -26,9 +26,12 @@ const museum = {
 		"m-museum": "Musée",
 		"m-collection": "Collection",
 		"m-customize": "Personnaliser",
+		"m-original-title": "Titre original",
 		"m-untitled": "Sans titre",
 		"m-unknown title": "Inconnu",
+		"m-author": "Auteur",
 		"m-unknown author": "Inconnu",
+		"m-play-music": "Écouter",
 		painting: "Peinture",
 		drawing: "Dessin",
 		digital: "Numérique",
@@ -40,14 +43,19 @@ const museum = {
 		"oil-cardboard": "carton (huile)",
 		"graphite-on-tracing-paper": "Mine de plomb/Graphite sur calque",
 		watercolor: "Aquarelle",
+		"pencil-and-watercolor": "Crayon et aquarelle",
 	},
 	en: {
 		"m-title": "Personal Museum of Arts and Culture",
 		"m-museum": "Museum",
 		"m-customize": "Customize",
+		"m-collection": "Collection",
+		"m-original-title": "Original title",
 		"m-untitled": "Untitled",
 		"m-unknown title": "Unknown",
+		"m-author": "Author",
 		"m-unknown author": "Unknown",
+		"m-play-music": "Play",
 		painting: "Painting",
 		drawing: "Drawing",
 		digital: "Digital",
@@ -59,6 +67,7 @@ const museum = {
 		"oil-cardboard": "oil, cardboard",
 		"graphite-on-tracing-paper": "Pencil/Graphite on tracing paper",
 		watercolor: "Watercolor",
+		"pencil-and-watercolor": "Pencil and watercolor",
 	},
 }
 

@@ -1,8 +1,9 @@
 ---
 import BaseLayout from "$layouts/BaseLayout.astro"
+import { defaultLanguage } from "$utils/i18n"
 import { getSearchEntries } from "$utils/search"
 
-const entries = await getSearchEntries()
+const entries = await getSearchEntries(Astro.currentLocale || defaultLanguage)
 ---
 
 <BaseLayout title="Recherche" bg="#17182f" ogType="website">

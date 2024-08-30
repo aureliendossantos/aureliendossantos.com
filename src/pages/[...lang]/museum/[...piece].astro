@@ -6,7 +6,8 @@ import AudioPlayer from "$components/museum/AudioPlayer.astro"
 import { getDomainName } from "$utils/formatting/formatUrl"
 import { langParams, useTranslations } from "$utils/i18n"
 import PieceTitle from "$components/museum/PieceTitle.astro"
-import { title, author } from "$utils/museum"
+import PieceAuthor from "$components/museum/PieceAuthor.astro"
+import { title, author, formatCustomDate } from "$utils/museum"
 
 export async function getStaticPaths() {
 	const entries = await getCollection("pieces")
@@ -20,25 +21,29 @@ export async function getStaticPaths() {
 const { entry, t } = Astro.props
 const { Content } = await entry.render()
 const data = entry.data
+const pieceTitle = title(entry.data.title, Astro.currentLocale)
 
 const authorSlug = entry.slug.split("/")[0]
 // Reasons for the import structure: https://github.com/rollup/plugins/tree/master/packages/dynamic-import-vars#limitations
 const audio =
-	data.audio && (await import(`../../../content/pieces/${authorSlug}/${data.audio}.flac`)).default
+	data.audio &&
+	(data.audioFormat == "flac"
+		? (await import(`../../../content/pieces/${authorSlug}/${data.audio}.flac`)).default
+		: (await import(`../../../content/pieces/${authorSlug}/${data.audio}.mp3`)).default)
 ---
 
 <MuseumLayout
-	title={`${title(entry, Astro.currentLocale)} · ${data.author ? `${data.author} · ` : ""}${t("m-title")}`}
+	title={`${pieceTitle} · ${data.author ? `${data.author} · ` : ""}${t("m-title")}`}
 	ogType="website"
 	navBarProps={{
-		title: title(entry, Astro.currentLocale),
+		title: pieceTitle,
 		parent: { href: "/museum", title: t("m-museum") },
 	}}
 >
 	<div class="relative">
 		<div class="absolute py-8 mediumlarge:static" style={{ fontFamily: "InterVariable, serif" }}>
-			<h2 class="text-2xl font-light">{data.title}</h2>
-			<div class="text-sm">{data.author || "Unknown"}</div>
+			<h2 class="text-2xl font-light"><PieceTitle hideIfUntitled piece={entry} /></h2>
+			<div class="text-sm"><PieceAuthor piece={entry} /></div>
 		</div>
 	</div>
 	{
@@ -46,7 +51,8 @@ const audio =
 			<div class="flex justify-center p-8 medium:px-0">
 				<Image
 					src={data.image}
-					alt={`${title(entry, Astro.currentLocale)} by ${author(entry, Astro.currentLocale)}`}
+					height={2096}
+					alt={`${pieceTitle} by ${author(entry, Astro.currentLocale)}`}
 					class="max-h-[calc(100svh-64px)] w-auto"
 				/>
 			</div>
@@ -56,23 +62,71 @@ const audio =
 		data.audio && (
 			<div class="m-auto flex w-96 flex-col items-center p-8">
 				{data.image && <Image src={data.image} alt="Album cover" />}
-				<AudioPlayer src={audio} />
+				<AudioPlayer src={audio} format={data.audioFormat!} />
 			</div>
 		)
 	}
 	<div class="grid grid-cols-2 items-start py-16 mediumlarge:grid-cols-1 mediumlarge:text-sm">
-		<div>
+		<div class="markdown">
 			<Content />
 		</div>
 		<table class="col-start-2 mediumlarge:col-auto">
-			<tr>
-				<th>Title</th>
-				<td><PieceTitle piece={entry} /></td>
-			</tr>
-			<tr>
-				<th>Author</th>
-				<td>{data.author || t("m-unknown author")}</td>
-			</tr>
+			{
+				typeof data.title == "object" ? (
+					<>
+						<th>
+							{t("m-original-title")} ({data.title.original})
+						</th>
+						<td>{data.title[data.title.original]}</td>
+						{Object.keys(data.title)
+							.filter((key) => key != "original" && key != data.title.original)
+							.map((key) => (
+								<tr>
+									<th>({key})</th>
+									<td>{data.title[key]}</td>
+								</tr>
+							))}
+					</>
+				) : (
+					<tr>
+						<th>{t("m-original-title")}</th>
+						<td>
+							<PieceTitle piece={entry} />
+						</td>
+					</tr>
+				)
+			}
+			{
+				typeof data.author == "object" ? (
+					<>
+						<th>
+							{t("m-author")} ({data.author.original})
+						</th>
+						<td>{data.author[data.author.original]}</td>
+						{Object.keys(data.author)
+							.filter((key) => key != "original" && key != data.author.original)
+							.map((key) => (
+								<tr>
+									<th>({key})</th>
+									<td>{data.author[key]}</td>
+								</tr>
+							))}
+					</>
+				) : (
+					<tr>
+						<th>{t("m-author")}</th>
+						<td>{data.author || t("m-unknown author")}</td>
+					</tr>
+				)
+			}
+			{
+				data.date && (
+					<tr>
+						<th>Date</th>
+						<td>{formatCustomDate(data.date, Astro.currentLocale)}</td>
+					</tr>
+				)
+			}
 			{
 				data.album && (
 					<tr>
@@ -83,13 +137,13 @@ const audio =
 			}
 			<tr>
 				<th>Type</th>
-				<td>{data.type}</td>
+				<td>{t(data.type)}</td>
 			</tr>
 			{
 				data.technique && (
 					<tr>
 						<th>Technique</th>
-						<td>{data.technique}</td>
+						<td>{t(data.technique)}</td>
 					</tr>
 				)
 			}
@@ -111,10 +165,10 @@ const audio =
 				)
 			}
 			{
-				data.audio && (
+				data.audioFormat && (
 					<tr>
 						<th>Audio Format</th>
-						<td>flac</td>
+						<td>{data.audioFormat}</td>
 					</tr>
 				)
 			}
@@ -136,6 +190,21 @@ const audio =
 	th {
 		font-family: "Space Mono", monospace;
 		padding-right: 1em;
-		@apply text-right font-normal leading-7;
+		@apply text-right font-normal leading-7 text-[--800];
+	}
+</style>
+
+<style is:global>
+	.markdown {
+		p,
+		figure {
+			@apply mb-[1lh];
+		}
+		blockquote {
+			@apply italic text-[--800];
+		}
+		a {
+			@apply text-[--800] underline hover:text-[--900];
+		}
 	}
 </style>

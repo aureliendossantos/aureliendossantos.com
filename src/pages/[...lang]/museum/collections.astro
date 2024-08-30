@@ -4,7 +4,7 @@ import { getCollection } from "astro:content"
 import Image from "$components/Image.astro"
 import { getEntry } from "astro:content"
 import { localePaths } from "$utils/i18n"
-import { author, title } from "$utils/museum"
+import { author, multiText, title } from "$utils/museum"
 
 export function getStaticPaths() {
 	return localePaths
@@ -33,14 +33,14 @@ const collections = await Promise.all(
 						{col.highlight.data.image && (
 							<Image
 								src={col.highlight.data.image}
-								alt={`${title(col.highlight, Astro.currentLocale)} by ${author(col.highlight, Astro.currentLocale)}`}
+								alt={`${title(col.highlight.data.title, Astro.currentLocale)} by ${author(col.highlight, Astro.currentLocale)}`}
 								class="h-full w-full object-cover"
 								notZoomable
 							/>
 						)}
 					</div>
 					<div class="py-4">
-						<h3 class="text-xl font-light">{col.data.title}</h3>
+						<h3 class="text-xl font-light">{multiText(col.data.title, Astro.currentLocale)}</h3>
 					</div>
 				</a>
 			))

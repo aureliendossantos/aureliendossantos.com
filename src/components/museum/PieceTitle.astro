@@ -4,8 +4,9 @@ import type { CollectionEntry } from "astro:content"
 
 interface Props {
 	piece: CollectionEntry<"pieces">
+	hideIfUntitled?: boolean
 }
-const { piece } = Astro.props
+const { piece, hideIfUntitled } = Astro.props
 ---
 
-{title(piece, Astro.currentLocale)}
+{hideIfUntitled && piece.data.title === false ? "" : title(piece.data.title, Astro.currentLocale)}

@@ -1,11 +1,10 @@
 ---
 import MuseumLayout from "$layouts/MuseumLayout.astro"
 import { getCollection } from "astro:content"
-import Image from "$components/Image.astro"
 import { localePaths } from "$utils/i18n"
 import { PieceType } from "$content/config"
-import PieceTitle from "$components/museum/PieceTitle.astro"
-import { author, title } from "$utils/museum"
+import PieceThumbnail from "$components/museum/PieceThumbnail.astro"
+import ThumbnailGrid from "$components/museum/ThumbnailGrid.astro"
 
 export function getStaticPaths() {
 	return localePaths
@@ -27,30 +26,13 @@ const types = Object.values(PieceType)
 				<div class="mb-8 py-8" style={{ fontFamily: "InterVariable, serif" }}>
 					<h2 class="text-2xl font-light">{t(type) || type}</h2>
 				</div>
-				<div class="flex flex-wrap gap-8">
+				<ThumbnailGrid>
 					{pieces
 						.filter((p) => p.data.type == type)
-						.map((p) => (
-							<a href={`/museum/${p.slug}`} class="w-64 xl:w-48 medium:w-32">
-								<div class="h-64 xl:h-48 medium:h-32">
-									{p.data.image && (
-										<Image
-											src={p.data.image}
-											alt={`${title(p, Astro.currentLocale)} by ${author(p, Astro.currentLocale)}`}
-											class="h-full w-full object-contain"
-											notZoomable
-										/>
-									)}
-								</div>
-								<div class="py-4 text-center">
-									<h3 class="text-md font-light leading-tight">
-										<PieceTitle piece={p} />
-									</h3>
-									<p class="mt-1 text-xs">{p.data.author}</p>
-								</div>
-							</a>
+						.map((piece) => (
+							<PieceThumbnail {piece} />
 						))}
-				</div>
+				</ThumbnailGrid>
 			</>
 		))
 	}

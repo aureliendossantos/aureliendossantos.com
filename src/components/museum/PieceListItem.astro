@@ -9,11 +9,11 @@ interface Props {
 const { piece } = Astro.props
 ---
 
-<a href={`/museum/${piece.slug}`} class="pr-2 text-right">
+<a href={`/museum/${piece.slug}`} class="truncate pr-2 text-right">
 	<PieceTitle {piece} />
 </a>
 <a href={`/museum/${piece.slug}`}>
-	<span class="text-xs uppercase tracking-wider">
+	<span class="truncate text-xs uppercase tracking-wider">
 		<PieceAuthor {piece} />
 	</span>
 </a>

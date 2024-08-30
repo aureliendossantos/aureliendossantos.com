@@ -30,11 +30,18 @@ const src =
 		: srcToResolve
 
 const remoteSize = typeof src == "string" ? await inferRemoteSize(src) : null
-const width = remoteSize && maxWidth ? Math.min(remoteSize.width, maxWidth) : maxWidth
+const width =
+	maxWidth &&
+	(remoteSize
+		? Math.min(remoteSize.width, Number(maxWidth))
+		: Math.min(src.width, Number(maxWidth)))
 // getImage can't calculate the height of remote images.
 // If remoteSize is set, we use the remoteSize ratio to calculate the new height.
 // if remoteSize is set, calculate the ratio between the width and the height
-const height = remoteSize && width ? width / (remoteSize.width / remoteSize.height) : maxHeight
+const height =
+	remoteSize && width
+		? width / (remoteSize.width / remoteSize.height)
+		: maxHeight && Math.min(src.height, Number(maxHeight))
 
 // The style must be a JSX object and not a string in order to be preserved
 const style = typeof attributes.style == "object" ? attributes.style : null

@@ -37,17 +37,21 @@ const pieces = await getCollection("pieces")
 							(p) =>
 								p.data.type == "painting" || p.data.type == "drawing" || p.data.type == "digital"
 						)
+						.slice(0, 8)
 						.map((piece) => <PieceListItem piece={piece} />)
 				}
 			</div>
+			<div class="text-center text-xs leading-6">⋯</div>
 			<h3 class="text-center text-xs uppercase leading-6 tracking-wider">{t("photo")}</h3>
 			<div class="grid grid-cols-2">
 				{
 					pieces
 						.filter((p) => p.data.type == "photo")
+						.slice(0, 8)
 						.map((piece) => <PieceListItem piece={piece} />)
 				}
 			</div>
+			<div class="text-center text-xs leading-6">⋯</div>
 			<h3 class="text-center text-xs uppercase leading-6 tracking-wider">Musique</h3>
 			<div class="grid grid-cols-2">
 				{
