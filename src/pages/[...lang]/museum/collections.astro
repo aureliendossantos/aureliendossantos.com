@@ -22,7 +22,7 @@ const collections = await Promise.all(
 	ogType="website"
 	navBarProps={{ title: "Collections", parent: { href: "/museum", title: t("m-museum") } }}
 >
-	<div class="py-8" style={{ fontFamily: "InterVariable, serif" }}>
+	<div class="py-8" style={{ fontFamily: "InterVariable, sans-serif" }}>
 		<h2 class="text-2xl font-light">Sélections</h2>
 	</div>
 	<div class="flex flex-wrap gap-8">
@@ -34,6 +34,7 @@ const collections = await Promise.all(
 							<Image
 								src={col.highlight.data.image}
 								alt={`${title(col.highlight.data.title, Astro.currentLocale)} by ${author(col.highlight, Astro.currentLocale)}`}
+								width={512}
 								class="h-full w-full object-cover"
 								notZoomable
 							/>

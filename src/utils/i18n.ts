@@ -1,9 +1,4 @@
-export const languages = {
-	fr: "Français",
-	en: "English",
-}
-
-export const defaultLanguage = "fr"
+export const defaultLanguage = "fr" as const
 
 export const langParams = [undefined, "en"] // undefined is root, the default language
 
@@ -12,11 +7,19 @@ export const localePaths = langParams.map((lang) => ({
 	props: { t: useTranslations(lang) },
 }))
 
-export function useTranslations(lang?: string) {
+/**
+ * Check if the given language is available in the website routes. Useful for UI elements, but not for multilingual texts like artwork titles, which can support more languages than the website.
+ */
+export function checkLocale(lang?: string): "en" | "fr" {
 	lang ??= defaultLanguage
-	if (lang !== "en" && lang !== "fr") throw new Error("Invalid language: " + lang)
+	if (!["en", "fr"].includes(lang)) throw new Error(`Unsupported language: ${lang}`)
+	return lang as "en" | "fr"
+}
+
+export function useTranslations(lang?: string) {
+	const locale = checkLocale(lang)
 	return function t(key: keyof (typeof translations)[typeof defaultLanguage]) {
-		return translations[lang][key] || translations[defaultLanguage][key]
+		return translations[locale][key] || translations[defaultLanguage][key]
 	}
 }
 

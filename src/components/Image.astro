@@ -24,32 +24,33 @@ const {
 	...attributes
 } = Astro.props
 
-const src =
-	typeof srcToResolve == "object" && "then" in srcToResolve
-		? (await srcToResolve).default
-		: srcToResolve
+const image =
+	typeof srcToResolve == "string"
+		? { src: srcToResolve, remote: true as const, remoteSize: await inferRemoteSize(srcToResolve) }
+		: "then" in srcToResolve
+			? { src: (await srcToResolve).default, remote: false as const }
+			: { src: srcToResolve, remote: false as const }
 
-const remoteSize = typeof src == "string" ? await inferRemoteSize(src) : null
 const width =
 	maxWidth &&
-	(remoteSize
-		? Math.min(remoteSize.width, Number(maxWidth))
-		: Math.min(src.width, Number(maxWidth)))
+	(image.remote
+		? Math.min(image.remoteSize.width, Number(maxWidth))
+		: Math.min(image.src.width, Number(maxWidth)))
 // getImage can't calculate the height of remote images.
 // If remoteSize is set, we use the remoteSize ratio to calculate the new height.
 // if remoteSize is set, calculate the ratio between the width and the height
-const height =
-	remoteSize && width
-		? width / (remoteSize.width / remoteSize.height)
-		: maxHeight && Math.min(src.height, Number(maxHeight))
+const height = image.remote
+	? width && width / (image.remoteSize.width / image.remoteSize.height)
+	: maxHeight && Math.min(image.src.height, Number(maxHeight))
 
 // The style must be a JSX object and not a string in order to be preserved
-const style = typeof attributes.style == "object" ? attributes.style : null
+if (typeof attributes.style == "string")
+	throw new Error("The style attribute must be a JSX object and not a string.")
 
 const webp = await getImage({
-	src: src,
-	width: width || remoteSize?.width,
-	height: height || remoteSize?.height,
+	src: image.src,
+	width: width || image.remoteSize?.width,
+	height: height || image.remoteSize?.height,
 	quality: quality,
 	...attributes,
 })
@@ -58,19 +59,19 @@ const webp = await getImage({
 we generate a larger image for medium-zoom, that won't exceed 2160px in height
 (in rare cases, a 3840px max width might be more relevant). */
 const zoomedImage =
-	remoteSize && remoteSize.width > webp.attributes.width
+	image.remoteSize && image.remoteSize.width > webp.attributes.width
 		? await getImage({
-				src: src,
-				width: remoteSize.width,
-				height: remoteSize.height,
+				src: image.src,
+				width: image.remoteSize.width,
+				height: image.remoteSize.height,
 				quality: zoomQuality || quality,
 				...attributes,
 			})
-		: width && typeof src != "string" && src.width > Number(width)
+		: width && !image.remote && image.src.width > Number(width)
 			? await getImage({
-					src: src,
-					width: src.height < 2160 && Math.min(src.width, 3840),
-					height: src.height >= 2160 && Math.min(src.height, 2160),
+					src: image.src,
+					width: image.src.height < 2160 && Math.min(image.src.width, 3840),
+					height: image.src.height >= 2160 && Math.min(image.src.height, 2160),
 					quality: zoomQuality || quality,
 					...attributes,
 				})
@@ -78,10 +79,13 @@ const zoomedImage =
 
 // Using the custom imageService to generate a placeholder image
 const imageService = (await getConfiguredImageService()) as LocalImageServiceWithPlaceholder
-const placeholderURL =
-	typeof src == "string"
-		? await imageService.generatePlaceholder(src, remoteSize.width, remoteSize.height)
-		: await imageService.generatePlaceholder(src.src, src.width, src.height)
+const placeholderURL = image.remote
+	? await imageService.generatePlaceholder(
+			image.src,
+			image.remoteSize.width,
+			image.remoteSize.height
+		)
+	: await imageService.generatePlaceholder(image.src.src, image.src.width, image.src.height)
 ---
 
 <picture>
@@ -92,7 +96,7 @@ const placeholderURL =
 			backgroundSize: "cover",
 			backgroundImage: `url(${placeholderURL})`,
 			imageRendering: "auto",
-			...style,
+			...attributes.style,
 		}}
 		onload="this.style.backgroundImage = 'none';"
 		{alt}
@@ -102,10 +106,20 @@ const placeholderURL =
 		data-height={webp.attributes.height}
 		data-zoom-width={zoomedImage?.attributes.width}
 		data-zoom-height={zoomedImage?.attributes.height}
-		data-original-src={typeof src == "string" ? src : src.src}
-		data-original-width={remoteSize?.width || src.width}
-		data-original-height={remoteSize?.height || src.height}
-		data-original-format={remoteSize?.format || src.format}
+		data-original-src={image.remote ? image.src : image.src.src}
+		data-original-width={image.remote ? image.remoteSize.width : image.src.width}
+		data-original-height={image.remote ? image.remoteSize.height : image.src.height}
+		data-original-format={image.remote ? image.remoteSize.format : image.src.format}
 		{...webp.attributes}
 	/>
 </picture>
+
+<style is:global>
+	/* Images with class="h-full w-full object-contain" will have their placeholder stretched without this rule.
+	FIXME: It is still not ideal because the placeholder does not take into account exif rotation. */
+	img.object-contain {
+		background-size: contain !important;
+		background-repeat: no-repeat;
+		background-position: center;
+	}
+</style>

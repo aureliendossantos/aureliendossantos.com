@@ -89,9 +89,10 @@ export const getSearchEntries = async (lang: string): Promise<SearchEntry[]> => 
 		{ slug: "games", title: "Jeux" },
 		{ slug: "wiki", title: "Wiki" },
 		{ slug: "tags", title: "Tags" },
-		{ slug: "muses", title: "Muses" },
 		{ slug: "museum", title: "Musée" },
-		{ slug: "museum/collections", title: "Collections", links: ["museum"] },
+		{ slug: "museum/all", title: "Collection", categories: ["Musée"], links: ["museum"] },
+		{ slug: "museum/collections", title: "Sélections", categories: ["Musée"], links: ["museum"] },
+		{ slug: "muses", title: "Muses" },
 		...tags.map((tag) => ({
 			slug: `tags/${tag.slug}`,
 			title: tag.data.title,
@@ -210,19 +211,11 @@ export const getSearchEntries = async (lang: string): Promise<SearchEntry[]> => 
 				graphLinks: [...entry.data.tags.map((t) => `tags/${t}`), ...entry.data.related],
 			})
 		),
-		...(await getCollection("collections")).map((entry) =>
-			mapToSearchEntry({
-				entry: entry,
-				slug: `museum/${entry.slug}`,
-				parentSlug: "museum/collections",
-				categories: ["Sélection", t("m-museum")],
-			})
-		),
 		...(await getCollection("pieces")).map((entry) =>
 			mapToSearchEntry({
 				entry: entry,
 				slug: `museum/${entry.slug}`,
-				parentSlug: "museum",
+				parentSlug: "museum/all",
 				// The description (hidden but indexed by search) includes title and author in all available languages
 				description: `${
 					typeof entry.data.title == "object"
@@ -243,6 +236,14 @@ export const getSearchEntries = async (lang: string): Promise<SearchEntry[]> => 
 				}`,
 				categories: [t(entry.data.type), t("m-museum")],
 				graphLinks: entry.data.collections.map((c) => `museum/${c.slug}`),
+			})
+		),
+		...(await getCollection("collections")).map((entry) =>
+			mapToSearchEntry({
+				entry: entry,
+				slug: `museum/${entry.slug}`,
+				parentSlug: "museum/collections",
+				categories: ["Sélection", t("m-museum")],
 			})
 		),
 	]

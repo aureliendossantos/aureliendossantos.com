@@ -1,6 +1,6 @@
 import type { CollectionEntry, z } from "astro:content"
-import { defaultLanguage, useTranslations } from "./i18n"
-import { date, months, type multilingualText } from "$content/config"
+import { checkLocale, defaultLanguage, useTranslations } from "./i18n"
+import { date, months, period, type multilingualText } from "$content/config"
 import formatDate from "./formatting/formatDate"
 
 export const title = (
@@ -15,8 +15,8 @@ export const title = (
 
 export const multiText = (text: string | z.infer<typeof multilingualText>, lang?: string) => {
 	if (typeof text == "string") return text
-	lang ??= defaultLanguage
-	const langPriority = [lang, "en"] // then original language
+	const preferredLocale = checkLocale(lang)
+	const langPriority = [preferredLocale, "en"] // then original language
 	for (const lang of langPriority) if (text[lang]) return text[lang]
 	return text[text.original]
 }
@@ -27,9 +27,8 @@ export const author = (piece: CollectionEntry<"pieces">, lang?: string) => {
 	return multiText(piece.data.author, lang)
 }
 
-export const formatCustomDate = (d: z.infer<typeof date>, lang: string) => {
+const formatCustomDate = (d: z.infer<typeof date>, lang: "fr" | "en") => {
 	const month = typeof d.m == "string" ? months.indexOf(d.m) + 1 : d.m
-	console.log(d.y, month, d.d)
 	if (!d.precision && d.y && month && d.d) {
 		const jsDate = new Date(d.y, month, d.d)
 		return formatDate(jsDate, false, false, false, lang)
@@ -39,4 +38,13 @@ export const formatCustomDate = (d: z.infer<typeof date>, lang: string) => {
 	if (d.precision == "around")
 		return lang == "fr" ? `Vers ${d.d ? "le " : ""}${dateString}` : `Around ${dateString}`
 	return dateString
+}
+
+export const formatCustomPeriod = (
+	d: z.infer<typeof period> | z.infer<typeof date>,
+	lang?: string
+) => {
+	const locale = checkLocale(lang)
+	if (Array.isArray(d)) return d.map((date) => formatCustomDate(date, locale)).join(" – ")
+	return formatCustomDate(d, locale)
 }

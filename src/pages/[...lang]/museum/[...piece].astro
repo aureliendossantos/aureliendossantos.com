@@ -7,7 +7,7 @@ import { getDomainName } from "$utils/formatting/formatUrl"
 import { langParams, useTranslations } from "$utils/i18n"
 import PieceTitle from "$components/museum/PieceTitle.astro"
 import PieceAuthor from "$components/museum/PieceAuthor.astro"
-import { title, author, formatCustomDate } from "$utils/museum"
+import { title, author, formatCustomPeriod } from "$utils/museum"
 
 export async function getStaticPaths() {
 	const entries = await getCollection("pieces")
@@ -41,19 +41,22 @@ const audio =
 	}}
 >
 	<div class="relative">
-		<div class="absolute py-8 mediumlarge:static" style={{ fontFamily: "InterVariable, serif" }}>
+		<div
+			class="absolute py-8 mediumlarge:static"
+			style={{ fontFamily: "InterVariable, sans-serif" }}
+		>
 			<h2 class="text-2xl font-light"><PieceTitle hideIfUntitled piece={entry} /></h2>
 			<div class="text-sm"><PieceAuthor piece={entry} /></div>
 		</div>
 	</div>
 	{
 		data.image && !data.audio && (
-			<div class="flex justify-center p-8 medium:px-0">
+			<div class="flex h-[calc(100svh-28px)] justify-center p-8 medium:px-0">
 				<Image
 					src={data.image}
 					height={2096}
 					alt={`${pieceTitle} by ${author(entry, Astro.currentLocale)}`}
-					class="max-h-[calc(100svh-64px)] w-auto"
+					class="h-full w-full object-contain"
 				/>
 			</div>
 		)
@@ -61,7 +64,7 @@ const audio =
 	{
 		data.audio && (
 			<div class="m-auto flex w-96 flex-col items-center p-8">
-				{data.image && <Image src={data.image} alt="Album cover" />}
+				{data.image && <Image src={data.image} width={640} alt="Album cover" />}
 				<AudioPlayer src={audio} format={data.audioFormat!} />
 			</div>
 		)
@@ -123,7 +126,7 @@ const audio =
 				data.date && (
 					<tr>
 						<th>Date</th>
-						<td>{formatCustomDate(data.date, Astro.currentLocale)}</td>
+						<td>{formatCustomPeriod(data.date, Astro.currentLocale)}</td>
 					</tr>
 				)
 			}
