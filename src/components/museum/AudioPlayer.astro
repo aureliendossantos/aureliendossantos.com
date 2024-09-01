@@ -4,6 +4,8 @@ import { checkLocale, useTranslations } from "$utils/i18n"
 interface Props {
 	src: string
 	format: string
+	title: string
+	author: string
 }
 const { src, format, title, author } = Astro.props
 const t = useTranslations(checkLocale(Astro.currentLocale))
@@ -11,7 +13,12 @@ const t = useTranslations(checkLocale(Astro.currentLocale))
 
 <div class="audio-player">
 	<template>
-		<button data-src={src} class="museum-play-button h-11 w-full bg-[--200]">
+		<button
+			data-src={src}
+			data-title={title}
+			data-author={author}
+			class="museum-play-button h-11 w-full bg-[--200]"
+		>
 			{t("m-play-music")} ({format})
 		</button>
 		<media-control-bar
@@ -64,8 +71,14 @@ const t = useTranslations(checkLocale(Astro.currentLocale))
 			button.addEventListener("click", () => {
 				if (!button.dataset.src) throw new Error("Missing audio src")
 				if (!audio.src.includes(button.dataset.src)) {
+					// Send audio to navbar
 					audio.src = button.dataset.src
 					audio.play()
+					document.querySelector("#navbar-audio-title")!.textContent = button.dataset
+						.title as string
+					document.querySelector("#navbar-audio-author")!.textContent = button.dataset
+						.author as string
+					// Update this UI
 					button.style.display = "none"
 					;(button.nextElementSibling as HTMLElement).style.display = "flex"
 				}

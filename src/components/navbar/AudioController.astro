@@ -1,20 +1,54 @@
-<div class="border-r border-neutral-700 has-[audio:not([src])]:hidden">
+---
+import { Icon } from "astro-icon/components"
+import DropdownMenu from "./DropdownMenu.astro"
+---
+
+<div class="has-[audio:not([src])]:hidden">
 	<media-controller audio id="navbar-audio">
 		<audio slot="media"></audio>
 		<media-control-bar>
-			<media-play-button style={{ transition: "none" }}></media-play-button>
-			<media-time-display showduration notoggle style={{ fontFeatureSettings: "'tnum'" }}
-			></media-time-display>
-			<media-mute-button style={{ transition: "none" }}></media-mute-button>
-			<div class="volume-range bg-black">
-				<media-volume-range></media-volume-range>
-			</div>
+			<media-play-button class="w-8 p-0 transition-none"></media-play-button>
+			<DropdownMenu id="navbar-audio-status" alignRight borderRight keepOpenOnClick>
+				<Icon
+					id="navbar-link-icon"
+					name="mdi:playlist-music"
+					class="order-last h-[17px]"
+					slot="icon"
+				/>
+				<div slot="label">
+					<media-time-display
+						showduration
+						notoggle
+						class="m-0 -ml-3"
+						style={{ fontFeatureSettings: "'tnum'" }}></media-time-display>
+				</div>
+				<div class="w-[160px] px-3 py-[6px] text-sm leading-tight">
+					<div id="navbar-audio-title" class="truncate"></div>
+					<div id="navbar-audio-author" class="truncate text-neutral-500"></div>
+				</div>
+				<div class="px-1">
+					<media-control-bar mediacontroller="navbar-audio" class="h-7 w-full items-center">
+						<div class="flex w-7 items-center justify-center">
+							<Icon name="material-symbols:skip-previous" class="h-[17px] text-neutral-700" />
+						</div>
+						<media-time-range></media-time-range>
+						<div class="flex w-7 items-center justify-center">
+							<Icon name="material-symbols:skip-next" class="h-[17px] text-neutral-700" />
+						</div>
+					</media-control-bar>
+					<media-control-bar mediacontroller="navbar-audio" class="h-7 w-full pr-3">
+						<media-mute-button class="w-7 p-0 transition-none"></media-mute-button>
+						<media-volume-range class="grow"></media-volume-range>
+					</media-control-bar>
+				</div>
+			</DropdownMenu>
 		</media-control-bar>
 	</media-controller>
 </div>
 
 <style is:global>
-	media-controller#navbar-audio {
+	media-controller#navbar-audio,
+	media-control-bar#in-dropdown {
 		--media-tooltip-display: none;
 		--media-button-icon-height: 17px;
 		--media-control-height: 28px;
@@ -23,8 +57,8 @@
 		--media-font-size: 14px;
 		--media-font-weight: 400;
 		--media-icon-color: white;
-		--media-secondary-color: black;
-		--media-control-background: black;
+		--media-secondary-color: transparent;
+		--media-control-background: transparent;
 		--media-text-color: white;
 		--media-control-hover-background: white;
 		media-time-range,
@@ -32,14 +66,6 @@
 			--media-control-hover-background: black;
 			--media-primary-color: white;
 			--media-range-track-background: #404040;
-		}
-		.volume-range {
-			transform: rotate(-90deg);
-			@apply absolute -right-8 -top-[60px] hidden py-3;
-		}
-		media-mute-button:hover ~ .volume-range,
-		.volume-range:hover {
-			@apply block;
 		}
 		media-time-display {
 			--media-control-padding: 0;
