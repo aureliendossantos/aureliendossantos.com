@@ -7,17 +7,5 @@ interface Window {
 	popupZindex: number
 	nextPageIsLoading: boolean
 	toastsOpened: number
-	initAllMaps: () => void
-	diaryFilters: {
-		[key: string]: boolean
-	}
 	entries: SearchEntry[]
-	previousUrl: string
-	previousTitle: string
-	changeGameState: (
-		state: "intro" | "create" | "login" | "overview" | "fullscreen" | "error",
-		characterId?: "string" | null,
-		message?: "string"
-	) => void
-	gameState: "intro" | "create" | "login" | "overview" | "fullscreen"
 }

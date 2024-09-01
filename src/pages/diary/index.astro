@@ -135,21 +135,21 @@ const filters = [
 		})
 	}
 
-	function initFiltering() {
-		const itemName = "diaryFilters"
-		// Parsing the local storage item containing the filters
-		let parsedItem = undefined
+	function getDiaryFilters() {
 		try {
-			const item = localStorage.getItem(itemName)
-			parsedItem = item && JSON.parse(item)
+			const item = localStorage.getItem("diaryFilters")
+			if (item) return JSON.parse(item) as { [key: string]: boolean }
 		} catch (error) {
 			console.error("Invalid localStorage item:", error)
 		}
-		window.diaryFilters ??= parsedItem || {
+		return {
 			lists: true,
 			trips: true,
 			personal: false,
 		}
+	}
+
+	function initFiltering() {
 		// Open the dropdown menu on click
 		const button = document.getElementById(`filters-button`) as HTMLButtonElement | null
 		if (!button) return
@@ -171,11 +171,12 @@ const filters = [
 		const checkboxes = document.querySelectorAll(
 			"input[type=checkbox].diary-filter"
 		) as NodeListOf<HTMLInputElement>
+		const filters = getDiaryFilters()
 		checkboxes.forEach((checkbox) => {
-			checkbox.checked = window.diaryFilters[checkbox.id]
+			checkbox.checked = filters[checkbox.id]
 			checkbox.addEventListener("change", () => {
-				window.diaryFilters[checkbox.id] = checkbox.checked
-				localStorage.setItem(itemName, JSON.stringify(window.diaryFilters))
+				filters[checkbox.id] = checkbox.checked
+				localStorage.setItem("diaryFilters", JSON.stringify(filters))
 				runFilters()
 			})
 		})

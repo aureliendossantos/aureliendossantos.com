@@ -97,15 +97,17 @@ const renderCoffeeHistory = page.id.replaceAll("-", "") == import.meta.env.COFFE
 
 	document.addEventListener('astro:page-load', ev => {
 		// Get the title and local URL of the current page
-		window.previousTitle = (JSON.parse((document.getElementById("navbar-data") as HTMLElement).dataset.props as string) as NavBarProps).title
-		window.previousUrl = window.location.pathname
+		sessionStorage.setItem("previousTitle", (JSON.parse((document.getElementById("navbar-data") as HTMLElement).dataset.props as string) as NavBarProps).title)
+		sessionStorage.setItem("previousUrl", window.location.pathname)
 	})
 	document.addEventListener('astro:before-swap', ev => {
 		// Set the page title and URL as the title and href of the link
 		const navLink = ev.newDocument.querySelector('a#back-link') as HTMLAnchorElement | null
-		if (navLink && window.previousTitle){
-			navLink.textContent = `← ${window.previousTitle}`
-			navLink.href = window.previousUrl
+		const previousTitle = sessionStorage.getItem("previousTitle")
+		const previousUrl = sessionStorage.getItem("previousUrl")
+		if (navLink && previousTitle && previousUrl) {
+			navLink.textContent = `← ${previousTitle}`
+			navLink.href = previousUrl
 		}
 	})
 </script>
