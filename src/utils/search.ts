@@ -3,7 +3,7 @@ import getBlogPosts, { getDiary } from "$utils/getCollection"
 import formatDate from "$utils/formatting/formatDate"
 import type { GraphEntry } from "./graph"
 import { title } from "./museum"
-import { useTranslations } from "./i18n"
+import { checkLocale, useTranslations, type SupportedLocale } from "./i18n"
 
 type SearchEntry = GraphEntry & {
 	slug: string
@@ -14,29 +14,31 @@ type SearchEntry = GraphEntry & {
 	description?: string
 }
 
-const mapToSearchEntry = (opts: {
-	entry: CollectionEntry<CollectionKey>
-	slug: string
-	parentSlug?: string
-	categories?: string[]
-	date?: Date
-	description?: string
-	graphLinks?: string[]
-	optionalNode?: boolean
-	title?: string
-}): SearchEntry => {
-	const data = "data" in opts.entry ? opts.entry.data : opts.entry
-	opts.title ??= title(data.title) || undefined
-	// TODO: handle custom dates
-	opts.date ??= "date" in data && data.date instanceof Date ? data.date : undefined
-	return {
-		slug: opts.slug,
-		title: opts.title?.replaceAll("*", "") || "Sans titre",
-		date: opts.date ? formatDate(opts.date, true) : undefined,
-		categories: opts.categories || [],
-		description: "description" in data ? data.description : opts.description,
-		links: [...(opts.parentSlug ? [opts.parentSlug] : []), ...(opts.graphLinks || [])],
-		optional: opts.optionalNode,
+function useMapToSearchEntry(locale: SupportedLocale) {
+	return function mapToSearchEntry(opts: {
+		entry: CollectionEntry<CollectionKey>
+		slug: string
+		parentSlug?: string
+		categories?: string[]
+		date?: Date
+		description?: string
+		graphLinks?: string[]
+		optionalNode?: boolean
+		title?: string
+	}): SearchEntry {
+		const data = "data" in opts.entry ? opts.entry.data : opts.entry
+		opts.title ??= title(data.title, locale) || undefined
+		// TODO: handle custom dates
+		opts.date ??= "date" in data && data.date instanceof Date ? data.date : undefined
+		return {
+			slug: opts.slug,
+			title: opts.title?.replaceAll("*", "") || "Sans titre",
+			date: opts.date ? formatDate(opts.date, true) : undefined,
+			categories: opts.categories || [],
+			description: "description" in data ? data.description : opts.description,
+			links: [...(opts.parentSlug ? [opts.parentSlug] : []), ...(opts.graphLinks || [])],
+			optional: opts.optionalNode,
+		}
 	}
 }
 
@@ -52,8 +54,10 @@ const searchEntryLinks = (
 	]
 }
 
-export const getSearchEntries = async (lang: string): Promise<SearchEntry[]> => {
-	const t = useTranslations(lang)
+export const getSearchEntries = async (lang?: string): Promise<SearchEntry[]> => {
+	const locale = checkLocale(lang)
+	const t = useTranslations(locale)
+	const mapToSearchEntry = useMapToSearchEntry(locale)
 	const tags = await getCollection("tags")
 	const possibleTags: CollectionEntry<"tags">["slug"][] = [
 		"personal-projects",

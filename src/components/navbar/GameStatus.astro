@@ -146,14 +146,15 @@ const spritesheet = await getImage({ src: png, format: "webp" })
 <script>
 	import { toast } from "$utils/navbar"
 	import enumerate from "$utils/formatting/enumerateStrings"
+	import { getGameState, type GameState } from "$utils/game"
 
 	// characterId must be present when changing to the "overview" state
 	// message must be present when changing to the "error" state
-	window.changeGameState = (name, characterId, message) => {
+	const changeGameState = (name: GameState, characterId?: string | null, message?: string) => {
 		;(document.querySelectorAll("[data-state]") as NodeListOf<HTMLElement>).forEach((el) =>
 			el.classList.toggle("hidden", el.dataset.state != name)
 		)
-		window.gameState = name
+		sessionStorage.setItem("gameState", name)
 		// OVERVIEW state: update character information
 		if (name == "overview") {
 			if (!characterId) throw new Error("changeGameState: Missing characterId")
@@ -188,7 +189,7 @@ const spritesheet = await getImage({ src: png, format: "webp" })
 			const res = await response.json()
 			if (!response.ok) {
 				toast(`Erreur ${response.status} : ${res.message}`, 4000, "right")
-				window.changeGameState(
+				changeGameState(
 					"error",
 					undefined,
 					`Une erreur ${response.status} est survenue : ${res.message}`
@@ -197,11 +198,13 @@ const spritesheet = await getImage({ src: png, format: "webp" })
 			}
 			return res
 		} catch (error) {
-			toast(`Erreur : ${error.message}`, 4000, "right")
-			window.changeGameState(
+			// if error is an Error object, display its message
+			const message = error instanceof Error ? error.message : "Erreur inconnue"
+			toast(`Erreur : ${message}`, 4000, "right")
+			changeGameState(
 				"error",
 				undefined,
-				`Une erreur est survenue lors de la requête (fetch error) : ${error.message}`
+				`Une erreur est survenue lors de la requête (fetch error) : ${message}`
 			)
 			return null
 		}
@@ -243,11 +246,12 @@ const spritesheet = await getImage({ src: png, format: "webp" })
 	}
 
 	const characterId = localStorage.getItem("characterId")
-	window.changeGameState(characterId ? "overview" : "intro", characterId as string)
+	// Default game state when page loads
+	changeGameState(characterId ? "overview" : "intro", characterId as string)
 	;(document.getElementById("intro-to-create") as HTMLButtonElement).addEventListener(
 		"click",
 		async () => {
-			window.changeGameState("create")
+			changeGameState("create")
 			// Fetching available maps (worlds) for the character creation form
 			const res = await query("map", "GET")
 			if (!res) return
@@ -257,10 +261,10 @@ const spritesheet = await getImage({ src: png, format: "webp" })
 		}
 	)
 	;(document.getElementById("create-to-login") as HTMLButtonElement).addEventListener("click", () =>
-		window.changeGameState("login")
+		changeGameState("login")
 	)
 	;(document.getElementById("login-to-create") as HTMLButtonElement).addEventListener("click", () =>
-		window.changeGameState("create")
+		changeGameState("create")
 	)
 	;(document.getElementById("create-character") as HTMLFormElement).addEventListener(
 		"submit",
@@ -284,7 +288,7 @@ const spritesheet = await getImage({ src: png, format: "webp" })
 			if (!res2) return
 			const { data: character } = res2
 			localStorage.setItem("characterId", character.id)
-			window.changeGameState("overview", character.id)
+			changeGameState("overview", character.id)
 		}
 	)
 	;(document.getElementById("character-login") as HTMLFormElement).addEventListener(
@@ -293,13 +297,13 @@ const spritesheet = await getImage({ src: png, format: "webp" })
 			event.preventDefault()
 			const characterId = (document.querySelector("input#characterId") as HTMLInputElement).value
 			localStorage.setItem("characterId", characterId)
-			window.changeGameState("overview", characterId)
+			changeGameState("overview", characterId)
 		}
 	)
 	;(document.getElementById("overview-to-fullscreen") as HTMLButtonElement).addEventListener(
 		"click",
 		async () => {
-			window.changeGameState("fullscreen")
+			changeGameState("fullscreen")
 			const iframe = document.querySelector("iframe") as HTMLIFrameElement
 			iframe.src = `https://survie.aureliendossantos.com/character/${localStorage.getItem(
 				"characterId"
@@ -310,7 +314,7 @@ const spritesheet = await getImage({ src: png, format: "webp" })
 		"click",
 		async () => {
 			const characterId = localStorage.getItem("characterId")
-			window.changeGameState(characterId ? "overview" : "intro", characterId as string)
+			changeGameState(characterId ? "overview" : "intro", characterId as string)
 		}
 	)
 	;(document.getElementById("reload-page") as HTMLButtonElement).addEventListener("click", () =>
@@ -325,7 +329,7 @@ const spritesheet = await getImage({ src: png, format: "webp" })
 				)
 			) {
 				localStorage.removeItem("characterId")
-				window.changeGameState("intro")
+				changeGameState("intro")
 			}
 		}
 	)
@@ -333,7 +337,7 @@ const spritesheet = await getImage({ src: png, format: "webp" })
 	// Doing stuff when the game becomes visible or hidden
 	const observer = new MutationObserver((mutations) => {
 		mutations.forEach((mutation) => {
-			const targetDiv = mutation.target
+			const targetDiv = mutation.target as HTMLElement
 			// Game is invisible. Hiding navbar fullscreen button
 			if (targetDiv.classList.contains("invisible")) {
 				const fullscreenButton = document.getElementById(
@@ -347,7 +351,7 @@ const spritesheet = await getImage({ src: png, format: "webp" })
 				;(document.getElementById("navbar-game-close-icon") as HTMLElement).classList.add("hidden")
 			}
 			// Game is visible. Calling changeState to apply needed state transitions
-			else window.changeGameState(window.gameState, localStorage.getItem("characterId"))
+			else changeGameState(getGameState(), localStorage.getItem("characterId"))
 		})
 	})
 	observer.observe(document.getElementById("navbar-game-dropdown") as HTMLDivElement, {

@@ -1,5 +1,5 @@
 ---
-import { useTranslations } from "$utils/i18n"
+import { checkLocale, useTranslations } from "$utils/i18n"
 import Toast from "./Toast.astro"
 import DropdownItem from "$components/navbar/DropdownItem.astro"
 import spinner from "$styles/icons/loading.svg?raw"
@@ -21,7 +21,7 @@ interface Props extends NavBarProps {
 
 const { title, parent, related, headings, ssr } = Astro.props
 const relatedTitle = Astro.props.relatedTitle || "Voir aussi"
-const t = useTranslations(Astro.currentLocale)
+const t = useTranslations(checkLocale(Astro.currentLocale))
 ---
 
 <div transition:persist="navbar-margin" id="bottom-page-margin" class="h-7 w-full print:!hidden">

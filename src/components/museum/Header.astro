@@ -1,8 +1,8 @@
 ---
-import { useTranslations } from "$utils/i18n"
+import { checkLocale, useTranslations } from "$utils/i18n"
 import { getRelativeLocaleUrl } from "astro:i18n"
-const t = useTranslations(Astro.currentLocale)
-const lang = Astro.currentLocale
+const locale = checkLocale(Astro.currentLocale)
+const t = useTranslations(locale)
 ---
 
 <header
@@ -37,13 +37,13 @@ const lang = Astro.currentLocale
 		</div>
 		<div class="text-sm leading-7">
 			{
-				lang == "fr" ? (
+				locale == "fr" ? (
 					<span class="text-[--800]">FR</span>
 				) : (
 					<a href={`/${Astro.url.pathname.split("/").slice(2).join("/")}`}>FR</a>
 				)
 			}<span class="text-[--800]">｜</span>{
-				lang == "en" ? (
+				locale == "en" ? (
 					<span class="text-[--800]">EN</span>
 				) : (
 					<a href={getRelativeLocaleUrl("en", Astro.url.pathname)}>EN</a>

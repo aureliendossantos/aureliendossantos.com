@@ -1,12 +1,12 @@
 ---
-import { useTranslations } from "$utils/i18n"
+import { checkLocale, useTranslations } from "$utils/i18n"
 
 interface Props {
 	src: string
 	format: string
 }
-const { src, format } = Astro.props
-const t = useTranslations(Astro.currentLocale)
+const { src, format, title, author } = Astro.props
+const t = useTranslations(checkLocale(Astro.currentLocale))
 ---
 
 <div class="audio-player">

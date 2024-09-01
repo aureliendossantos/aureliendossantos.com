@@ -1,4 +1,5 @@
 ---
+import { checkLocale } from "$utils/i18n"
 import { title } from "$utils/museum"
 import type { CollectionEntry } from "astro:content"
 
@@ -9,4 +10,8 @@ interface Props {
 const { piece, hideIfUntitled } = Astro.props
 ---
 
-{hideIfUntitled && piece.data.title === false ? "" : title(piece.data.title, Astro.currentLocale)}
+{
+	hideIfUntitled && piece.data.title === false
+		? ""
+		: title(piece.data.title, checkLocale(Astro.currentLocale))
+}

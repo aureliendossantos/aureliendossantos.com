@@ -1,10 +1,10 @@
 ---
 import MuseumLayout from "$layouts/MuseumLayout.astro"
-import { getCollection, type CollectionEntry } from "astro:content"
+import { getCollection } from "astro:content"
 import Image from "$components/Image.astro"
 import AudioPlayer from "$components/museum/AudioPlayer.astro"
 import { getDomainName } from "$utils/formatting/formatUrl"
-import { langParams, useTranslations } from "$utils/i18n"
+import { checkLocale, langParams, useTranslations } from "$utils/i18n"
 import PieceTitle from "$components/museum/PieceTitle.astro"
 import PieceAuthor from "$components/museum/PieceAuthor.astro"
 import { title, author, formatCustomPeriod } from "$utils/museum"
@@ -12,16 +12,19 @@ import { title, author, formatCustomPeriod } from "$utils/museum"
 export async function getStaticPaths() {
 	const entries = await getCollection("pieces")
 	return langParams.flatMap((lang) =>
-		entries.map((entry) => ({
-			params: { lang, piece: entry.slug },
-			props: { entry, t: useTranslations(lang) },
-		}))
+		entries.map((entry) => {
+			const locale = checkLocale(lang)
+			return {
+				params: { lang, piece: entry.slug },
+				props: { entry, t: useTranslations(locale), locale },
+			}
+		})
 	)
 }
-const { entry, t } = Astro.props
+const { entry, t, locale } = Astro.props
 const { Content } = await entry.render()
 const data = entry.data
-const pieceTitle = title(entry.data.title, Astro.currentLocale)
+const pieceTitle = title(entry.data.title, locale)
 
 const authorSlug = entry.slug.split("/")[0]
 // Reasons for the import structure: https://github.com/rollup/plugins/tree/master/packages/dynamic-import-vars#limitations
@@ -55,7 +58,7 @@ const audio =
 				<Image
 					src={data.image}
 					height={2096}
-					alt={`${pieceTitle} by ${author(entry, Astro.currentLocale)}`}
+					alt={`${pieceTitle} by ${author(entry, locale)}`}
 					class="h-full w-full object-contain"
 				/>
 			</div>
@@ -65,7 +68,12 @@ const audio =
 		data.audio && (
 			<div class="m-auto flex w-96 flex-col items-center p-8">
 				{data.image && <Image src={data.image} width={640} alt="Album cover" />}
-				<AudioPlayer src={audio} format={data.audioFormat!} />
+				<AudioPlayer
+					src={audio}
+					format={data.audioFormat!}
+					title={pieceTitle}
+					author={author(entry, locale)}
+				/>
 			</div>
 		)
 	}
@@ -126,7 +134,7 @@ const audio =
 				data.date && (
 					<tr>
 						<th>Date</th>
-						<td>{formatCustomPeriod(data.date, Astro.currentLocale)}</td>
+						<td>{formatCustomPeriod(data.date, locale)}</td>
 					</tr>
 				)
 			}

@@ -1,4 +1,5 @@
 ---
+import { checkLocale } from "$utils/i18n"
 import { author } from "$utils/museum"
 import type { CollectionEntry } from "astro:content"
 
@@ -8,4 +9,4 @@ interface Props {
 const { piece } = Astro.props
 ---
 
-{author(piece, Astro.currentLocale)}
+{author(piece, checkLocale(Astro.currentLocale))}

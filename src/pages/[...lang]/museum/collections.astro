@@ -9,7 +9,7 @@ import { author, multiText, title } from "$utils/museum"
 export function getStaticPaths() {
 	return localePaths
 }
-const { t } = Astro.props
+const { t, locale } = Astro.props
 
 const col = await getCollection("collections")
 const collections = await Promise.all(
@@ -33,7 +33,7 @@ const collections = await Promise.all(
 						{col.highlight.data.image && (
 							<Image
 								src={col.highlight.data.image}
-								alt={`${title(col.highlight.data.title, Astro.currentLocale)} by ${author(col.highlight, Astro.currentLocale)}`}
+								alt={`${title(col.highlight.data.title, locale)} by ${author(col.highlight, locale)}`}
 								width={512}
 								class="h-full w-full object-cover"
 								notZoomable
@@ -41,7 +41,7 @@ const collections = await Promise.all(
 						)}
 					</div>
 					<div class="py-4">
-						<h3 class="text-xl font-light">{multiText(col.data.title, Astro.currentLocale)}</h3>
+						<h3 class="text-xl font-light">{multiText(col.data.title, locale)}</h3>
 					</div>
 				</a>
 			))

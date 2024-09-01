@@ -1,16 +1,16 @@
 ---
-import { defaultLanguage, useTranslations } from "$utils/i18n"
+import { checkLocale, useTranslations } from "$utils/i18n"
 import { getSearchEntries } from "$utils/search"
 import { Icon } from "astro-icon/components"
 interface Props {
 	ssr?: boolean
 }
-
-const t = useTranslations(Astro.currentLocale)
+const locale = checkLocale(Astro.currentLocale)
+const t = useTranslations(locale)
 // With SSR, `getSearchEntries()` takes a long time on Vercel. Even if this component is at the
 // bottom of the page, it's kinda blocking because we use ViewTransitions. To solve this,
 // we will later fetch the entries client-side from a static API endpoint.
-const preRenderedEntries = Astro.props.ssr ? [] : await getSearchEntries(Astro.currentLocale || defaultLanguage)
+const preRenderedEntries = Astro.props.ssr ? [] : await getSearchEntries(locale)
 ---
 
 <div class="relative border-r border-neutral-700">

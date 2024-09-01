@@ -1,23 +1,29 @@
-export const defaultLanguage = "fr" as const
+export type SupportedLocale = "en" | "fr"
 
-export const langParams = [undefined, "en"] // undefined is root, the default language
+const supportedLocales: SupportedLocale[] = ["en", "fr"]
+export const defaultLanguage: SupportedLocale = "fr"
 
-export const localePaths = langParams.map((lang) => ({
-	params: { lang: lang },
-	props: { t: useTranslations(lang) },
-}))
+export const langParams: (SupportedLocale | undefined)[] = [undefined, "en"] // undefined is root, the default language
+
+export const localePaths = langParams.map((lang) => {
+	const locale = checkLocale(lang)
+	return {
+		params: { lang: lang },
+		props: { t: useTranslations(locale), locale },
+	}
+})
 
 /**
- * Check if the given language is available in the website routes. Useful for UI elements, but not for multilingual texts like artwork titles, which can support more languages than the website.
+ * Check if the given string is an available language in the website routes. Used to type the value returned by Astro.currentLocale. Useful for UI elements, but not for multilingual texts like artwork titles, which can support more languages than the website.
  */
-export function checkLocale(lang?: string): "en" | "fr" {
+export function checkLocale(lang?: string) {
 	lang ??= defaultLanguage
-	if (!["en", "fr"].includes(lang)) throw new Error(`Unsupported language: ${lang}`)
-	return lang as "en" | "fr"
+	if (!supportedLocales.includes(lang as SupportedLocale))
+		throw new Error(`Unsupported language: ${lang}`)
+	return lang as SupportedLocale
 }
 
-export function useTranslations(lang?: string) {
-	const locale = checkLocale(lang)
+export function useTranslations(locale: SupportedLocale) {
 	return function t(key: keyof (typeof translations)[typeof defaultLanguage]) {
 		return translations[locale][key] || translations[defaultLanguage][key]
 	}
