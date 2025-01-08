@@ -2,13 +2,12 @@
 import { checkLocale, useTranslations } from "$utils/i18n"
 import Toast from "./Toast.astro"
 import DropdownItem from "$components/navbar/DropdownItem.astro"
-import spinner from "$styles/icons/loading.svg?raw"
+import Spinner from "$styles/icons/loading.svg"
 import DropdownMenu from "./DropdownMenu.astro"
 import DownloadLink from "./DownloadLink.astro"
 import ExternalLink from "./ExternalLink.astro"
 import InactiveItem from "./InactiveItem.astro"
 import { Icon } from "astro-icon/components"
-import NavbarToggleButton from "./NavbarToggleButton.astro"
 import type { NavBarProps } from "$utils/navbar"
 import SearchBar from "./SearchBar.astro"
 import Graph from "$components/Graph.astro"
@@ -16,10 +15,11 @@ import GameStatus from "./GameStatus.astro"
 import AudioController from "./AudioController.astro"
 
 interface Props extends NavBarProps {
+	viewportCover?: boolean
 	ssr?: boolean
 }
 
-const { title, parent, related, headings, ssr } = Astro.props
+const { title, parent, related, headings, viewportCover, ssr } = Astro.props
 const relatedTitle = Astro.props.relatedTitle || "Voir aussi"
 const t = useTranslations(checkLocale(Astro.currentLocale))
 ---
@@ -32,6 +32,11 @@ const t = useTranslations(checkLocale(Astro.currentLocale))
 	transition:animate="none"
 	id="navbar"
 	class="fixed bottom-0 z-[999] flex h-7 w-full max-w-full border-neutral-700 bg-black font-work-sans text-sm text-white transition-all print:!hidden"
+	style={{
+		marginLeft: viewportCover ? 0 : "calc(-1 * env(safe-area-inset-left))",
+		paddingLeft: "env(safe-area-inset-left)",
+		paddingRight: "env(safe-area-inset-right)",
+	}}
 >
 	<div id="navbar-main-actions" class="flex">
 		<DropdownMenu
@@ -86,7 +91,7 @@ const t = useTranslations(checkLocale(Astro.currentLocale))
 			<Icon id="navbar-link-icon" name="ic:baseline-ios-share" class="-mt-[3px] h-[14px]" />
 			<Icon id="navbar-link-checkmark" name="ic:baseline-check" class="hidden h-[17px]" />
 			<div id="navbar-loading-icon" class="hidden h-[17px] w-[17px] animate-spin">
-				<Fragment set:html={spinner} />
+				<Spinner />
 			</div>
 			<div id="navbar-title" class="truncate mediumlarge:max-w-[20vw] medium:hidden">
 				{title}

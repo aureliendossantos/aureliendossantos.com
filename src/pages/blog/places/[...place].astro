@@ -9,7 +9,7 @@ export async function getStaticPaths() {
 	const content = await getContentEntries()
 	const places = await getCollection("places")
 	return places.map((place) => ({
-		params: { place: place.slug },
+		params: { place: place.id },
 		props: { content, place },
 	}))
 }
@@ -21,7 +21,7 @@ type Props = {
 const { place } = Astro.props
 
 const content = Astro.props.content.filter(
-	(entry) => "places" in entry.data && entry.data.places.find((p) => p.slug == place.slug)
+	(entry) => "places" in entry.data && entry.data.places.find((p) => p.id == place.id)
 )
 ---
 

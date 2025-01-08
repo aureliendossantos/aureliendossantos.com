@@ -1,13 +1,13 @@
 ---
-import type { ValidContentEntrySlug } from "astro:content"
-import { getEntryBySlug } from "astro:content"
+import getEntryOrThrow from "$utils/content/getEntryOrThrow"
+import { render } from "astro:content"
 
 interface Props {
-	slug: ValidContentEntrySlug<"resume">
+	id: string
 }
-const { slug } = Astro.props
-const entry = await getEntryBySlug("resume", slug)
-const { Content } = await entry.render()
+const { id } = Astro.props
+const entry = await getEntryOrThrow("resume", id)
+const { Content } = await render(entry)
 ---
 
 <h3>{entry.data.title}</h3>

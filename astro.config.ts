@@ -1,12 +1,14 @@
-import { defineConfig } from "astro/config"
+import { defineConfig, envField } from "astro/config"
 import AutoImport from "astro-auto-import"
-import vercel from "@astrojs/vercel/static"
+import vercel from "@astrojs/vercel"
 import tailwind from "@astrojs/tailwind"
 import mdx from "@astrojs/mdx"
 import icon from "astro-icon"
 import expressiveCode from "astro-expressive-code"
 import { remarkConvertImports } from "./src/utils/remark/convertImports"
 import { remarkAbbr } from "./src/utils/remark/detectAbbr"
+
+const serverField = envField.string({ context: "server", access: "secret" })
 
 // https://astro.build/config
 export default defineConfig({
@@ -92,6 +94,15 @@ export default defineConfig({
 				"radix-icons": ["*"],
 				tabler: ["*"],
 				tdesign: ["*"],
+					"campfire",
+					"plus-circle-outline",
+					"asterisk-circle-outline",
+					"playlist-music",
+				],
+				ph: ["share-network", "file-pdf", "printer", "download-simple"],
+				"radix-icons": ["notion-logo"],
+				tabler: ["copy"],
+				tdesign: ["map-collection"],
 			},
 		}),
 	],
@@ -104,5 +115,23 @@ export default defineConfig({
 		},
 		smartypants: true,
 		remarkPlugins: [remarkConvertImports, remarkAbbr],
+	},
+	env: {
+		schema: {
+			GOOGLE_MAPS_TOKEN: serverField,
+			TWITCH_ID: serverField,
+			TWITCH_SECRET: serverField,
+			DISCOGS_PERSONAL_ACCESS_TOKEN: serverField,
+			NOTION_SECRET: serverField,
+			NOTION_GAMES_DB: serverField,
+			NOTION_WIKI_PAGES_DB: serverField,
+			NOTION_WIKI_CATEGORIES_DB: serverField,
+			TMDB_READ_ACCESS_TOKEN: serverField,
+			SPOTIFY_CLIENT_ID: serverField,
+			SPOTIFY_CLIENT_SECRET: serverField,
+			FORTNITE_FESTIVAL_PAGE_ID: serverField,
+			COFFEE_PAGE_ID: serverField,
+			GITHUB_TOKEN: serverField,
+		},
 	},
 })

@@ -25,10 +25,10 @@ const links = [
 
 <BaseLayout title="CV" ogType="website" bg="#ffffff" description={title}>
 	<div
-		class="mx-auto my-16 max-w-[730px] mediumlarge:mx-16 mediumlarge:max-w-xl medium:mx-4 print:my-0"
+		class="mx-auto my-16 max-w-[730px] mediumlarge:mx-16 mediumlarge:max-w-xl medium:mx-4 print:my-0 print:max-w-none"
 	>
 		<header
-			class="flex items-end justify-between mediumlarge:flex-col mediumlarge:items-stretch mediumlarge:gap-8"
+			class="flex items-end justify-between mediumlarge:flex-col mediumlarge:items-stretch mediumlarge:gap-8 print:flex-row print:items-end"
 		>
 			<div>
 				<div class="mb-4 flex gap-4">
@@ -48,7 +48,7 @@ const links = [
 				<ul>
 					{
 						links.map((link) => (
-							<li class="flex gap-4 print:gap-2">
+							<li class="flex gap-4">
 								<span class="w-20 text-right">{link.title}</span>
 								{/* <span class="hidden text-neutral-400 print:inline">•</span> */}
 								<a href={link.href}>{link.label}</a>
@@ -59,26 +59,26 @@ const links = [
 			</aside>
 		</header>
 		{/* not ideal tweak */}
-		<section class="my-8 mb-[34px] mediumlarge:text-sm">{bio}</section>
+		<section class="my-8 mb-[34px] mediumlarge:text-sm print:text-base">{bio}</section>
 		<section
 			class="grid grid-cols-[230px_1fr] gap-y-8 mediumlarge:grid-cols-1 print:grid-cols-[33%_1fr]"
 		>
 			<h2>Expérience</h2>
 			<div>
-				<ResumeEntry slug="agence-insolence" />
-				<ResumeEntry slug="degica" />
-				<ResumeEntry slug="freelance" />
+				<ResumeEntry id="agence-insolence" />
+				<ResumeEntry id="degica" />
+				<ResumeEntry id="freelance" />
 			</div>
 			<h2>Projets</h2>
 			<div>
-				<ResumeEntry slug="game-dev-alliance" />
-				<ResumeEntry slug="projets-web" />
-				<ResumeEntry slug="unity" />
+				<ResumeEntry id="game-dev-alliance" />
+				<ResumeEntry id="projets-web" />
+				<ResumeEntry id="unity" />
 			</div>
 			<h2>Formation</h2>
 			<div>
-				<ResumeEntry slug="toulouse" />
-				<ResumeEntry slug="pau" />
+				<ResumeEntry id="toulouse" />
+				<ResumeEntry id="pau" />
 			</div>
 			<h2>Langues</h2>
 			<div>
@@ -109,16 +109,16 @@ const links = [
 			"liga" 1;
 	}
 	@page {
-		margin: 1in;
+		margin: 1in 0.4in;
 	}
 	a {
-		@apply underline decoration-amber-500 underline-offset-2 transition hover:text-black print:no-underline;
+		@apply underline decoration-amber-500 underline-offset-2 transition hover:text-black;
 	}
 	h1 {
 		@apply text-2xl font-semibold;
 	}
 	h2 {
-		@apply -mt-[6px] flex items-start gap-4 text-2xl font-[550] mediumlarge:mt-0;
+		@apply -mt-[6px] flex items-start gap-4 text-2xl font-[550] mediumlarge:mt-0 print:-mt-[6px];
 		::after {
 			content: "";
 			@apply mr-4 mt-[0.7em] inline-block h-[2px] flex-1 bg-neutral-300;

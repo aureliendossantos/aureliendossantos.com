@@ -1,5 +1,7 @@
 ---
-const apiKey = import.meta.env.GOOGLE_MAPS_TOKEN
+import { GOOGLE_MAPS_TOKEN } from "astro:env/server"
+
+const apiKey = GOOGLE_MAPS_TOKEN
 ---
 
 <div id="key" class="hidden" data-key={apiKey}></div>

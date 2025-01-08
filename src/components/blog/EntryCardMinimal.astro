@@ -1,19 +1,20 @@
 ---
 import MarkdownIt from "markdown-it"
-import { getEntries } from "astro:content"
+import { getEntries, type CollectionEntry } from "astro:content"
 import { getImage } from "astro:assets"
 import getPalette, { getColor } from "$utils/design/palettes"
 import ArticleDate from "../articles/ArticleDate.astro"
 import type { getContentEntries } from "$utils/getCollection"
 
 interface Props {
-	entry: Awaited<ReturnType<typeof getContentEntries>>
+	entry: CollectionEntry<"blog" | "diary" | "pages" | "portfolio" | "wiki">
 	noPlace?: boolean
 }
 const { entry, noPlace } = Astro.props
 const data = entry.data
 const palette = getPalette(entry.data.palette)
-const showCover = () => data.tags.find((tag) => tag.slug == "photos") && data.image
+const showCover = () =>
+	data.tags.find((tag) => typeof tag != "string" && tag.id == "photos") && data.image
 const optimizedBackground =
 	showCover() && data.image ? await getImage({ src: data.image, width: 500 }) : null
 const place =
@@ -34,7 +35,7 @@ const title = markdown.renderInline(data.title)
 		"--text": getColor(palette.baseColor),
 		"--secondary-color": getColor(palette.secondaryColor),
 	}}
-	href={`/${entry.slug}`}
+	href={`/${entry.id}`}
 >
 	<div
 		class="mx-auto max-w-[calc(500px+2em)] bg-[--bg] bg-cover bg-center px-[calc(20px+1em)] py-[14px] text-[--text] small:px-5"

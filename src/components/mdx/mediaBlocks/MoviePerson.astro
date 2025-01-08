@@ -2,6 +2,7 @@
 import RefBlock from "$components/RefBlock.astro"
 import { getCacheOrFetch } from "$utils/cache"
 import formatDate from "$utils/formatting/formatDate"
+import { TMDB_READ_ACCESS_TOKEN } from "astro:env/server"
 
 interface Props {
 	id: string
@@ -18,13 +19,13 @@ const person = await getCacheOrFetch(
 			method: "GET",
 			headers: {
 				accept: "application/json",
-				Authorization: `Bearer ${import.meta.env.TMDB_READ_ACCESS_TOKEN}`,
+				Authorization: `Bearer ${TMDB_READ_ACCESS_TOKEN}`,
 			},
 		}
 		const person = await fetch(`https://api.themoviedb.org/3/person/${id}?language=fr-Fr`, options)
 			.then((response) => response.json())
 			.catch((err) => console.error(err))
-		if (person.success == false) throw new Error(`TMDB API Error: ${person}`)
+		if (person.success == false) throw new Error(`TMDB API Error: ${JSON.stringify(person)}`)
 		return person
 	},
 	1
@@ -46,10 +47,10 @@ links.push(["<abbr>TMDB</abbr>", `https://www.themoviedb.org/person/${id}?langua
 		? `https://image.tmdb.org/t/p/original${person.profile_path}`
 		: undefined}
 	title={person.name}
-	infos={infos}
-	links={links}
+	{infos}
+	{links}
 	imgOnly={posterOnly}
-	popupId={popupId}
+	{popupId}
 	posterRatio={popupId ? "movie" : undefined}
 	big
 />

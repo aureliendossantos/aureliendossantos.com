@@ -1,6 +1,7 @@
 ---
 import RefBlock from "$components/RefBlock.astro"
-import { Discojs } from "discojs"
+import { DiscogsClient } from "@lionralfs/discogs-client"
+import { DISCOGS_PERSONAL_ACCESS_TOKEN } from "astro:env/server"
 
 interface Props {
 	master?: number
@@ -9,21 +10,21 @@ interface Props {
 }
 const { master, release, label } = Astro.props
 
-const client = new Discojs({
-	userToken: import.meta.env.DISCOGS_PERSONAL_ACCESS_TOKEN,
-})
+const db = new DiscogsClient({
+	auth: { userToken: DISCOGS_PERSONAL_ACCESS_TOKEN },
+}).database()
 
-const data: any = master
-	? await client.getMaster(master).then((data) => {
+const data = master
+	? await db.getMaster(master).then(({ rateLimit, data }) => {
 			return data
 		})
-	: await client.getRelease(release || 0).then((data) => {
+	: await db.getRelease(release || 0).then(({ rateLimit, data }) => {
 			return data
 		})
 
 const infos = []
 infos.push(data.artists.map((artist: any) => artist.name).join(", "))
-if (label && data.labels)
+if (label && "labels" in data && data.labels)
 	infos.push(`${data.labels.map((label: any) => label.name).join(", ")}, ${data.country}`)
 infos.push(`${data.tracklist.length} pistes`)
 ---
@@ -31,7 +32,7 @@ infos.push(`${data.tracklist.length} pistes`)
 <RefBlock
 	img={data.images[0].uri}
 	title={`${data.title} (${data.year})`}
-	infos={infos}
+	{infos}
 	links={[
 		["Vidéo", data.videos[0].uri],
 		["Discogs", data.uri],

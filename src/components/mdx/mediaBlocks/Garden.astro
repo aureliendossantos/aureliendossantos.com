@@ -1,27 +1,25 @@
 ---
 import RenderBlocks from "$components/notion/RenderBlocks.astro"
+import getEntryOrThrow from "$utils/content/getEntryOrThrow"
 import NewPopup from "../PopupV2.astro"
-import type { DataEntryMap } from "astro:content"
-import { getEntry } from "astro:content"
 
 interface Props {
-	slug: keyof DataEntryMap["wiki"]
+	id: string
 	diary?: boolean
 }
-const { slug, diary } = Astro.props
+const { id, diary } = Astro.props
 
-const entry = await getEntry({ collection: "wiki", slug: slug })
-if (!entry) throw new Error(`No wiki entry found for slug "${slug}"`)
+const entry = await getEntryOrThrow("wiki", id)
 const data = entry.data
 ---
 
 <NewPopup
 	icon="garden"
 	navBarTitle={data.title}
-	navBarLinks={[{ title: "Jardin", url: `/${slug}` }]}
-	url={`/${slug}`}
+	navBarLinks={[{ title: "Jardin", url: `/${id}` }]}
+	url={`/${id}`}
 	padding
-	diary={diary}
+	{diary}
 >
 	<slot />
 	<Fragment slot="popup-contents">

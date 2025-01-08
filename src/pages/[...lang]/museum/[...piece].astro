@@ -1,6 +1,6 @@
 ---
 import MuseumLayout from "$layouts/MuseumLayout.astro"
-import { getCollection } from "astro:content"
+import { getCollection, render } from "astro:content"
 import Image from "$components/Image.astro"
 import AudioPlayer from "$components/museum/AudioPlayer.astro"
 import { getDomainName } from "$utils/formatting/formatUrl"
@@ -15,18 +15,18 @@ export async function getStaticPaths() {
 		entries.map((entry) => {
 			const locale = checkLocale(lang)
 			return {
-				params: { lang, piece: entry.slug },
+				params: { lang, piece: entry.id },
 				props: { entry, t: useTranslations(locale), locale },
 			}
 		})
 	)
 }
 const { entry, t, locale } = Astro.props
-const { Content } = await entry.render()
+const { Content } = await render(entry)
 const data = entry.data
 const pieceTitle = title(entry.data.title, locale)
 
-const authorSlug = entry.slug.split("/")[0]
+const authorSlug = entry.id.split("/")[0]
 // Reasons for the import structure: https://github.com/rollup/plugins/tree/master/packages/dynamic-import-vars#limitations
 const audio =
 	data.audio &&

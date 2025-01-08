@@ -38,7 +38,7 @@ if (!(year in wrapups)) throw new Error(`Year ${year} not in wrapup`)
 			entries.map((entry, index) => {
 				return (
 					<div
-						id={`${entry.slug}-image`}
+						id={`${entry.id}-image`}
 						data-year={year}
 						class:list={[
 							"absolute h-full w-full transition-opacity",
@@ -74,10 +74,10 @@ if (!(year in wrapups)) throw new Error(`Year ${year} not in wrapup`)
 				{
 					entries.map((entry) => (
 						<a
-							id={`${entry.slug}-link`}
+							id={`${entry.id}-link`}
 							data-year={year}
 							class="diary-entry border-dashed border-black/10 bg-white px-8 py-2 text-sm text-zinc-700 transition-colors hover:bg-zinc-100 small:border-t small:px-2 small:py-1"
-							href={`/diary/${entry.slug}`}
+							href={`/diary/${entry.id}`}
 							data-category={entry.category}
 						>
 							<div class="font-medium">

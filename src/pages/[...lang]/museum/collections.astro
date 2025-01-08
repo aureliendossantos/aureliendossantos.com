@@ -2,7 +2,7 @@
 import MuseumLayout from "$layouts/MuseumLayout.astro"
 import { getCollection } from "astro:content"
 import Image from "$components/Image.astro"
-import { getEntry } from "astro:content"
+import getEntryOrThrow from "$utils/content/getEntryOrThrow"
 import { localePaths } from "$utils/i18n"
 import { author, multiText, title } from "$utils/museum"
 
@@ -13,7 +13,10 @@ const { t, locale } = Astro.props
 
 const col = await getCollection("collections")
 const collections = await Promise.all(
-	col.map(async (entry) => ({ highlight: await getEntry(entry.data.highlight), ...entry }))
+	col.map(async (entry) => ({
+		highlight: await getEntryOrThrow("pieces", entry.data.highlight.id),
+		...entry,
+	}))
 )
 ---
 
@@ -28,7 +31,7 @@ const collections = await Promise.all(
 	<div class="flex flex-wrap gap-8">
 		{
 			collections.map((col) => (
-				<a href={`/museum/${col.slug}`}>
+				<a href={`/museum/${col.id}`}>
 					<div class="h-64 w-64 mediumlarge:h-48 mediumlarge:w-48">
 						{col.highlight.data.image && (
 							<Image

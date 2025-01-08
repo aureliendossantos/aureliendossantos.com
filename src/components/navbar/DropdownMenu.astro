@@ -1,4 +1,6 @@
 ---
+import type { AstroBuiltinAttributes } from "astro"
+
 interface Props {
 	id: string
 	label?: string
@@ -10,6 +12,7 @@ interface Props {
 	truncate?: "medium" | "mediumlarge" | "xl"
 	chevron?: boolean
 	keepOpenOnClick?: boolean
+	classes?: AstroBuiltinAttributes["class:list"]
 }
 const {
 	id,
@@ -21,6 +24,7 @@ const {
 	truncate,
 	chevron,
 	keepOpenOnClick,
+	classes,
 } = Astro.props
 ---
 
@@ -35,6 +39,7 @@ const {
 		]}
 	>
 		<slot name="icon" />
+		<slot name="label" />
 		{
 			label && (
 				<div
@@ -60,6 +65,7 @@ const {
 		id={`${id}-dropdown`}
 		class:list={[
 			"invisible absolute bottom-7 z-10 bg-black",
+			classes,
 			{ "left-0": !alignRight, "right-0": alignRight },
 		]}
 		role="menu"
@@ -73,7 +79,7 @@ const {
 	</div>
 </div>
 
-<script define:vars={{ id, keepOpenOnClick }}>
+<script is:inline define:vars={{ id, keepOpenOnClick }}>
 	// Prevent the script to be ran when the page changes
 	if (!window[id]) {
 		window[id] = true

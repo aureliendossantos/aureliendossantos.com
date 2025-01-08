@@ -7,6 +7,7 @@ import getDatabase from "./getDatabase"
 import getChildren from "./getChildren"
 import getIGDBgames, { type IGDBData } from "$utils/remoteData/igdb"
 import type { Title, RichText, Select, Status, MultiSelect, Checkbox } from "./types"
+import type { Logger } from "$utils/remoteData/loaders"
 
 type GameEntry = PageObjectResponse & {
 	properties: {
@@ -26,16 +27,19 @@ type GameEntry = PageObjectResponse & {
 }
 
 export default async function getGames(
-	filter: QueryDatabaseParameters["filter"],
-	firstResults = false,
-	numberOfItems: number | undefined = undefined
+	opts?: {
+		filter?: QueryDatabaseParameters["filter"]
+		firstResults?: boolean
+		numberOfItems?: number
+	},
+	logger: Logger = console.log //(msg: string) => console.log(`getGames: ${msg}`)
 ) {
-	console.log("Getting Notion games...")
+	const { filter, firstResults, numberOfItems } = opts || {}
+	logger("Getting Notion games...")
 	const notionResponse = await getDatabase(
-		import.meta.env ? import.meta.env.NOTION_GAMES_DB : process.env.NOTION_GAMES_DB,
-		filter,
-		firstResults,
-		numberOfItems
+		process.env.NOTION_GAMES_DB!,
+		{ filter, firstResults, numberOfItems },
+		logger
 	)
 	const typedEntries: GameEntry[] = notionResponse.map((game) => game as GameEntry)
 	const notionGames = await Promise.all(
@@ -43,6 +47,7 @@ export default async function getGames(
 			const p = game.properties
 			return {
 				title: p.Nom.title[0].type == "text" ? p.Nom.title[0].text.content : "default",
+				id: p.slug.rich_text[0] ? p.slug.rich_text[0].plain_text : game.id,
 				slug: p.slug.rich_text[0] && p.slug.rich_text[0].plain_text,
 				quickReview: p.Appréciation.select && p.Appréciation.select.name,
 				review: p.Commentaire.rich_text[0] && p.Commentaire.rich_text[0].plain_text,
@@ -57,15 +62,15 @@ export default async function getGames(
 			}
 		})
 	)
-	console.log(`Loaded ${notionGames.length} games`)
+	logger(`Loaded ${notionGames.length} games`)
 	// Get all IGDB games in one query
 	const slugs = notionGames.filter((game) => game.slug).map((game) => game.slug)
-	const igdb = await getIGDBgames(slugs)
+	const igdb = await getIGDBgames(slugs, logger)
 	// Adds IGDB data to each game if it exists
 	const games = notionGames.map((game) => {
 		if (game.slug) {
 			game.igdb = igdb.find((i) => i.slug == game.slug) || null
-			if (game.igdb == null) console.log("Could not find IGDB data for " + game.slug)
+			if (!game.igdb) logger(`Could not find IGDB data for ${game.title}.`)
 		}
 		return game
 	})

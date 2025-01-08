@@ -9,8 +9,11 @@ interface Props {
 }
 
 function getResolution(line: (typeof lines)[number]) {
-	if (line[1] == "full" && line[0].length >= 2) return "normal"
-	if (line[1] == "wide" || line[1] == "full") return "high"
+	if (line[1] == "full" || line[1] == "wide") {
+		if (line[0].length == 2) return "normal"
+		if (line[0].length >= 3) return "half"
+		return "high"
+	}
 	if (line[0].length == 2) return "half"
 	if (line[0].length >= 3) return "third"
 	return "normal"

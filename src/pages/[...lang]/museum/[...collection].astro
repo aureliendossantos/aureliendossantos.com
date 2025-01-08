@@ -1,6 +1,6 @@
 ---
 import MuseumLayout from "$layouts/MuseumLayout.astro"
-import { getCollection } from "astro:content"
+import { getCollection, render } from "astro:content"
 import { checkLocale, langParams, useTranslations } from "$utils/i18n"
 import { multiText } from "$utils/museum"
 import PieceThumbnail from "$components/museum/PieceThumbnail.astro"
@@ -12,11 +12,11 @@ export async function getStaticPaths() {
 	return langParams.flatMap((lang) => {
 		const locale = checkLocale(lang)
 		return collections.map((collection) => ({
-			params: { lang, collection: collection.slug },
+			params: { lang, collection: collection.id },
 			props: {
 				collection,
 				pieces: pieces.filter((piece) =>
-					piece.data.collections.map((c) => c.slug).includes(collection.slug)
+					piece.data.collections.map((c) => c.id).includes(collection.id)
 				),
 				t: useTranslations(locale),
 				locale,
@@ -25,7 +25,7 @@ export async function getStaticPaths() {
 	})
 }
 const { collection, pieces, t, locale } = Astro.props
-const { Content } = await collection.render()
+const { Content } = await render(collection)
 const data = collection.data
 const title = multiText(data.title, locale)
 ---

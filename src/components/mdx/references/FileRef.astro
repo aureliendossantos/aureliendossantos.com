@@ -3,7 +3,7 @@ import { ensureFolderExists } from "$utils/cache"
 
 interface Props {
 	file: string
-	type: "component" | "page" | "util" | "style"
+	type: "component" | "page" | "util" | "style" | "src"
 	noText?: boolean
 }
 const { file, type, noText } = Astro.props
@@ -19,6 +19,8 @@ const folderUrl = () => {
 			return "src/utils"
 		case "style":
 			return "src/styles"
+		case "src":
+			return "src"
 	}
 }
 const url = `${githubUrl}${folderUrl()}/${file}`

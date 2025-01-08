@@ -5,13 +5,14 @@ import { getDiary } from "$utils/getCollection"
 import { getImage } from "astro:assets"
 import { Icon } from "astro-icon/components"
 import EntryIcon from "$components/diary/EntryIcon.astro"
+import placesImg from "$styles/assets/places.jpg"
 
 const entries = await getDiary()
 // Get a list of unique years in diary entries
 const years = Array.from(new Set(entries.map((entry) => entry.year))).sort((a, b) => b - a)
 
 const placesImage = await getImage({
-	src: (await import("./images/places.jpg")).default,
+	src: placesImg,
 	width: 800,
 	alt: "Rue de Lisbonne",
 })
@@ -48,7 +49,7 @@ const filters = [
 								return (
 									<a
 										class="diary-entry flex justify-between px-8 py-2 text-sm text-zinc-700 transition-colors hover:bg-zinc-100"
-										href={`/diary/${entry.slug}`}
+										href={`/diary/${entry.id}`}
 										data-category={entry.category}
 									>
 										<div class="font-medium">

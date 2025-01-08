@@ -28,7 +28,7 @@ const mobileGridRows = Math.ceil(ingredients.length / 2)
 // How many columns are needed to display ingredients without icon in a 3-row grid list?
 const noIconSectionCols = Math.ceil(ingredientsWithoutIcon.length / 3)
 
-const clipboardIngredients = ingredients.map((ingredient, index) => {
+const clipboardIngredients = ingredients.map((ingredient) => {
 	return ingredient.data.title + (ingredient.quantity ? ` : ${ingredient.quantity}` : "")
 })
 const googleKeep = clipboardIngredients.join("\n")

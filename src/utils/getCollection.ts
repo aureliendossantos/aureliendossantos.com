@@ -1,6 +1,7 @@
-import { getCollection, getEntry, type CollectionEntry } from "astro:content"
+import { getCollection, type CollectionEntry } from "astro:content"
 import { getPlace } from "./remoteData/googleMaps"
 import { dateSort } from "./sort"
+import getEntryOrThrow from "./content/getEntryOrThrow"
 
 // Get all articles that are blog posts
 export default async function getBlogPosts(drafts = true) {
@@ -30,9 +31,8 @@ export async function getDiary(drafts = true) {
 		.sort((a, b) => dateSort(a.data.date, b.data.date))
 }
 
-export async function getDiaryEntry(slug: string) {
-	const entry = await getEntry("diary", slug)
-	if (!entry) throw new Error(`No diary entry found for slug: ${slug}`)
+export async function getDiaryEntry(id: string) {
+	const entry = await getEntryOrThrow("diary", id)
 	return getDiaryData(entry)
 }
 
@@ -64,9 +64,8 @@ export async function getPlaceCollection(hidden = false) {
 		.sort((a, b) => a.maps.icon?.localeCompare(b.maps.icon || "") || 0)
 }
 
-export async function getPlaceCollectionEntry(slug: string) {
-	const entry = await getEntry("places", slug)
-	if (!entry) throw new Error(`No place collection entry found for slug: ${slug}`)
+export async function getPlaceEntry(id: string) {
+	const entry = await getEntryOrThrow("places", id)
 	return getPlaceEntryData(entry)
 }
 
@@ -78,13 +77,13 @@ export const getContentEntries = async () => {
 	const wiki = await getCollection("wiki")
 	return [
 		...articles,
-		...portfolio.map((entry) => ({ ...entry, slug: `portfolio/${entry.slug}` })),
+		...portfolio.map((entry) => ({ ...entry, slug: `portfolio/${entry.id}` })),
 		...pages,
-		...diary.map((entry) => ({ ...entry, slug: `diary/${entry.slug}` })),
+		...diary.map((entry) => ({ ...entry, slug: `diary/${entry.id}` })),
 		...wiki.map((entry) => ({ ...entry.data, data: entry.data })),
 	]
 }
 
-export const getAnyEntry = async (slugs: string[]) => {
-	return (await getContentEntries()).filter((e) => slugs.includes(e.slug))
+export const getAnyEntry = async (ids: string[]) => {
+	return (await getContentEntries()).filter((e) => ids.includes(e.id))
 }

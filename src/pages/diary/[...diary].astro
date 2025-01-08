@@ -1,9 +1,9 @@
 ---
-import { type CollectionEntry } from "astro:content"
+import { type CollectionEntry, render } from "astro:content"
 import BaseLayout from "$layouts/BaseLayout.astro"
 import DiaryLayout from "$layouts/DiaryLayout.astro"
 import PlacesList from "$components/places/PlacesList.astro"
-import { getDiary, getPlaceCollectionEntry } from "$utils/getCollection"
+import { getDiary, getPlaceEntry } from "$utils/getCollection"
 import ArticleDate from "$components/articles/ArticleDate.astro"
 import InitMaps from "$components/places/InitMaps.astro"
 import Article from "$layouts/Article.astro"
@@ -11,7 +11,7 @@ import Article from "$layouts/Article.astro"
 export async function getStaticPaths() {
 	const entries = await getDiary()
 	return entries.map((entry) => ({
-		params: { diary: entry.slug },
+		params: { diary: entry.id },
 		props: { entry },
 	}))
 }
@@ -21,12 +21,10 @@ interface Props {
 }
 const { entry } = Astro.props
 
-const { Content, headings } = await entry.render()
+const { Content, headings } = await render(entry)
 const data = entry.data
 
-const places = await Promise.all(
-	data.places.map(async (place) => await getPlaceCollectionEntry(place.slug))
-)
+const places = await Promise.all(data.places.map(async (place) => await getPlaceEntry(place.id)))
 ---
 
 {

@@ -1,13 +1,13 @@
 ---
 import EntryCardMinimal from "$components/blog/EntryCardMinimal.astro"
 import Explore from "$layouts/Explore.astro"
-import { getEntryBySlug } from "astro:content"
-import getBlogPosts, { getContentEntries } from "$utils/getCollection"
+import getEntryOrThrow from "$utils/content/getEntryOrThrow"
+import { getContentEntries } from "$utils/getCollection"
 import getUniqueValuesAndOccurences from "$utils/getUniqueValuesAndOccurences"
 
 const content = await getContentEntries()
 const rawPlaces = content.map((entry) =>
-	"places" in entry.data ? entry.data.places.map((p) => p.slug) : []
+	"places" in entry.data ? entry.data.places.map((p) => p.id) : []
 )
 const uniquePlaces = getUniqueValuesAndOccurences(rawPlaces)
 
@@ -15,10 +15,10 @@ const places = await Promise.all(
 	Object.entries(uniquePlaces).map(async ([placeSlug, amount]) => {
 		return {
 			slug: placeSlug,
-			place: await getEntryBySlug("places", placeSlug),
+			place: await getEntryOrThrow("places", placeSlug),
 			articlesAmount: amount,
 			articles: content.filter(
-				(entry) => "places" in entry.data && entry.data.places.find((p) => p.slug == placeSlug)
+				(entry) => "places" in entry.data && entry.data.places.find((p) => p.id == placeSlug)
 			),
 		}
 	})

@@ -1,5 +1,5 @@
 ---
-import { type CollectionEntry, getCollection } from "astro:content"
+import { type CollectionEntry, getCollection, render } from "astro:content"
 import BaseLayout from "$layouts/BaseLayout.astro"
 import formatDate from "$utils/formatting/formatDate"
 
@@ -8,7 +8,7 @@ export async function getStaticPaths() {
 		return data.clickable
 	})
 	return gear.map((gear) => ({
-		params: { gear: gear.slug },
+		params: { gear: gear.id },
 		props: { gear },
 	}))
 }
@@ -17,7 +17,7 @@ interface Props {
 	gear: CollectionEntry<"gear">
 }
 const { gear } = Astro.props
-const { Content } = await gear.render()
+const { Content } = await render(gear)
 const data = gear.data
 ---
 

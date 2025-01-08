@@ -23,23 +23,39 @@ let numbered_list: RichTextItemResponse[][] = []
 {
 	blocks.map(async (block, index, blocks) => {
 		switch (block.type) {
+			// Toggle headings are simply "heading_x" types with children.
 			case "heading_1":
 				return (
-					<h2 id={block.id}>
-						<RenderRichText text={block.heading_1.rich_text} />
-					</h2>
+					<>
+						<h2 id={block.id}>
+							<RenderRichText text={block.heading_1.rich_text} />
+						</h2>
+						<Astro.self
+							blocks={"children" in block ? (block.children as BlockObjectResponse[]) : []}
+						/>
+					</>
 				)
 			case "heading_2":
 				return (
-					<h3 id={block.id}>
-						<RenderRichText text={block.heading_2.rich_text} />
-					</h3>
+					<>
+						<h3 id={block.id}>
+							<RenderRichText text={block.heading_2.rich_text} />
+						</h3>
+						<Astro.self
+							blocks={"children" in block ? (block.children as BlockObjectResponse[]) : []}
+						/>
+					</>
 				)
 			case "heading_3":
 				return (
-					<h4 id={block.id}>
-						<RenderRichText text={block.heading_3.rich_text} />
-					</h4>
+					<>
+						<h4 id={block.id}>
+							<RenderRichText text={block.heading_3.rich_text} />
+						</h4>
+						<Astro.self
+							blocks={"children" in block ? (block.children as BlockObjectResponse[]) : []}
+						/>
+					</>
 				)
 			case "paragraph":
 				return (
@@ -311,7 +327,7 @@ let numbered_list: RichTextItemResponse[][] = []
 				return (
 					<>
 						<p class="error">Bloc non supporté (type {block.type})</p>
-						<pre>{JSON.stringify(block, null, 2)}</pre>
+						{import.meta.env.DEV && <pre>{JSON.stringify(block, null, 2)}</pre>}
 					</>
 				)
 		}

@@ -6,18 +6,18 @@ function capitalize(string: string) {
 }
 
 /**
- * "See also" is like "related articles" but for pages. Unlike articles, it's a list of manually defined slugs.
- * If the slug corresponds to an entry in the pages collection, we display its title.
- * If the entry can't be found, it's assumed that it's an `.astro` page. We simply capitalize the slug and hope that the result will look good.
- * @param slugs slugs from the pages collection or from a .astro page
+ * "See also" is like "related articles" but for pages. Unlike articles, it's a list of manually defined IDs.
+ * If the ID corresponds to an entry in the pages collection, we display its title.
+ * If the entry can't be found, it's assumed that it's an `.astro` page slug. We simply capitalize the ID and hope that the result will look good.
+ * @param ids IDs from the pages collection or an .astro page slug
  * @see `getRelatedArticles.ts`
  */
-export default async function getSeeAlso(slugs: string[]): Promise<NavBarProps["related"]> {
+export default async function getSeeAlso(ids: string[]): Promise<NavBarProps["related"]> {
 	return await Promise.all(
-		slugs.map(async (slug) => {
-			const entry = await getEntry("pages", slug)
-			if (entry) return { title: entry.data.title, href: `/${slug}` }
-			return { title: capitalize(slug), href: `/${slug}` }
+		ids.map(async (id) => {
+			const entry = await getEntry("pages", id)
+			if (entry) return { title: entry.data.title, href: `/${id}` }
+			return { title: capitalize(id), href: `/${id}` }
 		})
 	)
 }

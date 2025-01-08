@@ -56,7 +56,7 @@ const service: LocalImageServiceWithPlaceholder = {
 		// SSG with Vercel: "./.vercel/output/static/"
 		const originalFileBuffer =
 			!remote && import.meta.env.PROD
-				? readFileSync("./.vercel/output/static/" + src)
+				? readFileSync("./dist/" + src)
 				: await fetch(remote ? src : new URL(src, getBaseSiteURL()))
 						.then((response) => response.arrayBuffer())
 						.then((buffer) => Buffer.from(buffer))

@@ -1,7 +1,8 @@
 ---
-import { getEntry, type CollectionEntry } from "astro:content"
+import { type CollectionEntry } from "astro:content"
+import getEntryOrThrow from "$utils/content/getEntryOrThrow"
 import BaseLayout from "./BaseLayout.astro"
-import getPalette, { getColor, PaletteName } from "$utils/design/palettes"
+import getPalette, { PaletteName, paletteVariables } from "$utils/design/palettes"
 import ArticleHeader from "$components/articles/ArticleHeader.astro"
 import TableOfContents from "$components/articles/TableOfContents.astro"
 import type { MarkdownHeading } from "astro"
@@ -11,7 +12,6 @@ import getRelatedArticles from "$utils/getRelatedArticles"
 import NavbarAccessFooter from "$components/navbar/NavbarAccessFooter.astro"
 import getSeeAlso from "$utils/getSeeAlso"
 import GenerateSidenotes from "$components/sidenotes/GenerateSidenotes.astro"
-import MarkdownIt from "markdown-it"
 
 interface Props {
 	article: CollectionEntry<"blog" | "pages" | "diary">
@@ -22,30 +22,33 @@ interface Props {
 const { article, collection, headings } = Astro.props
 const data = article.data
 const date = "date" in data ? data.date : undefined
-const wide = data.tags.find((tag) => tag.slug == "photos") && !data.forceNarrow
+const wide = data.tags.find((tag) => tag.id == "photos") && !data.forceNarrow
 // Alternative layouts
 const customLayout = data.customLayout
 const sidenotes = data.sidenotes
 if (sidenotes && headings.at(-1)?.text == "Notes") headings.pop()
 // Images
-const ogImage = data.opengraph || data.image
+const ogImage = "opengraph" in data && data.opengraph ? data.opengraph : data.image
 const coverImage = data.cover && data.image ? data.image : undefined
 const palette = getPalette(data.palette)
 // Related articles
 const relatedArticles = async () => {
-	switch (collection) {
+	switch (article.collection) {
 		case "blog":
 			return (await getRelatedArticles(article as CollectionEntry<"blog">)).map((a) => ({
 				title: a.article.data.title,
-				href: `/${a.article.slug}`,
+				href: `/${a.article.id}`,
 			}))
 		case "pages":
-			return await getSeeAlso(data.seeAlso)
+			return await getSeeAlso(article.data.seeAlso)
 		default:
 			return undefined
 	}
 }
-const parent = collection == "pages" && data.parent && (await getEntry("pages", data.parent))
+const parent =
+	article.collection == "pages" &&
+	article.data.parent &&
+	(await getEntryOrThrow("pages", article.data.parent))
 
 const removeStyle = (str: string) => str.replaceAll("*", "")
 const maybeRemoveStyle = (str?: string) => str?.replaceAll("*", "")
@@ -55,7 +58,7 @@ const maybeRemoveStyle = (str?: string) => str?.replaceAll("*", "")
 	ogType="article"
 	title={removeStyle(data.title)}
 	description={maybeRemoveStyle(data.description)}
-	date={date}
+	{date}
 	image={ogImage?.src}
 	bg={palette.bgColor}
 	popupBorderColor={palette.popupBorderColor}
@@ -63,13 +66,14 @@ const maybeRemoveStyle = (str?: string) => str?.replaceAll("*", "")
 	codeTheme={palette.codeTheme}
 	paletteName={palette.name}
 	layout={data.layouts}
+	viewportCover
 	navBarProps={{
 		title: removeStyle(data.title),
 		parent:
 			collection == "blog"
 				? { title: "Blog", href: "/" }
 				: parent
-					? { title: parent.data.title, href: `/${parent.slug}` }
+					? { title: parent.data.title, href: `/${parent.id}` }
 					: undefined,
 		related: await relatedArticles(),
 		relatedTitle: collection == "blog" ? "Articles similaires" : "Voir aussi",
@@ -78,47 +82,19 @@ const maybeRemoveStyle = (str?: string) => str?.replaceAll("*", "")
 >
 	<div
 		class:list={["article-styling notw", { "with-sidenotes": sidenotes }]}
-		style={{
-			"--base-color": getColor(palette.baseColor),
-			"--dark-base-color": getColor(palette.baseColor, "dark"),
-			"--secondary-color": getColor(palette.secondaryColor),
-			"--dark-secondary-color": getColor(palette.secondaryColor, "dark"),
-			"--special-color": getColor(palette.specialColor),
-			"--dark-special-color": getColor(palette.specialColor, "dark"),
-			"--bg-color": getColor(palette.bgColor),
-			"--dark-bg-color": getColor(palette.bgColor, "dark"),
-			"--border-color": getColor(palette.popupBorderColor),
-			"--dark-border-color": getColor(palette.popupBorderColor, "dark"),
-			"--bg-mention-color": getColor(palette.mentionBgColor),
-			"--dark-bg-mention-color": getColor(palette.mentionBgColor, "dark"),
-			"--bg-mention-hover-color": getColor(palette.mentionHoverBgColor),
-			"--dark-bg-mention-hover-color": getColor(palette.mentionHoverBgColor, "dark"),
-			"--base-font": palette.baseFont,
-			"--code-font": palette.codeFont,
-			"--font-size": palette.fontSize,
-			"--sm-font-size": "16px",
-			"--code-font-size": palette.codeFontSize,
-			"--note-font-size": palette.noteFontSize,
-			"--sm-note-font-size": palette.smNoteFontSize,
-			"--line-height": palette.lineHeight,
-			"--sm-line-height": palette.lineHeight * 1.1,
-			"--indent": "calc(var(--font-size) * var(--line-height))",
-			"--sm-indent": "calc(var(--sm-font-size) * var(--sm-line-height))",
-			"--page-width": palette.pageWidth,
-			"--internal-link-decoration": palette.internalLinks,
-		}}
+		style={paletteVariables(palette)}
 	>
 		<ArticleHeader
 			title={data.title}
 			description={data.description}
 			longDescription={data.longDesc}
 			tags={data.tags}
-			date={date}
+			{date}
 			cover={coverImage}
-			palette={palette}
+			{palette}
 			layouts={data.layouts}
 			sidenotes={Boolean(sidenotes)}
-			wide={wide}
+			{wide}
 			anchorTop={data.imageAnchorTop}
 		/>
 		<main
@@ -146,20 +122,17 @@ const maybeRemoveStyle = (str?: string) => str?.replaceAll("*", "")
 	</div>
 </BaseLayout>
 
-<style
-	define:vars={{ displayFont: palette.displayFont, headingsFont: palette.headingsFont }}
-	is:global
->
+<style is:global>
 	.article-styling {
 		h1 {
-			font-family: var(--displayFont);
+			font-family: var(--display-font);
 		}
 		h2,
 		h3,
 		h4,
 		h5,
 		h6 {
-			font-family: var(--headingsFont);
+			font-family: var(--headings-font);
 		}
 	}
 </style>

@@ -1,5 +1,5 @@
 ---
-import { getCollection } from "astro:content"
+import { getCollection, render } from "astro:content"
 import Article from "$layouts/Article.astro"
 
 export async function getStaticPaths() {
@@ -7,15 +7,15 @@ export async function getStaticPaths() {
 		return !data.draft || import.meta.env.DEV
 	})
 	return individualPages.map((article) => ({
-		params: { page: article.slug },
+		params: { page: article.id },
 		props: { article },
 	}))
 }
 
 const { article } = Astro.props
-const { Content, headings } = await article.render()
+const { Content, headings } = await render(article)
 ---
 
-<Article article={article} collection="pages" headings={headings}>
+<Article {article} {headings} collection="pages">
 	<Content />
 </Article>

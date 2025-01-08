@@ -13,7 +13,7 @@ const { piece } = Astro.props
 const locale = checkLocale(Astro.currentLocale)
 ---
 
-<a href={`/museum/${piece.slug}`}>
+<a href={`/museum/${piece.id}`}>
 	<div class="aspect-square">
 		{
 			piece.data.image && (

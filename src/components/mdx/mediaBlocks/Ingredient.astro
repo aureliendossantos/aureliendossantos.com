@@ -1,24 +1,24 @@
 ---
 import type { CollectionEntry } from "astro:content"
 import NewPopup from "../PopupV2.astro"
-import { getEntry } from "astro:content"
+import { render } from "astro:content"
+import getEntryOrThrow from "$utils/content/getEntryOrThrow"
 import IngredientInPopup from "$components/mdx/mediaBlocks/IngredientInPopup.astro"
 
 interface Props {
-	slug: CollectionEntry<"ingredients">["slug"]
+	id: CollectionEntry<"ingredients">["id"]
 }
-const { slug } = Astro.props
+const { id } = Astro.props
 
-const ingredient = await getEntry("ingredients", slug)
-if (!ingredient) throw new Error(`Ingredient not found: ${slug}`)
-const { Content } = await ingredient.render()
+const ingredient = await getEntryOrThrow("ingredients", id)
+const { Content } = await render(ingredient)
 const data = ingredient.data
 ---
 
 <NewPopup
 	icon="chef-hat"
 	navBarTitle={data.title}
-	navBarLinks={[{ title: "Ouvrir la page", url: `/kitchen/${ingredient.slug}` }]}
+	navBarLinks={[{ title: "Ouvrir la page", url: `/kitchen/${ingredient.id}` }]}
 	padding
 	kitchen={true}
 >

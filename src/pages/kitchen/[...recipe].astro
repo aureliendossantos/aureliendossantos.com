@@ -2,13 +2,13 @@
 import IngredientList from "$components/kitchen/IngredientList.astro"
 import KitchenLayout from "$layouts/KitchenLayout.astro"
 import Ingredient from "$components/mdx/mediaBlocks/Ingredient.astro"
-import { getEntries } from "astro:content"
+import { getEntries, render } from "astro:content"
 import { type CollectionEntry, getCollection } from "astro:content"
 
 export async function getStaticPaths() {
 	const recipes = await getCollection("recipes", ({ data }) => !data.draft)
 	return recipes.map((recipe) => ({
-		params: { recipe: recipe.slug },
+		params: { recipe: recipe.id },
 		props: { recipe },
 	}))
 }
@@ -17,7 +17,7 @@ interface Props {
 	recipe: CollectionEntry<"recipes">
 }
 const { recipe } = Astro.props
-const { Content } = await recipe.render()
+const { Content } = await render(recipe)
 const data = recipe.data
 const ingredientEntries = data.ingredients.map((i) => (Array.isArray(i) ? i[0] : i))
 const quantities = data.ingredients.map((i) => (Array.isArray(i) ? i[1] : null))
@@ -31,6 +31,6 @@ const ingredients = await getEntries(ingredientEntries)
 >
 	<h1>{data.title}</h1>
 	{ingredients.length > 0 && <h2>Ingrédients</h2>}
-	<IngredientList ingredients={ingredients} quantities={quantities} inRecipe />
+	<IngredientList {ingredients} {quantities} inRecipe />
 	<Content components={{ Ing: Ingredient }} />
 </KitchenLayout>

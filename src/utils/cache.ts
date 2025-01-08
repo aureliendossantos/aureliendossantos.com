@@ -30,6 +30,7 @@ export async function getCacheOrFetch<T>(
 	}
 	console.log(`Fetching ${folder}/${title}...`)
 	const data = await fetchFunction()
+	if (!data) throw new Error(`No data fetched for ${folder}/${title}.`)
 	// writing the data and fetch date to a file
 	fs.writeFileSync(filePath, JSON.stringify({ ...data, fetchDate: Date.now() }, null, 2))
 	return data

@@ -1,6 +1,6 @@
 import type { CollectionEntry, z } from "astro:content"
 import { useTranslations, type SupportedLocale } from "./i18n"
-import { date, months, period, type multilingualText } from "$content/config"
+import { date as dateType, months, period, type multilingualText } from "src/content.config"
 import formatDate from "./formatting/formatDate"
 
 export const title = (
@@ -29,23 +29,33 @@ export const multiText = (
 	return text[text.original]
 }
 
-const formatCustomDate = (d: z.infer<typeof date>, locale: SupportedLocale) => {
-	const month = typeof d.m == "string" ? months.indexOf(d.m) + 1 : d.m
-	if (!d.precision && d.y && month && d.d) {
-		const jsDate = new Date(d.y, month, d.d)
+const formatCustomDate = (
+	date: z.infer<typeof dateType>,
+	locale: SupportedLocale,
+	y = true,
+	m = true,
+	d = true
+) => {
+	const month = typeof date.m == "string" ? months.indexOf(date.m) + 1 : date.m
+	if (!date.precision && y && date.y && m && month && d && date.d) {
+		const jsDate = new Date(date.y, month, date.d)
 		return formatDate(jsDate, false, false, false, locale)
 	}
-	if (d.precision == "decade") return locale == "fr" ? `Années ${d.y}` : `${d.y}s`
-	const dateString = `${d.d ? `${d.d} ` : ""}${d.m ? `${d.m} ` : ""}${d.y}`
-	if (d.precision == "around")
-		return locale == "fr" ? `Vers ${d.d ? "le " : ""}${dateString}` : `Around ${dateString}`
+	if (date.precision == "decade") return locale == "fr" ? `Années ${date.y}` : `${date.y}s`
+	const dateString = `${d && date.d ? `${date.d} ` : ""}${m && date.m ? `${date.m} ` : ""}${y && date.y}`
+	if (date.precision == "around")
+		return locale == "fr" ? `Vers ${d && date.d ? "le " : ""}${dateString}` : `Around ${dateString}`
 	return dateString
 }
 
 export const formatCustomPeriod = (
-	d: z.infer<typeof period> | z.infer<typeof date>,
-	locale: SupportedLocale
+	dateOrPeriod: z.infer<typeof period> | z.infer<typeof dateType>,
+	locale: SupportedLocale,
+	y?: boolean,
+	m?: boolean,
+	d?: boolean
 ) => {
-	if (Array.isArray(d)) return d.map((date) => formatCustomDate(date, locale)).join(" – ")
-	return formatCustomDate(d, locale)
+	if (Array.isArray(dateOrPeriod))
+		return dateOrPeriod.map((date) => formatCustomDate(date, locale, y, m, d)).join(" – ")
+	return formatCustomDate(dateOrPeriod, locale, y, m, d)
 }

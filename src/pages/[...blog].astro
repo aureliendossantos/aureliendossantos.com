@@ -1,5 +1,5 @@
 ---
-import { type CollectionEntry, getCollection } from "astro:content"
+import { type CollectionEntry, getCollection, render } from "astro:content"
 import Article from "$layouts/Article.astro"
 import ArticleReferences from "$components/articles/ArticleReferences.astro"
 import MarkdownIt from "markdown-it"
@@ -9,7 +9,7 @@ export async function getStaticPaths() {
 		return !data.draft || import.meta.env.DEV
 	})
 	return blogEntries.map((article) => ({
-		params: { blog: article.slug },
+		params: { blog: article.id },
 		props: { article },
 	}))
 }
@@ -19,14 +19,14 @@ interface Props {
 }
 
 const { article } = Astro.props
-const { Content, headings } = await article.render()
+const { Content, headings } = await render(article)
 const data = article.data
 const license = data.license && MarkdownIt({ html: true }).renderInline(data.license)
 ---
 
-<Article article={article} collection="blog" headings={headings}>
+<Article {article} {headings} collection="blog">
 	<Content />
-	<ArticleReferences article={article} />
+	<ArticleReferences {article} />
 	{
 		license && (
 			<>

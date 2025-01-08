@@ -9,7 +9,7 @@ export async function getPlace(id: string) {
 	return await getCacheOrFetch(id, "google-maps-place", async () => {
 		const response = await fetch(
 			`https://maps.googleapis.com/maps/api/place/details/json?place_id=${id}&language=fr&key=${
-				import.meta.env.GOOGLE_MAPS_TOKEN
+				process.env.GOOGLE_MAPS_TOKEN
 			}`
 		).then((response) => response.json())
 		return response.result as PlaceWithFetchDate
@@ -47,7 +47,7 @@ export async function getGoogleImage(maxWidth: number, photoReference: string): 
 		"google-maps-photo-path",
 		async () => {
 			const path = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=${maxWidth}&photoreference=${photoReference}&key=${
-				import.meta.env.GOOGLE_MAPS_TOKEN
+				process.env.GOOGLE_MAPS_TOKEN
 			}`
 			return { url: await fetch(path).then((res) => res.url) }
 		}

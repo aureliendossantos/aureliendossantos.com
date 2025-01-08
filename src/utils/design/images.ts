@@ -7,7 +7,6 @@ export const paperDarkClasses: AstroBuiltinAttributes["class:list"] =
 	"dark:mix-blend-screen dark:hue-rotate-180 dark:invert"
 
 export const paperClasses: AstroBuiltinAttributes["class:list"] = [
-	borderClasses,
 	"mix-blend-multiply",
 	paperDarkClasses,
 ]

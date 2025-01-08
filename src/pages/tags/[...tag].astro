@@ -11,7 +11,7 @@ export async function getStaticPaths() {
 	const content = (await getContentEntries()).sort((a, b) => dateSort(a.data.date, b.data.date))
 	const tags = await getCollection("tags")
 	return tags.map((tag) => ({
-		params: { tag: tag.slug },
+		params: { tag: tag.id },
 		props: { content, currentTag: tag },
 	}))
 }
@@ -23,9 +23,7 @@ type Props = {
 const { currentTag } = Astro.props
 
 const content = Astro.props.content.filter((entry) =>
-	entry.data.tags.find((t) =>
-		typeof t == "string" ? t == currentTag.slug : t.slug == currentTag.slug
-	)
+	entry.data.tags.find((t) => (typeof t == "string" ? t == currentTag.id : t.id == currentTag.id))
 )
 ---
 

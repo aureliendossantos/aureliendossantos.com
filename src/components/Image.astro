@@ -18,6 +18,8 @@ const {
 	alt,
 	width: maxWidth,
 	height: maxHeight,
+	widths,
+	sizes,
 	quality,
 	zoomQuality,
 	notZoomable,
@@ -51,6 +53,8 @@ const webp = await getImage({
 	src: image.src,
 	width: width || image.remoteSize?.width,
 	height: height || image.remoteSize?.height,
+	widths,
+	sizes,
 	quality: quality,
 	...attributes,
 })
@@ -65,6 +69,8 @@ const zoomedImage =
 				width: image.remoteSize.width,
 				height: image.remoteSize.height,
 				quality: zoomQuality || quality,
+				widths: undefined,
+				sizes: undefined,
 				...attributes,
 			})
 		: width && !image.remote && image.src.width > Number(width)
@@ -73,6 +79,8 @@ const zoomedImage =
 					width: image.src.height < 2160 && Math.min(image.src.width, 3840),
 					height: image.src.height >= 2160 && Math.min(image.src.height, 2160),
 					quality: zoomQuality || quality,
+					widths: undefined,
+					sizes: undefined,
 					...attributes,
 				})
 			: undefined
@@ -86,33 +94,35 @@ const placeholderURL = image.remote
 			image.remoteSize.height
 		)
 	: await imageService.generatePlaceholder(image.src.src, image.src.width, image.src.height)
+
+const firstSrcSet = webp.srcSet.values[0]
+// TODO: remove zoom-src logic and use srcset instead (by default, the "sizes" attribute will be equal to the width given in props, and we'll generate many widths in srcset: 0.5, 1, 2, 3, 4... to a maximum of 3840px)
+// OU BIEN: voir si je peux juste utiliser densities 1x 2x 3x et que mêlé à la width dans la page, il prend tout seul la densité supérieure quand je medium zoom
 ---
 
-<picture>
-	{/*src.format != "gif" && <source srcset={avif.src} type={"image/" + avif.options.format} />*/}
-	<img
-		src={webp.src}
-		style={{
-			backgroundSize: "cover",
-			backgroundImage: `url(${placeholderURL})`,
-			imageRendering: "auto",
-			...attributes.style,
-		}}
-		onload="this.style.backgroundImage = 'none';"
-		{alt}
-		data-zoomable={!notZoomable}
-		data-zoom-src={zoomedImage?.src}
-		data-width={webp.attributes.width}
-		data-height={webp.attributes.height}
-		data-zoom-width={zoomedImage?.attributes.width}
-		data-zoom-height={zoomedImage?.attributes.height}
-		data-original-src={image.remote ? image.src : image.src.src}
-		data-original-width={image.remote ? image.remoteSize.width : image.src.width}
-		data-original-height={image.remote ? image.remoteSize.height : image.src.height}
-		data-original-format={image.remote ? image.remoteSize.format : image.src.format}
-		{...webp.attributes}
-	/>
-</picture>
+<img
+	src={firstSrcSet ? firstSrcSet.url : webp.src}
+	srcset={webp.srcSet.attribute || undefined}
+	style={{
+		backgroundSize: "cover",
+		backgroundImage: `url(${placeholderURL})`,
+		imageRendering: "auto",
+		...attributes.style,
+	}}
+	onload="this.style.backgroundImage = 'none';"
+	{alt}
+	data-zoomable={!notZoomable}
+	data-zoom-src={zoomedImage?.src}
+	data-width={firstSrcSet ? firstSrcSet.transform.width : webp.attributes.width}
+	data-height={firstSrcSet ? firstSrcSet.transform.height : webp.attributes.height}
+	data-zoom-width={zoomedImage?.attributes.width}
+	data-zoom-height={zoomedImage?.attributes.height}
+	data-original-src={image.remote ? image.src : image.src.src}
+	data-original-width={image.remote ? image.remoteSize.width : image.src.width}
+	data-original-height={image.remote ? image.remoteSize.height : image.src.height}
+	data-original-format={image.remote ? image.remoteSize.format : image.src.format}
+	{...webp.attributes}
+/>
 
 <style is:global>
 	/* Images with class="h-full w-full object-contain" will have their placeholder stretched without this rule.

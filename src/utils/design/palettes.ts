@@ -422,3 +422,35 @@ const getPaletteDeclaration = (name: PaletteName | undefined): PaletteDeclaratio
 			}
 	}
 }
+
+export const paletteVariables = (palette: Palette) => ({
+	"--base-color": getColor(palette.baseColor),
+	"--dark-base-color": getColor(palette.baseColor, "dark"),
+	"--secondary-color": getColor(palette.secondaryColor),
+	"--dark-secondary-color": getColor(palette.secondaryColor, "dark"),
+	"--special-color": getColor(palette.specialColor),
+	"--dark-special-color": getColor(palette.specialColor, "dark"),
+	"--bg-color": getColor(palette.bgColor),
+	"--dark-bg-color": getColor(palette.bgColor, "dark"),
+	"--border-color": getColor(palette.popupBorderColor),
+	"--dark-border-color": getColor(palette.popupBorderColor, "dark"),
+	"--bg-mention-color": getColor(palette.mentionBgColor),
+	"--dark-bg-mention-color": getColor(palette.mentionBgColor, "dark"),
+	"--bg-mention-hover-color": getColor(palette.mentionHoverBgColor),
+	"--dark-bg-mention-hover-color": getColor(palette.mentionHoverBgColor, "dark"),
+	"--base-font": palette.baseFont,
+	"--code-font": palette.codeFont,
+	"--display-font": palette.displayFont,
+	"--headings-font": palette.headingsFont,
+	"--font-size": palette.fontSize,
+	"--sm-font-size": "16px",
+	"--code-font-size": palette.codeFontSize,
+	"--note-font-size": palette.noteFontSize,
+	"--sm-note-font-size": palette.smNoteFontSize,
+	"--line-height": palette.lineHeight,
+	"--sm-line-height": palette.lineHeight * 1.1,
+	"--indent": "calc(var(--font-size) * var(--line-height))",
+	"--sm-indent": "calc(var(--sm-font-size) * var(--sm-line-height))",
+	"--page-width": palette.pageWidth,
+	"--internal-link-decoration": palette.internalLinks,
+})

@@ -1,5 +1,6 @@
 import "dotenv/config"
 import enumerate from "../formatting/enumerateStrings"
+import type { Logger } from "./loaders"
 
 export type IGDBImage = {
 	image_id: string
@@ -22,15 +23,11 @@ export type IGDBData = {
 	publishers: string
 }
 
-export default async function getIGDBgames(slugs: string[]) {
-	//console.log("wait")
-	//await new Promise((resolve) => setTimeout(resolve, Math.random() * 4000))
-	console.log(`Getting IGDB data for ${slugs.length == 1 ? slugs[0] : `${slugs.length} games`}...`)
+export default async function getIGDBgames(slugs: string[], logger: Logger = console.log) {
+	logger(`Getting IGDB data for ${slugs.length == 1 ? slugs[0] : `${slugs.length} games`}...`)
 	const authentication = await fetch(
-		`https://id.twitch.tv/oauth2/token?client_id=${
-			import.meta.env ? import.meta.env.TWITCH_ID : process.env.TWITCH_ID
-		}&client_secret=${
-			import.meta.env ? import.meta.env.TWITCH_SECRET : process.env.TWITCH_SECRET
+		`https://id.twitch.tv/oauth2/token?client_id=${process.env.TWITCH_ID}&client_secret=${
+			process.env.TWITCH_SECRET
 		}&grant_type=client_credentials`,
 		{
 			method: "POST",
@@ -42,7 +39,7 @@ export default async function getIGDBgames(slugs: string[]) {
 		return {
 			method: "POST",
 			headers: {
-				"Client-ID": import.meta.env ? import.meta.env.TWITCH_ID : process.env.TWITCH_ID,
+				"Client-ID": process.env.TWITCH_ID!,
 				Authorization: `Bearer ${token}`,
 			},
 			body: body,
@@ -71,6 +68,6 @@ export default async function getIGDBgames(slugs: string[]) {
 			game.involved_companies.filter((i) => i.publisher).map((i) => i.company.name)
 		)
 	})
-	console.log(`Loaded ${slugs.length == 1 ? slugs[0] : `${slugs.length} games`}`)
+	logger(`Loaded ${slugs.length == 1 ? slugs[0] : `${slugs.length} games`}`)
 	return games
 }

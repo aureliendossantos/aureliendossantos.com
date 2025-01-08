@@ -1,28 +1,26 @@
 ---
 import { Icon } from "astro-icon/components"
-import type { ValidContentEntrySlug } from "astro:content"
-import { getEntryBySlug } from "astro:content"
+import getEntryOrThrow from "$utils/content/getEntryOrThrow"
 
 interface Props {
-	slug?: ValidContentEntrySlug<"portfolio">
+	id?: string
 	linkTitle?: string
 	href?: string
 }
-const { slug, linkTitle, href } = Astro.props
+const { id, linkTitle, href } = Astro.props
 
-const entry = await getEntryBySlug("portfolio", slug)
-if (slug && !entry) throw new Error(`No entry with slug "${slug}"`)
+const entry = id ? await getEntryOrThrow("portfolio", id) : undefined
 ---
 
 <!-- prettier-ignore -->
-<span class="whitespace-nowrap print:!hidden">
-	{entry && <a href={`/portfolio/${entry.slug}`} class="">Portfolio</a>}
-	{entry && (href || (linkTitle && entry?.data.link)) && <span>·</span>}
+<span class="whitespace-nowrap">
+	{entry && <a href={`${Astro.site}portfolio/${entry.id}`} class="">Portfolio</a>}
+	{entry && (href || (linkTitle && entry.data.links.length > 0)) && <span>·</span>}
 	{
-		(href || (linkTitle && entry?.data.link)) && (
+		(href || (linkTitle && entry && entry.data.links.length > 0)) && (
 			<>
 				{/* prettier-ignore */}
-				<a href={href || entry.data.link} target="_blank" class="peer">{linkTitle}</a>
+				<a href={href || entry?.data.links[0].url} target="_blank" class="peer">{linkTitle}</a>
 				<Icon
 					id="navbar-link-icon"
 					name="ic:baseline-launch"

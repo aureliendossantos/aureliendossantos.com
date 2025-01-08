@@ -1,10 +1,10 @@
 ---
-import { getPlaceCollectionEntry } from "$utils/getCollection"
+import { getPlaceEntry } from "$utils/getCollection"
 import crypto from "node:crypto"
 
 interface Props {
 	title?: string
-	places: string[] | Awaited<ReturnType<typeof getPlaceCollectionEntry>>[]
+	places: string[] | Awaited<ReturnType<typeof getPlaceEntry>>[]
 	lat?: number
 	lng?: number
 	zoom?: number
@@ -16,7 +16,7 @@ const places = (
 	await Promise.all(
 		Astro.props.places.map(async (place) => {
 			if (typeof place === "string") {
-				return await getPlaceCollectionEntry(place)
+				return await getPlaceEntry(place)
 			}
 			return place
 		})
@@ -36,15 +36,16 @@ const uid = crypto.randomUUID()
 <div id={uid} class:list={["not-prose flex flex-col", { "mb-8": title }]}>
 	{
 		places.map((place) => {
+			if (!place.maps.geometry) console.warn(`Place ${place.id} has no geometry`)
 			return (
 				<a
 					class={
 						"place flex gap-2 px-8 py-2 text-sm transition-colors hover:bg-zinc-100" +
 						(place.data.status == "done" ? " text-zinc-700" : " text-zinc-500")
 					}
-					href={`/places/${place.slug}`}
-					data-lat={place.maps.geometry.location.lat}
-					data-lng={place.maps.geometry.location.lng}
+					href={`/places/${place.id}`}
+					data-lat={place.maps.geometry?.location?.lat}
+					data-lng={place.maps.geometry?.location?.lng}
 					data-icon={place.maps.icon}
 				>
 					<div class="font-medium">

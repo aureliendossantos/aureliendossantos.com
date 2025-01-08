@@ -1,8 +1,9 @@
 ---
 import TagLabel from "$components/blog/TagLabel.astro"
-import { getEntry, type CollectionEntry } from "astro:content"
+import { type CollectionEntry } from "astro:content"
 import { getContentEntries } from "$utils/getCollection"
 import getUniqueValuesAndOccurences from "$utils/getUniqueValuesAndOccurences"
+import getEntryOrThrow from "$utils/content/getEntryOrThrow"
 
 interface Props {
 	collectionKey: "tags" | "places" | "muses"
@@ -21,7 +22,7 @@ const tags = (
 	await Promise.all(
 		Object.entries(tagSlugsToOccurences).map(async ([tagSlug, occurences]) => ({
 			count: occurences,
-			entry: (await getEntry(collectionKey, tagSlug))!,
+			entry: await getEntryOrThrow(collectionKey, tagSlug),
 		}))
 	)
 ).filter((t) => t.entry) // Some tags may have Notion pages associated to it but no corresponding mdx file, hence the filter
@@ -32,7 +33,7 @@ const tags = (
 		<>
 			<TagLabel
 				label={tag.entry.data.fullTitle || tag.entry.data.title}
-				slug={tag.entry.slug}
+				slug={tag.entry.id}
 				count={tag.count}
 				parent={collectionKey == "places" ? "blog/places" : collectionKey}
 				disabled={tag.entry == currentEntry}

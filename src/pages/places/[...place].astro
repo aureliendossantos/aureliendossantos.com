@@ -12,7 +12,7 @@ export async function getStaticPaths() {
 	const places = await getCollection("places")
 	return await Promise.all(
 		places.map(async (place) => ({
-			params: { place: place.slug },
+			params: { place: place.id },
 			props: { place, mapsData: await getPlace(place.data.id) },
 		}))
 	)
@@ -36,13 +36,13 @@ const renderReview = () => {
 }
 
 const articles = (await getBlogPosts()).filter((article) =>
-	article.data.places.find((p) => p.slug == place.slug)
+	article.data.places.find((p) => p.id == place.id)
 )
 const diaryEntries = (await getDiary()).filter((entry) =>
-	entry.data.places.find((p) => p.slug == place.slug)
+	entry.data.places.find((p) => p.id == place.id)
 )
 
-const { Content } = await place.render()
+const { Content } = await render(place)
 const data = place.data
 
 const coverPath = await getGoogleImage(800, mapsData.photos[0].photo_reference)
@@ -108,7 +108,7 @@ const gallery =
 											"--text": getColor(palette.baseColor),
 											"--dark-text": getColor(palette.baseColor, "dark"),
 										}}
-										href={`/${article.slug}`}
+										href={`/${article.id}`}
 									>
 										<div class="font-medium">{article.data.title}</div>
 										<div class="grow" />
@@ -131,7 +131,7 @@ const gallery =
 								return (
 									<a
 										class="place flex bg-zinc-100 px-8 py-2 text-sm text-zinc-700 transition-colors hover:bg-zinc-200"
-										href={`/diary/${entry.finalSlug}`}
+										href={`/diary/${entry.id}`}
 									>
 										<div class="font-medium">
 											{entry.data.title}
@@ -184,7 +184,7 @@ const gallery =
 			</p>
 		</footer>
 	</div>
-</DiaryLayout>
+</PlaceLayout>
 
 <style is:global>
 	.prose .bg-mention {

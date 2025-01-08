@@ -10,7 +10,7 @@ export interface Props {
 	rounded?: boolean
 	shadow?: boolean
 	effect?: "border" | "paper"
-	resolution: "third" | "half" | "normal" | "high"
+	resolution?: "third" | "half" | "normal" | "high"
 	zoomQuality?: ImageQuality
 }
 const {
@@ -28,20 +28,24 @@ const {
 if (typeof srcToResolve != "object") throw new Error("srcToResolve is not an object")
 const src = "then" in srcToResolve ? (await srcToResolve).default : srcToResolve
 
-function getMaxWidth() {
-	switch (resolution || "high") {
+const widthDivider = (() => {
+	switch (resolution || "normal") {
 		case "third":
-			return 640
+			return 3
 		case "half":
-			return 960
+			return 2
 		case "normal":
-			return 1280
+			return 1
 		case "high":
-			return 1920
+			return 1
 	}
-}
+})()
 
-const imgWidth = Math.min(src.width, getMaxWidth())
+// TODO: Would be cool to get the page width from the layout, but I can't use CSS variables, so I don't know how I can get the value of --page-width
+const contentWidth = 620
+const screenWidth = 1920
+
+const cssWidth = resolution == "high" ? screenWidth : contentWidth / widthDivider
 ---
 
 <figure
@@ -53,13 +57,14 @@ const imgWidth = Math.min(src.width, getMaxWidth())
 	}}
 >
 	<Image
-		src={src}
-		width={imgWidth}
-		zoomQuality={zoomQuality}
+		{src}
+		widths={[cssWidth, cssWidth * 2, cssWidth * 3]}
+		sizes={`(max-width: ${contentWidth}px) ${Math.round(100 / widthDivider)}vw, ${cssWidth}px`}
+		{zoomQuality}
 		alt={alt || ""}
 		class:list={[
 			effect == "border" && borderClasses,
-			effect == "paper" && paperClasses,
+			effect == "paper" && [borderClasses, paperClasses],
 			{ "rounded-md": rounded, shadow: shadow },
 		]}
 		{...attributes}

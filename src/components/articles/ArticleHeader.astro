@@ -43,7 +43,7 @@ const markdown = new MarkdownIt({ html: true })
 const title = t && markdown.renderInline(t)
 const description = d && markdown.renderInline(d)
 const longDescription = ld && markdown.renderInline(ld)
-const tags = await getEntries(Astro.props.tags)
+const tags = Astro.props.tags ? await getEntries(Astro.props.tags) : []
 ---
 
 <header
@@ -131,7 +131,7 @@ const tags = await getEntries(Astro.props.tags)
 									<>
 										{/* prettier-ignore */}
 										<>
-											<a href={`/tags/${tag.slug}`}>{tag.data.title}</a>{index < tags.length - 1 && ", "}
+											<a href={`/tags/${tag.id}`}>{tag.data.title}</a>{index < tags.length - 1 && ", "}
 										</>
 									</>
 								))}

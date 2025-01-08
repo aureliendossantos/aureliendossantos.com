@@ -175,8 +175,8 @@ const spritesheet = await getImage({ src: png, format: "webp" })
 			mainIcon.classList.remove("hidden")
 			closeIcon.classList.add("hidden")
 		}
-		// ERROR state: display error message
-		if (name == "error")
+		// ERROR state: display error message if available
+		if (name == "error" && message)
 			(document.getElementById("error-message") as HTMLDivElement).textContent = message as string
 	}
 	async function query(path: string, method: string, body?: any) {
@@ -186,17 +186,16 @@ const spritesheet = await getImage({ src: png, format: "webp" })
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify(body),
 			})
-			const res = await response.json()
 			if (!response.ok) {
-				toast(`Erreur ${response.status} : ${res.message}`, 4000, "right")
-				changeGameState(
-					"error",
-					undefined,
-					`Une erreur ${response.status} est survenue : ${res.message}`
+				toast(
+					`Le jeu de survie a rencontré une erreur ${response.status == 500 ? "du serveur" : response.status}.`,
+					4000,
+					"right"
 				)
+				changeGameState("error", undefined, `Une erreur ${response.status} est survenue.`)
 				return null
 			}
-			return res
+			return await response.json()
 		} catch (error) {
 			// if error is an Error object, display its message
 			const message = error instanceof Error ? error.message : "Erreur inconnue"

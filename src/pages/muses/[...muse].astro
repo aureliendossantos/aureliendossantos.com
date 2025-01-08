@@ -10,7 +10,7 @@ export async function getStaticPaths() {
 	const content = await getContentEntries()
 	const muses = await getCollection("muses")
 	return muses.map((muse) => ({
-		params: { muse: muse.slug },
+		params: { muse: muse.id },
 		props: { content, currentMuse: muse },
 	}))
 }
@@ -22,7 +22,7 @@ type Props = {
 const { currentMuse } = Astro.props
 
 const content = Astro.props.content.filter(
-	(entry) => "muses" in entry.data && entry.data.muses.find((m) => m.slug == currentMuse.slug)
+	(entry) => "muses" in entry.data && entry.data.muses.find((m) => m.id == currentMuse.id)
 )
 ---
 

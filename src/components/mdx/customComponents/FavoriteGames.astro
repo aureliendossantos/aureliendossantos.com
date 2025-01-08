@@ -3,8 +3,8 @@ import IGDBImage from "$components/IGDBImage.astro"
 import getGames from "$utils/notion/getGames"
 
 // We must get ALL favorite games so we can sort them by the IGDB release date.
-const games = await getGames(
-	{
+const games = await getGames({
+	filter: {
 		and: [
 			{ property: "Nom", title: { is_not_empty: true } },
 			{ property: "Type", select: { equals: "Jeu" } },
@@ -13,8 +13,7 @@ const games = await getGames(
 			},
 		],
 	},
-	false
-)
+})
 ---
 
 <div

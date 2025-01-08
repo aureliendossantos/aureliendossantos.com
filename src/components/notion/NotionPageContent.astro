@@ -3,6 +3,8 @@ import RenderBlocks from "$components/notion/RenderBlocks.astro"
 import getChildren from "$utils/notion/getChildren"
 import RenderCoffeeHistory from "./RenderCoffeeHistory.astro"
 import RenderFortniteTracks from "./RenderFortniteTracks.astro"
+import { FORTNITE_FESTIVAL_PAGE_ID } from "astro:env/server"
+import { COFFEE_PAGE_ID } from "astro:env/server"
 
 interface Props {
 	id: string
@@ -11,8 +13,8 @@ const { id } = Astro.props
 
 const blocks = await getChildren(id)
 
-const renderFortniteTracks = id.replaceAll("-", "") == import.meta.env.FORTNITE_FESTIVAL_PAGE_ID
-const renderCoffeeHistory = id.replaceAll("-", "") == import.meta.env.COFFEE_PAGE_ID
+const renderFortniteTracks = id.replaceAll("-", "") == FORTNITE_FESTIVAL_PAGE_ID
+const renderCoffeeHistory = id.replaceAll("-", "") == COFFEE_PAGE_ID
 ---
 
 {

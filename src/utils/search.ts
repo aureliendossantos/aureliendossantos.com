@@ -10,7 +10,7 @@ type SearchEntry = GraphEntry & {
 	title: string
 	date?: string
 	categories?: string[] // soon to be replaced by tags
-	tags?: CollectionEntry<"tags">["slug"][]
+	tags?: string[]
 	description?: string
 }
 
@@ -59,31 +59,10 @@ export const getSearchEntries = async (lang?: string): Promise<SearchEntry[]> =>
 	const t = useTranslations(locale)
 	const mapToSearchEntry = useMapToSearchEntry(locale)
 	const tags = await getCollection("tags")
-	const possibleTags: CollectionEntry<"tags">["slug"][] = [
-		"personal-projects",
-		"photos",
-		"tutorial",
-		"mixtape",
-	]
+	const possibleTags = ["personal-projects", "photos", "tutorial", "mixtape"]
 	const blogPosts = await getBlogPosts()
 	return [
-		{
-			slug: "",
-			title: "Accueil",
-			links: [
-				"blog",
-				"portfolio",
-				"website",
-				"diary",
-				"places",
-				"games",
-				"gear",
-				"kitchen",
-				"wiki",
-				"museum",
-			],
-		},
-		{ slug: "blog", title: "Blog" },
+		{ slug: "", title: "Blog" },
 		{ slug: "portfolio", title: "Portfolio" },
 		{ slug: "cv", title: "CV", links: ["portfolio", "blog"] },
 		{ slug: "diary", title: "Journal" },
@@ -98,7 +77,7 @@ export const getSearchEntries = async (lang?: string): Promise<SearchEntry[]> =>
 		{ slug: "museum/collections", title: "Sélections", categories: ["Musée"], links: ["museum"] },
 		{ slug: "muses", title: "Muses" },
 		...tags.map((tag) => ({
-			slug: `tags/${tag.slug}`,
+			slug: `tags/${tag.id}`,
 			title: tag.data.title,
 			categories: ["Tag"],
 			links: ["tags"],
@@ -106,7 +85,7 @@ export const getSearchEntries = async (lang?: string): Promise<SearchEntry[]> =>
 		...(await getCollection("muses")).map((entry) =>
 			mapToSearchEntry({
 				entry: entry,
-				slug: `muses/${entry.slug}`,
+				slug: `muses/${entry.id}`,
 				parentSlug: "muses",
 				categories: ["Muse"],
 				graphLinks: ["muses"],
@@ -115,11 +94,11 @@ export const getSearchEntries = async (lang?: string): Promise<SearchEntry[]> =>
 		...(await Promise.all(
 			blogPosts.map(async (entry) => {
 				const tags = (
-					await getEntries(entry.data.tags.filter((tag) => possibleTags.includes(tag.slug)))
+					await getEntries(entry.data.tags.filter((tag) => possibleTags.includes(tag.id)))
 				).map((tag) => tag.data.title)
 				return mapToSearchEntry({
 					entry: entry,
-					slug: `${entry.slug}`,
+					slug: `${entry.id}`,
 					parentSlug: "blog",
 					categories: tags.length > 0 ? tags : ["Article"],
 					graphLinks: searchEntryLinks(entry.data),
@@ -129,17 +108,19 @@ export const getSearchEntries = async (lang?: string): Promise<SearchEntry[]> =>
 		...(await getCollection("portfolio")).map((entry) =>
 			mapToSearchEntry({
 				entry: entry,
-				slug: `portfolio/${entry.slug}`,
+				slug: `portfolio/${entry.id}`,
 				parentSlug: "portfolio",
 				categories: ["Portfolio"],
-				date: entry.data.date,
+				date: Array.isArray(entry.data.date)
+					? new Date(entry.data.date[1].y!, 0)
+					: new Date(entry.data.date.y!, 0),
 				graphLinks: searchEntryLinks(entry.data),
 			})
 		),
 		...(await getCollection("pages", ({ data }) => !data.draft)).map((entry) =>
 			mapToSearchEntry({
 				entry: entry,
-				slug: entry.slug,
+				slug: entry.id,
 				categories: ["Page"],
 				graphLinks: [
 					...(entry.data.parent || []),
@@ -151,7 +132,7 @@ export const getSearchEntries = async (lang?: string): Promise<SearchEntry[]> =>
 		...(await getDiary()).map((entry) =>
 			mapToSearchEntry({
 				entry: entry as CollectionEntry<"diary">,
-				slug: `diary/${entry.slug}`,
+				slug: `diary/${entry.id}`,
 				parentSlug: "diary",
 				categories: ["Journal"],
 				date: entry.data.date || new Date(entry.year, 12, 29),
@@ -163,7 +144,7 @@ export const getSearchEntries = async (lang?: string): Promise<SearchEntry[]> =>
 			.map((entry) =>
 				mapToSearchEntry({
 					entry: entry,
-					slug: `gear/${entry.slug}`,
+					slug: `gear/${entry.id}`,
 					parentSlug: "gear",
 					categories: ["Mon appareil"],
 					date: entry.data.obtained,
@@ -172,7 +153,7 @@ export const getSearchEntries = async (lang?: string): Promise<SearchEntry[]> =>
 		...(await getCollection("places")).map((entry) =>
 			mapToSearchEntry({
 				entry: entry,
-				slug: `places/${entry.slug}`,
+				slug: `places/${entry.id}`,
 				parentSlug: "places",
 				categories: ["Lieu"],
 			})
@@ -180,18 +161,16 @@ export const getSearchEntries = async (lang?: string): Promise<SearchEntry[]> =>
 		...(await getCollection("recipes")).map((entry) =>
 			mapToSearchEntry({
 				entry: entry,
-				slug: `kitchen/${entry.slug}`,
+				slug: `kitchen/${entry.id}`,
 				parentSlug: "kitchen",
 				categories: ["Recette"],
-				graphLinks: entry.data.ingredients.map(
-					(i) => "kitchen/" + (Array.isArray(i) ? i[0] : i).slug
-				),
+				graphLinks: entry.data.ingredients.map((i) => "kitchen/" + (Array.isArray(i) ? i[0] : i)),
 			})
 		),
 		...(await getCollection("ingredients")).map((entry) =>
 			mapToSearchEntry({
 				entry: entry,
-				slug: `kitchen/${entry.slug}`,
+				slug: `kitchen/${entry.id}`,
 				parentSlug: "kitchen",
 				categories: ["Ingrédient"],
 			})
@@ -218,7 +197,7 @@ export const getSearchEntries = async (lang?: string): Promise<SearchEntry[]> =>
 		...(await getCollection("pieces")).map((entry) =>
 			mapToSearchEntry({
 				entry: entry,
-				slug: `museum/${entry.slug}`,
+				slug: `museum/${entry.id}`,
 				parentSlug: "museum/all",
 				// The description (hidden but indexed by search) includes title and author in all available languages
 				description: `${
@@ -239,13 +218,13 @@ export const getSearchEntries = async (lang?: string): Promise<SearchEntry[]> =>
 						: ""
 				}`,
 				categories: [t(entry.data.type), t("m-museum")],
-				graphLinks: entry.data.collections.map((c) => `museum/${c.slug}`),
+				graphLinks: entry.data.collections.map((c) => `museum/${c}`),
 			})
 		),
 		...(await getCollection("collections")).map((entry) =>
 			mapToSearchEntry({
 				entry: entry,
-				slug: `museum/${entry.slug}`,
+				slug: `museum/${entry.id}`,
 				parentSlug: "museum/collections",
 				categories: ["Sélection", t("m-museum")],
 			})

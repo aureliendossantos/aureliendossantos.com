@@ -3,19 +3,18 @@ import ArticleDate from "$components/articles/ArticleDate.astro"
 import { getDiaryEntry } from "$utils/getCollection"
 
 interface Props {
-	slug: string
+	id: string
 	titleOnly?: boolean
 }
-const { slug, titleOnly } = Astro.props
+const { id, titleOnly } = Astro.props
 
-const article = await getDiaryEntry(slug)
-if (!article) return console.error(`DiaryRef: entry ${slug} can't be found`)
+const article = await getDiaryEntry(id)
 ---
 
 <span class="my-[-1px] rounded border border-solid border-zinc-300 bg-white px-[2px] text-zinc-900">
 	{!titleOnly && <span>Aurélien Dos Santos,</span>}
 	<a
-		href={"/diary/" + article.slug}
+		href={"/diary/" + article.id}
 		style={{
 			textDecoration: "none",
 			bgColor: "transparent !important",

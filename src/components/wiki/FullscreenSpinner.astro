@@ -1,5 +1,5 @@
 ---
-import spinner from "$styles/icons/loading.svg?raw"
+import Spinner from "$styles/icons/loading.svg"
 ---
 
 <div
@@ -9,7 +9,7 @@ import spinner from "$styles/icons/loading.svg?raw"
 	class="invisible fixed left-0 top-0 z-50 flex h-full w-full items-center justify-center gap-2 bg-[--bg] font-work-sans text-sm text-neutral-400 opacity-0 transition-opacity dark:bg-[--dark-bg]"
 >
 	<div class="h-[17px] w-[17px] animate-spin">
-		<Fragment set:html={spinner} />
+		<Spinner />
 	</div>
 	<div id="wiki-spinner-text"></div>
 </div>

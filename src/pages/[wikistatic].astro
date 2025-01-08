@@ -7,21 +7,23 @@ import { getAnyEntry } from "$utils/getCollection"
 import RenderBlocks from "$components/notion/RenderBlocks.astro"
 import RenderCoffeeHistory from "$components/notion/RenderCoffeeHistory.astro"
 import RenderFortniteTracks from "$components/notion/RenderFortniteTracks.astro"
+import { FORTNITE_FESTIVAL_PAGE_ID } from "astro:env/server"
+import { COFFEE_PAGE_ID } from "astro:env/server"
 
 export async function getStaticPaths() {
 	const wiki = await getCollection("wiki")
 	return wiki.map((page) => ({
-		params: { wikistatic: page.data.slug },
+		params: { wikistatic: page.id },
 		props: { page },
 	}))
 }
 
 const page = Astro.props.page.data
 const related = await getAnyEntry(page.related)
-const pageTags = (await getCollection("tags")).filter((tag) => page.tags.includes(tag.slug))
+const pageTags = (await getCollection("tags")).filter((tag) => page.tags.includes(tag.id))
 
-const renderFortniteTracks = page.id.replaceAll("-", "") == import.meta.env.FORTNITE_FESTIVAL_PAGE_ID
-const renderCoffeeHistory = page.id.replaceAll("-", "") == import.meta.env.COFFEE_PAGE_ID
+const renderFortniteTracks = page.id.replaceAll("-", "") == FORTNITE_FESTIVAL_PAGE_ID
+const renderCoffeeHistory = page.id.replaceAll("-", "") == COFFEE_PAGE_ID
 ---
 
 <BaseLayout
@@ -29,7 +31,7 @@ const renderCoffeeHistory = page.id.replaceAll("-", "") == import.meta.env.COFFE
 	title={page.title}
 	ogType="article"
 	bg={{ light: "#fbf7ee", dark: "#101520" }}
-	navBarProps={{ title: page.title, parent: pageTags.length > 0 ?  { title: pageTags[0].data.title, href: `/tags/${pageTags[0].slug}` } : undefined} }
+	navBarProps={{ title: page.title, parent: pageTags.length > 0 ?  { title: pageTags[0].data.title, href: `/tags/${pageTags[0].id}` } : undefined} }
 >
 	<div
 		class="prose mx-auto prose-h1:mb-0 mb-16 mt-8 px-4 font-[350] mediumlarge:prose-sm dark:prose-invert prose-a:text-[--secondary] prose-a:dark:text-[--dark-secondary] prose-a:no-underline prose-quoteless prose-blockquote:font-[350] prose-blockquote:not-italic font-bricolage prose-fenceless"
@@ -61,7 +63,7 @@ const renderCoffeeHistory = page.id.replaceAll("-", "") == import.meta.env.COFFE
 				{
 					related.map((entry) => (
 						<a
-							href={`/${entry.slug}`}
+							href={`/${entry.id}`}
 							style={{ marginLeft: "0", marginRight: "0" }}
 							set:html={entry.title}
 						/>
@@ -71,7 +73,7 @@ const renderCoffeeHistory = page.id.replaceAll("-", "") == import.meta.env.COFFE
 					pageTags.map((tag) => (
 						<>
 						<!-- prettier-ignore -->
-						<a href={`/tags/${tag.slug}`} style={{ marginLeft: "0", marginRight: "0" }}><Icon name="material-symbols:label-rounded" class="mb-[0.1em] mr-[0.15em] inline-block" />{tag.data.title}</a>
+						<a href={`/tags/${tag.id}`} style={{ marginLeft: "0", marginRight: "0" }}><Icon name="material-symbols:label-rounded" class="mb-[0.1em] mr-[0.15em] inline-block" />{tag.data.title}</a>
 						</>
 					))
 				}
@@ -95,7 +97,7 @@ const renderCoffeeHistory = page.id.replaceAll("-", "") == import.meta.env.COFFE
 <script>
 	import type { NavBarProps } from "$utils/navbar"
 
-	document.addEventListener('astro:page-load', ev => {
+	document.addEventListener('astro:page-load', () => {
 		// Get the title and local URL of the current page
 		sessionStorage.setItem("previousTitle", (JSON.parse((document.getElementById("navbar-data") as HTMLElement).dataset.props as string) as NavBarProps).title)
 		sessionStorage.setItem("previousUrl", window.location.pathname)

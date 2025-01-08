@@ -9,6 +9,7 @@ import type {
 } from "@notionhq/client/build/src/api-endpoints"
 import getDatabase from "./getDatabase"
 import type { BlockObjectResponseWithChildren } from "./getChildren"
+import type { Logger } from "$utils/remoteData/loaders"
 
 export type PageResponse = PageObjectResponse & {
 	properties: {
@@ -48,16 +49,22 @@ const getWikiPageStatus = (status: WikiPageStatus) => {
 
 const slugifyRegex = /[*+~.()'"!:@«»→,;]/g
 
-export const fetchWikiPages = async (includePrivate = false) => {
+export const fetchWikiPages = async (
+	opts?: { includePrivate?: boolean },
+	logger: Logger = console.log
+) => {
 	return (
 		(await getDatabase(
-			import.meta.env ? import.meta.env.NOTION_WIKI_PAGES_DB : process.env.NOTION_WIKI_PAGES_DB,
-			includePrivate
-				? undefined
-				: {
-						property: "Status",
-						select: { does_not_equal: "🔒 Private" },
-					}
+			process.env.NOTION_WIKI_PAGES_DB!,
+			{
+				filter: opts?.includePrivate
+					? undefined
+					: {
+							property: "Status",
+							select: { does_not_equal: "🔒 Private" },
+						},
+			},
+			logger
 		)) as PageResponse[]
 	)
 		.map((page) => {
@@ -66,8 +73,8 @@ export const fetchWikiPages = async (includePrivate = false) => {
 			const slug = page.properties.Slug.rich_text[0]
 				? page.properties.Slug.rich_text[0].plain_text
 				: ""
-			const status =
-				(page.properties.Status.select && page.properties.Status.select.name) || undefined
+			const status = ((page.properties.Status.select && page.properties.Status.select.name) ||
+				undefined) as WikiPageStatus
 
 			return {
 				id: page.id,
