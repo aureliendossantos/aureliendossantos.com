@@ -2,10 +2,12 @@
 import ResumeEntry from "$components/portfolio/resume/ResumeEntry.astro"
 import BaseLayout from "$layouts/BaseLayout.astro"
 import { Icon } from "astro-icon/components"
+import "$styles/hyphenation.css"
 
-const title = "Développeur web full-stack et multimédia"
-const bio =
-	"J'ai réalisé plusieurs projets autour de l'écosystème TypeScript, React, Astro et Node.js. J'ai également une expérience significative en ingénierie pédagogique, en développement sur Unity et en réalisation vidéo. Par ailleurs, je suis passionné de cinéma expérimental, de photographie de voyage et de typographie."
+const title = "Ingénieur pédagogique"
+const bio = `
+	Diplômé en ingénierie de formation avec une spécialisation digital learning, je m'appuie sur ma double compétence pédagogique et technique pour concevoir des parcours d'apprentissage innovants. Mon expérience en développement web, réalisation vidéo et game design me permet de créer des expériences numériques riches et engageantes.
+	`
 
 const links = [
 	{ title: "Téléphone", label: "06 68 84 92 00", href: "tel:+33668849200" },
@@ -61,19 +63,18 @@ const links = [
 		{/* not ideal tweak */}
 		<section class="my-8 mb-[34px] mediumlarge:text-sm print:text-base">{bio}</section>
 		<section
-			class="grid grid-cols-[230px_1fr] gap-y-8 mediumlarge:grid-cols-1 print:grid-cols-[33%_1fr]"
+			class="grid grid-cols-[220px_1fr] gap-y-8 mediumlarge:grid-cols-1 print:grid-cols-[33%_1fr]"
 		>
 			<h2>Expérience</h2>
 			<div>
-				<ResumeEntry id="agence-insolence" />
+				<ResumeEntry id="inge-peda/agence-insolence" />
 				<ResumeEntry id="degica" />
 				<ResumeEntry id="freelance" />
 			</div>
 			<h2>Projets</h2>
 			<div>
-				<ResumeEntry id="game-dev-alliance" />
-				<ResumeEntry id="projets-web" />
-				<ResumeEntry id="unity" />
+				<ResumeEntry id="inge-peda/game-dev-alliance" />
+				<ResumeEntry id="inge-peda/unity" />
 			</div>
 			<h2>Formation</h2>
 			<div>
@@ -82,17 +83,14 @@ const links = [
 			</div>
 			<h2>Langues</h2>
 			<div>
-				<h3>Français</h3>
-				<h4>Natif</h4>
-				<h3>Anglais</h3>
-				<h4>Capacité professionnelle complète</h4>
+				<h3>Français :<strong> Natif</strong></h3>
+				<h3>Anglais :<strong> Capacité professionnelle complète</strong></h3>
 				<p>
 					TOEIC : 955/990 <span class="date">(2016)</span> et licence d'anglais <span class="date"
 						>(2021)</span
 					>
 				</p>
-				<h3>Espagnol et portugais</h3>
-				<h4>Notions</h4>
+				<h3>Espagnol et portugais : <strong>Notions</strong></h3>
 			</div>
 		</section>
 	</div>
@@ -131,27 +129,49 @@ const links = [
 	h3 {
 		@apply break-after-avoid font-medium;
 		&:not(:first-child) {
-			@apply mt-2;
+			@apply mt-[10px];
 		}
 	}
 	h4 {
-		@apply mt-2 break-after-avoid pl-5 -indent-5 font-medium;
+		@apply mt-[10px] break-after-avoid pl-5 -indent-5 font-medium;
 		h3 + & {
 			@apply mt-0;
 		}
-		&::before {
-			content: "↳ ";
-			@apply inline w-5 text-neutral-400;
-		}
-		& ~ p {
+	}
+	h4::before,
+	h3 + p::before {
+		content: "↳ ";
+		@apply inline w-5 text-base font-medium text-neutral-400;
+	}
+	section {
+		p,
+		ul {
 			@apply pl-5 text-sm text-neutral-500;
 			& + p {
-				@apply mt-2;
+				@apply mt-[10px];
+			}
+		}
+		h3 + p {
+			@apply pl-0;
+		}
+		ul {
+			@apply list-disc;
+			li::marker {
+				content: "• ";
+				@apply text-neutral-400;
 			}
 		}
 	}
-	p {
-		@apply break-inside-avoid;
+	p,
+	ul {
+		hyphens: auto;
+		@apply break-inside-avoid text-pretty;
+	}
+	em {
+		@apply italic;
+	}
+	strong {
+		@apply font-[380] font-normal text-neutral-500;
 	}
 	.date {
 		@apply whitespace-nowrap font-[380] text-neutral-500;

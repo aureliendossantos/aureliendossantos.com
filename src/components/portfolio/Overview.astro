@@ -1,0 +1,270 @@
+---
+import Image from "$components/Image.astro"
+import Video from "$components/mdx/figures/Video.astro"
+import getEntryOrThrow from "$utils/content/getEntryOrThrow"
+import "node_modules/@glidejs/glide/dist/css/glide.core.min.css"
+import "node_modules/@glidejs/glide/dist/css/glide.theme.min.css"
+import { formatCustomPeriod } from "$utils/museum"
+import MarkdownIt from "markdown-it"
+
+interface Props {
+	id: string
+}
+const { id } = Astro.props
+
+const entry = await getEntryOrThrow("portfolio", id)
+const data = entry.data
+const carousel = data.carousel
+const overview = data.overview
+
+const videos = (
+	Object.values(import.meta.glob("src/content/portfolio/*/*.{webm,mp4}", { eager: true })) as {
+		default: string
+	}[]
+).map((video) => video.default)
+
+const markdown = new MarkdownIt({ html: true })
+---
+
+<div
+	class="mb-20 grid grid-cols-2 gap-x-12 gap-y-8 xl:text-sm mediumlarge:grid-cols-1"
+	data-appear-in={data.appearIn.join(",")}
+>
+	<div class="sticky top-0 z-10 -mt-2 bg-fi-paper pt-2 text-left mediumlarge:-mx-6">
+		<div
+			class:list={["mediumlarge:max-h-[40svh]", { glide: carousel }]}
+			style={{ aspectRatio: data.carouselAspect }}
+		>
+			<div
+				class="glide__track h-full overflow-hidden rounded-lg bg-fi-base-100 shadow-lg ring-1 ring-fi-base-600/10 mediumlarge:max-h-[40svh]"
+				style={{ borderColor: "rgb(16 15 15 / 0.01)" }}
+				data-glide-el="track"
+			>
+				<ul class="glide__slides max-h-full">
+					{
+						data.carousel?.map((item) => {
+							if ("file" in item)
+								return (
+									<li class="glide__slide" style={{ height: "unset" }}>
+										<Image
+											src={item.file}
+											width={750}
+											class="h-full object-cover"
+											style={{
+												objectPosition: `${item.anchorLeft == undefined ? 50 : item.anchorLeft}% ${item.anchorTop == undefined ? 50 : item.anchorTop}%`,
+											}}
+											notZoomable
+											alt=""
+										/>
+									</li>
+								)
+							// In prod, qrpg.webm could become qrpg.a3T295NU.webm, so we just look for the "qrpg" part
+							// WARNING: it could match a folder name, e.g. "/qrpg/other.webm". Name videos accordingly.
+							const hq = videos.find((video) => video.includes(item.hq.split(".")[0]))
+							if (!hq) throw new Error(`No video found for ${item.hq}`)
+							const compat = videos.find((video) =>
+								video.includes(item.compatible?.split(".")[0] || "///")
+							)
+							// if (!compat) console.warn(`No compatible alternative found for ${item.compatible}`)
+							return (
+								<li class="glide__slide" style={{ height: "unset" }}>
+									<Video
+										src={hq}
+										compat={compat}
+										gif
+										figureClass="h-full"
+										class="h-full object-cover"
+										noFallbackText
+										style={{
+											objectPosition: `${item.anchorLeft == undefined ? 50 : item.anchorLeft}% ${item.anchorTop == undefined ? 50 : item.anchorTop}%`,
+										}}
+									/>
+								</li>
+							)
+						})
+					}
+				</ul>
+			</div>
+			{
+				carousel && carousel.length > 1 && (
+					<>
+						<div class="glide__arrows" data-glide-el="controls">
+							<button
+								class="glide__arrow glide__arrow--right !-bottom-[35px] !right-[17px] !top-[unset] !rounded-full !border !border-fi-ui !bg-fi-bg !p-2 !px-[9px] text-lg !text-fi-tx-2 !shadow-lg !shadow-black/5 !transition hover:!border-fi-ui-2 hover:!text-fi-base-500"
+								data-glide-dir=">"
+							>
+								→
+							</button>
+						</div>
+						<div class="glide__bullets !-bottom-[3px]" data-glide-el="controls[nav]">
+							{carousel.map((_, index) => (
+								<button
+									class="glide__bullet !mx-[3.5px] !h-[6px] !w-[6px] !bg-fi-base-100 !shadow-[0_0_0_1px_#DAD8CE] !ring-fi-paper !duration-200 hover:!bg-fi-paper hover:!ring-2"
+									data-glide-dir={`=${index}`}
+								/>
+							))}
+						</div>
+					</>
+				)
+			}
+		</div>
+		{
+			data.links.map((link) => (
+				<a
+					class="group inline-block p-2 pl-0 text-sm text-fi-tx-2 transition first-of-type:pl-2 mediumlarge:hidden"
+					href={link.url}
+					target="_blank"
+				>
+					<span
+						class="underline decoration-fi-ui-2 decoration-1 underline-offset-3 transition group-hover:text-fi-orange group-hover:decoration-fi-orange-400"
+						set:html={link.title}
+					/>
+					<span class="text-[82%] font-medium text-fi-tx-3 transition group-hover:text-fi-orange">
+						↗
+					</span>
+				</a>
+			))
+		}
+	</div>
+	<div>
+		<h3 class="text-2xl font-medium">{data.title}</h3>
+		<div class="my-[0.6em] flex flex-wrap items-baseline gap-[0.6em] font-adelle-sans text-sm">
+			{
+				data.roles.map((role) => (
+					<div
+						class:list={[
+							"rounded-sm border px-[0.4em] py-[0.15em]",
+							{
+								"border-fi-blue-100 bg-fi-blue-50 text-fi-blue": role.includes("[i]"),
+								"border-fi-orange-100 bg-fi-orange-50 text-fi-orange": role.includes("[d]"),
+								"border-fi-yellow-100 bg-fi-yellow-50 text-fi-yellow": role.includes("[g]"),
+							},
+						]}
+					>
+						{role.replace(/\[.\]/g, "")}
+					</div>
+				))
+			}
+			{
+				data.tools.map((tool) => (
+					<div class="rounded-sm border border-fi-ui bg-fi-bg-2 px-[0.4em] py-[0.15em] text-fi-base-500">
+						{tool}
+					</div>
+				))
+			}
+		</div>
+		<p class="mb-2 text-fi-base-600">
+			<Fragment set:html={data.lede && markdown.renderInline(data.lede)} />
+			<span class="whitespace-nowrap">
+				<span class="font-sofia-sans text-[81%] font-[500] uppercase">
+					{data.client && <>{data.client}, </>}{
+						formatCustomPeriod(data.date, "fr", true, false, false)
+					}.
+				</span>
+			</span>
+		</p>
+		{
+			data.links.map((link) => (
+				<a
+					class="group mr-2 hidden text-fi-tx-2 hover:text-fi-orange mediumlarge:inline"
+					href={link.url}
+					target="_blank"
+				>
+					<span
+						class="underline decoration-fi-ui-2 decoration-1 underline-offset-3 transition group-hover:decoration-fi-orange"
+						set:html={link.title}
+					/>
+					<span class="text-[82%] font-medium text-fi-tx-3 transition group-hover:text-fi-orange">
+						↗
+					</span>
+				</a>
+			))
+		}
+		{
+			overview && overview.length > 1 && (
+				<div class="mb-2 mt-6 flex gap-[1em] font-sofia-sans uppercase">
+					{overview.map((cat, index) => (
+						<label>
+							<input
+								type="radio"
+								name={id}
+								data-entry={id}
+								data-index={index}
+								class="peer hidden"
+								checked={index == 0}
+							/>
+							<div class="cursor-pointer border-b-2 border-fi-paper text-fi-base-600/70 transition-all hover:text-fi-orange-500 peer-checked:border-fi-orange-500 peer-checked:text-fi-orange-500">
+								{cat[0]}
+							</div>
+						</label>
+					))}
+				</div>
+			)
+		}
+		{
+			overview &&
+				overview.map((cat, index) => (
+					<div class:list={{ hidden: index != 0 }} data-entry={id} data-index={index}>
+						<ul class="list-outside list-disc">
+							{/* prettier-ignore */}
+							{cat.slice(1).map((item) => (
+								<li
+									class:list={[
+										"markdown mb-2 marker:text-fi-orange-500",
+										{ "marker:content-['→__']": index > 0 },
+									]}
+									set:html={markdown.renderInline(item)}
+								/>
+							))}
+						</ul>
+					</div>
+				))
+		}
+	</div>
+</div>
+
+<style is:global>
+	.glide__bullet--active {
+		@apply !bg-fi-paper;
+	}
+	.markdown {
+		strong {
+			font-weight: inherit;
+			@apply font-medium text-fi-orange-500;
+		}
+		a {
+			@apply text-fi-tx-2 underline decoration-fi-ui-2 decoration-1 underline-offset-3;
+			&::after {
+				content: " ↗";
+				@apply inline-block text-[82%] font-medium text-fi-tx-3;
+			}
+		}
+		em {
+			@apply italic;
+		}
+	}
+</style>
+
+<script>
+	// TODO: see docs for modular import
+	import Glide from "@glidejs/glide"
+
+	const carousels = document.querySelectorAll(".glide") as NodeListOf<HTMLElement>
+	carousels.forEach((item) => {
+		new Glide(item).mount()
+	})
+
+	const tabs = document.querySelectorAll(
+		`input[type="radio"][data-entry]`
+	) as NodeListOf<HTMLElement>
+	tabs.forEach((tab) => {
+		tab.addEventListener("change", () => {
+			const contents = document.querySelectorAll(
+				`div[data-entry="${tab.dataset.entry}"]`
+			) as NodeListOf<HTMLElement>
+			contents.forEach((content) => {
+				content.classList.toggle("hidden", content.dataset.index != tab.dataset.index)
+			})
+		})
+	})
+</script>

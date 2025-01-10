@@ -65,7 +65,7 @@ const places = await Promise.all(data.places.map(async (place) => await getPlace
 					<h1>
 						{data.title}
 						<span class="font-work-sans text-[24px] font-light text-zinc-400">
-							{data.date ? <ArticleDate date={data.date} yearOnly /> : entry.slug}
+							{data.date ? <ArticleDate date={data.date} yearOnly /> : entry.id}
 						</span>
 					</h1>
 					{!data.hidePlaces && (

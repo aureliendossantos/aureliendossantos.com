@@ -18,6 +18,7 @@ export default defineConfig({
 	}),
 	experimental: {
 		contentIntellisense: true,
+		svg: true,
 	},
 	i18n: {
 		defaultLocale: "fr",

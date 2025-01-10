@@ -1,0 +1,91 @@
+---
+/**
+ * A radio button that filters projects by category.
+ * @param small - The `small` button is just a label pointing to a real button that must be elsewhere on the page.
+ */
+interface Props {
+	title: string
+	value: string
+	color: string
+	deg: number
+	small?: boolean
+}
+const { title, value, color, deg, small } = Astro.props
+---
+
+<label
+	class:list={[
+		"flex cursor-pointer items-center gap-3 rounded-full bg-[--color] p-3 leading-tight text-[--color] text-fi-paper ring-2 ring-[--color] transition ease-out hover:bg-[--color] hover:ring-2",
+		{
+			"group-has-[:checked]:bg-transparent group-has-[:checked]:text-[--color] group-has-[:checked]:has-[:checked]:bg-[--color] group-has-[:checked]:has-[:checked]:text-fi-paper":
+				!small,
+		},
+		{ "py-1": small },
+	]}
+	style={{ "--color": color }}
+	for={small ? value : undefined}
+>
+	{!small && <input type="radio" name="skills" {value} id={value} class="peer hidden" />}
+	<div
+		class="circle inline-block aspect-square rounded-full text-[--color] text-fi-paper transition group-has-[:checked]:text-[--color] group-has-[:checked]:peer-checked:text-fi-paper"
+		style={{ "--deg": `${deg}deg` }}
+	>
+	</div>
+	<div>{title}</div>
+</label>
+
+<style>
+	.circle {
+		--stripes: 5;
+		--size: calc(var(--stripes) * var(--line-width) * 2 - var(--line-width));
+		--line-width: 2px;
+		width: var(--size);
+		height: var(--size);
+		background: repeating-linear-gradient(
+			var(--deg),
+			currentColor,
+			currentColor var(--line-width),
+			transparent var(--line-width),
+			transparent calc(var(--line-width) * 2)
+		);
+	}
+</style>
+
+<script>
+	const buttons = document.querySelectorAll("input[name=skills]") as NodeListOf<HTMLInputElement>
+	const projects = document.querySelectorAll("[data-appear-in]") as NodeListOf<HTMLElement>
+
+	/** Hides projects not corresponding to the value. */
+	const updateProjectsVisibility = (category: string) => {
+		projects.forEach((project) => {
+			project.classList.toggle("hidden", !project.dataset.appearIn!.includes(category))
+			project.offsetHeight // Accessing this property forces a reflow
+		})
+		// After this, previously hidden images and videos don't show up. Forcing a reflow.
+	}
+
+	buttons.forEach((button) => {
+		button.addEventListener("click", () => {
+			// Not changing the hash because of the image/video loading bug
+			// window.location.hash = button.value
+			updateProjectsVisibility(button.value)
+			setTimeout(() => {
+				// If we click on any button, the skills overlay never shows up again
+				;(document.querySelector("#close-skills-overlay") as HTMLInputElement).checked = true
+				window.scrollTo({
+					top: window.innerHeight - 80,
+					behavior: "smooth",
+				})
+			}, 100)
+		})
+	})
+	// if the URL ends in #{value}, the skills radio that has that value is checked
+	const hash = window.location.hash.slice(1) // removing the #
+	if (hash) {
+		const button = document.querySelector(`input[value="${hash}"]`) as HTMLInputElement
+		if (button) {
+			button.checked = true
+			updateProjectsVisibility(hash)
+		}
+	}
+</script>

@@ -1,0 +1,88 @@
+<div class="circle absolute -z-10 rounded-full"></div>
+
+<style>
+	@property --deg {
+		syntax: "<angle>";
+		initial-value: 0deg;
+		inherits: false;
+	}
+	@propery --fg {
+		syntax: "<color>";
+		initial-value: #96a065;
+		inherits: false;
+	}
+	@property --x-offset {
+		syntax: "<length>";
+		initial-value: 0;
+		inherits: false;
+	}
+
+	.circle {
+		left: calc((var(--size) * -0.7) - 0px);
+		top: calc((var(--size) * -0.28) - 25px);
+		--stripes: 11; /*8*/
+		--line-width: 9px; /*7*/
+		/* different position on mobile: */
+		@media (max-width: 860px) {
+			left: unset;
+			right: calc((var(--size) * -0.5) - 0px);
+			top: calc((var(--size) * -0.5) - 25px);
+			--stripes: 14; /*8*/
+			--line-width: 11px; /*7*/
+		}
+		--size: calc(var(--stripes) * var(--line-width) * 2 - var(--line-width));
+		--x-offset: calc(var(--line-width) * 0.8);
+		--bg: transparent;
+		--deg: 45deg;
+		width: var(--size);
+		height: var(--size);
+		background: repeating-linear-gradient(
+			var(--deg),
+			currentColor,
+			currentColor var(--line-width),
+			var(--bg) var(--line-width),
+			var(--bg) calc(var(--line-width) * 2)
+		);
+		animation-duration: 8s;
+		animation-name: stripes;
+		animation-iteration-count: infinite;
+		background-size: calc(var(--size) + var(--x-offset)) var(--size);
+		--sudden-deg-jump: 0deg;
+	}
+	:root {
+		--green: #96a065;
+		--orange: #ff773a;
+		--blue: #66a0c8;
+		--purple: #8b7ec8;
+		--yellow: #f2b366;
+	}
+	/* Comme les transitions font 8% de temps à part la dernière qui fait 9%, j'ai 1% de marge que je peux ajouter à la plus grande transition */
+	@keyframes stripes {
+		0%,
+		25% {
+			--deg: 90deg;
+			color: var(--blue);
+		}
+		33%,
+		58% {
+			--deg: 135deg;
+			color: var(--orange);
+		}
+		66% {
+			--deg: 180deg;
+			color: var(--yellow);
+		}
+		66.001% {
+			--deg: 0deg;
+			color: var(--yellow);
+		}
+		91% {
+			--deg: 0deg;
+			color: var(--yellow);
+		}
+		100% {
+			--deg: 90deg;
+			color: var(--blue);
+		}
+	}
+</style>

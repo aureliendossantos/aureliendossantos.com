@@ -74,7 +74,7 @@ navBarPropsWithFallback.title ??= title
 ---
 
 <!doctype html>
-<html {lang} data-theme={codeTheme} data-palette={paletteName}>
+<html {lang} data-theme={codeTheme} data-palette={paletteName} data-overlayscrollbars-initialize>
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
@@ -141,6 +141,7 @@ navBarPropsWithFallback.title ??= title
 			paddingLeft: viewportCover ? 0 : "env(safe-area-inset-left)",
 			paddingRight: viewportCover ? 0 : "env(safe-area-inset-right)",
 		}}
+		data-overlayscrollbars-initialize
 	>
 		<slot />
 		<FullscreenSpinner />

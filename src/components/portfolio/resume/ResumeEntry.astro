@@ -10,5 +10,8 @@ const entry = await getEntryOrThrow("resume", id)
 const { Content } = await render(entry)
 ---
 
-<h3>{entry.data.title}</h3>
+<h3>
+	{entry.data.title}
+	{entry.data.title == "Agence Insolence" && <span class="date">(en alternance)</span>}
+</h3>
 <Content />

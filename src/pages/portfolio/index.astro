@@ -1,9 +1,23 @@
 ---
+import BaseLayout from "$layouts/BaseLayout.astro"
+import "overlayscrollbars/overlayscrollbars.css"
 import LinkItem from "$components/portfolio/LinkItem.astro"
 import School from "$components/portfolio/School.astro"
-import BaseLayout from "$layouts/BaseLayout.astro"
-import getSeeAlso from "$utils/getSeeAlso"
-import Card from "$components/portfolio/Card.astro"
+import Circle from "$components/portfolio/Circle.astro"
+import SkillChoice from "$components/portfolio/SkillChoice.astro"
+import Overview from "$components/portfolio/Overview.astro"
+import { getCollection, z } from "astro:content"
+import { dateSort } from "$utils/sort"
+import { date as dateType, period as periodType } from "src/content.config"
+
+const customToJsDate = (period: z.infer<typeof periodType> | z.infer<typeof dateType>) => {
+	const date = Array.isArray(period) ? period[1] : period
+	return new Date(date.y!, typeof date.m == "number" ? date.m - 1 : 0, date.d || 1)
+}
+
+const entries = (await getCollection("portfolio")).sort((a, b) => {
+	return dateSort(customToJsDate(a.data.date), customToJsDate(b.data.date))
+})
 ---
 
 <BaseLayout
@@ -11,88 +25,119 @@ import Card from "$components/portfolio/Card.astro"
 	bg="#FFFCF0"
 	title="Portfolio"
 	description="Portfolio d'Aurélien Dos Santos présentant des projets d'ingénierie pédagogique, de game design et de développement web et multimédia."
-	navBarProps={{ title: "Portfolio", related: await getSeeAlso(["pro"]) }}
+	navBarProps={{ title: "Portfolio" }}
+	viewportCover
 >
 	<div
-		class="m-auto max-w-[820px] px-[43px] pb-24 pt-14 font-adelle-sans text-xl text-fi-black medium:text-lg"
+		class="m-auto max-w-[820px] px-[43px] font-inter text-fi-black mediumlarge:overflow-x-hidden medium:text-lg"
 	>
-		<header>
-			<a
-				href="/"
-				class="text-sm font-semibold text-fi-base-300 transition hover:text-fi-orange-400"
+		<header class="flex min-h-[calc(100svh)] flex-col justify-center py-14">
+			<div
+				class="relative"
+				style={{
+					"text-shadow": `
+						2px 0px #FFFCF0,
+						2px 1px #FFFCF0,
+						2px 2px #FFFCF0,
+						-1px -1px #FFFCF0,
+						1px -1px #FFFCF0, 1px -2px #FFFCF0,
+						-1px 1px #FFFCF0, -2px 0px #FFFCF0, -2px -1px #FFFCF0, -2px -2px #FFFCF0, -2px 1px #FFFCF0, -2px 2px #FFFCF0, 0px 2px #FFFCF0, 0px -2px #FFFCF0`,
+				}}
 			>
-				Aurélien Dos Santos
-			</a>
-			<div class="text-2xl font-extralight">Portfolio</div>
-		</header>
-		<div class="mt-9 grid grid-cols-2 gap-3 text-sm medium:grid-cols-1">
-			<div class="flex flex-col justify-between pr-[21.5px] medium:order-2 medium:pr-0">
-				<div>
-					<LinkItem
-						href="https://www.youtube.com/@GameDevAlliance"
-						site="YouTube"
-						username="@Game Dev Alliance"
-					/>
-					<LinkItem
-						href="https://www.linkedin.com/in/aureliendossantos/"
-						site="LinkedIn"
-						username="@aureliendossantos"
-					/>
-					<LinkItem
-						href="https://github.com/aureliendossantos"
-						site="GitHub"
-						username="@aureliendossantos"
-					/>
-					<LinkItem
-						href="mailto:aureliendsantos@gmail.com"
-						site="Email"
-						username="aureliendsantos@gmail.com"
-					/>
+				<Circle />
+				<a href="/" class="text-lg font-medium transition hover:text-fi-orange"
+					>Aurélien Dos Santos
+				</a>
+				<div class="-ml-[3px] text-6xl font-medium" style={{ fontFeatureSettings: '"dlig"' }}>
+					Portfolio
 				</div>
 			</div>
-			<p class="pl-[21.5px] text-fi-base-600 medium:pl-0">
-				Ingénieur pédagogique de formation, je suis en quête de nouvelles opportunités en tant que
-				développeur web et multimédia.
-			</p>
-			<div class="hidden pl-[21.5px] font-adelle font-light">
-				<p>
-					Je suis Aurélien et j'ai conclu des études en alternance d’ingénierie pédagogique et de
-					conception e-learning. Je suis également passionné par le développement informatique (web
-					et jeux vidéo), le game design et la photographie.
-				</p>
-				<p class="mt-3">
-					Je suis en quête d’opportunités en tant qu’ingénieur pédagogique, concepteur pédagogique
-					(écrit, vidéo), développeur multimédia (Unity, web) ou toute mission à la croisée de ces
-					compétences.
+			<div class="mt-12 grid grid-cols-2 gap-3 text-sm medium:grid-cols-1">
+				<div class="flex flex-col justify-between pr-[21.5px] medium:order-2 medium:pr-0">
+					<div>
+						<LinkItem
+							href="https://www.youtube.com/@GameDevAlliance"
+							site="YouTube"
+							username="@Game Dev Alliance"
+						/>
+						<LinkItem
+							href="https://www.linkedin.com/in/aureliendossantos/"
+							site="LinkedIn"
+							username="@aureliendossantos"
+						/>
+						<LinkItem
+							href="https://github.com/aureliendossantos"
+							site="GitHub"
+							username="@aureliendossantos"
+						/>
+						<LinkItem
+							href="mailto:aureliendsantos@gmail.com"
+							site="Email"
+							username="aureliendsantos@gmail.com"
+						/>
+					</div>
+				</div>
+				<p class="pl-[21.5px] medium:pl-0">
+					Ingénieur pédagogique de formation, avec une expérience significative dans la vidéo, le
+					web et le game design, je conçois des parcours numériques impactants et accessibles.
 				</p>
 			</div>
+			<div class="mt-12 text-sm">
+				<div class="mb-3 text-xs font-medium uppercase tracking-wider text-fi-base-400">
+					Filtrer par compétence
+				</div>
+				<div class="group grid grid-cols-3 gap-x-3 gap-y-2 pt-[3px] medium:grid-cols-1">
+					<SkillChoice
+						title="Ingénierie pédagogique"
+						value="pedagogique"
+						color="#4385BE"
+						deg={90}
+					/>
+					<SkillChoice title="Développement web" value="web" color="#DA702C" deg={135} />
+					<SkillChoice title="Game design et Unity" value="jeux" color="#D0A215" deg={0} />
+				</div>
+			</div>
+		</header>
+	</div>
+	<div
+		id="skills-overlay"
+		class="pointer-events-none fixed left-0 right-0 top-0 z-20 border-b border-fi-ui bg-fi-paper p-2 pb-[10px] pt-[7px] text-sm opacity-0 transition-opacity mediumlarge:hidden"
+	>
+		<div
+			class="group relative m-auto grid max-w-[735px] grid-cols-3 gap-x-3 gap-y-2 pt-[3px] medium:grid-cols-1"
+		>
+			<div
+				class="absolute -left-[68px] top-[9px] mb-3 text-xs font-medium uppercase tracking-wider text-fi-base-400"
+			>
+				Filtrer
+			</div>
+			<SkillChoice
+				small
+				title="Ingénierie pédagogique"
+				value="pedagogique"
+				color="#4385BE"
+				deg={90}
+			/>
+			<SkillChoice small title="Développement web" value="web" color="#DA702C" deg={135} />
+			<SkillChoice small title="Game design et Unity" value="jeux" color="#D0A215" deg={0} />
+			<label
+				class="absolute -right-9 top-1 mb-3 cursor-pointer rounded-full px-2 py-1 text-xs font-medium text-fi-base-400 ring-fi-ui-2 transition hover:ring-1"
+			>
+				<input id="close-skills-overlay" type="checkbox" class="hidden" />
+				✕
+			</label>
 		</div>
-		<h2 class="mb-6 mt-9 text-sm font-medium text-fi-orange-400">Développement web</h2>
-		<div class="-mx-[21.5px] grid grid-cols-2 gap-3 medium:flex medium:flex-col">
-			<Card slug="dashboard" layout="vertical" />
-			<Card slug="minimal-cms" layout="vertical" />
-			<Card slug="jeu-de-survie-navigateur" layout="horizontal" />
-			<Card slug="site" layout="horizontal" />
-		</div>
-		<h2 class="mb-6 mt-12 text-sm font-medium text-fi-orange-400">Jeux vidéo sur Unity</h2>
-		<div class="-mx-[21.5px] grid grid-cols-2 gap-3 medium:flex medium:flex-col">
-			<Card slug="qrpg" layout="vertical" />
-			<Card slug="powerup" layout="vertical" />
-		</div>
-		<h2 class="mb-6 mt-12 text-sm font-medium text-fi-orange-400">Projets pédagogiques</h2>
-		<div class="-mx-[21.5px] grid grid-cols-2 gap-3 medium:flex medium:flex-col">
-			<Card slug="cap-cuisine" layout="horizontal" />
-			<Card slug="fairedesjeux" layout="horizontal" />
-		</div>
-		<!-- <Toc big /> -->
-		<h2 class="mb-6 mt-12 text-sm font-medium text-fi-orange-400">Formation</h2>
+	</div>
+	<div class="m-auto max-w-6xl px-[43px]">
+		{entries.map((entry) => <Overview id={entry.id} />)}
+	</div>
+	<div class="m-auto my-24 max-w-[820px] px-[43px] font-inter text-xl medium:text-lg">
+		<h2 class="mb-6 mt-12 text-sm font-medium text-fi-orange-500">Formation</h2>
 		<School
 			degree="Master MEEF Ingénierie de Formation, parcours Conception de Ressources Numériques"
 			school="2021-2023 ∙ Université Toulouse Jean-Jaurès"
 		/>
-		<ul
-			class="hidden list-disc text-sm leading-relaxed text-fi-base-600 marker:text-fi-base-100 medium:text-sm"
-		>
+		<ul class="hidden list-disc text-sm leading-relaxed marker:text-fi-base-100 medium:text-sm">
 			<li>Ingénierie pédagogique</li>
 			<li>
 				Conception pédagogique multimédia
@@ -123,4 +168,73 @@ import Card from "$components/portfolio/Card.astro"
 			school="2014-2016 ∙ Université de Pau"
 		/>
 	</div>
+	<div class="my-24 flex justify-center gap-3 text-sm">
+		<button
+			id="back-to-top"
+			class="flex cursor-pointer items-center gap-2 rounded-full p-3 pr-4 leading-tight text-fi-tx-2 ring-2 ring-fi-tx-2 transition ease-out"
+		>
+			<div class="inline-block font-medium">↑</div>
+			<div>Retour en haut</div>
+		</button>
+		{
+			/*
+		<button
+			id="all-projects"
+			class="bg-fi-tx-3 ring-fi-tx-3 hover:bg-fi-bg-2 flex cursor-pointer items-center gap-2 rounded-full p-3 pr-4 leading-tight text-fi-paper ring-2 transition ease-out"
+		>
+			<div class="inline-block aspect-square h-[1em] rounded-full border-2 border-fi-paper"></div>
+			<div>Tous les projets</div>
+		</button>*/
+		}
+	</div>
 </BaseLayout>
+
+<script>
+	document.querySelector("#back-to-top")?.addEventListener("click", () => {
+		window.scrollTo({ top: 0, behavior: "smooth" })
+	})
+	document.querySelector("#all-projects")?.addEventListener("click", () => {
+		window.scrollTo({ top: window.innerHeight / 2, behavior: "smooth" })
+	})
+	// If the user has scrolled for more than window.innerHeight, show the skills overlay. Hide it if the user scrolls back up, or clicks the close button.
+	const skillsOverlay = document.querySelector("#skills-overlay") as HTMLElement
+	const closeSkillsOverlay = document.querySelector("#close-skills-overlay") as HTMLInputElement
+	const showSkillsOverlay = () => {
+		skillsOverlay.style.opacity = "1"
+		skillsOverlay.style.pointerEvents = "auto"
+	}
+	const hideSkillsOverlay = () => {
+		skillsOverlay.style.opacity = "0"
+		skillsOverlay.style.pointerEvents = "none"
+	}
+	document.addEventListener("scroll", () => {
+		if (window.scrollY >= window.innerHeight - 80 && !closeSkillsOverlay.checked) {
+			showSkillsOverlay()
+		} else {
+			hideSkillsOverlay()
+		}
+	})
+	closeSkillsOverlay.addEventListener("change", () => {
+		hideSkillsOverlay()
+	})
+</script>
+
+<script>
+	import { OverlayScrollbars, ScrollbarsHidingPlugin, ClickScrollPlugin } from "overlayscrollbars"
+	OverlayScrollbars.plugin([ScrollbarsHidingPlugin, ClickScrollPlugin])
+	OverlayScrollbars(document.body, { scrollbars: { clickScroll: true } })
+</script>
+
+<style is:global>
+	.os-scrollbar {
+		--os-track-bg-hover: #efeee3;
+		--os-track-border-hover: 1px solid #dad8ce;
+		--os-handle-bg: #e6e4d9;
+		--os-handle-border: 1px solid #dad8ce;
+		--os-handle-bg-hover: #b7b5ac;
+		--os-handle-border-hover: 1px solid #9f9d96;
+		--os-handle-bg-active: #9f9d96;
+		--os-handle-border-active: 1px solid #878580;
+		--os-padding-perpendicular: 2px 30px;
+	}
+</style>
