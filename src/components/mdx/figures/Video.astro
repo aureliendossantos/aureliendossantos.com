@@ -63,9 +63,13 @@ if (compat) {
 		playsinline={gif}
 		{...attributes}
 	>
+		{/* #t=0.1 is a workaround for videos sometimes not loading on iOS */}
 		{
 			sources.map((source) => (
-				<source src={source.src} type={"type" in source ? source.type : undefined} />
+				<source
+					src={`${source.src}${gif ? "#t=0.1" : ""}`}
+					type={"type" in source ? source.type : undefined}
+				/>
 			))
 		}
 		{
