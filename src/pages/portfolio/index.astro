@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "$layouts/BaseLayout.astro"
+import ogImage from "$styles/assets/open-graph/portfolio-og.png"
 import "overlayscrollbars/overlayscrollbars.css"
 import LinkItem from "$components/portfolio/LinkItem.astro"
 import School from "$components/portfolio/School.astro"
@@ -23,10 +24,10 @@ const entries = (await getCollection("portfolio")).sort((a, b) => {
 <BaseLayout
 	ogType="website"
 	bg="#FFFCF0"
+	image={ogImage.src}
 	title="Portfolio"
 	description="Portfolio d'Aurélien Dos Santos présentant des projets d'ingénierie pédagogique, de game design et de développement web et multimédia."
 	navBarProps={{ title: "Portfolio" }}
-	viewportCover
 >
 	<div
 		class="m-auto max-w-[820px] px-[43px] font-inter text-fi-black mediumlarge:overflow-x-hidden medium:text-lg"
