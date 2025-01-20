@@ -13,36 +13,20 @@ const t = useTranslations(locale)
 const preRenderedEntries = Astro.props.ssr ? [] : await getSearchEntries(locale)
 ---
 
-<div class="relative border-r border-neutral-700">
-	<div class="group flex h-full items-center hover:bg-white hover:text-black">
+<div class="navbar-colors relative border-r">
+	<div class="navbar-hover-colors group flex h-full items-center">
 		<label for="navbar-search-toggle">
 			<Icon name="ic:baseline-search" class="h-[17px] pl-[10px] pr-2 medium:px-2" />
 		</label>
 		<input type="checkbox" id="navbar-search-toggle" class="peer hidden" aria-hidden="true" />
 		<input
 			id="navbar-search"
-			class="w-[90px] bg-transparent p-0 placeholder:text-white focus:text-white focus:outline-none placeholder:focus:text-neutral-500 group-hover:text-black placeholder:group-hover:text-black focus:group-hover:text-black medium:w-0 medium:active:w-[90px] medium:peer-checked:w-[90px]"
+			class="w-[90px] bg-transparent p-0 placeholder:text-[--navbar-text] focus:text-[--navbar-text] focus:outline-none placeholder:focus:text-[--navbar-border] group-hover:text-[--navbar-hover-text] placeholder:group-hover:text-[--navbar-hover-text] focus:group-hover:text-[--navbar-hover-text] medium:w-0 medium:active:w-[90px] medium:peer-checked:w-[90px] dark:placeholder:text-[--dark-navbar-text] dark:focus:text-[--dark-navbar-text] dark:placeholder:focus:text-[--dark-navbar-border] dark:group-hover:text-[--dark-navbar-hover-text] dark:placeholder:group-hover:text-[--dark-navbar-hover-text] dark:focus:group-hover:text-[--dark-navbar-hover-text]"
 			style="transition: width 0.2s ease-out;"
 			placeholder={t("n-search")}
 			autocomplete="off"
 			type="text"
 		/>
-	</div>
-	<div
-		id="navbar-search-dropdown"
-		class="absolute bottom-7 z-10"
-		role="menu"
-		aria-orientation="vertical"
-		aria-labelledby="menu-button"
-		tabindex="-1"
-	>
-		<div
-			id="navbar-search-items-container"
-			role="none"
-			class="divide-y divide-solid divide-neutral-700"
-		>
-			<slot />
-		</div>
 	</div>
 </div>
 
@@ -134,7 +118,7 @@ const preRenderedEntries = Astro.props.ssr ? [] : await getSearchEntries(locale)
 					result.date ? `date="${result.date}"` : ""
 				} ${
 					result.categories ? `tags="${result.categories.join(", ")}"` : ""
-				} class="flex w-[192px]"></search-card>`
+				} class="flex w-[207px]"></search-card>`
 			)
 		})
 	}

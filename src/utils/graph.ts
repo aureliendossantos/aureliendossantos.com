@@ -414,13 +414,13 @@ function renderGlobalGraph() {
 	const currentSlug = getCurrentSlug()
 	// TODO: jcrois que peu m'importe ce qu'il fait à outer et sidebar
 	const container = document.getElementById("global-graph-outer") as HTMLElement
-	container.classList.add("inline-block")
+	container.classList.add("block")
 	container.classList.remove("hidden")
 
 	renderGraph("global-graph-container", currentSlug)
 
 	function hideGlobalGraph() {
-		container.classList.remove("inline-block")
+		container.classList.remove("block")
 		container.classList.add("hidden")
 		const graph = document.getElementById("global-graph-container")
 		if (!graph) return

@@ -1,3 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+	.navbar-colors {
+		@apply divide-[--navbar-border] border-[--navbar-border] text-[--navbar-text] ring-[--navbar-border] dark:divide-[--dark-navbar-border] dark:border-[--dark-navbar-border] dark:text-[--dark-navbar-text] dark:ring-[--dark-navbar-border];
+	}
+	.navbar-bg {
+		backdrop-filter: var(--navbar-bg-filter);
+		@apply bg-[--navbar-bg] dark:bg-[--dark-navbar-bg];
+	}
+	.navbar-hover-colors {
+		@apply hover:bg-[--navbar-hover-bg] hover:text-[--navbar-hover-text] dark:hover:bg-[--dark-navbar-hover-bg] dark:hover:text-[--dark-navbar-hover-text];
+	}
+}

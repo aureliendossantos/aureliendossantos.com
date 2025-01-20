@@ -11,10 +11,10 @@ const { id, label, shortLabel, href } = Astro.props
 ---
 
 <a
-	id={id}
+	{id}
 	style="padding-block: unset;"
-	class="m-0 flex h-full items-center justify-center gap-2 border-r border-neutral-700 p-0 pl-2 pr-3 hover:bg-white hover:text-black medium:pr-2"
-	href={href}
+	class="navbar-colors navbar-hover-colors m-0 flex h-full items-center justify-center gap-2 border-r p-0 pl-2 pr-3 medium:pr-2"
+	{href}
 	download
 >
 	<Icon id="navbar-link-icon" name="ic:outline-file-download" class="h-[17px] w-[17px]" />

@@ -1,0 +1,13 @@
+<div
+	transition:persist="search-items"
+	transition:animate="fade"
+	id="navbar-search-items-container"
+	class="navbar-colors navbar-bg fixed bottom-7 z-[999] divide-solid border-x border-t font-work-sans text-sm"
+	style={{ right: "calc(env(safe-area-inset-right) - 1px)" }}
+	role="menu"
+	aria-orientation="vertical"
+	aria-labelledby="menu-button"
+	tabindex="-1"
+>
+	<slot />
+</div>

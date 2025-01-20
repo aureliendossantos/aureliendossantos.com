@@ -13,9 +13,9 @@ const shortLabel = Astro.props.shortLabel || label
 ---
 
 <a
-	id={id}
-	class="relative m-0 flex h-full items-center justify-center gap-2 border-r border-neutral-700 p-0 px-3 hover:bg-white hover:text-black medium:px-2"
-	href={href}
+	{id}
+	class="navbar-colors navbar-hover-colors relative m-0 flex h-full items-center justify-center gap-2 border-r p-0 px-3 medium:px-2"
+	{href}
 >
 	<div id={`${id}-text`} class="whitespace-nowrap medium:hidden">{label}</div>
 	<div id={`${id}-short-text`} class="hidden whitespace-nowrap medium:block">{shortLabel}</div>

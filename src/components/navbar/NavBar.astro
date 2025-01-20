@@ -10,9 +10,11 @@ import InactiveItem from "./InactiveItem.astro"
 import { Icon } from "astro-icon/components"
 import type { NavBarProps } from "$utils/navbar"
 import SearchBar from "./SearchBar.astro"
-import Graph from "$components/Graph.astro"
+import NavbarGraph from "$components/navbar/NavbarGraph.astro"
+import GlobalGraph from "$components/navbar/GlobalGraph.astro"
 import GameStatus from "./GameStatus.astro"
 import AudioController from "./AudioController.astro"
+import SearchItemsContainer from "./SearchItemsContainer.astro"
 
 interface Props extends NavBarProps {
 	viewportCover?: boolean
@@ -27,13 +29,19 @@ const t = useTranslations(checkLocale(Astro.currentLocale))
 <div transition:persist="navbar-margin" id="bottom-page-margin" class="h-7 w-full print:!hidden">
 </div>
 
+{
+	/* When it's easy to separate sub-elements in the DOM, put them here instead of nested in the navbar, to avoid issues with nested backdrop filters. */
+}
+<SearchItemsContainer />
+<GlobalGraph />
+
 <div
 	transition:persist="navbar"
-	transition:animate="none"
+	transition:animate="fade"
 	id="navbar"
-	class="fixed bottom-0 z-[999] flex h-7 w-full max-w-full border-neutral-700 bg-black font-work-sans text-sm text-white transition-all print:!hidden"
+	class="navbar-colors navbar-bg fixed bottom-0 z-[999] flex h-7 w-full max-w-full border-t font-work-sans text-sm transition-all duration-500 print:!hidden"
 	style={{
-		marginLeft: viewportCover ? 0 : "calc(-1 * env(safe-area-inset-left))",
+		marginLeft: "calc(var(--has-viewport-cover) * env(safe-area-inset-left))",
 		paddingLeft: "env(safe-area-inset-left)",
 		paddingRight: "env(safe-area-inset-right)",
 	}}
@@ -47,7 +55,7 @@ const t = useTranslations(checkLocale(Astro.currentLocale))
 			keepOpenOnClick
 		>
 			<Icon name="carbon:network-1" class="h-[17px]" slot="icon" />
-			<Graph {title} />
+			<NavbarGraph {title} />
 		</DropdownMenu>
 		<!--
 		<DropdownMenu id="navbar-explore" label="Portails" truncate="medium" borderRight chevron>
@@ -67,7 +75,7 @@ const t = useTranslations(checkLocale(Astro.currentLocale))
 		<a
 			id="navbar-parent-link"
 			class:list={[
-				"group relative m-0 flex h-full items-center justify-center gap-2 border-r border-neutral-700 p-0 px-3 hover:bg-white hover:text-black",
+				"navbar-colors navbar-hover-colors group relative m-0 flex h-full items-center justify-center gap-2 border-r p-0 px-3",
 				{
 					hidden: !parent,
 				},
@@ -79,14 +87,14 @@ const t = useTranslations(checkLocale(Astro.currentLocale))
 				{parent?.title}
 			</div>
 			<div
-				class="absolute -right-[3px] top-3 z-[1000] h-[4px] w-[4px] rotate-45 border-r border-t border-neutral-700 bg-black group-hover:bg-white"
+				class="navbar-colors absolute -right-[3px] top-3 z-[1000] h-[4px] w-[4px] rotate-45 border-r border-t bg-[--navbar-bg-compatible] group-hover:bg-[--navbar-hover-bg] dark:bg-[--dark-navbar-bg-compatible] dark:group-hover:bg-[--dark-navbar-hover-bg]"
 			>
 			</div>
 		</a>
 		<button
 			id="navbar-copy-link"
 			style="padding-block: unset;"
-			class="group relative m-0 flex h-full items-center justify-center gap-2 border-r border-neutral-700 p-0 px-3 hover:bg-white hover:text-black medium:px-2"
+			class="navbar-colors navbar-hover-colors group relative m-0 flex h-full items-center justify-center gap-2 border-r p-0 px-3 medium:px-2"
 		>
 			<Icon id="navbar-link-icon" name="ic:baseline-ios-share" class="-mt-[3px] h-[14px]" />
 			<Icon id="navbar-link-checkmark" name="ic:baseline-check" class="hidden h-[17px]" />
@@ -158,7 +166,7 @@ const t = useTranslations(checkLocale(Astro.currentLocale))
 		<InactiveItem id="navbar-popup-title" label="Titre" borderRight truncate />
 		<a
 			id="navbar-popup-library"
-			class="group relative m-0 flex h-full items-center justify-center gap-2 border-r border-neutral-700 p-0 px-3 hover:bg-white hover:text-black medium:px-2"
+			class="navbar-colors navbar-hover-colors group relative m-0 flex h-full items-center justify-center gap-2 border-r p-0 px-3 medium:px-2"
 			href=""
 		>
 			<div class="whitespace-nowrap medium:hidden">Dans ma bibliothèque</div>
@@ -180,7 +188,7 @@ const t = useTranslations(checkLocale(Astro.currentLocale))
 	}
 	<button
 		id="fullscreen-to-overview"
-		class="hidden border-r border-neutral-700 px-3 hover:bg-white hover:text-black medium:px-2"
+		class="navbar-colors navbar-hover-colors hidden border-r px-3 medium:px-2"
 	>
 		<Icon name="material-symbols:collapse-content-rounded" class="h-[17px]" />
 	</button>
@@ -234,7 +242,7 @@ const t = useTranslations(checkLocale(Astro.currentLocale))
 				.forEach((heading, index) => {
 					const item = document.createElement("a")
 					item.className =
-						"line-clamp-2 flex items-center border-x-0 px-3 py-[6px] leading-tight hover:bg-white hover:text-black"
+						"line-clamp-2 flex items-center border-x-0 px-3 py-[6px] leading-tight navbar-hover-colors"
 					item.style.width = "192px"
 					item.href = `#${heading.slug}`
 					item.innerText = `${index + 1}. ${heading.text}`

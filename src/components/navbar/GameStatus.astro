@@ -6,7 +6,7 @@ const spritesheet = await getImage({ src: png, format: "webp" })
 
 <div
 	data-state="fullscreen"
-	class="fixed bottom-7 right-0 h-screen max-h-[calc(100dvh-28px)] w-full max-w-md pl-1 pt-1 medium:pl-1 medium:pt-1"
+	class="fixed bottom-0 right-0 h-screen max-h-[calc(100dvh-28px)] w-svw max-w-md pl-1 pt-1 medium:pl-1 medium:pt-1"
 >
 	<iframe class="h-full w-full rounded-tl border-2 border-b-0 border-[#1c1817] bg-[#1c1817]"
 	></iframe>
@@ -17,19 +17,19 @@ const spritesheet = await getImage({ src: png, format: "webp" })
 	<p>Vous pouvez signaler l'erreur à aureliendsantos@ gmail.com</p>
 	<button
 		id="reload-page"
-		class="mt-3 block w-full border p-1 text-center leading-snug hover:bg-white hover:text-black"
+		class="navbar-colors navbar-hover-colors mt-3 block w-full border p-1 text-center leading-snug"
 	>
 		Recharger la page
 	</button>
 	<button
 		id="disconnect-character"
-		class="mt-3 block w-full border p-1 text-center leading-snug hover:bg-white hover:text-black"
+		class="navbar-colors navbar-hover-colors mt-3 block w-full border p-1 text-center leading-snug"
 	>
 		Déconnecter le personnage
 	</button>
 </div>
 
-<div data-state="intro" class="max-h-svh w-48 overflow-y-scroll p-3 leading-tight">
+<div data-state="intro" class="max-h-svh w-48 overflow-y-auto p-3 leading-tight">
 	<p class="mb-3">
 		Vous vous réveillez sur le sable froid et humide, avec un sacré mal de crâne. Vous vous
 		redressez difficilement et scrutez les alentours.
@@ -40,7 +40,7 @@ const spritesheet = await getImage({ src: png, format: "webp" })
 	</p>
 	<button
 		id="intro-to-create"
-		class="mt-3 block w-full border p-1 text-center leading-snug hover:bg-white hover:text-black"
+		class="navbar-colors navbar-hover-colors mt-3 block w-full border p-1 text-center leading-snug"
 	>
 		Commencer
 	</button>
@@ -54,7 +54,7 @@ const spritesheet = await getImage({ src: png, format: "webp" })
 			id="account"
 			type="text"
 			required
-			class="w-full border bg-black px-2 text-white"
+			class="navbar-colors navbar-hover-colors navbar-bg w-full border px-2"
 		/>
 		<label for="character">Nom de personnage</label>
 		<input
@@ -62,25 +62,25 @@ const spritesheet = await getImage({ src: png, format: "webp" })
 			id="character"
 			type="text"
 			required
-			class="w-full border bg-black px-2 text-white"
+			class="navbar-colors navbar-hover-colors navbar-bg w-full border px-2"
 		/>
 		<label for="map">Choisir un monde</label>
 		<select
 			name="map"
 			id="map"
 			required
-			class="w-full border bg-black p-1 text-white disabled:text-neutral-500"
+			class="navbar-colors navbar-hover-colors navbar-bg w-full border p-1 disabled:text-neutral-500"
 		>
 			<option value="" disabled selected>Chargement...</option>
 		</select>
 		<button
 			type="submit"
-			class="mt-3 block w-full border p-1 text-center leading-snug hover:bg-white hover:text-black"
+			class="navbar-colors navbar-hover-colors mt-3 block w-full border p-1 text-center leading-snug"
 		>
 			Créer le personnage
 		</button>
 	</form>
-	<button id="create-to-login" class="mt-1 block text-neutral-500 hover:text-white">
+	<button id="create-to-login" class="mt-1 block opacity-50 hover:opacity-100">
 		J'ai déjà un personnage
 	</button>
 </div>
@@ -93,16 +93,16 @@ const spritesheet = await getImage({ src: png, format: "webp" })
 			id="characterId"
 			type="text"
 			required
-			class="w-full border bg-black px-2 text-white"
+			class="navbar-colors navbar-bg w-full border px-2"
 		/>
 		<button
 			type="submit"
-			class="mt-3 block w-full border p-1 text-center leading-snug hover:bg-white hover:text-black"
+			class="navbar-colors navbar-hover-colors mt-3 block w-full border p-1 text-center leading-snug"
 		>
 			Se connecter
 		</button>
 	</form>
-	<button id="login-to-create" class="mt-1 block text-neutral-500 hover:text-white">Retour</button>
+	<button id="login-to-create" class="mt-1 block opacity-50 hover:opacity-100">Retour</button>
 </div>
 
 <div
@@ -115,21 +115,33 @@ const spritesheet = await getImage({ src: png, format: "webp" })
 		<div>Énergie</div>
 		<div id="character-stamina"></div>
 	</div>
-	<div class="h-2.5 w-full border border-white">
-		<div id="character-stamina-bar" class="h-full bg-white" style={{ width: "0%" }}></div>
+	<div class="h-2.5 w-full bg-[--navbar-border] dark:bg-[--dark-navbar-border]">
+		<div
+			id="character-stamina-bar"
+			class="h-full bg-[--navbar-text] dark:bg-[--dark-navbar-text]"
+			style={{ width: "0%" }}
+		>
+		</div>
 	</div>
 	<div class="mt-[1px] flex justify-between">
 		<div>Faim</div>
 		<div id="character-hunger"></div>
 	</div>
-	<div class="h-2.5 w-full border border-white">
-		<div id="character-hunger-bar" class="h-full bg-white" style={{ width: "0%" }}></div>
+	<div class="h-2.5 w-full bg-[--navbar-border] dark:bg-[--dark-navbar-border]">
+		<div
+			id="character-hunger-bar"
+			class="h-full bg-[--navbar-text] dark:bg-[--dark-navbar-text]"
+			style={{ width: "0%" }}
+		>
+		</div>
 	</div>
 	<div class="mt-3">
 		<span id="cell-terrain-title"></span> (<span id="cell-x"></span>:<span id="cell-y"></span>)
 	</div>
 	<div class="mb-3 grid grid-cols-4 gap-1">
-		<div class="relative col-span-2 row-span-2 aspect-square border">
+		<div
+			class="relative col-span-2 row-span-2 aspect-square bg-[--navbar-border] dark:bg-[--dark-navbar-border]"
+		>
 			<div id="cell-terrain-spritesheet" class="spritesheet"></div>
 		</div>
 		<div id="built-structures" class="col-span-2 row-span-2 grid grid-cols-subgrid gap-1"></div>
@@ -137,7 +149,7 @@ const spritesheet = await getImage({ src: png, format: "webp" })
 	<div id="neighbours" class="leading-snug"></div>
 	<button
 		id="overview-to-fullscreen"
-		class="mt-3 block w-full border p-1 text-center leading-snug hover:bg-white hover:text-black"
+		class="navbar-colors navbar-hover-colors mt-3 block w-full border p-1 text-center leading-snug"
 	>
 		Ouvrir
 	</button>
@@ -233,7 +245,7 @@ const spritesheet = await getImage({ src: png, format: "webp" })
 				.slice(0, 4)
 				.map(
 					(s: any) =>
-						`<div class="relative aspect-square border"><div class="spritesheet ${s.structure.id}"></div></div>`
+						`<div class="relative aspect-square bg-[--navbar-border] dark:bg-[--dark-navbar-border]"><div class="spritesheet ${s.structure.id}"></div></div>`
 				)
 				.join("")
 		;(document.getElementById("neighbours") as HTMLDivElement).textContent =
@@ -362,7 +374,7 @@ const spritesheet = await getImage({ src: png, format: "webp" })
 	.spritesheet {
 		background-image: var(--spr);
 		background-size: 900% 700%;
-		@apply absolute left-0 top-0 h-full w-full invert;
+		@apply absolute left-0 top-0 h-full w-full invert-[calc(var(--navbar-is-dark)*100%)] dark:invert-[calc(var(--dark-navbar-is-dark)*100%)];
 	}
 	.plains {
 		@apply bg-[-400%_-300%];

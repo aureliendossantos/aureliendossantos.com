@@ -10,6 +10,7 @@ import NavBar from "$components/navbar/NavBar.astro"
 import type { NavBarProps } from "$utils/navbar"
 import type { Layouts } from "$utils/design/layouts"
 import { getColor, type Color, getBothColors, PaletteName } from "$utils/design/palettes"
+import ColorLib from "color"
 import type { ShikiConfig } from "astro"
 
 export interface Props {
@@ -63,6 +64,48 @@ const background = getColor(bg) || "#f5f5fa"
 const darkBackground = getColor(bg, "dark") || "#17182f"
 const { light: popupBorder, dark: darkPopupBorder } = getBothColors(popupBorderColor)
 const { light: popupLabelActiveBg, dark: darkPopupActive } = getBothColors(popupLabelActiveBgColor)
+
+// Navbar colors
+let paletteBg
+try {
+	paletteBg = {
+		light: ColorLib(getColor(bg, "light") || "white"),
+		dark: ColorLib(getColor(bg, "dark") || "black"),
+	}
+} catch (error) {
+	console.warn("Error in BaseLayout Color:", error)
+	paletteBg = { light: ColorLib("white"), dark: ColorLib("black") }
+}
+const getNavbarCssProperties = (bg: ColorLib, prefix = "") => {
+	const isLight = bg.isLight()
+	const text = bg.lightness(isLight ? 10 : 90).string()
+	const border = ColorLib(
+		isLight ? bg.mix(ColorLib("black"), 0.1) : bg.mix(ColorLib("white"), 0.25)
+	).string()
+	const hoverBg = bg
+		.lightness(isLight ? 10 : 90)
+		.desaturate(0.5)
+		.string()
+	const hoverText = bg
+		.lightness(isLight ? 90 : 10)
+		.desaturate(0.5)
+		.string()
+	return {
+		[`--${prefix}navbar-text`]: text,
+		[`--${prefix}navbar-bg`]: bg.alpha(0.8).string(),
+		// Except in Firefox, nested backdrop filters don't work. Until a workaround is found, using a more legible bg.
+		[`--${prefix}navbar-bg-compatible`]: bg.alpha(0.9).string(),
+		[`--${prefix}navbar-bg-filter`]: "saturate(180%) blur(20px)",
+		[`--${prefix}navbar-border`]: border,
+		[`--${prefix}navbar-hover-bg`]: hoverBg,
+		[`--${prefix}navbar-hover-text`]: hoverText,
+		[`--${prefix}navbar-is-dark`]: bg.isDark() ? 1 : 0,
+	}
+}
+const navbarCssProperties = {
+	...getNavbarCssProperties(paletteBg.light),
+	...getNavbarCssProperties(paletteBg.dark, "dark-"),
+}
 
 const lang = Astro.currentLocale == "fr" ? "fr-FR" : "en-US"
 
@@ -138,8 +181,10 @@ navBarPropsWithFallback.title ??= title
 			"--dark-popup": darkPopupBorder,
 			"--popup-active": popupLabelActiveBg,
 			"--dark-popup-active": darkPopupActive,
+			"--has-viewport-cover": viewportCover ? "0" : "-1",
 			paddingLeft: viewportCover ? 0 : "env(safe-area-inset-left)",
 			paddingRight: viewportCover ? 0 : "env(safe-area-inset-right)",
+			...navbarCssProperties,
 		}}
 		data-overlayscrollbars-initialize
 	>

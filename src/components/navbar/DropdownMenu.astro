@@ -34,7 +34,7 @@ const {
 		aria-haspopup="true"
 		style="padding-block: unset;"
 		class:list={[
-			"group m-0 flex h-full items-center justify-center gap-2 whitespace-nowrap border-neutral-700 p-0 px-3 hover:bg-white hover:text-black",
+			"navbar-colors navbar-hover-colors group m-0 flex h-full items-center justify-center gap-2 whitespace-nowrap p-0 px-3",
 			{ "border-l": borderLeft, "border-r": borderRight, "medium:px-2": !label || truncate },
 		]}
 	>
@@ -57,23 +57,27 @@ const {
 		}
 		{
 			chevron && (
-				<div class="absolute -right-[2px] top-3 z-[1000] h-[4px] w-[4px] rotate-45 border-r border-t border-neutral-700 bg-black group-hover:bg-white" />
+				<div class="navbar-colors absolute -right-[2px] top-3 z-[1000] h-[4px] w-[4px] rotate-45 border-r border-t bg-[--navbar-bg-compatible] group-hover:bg-[--navbar-hover-bg] dark:bg-[--dark-navbar-bg-compatible] dark:group-hover:bg-[--dark-navbar-hover-bg]" />
 			)
 		}
 	</button>
 	<div
 		id={`${id}-dropdown`}
 		class:list={[
-			"invisible absolute bottom-7 z-10 bg-black",
+			"navbar-bg invisible absolute bottom-7 z-10 bg-[--navbar-bg-compatible] dark:bg-[--dark-navbar-bg-compatible]",
 			classes,
-			{ "left-0": !alignRight, "right-0": alignRight },
+			{ "-left-[1px]": !alignRight, "-right-[1px]": alignRight },
 		]}
 		role="menu"
 		aria-orientation="vertical"
 		aria-labelledby="menu-button"
 		tabindex="-1"
 	>
-		<div id={`${id}-items-container`} role="none" class="divide-y divide-solid divide-neutral-700">
+		<div
+			id={`${id}-items-container`}
+			role="none"
+			class="navbar-colors divide-y divide-solid border-x"
+		>
 			<slot />
 		</div>
 	</div>

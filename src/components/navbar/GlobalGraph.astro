@@ -1,0 +1,52 @@
+---
+export interface D3Config {
+	drag: boolean
+	pan: boolean
+	zoom: boolean
+	depth: number
+	scale: number
+	repelForce: number
+	centerForce: number
+	linkDistance: number
+	fontSize: number
+	opacityScale: number
+	focusOnHover?: boolean
+}
+
+const defaultOptions: D3Config = {
+	drag: true,
+	pan: true,
+	zoom: true,
+	depth: -1,
+	scale: 0.9,
+	repelForce: 0.3,
+	centerForce: 0.3,
+	linkDistance: 30,
+	fontSize: 10,
+	opacityScale: 1,
+	focusOnHover: true,
+}
+
+interface Props {
+	opts?: Partial<D3Config>
+}
+const { opts } = Astro.props
+
+const graphConfig = { ...defaultOptions, ...opts }
+---
+
+<div
+	transition:persist="global-graph"
+	transition:animate="none"
+	id="global-graph-outer"
+	class="peer fixed inset-0 z-[9999] hidden"
+>
+	<div
+		id="global-graph-container"
+		data-cfg={JSON.stringify(graphConfig)}
+		class="navbar-colors fixed inset-7 bottom-14 transform overflow-hidden rounded border"
+	>
+	</div>
+</div>
+
+<div class="navbar-bg fixed inset-7 bottom-14 z-[9998] hidden rounded peer-[.block]:block"></div>

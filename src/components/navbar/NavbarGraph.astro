@@ -1,0 +1,66 @@
+---
+import { Icon } from "astro-icon/components"
+
+export interface D3Config {
+	drag: boolean
+	pan: boolean
+	zoom: boolean
+	depth: number
+	scale: number
+	repelForce: number
+	centerForce: number
+	linkDistance: number
+	fontSize: number
+	opacityScale: number
+	focusOnHover?: boolean
+}
+
+const defaultOptions: D3Config = {
+	drag: true,
+	pan: true,
+	zoom: false,
+	depth: 1,
+	scale: 1,
+	repelForce: 0.7,
+	centerForce: 0.3,
+	linkDistance: 55,
+	fontSize: 14,
+	opacityScale: 3,
+	focusOnHover: false,
+}
+
+interface Props {
+	title: string
+	opts?: Partial<D3Config>
+}
+const { title, opts } = Astro.props
+
+const graphConfig = { ...defaultOptions, ...opts }
+---
+
+<script src="$utils/graph.ts"></script>
+
+<div class="relative h-64 w-64 overflow-hidden">
+	<div id="graph-container" data-cfg={JSON.stringify(graphConfig)}></div>
+	<Icon
+		name="lucide:scan"
+		id="global-graph-icon"
+		class="absolute right-0 top-0 box-content h-[16px] cursor-pointer rounded-bl-sm p-[6px] text-[--graph-secondary] hover:text-[--navbar-text] hover:dark:text-[--dark-navbar-text]"
+	/>
+	<div
+		id="graph-title"
+		class="pointer-events-none absolute left-0 top-0 px-3 py-[6px] leading-tight"
+	>
+		{title}
+	</div>
+</div>
+
+<style is:global>
+	body {
+		--graph-bg: var(--navbar-bg-compatible);
+		--graph-main: var(--navbar-text);
+		--graph-secondary: hsl(from var(--navbar-text) h calc(s / 2) 50%);
+		--graph-tertiary: #6b6b6b;
+		--graph-special: #ce5974;
+	}
+</style>
