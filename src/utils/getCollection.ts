@@ -13,15 +13,11 @@ export default async function getBlogPosts(drafts = true) {
 		.map((a, i) => ({ ...a, index: blog.length - i }))
 }
 
-export function getDiaryData(entry: CollectionEntry<"diary">) {
-	const { id, ...rest } = entry
-	return {
-		id: id,
-		year: Number(id.split("/")[1]),
-		category: id.split("/")[0],
-		...rest,
-	}
-}
+export const getDiaryData = (entry: CollectionEntry<"diary">) => ({
+	year: Number(entry.filePath!.split("/")[4]),
+	category: entry.filePath!.split("/")[3],
+	...entry,
+})
 
 export async function getDiary(drafts = true) {
 	return (
@@ -40,7 +36,7 @@ async function getPlaceEntryData(entry: CollectionEntry<"places">) {
 	const articles = await getBlogPosts()
 	const diaryEntries = await getDiary()
 	return {
-		category: entry.id.split("/")[0],
+		category: entry.filePath!.split("/")[3],
 		maps: await getPlace(entry.data.id),
 		articles: articles.filter((a) => a.data.places.includes(entry)).length,
 		diaryEntries: diaryEntries.filter((a) => a.data.places.includes(entry)).length,

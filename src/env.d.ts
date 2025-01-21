@@ -7,5 +7,5 @@ interface Window {
 	popupZindex: number
 	nextPageIsLoading: boolean
 	toastsOpened: number
-	entries: SearchEntry[]
+	entries: import("$utils/search").SearchEntry[]
 }

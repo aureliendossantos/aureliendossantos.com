@@ -4,6 +4,7 @@ import { PaletteName } from "$utils/design/palettes"
 import { Layouts } from "$utils/design/layouts"
 import { glob, file } from "astro/loaders"
 import { gamesLibraryLoader, notionWikiLoader } from "$utils/remoteData/loaders"
+import type { GlobOptions } from "node_modules/astro/dist/content/loaders/glob"
 
 enum Lang {
 	fr = "fr",
@@ -74,14 +75,13 @@ const articleView = {
 	sidenotes: sidenotesOptions.optional(),
 	draft: z.boolean().default(false),
 }
-// TODO: generate slug for diary etc: https://github.com/Princesseuh/erika.florist/blob/c4145d68d58fb0b0855b169ed56a23a233922ede/src/content/config.ts#L45
 // TODO: later (after first content commit) move collection folders to subfolders
 
 /**
  * Loader for Markdown and MDX files not starting with an underscore.
  */
-const mdLoader = (folder: string) =>
-	glob({ pattern: "**/[^_]*.md*", base: `src/content/${folder}` })
+const mdLoader = (folder: string, slugGeneration?: GlobOptions["generateId"]) =>
+	glob({ pattern: "**/[^_]*.md*", base: `src/content/${folder}`, generateId: slugGeneration })
 
 const imageInfo = (image: ImageFunction) =>
 	z.object({
@@ -145,7 +145,10 @@ export const collections = {
 			}),
 	}),
 	diary: defineCollection({
-		loader: mdLoader("diary"),
+		loader: mdLoader("diary", ({ entry }) => {
+			const [_type, _year, slug] = entry.split("/")
+			return slug
+		}),
 		schema: ({ image }) =>
 			z.object({
 				...articleView,
@@ -193,7 +196,10 @@ export const collections = {
 		}),
 	}),
 	places: defineCollection({
-		loader: mdLoader("places"),
+		loader: mdLoader("places", ({ entry }) => {
+			const [_area, slug] = entry.split("/")
+			return slug
+		}),
 		schema: z.object({
 			title: z.string(),
 			id: z.string(),
@@ -203,7 +209,10 @@ export const collections = {
 		}),
 	}),
 	gear: defineCollection({
-		loader: mdLoader("gear"),
+		loader: mdLoader("gear", ({ entry }) => {
+			const [_category, slug] = entry.split("/")
+			return slug
+		}),
 		schema: z.object({
 			title: z.string(),
 			etat: z.string(),
@@ -215,14 +224,14 @@ export const collections = {
 		}),
 	}),
 	collections: defineCollection({
-		loader: mdLoader("collections"),
+		loader: mdLoader("museum/collections"),
 		schema: z.object({
 			title: z.string().or(multilingualText),
 			highlight: reference("pieces"),
 		}),
 	}),
 	pieces: defineCollection({
-		loader: mdLoader("pieces"),
+		loader: mdLoader("museum/pieces"),
 		schema: ({ image }) =>
 			z.object({
 				// If a work is untitled: false. It the title is unknown: undefined.
@@ -258,7 +267,7 @@ export const collections = {
 		loader: gamesLibraryLoader({ forceUpdate: false }),
 	}),
 	recipes: defineCollection({
-		loader: mdLoader("recipes"),
+		loader: mdLoader("kitchen/recipes"),
 		schema: ({ image }) =>
 			z.object({
 				title: z.string(),
@@ -273,7 +282,7 @@ export const collections = {
 			}),
 	}),
 	ingredients: defineCollection({
-		loader: mdLoader("ingredients"),
+		loader: mdLoader("kitchen/ingredients"),
 		schema: ({ image }) =>
 			z.object({
 				title: z.string(),
@@ -291,4 +300,5 @@ export enum PieceType {
 	album = "album",
 	track = "track",
 	movie = "movie",
+	map = "map",
 }

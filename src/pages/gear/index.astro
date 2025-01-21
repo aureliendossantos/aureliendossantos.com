@@ -7,10 +7,10 @@ import { dateSort } from "$utils/sort"
 
 const gear = (await getCollection("gear"))
 	.map((gear) => ({
-		collectionEntry: gear,
-		category: gear.id.split("/")[0],
+		entry: gear,
+		category: gear.filePath?.split("/")[3],
 	}))
-	.sort((a, b) => dateSort(a.collectionEntry.data.obtained, b.collectionEntry.data.obtained))
+	.sort((a, b) => dateSort(a.entry.data.obtained, b.entry.data.obtained))
 
 const categories = [
 	{ title: "Ordinateurs", slug: "computers" },
@@ -41,7 +41,7 @@ const categories = [
 						{gear
 							.filter((gear) => gear.category == category.slug)
 							.map((gear) => (
-								<GearItem gear={gear.collectionEntry} />
+								<GearItem gear={gear.entry} />
 							))}
 					</GearCategory>
 				))

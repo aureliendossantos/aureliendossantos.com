@@ -61,7 +61,6 @@ function addToVisited(slug: string) {
 }
 
 async function renderGraph(container: string, currentSlug: string) {
-	// TODO: do i want to color visited nodes differently? weird if they are updated
 	const visited = getVisited()
 	const graph = document.getElementById(container)
 	if (!graph) return
@@ -138,7 +137,7 @@ async function renderGraph(container: string, currentSlug: string) {
 	// If there are more than 30 nodes in the neighbourhood, remove nodes tagged as optional if they are linked to <= 1 node
 	if (neighbourhood.size > 30) {
 		const optionalNodes = Array.from(neighbourhood).filter(
-			(id) => globalData.find((entry) => entry.slug == id).optional
+			(id) => globalData.find((entry) => entry.slug == id)?.optional
 		)
 		for (const id of optionalNodes) {
 			const numLinks = numberOfGlobalLinksWith(id)

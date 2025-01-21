@@ -95,6 +95,7 @@ const getNavbarCssProperties = (bg: ColorLib, prefix = "") => {
 		[`--${prefix}navbar-bg`]: bg.alpha(0.8).string(),
 		// Except in Firefox, nested backdrop filters don't work. Until a workaround is found, using a more legible bg.
 		[`--${prefix}navbar-bg-compatible`]: bg.alpha(0.9).string(),
+		[`--${prefix}navbar-bg-plain`]: bg.string(),
 		[`--${prefix}navbar-bg-filter`]: "saturate(180%) blur(20px)",
 		[`--${prefix}navbar-border`]: border,
 		[`--${prefix}navbar-hover-bg`]: hoverBg,

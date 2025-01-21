@@ -5,13 +5,15 @@ import type { GraphEntry } from "./graph"
 import { title } from "./museum"
 import { checkLocale, useTranslations, type SupportedLocale } from "./i18n"
 
-type SearchEntry = GraphEntry & {
+export type SearchEntry = GraphEntry & {
 	slug: string
 	title: string
 	date?: string
 	categories?: string[] // soon to be replaced by tags
 	tags?: string[]
 	description?: string
+	links?: string[]
+	optional?: boolean
 }
 
 function useMapToSearchEntry(locale: SupportedLocale) {
@@ -36,7 +38,11 @@ function useMapToSearchEntry(locale: SupportedLocale) {
 			date: opts.date ? formatDate(opts.date, true) : undefined,
 			categories: opts.categories || [],
 			description: "description" in data ? data.description : opts.description,
-			links: [...(opts.parentSlug ? [opts.parentSlug] : []), ...(opts.graphLinks || [])],
+			// beware, parentSlug can be "" which is falsy
+			links: [
+				...(opts.parentSlug != undefined ? [opts.parentSlug] : []),
+				...(opts.graphLinks || []),
+			],
 			optional: opts.optionalNode,
 		}
 	}
@@ -46,11 +52,11 @@ const searchEntryLinks = (
 	data: CollectionEntry<"blog" | "diary" | "pages" | "portfolio">["data"]
 ) => {
 	return [
-		...data.tags.map((t) => `tags/${t.slug}`),
+		...data.tags.map((t) => `tags/${t.id}`),
 		...data.games.map((g) => `games/${g}`),
-		...data.places.map((p) => `places/${p.slug}`),
-		...data.gear.map((g) => `gear/${g.slug}`),
-		...data.muses.map((m) => `muses/${m.slug}`),
+		...data.places.map((p) => `places/${p.id}`),
+		...data.gear.map((g) => `gear/${g.id}`),
+		...data.muses.map((m) => `muses/${m.id}`),
 	]
 }
 
@@ -64,7 +70,6 @@ export const getSearchEntries = async (lang?: string): Promise<SearchEntry[]> =>
 	return [
 		{ slug: "", title: "Blog" },
 		{ slug: "portfolio", title: "Portfolio" },
-		{ slug: "cv", title: "CV", links: ["portfolio", "blog"] },
 		{ slug: "diary", title: "Journal" },
 		{ slug: "gear", title: "Mes appareils" },
 		{ slug: "places", title: "Lieux" },
@@ -99,7 +104,7 @@ export const getSearchEntries = async (lang?: string): Promise<SearchEntry[]> =>
 				return mapToSearchEntry({
 					entry: entry,
 					slug: `${entry.id}`,
-					parentSlug: "blog",
+					parentSlug: "",
 					categories: tags.length > 0 ? tags : ["Article"],
 					graphLinks: searchEntryLinks(entry.data),
 				})
@@ -164,7 +169,9 @@ export const getSearchEntries = async (lang?: string): Promise<SearchEntry[]> =>
 				slug: `kitchen/${entry.id}`,
 				parentSlug: "kitchen",
 				categories: ["Recette"],
-				graphLinks: entry.data.ingredients.map((i) => "kitchen/" + (Array.isArray(i) ? i[0] : i)),
+				graphLinks: entry.data.ingredients.map(
+					(i) => "kitchen/" + (Array.isArray(i) ? i[0].id : i.id)
+				),
 			})
 		),
 		...(await getCollection("ingredients")).map((entry) =>
