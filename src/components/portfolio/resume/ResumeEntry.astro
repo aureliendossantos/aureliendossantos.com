@@ -1,6 +1,7 @@
 ---
 import getEntryOrThrow from "$utils/content/getEntryOrThrow"
 import { render } from "astro:content"
+import MarkdownIt from "markdown-it"
 
 interface Props {
 	id: string
@@ -8,10 +9,11 @@ interface Props {
 const { id } = Astro.props
 const entry = await getEntryOrThrow("resume", id)
 const { Content } = await render(entry)
+const markdown = new MarkdownIt({ html: true })
 ---
 
 <h3>
-	{entry.data.title}
+	<Fragment set:html={markdown.renderInline(entry.data.title)} />
 	{entry.data.title == "Agence Insolence" && <span class="date">(en alternance)</span>}
 </h3>
 <Content />
