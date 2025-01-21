@@ -1,7 +1,6 @@
 ---
-import { getCollection, type CollectionEntry } from "astro:content"
-import DiaryLayout from "$layouts/DiaryLayout.astro"
 import { getCollection, type CollectionEntry, render } from "astro:content"
+import DiaryLayout from "$layouts/DiaryLayout.astro"
 import { getClosedStatus, getGoogleImage, getPlace } from "$utils/remoteData/googleMaps"
 import { type PlaceWithFetchDate } from "$utils/remoteData/googleMaps"
 import getBlogPosts, { getDiary } from "$utils/getCollection"
@@ -185,7 +184,7 @@ const gallery =
 			</p>
 		</footer>
 	</div>
-</PlaceLayout>
+</DiaryLayout>
 
 <style is:global>
 	.prose .bg-mention {

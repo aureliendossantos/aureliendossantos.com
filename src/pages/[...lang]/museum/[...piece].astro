@@ -31,8 +31,8 @@ const authorSlug = entry.id.split("/")[0]
 const audio =
 	data.audio &&
 	(data.audioFormat == "flac"
-		? (await import(`../../../content/pieces/${authorSlug}/${data.audio}.flac`)).default
-		: (await import(`../../../content/pieces/${authorSlug}/${data.audio}.mp3`)).default)
+		? (await import(`../../../content/museum/pieces/${authorSlug}/${data.audio}.flac`)).default
+		: (await import(`../../../content/museum/pieces/${authorSlug}/${data.audio}.mp3`)).default)
 ---
 
 <MuseumLayout
