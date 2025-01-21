@@ -243,6 +243,15 @@ const markdown = new MarkdownIt({ html: true })
 			@apply italic;
 		}
 	}
+	/* :playing is currently only supported on Safari */
+	figure:has(video) {
+		@apply relative min-h-8;
+	}
+	figure:has(video:not(:playing))::after {
+		content: "▶";
+		z-index: 1000;
+		@apply pointer-events-none absolute inset-0 flex items-center justify-center bg-fi-base-100 bg-opacity-50 text-5xl text-fi-tx-2;
+	}
 </style>
 
 <script>
