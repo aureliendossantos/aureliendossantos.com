@@ -14,7 +14,7 @@ const { collectionKey, currentEntry } = Astro.props
 const content = await getContentEntries()
 const rawTagSlugs = [
 	...content.map((entry) =>
-		collectionKey in entry.data ? entry.data[collectionKey].map((item) => item.slug) : []
+		collectionKey in entry.data ? entry.data[collectionKey].map((item) => item.id) : []
 	),
 ]
 const tagSlugsToOccurences = getUniqueValuesAndOccurences(rawTagSlugs)

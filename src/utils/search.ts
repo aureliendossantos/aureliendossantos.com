@@ -69,14 +69,13 @@ export const getSearchEntries = async (lang?: string): Promise<SearchEntry[]> =>
 	const blogPosts = await getBlogPosts()
 	return [
 		{ slug: "", title: "Blog" },
-		{ slug: "portfolio", title: "Portfolio" },
+		{ slug: "portfolio", title: "Portfolio", links: [""] },
 		{ slug: "diary", title: "Journal" },
 		{ slug: "gear", title: "Mes appareils" },
-		{ slug: "places", title: "Lieux" },
+		{ slug: "places", title: "Lieux", links: ["diary"] },
 		{ slug: "kitchen", title: "Cuisine" },
 		{ slug: "games", title: "Jeux" },
-		{ slug: "wiki", title: "Wiki" },
-		{ slug: "tags", title: "Tags" },
+		{ slug: "tags", title: "Tags", links: [""] },
 		{ slug: "museum", title: "Musée" },
 		{ slug: "museum/all", title: "Collection", categories: ["Musée"], links: ["museum"] },
 		{ slug: "museum/collections", title: "Sélections", categories: ["Musée"], links: ["museum"] },

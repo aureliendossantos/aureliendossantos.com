@@ -89,7 +89,7 @@ h3:before {
 	.sidenote {
 		/* I need a z-index to make it above the sticky h2 background, but it creates a new stacking context, so I need to repeat the blend mode (if I need one) at the root of the context */
 		@apply z-20 xl:z-0;
-		&:has(> picture > img.mix-blend-multiply) {
+		&:has(.mix-blend-multiply) {
 			mix-blend-mode: multiply;
 			@apply dark:mix-blend-screen;
 		}
@@ -458,11 +458,17 @@ h3:before {
 				font-size: 80%;
 			}
 			ul {
-				@apply pl-[--indent];
-				& > li::before {
-					content: "✢";
-					top: 0.26em;
-					font-size: 78%;
+				@apply list-none pl-[--indent];
+				> li {
+					@apply relative;
+					&::before {
+						position: absolute;
+						content: "✢";
+						display: block;
+						left: calc(var(--indent) * -1);
+						top: 0.26em;
+						font-size: 78%;
+					}
 				}
 			}
 		}
