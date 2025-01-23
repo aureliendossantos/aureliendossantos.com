@@ -35,7 +35,7 @@ const title = markdown.renderInline(data.title)
 		"--text": getColor(palette.baseColor),
 		"--secondary-color": getColor(palette.secondaryColor),
 	}}
-	href={`/${entry.id}`}
+	href={`/${entry.collection == "diary" ? "diary/" : ""}${entry.id}`}
 >
 	<div
 		class="mx-auto max-w-[calc(500px+2em)] bg-[--bg] bg-cover bg-center px-[calc(20px+1em)] py-[14px] text-[--text] small:px-5"
