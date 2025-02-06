@@ -89,6 +89,7 @@ export const getSearchEntries = async (lang?: string): Promise<SearchEntry[]> =>
 		...(await getCollection("muses")).map((entry) =>
 			mapToSearchEntry({
 				entry: entry,
+				title: entry.data.fullTitle,
 				slug: `muses/${entry.id}`,
 				parentSlug: "muses",
 				categories: ["Muse"],

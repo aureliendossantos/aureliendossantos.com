@@ -16,7 +16,7 @@ export type IGDBData = {
 	platforms: { abbreviation: string }[]
 	first_release_date: number
 	release_dates: { y: number }[]
-	involved_companies: { developer: boolean; publisher: boolean; company: { name: string } }[]
+	involved_companies?: { developer: boolean; publisher: boolean; company: { name: string } }[]
 	websites: { category: number; url: string }[]
 	url: string
 	developers: string
@@ -62,10 +62,10 @@ export default async function getIGDBgames(slugs: string[], logger: Logger = con
 
 	games.forEach((game) => {
 		game.developers = enumerate(
-			game.involved_companies.filter((i) => i.developer).map((i) => i.company.name)
+			game.involved_companies?.filter((i) => i.developer).map((i) => i.company.name) || []
 		)
 		game.publishers = enumerate(
-			game.involved_companies.filter((i) => i.publisher).map((i) => i.company.name)
+			game.involved_companies?.filter((i) => i.publisher).map((i) => i.company.name) || []
 		)
 	})
 	logger(`Loaded ${slugs.length == 1 ? slugs[0] : `${slugs.length} games`}`)

@@ -13,7 +13,7 @@ const path = type && paths[type]
 
 <BaseLayout
 	ogType="website"
-	title={title}
+	{title}
 	font="Sofia Sans"
 	navBarProps={{ title: title, parent: { title: "Blog", href: "/" } }}
 	bg={{ light: "white", dark: "black" }}
@@ -21,7 +21,7 @@ const path = type && paths[type]
 	<div transition:animate="initial">
 		<header class="mx-auto my-10 mb-12 max-w-[500px] px-5">
 			<h2 class="text-sm uppercase text-neutral-600 dark:text-neutral-300">
-				<a href="/blog" class="hover:text-black dark:hover:text-white"> Blog </a>
+				<a href="/" class="hover:text-black dark:hover:text-white"> Blog </a>
 				/
 				{
 					path && (
