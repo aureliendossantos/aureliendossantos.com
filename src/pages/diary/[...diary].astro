@@ -35,7 +35,7 @@ const places = await Promise.all(data.places.map(async (place) => await getPlace
 	)
 }
 {
-	data.customLayout && (
+	!data.palette && data.customLayout && (
 		<BaseLayout
 			title={data.title}
 			ogType="article"

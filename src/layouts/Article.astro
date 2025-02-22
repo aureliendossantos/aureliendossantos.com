@@ -72,9 +72,11 @@ const maybeRemoveStyle = (str?: string) => str?.replaceAll("*", "")
 		parent:
 			collection == "blog"
 				? { title: "Blog", href: "/" }
-				: parent
-					? { title: parent.data.title, href: `/${parent.id}` }
-					: undefined,
+				: collection == "diary"
+					? { title: "Journal", href: "/diary" }
+					: parent
+						? { title: parent.data.title, href: `/${parent.id}` }
+						: undefined,
 		related: await relatedArticles(),
 		relatedTitle: collection == "blog" ? "Articles similaires" : "Voir aussi",
 		headings: headings,
@@ -84,19 +86,23 @@ const maybeRemoveStyle = (str?: string) => str?.replaceAll("*", "")
 		class:list={["article-styling notw", { "with-sidenotes": sidenotes }]}
 		style={paletteVariables(palette)}
 	>
-		<ArticleHeader
-			title={data.title}
-			description={data.description}
-			longDescription={data.longDesc}
-			tags={data.tags}
-			{date}
-			cover={coverImage}
-			{palette}
-			layouts={data.layouts}
-			sidenotes={Boolean(sidenotes)}
-			{wide}
-			anchorTop={data.imageAnchorTop}
-		/>
+		{
+			!customLayout && (
+				<ArticleHeader
+					title={data.title}
+					description={data.description}
+					longDescription={data.longDesc}
+					tags={data.tags}
+					{date}
+					cover={coverImage}
+					{palette}
+					layouts={data.layouts}
+					sidenotes={Boolean(sidenotes)}
+					{wide}
+					anchorTop={data.imageAnchorTop}
+				/>
+			)
+		}
 		<main
 			class:list={{
 				"px-[80px] pb-16 medium:px-[40px] small:px-[20px]": !customLayout && !sidenotes,
