@@ -15,7 +15,7 @@ const articles = [...(await getBlogPosts())].sort((a, b) => dateSort(a.data.date
 	})
 */
 const diary = (await getDiary()).filter((entry) => entry.data.highlight)
-const years = Array.from(new Set(diary.map((entry) => entry.year)))
+const diaryYears = Array.from(new Set(diary.map((entry) => entry.year)))
 ---
 
 <BaseLayout
@@ -80,10 +80,15 @@ const years = Array.from(new Set(diary.map((entry) => entry.year)))
 			<>
 				<ArticleCard article={article} entryIndex={articles.length - index} />
 				{(() => {
-					if (!articles[index + 1]) return
 					const year = article.data.date.getFullYear()
+					if (!articles[index + 1]) return <DiaryWrapup year={year} />
 					const nextYear = articles[index + 1].data.date.getFullYear()
-					if (year != nextYear && years.find((y) => y == year)) return <DiaryWrapup year={year} />
+					if (year != nextYear) {
+						const years = Array.from({ length: year - nextYear }, (_, i) => year - i)
+						return years.map((year) => {
+							if (diaryYears.includes(year)) return <DiaryWrapup year={year} />
+						})
+					}
 				})()}
 			</>
 		))

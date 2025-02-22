@@ -1,6 +1,4 @@
 ---
-import ArticleDate from "$components/articles/ArticleDate.astro"
-import EntryIcon from "$components/diary/EntryIcon.astro"
 import { getDiary } from "$utils/getCollection"
 import { getImage } from "astro:assets"
 import DiaryLink from "./DiaryLink.astro"
@@ -19,6 +17,7 @@ const diary = await Promise.all(
 		}))
 )
 const entries = diary.filter((entry) => entry.year == year)
+const sliceIndex = entries.length >= 6 ? 3 : 2
 ---
 
 <div
@@ -71,7 +70,7 @@ const entries = diary.filter((entry) => entry.year == year)
 				</h2>
 			</div>
 			<div class="order-3 -mx-8 mb-8 flex flex-col small:mx-0 small:mb-0 small:items-start">
-				{entries.map((entry, index) => <DiaryLink {entry} {year} hidden={index >= 3} />)}
+				{entries.map((entry, index) => <DiaryLink {entry} {year} hidden={index >= sliceIndex} />)}
 			</div>
 		</div>
 	</div>
@@ -80,7 +79,7 @@ const entries = diary.filter((entry) => entry.year == year)
 			class="my-8 ml-8 mr-16 min-w-[20rem] max-w-[20rem] 2xl:min-w-[17.5rem] 2xl:max-w-[17.5rem] 2xl:text-sm"
 		>
 			<div class="-mx-8 flex flex-col justify-end small:mx-0">
-				{entries.slice(3).map((entry) => <DiaryLink {entry} {year} />)}
+				{entries.slice(sliceIndex).map((entry) => <DiaryLink {entry} {year} />)}
 			</div>
 		</div>
 	</div>
