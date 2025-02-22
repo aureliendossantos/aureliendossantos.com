@@ -3,11 +3,12 @@ import ArticleDate from "$components/articles/ArticleDate.astro"
 import EntryIcon from "$components/diary/EntryIcon.astro"
 import { getDiary } from "$utils/getCollection"
 import { getImage } from "astro:assets"
+import DiaryLink from "./DiaryLink.astro"
 
 interface Props {
 	year: number
 }
-const { year } = Astro.props as { year: keyof typeof wrapups }
+const { year } = Astro.props
 
 const diary = await Promise.all(
 	(await getDiary())
@@ -18,21 +19,19 @@ const diary = await Promise.all(
 		}))
 )
 const entries = diary.filter((entry) => entry.year == year)
-
-const wrapups = {
-	2024: "En 2024, j'ai accepté le passé pour mieux grandir.",
-	2023: "2023 est marqué par la fin de mes études mais aussi par un voyage d'une semaine en voiture, que je n'ai pas encore inscrit dans le journal.",
-	2022: "2022 fut l'année de mon premier été à Toulouse.",
-	2021: "2021 fut la première année où j'ai documenté une escapade dans mon journal.",
-}
-if (!(year in wrapups)) throw new Error(`Year ${year} not in wrapup`)
 ---
 
 <div
-	class="relative grid w-full grid-cols-3 items-center bg-white font-sans text-zinc-900 xl:grid-cols-2 mediumlarge:flex mediumlarge:grid-cols-none mediumlarge:flex-col small:h-80 small:items-start"
+	class:list={[
+		"relative grid w-full grid-cols-3 items-center bg-white font-sans text-zinc-900 xl:grid-cols-2 mediumlarge:flex mediumlarge:grid-cols-none mediumlarge:flex-col small:items-start",
+		{ "small:h-80": entries.length < 6, "small:h-[460px]": entries.length >= 6 },
+	]}
 >
 	<div
-		class="relative h-full w-full mediumlarge:m-auto mediumlarge:h-44 mediumlarge:max-w-md small:absolute small:h-80"
+		class:list={[
+			"relative h-full w-full mediumlarge:m-auto mediumlarge:h-44 mediumlarge:max-w-md small:absolute",
+			{ "small:h-80": entries.length < 6, "small:h-[460px]": entries.length >= 6 },
+		]}
 	>
 		{
 			entries.map((entry, index) => {
@@ -45,7 +44,7 @@ if (!(year in wrapups)) throw new Error(`Year ${year} not in wrapup`)
 							{ "opacity-100": index == 0, "opacity-0": index > 0 },
 						]}
 						style={{
-							zIndex: 3 - index,
+							zIndex: entries.length - index,
 							backgroundImage: entry.image && `url(${entry.image.src})`,
 							backgroundSize: "cover",
 							backgroundPosition: entry.data.imageAnchorTop ? "top" : "center",
@@ -58,8 +57,9 @@ if (!(year in wrapups)) throw new Error(`Year ${year} not in wrapup`)
 	<div class="flex justify-center small:absolute small:bottom-6">
 		<div
 			class:list={[
-				"z-[4] ml-8 mr-16 flex min-w-[20rem] max-w-xs flex-col 2xl:ml-7 2xl:mr-14 2xl:min-w-[17.5rem] 2xl:max-w-[17.5rem] xl:mt-11 small:mx-2 small:max-w-none",
+				"ml-8 mr-16 flex min-w-[20rem] max-w-xs flex-col 2xl:ml-7 2xl:mr-14 2xl:min-w-[17.5rem] 2xl:max-w-[17.5rem] xl:mt-11 small:mx-2 small:max-w-none",
 			]}
+			style={{ zIndex: entries.length + 1 }}
 		>
 			<div class="order-2">
 				<h2
@@ -71,37 +71,18 @@ if (!(year in wrapups)) throw new Error(`Year ${year} not in wrapup`)
 				</h2>
 			</div>
 			<div class="order-3 -mx-8 mb-8 flex flex-col small:mx-0 small:mb-0 small:items-start">
-				{
-					entries.map((entry) => (
-						<a
-							id={`${entry.id}-link`}
-							data-year={year}
-							class="diary-entry border-dashed border-black/10 bg-white px-8 py-2 text-sm text-zinc-700 transition-colors hover:bg-zinc-100 small:border-t small:px-2 small:py-1"
-							href={`/diary/${entry.id}`}
-							data-category={entry.category}
-						>
-							<div class="font-medium">
-								{entry.data.draft && "[Draft] "}
-								{entry.data.title}
-								<EntryIcon entry={entry} />
-							</div>
-							{entry.data.date && (
-								<div>
-									<ArticleDate noYear date={entry.data.date} endDate={entry.data.end} />
-								</div>
-							)}
-						</a>
-					))
-				}
+				{entries.map((entry, index) => <DiaryLink {entry} {year} hidden={index >= 3} />)}
 			</div>
 		</div>
 	</div>
-	<div class="flex justify-center xl:hidden">
-		<p
-			class="my-14 ml-8 mr-16 min-w-[20rem] max-w-[20rem] 2xl:my-12 2xl:min-w-[17.5rem] 2xl:max-w-[17.5rem] 2xl:text-sm"
+	<div class="flex justify-center self-end xl:hidden">
+		<div
+			class="my-8 ml-8 mr-16 min-w-[20rem] max-w-[20rem] 2xl:min-w-[17.5rem] 2xl:max-w-[17.5rem] 2xl:text-sm"
 		>
-			{wrapups[year]}
-		</p>
+			<div class="-mx-8 flex flex-col justify-end small:mx-0">
+				{entries.slice(3).map((entry) => <DiaryLink {entry} {year} />)}
+			</div>
+		</div>
 	</div>
 </div>
 

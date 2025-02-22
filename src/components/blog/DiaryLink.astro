@@ -1,0 +1,32 @@
+---
+import ArticleDate from "$components/articles/ArticleDate.astro"
+import EntryIcon from "$components/diary/EntryIcon.astro"
+import { getDiary } from "$utils/getCollection"
+
+interface Props {
+	year: number
+	entry: Awaited<ReturnType<typeof getDiary>>[number]
+	hidden?: boolean
+}
+const { year, entry, hidden } = Astro.props
+---
+
+<a
+	id={`${entry.id}-link`}
+	data-year={year}
+	class:list={[
+		"border-dashed border-black/10 bg-white px-8 py-2 text-sm text-zinc-700 transition-colors hover:bg-zinc-100 small:border-t small:px-2 small:py-1",
+		{ "hidden xl:block": hidden },
+	]}
+	href={`/diary/${entry.id}`}
+	data-category={entry.category}
+>
+	<div class="font-medium">
+		{entry.data.draft && "[Draft] "}
+		{entry.data.title}
+		<EntryIcon {entry} />
+	</div>
+	<div class="min-h-[1lh] xl:min-h-0">
+		{entry.data.date && <ArticleDate noYear date={entry.data.date} endDate={entry.data.end} />}
+	</div>
+</a>
