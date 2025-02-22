@@ -89,23 +89,19 @@ const entries = diary.filter((entry) => entry.year == year)
 <script>
 	// Display the corresponding image cover on link hover.
 	// Only toggles images of the current year.
-	document.addEventListener("astro:page-load", () => {
-		const images = Array.from(
-			document.querySelectorAll("[id$='-image']") as NodeListOf<HTMLElement>
-		)
-		const links = document.querySelectorAll("[id$='-link']")
-		links.forEach((link) => {
-			link.addEventListener("mouseenter", () => {
-				const year = link.getAttribute("data-year")
-				images.forEach((image) => {
-					if (image.getAttribute("data-year") == year) {
-						const id = image.id.replace("-image", "")
-						// Show if the image corresponds to the hovered link.
-						image.classList.toggle("opacity-100", `${id}-link` == link.id)
-						// Hide if the link is not the one hovered
-						image.classList.toggle("opacity-0", `${id}-link` != link.id)
-					}
-				})
+	const images = Array.from(document.querySelectorAll("[id$='-image']") as NodeListOf<HTMLElement>)
+	const links = document.querySelectorAll("[id$='-link']")
+	links.forEach((link) => {
+		link.addEventListener("mouseenter", () => {
+			const year = link.getAttribute("data-year")
+			images.forEach((image) => {
+				if (image.getAttribute("data-year") == year) {
+					const id = image.id.replace("-image", "")
+					// Show if the image corresponds to the hovered link.
+					image.classList.toggle("opacity-100", `${id}-link` == link.id)
+					// Hide if the link is not the one hovered
+					image.classList.toggle("opacity-0", `${id}-link` != link.id)
+				}
 			})
 		})
 	})

@@ -14,7 +14,7 @@ const dir = arrowIcon || "down"
 ---
 
 <button
-	id={id}
+	{id}
 	aria-label="Toggle navigation bar"
 	style="padding-block: unset;"
 	class:list={[
@@ -37,36 +37,30 @@ const dir = arrowIcon || "down"
 	// Button contents. There might be multiple buttons on the page.
 	import { isTouchScreen, isMac, toggleNavbar, toast } from "$utils/navbar"
 
-	document.addEventListener("astro:page-load", () => {
-		const buttons = document.querySelectorAll(
-			".navbar-toggle-button"
-		) as NodeListOf<HTMLButtonElement>
-		const buttonIcons = document.querySelectorAll(
-			".navbar-toggle-icon"
-		) as NodeListOf<HTMLDivElement>
-		const buttonTexts = document.querySelectorAll(
-			".navbar-toggle-text"
-		) as NodeListOf<HTMLDivElement>
-		// isTouchScreen() might not detect all phones/tablets. That's why we also
-		// use a CSS breakpoint. This is merely a polishing touch.
-		if (isTouchScreen()) {
-			buttonTexts.forEach((t) => t.classList.add("hidden"))
-			buttonIcons.forEach((i) => i.classList.remove("hidden"))
-		} else if (isMac()) {
-			buttonTexts.forEach((t) => (t.innerText = "⌘K"))
-		} else {
-			buttonTexts.forEach((t) => (t.innerText = "Ctrl+K"))
+	const buttons = document.querySelectorAll(
+		".navbar-toggle-button"
+	) as NodeListOf<HTMLButtonElement>
+	const buttonIcons = document.querySelectorAll(".navbar-toggle-icon") as NodeListOf<HTMLDivElement>
+	const buttonTexts = document.querySelectorAll(".navbar-toggle-text") as NodeListOf<HTMLDivElement>
+	// isTouchScreen() might not detect all phones/tablets. That's why we also
+	// use a CSS breakpoint. This is merely a polishing touch.
+	if (isTouchScreen()) {
+		buttonTexts.forEach((t) => t.classList.add("hidden"))
+		buttonIcons.forEach((i) => i.classList.remove("hidden"))
+	} else if (isMac()) {
+		buttonTexts.forEach((t) => (t.innerText = "⌘K"))
+	} else {
+		buttonTexts.forEach((t) => (t.innerText = "Ctrl+K"))
+	}
+	buttons.forEach((button) => {
+		button.onclick = () => {
+			const isOpened = toggleNavbar()
+			if (isOpened) return
+			const message =
+				isTouchScreen() || window.innerWidth < 600
+					? "Réouvrez la barre de navigation en rechargant la page."
+					: `Réouvrez la barre de navigation avec ${isMac() ? "⌘K" : "Ctrl+K"}.`
+			toast(message, 3000, "right")
 		}
-		buttons.forEach((button) => {
-			button.onclick = () => {
-				const isOpened = toggleNavbar()
-				if (isOpened) return
-				const message =
-					isTouchScreen() || window.innerWidth < 600
-						? "Réouvrez la barre de navigation en rechargant la page."
-						: `Réouvrez la barre de navigation avec ${isMac() ? "⌘K" : "Ctrl+K"}.`
-				toast(message, 3000, "right")
-			}
-		})
 	})
 </script>

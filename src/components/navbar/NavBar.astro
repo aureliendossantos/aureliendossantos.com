@@ -18,15 +18,13 @@ import SearchItemsContainer from "./SearchItemsContainer.astro"
 
 interface Props extends NavBarProps {
 	viewportCover?: boolean
-	ssr?: boolean
 }
 
-const { title, parent, related, headings, viewportCover, ssr } = Astro.props
+const { title, parent, related, headings, viewportCover } = Astro.props
 const relatedTitle = Astro.props.relatedTitle || "Voir aussi"
 const t = useTranslations(checkLocale(Astro.currentLocale))
 ---
 
-<div transition:persist="navbar-margin" id="bottom-page-margin" class="h-7 w-full print:!hidden">
 </div>
 
 {
@@ -36,8 +34,6 @@ const t = useTranslations(checkLocale(Astro.currentLocale))
 <GlobalGraph />
 
 <div
-	transition:persist="navbar"
-	transition:animate="fade"
 	id="navbar"
 	class="navbar-colors navbar-bg fixed bottom-0 z-[999] flex h-7 w-full max-w-full border-t font-work-sans text-sm transition-all duration-500 print:!hidden"
 	style={{
@@ -180,7 +176,7 @@ const t = useTranslations(checkLocale(Astro.currentLocale))
 	</div>
 	<div class="grow"></div>
 	<AudioController />
-	<SearchBar {ssr} />
+	<SearchBar />
 	{
 		/*<NavbarToggleButton
 		textAndBorderClasses="border-neutral-500 text-neutral-400 group-hover:border-white group-hover:text-white"
@@ -208,76 +204,6 @@ const t = useTranslations(checkLocale(Astro.currentLocale))
 <Toast />
 
 <div id="navbar-data" class="hidden" data-props={JSON.stringify(Astro.props)}></div>
-
-<script>
-	// Update when the page changes, according to the props in #navbar-data
-	import type { NavBarProps } from "$utils/navbar"
-
-	document.addEventListener("astro:after-swap", () => {
-		const dataDiv = document.getElementById("navbar-data") as HTMLDivElement
-		const props = JSON.parse(dataDiv.dataset.props as string) as NavBarProps
-		// Update parent link
-		const parentLink = document.querySelector("#navbar-parent-link") as HTMLLinkElement
-		const parentText = document.querySelector("#navbar-parent-text") as HTMLLinkElement
-		if (props.parent) {
-			parentText.innerText = props.parent.title
-			parentLink.href = props.parent.href
-			parentLink.classList.remove("hidden")
-		} else {
-			parentLink.classList.add("hidden")
-		}
-		// Update title
-		;(document.querySelector("#navbar-title") as HTMLDivElement).innerText = props.title
-		// Update table of contents
-		const tocParent = document.querySelector("#navbar-toc-parent") as HTMLDivElement
-		const tocContainer = document.querySelector("#navbar-toc-items-container") as HTMLDivElement
-		if (!props.headings || props.headings.length <= 1) {
-			tocParent.classList.add("hidden")
-		} else {
-			// Empty the container then create new items
-			// TODO: Improve by using a template
-			tocContainer.innerHTML = ""
-			props.headings
-				.filter((h) => h.depth == 2)
-				.forEach((heading, index) => {
-					const item = document.createElement("a")
-					item.className =
-						"line-clamp-2 flex items-center border-x-0 px-3 py-[6px] leading-tight navbar-hover-colors"
-					item.style.width = "192px"
-					item.href = `#${heading.slug}`
-					item.innerText = `${index + 1}. ${heading.text}`
-					tocContainer.appendChild(item)
-				})
-			tocParent.classList.remove("hidden")
-		}
-		// Update related articles
-		const relatedParent = document.querySelector("#navbar-related-parent") as HTMLDivElement
-		const relatedText = document.querySelector("#navbar-related-text") as HTMLDivElement
-		const relatedMobileText = document.querySelector(
-			"#navbar-related-mobile-title"
-		) as HTMLDivElement
-		if (props.related && props.related.length > 0) {
-			relatedText.innerText = props.relatedTitle || "Voir aussi"
-			relatedMobileText.innerText = props.relatedTitle || "Voir aussi"
-			relatedParent.classList.remove("hidden")
-			const items = document.querySelectorAll(
-				"#navbar-related-dropdown a"
-			) as NodeListOf<HTMLLinkElement>
-			items.forEach((item, index) => {
-				const related = props.related![index]
-				if (related) {
-					item.classList.remove("hidden")
-					item.innerText = related.title
-					item.href = related.href
-				} else {
-					item.classList.add("hidden")
-				}
-			})
-		} else {
-			relatedParent.classList.add("hidden")
-		}
-	})
-</script>
 
 <script>
 	// Display download links when an image is opened with MediumZoom
@@ -376,27 +302,6 @@ const t = useTranslations(checkLocale(Astro.currentLocale))
 				linkIcon.classList.remove("hidden")
 			}
 		}, 1000)
-	})
-</script>
-
-<script>
-	// Page loading spinner
-	document.addEventListener("astro:before-preparation", () => {
-		// display only if the loading is longer than 200ms to avoid flickering
-		window.nextPageIsLoading = true
-		setTimeout(() => {
-			if (window.nextPageIsLoading) {
-				;(document.querySelector("#navbar-link-icon") as HTMLDivElement).classList.add("hidden")
-				;(document.querySelector("#navbar-loading-icon") as HTMLDivElement).classList.remove(
-					"hidden"
-				)
-			}
-		}, 200)
-	})
-	document.addEventListener("astro:after-preparation", () => {
-		window.nextPageIsLoading = false
-		;(document.querySelector("#navbar-link-icon") as HTMLDivElement).classList.remove("hidden")
-		;(document.querySelector("#navbar-loading-icon") as HTMLDivElement).classList.add("hidden")
 	})
 </script>
 

@@ -103,101 +103,95 @@ const labelHtml = markdown
 
 	window.popupZindex = 10
 	window.popupsOpened = 0
-	document.addEventListener("astro:page-load", function () {
-		const templates = document.querySelectorAll(
-			`template.new-popup-template`
-		) as NodeListOf<HTMLTemplateElement>
-		templates.forEach((template) => {
-			const uid = template.id
-			const templateClone = (template.content.firstElementChild as HTMLDivElement).cloneNode(true)
+	const templates = document.querySelectorAll(
+		`template.new-popup-template`
+	) as NodeListOf<HTMLTemplateElement>
+	templates.forEach((template) => {
+		const uid = template.id
+		const templateClone = (template.content.firstElementChild as HTMLDivElement).cloneNode(true)
 
-			var span = document.getElementById(`span-${uid}`) as HTMLSpanElement
-			var text = document.getElementById(`text-${uid}`) as HTMLLinkElement
-			var popup = span.appendChild(templateClone) as HTMLDivElement
+		var span = document.getElementById(`span-${uid}`) as HTMLSpanElement
+		var text = document.getElementById(`text-${uid}`) as HTMLLinkElement
+		var popup = span.appendChild(templateClone) as HTMLDivElement
 
-			var opened = false
+		var opened = false
 
-			function closePopup() {
-				if (!opened) return
-				opened = false
-				popup.style.display = "none"
-				text.classList.remove(
-					"bg-[--popup-active]",
-					"dark:bg-[--dark-popup-active]",
-					"cursor-pointer"
-				)
-				window.popupsOpened -= 1
-				if (window.popupsOpened == 0) closePopupNavbar()
-			}
+		function closePopup() {
+			if (!opened) return
+			opened = false
+			popup.style.display = "none"
+			text.classList.remove(
+				"bg-[--popup-active]",
+				"dark:bg-[--dark-popup-active]",
+				"cursor-pointer"
+			)
+			window.popupsOpened -= 1
+			if (window.popupsOpened == 0) closePopupNavbar()
+		}
 
-			document.addEventListener("astro:before-preparation", () => {
+		// Close the popup if the user clicks outside of it.
+		// The first click is ignored (that's what the i is for)
+		// because it's the click that opened the popup.
+		// We also ignore clicks on the zoomed images.
+		let clicks = 0
+		const article = (document.querySelector("main") ||
+			document.querySelector("article")) as HTMLDivElement
+		article.addEventListener("click", (event) => {
+			if (opened) clicks += 1
+			else clicks = 0
+			if (
+				clicks >= 2 &&
+				!window.mediumZoom.getZoomedImage() &&
+				event.target instanceof Node &&
+				!popup.contains(event.target)
+			) {
 				closePopup()
-			})
+				clicks = 0
+			}
+		})
 
-			// Close the popup if the user clicks outside of it.
-			// The first click is ignored (that's what the i is for)
-			// because it's the click that opened the popup.
-			// We also ignore clicks on the zoomed images.
-			let clicks = 0
-			const article = (document.querySelector("main") ||
-				document.querySelector("article")) as HTMLDivElement
-			article.addEventListener("click", (event) => {
-				if (opened) clicks += 1
-				else clicks = 0
-				if (
-					clicks >= 2 &&
-					!window.mediumZoom.getZoomedImage() &&
-					event.target instanceof Node &&
-					!popup.contains(event.target)
-				) {
-					closePopup()
-					clicks = 0
-				}
-			})
+		text.addEventListener("click", function () {
+			if (opened) {
+				closePopup()
+				return
+			}
+			// updating the navbar
+			const data = document.getElementById(`${uid}-data`)?.dataset
+			if (data)
+				openPopupNavbar(data.title as string, data.librarySlug, JSON.parse(data.links as string))
+			// opening popup
+			opened = true
+			window.popupsOpened += 1
+			var textRect = text.getBoundingClientRect()
+			// Popup dimensions
+			// here -2 is the borders width
+			popup.style.width = Math.min(460, document.documentElement.clientWidth - 20 - 2) + "px"
+			// the popup height should be at most 240px, or less if the contents is smaller
+			popup.style.left = textRect.width / 2 + "px"
+			popup.style.display = "block"
+			text.classList.add("bg-[--popup-active]", "dark:bg-[--dark-popup-active]", "cursor-pointer")
 
-			text.addEventListener("click", function () {
-				if (opened) {
-					closePopup()
-					return
-				}
-				// updating the navbar
-				const data = document.getElementById(`${uid}-data`)?.dataset
-				if (data)
-					openPopupNavbar(data.title as string, data.librarySlug, JSON.parse(data.links as string))
-				// opening popup
-				opened = true
-				window.popupsOpened += 1
-				var textRect = text.getBoundingClientRect()
-				// Popup dimensions
-				// here -2 is the borders width
-				popup.style.width = Math.min(460, document.documentElement.clientWidth - 20 - 2) + "px"
-				// the popup height should be at most 240px, or less if the contents is smaller
-				popup.style.left = textRect.width / 2 + "px"
-				popup.style.display = "block"
-				text.classList.add("bg-[--popup-active]", "dark:bg-[--dark-popup-active]", "cursor-pointer")
+			window.popupZindex = Math.min(window.popupZindex + 1, 99)
+			popup.style.zIndex = `${window.popupZindex}`
 
-				window.popupZindex = Math.min(window.popupZindex + 1, 99)
-				popup.style.zIndex = `${window.popupZindex}`
-
-				// If the popup is too high on the page, we move it to the bottom
-				popup.style.removeProperty("top")
-				var popupRect = popup.getBoundingClientRect()
-				if (popupRect.top < -window.scrollY) {
-					popup.style.top = "20px"
-				}
-				// Bounds the x position on the screen
-				if (popupRect.right > document.documentElement.clientWidth) {
-					popup.style.left = "0px"
-					popupRect = popup.getBoundingClientRect()
-					popup.style.left = document.documentElement.clientWidth - popupRect.right - 10 + "px"
-				} else if (popupRect.left < 0) {
-					popup.style.left = "0px"
-					popupRect = popup.getBoundingClientRect()
-					popup.style.left = -popupRect.left + 10 + "px"
-				}
-				// Makes the little pictures zoomable
-				window.mediumZoom.attach(document.querySelectorAll("[data-zoomable]"))
-			})
+			// If the popup is too high on the page, we move it to the bottom
+			popup.style.removeProperty("top")
+			var popupRect = popup.getBoundingClientRect()
+			if (popupRect.top < -window.scrollY) {
+				popup.style.top = "20px"
+			}
+			// Bounds the x position on the screen
+			if (popupRect.right > document.documentElement.clientWidth) {
+				popup.style.left = "0px"
+				popupRect = popup.getBoundingClientRect()
+				popup.style.left = document.documentElement.clientWidth - popupRect.right - 10 + "px"
+			} else if (popupRect.left < 0) {
+				popup.style.left = "0px"
+				popupRect = popup.getBoundingClientRect()
+				popup.style.left = -popupRect.left + 10 + "px"
+			}
+			// Makes the little pictures zoomable
+			window.mediumZoom.attach(document.querySelectorAll("[data-zoomable]"))
 		})
 	})
 </script>

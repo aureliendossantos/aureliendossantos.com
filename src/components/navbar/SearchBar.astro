@@ -1,16 +1,8 @@
 ---
 import { checkLocale, useTranslations } from "$utils/i18n"
-import { getSearchEntries } from "$utils/search"
 import { Icon } from "astro-icon/components"
-interface Props {
-	ssr?: boolean
-}
 const locale = checkLocale(Astro.currentLocale)
 const t = useTranslations(locale)
-// With SSR, `getSearchEntries()` takes a long time on Vercel. Even if this component is at the
-// bottom of the page, it's kinda blocking because we use ViewTransitions. To solve this,
-// we will later fetch the entries client-side from a static API endpoint.
-const preRenderedEntries = Astro.props.ssr ? [] : await getSearchEntries(locale)
 ---
 
 <div class="navbar-colors relative border-r">
@@ -68,33 +60,29 @@ const preRenderedEntries = Astro.props.ssr ? [] : await getSearchEntries(locale)
 	})
 </script>
 
-<script is:inline define:vars={{ preRenderedEntries }}>
-	// If the page is not pre-rendered, we asynchronously fetch the entries from the API.
-	// Until the fetch is done, the search bar will simply not find any result.
-	window.entries = []
-	;(async () => {
-		if (preRenderedEntries.length > 0) window.entries = preRenderedEntries
-		else window.entries = await (await fetch("/api/search/entries")).json()
-	})()
+<script>
+	// Wait for window.entries to be an array with at least one element before executing the rest.
+	while (!window.entries || window.entries.length == 0) {
+		await new Promise((resolve) => setTimeout(resolve, 100))
+	}
 
 	// Get the HTML elements
-	const input = document.getElementById("navbar-search")
-	const outputContainer = document.getElementById("navbar-search-items-container")
+	const input = document.getElementById("navbar-search") as HTMLInputElement
+	const outputContainer = document.getElementById("navbar-search-items-container") as HTMLElement
 
 	/**
 	 * Called at each search. Empties the results div then fills it with a
 	 * list of SearchCard corresponding to the keywords provided in input.
-	 * @param {string} input - What's the search input?
-	 * @return {Array<blogEntry>} - Articles returned by the search
+	 * @param input - What's the search input?
+	 * @return Articles returned by the search
 	 */
-	const applyInput = (input) => {
+	const applyInput = (input: string) => {
 		outputContainer.innerHTML = ""
 		const searchKeywords = input.toLowerCase().split(" ")
-		if (input.length < 3) {
-			results = []
-		} else if (searchKeywords.length > 0) {
+		let results: any[] = []
+		if (input.length >= 3 && searchKeywords.length > 0) {
 			// Filter block entries based on their title, abstract & tags
-			// should match every keywords provided by search input !
+			// Must match every keyword provided by search input
 			results = window.entries.filter((entry) =>
 				searchKeywords.every(
 					(keyword) =>
@@ -105,8 +93,6 @@ const preRenderedEntries = Astro.props.ssr ? [] : await getSearchEntries(locale)
 						entry.tags?.some((tag) => tag.toLowerCase().includes(keyword))
 				)
 			)
-		} else {
-			results = []
 		}
 		results.forEach((result, index) => {
 			// Limit at 9 results
@@ -146,9 +132,6 @@ const preRenderedEntries = Astro.props.ssr ? [] : await getSearchEntries(locale)
 			outputContainer.innerHTML = ""
 		}
 	})
-	document.addEventListener("astro:before-preparation", () => {
-		outputContainer.innerHTML = ""
-	})
 </script>
 
 <script>
@@ -173,7 +156,5 @@ const preRenderedEntries = Astro.props.ssr ? [] : await getSearchEntries(locale)
 		)
 	}
 
-	document.addEventListener("astro:page-load", () => {
-		if (isIOS()) disablePageZoom()
-	})
+	if (isIOS()) disablePageZoom()
 </script>

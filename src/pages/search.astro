@@ -84,11 +84,9 @@ const entries = await getSearchEntries(Astro.currentLocale)
 	</div>
 	<script src="/home/particlesjs2.0.0.min.js" is:inline></script>
 	<script>
-		document.addEventListener("astro:page-load", () => {
-			// @ts-ignore
-			particlesJS.load("particles-js", "/home/starryBackground.json", function () {
-				console.log("callback - particles-js config loaded")
-			})
+		// @ts-ignore
+		particlesJS.load("particles-js", "/home/starryBackground.json", function () {
+			console.log("callback - particles-js config loaded")
 		})
 	</script>
 </BaseLayout>

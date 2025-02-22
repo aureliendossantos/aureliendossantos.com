@@ -1,0 +1,22 @@
+---
+import { checkLocale } from "$utils/i18n"
+import { getSearchEntries } from "$utils/search"
+interface Props {
+	ssr?: boolean
+}
+const locale = checkLocale(Astro.currentLocale)
+// With SSR, `getSearchEntries()` takes a long time on Vercel. Even if this component is at the
+// bottom of the page, it's kinda blocking if we use ViewTransitions. To solve this,
+// we will later fetch the entries client-side from a static API endpoint.
+const preRenderedEntries = Astro.props.ssr ? [] : await getSearchEntries(locale)
+---
+
+<script is:inline define:vars={{ preRenderedEntries }}>
+	// If the page is not pre-rendered, we asynchronously fetch the entries from the API.
+	// Until the fetch is done, the search bar will simply not find any result.
+	window.entries = []
+	;(async () => {
+		if (preRenderedEntries.length > 0) window.entries = preRenderedEntries
+		else window.entries = await (await fetch("/api/search/entries")).json()
+	})()
+</script>

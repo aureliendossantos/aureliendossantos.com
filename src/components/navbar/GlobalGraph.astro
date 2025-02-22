@@ -35,12 +35,7 @@ const { opts } = Astro.props
 const graphConfig = { ...defaultOptions, ...opts }
 ---
 
-<div
-	transition:persist="global-graph"
-	transition:animate="none"
-	id="global-graph-outer"
-	class="peer fixed inset-0 z-[9999] hidden"
->
+<div id="global-graph-outer" class="peer fixed inset-0 z-[9999] hidden">
 	<div
 		id="global-graph-container"
 		data-cfg={JSON.stringify(graphConfig)}

@@ -64,9 +64,7 @@ const apiKey = GOOGLE_MAPS_TOKEN
 			mapDiv.addEventListener("click", createMap)
 		})
 	}
-	document.addEventListener("astro:page-load", () => {
-		initAllMaps()
-	})
+	initAllMaps()
 </script>
 
 <script is:inline>

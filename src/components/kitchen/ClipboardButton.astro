@@ -23,9 +23,7 @@ const { clipboard, notification } = Astro.props
 		navigator.clipboard.writeText(event.target.dataset.text)
 		toast(event.target.dataset.toast, 4500)
 	}
-	document.addEventListener("astro:page-load", () => {
-		document.querySelectorAll(".copy-ingredients").forEach((button) => {
-			button.addEventListener("click", copyIngredients)
-		})
+	document.querySelectorAll(".copy-ingredients").forEach((button) => {
+		button.addEventListener("click", copyIngredients)
 	})
 </script>

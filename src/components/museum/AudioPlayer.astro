@@ -47,42 +47,39 @@ const t = useTranslations(checkLocale(Astro.currentLocale))
 </style>
 
 <script>
-	document.addEventListener("astro:page-load", () => {
-		// Init page. I copy a template because if the player is directly on the page, it doesn't work with View Transitions
-		const emptyPlayers = document.querySelectorAll(".audio-player") as NodeListOf<HTMLElement>
-		emptyPlayers.forEach((player) => {
-			const template = player.querySelector("template") as HTMLTemplateElement
-			player.replaceWith(template.content.cloneNode(true))
-		})
-		// If the audio played in navbar-audio is different from this src, replace it
-		const audio = document.querySelector("#navbar-audio audio") as HTMLAudioElement
-		const playButtons = document.querySelectorAll(
-			".museum-play-button[data-src]"
-		) as NodeListOf<HTMLElement>
-		// Hide playButtons if their data-src is included in navbar-audio src. Else, display the media-control-bar
-		playButtons.forEach((button) => {
-			if (button.dataset.src && audio.src.includes(button.dataset.src)) {
+	// Init page. I copy a template because if the player is directly on the page, it doesn't work with View Transitions
+	const emptyPlayers = document.querySelectorAll(".audio-player") as NodeListOf<HTMLElement>
+	emptyPlayers.forEach((player) => {
+		const template = player.querySelector("template") as HTMLTemplateElement
+		player.replaceWith(template.content.cloneNode(true))
+	})
+	// If the audio played in navbar-audio is different from this src, replace it
+	const audio = document.querySelector("#navbar-audio audio") as HTMLAudioElement
+	const playButtons = document.querySelectorAll(
+		".museum-play-button[data-src]"
+	) as NodeListOf<HTMLElement>
+	// Hide playButtons if their data-src is included in navbar-audio src. Else, display the media-control-bar
+	playButtons.forEach((button) => {
+		if (button.dataset.src && audio.src.includes(button.dataset.src)) {
+			button.style.display = "none"
+			;(button.nextElementSibling as HTMLElement).style.display = "flex"
+		}
+	})
+	// If the audio played in navbar-audio is different from this src, replace it
+	playButtons.forEach((button) => {
+		button.addEventListener("click", () => {
+			if (!button.dataset.src) throw new Error("Missing audio src")
+			if (!audio.src.includes(button.dataset.src)) {
+				// Send audio to navbar
+				audio.src = button.dataset.src
+				audio.play()
+				document.querySelector("#navbar-audio-title")!.textContent = button.dataset.title as string
+				document.querySelector("#navbar-audio-author")!.textContent = button.dataset
+					.author as string
+				// Update this UI
 				button.style.display = "none"
 				;(button.nextElementSibling as HTMLElement).style.display = "flex"
 			}
-		})
-		// If the audio played in navbar-audio is different from this src, replace it
-		playButtons.forEach((button) => {
-			button.addEventListener("click", () => {
-				if (!button.dataset.src) throw new Error("Missing audio src")
-				if (!audio.src.includes(button.dataset.src)) {
-					// Send audio to navbar
-					audio.src = button.dataset.src
-					audio.play()
-					document.querySelector("#navbar-audio-title")!.textContent = button.dataset
-						.title as string
-					document.querySelector("#navbar-audio-author")!.textContent = button.dataset
-						.author as string
-					// Update this UI
-					button.style.display = "none"
-					;(button.nextElementSibling as HTMLElement).style.display = "flex"
-				}
-			})
 		})
 	})
 </script>

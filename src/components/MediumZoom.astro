@@ -24,13 +24,7 @@ import "medium-zoom/dist/style.css"
 		window.mediumZoom.update(options())
 	})
 
-	document.addEventListener("astro:before-preparation", () => {
-		window.mediumZoom.detach()
-	})
-
-	document.addEventListener("astro:page-load", () => {
-		window.mediumZoom.attach("[data-zoomable]")
-	})
+	window.mediumZoom.attach("[data-zoomable]")
 </script>
 
 <style is:global>

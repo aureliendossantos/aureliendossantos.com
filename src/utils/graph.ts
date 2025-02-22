@@ -81,10 +81,10 @@ async function renderGraph(container: string, currentSlug: string) {
 	} = JSON.parse(graph.dataset["cfg"]!)
 
 	// On SSR pages, window.entries is initially [] then populated with the data after some time. This script should wait for the data to be available.
-	if (window.entries.length == 0) {
+	if (!window.entries || window.entries.length == 0) {
 		await new Promise((resolve) => {
 			const interval = setInterval(() => {
-				if (window.entries.length > 0) {
+				if (window.entries && window.entries.length > 0) {
 					clearInterval(interval)
 					resolve(null)
 				}
@@ -428,13 +428,6 @@ function renderGlobalGraph() {
 
 	registerEscapeHandler(container, hideGlobalGraph)
 }
-
-document.addEventListener("astro:before-preparation", async (ev) => {
-	const event = ev as TransitionBeforePreparationEvent
-	const slug = cleanPath(event.to.pathname)
-	addToVisited(slug)
-	await renderGraph("graph-container", slug)
-})
 
 const currentSlug = getCurrentSlug()
 renderGraph("graph-container", currentSlug)

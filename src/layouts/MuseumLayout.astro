@@ -28,10 +28,8 @@ const x = true // fix syntax higlighting issue
 	}
 </style>
 
-<script>
+<script is:inline>
 	// Scroll directly to the content for pieces. Header is 28px.
 	// To show the header anyway, have a page with the same height as the screen.
-	document.addEventListener("astro:after-swap", () => {
-		window.scroll({ left: 0, top: 92, behavior: "instant" })
-	})
+	window.scroll({ left: 0, top: 92, behavior: "instant" })
 </script>

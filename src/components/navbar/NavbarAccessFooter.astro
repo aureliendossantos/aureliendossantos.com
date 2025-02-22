@@ -17,9 +17,7 @@ import NavbarToggleButton from "./NavbarToggleButton.astro"
 <script>
 	import { navbarIsOpened, openFooterWithNavbarButton } from "$utils/navbar"
 
-	document.addEventListener("astro:page-load", () => {
-		if (!navbarIsOpened()) {
-			openFooterWithNavbarButton()
-		}
-	})
+	if (!navbarIsOpened()) {
+		openFooterWithNavbarButton()
+	}
 </script>

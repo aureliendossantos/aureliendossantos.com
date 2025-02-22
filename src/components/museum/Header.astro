@@ -72,8 +72,5 @@ const t = useTranslations(locale)
 			if (input.value == theme) input.checked = true
 		})
 	}
-	document.addEventListener("astro:after-swap", () => {
-		initTheme()
-	})
 	initTheme()
 </script>
