@@ -1,0 +1,27 @@
+---
+interface Props {
+	image?: string
+	centerText?: boolean
+}
+const { image, centerText } = Astro.props
+---
+
+<div
+	class:list={[
+		"flex h-full w-full flex-col items-center overflow-auto rounded-xl border-8 border-gray-500 bg-gray-200",
+		{ "justify-center": !image, "text-center": centerText },
+	]}
+>
+	{
+		image && (
+			<img
+				src={image}
+				alt=""
+				class="h-1/2 w-full border-b-4 border-gray-500 bg-gray-300 object-cover"
+			/>
+		)
+	}
+	<div class="p-2">
+		<slot />
+	</div>
+</div>

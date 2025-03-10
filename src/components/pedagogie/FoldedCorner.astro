@@ -1,0 +1,28 @@
+---
+interface Props {
+	left?: boolean
+	right?: boolean
+}
+const { left, right } = Astro.props
+---
+
+<div
+	class:list={[
+		"absolute top-0 h-8 w-8 border-b-8 border-gray-500 bg-gray-200 transition-all group-hover:h-10 group-hover:w-10",
+		{
+			"left-0 rounded-br-xl border-r-8": left,
+			"right-0 rounded-bl-xl border-l-8": right,
+		},
+	]}
+>
+	<div
+		class:list={[
+			"absolute -top-7 h-12 w-12 rotate-45 bg-[lightgray] transition-all group-hover:-top-6",
+			{
+				"-left-7 group-hover:-left-6": left,
+				"-right-7 group-hover:-right-6": right,
+			},
+		]}
+	>
+	</div>
+</div>

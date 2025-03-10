@@ -1,0 +1,20 @@
+---
+import FlipCard from "$components/pedagogie/FlipCard.astro"
+import BaseLayout from "$layouts/BaseLayout.astro"
+---
+
+<BaseLayout ogType="website" title="Flip Cards" bg="lightgray">
+	<div class="mx-auto mt-48 max-w-lg">
+		<div class="grid grid-cols-3 gap-8">
+			{
+				[0, 1, 2].map(() => (
+					<FlipCard
+						front="C'est un secret !"
+						back="Tiens donc... Ceci est un très long texte."
+						image="bla"
+					/>
+				))
+			}
+		</div>
+	</div>
+</BaseLayout>

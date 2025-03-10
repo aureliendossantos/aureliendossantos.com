@@ -1,0 +1,50 @@
+---
+import CardSide from "./CardSide.astro"
+import FoldedCorner from "./FoldedCorner.astro"
+
+interface Props {
+	front: string
+	back: string
+	image?: string
+}
+const { front, back, image } = Astro.props
+---
+
+<label class="card-container group block aspect-[2/3.2] cursor-pointer">
+	<input type="checkbox" class="peer hidden" />
+	<div class="card h-full">
+		<div class="front">
+			<CardSide centerText>
+				{front}
+			</CardSide>
+			<FoldedCorner right />
+		</div>
+		<div class="back">
+			<CardSide {image}>
+				{back}
+			</CardSide>
+			<FoldedCorner left />
+		</div>
+	</div>
+</label>
+
+<style>
+	.card-container {
+		perspective: 600px;
+	}
+	.card-container input:checked ~ .card {
+		transform: rotateY(-180deg);
+	}
+	.card {
+		transition: transform 0.8s;
+		transform-style: preserve-3d;
+	}
+	.front,
+	.back {
+		backface-visibility: hidden;
+		@apply absolute h-full w-full;
+	}
+	.back {
+		transform: rotateY(-180deg);
+	}
+</style>
