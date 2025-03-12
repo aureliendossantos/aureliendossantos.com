@@ -1,5 +1,5 @@
 ---
-import { Icon } from "astro-icon/components"
+import DownloadIcon from "$icons/ic/outline-file-download.svg"
 
 interface Props {
 	id: string
@@ -17,7 +17,7 @@ const { id, label, shortLabel, href } = Astro.props
 	{href}
 	download
 >
-	<Icon id="navbar-link-icon" name="ic:outline-file-download" class="h-[17px] w-[17px]" />
+	<DownloadIcon id="navbar-link-icon" size="17px" />
 	<div id={`${id}-text`} class="medium:hidden">{label}</div>
 	<div class="hidden medium:block">{shortLabel}</div>
 </a>

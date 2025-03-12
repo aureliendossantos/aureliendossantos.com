@@ -1,6 +1,7 @@
 ---
 import type { HTMLAttributes } from "astro/types"
-import { Icon } from "astro-icon/components"
+import DoubleArrowUp from "$icons/material-symbols-light/keyboard-double-arrow-up-rounded.svg"
+import DoubleArrowDown from "$icons/material-symbols-light/keyboard-double-arrow-down-rounded.svg"
 
 interface Props extends HTMLAttributes<"div"> {
 	bgClasses?: HTMLAttributes<"button">["class"]
@@ -24,12 +25,19 @@ const dir = arrowIcon || "down"
 >
 	<div class:list={["rounded-sm border leading-tight", textAndBorderClasses]}>
 		<div class="navbar-toggle-text px-[4px] medium:hidden">Ctrl+K</div>
-		<Icon
-			name={dir == "down"
-				? "material-symbols-light:keyboard-double-arrow-down-rounded"
-				: "material-symbols-light:keyboard-double-arrow-up-rounded"}
-			class="navbar-toggle-icon inline-block hidden h-[17px] w-[17px] align-top medium:inline-block"
-		/>
+		{
+			dir == "down" ? (
+				<DoubleArrowDown
+					size="17px"
+					class="navbar-toggle-icon inline-block hidden align-top medium:inline-block"
+				/>
+			) : (
+				<DoubleArrowUp
+					size="17px"
+					class="navbar-toggle-icon inline-block hidden align-top medium:inline-block"
+				/>
+			)
+		}
 	</div>
 </button>
 

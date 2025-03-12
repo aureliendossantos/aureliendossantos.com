@@ -1,6 +1,6 @@
 ---
 import formatDate from "$utils/formatting/formatDate"
-import { Icon } from "astro-icon/components"
+import UpdateIcon from "$icons/material-symbols/update-rounded.svg"
 import { getCollection } from "astro:content"
 
 const pages = (await getCollection("wiki")).map((page) => page.data)
@@ -30,7 +30,7 @@ const tags = await getCollection("tags")
 									</a>
 								))}
 								<div class="text-neutral-500">
-									<Icon name="material-symbols:update-rounded" class="mb-[0.2em] inline-block" />
+									<UpdateIcon size="1em" class="mb-[0.2em] inline-block" />
 									{formatDate(new Date(page.editedTime))}
 								</div>
 							</div>

@@ -9,7 +9,8 @@
 			"$layouts/*": ["src/layouts/*"],
 			"$content/*": ["src/content/*"],
 			"$utils/*": ["src/utils/*"],
-			"$styles/*": ["src/styles/*"]
+			"$styles/*": ["src/styles/*"],
+			"$icons/*": ["src/styles/icons/*"]
 		}
 	}
 }

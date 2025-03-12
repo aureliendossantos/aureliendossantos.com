@@ -7,7 +7,6 @@ import DropdownMenu from "./DropdownMenu.astro"
 import DownloadLink from "./DownloadLink.astro"
 import ExternalLink from "./ExternalLink.astro"
 import InactiveItem from "./InactiveItem.astro"
-import { Icon } from "astro-icon/components"
 import type { NavBarProps } from "$utils/navbar"
 import SearchBar from "./SearchBar.astro"
 import NavbarGraph from "$components/navbar/NavbarGraph.astro"
@@ -15,6 +14,16 @@ import GlobalGraph from "$components/navbar/GlobalGraph.astro"
 import GameStatus from "./GameStatus.astro"
 import AudioController from "./AudioController.astro"
 import SearchItemsContainer from "./SearchItemsContainer.astro"
+import NetworkIcon from "$icons/carbon/network-1.svg"
+import HomeIcon from "$icons/charm/home.svg"
+import ShareNetworkIcon from "$icons/ph/share-network.svg"
+import LibraryIcon from "$icons/lucide/square-library.svg"
+import TocIcon from "$icons/ic/baseline-toc.svg"
+import ShareIcon from "$icons/ic/baseline-ios-share.svg"
+import CheckIcon from "$icons/ic/baseline-check.svg"
+import CampfireIcon from "$icons/mdi/campfire.svg"
+import CollapseIcon from "$icons/material-symbols/collapse-content-rounded.svg"
+import DoubleArrowDownIcon from "$icons/material-symbols/keyboard-double-arrow-down-rounded.svg"
 
 interface Props extends NavBarProps {
 	viewportCover?: boolean
@@ -50,12 +59,12 @@ const t = useTranslations(checkLocale(Astro.currentLocale))
 			truncate="medium"
 			keepOpenOnClick
 		>
-			<Icon name="carbon:network-1" class="h-[17px]" slot="icon" />
+			<NetworkIcon size="17px" slot="icon" />
 			<NavbarGraph {title} />
 		</DropdownMenu>
 		<!--
 		<DropdownMenu id="navbar-explore" label="Portails" truncate="medium" borderRight chevron>
-			<Icon name="carbon:network-1" class="h-[17px]" slot="icon" />
+			<NetworkIcon class="h-[17px]" slot="icon" />
 			<div class="hidden border-x-0 px-3 py-[6px] leading-tight text-neutral-500 medium:block">
 				Portails
 			</div>
@@ -78,7 +87,7 @@ const t = useTranslations(checkLocale(Astro.currentLocale))
 			]}
 			href={parent?.href}
 		>
-			<Icon name="charm:home" class="h-[14px]" />
+			<HomeIcon size="14px" />
 			<div id="navbar-parent-text" class="truncate whitespace-nowrap small:max-w-[20vw]">
 				{parent?.title}
 			</div>
@@ -92,8 +101,8 @@ const t = useTranslations(checkLocale(Astro.currentLocale))
 			style="padding-block: unset;"
 			class="navbar-colors navbar-hover-colors group relative m-0 flex h-full items-center justify-center gap-2 border-r p-0 px-3 medium:px-2"
 		>
-			<Icon id="navbar-link-icon" name="ic:baseline-ios-share" class="-mt-[3px] h-[14px]" />
-			<Icon id="navbar-link-checkmark" name="ic:baseline-check" class="hidden h-[17px]" />
+			<ShareIcon size="14px" id="navbar-link-icon" class="-mt-[3px]" />
+			<CheckIcon size="17px" id="navbar-link-checkmark" class="hidden" />
 			<div id="navbar-loading-icon" class="hidden h-[17px] w-[17px] animate-spin">
 				<Spinner />
 			</div>
@@ -108,7 +117,7 @@ const t = useTranslations(checkLocale(Astro.currentLocale))
 			borderRight
 			initiallyHidden={!headings || headings.length <= 1}
 		>
-			<Icon id="navbar-link-icon" name="ic:baseline-toc" class="h-[17px] rotate-180" slot="icon" />
+			<TocIcon id="navbar-link-icon" size="17px" class="rotate-180" slot="icon" />
 			<div
 				class="line-clamp-2 hidden w-[192px] border-x-0 px-3 py-[6px] leading-tight text-neutral-500 xl:block"
 			>
@@ -129,7 +138,7 @@ const t = useTranslations(checkLocale(Astro.currentLocale))
 			borderRight
 			initiallyHidden={!related || related.length == 0}
 		>
-			<Icon name="ph:share-network" class="h-[16px]" slot="icon" />
+			<ShareNetworkIcon size="16px" slot="icon" />
 			<div
 				id="navbar-related-mobile-title"
 				class="line-clamp-2 hidden w-[192px] border-x-0 px-3 py-[6px] leading-tight text-neutral-500 mediumlarge:block"
@@ -166,7 +175,7 @@ const t = useTranslations(checkLocale(Astro.currentLocale))
 			href=""
 		>
 			<div class="whitespace-nowrap medium:hidden">Dans ma bibliothèque</div>
-			<Icon name="lucide:library-square" class="h-[17px]" />
+			<LibraryIcon size="17px" />
 		</a>
 		{
 			[1, 2, 3].map((i) => (
@@ -186,16 +195,12 @@ const t = useTranslations(checkLocale(Astro.currentLocale))
 		id="fullscreen-to-overview"
 		class="navbar-colors navbar-hover-colors hidden border-r px-3 medium:px-2"
 	>
-		<Icon name="material-symbols:collapse-content-rounded" class="h-[17px]" />
+		<CollapseIcon size="17px" />
 	</button>
 	<DropdownMenu id="navbar-game" keepOpenOnClick alignRight>
 		<div slot="icon">
-			<Icon id="navbar-game-main-icon" name="mdi:campfire" class="h-[17px]" />
-			<Icon
-				id="navbar-game-close-icon"
-				name="material-symbols:keyboard-double-arrow-down-rounded"
-				class="hidden h-[17px]"
-			/>
+			<CampfireIcon id="navbar-game-main-icon" size="17px" />
+			<DoubleArrowDownIcon id="navbar-game-close-icon" size="17px" class="hidden" />
 		</div>
 		<GameStatus />
 	</DropdownMenu>

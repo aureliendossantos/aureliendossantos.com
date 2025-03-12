@@ -1,14 +1,14 @@
 ---
 import { checkLocale, useTranslations } from "$utils/i18n"
-import { Icon } from "astro-icon/components"
+import SearchIcon from "$icons/ic/baseline-search.svg"
 const locale = checkLocale(Astro.currentLocale)
 const t = useTranslations(locale)
 ---
 
 <div class="navbar-colors relative border-r">
 	<div class="navbar-hover-colors group flex h-full items-center">
-		<label for="navbar-search-toggle">
-			<Icon name="ic:baseline-search" class="h-[17px] pl-[10px] pr-2 medium:px-2" />
+		<label for="navbar-search-toggle" class="pl-[10px] pr-2 medium:px-2">
+			<SearchIcon size="17px" />
 		</label>
 		<input type="checkbox" id="navbar-search-toggle" class="peer hidden" aria-hidden="true" />
 		<input

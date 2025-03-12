@@ -1,5 +1,5 @@
 ---
-import { Icon } from "astro-icon/components"
+import PlusCircleIcon from "$icons/mdi/plus-circle-outline.svg"
 
 export interface Props {
 	id?: string
@@ -31,10 +31,10 @@ const hasPlusIcon = toggle && label != "number"
 	]}
 	>{
 		hasPlusIcon && (
-			<Icon
-				name="mdi:plus-circle-outline"
+			<PlusCircleIcon
+				size="0.7em"
 				class:list={[
-					"align-top text-[0.7em] text-[--special-color]",
+					"align-top text-[--special-color] dark:text-[--dark-special-color]",
 					{ "hidden xl:inline": label == "symbol" },
 				]}
 			/>

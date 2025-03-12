@@ -1,5 +1,5 @@
 ---
-import { Icon } from "astro-icon/components"
+import ScanIcon from "$icons/lucide/scan.svg"
 
 export interface D3Config {
 	drag: boolean
@@ -42,10 +42,10 @@ const graphConfig = { ...defaultOptions, ...opts }
 
 <div class="relative h-64 w-64 overflow-hidden">
 	<div id="graph-container" data-cfg={JSON.stringify(graphConfig)}></div>
-	<Icon
-		name="lucide:scan"
+	<ScanIcon
 		id="global-graph-icon"
-		class="absolute right-0 top-0 box-content h-[16px] cursor-pointer rounded-bl-sm p-[6px] text-[--graph-secondary] hover:text-[--navbar-text] hover:dark:text-[--dark-navbar-text]"
+		size="16px"
+		class="absolute right-0 top-0 box-content cursor-pointer rounded-bl-sm p-[6px] text-[--graph-secondary] hover:text-[--navbar-text] hover:dark:text-[--dark-navbar-text]"
 	/>
 	<div
 		id="graph-title"

@@ -3,7 +3,7 @@ import ArticleCard from "$components/blog/ArticleCard.astro"
 import BaseLayout from "$layouts/BaseLayout.astro"
 import getBlogPosts, { getDiary } from "$utils/getCollection"
 import DiaryWrapup from "$components/blog/DiaryWrapup.astro"
-import { Icon } from "astro-icon/components"
+import LaunchIcon from "$icons/ic/baseline-launch.svg"
 import { dateSort } from "$utils/sort"
 
 const articles = [...(await getBlogPosts())].sort((a, b) => dateSort(a.data.date, b.data.date))
@@ -64,10 +64,7 @@ const diaryYears = Array.from(new Set(diary.map((entry) => entry.year)))
 						].map((link) => (
 							<a href={link.href}>
 								{link.title}
-								<Icon
-									name="ic:baseline-launch"
-									class="-mb-[0.1em] inline-block h-[0.9em] align-baseline"
-								/>
+								<LaunchIcon size="0.9em" class="-mb-[0.1em] inline-block align-baseline" />
 							</a>
 						))
 					}

@@ -1,5 +1,7 @@
 ---
-import { Icon } from "astro-icon/components"
+import PlaylistIcon from "$icons/mdi/playlist-music.svg"
+import PreviousIcon from "$icons/material-symbols/skip-previous.svg"
+import NextIcon from "$icons/material-symbols/skip-next.svg"
 import DropdownMenu from "./DropdownMenu.astro"
 ---
 
@@ -9,12 +11,7 @@ import DropdownMenu from "./DropdownMenu.astro"
 		<media-control-bar>
 			<media-play-button class="w-8 p-0 transition-none"></media-play-button>
 			<DropdownMenu id="navbar-audio-status" alignRight borderRight keepOpenOnClick>
-				<Icon
-					id="navbar-link-icon"
-					name="mdi:playlist-music"
-					class="order-last h-[17px]"
-					slot="icon"
-				/>
+				<PlaylistIcon size="17px" id="navbar-link-icon" class="order-last" slot="icon" />
 				<div slot="label">
 					<media-time-display
 						showduration
@@ -29,11 +26,11 @@ import DropdownMenu from "./DropdownMenu.astro"
 				<div class="px-1">
 					<media-control-bar mediacontroller="navbar-audio" class="h-7 w-full items-center">
 						<div class="flex w-7 items-center justify-center">
-							<Icon name="material-symbols:skip-previous" class="h-[17px] text-neutral-700" />
+							<PreviousIcon size="17px" class="text-neutral-700" />
 						</div>
 						<media-time-range></media-time-range>
 						<div class="flex w-7 items-center justify-center">
-							<Icon name="material-symbols:skip-next" class="h-[17px] text-neutral-700" />
+							<NextIcon size="17px" class="text-neutral-700" />
 						</div>
 					</media-control-bar>
 					<media-control-bar mediacontroller="navbar-audio" class="h-7 w-full pr-3">

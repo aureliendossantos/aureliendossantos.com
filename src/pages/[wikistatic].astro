@@ -1,7 +1,9 @@
 ---
 import BaseLayout from "$layouts/BaseLayout.astro"
 import formatDate from "$utils/formatting/formatDate"
-import { Icon } from "astro-icon/components"
+import LabelIcon from "$icons/material-symbols/label-rounded.svg"
+import UpdateIcon from "$icons/material-symbols/update-rounded.svg"
+import NotionIcon from "$icons/radix-icons/notion-logo.svg"
 import { getCollection } from "astro:content"
 import { getAnyEntry } from "$utils/getCollection"
 import RenderBlocks from "$components/notion/RenderBlocks.astro"
@@ -73,14 +75,14 @@ const renderCoffeeHistory = page.id.replaceAll("-", "") == COFFEE_PAGE_ID
 					pageTags.map((tag) => (
 						<>
 						<!-- prettier-ignore -->
-						<a href={`/tags/${tag.id}`} style={{ marginLeft: "0", marginRight: "0" }}><Icon name="material-symbols:label-rounded" class="mb-[0.1em] mr-[0.15em] inline-block" />{tag.data.title}</a>
+						<a href={`/tags/${tag.id}`} style={{ marginLeft: "0", marginRight: "0" }}><LabelIcon size="1em" class="mb-[0.1em] mr-[0.15em] inline-block" />{tag.data.title}</a>
 						</>
 					))
 				}
 				<span class="mx-[0.1em]">·</span>
-				<Icon name="material-symbols:update-rounded" class="mb-[0.15em] inline-block" />
+				<UpdateIcon size="1em" class="mb-[0.15em] inline-block" />
 				{formatDate(new Date(page.editedTime))}
-				<Icon name="radix-icons:notion-logo" class="mb-[0.10em] inline-block" />
+				<NotionIcon size="1em" class="mb-[0.10em] inline-block" />
 			</p>
 			{
 				renderFortniteTracks ? (

@@ -1,5 +1,5 @@
 ---
-import { Icon } from "astro-icon/components"
+import ScanIcon from "$icons/lucide/scan.svg"
 
 interface Props {
 	id: string
@@ -19,7 +19,7 @@ const { id, label, initiallyHidden, borderLeft, borderRight, truncate } = Astro.
 			{ "border-l": borderLeft, "border-r": borderRight },
 		]}
 	>
-		<Icon name="lucide:scan" class="h-[17px] w-[17px]" />
+		<ScanIcon size="17px" />
 		<div id={`${id}-text`} class:list={{ "truncate mediumlarge:max-w-[20vw]": truncate }}>
 			{label}
 		</div>

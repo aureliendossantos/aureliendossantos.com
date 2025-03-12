@@ -1,6 +1,7 @@
 ---
 import type { getDiaryData } from "$utils/getCollection"
-import { Icon } from "astro-icon/components"
+import FootstepsIcon from "$icons/ion/footsteps.svg"
+import MapCollectionIcon from "$icons/tdesign/map-collection.svg"
 
 interface Props {
 	entry: Awaited<ReturnType<typeof getDiaryData>>
@@ -11,14 +12,11 @@ const { entry } = Astro.props
 
 {
 	entry.category == "trips" && (
-		<Icon name="ion:footsteps" class="mb-[0.15em] ml-1 inline-block h-[0.9em] text-zinc-500" />
+		<FootstepsIcon size="0.9em" class="mb-[0.15em] ml-1 inline-block text-zinc-500" />
 	)
 }
 {
 	entry.category == "lists" && (
-		<Icon
-			name="tdesign:map-collection"
-			class="mb-[0.11em] ml-1 inline-block h-[1.1em] text-zinc-500"
-		/>
+		<MapCollectionIcon size="1.1em" class="mb-[0.11em] ml-1 inline-block text-zinc-500" />
 	)
 }

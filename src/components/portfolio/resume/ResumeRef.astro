@@ -1,5 +1,5 @@
 ---
-import { Icon } from "astro-icon/components"
+import LaunchIcon from "$icons/ic/baseline-launch.svg"
 import getEntryOrThrow from "$utils/content/getEntryOrThrow"
 
 interface Props {
@@ -21,10 +21,10 @@ const entry = id ? await getEntryOrThrow("portfolio", id) : undefined
 			<>
 				{/* prettier-ignore */}
 				<a href={href || entry?.data.links[0].url} target="_blank" class="peer">{linkTitle}</a>
-				<Icon
+				<LaunchIcon
+				size="0.9em"
 					id="navbar-link-icon"
-					name="ic:baseline-launch"
-					class="-mt-[0.1em] inline-block h-[0.9em] transition peer-hover:text-black"
+					class="-mt-[0.1em] inline-block transition peer-hover:text-black"
 				/>
 			</>
 		)

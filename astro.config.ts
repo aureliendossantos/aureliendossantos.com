@@ -3,7 +3,6 @@ import AutoImport from "astro-auto-import"
 import vercel from "@astrojs/vercel"
 import tailwind from "@astrojs/tailwind"
 import mdx from "@astrojs/mdx"
-import icon from "astro-icon"
 import expressiveCode from "astro-expressive-code"
 import { remarkConvertImports } from "./src/utils/remark/convertImports"
 import { remarkAbbr } from "./src/utils/remark/detectAbbr"
@@ -78,7 +77,6 @@ export default defineConfig({
 			],
 		}),
 		mdx(),
-		icon(),
 	],
 	markdown: {
 		shikiConfig: {

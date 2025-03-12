@@ -1,5 +1,5 @@
 ---
-import { Icon } from "astro-icon/components"
+import LaunchIcon from "$icons/ic/baseline-launch.svg"
 
 interface Props {
 	id: string
@@ -19,5 +19,5 @@ const shortLabel = Astro.props.shortLabel || label
 >
 	<div id={`${id}-text`} class="whitespace-nowrap medium:hidden">{label}</div>
 	<div id={`${id}-short-text`} class="hidden whitespace-nowrap medium:block">{shortLabel}</div>
-	<Icon id="navbar-link-icon" name="ic:baseline-launch" class="h-[17px] w-[17px]" />
+	<LaunchIcon id="navbar-link-icon" size="17px" />
 </a>
