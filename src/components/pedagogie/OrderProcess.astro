@@ -1,0 +1,40 @@
+---
+import "node_modules/dragula/dist/dragula.css"
+
+interface Props {
+	steps: string[]
+}
+const { steps } = Astro.props
+---
+
+<div class="my-16 gap-4">
+	<div
+		class="grid grid-cols-2 gap-2 rounded-xl bg-gray-400 p-4"
+		style={{ gridTemplateColumns: "60px 1fr" }}
+	>
+		<div class="flex flex-col gap-2">
+			{
+				steps.map((step, index) => (
+					<div class="rounded-lg border-2 border-gray-300 bg-gray-300 p-4 text-center text-gray-700">
+						{index}
+					</div>
+				))
+			}
+		</div>
+		<div class="container flex flex-col gap-2">
+			{steps.map((step, index) => <div class="card">{step}</div>)}
+		</div>
+	</div>
+</div>
+
+<script>
+	import dragula from "dragula"
+
+	dragula([document.querySelector(".container")!])
+</script>
+
+<style>
+	.card {
+		@apply rounded-lg border-2 border-gray-600 bg-white p-4 shadow-md;
+	}
+</style>

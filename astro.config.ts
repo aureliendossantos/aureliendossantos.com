@@ -108,4 +108,10 @@ export default defineConfig({
 			GITHUB_TOKEN: serverField,
 		},
 	},
+	// dragula hack
+	vite: {
+		define: {
+			global: "window",
+		},
+	},
 })

@@ -1,5 +1,6 @@
 ---
 import FlipCard from "$components/pedagogie/FlipCard.astro"
+import OrderProcess from "$components/pedagogie/OrderProcess.astro"
 import BaseLayout from "$layouts/BaseLayout.astro"
 ---
 
@@ -16,5 +17,15 @@ import BaseLayout from "$layouts/BaseLayout.astro"
 				))
 			}
 		</div>
+		<OrderProcess
+			steps={[
+				"Ajouter un sachet de thé dans la tasse.",
+				"Faire bouillir de l'eau.",
+				"Retirer le sachet de thé après infusion.",
+				"Verser l'eau chaude dans la tasse.",
+				"Ajouter du sucre ou du lait si désiré.",
+				"Déguster votre thé.",
+			]}
+		/>
 	</div>
 </BaseLayout>
