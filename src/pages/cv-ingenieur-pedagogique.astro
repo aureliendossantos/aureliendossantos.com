@@ -2,6 +2,8 @@
 import ResumeEntry from "$components/portfolio/resume/ResumeEntry.astro"
 import BaseLayout from "$layouts/BaseLayout.astro"
 import "$styles/hyphenation.css"
+import { Image } from "astro:assets"
+import face from "$styles/assets/notion-face.png"
 
 const title = "Ingénieur pédagogique"
 const bio = `
@@ -26,23 +28,23 @@ const links = [
 
 <BaseLayout title="CV" ogType="website" bg="#ffffff" description={title}>
 	<div
-		class="mx-auto my-16 max-w-[730px] mediumlarge:mx-16 mediumlarge:max-w-xl medium:mx-4 print:my-0 print:max-w-none"
+		class="mx-auto my-16 max-w-[730px] mediumlarge:mx-16 mediumlarge:max-w-xl medium:mx-4 print:mx-28 print:my-0 print:max-w-none"
 	>
 		<header
 			class="flex items-end justify-between mediumlarge:flex-col mediumlarge:items-stretch mediumlarge:gap-8 print:flex-row print:items-end"
 		>
 			<div>
-				<div class="mb-4 flex gap-4">
-					<a
-						href="/cv.pdf"
-						target="_blank"
-						class="rounded-full px-[10px] py-1 pr-[11px] text-sm no-underline ring-[1.2px] ring-black transition hover:bg-neutral-100 print:!hidden"
-					>
-						<Icon name="ph:download-simple" class="-mt-[0.2em] inline-block h-[1.2em]" />
-						PDF
-					</a>
-				</div>
-				<h1>Aurélien Dos Santos</h1>
+				<h1 class="relative">
+					Aurélien Dos Santos
+					<div class="absolute -bottom-[42px] -left-24 -z-10 h-24">
+						<Image
+							src={face}
+							alt="Aurélien Dos Santos"
+							width={96 * 4}
+							class="h-full w-auto -scale-x-100"
+						/>
+					</div>
+				</h1>
 				<p class="-mb-[1.5px] print:mb-0">{title}</p>
 			</div>
 			<aside class="text-sm">
@@ -51,7 +53,6 @@ const links = [
 						links.map((link) => (
 							<li class="flex gap-4">
 								<span class="w-20 text-right">{link.title}</span>
-								{/* <span class="hidden text-neutral-400 print:inline">•</span> */}
 								<a href={link.href}>{link.label}</a>
 							</li>
 						))
@@ -137,15 +138,14 @@ const links = [
 			@apply mt-0;
 		}
 	}
-	h4::before,
-	h3 + p::before {
+	h4::before {
 		content: "↳ ";
-		@apply inline w-5 text-base font-medium text-neutral-400;
+		@apply inline w-5 text-base font-medium text-neutral-500;
 	}
 	section {
 		p,
 		ul {
-			@apply pl-5 text-sm text-neutral-500;
+			@apply pl-5 text-sm text-neutral-600;
 			& + p {
 				@apply mt-[10px];
 			}
@@ -157,7 +157,7 @@ const links = [
 			@apply list-disc;
 			li::marker {
 				content: "• ";
-				@apply text-neutral-400;
+				@apply text-neutral-500;
 			}
 		}
 	}
@@ -170,9 +170,9 @@ const links = [
 		@apply italic;
 	}
 	strong {
-		@apply font-[380] font-normal text-neutral-500;
+		@apply font-[380] font-normal text-neutral-600;
 	}
 	.date {
-		@apply whitespace-nowrap font-[380] text-neutral-500;
+		@apply whitespace-nowrap font-[380] text-neutral-600;
 	}
 </style>
