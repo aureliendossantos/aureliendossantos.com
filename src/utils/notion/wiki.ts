@@ -25,7 +25,7 @@ type WikiPageStatus =
 	| "🔒 Private"
 	| "🌱 Seedlings"
 	| "🌿 Budding"
-	| "🌳 Evergreen"
+	| "🌲 Evergreen"
 	| "🍂 Withered"
 	| undefined
 
@@ -37,8 +37,8 @@ const getWikiPageStatus = (status: WikiPageStatus) => {
 			return { icon: "🌱", text: "Pousse" }
 		case "🌿 Budding":
 			return { icon: "🌿", text: "En bourgeon" }
-		case "🌳 Evergreen":
-			return { icon: "🌳", text: "Pérenne" }
+		case "🌲 Evergreen":
+			return { icon: "🌲", text: "Pérenne" }
 		// Withered
 		case "🍂 Withered":
 			return { icon: "🍂", text: "Fané" }

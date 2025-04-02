@@ -20,7 +20,8 @@ export async function getCacheOrFetch<T>(
 	ensureCacheFolderExists()
 	ensureFolderExists(`node_modules/.my-cache/${folder}`, "create")
 	const rootPath = pathToFileURL(process.cwd() + "/")
-	const filePath = new URL(`node_modules/.my-cache/${folder}/${title}.json`, rootPath)
+	// Maximum 200 chars for the filename. Hope it doesn't create conflicts.
+	const filePath = new URL(`node_modules/.my-cache/${folder}/${title.slice(0, 200)}.json`, rootPath)
 	// Gets the current json, if it exists, and maybe use its data
 	if (fs.existsSync(filePath)) {
 		const oldData = JSON.parse((await fs.promises.readFile(filePath)).toString()) as T & {
