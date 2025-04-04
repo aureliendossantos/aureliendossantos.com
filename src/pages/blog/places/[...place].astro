@@ -18,18 +18,18 @@ type Props = {
 	content: Awaited<ReturnType<typeof getContentEntries>>
 	place: CollectionEntry<"places">
 }
-const { place } = Astro.props
+const { content, place } = Astro.props
 
-const content = Astro.props.content.filter(
+const filteredContent = content.filter(
 	(entry) => "places" in entry.data && entry.data.places.find((p) => p.id == place.id)
 )
 ---
 
 <Explore title={place.data.title} type="Lieux">
 	<p slot="tags">
-		<TagsList collectionKey="places" currentEntry={place} />
+		<TagsList collectionKey="places" currentEntry={place} {content} />
 	</p>
 	<main class="flex flex-col">
-		{content.map((entry) => <EntryCardMinimal entry={entry} noPlace />)}
+		{filteredContent.map((entry) => <EntryCardMinimal entry={entry} noPlace />)}
 	</main>
 </Explore>

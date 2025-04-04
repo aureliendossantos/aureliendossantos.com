@@ -8,10 +8,10 @@ import getEntryOrThrow from "$utils/content/getEntryOrThrow"
 interface Props {
 	collectionKey: "tags" | "places" | "muses"
 	currentEntry?: CollectionEntry<"tags" | "places" | "muses">
+	content: Awaited<ReturnType<typeof getContentEntries>>
 }
-const { collectionKey, currentEntry } = Astro.props
+const { collectionKey, currentEntry, content } = Astro.props
 
-const content = await getContentEntries()
 const rawTagSlugs = [
 	...content.map((entry) =>
 		collectionKey in entry.data ? entry.data[collectionKey].map((item) => item.id) : []

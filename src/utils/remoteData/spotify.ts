@@ -42,7 +42,6 @@ export const fetchSpotifyEndpoint = async (
 			Authorization: `Bearer ${await getSpotifyToken()}`,
 		},
 	}
-	console.log(`https://api.spotify.com/v1/${endpoint}/${id}${market ? `?market=${market}` : ""}`)
 	const response = await fetch(
 		`https://api.spotify.com/v1/${endpoint}/${id}${market ? `?market=${market}` : ""}`,
 		options

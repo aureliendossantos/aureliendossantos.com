@@ -19,18 +19,18 @@ type Props = {
 	content: Awaited<ReturnType<typeof getContentEntries>>
 	currentMuse: CollectionEntry<"muses">
 }
-const { currentMuse } = Astro.props
+const { content, currentMuse } = Astro.props
 
-const content = Astro.props.content.filter(
+const filteredContent = content.filter(
 	(entry) => "muses" in entry.data && entry.data.muses.find((m) => m.id == currentMuse.id)
 )
 ---
 
 <Explore title={currentMuse.data.title} type="Muses">
 	<p slot="tags">
-		<TagsList collectionKey="muses" currentEntry={currentMuse} />
+		<TagsList collectionKey="muses" currentEntry={currentMuse} {content} />
 	</p>
 	<main class="flex flex-col">
-		{content.map((entry) => <EntryCardMinimal entry={entry} />)}
+		{filteredContent.map((entry) => <EntryCardMinimal entry={entry} />)}
 	</main>
 </Explore>

@@ -1,10 +1,13 @@
 ---
 import Explore from "$layouts/Explore.astro"
 import TagsList from "$components/tags/TagsList.astro"
+import { getContentEntries } from "$utils/getCollection"
+
+const content = await getContentEntries()
 ---
 
 <Explore title="Tags">
 	<p slot="tags">
-		<TagsList collectionKey="tags" />
+		<TagsList collectionKey="tags" {content} />
 	</p>
 </Explore>
