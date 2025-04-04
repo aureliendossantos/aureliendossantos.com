@@ -43,41 +43,46 @@ export function notionWikiLoader(options: { forceUpdate: boolean }): Loader {
 
 		load: async (context: LoaderContext): Promise<void> => {
 			const lastModified = context.meta.get("lastModified")
-
+			const quickUpdate = Boolean(
+				import.meta.env.DEV &&
+					!options.forceUpdate &&
+					lastModified &&
+					Date.now() - new Date(lastModified).getTime() < 3600000
+			) // <1h ago
+			if (quickUpdate) {
+				context.logger.info("Skipping update")
+				return
+			}
 			context.logger.info("Fetching wiki pages...")
-			const pages = await fetchWikiPages({}, context.logger.info)
+			const emptyPages = await fetchWikiPages({}, context.logger.info)
 
-			await Promise.all(
-				pages.map(async (page) => {
-					// Check if page.editedTime is more recent than in my local file
-					const existingEntry = context.store.get(page.slug)
-					if (existingEntry) {
-						const oldData = existingEntry.data
-						// Pages with images must always be updated. Else we can skip unedited pages.
-						// We also skip the update in dev mode if forceUpdate is false and the last update was <24h ago.
-						if (
-							page.editedTime <= oldData.editedTime ||
-							(import.meta.env.DEV &&
-								!options.forceUpdate &&
-								lastModified &&
-								Date.now() - new Date(lastModified).getTime() < 86400000)
-						) {
-							// Check if .hasImages is true, then recursively find all blocks of type "image" and call getBlock on them
-							if (oldData.hasImages) {
-								context.logger.info(`(images only) ${page.slug}...`)
-								page.blocks = await recursiveUpdateImages(oldData.blocks)
-								return
-							}
-							page.blocks = oldData.blocks
-							return
+			console.time("Notion pages fetched in")
+			const pages = await Promise.all(
+				emptyPages.map(async (page) => {
+					const oldPage = context.store.get(page.slug)?.data
+					// If old page is unedited, skip update...
+					if (
+						oldPage &&
+						oldPage.hasImages !== undefined &&
+						page.editedTime.getTime() == oldPage.editedTime.getTime()
+					) {
+						// ...unless the page has images, in which case their URL must be updated.
+						// Check if hasImages is true, then recursively find all blocks of type "image" and call getBlock on them
+						if (oldPage.hasImages) {
+							context.logger.info(`(images only) ${page.slug}...`)
+							oldPage.blocks = await recursiveUpdateImages(oldPage.blocks)
+							return oldPage
 						}
+						return oldPage
 					}
-					context.logger.info((existingEntry ? "(updated)" : "(new)") + ` ${page.slug}...`)
+					context.logger.info((oldPage ? "(updated)" : "(new)") + ` ${page.slug}...`)
 					page.blocks = await getChildren(page.id)
 					// Recursively check if there is at least a block of type "image"
 					page.hasImages = page.blocks.some(recursiveCheckImages)
+					return page
 				})
 			)
+			console.timeEnd("Notion pages fetched in")
 
 			for (const page of pages) {
 				const data = await context.parseData({ id: page.slug, data: page })
@@ -117,14 +122,14 @@ export function gamesLibraryLoader(options: { forceUpdate?: boolean }): Loader {
 
 		load: async (context: LoaderContext): Promise<void> => {
 			const lastModified = context.meta.get("lastModified")
-			const quickUpdate = Boolean(!options.forceUpdate && lastModified)
-			if (
+			const quickUpdate = Boolean(
 				import.meta.env.DEV &&
-				!options.forceUpdate &&
-				lastModified &&
-				Date.now() - new Date(lastModified).getTime() < 86400000
-			) {
-				context.logger.info("Dev mode and updated <24h ago, skipping update")
+					!options.forceUpdate &&
+					lastModified &&
+					Date.now() - new Date(lastModified).getTime() < 86400000
+			) // <24h ago
+			if (quickUpdate) {
+				context.logger.info("Skipping update")
 				return
 			}
 			if (quickUpdate) context.logger.info("Running in quick update mode")
