@@ -42,15 +42,10 @@ export function getClosedStatus(place: PlaceWithFetchDate) {
 
 /** Fetches the photo reference to get the path from the redirection, which doesn't expose the token. */
 export async function getGoogleImage(maxWidth: number, photoReference: string): Promise<string> {
-	const response: { url: string } = await getCacheOrFetch(
-		photoReference,
-		"google-maps-photo-path",
-		async () => {
-			const path = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=${maxWidth}&photoreference=${photoReference}&key=${
-				process.env.GOOGLE_MAPS_TOKEN
-			}`
-			return { url: await fetch(path).then((res) => res.url) }
-		}
-	)
-	return response.url
+	return await getCacheOrFetch(photoReference, "google-maps-photo-path", async () => {
+		const path = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=${maxWidth}&photoreference=${photoReference}&key=${
+			process.env.GOOGLE_MAPS_TOKEN
+		}`
+		return await fetch(path).then((res) => res.url)
+	})
 }
