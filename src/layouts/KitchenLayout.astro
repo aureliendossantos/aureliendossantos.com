@@ -36,11 +36,10 @@ const { footer } = Astro.props
 	}
 	/* if a li element starts with a strong element, we transform it into small caps */
 	li > strong:first-child {
-		font-family: Vollkorn, Lora, serif;
 		text-transform: uppercase;
 		font-size: 0.8em;
 		letter-spacing: 0.05em;
-		@apply font-normal;
+		@apply font-vollkorn font-normal;
 	}
 	/* if it's a non-numbered list, we replace the bullet with a fancy indentation */
 	ul li:has(strong:first-child) {

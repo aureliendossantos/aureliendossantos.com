@@ -36,6 +36,7 @@ const uid = crypto.randomUUID()
 <div id={uid} class:list={["not-prose flex flex-col", { "mb-8": title }]}>
 	{
 		places.map((place) => {
+			if (!place.maps) console.warn(`Place ${place.id} has no maps data`)
 			if (!place.maps.geometry) console.warn(`Place ${place.id} has no geometry`)
 			return (
 				<a

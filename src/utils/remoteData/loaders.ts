@@ -57,6 +57,7 @@ export function notionWikiLoader(options: { forceUpdate: boolean }): Loader {
 			const emptyPages = await fetchWikiPages({}, context.logger.info)
 
 			console.time("Notion pages fetched in")
+			let imagesOnlyPages = 0
 			const pages = await Promise.all(
 				emptyPages.map(async (page) => {
 					const oldPage = context.store.get(page.slug)?.data
@@ -69,7 +70,7 @@ export function notionWikiLoader(options: { forceUpdate: boolean }): Loader {
 						// ...unless the page has images, in which case their URL must be updated.
 						// Check if hasImages is true, then recursively find all blocks of type "image" and call getBlock on them
 						if (oldPage.hasImages) {
-							context.logger.info(`(images only) ${page.slug}...`)
+							imagesOnlyPages += 1
 							oldPage.blocks = await recursiveUpdateImages(oldPage.blocks)
 							return oldPage
 						}
@@ -82,6 +83,7 @@ export function notionWikiLoader(options: { forceUpdate: boolean }): Loader {
 					return page
 				})
 			)
+			if (imagesOnlyPages > 0) context.logger.info(`(images only) Updated ${imagesOnlyPages} pages`)
 			console.timeEnd("Notion pages fetched in")
 
 			for (const page of pages) {

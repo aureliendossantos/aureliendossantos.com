@@ -48,7 +48,7 @@ const data = place.data
 const coverPath = await getGoogleImage(800, mapsData.photos[0].photo_reference)
 const cover = {
 	small: coverPath,
-	large: coverPath.replace("-w800", "-w1920"),
+	large: coverPath.replace("-w800", "-w1600"),
 }
 const gallery =
 	mapsData.photos.length >= 3
@@ -57,7 +57,7 @@ const gallery =
 					const path = await getGoogleImage(400, photo.photo_reference)
 					return {
 						small: path,
-						large: path.replace("-w400", "-w1920"),
+						large: path.replace("-w400", "-w1600"),
 					}
 				})
 			)

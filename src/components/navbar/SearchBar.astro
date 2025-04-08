@@ -58,6 +58,12 @@ const t = useTranslations(locale)
 			if (!isFocused) checkbox.checked = false
 		}, 3000)
 	})
+	searchInput.addEventListener("keydown", (event) => {
+		if (event.key == "Enter") {
+			const firstResult = document.querySelector("search-card")
+			if (firstResult) window.location.href = `/${firstResult.getAttribute("slug")}`
+		}
+	})
 </script>
 
 <script>

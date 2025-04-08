@@ -42,6 +42,7 @@ const audio =
 		title: pieceTitle,
 		parent: { href: "/museum", title: t("m-museum") },
 	}}
+	audioController={Boolean(data.audio)}
 >
 	<div class="relative">
 		<div
@@ -199,9 +200,8 @@ const audio =
 
 <style>
 	th {
-		font-family: "Space Mono", monospace;
 		padding-right: 1em;
-		@apply text-right font-normal leading-7 text-[--800];
+		@apply text-right font-space-mono font-normal leading-7 text-[--800];
 	}
 </style>
 
