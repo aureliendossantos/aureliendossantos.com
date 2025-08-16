@@ -1,6 +1,5 @@
 import { defineConfig, envField } from "astro/config"
 import AutoImport from "astro-auto-import"
-import vercel from "@astrojs/vercel"
 import tailwind from "@astrojs/tailwind"
 import mdx from "@astrojs/mdx"
 import expressiveCode from "astro-expressive-code"
@@ -12,9 +11,6 @@ const serverField = envField.string({ context: "server", access: "secret" })
 // https://astro.build/config
 export default defineConfig({
 	output: "static",
-	adapter: vercel({
-		webAnalytics: { enabled: true },
-	}),
 	experimental: {
 		contentIntellisense: true,
 		svg: true,
