@@ -1,0 +1,86 @@
+---
+// Plain-text machine-readable summary of played games for LLM consumption.
+// Intentionally minimal markup: served as text/plain (no layout) to ease parsing.
+import { getCollection } from "astro:content"
+import { emotes } from "$utils/notion/reviewEmotes"
+
+const games = await getCollection("games")
+
+// Sort similarly to index for consistency (by quickReview order then title)
+const reviewsOrder = [
+	"Coup de cœur",
+	"Aimé",
+	"Sympa un moment",
+	"Pas pour moi",
+	"Mitigé",
+	"Whatever",
+	"Décevant",
+	"J'aime pas",
+	"Mauvais",
+	null,
+]
+
+games.sort(
+	({ data: a }, { data: b }) =>
+		reviewsOrder.indexOf((a as any).quickReview || null) -
+			reviewsOrder.indexOf((b as any).quickReview || null) || a.title.localeCompare(b.title)
+)
+
+// Helper to flatten Notion-like block content if present.
+function extractPlainText(blocks: any[]): string {
+	if (!blocks || blocks.length === 0) return ""
+	try {
+		return blocks
+			.map((b: any) => {
+				if (!b) return ""
+				// Common Notion block shapes: { type: 'paragraph', paragraph: { rich_text: [{ plain_text }] } }
+				const type = b.type
+				const container = b[type]
+				if (container && Array.isArray(container.rich_text)) {
+					return container.rich_text.map((t: any) => t.plain_text || t.text?.content || "").join("")
+				}
+				if (b.plain_text) return b.plain_text
+				return ""
+			})
+			.filter(Boolean)
+			.join("\n")
+			.replace(/\n{3,}/g, "\n\n")
+			.trim()
+	} catch {
+		return ""
+	}
+}
+
+// Build plain text dataset.
+const lines: string[] = []
+lines.push(
+	"Page compacte destinée aux LLM. Catalogue des jeux auxquels j’ai joué, trié par appréciation. " +
+		"Chaque ligne représente un jeu avec quatre colonnes séparées par | "
+)
+lines.push(
+	"Utilisez cette liste pour inférer mes goûts et suggérer des recommandations cohérentes avec mes sentiments exprimés. " +
+		"Échelle d'appréciation : Coup de cœur, Aimé, Sympa un moment, Mitigé, Décevant, J'aime pas, Mauvais..."
+)
+lines.push("")
+lines.push("Titre (année) | Appréciation rapide | Progression | Notes")
+lines.push("-------------|--------------|----------|------")
+
+for (const { data } of games) {
+	const releaseYear = (data as any).igdb?.release_dates?.[0]?.y
+	const title = releaseYear ? `${data.title} (${releaseYear})` : data.title
+	const quickReview = data.quickReview || ""
+	const progress = data.progress || ""
+	const review = (data.review || "").replace(/\s+/g, " ").trim()
+	const blocksText = extractPlainText(data.blocks || []).replace(/\n/g, "\\n")
+	const notes = [review, blocksText].filter(Boolean).join(review && blocksText ? "\\n\\n" : "")
+	function esc(s: string) {
+		return s.replace(/\|/g, "\\|")
+	}
+	lines.push([esc(title), esc(quickReview), esc(progress), esc(notes)].join(" | "))
+}
+
+// Set response headers for plain text output.
+Astro.response.headers.set("Content-Type", "text/plain; charset=utf-8")
+---
+
+{lines.join("\n")}
