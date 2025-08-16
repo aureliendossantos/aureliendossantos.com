@@ -1,13 +1,19 @@
-// Serif
+// This file imports all the available fonts, which bloats the CSS. When possible,
+// import only the necessary fonts in the components that use them.
+//// SERIF
 import "@fontsource/lora"
 import "@fontsource/lora/500.css" /* used by prose for links */
 import "@fontsource/lora/700.css"
 import "@fontsource/lora/400-italic.css"
 import "@fontsource/lora/500-italic.css"
 import "@fontsource/unna"
-import "@fontsource/vollkorn"
-import "@fontsource/vollkorn/400-italic.css"
-// Sans serif
+// Custom fonts
+import "$styles/fonts/cormorant.css"
+import "$styles/fonts/et-book.css"
+import "$styles/fonts/louize.css"
+import "$styles/fonts/source-serif.css"
+import "$styles/fonts/vollkorn.css"
+//// SANS SERIF
 import "@fontsource-variable/bricolage-grotesque/standard.css" // Supports wght 200-800, opsz 12-96, wdth 75-100
 import "@fontsource/lato"
 import "@fontsource/noto-sans"
@@ -26,19 +32,14 @@ import "@fontsource/work-sans/600.css"
 import "@fontsource/work-sans/700.css"
 import "@fontsource/work-sans/400-italic.css"
 import "@fontsource/work-sans/700-italic.css"
-// Monospace
+// Custom fonts
+import "$styles/fonts/adelle.css"
+import "$styles/fonts/inter.css"
+import "$styles/fonts/handwritten.css"
+//// MONOSPACE
+import "@fontsource/ibm-plex-mono"
 import "@fontsource/source-code-pro"
 import "@fontsource/space-mono"
 import "@fontsource/space-mono/400-italic.css"
 // Custom fonts
-// Serif
-import "$styles/fonts/cormorant.css"
-import "$styles/fonts/et-book.css"
-import "$styles/fonts/louize.css"
-import "$styles/fonts/source-serif.css"
-// Sans serif
-import "$styles/fonts/adelle.css"
-import "$styles/fonts/inter.css"
-import "$styles/fonts/handwritten.css"
-// Monospace
 import "$styles/fonts/nk57.css"

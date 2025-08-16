@@ -1,0 +1,13 @@
+@font-face {
+	font-family: "Vollkorn";
+	font-style: normal;
+	font-weight: 400;
+	src: url("/fonts/Vollkorn4.105/Vollkorn-Regular.woff2") format("woff2");
+}
+
+@font-face {
+	font-family: "Vollkorn";
+	font-style: italic;
+	font-weight: 400;
+	src: url("/fonts/Vollkorn4.105/Vollkorn-Italic.woff2") format("woff2");
+}

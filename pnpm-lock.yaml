@@ -26,6 +26,9 @@ dependencies:
   '@fontsource-variable/bricolage-grotesque':
     specifier: ^5.2.5
     version: 5.2.5
+  '@fontsource/ibm-plex-mono':
+    specifier: ^5.2.5
+    version: 5.2.5
   '@fontsource/lato':
     specifier: ^5.2.5
     version: 5.2.5
@@ -995,6 +998,10 @@ packages:
 
   /@fontsource-variable/bricolage-grotesque@5.2.5:
     resolution: {integrity: sha512-NpjTLxCJViGu/7HnWwphGGYlUSVrAQzVVH1LDs3qruTxSDjgnOU+jwQbvHX+UjqY5Eby7QJFFkF9sLExxzPuxg==}
+    dev: false
+
+  /@fontsource/ibm-plex-mono@5.2.5:
+    resolution: {integrity: sha512-G09N3GfuT9qj3Ax2FDZvKqZttzM3v+cco2l8uXamhKyXLdmlaUDH5o88/C3vtTHj2oT7yRKsvxz9F+BXbWKMYA==}
     dev: false
 
   /@fontsource/lato@5.2.5:

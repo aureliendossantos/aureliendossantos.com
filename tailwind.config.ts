@@ -16,6 +16,10 @@ export default {
 				"space-grotesk": ["Space Grotesk", ...defaultTheme.fontFamily.sans],
 				"space-mono": ["Space Mono", ...defaultTheme.fontFamily.mono],
 				inter: ["InterVariable", ...defaultTheme.fontFamily.sans],
+				"ibm-plex-mono": ["IBM Plex Mono", ...defaultTheme.fontFamily.mono],
+				vollkorn: ["Vollkorn", "Lora", ...defaultTheme.fontFamily.serif],
+				nk57: ["nk57", ...defaultTheme.fontFamily.mono],
+				louize: ["Louize", ...defaultTheme.fontFamily.serif],
 			},
 			colors: {
 				script: "#4a7dbf",

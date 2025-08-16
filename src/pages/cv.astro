@@ -1,4 +1,5 @@
 ---
+import "$styles/fonts/inter.css"
 import ResumeEntry from "$components/portfolio/resume/ResumeEntry.astro"
 import BaseLayout from "$layouts/BaseLayout.astro"
 
@@ -90,12 +91,12 @@ const links = [
 <style is:global>
 	header,
 	section {
-		font-family: InterVariable, sans-serif;
 		font-feature-settings:
 			"calt" 1,
 			"dlig" 1,
 			"zero" 0,
 			"liga" 1;
+		@apply font-inter;
 	}
 	@page {
 		margin: 1in 0.4in;
