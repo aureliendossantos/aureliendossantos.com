@@ -30,15 +30,11 @@ export async function GET(_context: APIContext): Promise<Response> {
 		// Build plain text dataset.
 		const lines: string[] = []
 		lines.push(
-			"Page compacte destinée aux LLM. Catalogue des jeux auxquels j’ai joué, trié par appréciation. " +
-				"Chaque ligne représente un jeu avec mon appréciation et ma progression dans le jeu."
+			"Catalogue des jeux auxquels j’ai joué, trié par appréciation, et sous une forme compacte destinée aux LLM. Chaque élément commençant par un * représente un jeu avec mon appréciation, ma progression dans le jeu, et éventuellement des remarques supplémentaires."
 		)
 		lines.push(
-			"Utilisez cette liste pour inférer mes goûts et suggérer des recommandations cohérentes avec mes sentiments exprimés. " +
-				"Échelle d'appréciation : Coup de cœur, Aimé, Sympa un moment, Mitigé, Décevant, J'aime pas, Mauvais..."
+			"Échelle d'appréciation : Coup de cœur, Aimé, Sympa un moment, Mitigé, Décevant, J'aime pas, Mauvais..."
 		)
-		lines.push("")
-		lines.push("Structure : Titre (année) - Appréciation rapide - Progression - Notes optionnelles")
 
 		for (const { data } of games) {
 			const releaseYear = (data as any).igdb?.release_dates?.[0]?.y
@@ -46,12 +42,12 @@ export async function GET(_context: APIContext): Promise<Response> {
 			const quickReview = data.quickReview || ""
 			const progress = data.progress || ""
 			const review = (data.review || "").replace(/\s+/g, " ").trim()
-			const blocksText = extractPlainText(data.blocks || []).replace(/\n/g, "\\n")
-			const notes = [review, blocksText].filter(Boolean).join(review && blocksText ? "\\n\\n" : "")
+			const blocksText = extractPlainText(data.blocks || []).replace(/\n\n/g, "\n")
+			const notes = [review, blocksText].filter(Boolean).join(review && blocksText ? "\n" : "")
 			lines.push(`* ${title} - ${quickReview} - ${progress}${notes ? ` - ${notes}` : ""}`)
 		}
 
-		const body = lines.join("\n")
+		const body = lines.join("\n\n")
 
 		return new Response(body, {
 			status: 200,
