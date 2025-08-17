@@ -7,12 +7,14 @@ export interface PlaceWithFetchDate extends google.maps.places.PlaceResult {
 // Response format: https://developers.google.com/maps/documentation/places/web-service/details
 export async function getPlace(id: string) {
 	return await getCacheOrFetch(id, "google-maps-place", async () => {
-		const response = await fetch(
-			`https://maps.googleapis.com/maps/api/place/details/json?place_id=${id}&language=fr&key=${
-				process.env.GOOGLE_MAPS_TOKEN
-			}`
-		).then((response) => response.json())
-		return response.result as PlaceWithFetchDate
+		const url = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${id}&language=fr&key=${process.env.GOOGLE_MAPS_TOKEN}`
+		const response = await fetch(url)
+		if (!response.ok)
+			throw new Error(`Failed to fetch place details: ${response.status} ${response.statusText}`)
+		const data = await response.json()
+		if (data.status != "OK")
+			throw new Error(`Google Maps API error: ${data.status} ${JSON.stringify(data)}`)
+		return data.result as PlaceWithFetchDate
 	})
 }
 
@@ -32,7 +34,8 @@ function getClosedDays(openedDays: Array<number>): string {
 	}.`
 }
 
-export function getClosedStatus(place: PlaceWithFetchDate) {
+export function getClosedStatus(place: PlaceWithFetchDate | null) {
+	if (!place) return null
 	if (place.business_status == "CLOSED_TEMPORARILY") return "Fermé temporairement."
 	if (place.business_status == "CLOSED_PERMANENTLY") return "Fermé définitivement."
 	if (place.current_opening_hours)

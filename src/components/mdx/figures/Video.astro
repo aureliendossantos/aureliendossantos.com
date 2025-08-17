@@ -6,12 +6,12 @@ type singleSrc = string | Promise<{ default: string }>
 /**
  * @param src One or multiple video sources. Good parameters a VP9 WebM with ffmepg are
  * ```sh
- * -vf "scale='min(1280,iw)':-2,fps=30" -c:v libvpx-vp9 -crf 35 -b:v 0 -g 240 -lag-in-frames 25 -static-thresh 500 -tile-columns 2 -threads 4 -an output.webm
+ * -i input.mp4 -vf "scale='min(1280,iw)':-2,fps=30" -c:v libvpx-vp9 -crf 35 -b:v 0 -g 240 -lag-in-frames 25 -static-thresh 500 -tile-columns 2 -threads 4 -an output.webm
  * ```
  * This scales the video to a maximum width of 1280 pixels and ensures a frame rate of 30 fps, in case of a 60fps gameplay.
  * For a video that's mostly static, you can play with the `-g` keyframe interval and the `-crf` quality (lower is better quality):
  * ```sh
- * -vf "scale='min(1280,iw)':-2,fps=30" -c:v libvpx-vp9 -crf 40 -b:v 0 -g 300 -lag-in-frames 25 -static-thresh 500 -tile-columns 2 -threads 4 -an output.webm
+ * -i input.mp4 -vf "scale='min(1280,iw)':-2,fps=30" -c:v libvpx-vp9 -crf 40 -b:v 0 -g 300 -lag-in-frames 25 -static-thresh 500 -tile-columns 2 -threads 4 -an output.webm
  * ```
  * @param gif Preset for `autoplay muted loop playsinline`
  * @param compat The most compatible video format should use the following ffmpeg parameters:
@@ -20,7 +20,7 @@ type singleSrc = string | Promise<{ default: string }>
  * ```
  * Thanks to `-level 3.1`, it can run on very old iPhones, even though it's less and less important by the day.
  */
-interface Props extends Omit<HTMLAttributes<"video">, "src"> {
+export interface Props extends Omit<HTMLAttributes<"video">, "src"> {
 	src: singleSrc | { src: singleSrc; type?: string }[]
 	compat?: singleSrc
 	caption?: string

@@ -1,4 +1,5 @@
 ---
+import "$styles/fonts"
 import ArticleCard from "$components/blog/ArticleCard.astro"
 import BaseLayout from "$layouts/BaseLayout.astro"
 import getBlogPosts, { getDiary } from "$utils/getCollection"
@@ -22,7 +23,6 @@ const diaryYears = Array.from(new Set(diary.map((entry) => entry.year)))
 	ogType="website"
 	title="Blog"
 	description="Blog personnel d'Aurélien Dos Santos."
-	font="Work Sans"
 	bg={{ light: "#ffffff", dark: "#000000" }}
 	viewportCover
 >
@@ -31,8 +31,7 @@ const diaryYears = Array.from(new Set(diary.map((entry) => entry.year)))
 	>
 		<div class="flex justify-center">
 			<div
-				class="ml-8 mr-16 flex min-w-[20rem] max-w-xs flex-col text-lg 2xl:ml-7 2xl:mr-14 2xl:min-w-[17.5rem] 2xl:max-w-[17.5rem] 2xl:text-base small:mx-0 small:max-w-[20rem]"
-				style={{ fontFamily: "Louize" }}
+				class="ml-8 mr-16 flex min-w-[20rem] max-w-xs flex-col font-louize text-lg 2xl:ml-7 2xl:mr-14 2xl:min-w-[17.5rem] 2xl:max-w-[17.5rem] 2xl:text-base small:mx-0 small:max-w-[20rem]"
 			>
 				<div class="my-11 flex justify-between 2xl:my-9 xl:mb-0 xl:mt-6 mediumlarge:mt-9">
 					<h1>Aurélien Dos Santos</h1>

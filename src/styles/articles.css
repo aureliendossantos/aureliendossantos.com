@@ -218,7 +218,7 @@ h3:before {
 	}
 	/* Tables can be full width if they're wrapped in a figure.full */
 	figure.full table {
-		@apply w-full;
+		@apply w-full max-w-full;
 	}
 }
 
@@ -522,8 +522,8 @@ h3:before {
 		letter-spacing: 0.05em;
 	}
 	.et-book {
-		font-family: et-book, Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia,
-			serif;
+		font-family:
+			et-book, Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;
 		abbr,
 		.sc {
 			font-variant: all-small-caps;
@@ -659,7 +659,8 @@ h3:before {
 		font-feature-settings: "ss02" 0; /* Deactivates Cormorant Garamond for the drop cap */
 	}
 	.optimized-unicase {
-		font-feature-settings: "c2sc", "ss05"; /* Activates Cormorant Unicase for lowercase and uppercase */
+		font-feature-settings:
+			"c2sc", "ss05"; /* Activates Cormorant Unicase for lowercase and uppercase */
 		@apply uppercase;
 	}
 	.person,

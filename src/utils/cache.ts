@@ -16,7 +16,7 @@ export async function getCacheOrFetch<T>(
 	folder: string,
 	fetchFunction: () => Promise<T>,
 	cacheDays = 100
-): Promise<T> {
+): Promise<T | null> {
 	ensureCacheFolderExists()
 	ensureFolderExists(`node_modules/.my-cache/${folder}`, "create")
 	title = title.slice(0, 200) // Maximum 200 chars for the filename. Hope it doesn't create conflicts.
@@ -31,8 +31,14 @@ export async function getCacheOrFetch<T>(
 		if (cache.fetchDate > Date.now() - cacheDays * 86400000) return cache.data
 	}
 	console.log(`Fetching ${folder}/${title}...`)
-	const data = await fetchFunction()
-	if (!data) throw new Error(`No data fetched for ${folder}/${title}.`)
+	let data: T
+	try {
+		data = await fetchFunction()
+		if (!data) throw new Error(`No data fetched for ${folder}/${title}.`)
+	} catch (error) {
+		console.error(`Error fetching ${folder}/${title}:`, error)
+		return null
+	}
 	// writing the data and fetch date to a file
 	fs.writeFileSync(filePath, JSON.stringify({ fetchDate: Date.now(), data: data }, null, 2))
 	return data

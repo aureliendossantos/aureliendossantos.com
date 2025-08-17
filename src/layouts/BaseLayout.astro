@@ -77,20 +77,12 @@ try {
 }
 const getNavbarCssProperties = (bg: ColorLib, prefix = "") => {
 	const isLight = bg.isLight()
-	const text = bg.lightness(isLight ? 10 : 90).string()
-	const border = ColorLib(
-		isLight ? bg.mix(ColorLib("black"), 0.1) : bg.mix(ColorLib("white"), 0.25)
-	).string()
-	const hoverBg = bg
-		.lightness(isLight ? 10 : 90)
-		.desaturate(0.5)
-		.string()
-	const hoverText = bg
-		.lightness(isLight ? 90 : 10)
-		.desaturate(0.5)
-		.string()
+	const text = bg.lightness(isLight ? 10 : 90)
+	const border = text.alpha(0.1)
+	const hoverBg = text.desaturate(0.5)
+	const hoverText = bg.lightness(isLight ? 90 : 10).desaturate(0.5)
 	return {
-		[`--${prefix}navbar-text`]: text,
+		[`--${prefix}navbar-text`]: text.string(),
 		[`--${prefix}navbar-bg`]: bg.alpha(0.8).string(),
 		// Except in Firefox, nested backdrop filters don't work. Until a workaround is found, using a more legible bg.
 		[`--${prefix}navbar-bg-compatible`]: bg.alpha(0.9).string(),
@@ -99,6 +91,9 @@ const getNavbarCssProperties = (bg: ColorLib, prefix = "") => {
 		[`--${prefix}navbar-border`]: border,
 		[`--${prefix}navbar-hover-bg`]: hoverBg,
 		[`--${prefix}navbar-hover-text`]: hoverText,
+		[`--${prefix}navbar-border`]: border.string(),
+		[`--${prefix}navbar-hover-bg`]: hoverBg.string(),
+		[`--${prefix}navbar-hover-text`]: hoverText.string(),
 		[`--${prefix}navbar-is-dark`]: bg.isDark() ? 1 : 0,
 	}
 }
