@@ -86,6 +86,7 @@ const zoomedImage =
 			: undefined
 
 // Using the custom imageService to generate a placeholder image
+/*
 const imageService = (await getConfiguredImageService()) as LocalImageServiceWithPlaceholder
 const placeholderURL = image.remote
 	? await imageService.generatePlaceholder(
@@ -94,6 +95,7 @@ const placeholderURL = image.remote
 			image.remoteSize.height
 		)
 	: await imageService.generatePlaceholder(image.src.src, image.src.width, image.src.height)
+**/
 
 const firstSrcSet = webp.srcSet.values[0]
 // TODO: remove zoom-src logic and use srcset instead (by default, the "sizes" attribute will be equal to the width given in props, and we'll generate many widths in srcset: 0.5, 1, 2, 3, 4... to a maximum of 3840px)
@@ -105,7 +107,7 @@ const firstSrcSet = webp.srcSet.values[0]
 	srcset={webp.srcSet.attribute || undefined}
 	style={{
 		backgroundSize: "cover",
-		backgroundImage: `url(${placeholderURL})`,
+		// backgroundImage: `url(${placeholderURL})`,
 		imageRendering: "auto",
 		...attributes.style,
 	}}
