@@ -28,9 +28,10 @@ import DoubleArrowDownIcon from "$icons/material-symbols/keyboard-double-arrow-d
 
 interface Props extends NavBarProps {
 	viewportCover?: boolean
+	audioController?: boolean
 }
 
-const { title, parent, related, headings, viewportCover } = Astro.props
+const { title, parent, related, headings, viewportCover, audioController } = Astro.props
 const relatedTitle = Astro.props.relatedTitle || "Voir aussi"
 const t = useTranslations(checkLocale(Astro.currentLocale))
 ---
@@ -185,7 +186,7 @@ const t = useTranslations(checkLocale(Astro.currentLocale))
 		}
 	</div>
 	<div class="grow"></div>
-	<AudioController />
+	{audioController && <AudioController />}
 	<SearchBar />
 	{
 		/*<NavbarToggleButton

@@ -273,7 +273,9 @@ export const collections = {
 				title: z.string(),
 				ingredients: z
 					.array(
-						reference("ingredients").or(z.tuple([reference("ingredients"), z.string().nullish()]))
+						reference("ingredients").or(
+							z.tuple([reference("ingredients"), z.string().or(z.number()).nullish()])
+						)
 					)
 					.default([]),
 				tags: z.array(z.string()).default([]),

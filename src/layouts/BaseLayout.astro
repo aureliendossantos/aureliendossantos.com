@@ -27,6 +27,7 @@ export interface Props {
 	navBarProps?: NavBarProps
 	ssr?: boolean
 	viewportCover?: boolean
+	audioController?: boolean
 	ogType:
 		| "website"
 		| "article"
@@ -52,6 +53,7 @@ const {
 	navBarProps,
 	ssr,
 	viewportCover,
+	audioController,
 	ogType,
 } = Astro.props
 
@@ -88,9 +90,6 @@ const getNavbarCssProperties = (bg: ColorLib, prefix = "") => {
 		[`--${prefix}navbar-bg-compatible`]: bg.alpha(0.9).string(),
 		[`--${prefix}navbar-bg-plain`]: bg.string(),
 		[`--${prefix}navbar-bg-filter`]: "saturate(180%) blur(20px)",
-		[`--${prefix}navbar-border`]: border,
-		[`--${prefix}navbar-hover-bg`]: hoverBg,
-		[`--${prefix}navbar-hover-text`]: hoverText,
 		[`--${prefix}navbar-border`]: border.string(),
 		[`--${prefix}navbar-hover-bg`]: hoverBg.string(),
 		[`--${prefix}navbar-hover-text`]: hoverText.string(),
@@ -183,7 +182,7 @@ navBarPropsWithFallback.title ??= title
 		data-overlayscrollbars-initialize
 	>
 		<MediumZoom />
-		<NavBar {viewportCover} {...navBarPropsWithFallback} />
+		<NavBar {viewportCover} {audioController} {...navBarPropsWithFallback} />
 		<slot />
 		<NavBarMargin />
 		<SearchEntries {ssr} />
