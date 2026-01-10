@@ -34,7 +34,6 @@
 		"@fontsource/work-sans": "^5.2.5",
 		"@glidejs/glide": "^3.7.1",
 		"@lionralfs/discogs-client": "^4.1.3",
-		"@neondatabase/serverless": "^1.0.2",
 		"@notionhq/client": "^2.2.16",
 		"@prisma/adapter-neon": "^7.2.0",
 		"@prisma/client": "^7.2.0",

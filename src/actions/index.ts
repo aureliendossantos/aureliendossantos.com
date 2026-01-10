@@ -1,6 +1,5 @@
 import { ActionError, defineAction } from "astro:actions"
 import { z } from "astro:schema"
-import { neon } from "@neondatabase/serverless"
 import slugify from "slugify"
 import getIGDBgames from "$utils/remoteData/igdb"
 
@@ -12,14 +11,6 @@ const adapter = new PrismaNeon({ connectionString })
 const prisma = new PrismaClient({ adapter })
 
 export const server = {
-	getCatalogue: defineAction({
-		input: z.object({}),
-		handler: async (input) => {
-			const sql = neon(process.env.CATALOGUE_DB_URL!)
-			const result = await sql`SELECT * FROM reviews ORDER BY id DESC`
-			return { result }
-		},
-	}),
 	searchWorks: defineAction({
 		input: z.object({
 			query: z.string(),
