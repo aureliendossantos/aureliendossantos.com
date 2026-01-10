@@ -23,8 +23,9 @@ export async function getCacheOrFetch<T>(
 	const rootPath = pathToFileURL(process.cwd() + "/")
 	const filePath = new URL(`node_modules/.my-cache/${folder}/${title}.json`, rootPath)
 	// Gets the current json, if it exists, and maybe use its data
+	let cache: { data: T; fetchDate: number } | null = null
 	if (fs.existsSync(filePath)) {
-		const cache = JSON.parse((await fs.promises.readFile(filePath)).toString()) as {
+		cache = JSON.parse((await fs.promises.readFile(filePath)).toString()) as {
 			data: T
 			fetchDate: number
 		}
@@ -37,6 +38,10 @@ export async function getCacheOrFetch<T>(
 		if (!data) throw new Error(`No data fetched for ${folder}/${title}.`)
 	} catch (error) {
 		console.error(`Error fetching ${folder}/${title}:`, error)
+		if (cache) {
+			console.log(`Using old cache for ${folder}/${title}`)
+			return cache.data
+		}
 		return null
 	}
 	// writing the data and fetch date to a file

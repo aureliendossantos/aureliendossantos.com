@@ -70,16 +70,16 @@ const librarySlug = popupId && slug && (await findGameInLibrary(slug)) ? slug : 
 	img={`https://images.igdb.com/igdb/image/upload/t_cover_big/${game.cover.image_id}.jpg`}
 	imgHiRes={`https://images.igdb.com/igdb/image/upload/t_original/${game.cover.image_id}.jpg`}
 	title={`${game.name}${game.release_dates ? ` (${game.release_dates[0].y})` : ""}`}
-	infos={infos}
-	links={links}
-	popupId={popupId}
-	librarySlug={librarySlug}
+	{infos}
+	{links}
+	{popupId}
+	{librarySlug}
 	posterRatio={popupId ? "game" : undefined}
 	big={popupId ? true : false}
-	gallery={images.map(
+	gallery={images?.map(
 		(imageId) => `https://images.igdb.com/igdb/image/upload/t_cover_big/${imageId}.jpg`
 	)}
-	galleryHiRes={images.map(
+	galleryHiRes={images?.map(
 		(imageId) => `https://images.igdb.com/igdb/image/upload/t_original/${imageId}.jpg`
 	)}
 />

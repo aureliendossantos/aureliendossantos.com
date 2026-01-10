@@ -1,0 +1,67 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Emotion {
+  id           Int      @id @default(autoincrement())
+  emoji        String
+  frenchTitle  String
+  englishTitle String
+  reviews      Review[]
+}
+
+model Review {
+  id       Int       @id @default(autoincrement())
+  score    Int
+  content  String?
+  emotions Emotion[]
+
+  work      Work     @relation(fields: [workId], references: [id])
+  workId    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Work {
+  id         Int         @id @default(autoincrement())
+  slug       String      @unique
+  title      String
+  type       WorkType
+  sourceName SourceName?
+  sourceId   String?
+  sourceUrl  String?
+  authors    String[]
+  publishers String[]
+  date       Json? // custom date (see my personal museum)
+
+  sourceCover String?
+  localCover  String?
+  sourceScreenshots String[]
+
+  reviews Review[]
+
+  @@unique([sourceName, sourceId])
+}
+
+enum SourceName {
+  IGDB
+  TMDB
+  OpenLibrary
+  Spotify
+  Discogs
+}
+
+enum WorkType {
+  VideoGame
+  BoardGame
+  Movie
+  TvShow
+  Book
+  MusicAlbum
+  MusicTrack
+}

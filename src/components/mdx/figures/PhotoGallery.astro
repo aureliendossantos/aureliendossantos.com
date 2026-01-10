@@ -8,17 +8,6 @@ interface Props {
 	zoomQuality?: ImageQuality
 }
 
-function getResolution(line: (typeof lines)[number]) {
-	if (line[1] == "full" || line[1] == "wide") {
-		if (line[0].length == 2) return "normal"
-		if (line[0].length >= 3) return "half"
-		return "high"
-	}
-	if (line[0].length == 2) return "half"
-	if (line[0].length >= 3) return "third"
-	return "normal"
-}
-
 const { lines, zoomQuality } = Astro.props
 ---
 
@@ -27,7 +16,12 @@ const { lines, zoomQuality } = Astro.props
 		lines.map((line) => (
 			<Gallery wide={line[1] == "wide"} full={line[1] == "full"}>
 				{line[0].map((photo) => (
-					<Figure src={photo} resolution={getResolution(line)} zoomQuality={zoomQuality} />
+					<Figure
+						src={photo}
+						imagesInGallery={line[0].length}
+						fullWidth={Boolean(line[1])}
+						zoomQuality={zoomQuality}
+					/>
 				))}
 			</Gallery>
 		))

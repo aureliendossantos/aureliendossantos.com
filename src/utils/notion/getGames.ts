@@ -5,9 +5,10 @@ import type {
 } from "@notionhq/client/build/src/api-endpoints"
 import getDatabase from "./getDatabase"
 import getChildren from "./getChildren"
-import getIGDBgames, { type IGDBData } from "$utils/remoteData/igdb"
+import getIGDBgames from "$utils/remoteData/igdb"
 import type { Title, RichText, Select, Status, MultiSelect, Checkbox } from "./types"
 import type { Logger } from "$utils/remoteData/loaders"
+import type { IGDBData } from "$utils/remoteData/igdbClient"
 
 type GameEntry = PageObjectResponse & {
 	properties: {
@@ -65,7 +66,7 @@ export default async function getGames(
 	logger(`Loaded ${notionGames.length} games`)
 	// Get all IGDB games in one query
 	const slugs = notionGames.filter((game) => game.slug).map((game) => game.slug)
-	const igdb = await getIGDBgames(slugs, logger)
+	const igdb = await getIGDBgames(slugs, undefined, undefined, logger)
 	// Adds IGDB data to each game if it exists
 	const games = notionGames.map((game) => {
 		if (game.slug) {

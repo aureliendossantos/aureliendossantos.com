@@ -12,23 +12,36 @@ import type { LocalImageServiceWithPlaceholder } from "$utils/imageService"
 export type Props = (LocalImageProps | RemoteImageProps) & {
 	zoomQuality?: ImageQuality
 	notZoomable?: boolean
+	// If size is "fixed", we use `densities`. If size is a number, the image is full width on mobile (but can be divided by the number if it's in a gallery), and we use `widths` and `sizes`.
+	responsive?:
+		| { layout: "fixed"; containerMaxWidth?: undefined; imagesInGallery?: undefined }
+		| { layout: "variableWidth"; containerMaxWidth: number; imagesInGallery: number }
 }
-const {
+let {
 	src: srcToResolve,
 	alt,
 	width: maxWidth,
 	height: maxHeight,
-	widths,
-	sizes,
 	quality,
 	zoomQuality,
 	notZoomable,
+	responsive,
 	...attributes
 } = Astro.props
+responsive = responsive || { layout: "fixed" }
+
+const tryInferSize = async (src: string) => {
+	try {
+		return await inferRemoteSize(src)
+	} catch {
+		console.error(`Could not infer size for remote image: ${src}`)
+		return { width: 1000, height: 1000, format: undefined }
+	}
+}
 
 const image =
 	typeof srcToResolve == "string"
-		? { src: srcToResolve, remote: true as const, remoteSize: await inferRemoteSize(srcToResolve) }
+		? { src: srcToResolve, remote: true as const, remoteSize: await tryInferSize(srcToResolve) }
 		: "then" in srcToResolve
 			? { src: (await srcToResolve).default, remote: false as const }
 			: { src: srcToResolve, remote: false as const }
@@ -53,8 +66,12 @@ const webp = await getImage({
 	src: image.src,
 	width: width || image.remoteSize?.width,
 	height: height || image.remoteSize?.height,
-	widths,
-	sizes,
+	densities: responsive.layout == "fixed" ? [1, 2] : undefined,
+	widths: responsive.layout == "variableWidth" && width ? [width, width * 2] : undefined,
+	sizes:
+		responsive.layout == "variableWidth"
+			? `(max-width: ${responsive.containerMaxWidth}px) ${Math.round(100 / responsive.imagesInGallery)}vw, ${width}px`
+			: undefined,
 	quality: quality,
 	...attributes,
 })
@@ -76,8 +93,8 @@ const zoomedImage =
 		: width && !image.remote && image.src.width > Number(width)
 			? await getImage({
 					src: image.src,
-					width: image.src.height < 2160 && Math.min(image.src.width, 3840),
-					height: image.src.height >= 2160 && Math.min(image.src.height, 2160),
+					width: image.src.height < 2160 ? Math.min(image.src.width, 3840) : undefined,
+					height: image.src.height >= 2160 ? Math.min(image.src.height, 2160) : undefined,
 					quality: zoomQuality || quality,
 					widths: undefined,
 					sizes: undefined,

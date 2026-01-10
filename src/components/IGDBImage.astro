@@ -1,34 +1,10 @@
 ---
-import type { IGDBImage } from "$utils/remoteData/igdb"
+import getIGDBimageUrl, { type IGDBImage, type IGDBImageSize } from "$utils/remoteData/igdbClient"
 import type { HTMLAttributes } from "astro/types"
-
-/* cover_small	90 x 128	Fit
-screenshot_med	569 x 320	Lfill, Center gravity
-cover_big	264 x 374	Fit
-logo_med	284 x 160	Fit
-screenshot_big	889 x 500	Lfill, Center gravity
-screenshot_huge	1280 x 720	Lfill, Center gravity
-thumb	90 x 90	Thumb, Center gravity
-micro	35 x 35	Thumb, Center gravity
-720p	1280 x 720	Fit, Center gravity
-1080p	1920 x 1080	Fit, Center gravity */
-// By appending _2x to any size, you can get retina (DPR 2.0) sizes
-
-type size =
-	| "cover_small"
-	| "screenshot_med"
-	| "cover_big"
-	| "logo_med"
-	| "screenshot_big"
-	| "screenshot_huge"
-	| "thumb"
-	| "micro"
-	| "720p"
-	| "1080p"
 
 interface Props extends Omit<HTMLAttributes<"img">, "src"> {
 	image: IGDBImage
-	size: size
+	size: IGDBImageSize
 	retina?: boolean
 	zoomable?: boolean
 	zoomedRetina?: boolean
@@ -37,13 +13,10 @@ const { image, size, retina, zoomable, zoomedRetina, ...attributes } = Astro.pro
 ---
 
 <img
-	src={`https://images.igdb.com/igdb/image/upload/t_${size}${retina ? "_2x" : ""}/${
-		image.image_id
-	}.jpg`}
+	src={getIGDBimageUrl(image.image_id, size, retina)}
 	width={image.width}
 	height={image.height}
 	data-zoomable={zoomable}
-	data-zoom-src={zoomable &&
-		`https://images.igdb.com/igdb/image/upload/t_original/${image.image_id}.jpg`}
+	data-zoom-src={zoomable && getIGDBimageUrl(image.image_id, "original", false)}
 	{...attributes}
 />

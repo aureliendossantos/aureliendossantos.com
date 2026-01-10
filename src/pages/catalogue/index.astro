@@ -1,0 +1,105 @@
+---
+import "@fontsource/work-sans"
+import "@fontsource/work-sans/500.css"
+import "@fontsource/work-sans/600.css"
+// Supports weights 200-900
+import "@fontsource-variable/crimson-pro"
+import BaseLayout from "$layouts/BaseLayout.astro"
+import ControllerIcon from "$icons/solar/controller.svg"
+import SadIcon from "$icons/solar/sad.svg"
+import HeartIcon from "$icons/solar/heart.svg"
+import SmileIcon from "$icons/solar/smile.svg"
+
+import { PrismaClient } from "generated/prisma/client"
+import { PrismaNeon } from "@prisma/adapter-neon"
+import enumerate, { capitalize } from "$utils/formatting/enumerateStrings"
+
+const connectionString = `${import.meta.env.CATALOGUE_DB_URL}`
+const adapter = new PrismaNeon({ connectionString })
+const prisma = new PrismaClient({ adapter })
+
+const reviews = await prisma.review.findMany({
+	orderBy: {
+		createdAt: "desc",
+	},
+	include: {
+		work: true,
+		emotions: true,
+	},
+})
+
+const scoreTitles = ["Pas de score", "Détesté", "Déçu", "Aimé", "Coup de cœur", "Chef-d'œuvre"]
+---
+
+<BaseLayout
+	title="Jeux"
+	ogType="website"
+	bg={{ light: "rgb(255, 252, 240)", dark: "rgb(16, 15, 15)" }}
+>
+	<div class="m-auto my-3 flex max-w-[564px] flex-col">
+		{
+			reviews.map((review) => {
+				const dates = review.work.date
+				return (
+					<div class="flex gap-3 pb-9 text-base text-fi-tx small:gap-0 dark:text-stone-300">
+						<img src={review.work.sourceCover} class="w-[84px] bg-fi-base-50 small:w-16" />
+						<div class="flex w-9 flex-col gap-3 small:w-6 small:gap-0">
+							<div class="aspect-square w-full bg-fi-base-50 p-2 text-fi-base-400 small:p-1 dark:bg-fi-dark-bg-2 dark:text-fi-dark-tx-2">
+								<ControllerIcon />
+							</div>
+							<div
+								class="z-10 aspect-square w-full overflow-clip hover:overflow-x-visible"
+								style="font-family: 'Google Sans Code', monospace;"
+							>
+								<div
+									class:list={[
+										"flex min-w-max items-center bg-fi-base-50 text-[13px] text-fi-base-400 dark:bg-fi-dark-bg-2 dark:text-fi-dark-tx-2",
+										{
+											"bg-fi-red-50 text-fi-red-400": review.score == 4,
+											"bg-fi-yellow-50 text-fi-yellow-400": review.score < 3,
+											"bg-fi-green-50 text-fi-green-400": review.score == 3,
+										},
+									]}
+								>
+									<div class="h-9 w-9 p-2 small:h-6 small:w-6 small:p-1">
+										{review.score < 3 && <SadIcon />}
+										{review.score == 3 && <SmileIcon />}
+										{review.score >= 4 && <HeartIcon />}
+									</div>
+									<div class="pr-2">
+										{`${scoreTitles[review.score]}${
+											review.emotions.length > 0
+												? `. ${capitalize(enumerate(review.emotions.map((e) => e.frenchTitle))!)}.`
+												: ""
+										}`}
+									</div>
+								</div>
+							</div>
+						</div>
+						<main
+							class="hyphens-auto small:mx-2"
+							style="font-family: 'Crimson Pro Variable', serif;"
+						>
+							<h2>{review.work.title}</h2>
+							<div
+								class="hyphens-none text-[13px] text-fi-base-500"
+								style="font-family: 'Google Sans Code', monospace;"
+							>
+								{review.work.authors ? `${review.work.authors} |` : ""}
+								{Object.keys(dates).length > 1
+									? Object.keys(dates)
+											.map(
+												(release) =>
+													`${dates[release].y} ${release != "Full Release" ? `(${release})` : ""}`
+											)
+											.join(" → ")
+									: `${dates[Object.keys(dates)[0]].y}`}
+							</div>
+							{review.content && <p class="whitespace-pre-line">{review.content}</p>}
+						</main>
+					</div>
+				)
+			})
+		}
+	</div>
+</BaseLayout>

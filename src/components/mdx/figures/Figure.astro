@@ -10,7 +10,9 @@ export interface Props {
 	rounded?: boolean
 	shadow?: boolean
 	effect?: "border" | "paper"
-	resolution?: "third" | "half" | "normal" | "high"
+	imagesInGallery?: number
+	fullWidth?: boolean
+	quality?: ImageQuality
 	zoomQuality?: ImageQuality
 }
 const {
@@ -20,7 +22,7 @@ const {
 	rounded,
 	shadow,
 	effect,
-	resolution,
+	fullWidth,
 	zoomQuality,
 	...attributes
 } = Astro.props
@@ -28,24 +30,14 @@ const {
 if (typeof srcToResolve != "object") throw new Error("srcToResolve is not an object")
 const src = "then" in srcToResolve ? (await srcToResolve).default : srcToResolve
 
-const widthDivider = (() => {
-	switch (resolution || "normal") {
-		case "third":
-			return 3
-		case "half":
-			return 2
-		case "normal":
-			return 1
-		case "high":
-			return 1
-	}
-})()
+const imagesInGallery = Astro.props.imagesInGallery ?? 1
 
-// TODO: Would be cool to get the page width from the layout, but I can't use CSS variables, so I don't know how I can get the value of --page-width
+// An approximation of the article div width.
 const contentWidth = 620
+// An approximation for when the image is full width.
 const screenWidth = 1920
 
-const cssWidth = resolution == "high" ? screenWidth : contentWidth / widthDivider
+const width = fullWidth ? screenWidth : contentWidth / imagesInGallery
 ---
 
 <figure
@@ -58,9 +50,13 @@ const cssWidth = resolution == "high" ? screenWidth : contentWidth / widthDivide
 >
 	<Image
 		{src}
-		widths={[cssWidth, cssWidth * 2, cssWidth * 3]}
-		sizes={`(max-width: ${contentWidth}px) ${Math.round(100 / widthDivider)}vw, ${cssWidth}px`}
 		{zoomQuality}
+		{width}
+		responsive={{
+			layout: "variableWidth",
+			containerMaxWidth: width,
+			imagesInGallery,
+		}}
 		alt={alt || ""}
 		class:list={[
 			effect == "border" && borderClasses,

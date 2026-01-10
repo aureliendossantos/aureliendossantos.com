@@ -1,0 +1,527 @@
+---
+import { SourceName, WorkType } from "generated/prisma/client"
+
+// Supports weights 200-900
+import "@fontsource-variable/crimson-pro"
+
+import { PrismaClient } from "generated/prisma/client"
+import { PrismaNeon } from "@prisma/adapter-neon"
+import BaseLayout from "$layouts/BaseLayout.astro"
+
+const connectionString = `${import.meta.env.CATALOGUE_DB_URL}`
+const adapter = new PrismaNeon({ connectionString })
+const prisma = new PrismaClient({ adapter })
+
+const scoreEmojis = ["🚫", "😤", "🫤", "🙂", "❤️", "⭐️"]
+const emotions = await prisma.emotion.findMany()
+
+const inputClass =
+	"w-full border-2 border-fi-ui bg-fi-bg px-3 py-2 text-fi-tx transition placeholder:text-fi-tx-3 focus:border-fi-ui-2 focus:bg-fi-bg-2 focus:outline-none dark:bg-fi-dark-bg dark:text-fi-dark-tx dark:placeholder:text-fi-dark-tx-3 dark:focus:border-fi-dark-ui-2 dark:focus:bg-fi-dark-bg-2"
+---
+
+<BaseLayout title="Write a review" ogType="website" bg={{ light: "#FFFCF0", dark: "#100F0F" }}>
+	<div class="mx-auto max-w-2xl text-fi-tx dark:text-fi-dark-tx">
+		<form id="createReviewForm" class="space-y-6 px-6">
+			<div
+				class="sticky top-0 z-20 flex items-center justify-between border-fi-ui bg-fi-bg pb-1 pt-3 shadow-md shadow-fi-bg"
+			>
+				<a
+					href="/catalogue"
+					class="border-2 border-fi-ui bg-fi-bg-2 px-[10px] py-[6px] font-medium text-fi-tx-2 hover:opacity-90 dark:bg-fi-dark-ui dark:text-fi-dark-tx"
+				>
+					{"<"} Catalogue
+				</a>
+				<button
+					type="submit"
+					class="border-2 border-fi-ui bg-fi-bg-2 px-[10px] py-[6px] font-medium text-fi-tx-2 hover:opacity-90 dark:bg-fi-dark-ui dark:text-fi-dark-tx"
+				>
+					Post Review
+				</button>
+			</div>
+			<!-- Search Section -->
+			<div>
+				<div class="relative">
+					<input
+						type="text"
+						id="searchInput"
+						placeholder="Search for a work..."
+						class={inputClass}
+					/>
+					<div
+						id="searchResults"
+						class="absolute left-0 right-0 top-full z-10 hidden max-h-[300px] overflow-y-auto border-2 border-t-0 border-fi-ui-2 bg-fi-bg dark:bg-fi-dark-bg"
+					>
+					</div>
+				</div>
+				<button
+					type="button"
+					id="toggleManualForm"
+					class="mt-1 text-sm text-fi-tx-3 underline hover:text-fi-tx dark:text-fi-dark-tx-3 dark:hover:text-fi-dark-tx"
+				>
+					Find Work Manually
+				</button>
+			</div>
+
+			<!-- Manual Form (Hidden by Default) -->
+			<div
+				id="manualForm"
+				class="hidden space-y-4 border-l-2 border-fi-ui-2 pl-4 dark:border-fi-dark-ui-2"
+			>
+				<div>
+					<label for="source" class="mb-1 block text-sm">Source:</label>
+					<select id="source" name="source" class={inputClass}>
+						<option value="">Select a source</option>
+						{Object.values(SourceName).map((source) => <option value={source}>{source}</option>)}
+					</select>
+				</div>
+
+				<div>
+					<label for="sourceId" class="mb-1 block text-sm">Slug (IGDB) or ID:</label>
+					<input type="text" id="sourceId" name="sourceId" class={inputClass} />
+				</div>
+
+				<button
+					type="button"
+					id="fetchButton"
+					class="bg-fi-ui px-[14px] py-2 hover:bg-fi-ui-2 dark:bg-fi-dark-ui dark:hover:bg-fi-dark-ui-2"
+				>
+					Preview
+				</button>
+			</div>
+
+			<!-- Work Preview -->
+			<div
+				id="workPreview"
+				class="hidden space-y-4 border-2 border-fi-ui bg-fi-bg-2 p-4 dark:border-fi-dark-ui-2 dark:bg-fi-dark-bg"
+			>
+				<div id="previewContent"></div>
+				<button
+					type="button"
+					id="saveButton"
+					class="hidden bg-fi-blue px-4 py-2 text-white hover:opacity-90 dark:bg-fi-dark-blue"
+				>
+					Save to DB
+				</button>
+			</div>
+
+			<!-- Review Fields -->
+			<div>
+				<input type="date" id="createdAt" name="createdAt" class={inputClass} />
+				<p class="mt-1 text-sm text-fi-tx-3 dark:text-fi-dark-tx-3">
+					Leave empty to use the current date.
+				</p>
+			</div>
+			<div>
+				<label
+					class="mb-2 block font-medium uppercase tracking-wider text-fi-tx-2"
+					style="font-family: 'Crimson Pro Variable', serif;"
+				>
+					Score
+				</label>
+				<div class="flex gap-1">
+					{
+						scoreEmojis.map((emoji, index) => (
+							<label class="cursor-pointer rounded-full px-2 py-1 transition hover:bg-fi-bg-2 has-[:checked]:bg-fi-blue-50">
+								<input
+									type="radio"
+									name="score"
+									value={index}
+									class="hidden"
+									checked={index === 0}
+								/>
+								{emoji}
+							</label>
+						))
+					}
+				</div>
+			</div>
+			<div>
+				<div>
+					<label
+						class="mb-2 block font-medium uppercase tracking-wider text-fi-tx-2"
+						style="font-family: 'Crimson Pro Variable', serif;"
+					>
+						Emotions
+					</label>
+					<div id="emotionsContainer" class="-mx-[6px] flex flex-wrap gap-2">
+						{
+							emotions.map((emotion) => (
+								<label class="cursor-pointer rounded-full px-[6px] ring-0 transition hover:bg-fi-bg-2 has-[:checked]:bg-fi-blue-50 has-[:checked]:text-fi-blue-600">
+									<input type="checkbox" name="emotions" value={emotion.id} class="hidden" />
+									{emotion.emoji} {emotion.frenchTitle}
+								</label>
+							))
+						}
+					</div>
+				</div>
+			</div>
+			<textarea
+				id="content"
+				name="content"
+				rows="6"
+				class={`${inputClass} !border-0 !p-0 mt-4 text-lg focus:!bg-fi-bg dark:focus:!bg-fi-dark-bg`}
+				style="font-family: 'Crimson Pro Variable', serif;"
+				placeholder="Thoughts..."></textarea>
+
+			<div id="message" class="mt-4"></div>
+		</form>
+
+		<script>
+			import { actions } from "astro:actions"
+			import { toast } from "$utils/navbar"
+			import getIGDBimageUrl, { type IGDBData } from "$utils/remoteData/igdbClient"
+
+			const toggleManualForm = document.getElementById("toggleManualForm") as HTMLButtonElement
+			const manualForm = document.getElementById("manualForm") as HTMLDivElement
+			const fetchButton = document.getElementById("fetchButton") as HTMLButtonElement
+			const workPreview = document.getElementById("workPreview") as HTMLDivElement
+			const previewContent = document.getElementById("previewContent") as HTMLDivElement
+			const saveButton = document.getElementById("saveButton") as HTMLButtonElement
+			const createReviewForm = document.getElementById("createReviewForm") as HTMLFormElement
+			const emotionsContainer = document.getElementById("emotionsContainer") as HTMLDivElement
+			const message = document.getElementById("message") as HTMLDivElement
+			const searchInput = document.getElementById("searchInput") as HTMLInputElement
+			const searchResults = document.getElementById("searchResults") as HTMLDivElement
+
+			let currentWorkData: IGDBData | null = null
+			let currentWorkId: number | null = null
+			let searchTimeout: number | null = null
+
+			// Toggle manual form visibility
+			toggleManualForm.addEventListener("click", () => {
+				manualForm.classList.toggle("hidden")
+				toggleManualForm.textContent = manualForm.classList.contains("hidden")
+					? "Find Work Manually"
+					: "Hide Manual Form"
+			})
+
+			// Search functionality
+			searchInput.addEventListener("input", () => {
+				if (searchTimeout) clearTimeout(searchTimeout)
+				const query = searchInput.value.trim()
+
+				if (query.length < 2) {
+					searchResults.classList.add("hidden")
+					return
+				}
+
+				searchTimeout = window.setTimeout(async () => {
+					// Fetch both database and API results
+					const [dbResponse, apiResponse] = await Promise.all([
+						actions.searchWorks({ query }),
+						actions.searchInAPIs({ query }),
+					])
+
+					if (dbResponse.error) {
+						console.error("DB Search error:", dbResponse.error)
+					}
+					if (apiResponse.error) {
+						console.error("API Search error:", apiResponse.error)
+					}
+
+					const dbWorks = dbResponse.data?.works || []
+					const apiWorks = apiResponse.data?.igdb || []
+
+					if (dbWorks.length === 0 && apiWorks.length === 0) {
+						searchResults.innerHTML =
+							'<div class="p-2 text-fi-tx-3 dark:text-fi-dark-tx-3">No results found</div>'
+						searchResults.classList.remove("hidden")
+						return
+					}
+
+					let html = ""
+
+					// DB results
+					if (dbWorks.length > 0) {
+						html += searchResultTitleDiv("In My Collection")
+						html += dbWorks
+							.map((work) =>
+								searchResultDiv(
+									"search-result-db",
+									work.id,
+									work.title,
+									work.authors.join(", "),
+									work.sourceCover
+								)
+							)
+							.join("")
+					}
+
+					// API results
+					if (apiWorks.length > 0) {
+						html += searchResultTitleDiv("IGDB")
+						html += apiWorks
+							.map((work) =>
+								searchResultDiv(
+									"search-result-api",
+									work.slug,
+									`${work.name} ${work.first_release_date ? `(${new Date(work.first_release_date * 1000).getFullYear()})` : ""}`,
+									`${work.developers || ""} ${work.platforms ? `· ${work.platforms.map((p) => p.abbreviation).join(", ")}` : ""}`,
+									work.cover && getIGDBimageUrl(work.cover.image_id, "cover_small")
+								)
+							)
+							.join("")
+					}
+
+					searchResults.innerHTML = html
+					searchResults.classList.remove("hidden")
+
+					// Add click handlers for DB results
+					document.querySelectorAll(".search-result-db").forEach((item) => {
+						item.addEventListener("click", async () => {
+							const workId = parseInt((item as HTMLElement).dataset.workId!)
+							searchInput.value = (item as HTMLElement).querySelector(".title")!.textContent || ""
+							searchResults.classList.add("hidden")
+
+							// Fetch and display work preview from DB
+							const work = dbWorks.find((w) => w.id === workId)
+							if (work) {
+								displayWorkPreview(
+									work.title,
+									work.authors.join(", "),
+									work.sourceCover,
+									workId,
+									false,
+									true
+								)
+							}
+							updateWorkInReview(workId)
+							toast(`Selected work from your collection`)
+						})
+					})
+
+					// Add click handlers for API results
+					document.querySelectorAll(".search-result-api").forEach((item) => {
+						item.addEventListener("click", async () => {
+							const slug = (item as HTMLElement).dataset.workId!
+							searchInput.value = (item as HTMLElement).querySelector(".title")!.textContent || ""
+							searchResults.classList.add("hidden")
+							toast(`Fetching details from IGDB...`)
+
+							const { data, error } = await actions.getIGDBdata({ slug })
+							if (error) {
+								message.textContent = `Error: ${error}`
+								return
+							}
+							currentWorkData = data.igdb
+							displayWorkPreview(
+								data.igdb.name,
+								data.igdb.developers || "Unknown",
+								data.igdb.cover ? getIGDBimageUrl(data.igdb.cover.image_id, "cover_big") : null,
+								null,
+								true,
+								false
+							)
+							message.textContent = ""
+						})
+					})
+				}, 300)
+			})
+
+			// Show search results when input gains focus
+			searchInput.addEventListener("focus", () => {
+				const query = searchInput.value.trim()
+				if (query.length >= 2 && searchResults.children.length > 0) {
+					searchResults.classList.remove("hidden")
+				}
+			})
+
+			// Close search results when clicking outside
+			document.addEventListener("click", (e) => {
+				if (!searchInput.contains(e.target as Node) && !searchResults.contains(e.target as Node)) {
+					searchResults.classList.add("hidden")
+				}
+			})
+
+			fetchButton.addEventListener("click", async () => {
+				const source = (document.getElementById("source") as HTMLSelectElement).value
+				const sourceId = (document.getElementById("sourceId") as HTMLInputElement).value
+
+				if (!source || !sourceId) {
+					toast("Please fill in all fields")
+					return
+				}
+
+				toast(`Fetching data from ${source}...`)
+
+				let fetchAction
+				switch (source) {
+					case "IGDB":
+						fetchAction = actions.getIGDBdata
+						break
+					default:
+						throw new Error("Unsupported source")
+				}
+
+				const { data, error } = await fetchAction({ slug: sourceId })
+				if (error) {
+					message.textContent = `Error: ${error}`
+					return
+				}
+				currentWorkData = data.igdb
+				displayWorkPreview(
+					data.igdb.name,
+					data.igdb.developers || "Unknown",
+					data.igdb.cover ? getIGDBimageUrl(data.igdb.cover.image_id, "cover_big") : null,
+					null,
+					true,
+					false
+				)
+				message.textContent = ""
+			})
+
+			saveButton.addEventListener("click", async () => {
+				if (!currentWorkData) return
+
+				toast("Saving work to database...")
+				saveButton.disabled = true
+
+				const { data, error } = await actions.createWorkFromIGDB({ slug: currentWorkData.slug })
+				if (error) {
+					message.textContent = `Error: ${error}`
+					saveButton.disabled = false
+					return
+				}
+
+				// Refresh preview with local work data
+				displayWorkPreview(
+					data.work.title,
+					data.work.authors.join(", "),
+					data.work.sourceCover,
+					data.work.id,
+					false,
+					true
+				)
+				updateWorkInReview(data.work.id)
+				currentWorkData = null
+				toast(`Work saved.`)
+				saveButton.disabled = false
+			})
+
+			createReviewForm.addEventListener("submit", async (e) => {
+				e.preventDefault()
+
+				if (!currentWorkId) {
+					toast("Please select a work first.")
+					return
+				}
+
+				const formData = new FormData(createReviewForm)
+				const score = formData.get("score")
+				const content = formData.get("content") as string
+				const createdAtString = formData.get("createdAt") as string
+
+				// Get selected emotions
+				const emotionCheckboxes = emotionsContainer.querySelectorAll(
+					'input[type="checkbox"]:checked'
+				) as NodeListOf<HTMLInputElement>
+				const emotionIds = Array.from(emotionCheckboxes).map((cb) => parseInt(cb.value))
+
+				if (emotionIds.length === 0) {
+					toast("Please select at least one emotion.")
+					return
+				}
+
+				toast("Posting review...")
+
+				// Combine selected date with current time
+				let createdAt: Date | undefined
+				if (createdAtString) {
+					const selectedDate = new Date(createdAtString)
+					const now = new Date()
+					createdAt = new Date(
+						selectedDate.getFullYear(),
+						selectedDate.getMonth(),
+						selectedDate.getDate(),
+						now.getHours(),
+						now.getMinutes(),
+						now.getSeconds()
+					)
+				}
+
+				const { data, error } = await actions.createReview({
+					workId: currentWorkId,
+					emotionIds,
+					content: content || undefined,
+					score: score ? parseInt(score as string) : undefined,
+					createdAt,
+				})
+
+				if (error) {
+					message.textContent = `Error: ${error}`
+					return
+				}
+
+				toast("Review posted successfully.")
+				createReviewForm.reset()
+				searchInput.value = ""
+				workPreview.classList.add("hidden")
+				saveButton.classList.add("hidden")
+				currentWorkData = null
+				updateWorkInReview(null)
+			})
+
+			function updateWorkInReview(workId: number | null) {
+				currentWorkId = workId
+			}
+
+			function displayWorkPreview(
+				title: string,
+				authors: string,
+				coverUrl: string | null,
+				workId: number | null,
+				showSaveButton: boolean,
+				isLocal: boolean
+			) {
+				workPreview.classList.remove("hidden")
+
+				const sourceTag = isLocal
+					? '<span class="bg-fi-tx-2 px-1 py-0.5 text-xs font-medium uppercase text-fi-bg dark:bg-fi-dark-tx-2 dark:text-fi-dark-bg">Local</span>'
+					: '<span class="bg-fi-tx-2 px-1 py-0.5 text-xs font-medium uppercase text-fi-bg dark:bg-fi-dark-tx-2 dark:text-fi-dark-bg">Remote</span>'
+
+				previewContent.innerHTML = `
+				<div class="flex gap-4">
+					${coverUrl ? `<img src="${coverUrl}" alt="Cover" class="w-24 h-auto object-cover" />` : ""}
+					<div class="flex-1">
+						<div class="flex mb-1">${sourceTag}</div>
+						<h3 class="text-lg font-semibold">${title}</h3>
+						<p class="text-sm text-fi-tx-2 dark:text-fi-dark-tx-2">${authors}</p>
+					</div>
+				</div>
+			`
+
+				if (showSaveButton) {
+					saveButton.classList.remove("hidden")
+				} else {
+					saveButton.classList.add("hidden")
+				}
+			}
+
+			function searchResultTitleDiv(title: string) {
+				return `<div class="sticky top-0 px-2 py-1 text-xs font-semibold text-fi-tx-2 dark:text-fi-dark-tx-2 bg-fi-ui dark:bg-fi-dark-ui">${title}</div>`
+			}
+
+			function searchResultDiv(
+				specifierClass: string,
+				workId: number | string,
+				title: string,
+				details?: string,
+				coverUrl?: string | null
+			) {
+				return `
+	  <div 
+		class="${specifierClass} flex items-center cursor-pointer hover:bg-fi-bg-2 dark:hover:bg-fi-dark-bg-2 transition-colors group"
+		style="box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.10)"
+		data-work-id="${workId}"
+	  >
+	  ${coverUrl ? `<img class="w-12 object-cover self-stretch" src="${coverUrl}" alt="Cover" />` : `<div class="w-12"></div>`}
+	  <div class="grow px-3 py-2 dark:border-fi-dark-ui">
+		<div class="title font-semibold leading-snug">${title}</div>
+		${details ? `<div class="details text-xs leading-[22px] text-fi-tx-2 dark:text-fi-dark-tx-2">${details}</div>` : ""}
+		</div>
+	  </div>
+	`
+			}
+		</script>
+	</div>
+</BaseLayout>
