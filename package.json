@@ -5,7 +5,7 @@
 	"scripts": {
 		"dev": "astro dev",
 		"build": "astro build",
-		"vercel-build": "tsx ./scripts/writeGitmodules.ts && git submodule update --init --remote --merge && astro build",
+		"vercel-build": "tsx ./scripts/writeGitmodules.ts && git submodule update --init --remote --merge && prisma generate && astro build",
 		"preview": "astro preview",
 		"astro": "astro"
 	},
