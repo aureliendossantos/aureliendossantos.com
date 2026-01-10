@@ -4,10 +4,14 @@ import slugify from "slugify"
 import getIGDBgames from "$utils/remoteData/igdb"
 import "dotenv/config"
 
-import { PrismaClient } from "generated/prisma/client"
+import ws from "ws"
+import { neonConfig } from "@neondatabase/serverless"
 import { PrismaNeon } from "@prisma/adapter-neon"
-const connectionString = `${process.env.CATALOGUE_DB_URL}`
-const adapter = new PrismaNeon({ connectionString })
+import { PrismaClient } from "generated/prisma/client"
+
+// Configure for Node.js environments (local development)
+neonConfig.webSocketConstructor = ws
+const adapter = new PrismaNeon({ connectionString: process.env.CATALOGUE_DB_URL })
 const prisma = new PrismaClient({ adapter })
 
 export const server = {
