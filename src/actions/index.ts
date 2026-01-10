@@ -2,15 +2,23 @@ import { ActionError, defineAction } from "astro:actions"
 import { z } from "astro:schema"
 import slugify from "slugify"
 import getIGDBgames from "$utils/remoteData/igdb"
+import "dotenv/config"
 
 import { PrismaClient } from "generated/prisma/client"
 import { PrismaNeon } from "@prisma/adapter-neon"
-import "dotenv/config"
 const connectionString = `${process.env.CATALOGUE_DB_URL}`
 const adapter = new PrismaNeon({ connectionString })
 const prisma = new PrismaClient({ adapter })
 
 export const server = {
+	getEmotions: defineAction({
+		handler: async () => {
+			const emotions = await prisma.emotion.findMany({
+				orderBy: { id: "asc" },
+			})
+			return { emotions }
+		},
+	}),
 	searchWorks: defineAction({
 		input: z.object({
 			query: z.string(),

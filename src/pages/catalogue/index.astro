@@ -1,4 +1,6 @@
 ---
+export const prerender = false
+
 import "@fontsource/work-sans"
 import "@fontsource/work-sans/500.css"
 import "@fontsource/work-sans/600.css"
@@ -9,11 +11,10 @@ import ControllerIcon from "$icons/solar/controller.svg"
 import SadIcon from "$icons/solar/sad.svg"
 import HeartIcon from "$icons/solar/heart.svg"
 import SmileIcon from "$icons/solar/smile.svg"
+import enumerate, { capitalize } from "$utils/formatting/enumerateStrings"
 
 import { PrismaClient } from "generated/prisma/client"
 import { PrismaNeon } from "@prisma/adapter-neon"
-import enumerate, { capitalize } from "$utils/formatting/enumerateStrings"
-
 const connectionString = `${import.meta.env.CATALOGUE_DB_URL}`
 const adapter = new PrismaNeon({ connectionString })
 const prisma = new PrismaClient({ adapter })
