@@ -10,25 +10,25 @@ interface Props {
 const { title, lang, diary } = Astro.props
 
 const summary = await getWikipediaPage(title, lang)
-const url = summary.content_urls.desktop.page
+const url = summary?.content_urls.desktop.page
 // if `extract_html` only contains an HTML comment (I don't know why it happens sometimes), use `extract` instead
-const extract = summary.extract_html.replace(/<!--.*?-->/gs, "").trim()
-	? summary.extract_html
-	: summary.extract
+const extract = summary?.extract_html.replace(/<!--.*?-->/gs, "").trim()
+	? summary?.extract_html
+	: summary?.extract
 ---
 
 <NewPopup
 	icon="wikipedia"
-	navBarTitle={summary.title}
-	navBarLinks={[{ title: "Wikipédia", url: url }]}
-	url={url}
+	navBarTitle={summary?.title}
+	navBarLinks={[{ title: "Wikipédia", url: url || "" }]}
+	{url}
 	padding
-	diary={diary}
+	{diary}
 >
 	<slot />
 	<Fragment slot="popup-contents">
 		{
-			summary.thumbnail && (
+			summary?.thumbnail && (
 				<img
 					class="float-right mb-4 ml-4 !max-w-[30%] rounded-sm border border-solid"
 					data-zoomable

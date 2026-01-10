@@ -6,7 +6,10 @@ export interface WikiSummaryWithFetchDate extends wikiSummary {
 }
 
 // Rewrite the previous function using the `getCacheOrFetch` function
-export default async function getWikipediaPage(title: string, lang = "fr"): Promise<wikiSummary> {
+export default async function getWikipediaPage(
+	title: string,
+	lang = "fr"
+): Promise<wikiSummary | null> {
 	return getCacheOrFetch(
 		title,
 		"wikipedia",
