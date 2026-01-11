@@ -7,24 +7,24 @@ import "@fontsource-variable/crimson-pro"
 const scoreEmojis = ["🚫", "😤", "🫤", "🙂", "❤️", "⭐️"]
 
 const inputClass =
-	"w-full border-2 border-fi-ui bg-fi-bg px-3 py-2 text-fi-tx transition placeholder:text-fi-tx-3 focus:border-fi-ui-2 focus:bg-fi-bg-2 focus:outline-none dark:bg-fi-dark-bg dark:text-fi-dark-tx dark:placeholder:text-fi-dark-tx-3 dark:focus:border-fi-dark-ui-2 dark:focus:bg-fi-dark-bg-2"
+	"w-full border-2 border-fi-ui bg-fi-bg px-3 py-2 text-fi-tx transition placeholder:text-fi-tx-3 focus:border-fi-ui-2 focus:bg-fi-bg-2 focus:outline-none dark:bg-fi-dark-bg dark:border-fi-dark-ui dark:text-fi-dark-tx dark:placeholder:text-fi-dark-tx-3 dark:focus:border-fi-dark-ui-2 dark:focus:bg-fi-dark-bg-2"
 ---
 
 <BaseLayout title="Write a review" ogType="website" bg={{ light: "#FFFCF0", dark: "#100F0F" }}>
 	<div class="mx-auto max-w-2xl text-fi-tx dark:text-fi-dark-tx">
 		<form id="createReviewForm" class="space-y-6 px-6">
 			<div
-				class="sticky top-0 z-20 flex items-center justify-between border-fi-ui bg-fi-bg pb-1 pt-3 shadow-md shadow-fi-bg"
+				class="sticky top-0 z-20 flex items-center justify-between bg-fi-bg pb-1 pt-3 shadow-md shadow-fi-bg dark:bg-fi-dark-bg dark:shadow-fi-dark-bg"
 			>
 				<a
 					href="/catalogue"
-					class="border-2 border-fi-ui bg-fi-bg-2 px-[10px] py-[6px] font-medium text-fi-tx-2 hover:opacity-90 dark:bg-fi-dark-ui dark:text-fi-dark-tx"
+					class="border-2 border-fi-ui bg-fi-bg-2 px-[10px] py-[6px] font-medium text-fi-tx-2 dark:border-fi-dark-ui dark:bg-fi-dark-bg-2 dark:text-fi-dark-tx-2"
 				>
 					{"<"} Catalogue
 				</a>
 				<button
 					type="submit"
-					class="border-2 border-fi-ui bg-fi-bg-2 px-[10px] py-[6px] font-medium text-fi-tx-2 hover:opacity-90 dark:bg-fi-dark-ui dark:text-fi-dark-tx"
+					class="border-2 border-fi-ui bg-fi-bg-2 px-[10px] py-[6px] font-medium text-fi-tx-2 dark:border-fi-dark-ui dark:bg-fi-dark-bg-2 dark:text-fi-dark-tx-2"
 				>
 					Post Review
 				</button>
@@ -40,7 +40,7 @@ const inputClass =
 					/>
 					<div
 						id="searchResults"
-						class="absolute left-0 right-0 top-full z-10 hidden max-h-[300px] overflow-y-auto border-2 border-t-0 border-fi-ui-2 bg-fi-bg dark:bg-fi-dark-bg"
+						class="absolute left-0 right-0 top-full z-10 hidden max-h-[300px] overflow-y-auto border-2 border-t-0 border-fi-ui-2 bg-fi-bg dark:border-fi-dark-ui-2 dark:bg-fi-dark-bg"
 					>
 					</div>
 				</div>
@@ -112,7 +112,7 @@ const inputClass =
 				<div class="flex gap-1">
 					{
 						scoreEmojis.map((emoji, index) => (
-							<label class="cursor-pointer rounded-full px-2 py-1 transition hover:bg-fi-bg-2 has-[:checked]:bg-fi-blue-50">
+							<label class="cursor-pointer rounded-full px-2 py-1 transition hover:bg-fi-bg-2 has-[:checked]:bg-fi-blue-50 dark:hover:bg-fi-dark-ui dark:has-[:checked]:bg-fi-blue-900">
 								<input
 									type="radio"
 									name="score"
@@ -168,7 +168,7 @@ const inputClass =
 			const searchResults = document.getElementById("searchResults") as HTMLDivElement
 
 			let currentWorkData: IGDBData | null = null
-			let currentWorkId: number | null = null
+			let currentWorkId: string | null = null
 			let searchTimeout: number | null = null
 
 			async function loadEmotions() {
@@ -182,7 +182,7 @@ const inputClass =
 				emotionsContainer.innerHTML = emotions
 					.map(
 						(emotion) => `
-						<label class="cursor-pointer rounded-full px-[6px] ring-0 transition hover:bg-fi-bg-2 has-[:checked]:bg-fi-blue-50 has-[:checked]:text-fi-blue-600">
+						<label class="cursor-pointer rounded-full px-[6px] ring-0 transition hover:bg-fi-bg-2 has-[:checked]:bg-fi-blue-50 has-[:checked]:text-fi-blue dark:hover:bg-fi-dark-ui dark:has-[:checked]:bg-fi-blue-950 dark:has-[:checked]:text-fi-dark-blue">
 							<input type="checkbox" name="emotions" value="${emotion.id}" class="hidden" />
 							${emotion.emoji} ${emotion.frenchTitle}
 						</label>
@@ -274,7 +274,7 @@ const inputClass =
 					// Add click handlers for DB results
 					document.querySelectorAll(".search-result-db").forEach((item) => {
 						item.addEventListener("click", async () => {
-							const workId = parseInt((item as HTMLElement).dataset.workId!)
+							const workId = (item as HTMLElement).dataset.workId!
 							searchInput.value = (item as HTMLElement).querySelector(".title")!.textContent || ""
 							searchResults.classList.add("hidden")
 
@@ -448,7 +448,7 @@ const inputClass =
 					workId: currentWorkId,
 					emotionIds,
 					content: content || undefined,
-					score: score ? parseInt(score as string) : undefined,
+					score: parseInt(score as string),
 					createdAt,
 				})
 
@@ -466,7 +466,7 @@ const inputClass =
 				updateWorkInReview(null)
 			})
 
-			function updateWorkInReview(workId: number | null) {
+			function updateWorkInReview(workId: string | null) {
 				currentWorkId = workId
 			}
 
@@ -474,7 +474,7 @@ const inputClass =
 				title: string,
 				authors: string,
 				coverUrl: string | null,
-				workId: number | null,
+				workId: string | null,
 				showSaveButton: boolean,
 				isLocal: boolean
 			) {

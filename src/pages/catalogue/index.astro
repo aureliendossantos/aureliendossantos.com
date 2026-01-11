@@ -13,11 +13,7 @@ import HeartIcon from "$icons/solar/heart.svg"
 import SmileIcon from "$icons/solar/smile.svg"
 import enumerate, { capitalize } from "$utils/formatting/enumerateStrings"
 
-import { PrismaClient } from "generated/prisma/client"
-import { PrismaNeon } from "@prisma/adapter-neon"
-const connectionString = `${import.meta.env.CATALOGUE_DB_URL}`
-const adapter = new PrismaNeon({ connectionString })
-const prisma = new PrismaClient({ adapter })
+import { prisma } from "$prisma/prisma"
 
 const reviews = await prisma.review.findMany({
 	orderBy: {

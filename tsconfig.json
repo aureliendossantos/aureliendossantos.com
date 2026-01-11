@@ -10,7 +10,8 @@
 			"$content/*": ["src/content/*"],
 			"$utils/*": ["src/utils/*"],
 			"$styles/*": ["src/styles/*"],
-			"$icons/*": ["src/styles/icons/*"]
+			"$icons/*": ["src/styles/icons/*"],
+			"$prisma/*": ["prisma/*"]
 		}
 	}
 }

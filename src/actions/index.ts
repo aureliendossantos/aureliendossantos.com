@@ -4,15 +4,7 @@ import slugify from "slugify"
 import getIGDBgames from "$utils/remoteData/igdb"
 import "dotenv/config"
 
-import ws from "ws"
-import { neonConfig } from "@neondatabase/serverless"
-import { PrismaNeon } from "@prisma/adapter-neon"
-import { PrismaClient } from "generated/prisma/client"
-
-// Configure for Node.js environments (local development)
-neonConfig.webSocketConstructor = ws
-const adapter = new PrismaNeon({ connectionString: process.env.CATALOGUE_DB_URL })
-const prisma = new PrismaClient({ adapter })
+import { prisma } from "$prisma/prisma"
 
 export const server = {
 	getEmotions: defineAction({
@@ -82,9 +74,9 @@ export const server = {
 			})
 			const work = await prisma.work.create({
 				data: {
+					id: slug,
 					title: igdb.name,
 					type: "VideoGame",
-					slug: slug,
 					sourceName: "IGDB",
 					sourceId: igdb.id.toString(),
 					sourceUrl: igdb.url,
@@ -117,10 +109,10 @@ export const server = {
 	}),
 	createReview: defineAction({
 		input: z.object({
-			workId: z.number(),
+			workId: z.string(),
 			emotionIds: z.array(z.number()),
 			content: z.string().optional(),
-			score: z.number().min(0).max(6).optional(),
+			score: z.number().min(0).max(5),
 			createdAt: z.date().optional(),
 		}),
 		handler: async (input) => {
@@ -132,7 +124,7 @@ export const server = {
 				data: {
 					workId: input.workId,
 					content: input.content || null,
-					score: input.score || null,
+					score: input.score,
 					...(input.createdAt && { createdAt: input.createdAt }),
 					emotions: {
 						connect: input.emotionIds.map((id) => ({ id })),
@@ -174,5 +166,5 @@ const createWorkSlug = async (params: { shortTitle: string; author?: string; yea
 
 const doesSlugExist = async (slug: string) => {
 	console.log(`Checking if slug exists: ${slug}`)
-	return Boolean(await prisma.work.findUnique({ where: { slug } }))
+	return Boolean(await prisma.work.findUnique({ where: { id: slug } }))
 }

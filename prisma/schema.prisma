@@ -8,7 +8,7 @@ datasource db {
 }
 
 model Emotion {
-  id           Int      @id @default(autoincrement())
+  id           Int      @id
   emoji        String
   frenchTitle  String
   englishTitle String
@@ -22,14 +22,13 @@ model Review {
   emotions Emotion[]
 
   work      Work     @relation(fields: [workId], references: [id])
-  workId    Int
+  workId    String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model Work {
-  id         Int         @id @default(autoincrement())
-  slug       String      @unique
+  id         String      @id
   title      String
   type       WorkType
   sourceName SourceName?
@@ -39,8 +38,8 @@ model Work {
   publishers String[]
   date       Json? // custom date (see my personal museum)
 
-  sourceCover String?
-  localCover  String?
+  sourceCover       String?
+  localCover        String?
   sourceScreenshots String[]
 
   reviews Review[]
