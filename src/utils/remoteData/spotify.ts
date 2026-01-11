@@ -1,20 +1,4 @@
-/**
- * Convert a Spotify date to a JavaScript Date.
- * @param date example values: "1981", "1981-12", "1981-12-15"
- * @param date_precision allowed values: "year", "month", "day"
- * @returns a JavaScript Date object
- */
-export const getSpotifyDate = (date: string, date_precision: "year" | "month" | "day") => {
-	const [year, month, day] = date.split("-").map((n) => parseInt(n))
-	switch (date_precision) {
-		case "year":
-			return new Date(year, 0, 1)
-		case "month":
-			return new Date(year, month - 1, 1)
-		case "day":
-			return new Date(year, month - 1, day)
-	}
-}
+import type { SpotifyAlbum, SpotifyTrack, SpotifySearchResults } from "./spotifyClient"
 
 export const getSpotifyToken = async () => {
 	const token = await fetch("https://accounts.spotify.com/api/token", {
@@ -34,7 +18,7 @@ export const fetchSpotifyEndpoint = async (
 	endpoint: "albums" | "tracks",
 	id: string,
 	market?: string
-) => {
+): Promise<SpotifyAlbum | SpotifyTrack> => {
 	const options = {
 		method: "GET",
 		headers: {
@@ -52,4 +36,46 @@ export const fetchSpotifyEndpoint = async (
 		})
 		.catch((err) => console.error(err))
 	return response
+}
+
+export async function getSpotifyAlbumById(id: string) {
+	return (await fetchSpotifyEndpoint("albums", id)) as SpotifyAlbum
+}
+
+export async function getSpotifyTrackById(id: string) {
+	return (await fetchSpotifyEndpoint("tracks", id)) as SpotifyTrack
+}
+
+/**
+ * Search Spotify for albums and tracks.
+ * @param searchQuery Search query string
+ * @param limit Maximum number of results per type
+ * @returns Object containing albums and tracks arrays
+ */
+export async function searchSpotify(
+	searchQuery: string,
+	limit: number = 10
+): Promise<{ albums: SpotifyAlbum[]; tracks: SpotifyTrack[] }> {
+	const token = await getSpotifyToken()
+	const searchUrl = `https://api.spotify.com/v1/search?q=${encodeURIComponent(searchQuery)}&type=album,track&limit=${limit}`
+
+	const results: SpotifySearchResults = await fetch(searchUrl, {
+		headers: {
+			accept: "application/json",
+			Authorization: `Bearer ${token}`,
+		},
+	})
+		.then((response) => {
+			if (response.status === 200) return response.json()
+			throw new Error(`Spotify API error: ${response.status} ${response.statusText}`)
+		})
+		.catch((err) => {
+			console.error(err)
+			return { albums: { items: [] }, tracks: { items: [] } }
+		})
+
+	const albums = results.albums?.items || []
+	const tracks = results.tracks?.items || []
+	console.log(`Found ${albums.length} album(s) and ${tracks.length} track(s) for: ${searchQuery}`)
+	return { albums, tracks }
 }

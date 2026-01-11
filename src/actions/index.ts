@@ -4,6 +4,7 @@ import { prisma } from "$prisma/prisma"
 import slugify from "slugify"
 import getIGDBgames from "$utils/remoteData/igdb"
 import getTMDBmovie, { searchTMDBmovies } from "$utils/remoteData/tmdb"
+import { getSpotifyAlbumById, getSpotifyTrackById, searchSpotify } from "$utils/remoteData/spotify"
 
 export const server = {
 	getEmotions: defineAction({
@@ -46,11 +47,12 @@ export const server = {
 			query: z.string(),
 		}),
 		handler: async (input) => {
-			const [igdb, tmdb] = await Promise.all([
+			const [igdb, tmdb, spotify] = await Promise.all([
 				getIGDBgames(undefined, input.query, 6),
 				searchTMDBmovies(input.query, 4),
+				searchSpotify(input.query, 4),
 			])
-			return { igdb, tmdb }
+			return { igdb, tmdb, spotify }
 		},
 	}),
 	getIGDBdata: defineAction({
@@ -72,6 +74,26 @@ export const server = {
 				throw new ActionError({ code: "NOT_FOUND", message: "TMDB movie not found" })
 			}
 			return { tmdb }
+		},
+	}),
+	getSpotifyAlbum: defineAction({
+		input: z.object({
+			id: z.string(),
+		}),
+		handler: async (input) => {
+			const album = await getSpotifyAlbumById(input.id)
+			if (!album) throw new ActionError({ code: "NOT_FOUND", message: "Spotify album not found" })
+			return album
+		},
+	}),
+	getSpotifyTrack: defineAction({
+		input: z.object({
+			id: z.string(),
+		}),
+		handler: async (input) => {
+			const track = await getSpotifyTrackById(input.id)
+			if (!track) throw new ActionError({ code: "NOT_FOUND", message: "Spotify track not found" })
+			return track
 		},
 	}),
 	createWorkFromIGDB: defineAction({
@@ -161,13 +183,83 @@ export const server = {
 			return { work }
 		},
 	}),
+	createWorkFromSpotifyAlbum: defineAction({
+		input: z.object({
+			id: z.string(),
+		}),
+		handler: async (input) => {
+			const album = await getSpotifyAlbumById(input.id)
+			if (!album) {
+				throw new ActionError({ code: "NOT_FOUND", message: "Spotify album not found" })
+			}
+			const artists = album.artists.map((a) => a.name)
+			const year = album.release_date ? new Date(album.release_date).getFullYear() : undefined
+			const slug = await createWorkSlug({
+				shortTitle: album.name,
+				author: artists[0],
+				year,
+			})
+			const work = await prisma.work.create({
+				data: {
+					id: slug,
+					title: album.name,
+					type: "MusicAlbum",
+					sourceName: "Spotify",
+					sourceId: album.id,
+					sourceUrl: album.external_urls.spotify,
+					authors: artists,
+					publishers: album.label ? [album.label] : [],
+					date: year ? { Release: { y: year } } : undefined,
+					sourceCover: album.images[0]?.url || null,
+					sourceScreenshots: [],
+				},
+			})
+			return { work }
+		},
+	}),
+	createWorkFromSpotifyTrack: defineAction({
+		input: z.object({
+			id: z.string(),
+		}),
+		handler: async (input) => {
+			const track = await getSpotifyTrackById(input.id)
+			if (!track) {
+				throw new ActionError({ code: "NOT_FOUND", message: "Spotify track not found" })
+			}
+			const artists = track.artists.map((a) => a.name)
+			const year = track.album.release_date
+				? new Date(track.album.release_date).getFullYear()
+				: undefined
+			const slug = await createWorkSlug({
+				shortTitle: track.name,
+				author: artists[0],
+				year,
+			})
+			const work = await prisma.work.create({
+				data: {
+					id: slug,
+					title: track.name,
+					type: "MusicTrack",
+					sourceName: "Spotify",
+					sourceId: track.id,
+					sourceUrl: track.external_urls.spotify,
+					authors: artists,
+					publishers: [],
+					date: year ? { Release: { y: year } } : undefined,
+					sourceCover: track.album.images[0]?.url || null,
+					sourceScreenshots: [],
+				},
+			})
+			return { work }
+		},
+	}),
 	createReview: defineAction({
 		input: z.object({
 			workId: z.string(),
 			emotionIds: z.array(z.number()),
 			content: z.string().optional(),
 			score: z.number().min(0).max(5),
-			createdAt: z.date().optional(),
+			createdAt: z.coerce.date().optional(),
 		}),
 		handler: async (input) => {
 			const work = await prisma.work.findUnique({ where: { id: input.workId } })
@@ -179,7 +271,7 @@ export const server = {
 					workId: input.workId,
 					content: input.content || null,
 					score: input.score,
-					...(input.createdAt && { createdAt: input.createdAt }),
+					createdAt: input.createdAt,
 					emotions: {
 						connect: input.emotionIds.map((id) => ({ id })),
 					},

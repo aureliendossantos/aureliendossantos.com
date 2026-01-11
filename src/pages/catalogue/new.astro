@@ -1,5 +1,5 @@
 ---
-import { SourceName, WorkType } from "generated/prisma/client"
+import { WorkType } from "generated/prisma/client"
 import BaseLayout from "$layouts/BaseLayout.astro"
 // Supports weights 200-900
 import "@fontsource-variable/crimson-pro"
@@ -62,7 +62,7 @@ const inputClass =
 					<label for="source" class="mb-1 block text-sm">Source:</label>
 					<select id="source" name="source" class={inputClass}>
 						<option value="">Select a source</option>
-						{Object.values(SourceName).map((source) => <option value={source}>{source}</option>)}
+						{Object.values(WorkType).map((type) => <option value={type}>{type}</option>)}
 					</select>
 				</div>
 
@@ -147,6 +147,7 @@ const inputClass =
 			import { toast } from "$utils/navbar"
 			import getIGDBimageUrl, { type IGDBData } from "$utils/remoteData/igdbClient"
 			import getTMDBimageUrl, { type TMDBData } from "$utils/remoteData/tmdbClient"
+			import type { SpotifyAlbum, SpotifyTrack } from "$utils/remoteData/spotifyClient"
 			import formatDate from "$utils/formatting/formatDate"
 
 			const toggleManualForm = document.getElementById("toggleManualForm") as HTMLButtonElement
@@ -163,6 +164,8 @@ const inputClass =
 			let currentWorkData:
 				| { type: "IGDB"; data: IGDBData }
 				| { type: "TMDB"; data: TMDBData }
+				| { type: "SpotifyAlbum"; data: SpotifyAlbum }
+				| { type: "SpotifyTrack"; data: SpotifyTrack }
 				| null = null
 			let currentWorkId: string | null = null
 			let searchTimeout: number | null = null
@@ -234,6 +237,40 @@ const inputClass =
 				)
 			}
 
+			async function previewFromSpotifyAlbum(id: string) {
+				const { data: album, error } = await actions.getSpotifyAlbum({ id })
+				if (error) {
+					toast(`Error: ${error}`, 12000)
+					return
+				}
+				currentWorkData = { type: "SpotifyAlbum", data: album }
+				displayWorkPreview(
+					album.name,
+					album.artists.map((a) => a.name).join(", "),
+					album.images[0]?.url || null,
+					null,
+					true,
+					false
+				)
+			}
+
+			async function previewFromSpotifyTrack(id: string) {
+				const { data: track, error } = await actions.getSpotifyTrack({ id })
+				if (error) {
+					toast(`Error: ${error}`, 12000)
+					return
+				}
+				currentWorkData = { type: "SpotifyTrack", data: track }
+				displayWorkPreview(
+					track.name,
+					track.artists.map((a) => a.name).join(", "),
+					track.album.images[0]?.url || null,
+					null,
+					true,
+					false
+				)
+			}
+
 			// Search functionality
 			searchInput.addEventListener("input", () => {
 				if (searchTimeout) clearTimeout(searchTimeout)
@@ -261,8 +298,10 @@ const inputClass =
 					const dbWorks = dbResponse.data?.works || []
 					const apiGames = apiResponse.data?.igdb || []
 					const apiMovies = apiResponse.data?.tmdb || []
+					const apiAlbums = apiResponse.data?.spotify?.albums || []
+					const apiTracks = apiResponse.data?.spotify?.tracks || []
 
-					if ([...dbWorks, ...apiGames, ...apiMovies].length === 0) {
+					if ([...dbWorks, ...apiGames, ...apiMovies, ...apiAlbums, ...apiTracks].length === 0) {
 						searchResults.innerHTML =
 							'<div class="p-2 text-fi-tx-3 dark:text-fi-dark-tx-3">No results found</div>'
 						searchResults.classList.remove("hidden")
@@ -319,6 +358,39 @@ const inputClass =
 							.join("")
 					}
 
+					// Spotify Albums
+					if (apiAlbums.length > 0) {
+						html += searchResultTitleDiv("Albums")
+						html += apiAlbums
+							.map((album) => {
+								const year = album.release_date ? new Date(album.release_date).getFullYear() : ""
+								return searchResultDiv(
+									"search-result-api-spotify-album",
+									album.id,
+									`${album.name} ${year ? `(${year})` : ""}`,
+									album.artists.map((a) => a.name).join(", "),
+									album.images[album.images.length - 1]?.url
+								)
+							})
+							.join("")
+					}
+
+					// Spotify Tracks
+					if (apiTracks.length > 0) {
+						html += searchResultTitleDiv("Tracks")
+						html += apiTracks
+							.map((track) => {
+								return searchResultDiv(
+									"search-result-api-spotify-track",
+									track.id,
+									track.name,
+									`${track.artists.map((a) => a.name).join(", ")} · ${track.album.name}`,
+									track.album.images[track.album.images.length - 1]?.url
+								)
+							})
+							.join("")
+					}
+
 					searchResults.innerHTML = html
 					searchResults.classList.remove("hidden")
 
@@ -365,6 +437,28 @@ const inputClass =
 							await previewFromTMDB(id)
 						})
 					})
+
+					// Add click handlers for API results - Spotify Albums
+					document.querySelectorAll(".search-result-api-spotify-album").forEach((item) => {
+						item.addEventListener("click", async () => {
+							const id = (item as HTMLElement).dataset.workId!
+							searchInput.value = (item as HTMLElement).querySelector(".title")!.textContent || ""
+							searchResults.classList.add("hidden")
+
+							await previewFromSpotifyAlbum(id)
+						})
+					})
+
+					// Add click handlers for API results - Spotify Tracks
+					document.querySelectorAll(".search-result-api-spotify-track").forEach((item) => {
+						item.addEventListener("click", async () => {
+							const id = (item as HTMLElement).dataset.workId!
+							searchInput.value = (item as HTMLElement).querySelector(".title")!.textContent || ""
+							searchResults.classList.add("hidden")
+
+							await previewFromSpotifyTrack(id)
+						})
+					})
 				}, 300)
 				// 300ms debounce
 			})
@@ -390,10 +484,14 @@ const inputClass =
 				const sourceId = (document.getElementById("sourceId") as HTMLInputElement).value
 				if (!source || !sourceId) return
 
-				if (source === "IGDB") {
+				if (source === "VideoGame") {
 					await previewFromIGDB(sourceId)
-				} else if (source === "TMDB") {
+				} else if (source === "Movie") {
 					await previewFromTMDB(parseInt(sourceId))
+				} else if (source === "MusicAlbum") {
+					await previewFromSpotifyAlbum(sourceId)
+				} else if (source === "MusicTrack") {
+					await previewFromSpotifyTrack(sourceId)
 				} else {
 					toast("Error: Unsupported source")
 					return
@@ -409,6 +507,14 @@ const inputClass =
 					result = await actions.createWorkFromIGDB({ slug: currentWorkData.data.slug })
 				} else if (currentWorkData.type === "TMDB") {
 					result = await actions.createWorkFromTMDB({ id: currentWorkData.data.id })
+				} else if (currentWorkData.type === "SpotifyAlbum") {
+					result = await actions.createWorkFromSpotifyAlbum({
+						id: currentWorkData.data.id,
+					})
+				} else if (currentWorkData.type === "SpotifyTrack") {
+					result = await actions.createWorkFromSpotifyTrack({
+						id: currentWorkData.data.id,
+					})
 				} else {
 					toast("Error: Unknown work data type")
 					saveButton.disabled = false
