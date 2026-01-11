@@ -1,0 +1,96 @@
+---
+import "@fontsource/work-sans"
+import "@fontsource/work-sans/500.css"
+import "@fontsource/work-sans/600.css"
+// Supports weights 200-900
+import "@fontsource-variable/crimson-pro"
+import ControllerIcon from "$icons/solar/controller.svg"
+import FilmIcon from "$icons/solar/film.svg"
+import MusicNoteIcon from "$icons/solar/music-note.svg"
+import VinylIcon from "$icons/solar/vinyl.svg"
+import SadIcon from "$icons/solar/sad.svg"
+import HeartIcon from "$icons/solar/heart.svg"
+import SmileIcon from "$icons/solar/smile.svg"
+import enumerate, { capitalize } from "$utils/formatting/enumerateStrings"
+
+import { prisma } from "$prisma/prisma"
+
+const reviews = await prisma.review.findMany({
+	orderBy: {
+		createdAt: "desc",
+	},
+	include: {
+		work: true,
+		emotions: true,
+	},
+})
+
+const scoreTitles = ["Pas de score", "Détesté", "Déçu", "Aimé", "Coup de cœur", "Chef-d'œuvre"]
+---
+
+{
+	reviews.map((review) => {
+		const dates = review.work.date
+		return (
+			<div class="flex gap-4 pb-8 text-base small:gap-0 dark:text-stone-300">
+				<img src={review.work.sourceCover} class="w-[84px] bg-fi-base-50 small:w-16" />
+				<div class="order-first flex w-9 flex-col gap-4 small:w-6 small:gap-0">
+					<div class="aspect-square w-full bg-fi-base-50 p-2 text-fi-base-400 small:p-1 dark:bg-fi-dark-bg-2 dark:text-fi-dark-tx-2">
+						{review.work.type === "VideoGame" && (
+							<ControllerIcon class="-translate-x-[0.5px] -translate-y-[0.5px] -rotate-12" />
+						)}
+						{review.work.type === "Movie" && <FilmIcon />}
+						{review.work.type === "MusicAlbum" && <VinylIcon />}
+						{review.work.type === "MusicTrack" && <MusicNoteIcon />}
+					</div>
+					<div
+						class="z-10 order-first aspect-square w-full overflow-clip hover:overflow-x-visible"
+						style="font-family: 'Google Sans Code', monospace;"
+					>
+						<div
+							class:list={[
+								"flex min-w-max items-center bg-fi-base-50 text-[13px] text-fi-base-400 dark:bg-fi-dark-bg-2 dark:text-fi-dark-tx-2",
+								{
+									"bg-fi-red-50 text-fi-red-400": review.score == 4,
+									"bg-fi-yellow-50 text-fi-yellow-400": review.score < 3,
+									"bg-fi-green-50 text-fi-green-400": review.score == 3,
+								},
+							]}
+						>
+							<div class="h-9 w-9 p-2 small:h-6 small:w-6 small:p-1">
+								{review.score < 3 && <SadIcon />}
+								{review.score == 3 && <SmileIcon />}
+								{review.score >= 4 && <HeartIcon />}
+							</div>
+							<div class="pr-2">
+								{`${scoreTitles[review.score]}${
+									review.emotions.length > 0
+										? `. ${capitalize(enumerate(review.emotions.map((e) => e.frenchTitle))!)}.`
+										: ""
+								}`}
+							</div>
+						</div>
+					</div>
+				</div>
+				<main class="hyphens-auto small:mx-4" style="font-family: 'Crimson Pro Variable', serif;">
+					<h2>{review.work.title}</h2>
+					<div
+						class="hyphens-none text-[13px] text-fi-base-500"
+						style="font-family: 'Google Sans Code', monospace;"
+					>
+						{review.work.authors ? `${review.work.authors} |` : ""}
+						{Object.keys(dates).length > 1
+							? Object.keys(dates)
+									.map(
+										(release) =>
+											`${dates[release].y} ${release != "Full Release" ? `(${release})` : ""}`
+									)
+									.join(" → ")
+							: `${dates[Object.keys(dates)[0]].y}`}
+					</div>
+					{review.content && <p class="whitespace-pre-line">{review.content}</p>}
+				</main>
+			</div>
+		)
+	})
+}
