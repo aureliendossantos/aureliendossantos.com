@@ -1,6 +1,7 @@
 ---
 import formatDate from "$utils/formatting/formatDate"
-import { fetchSpotifyEndpoint, getSpotifyDate } from "$utils/remoteData/spotify"
+import { fetchSpotifyEndpoint, getSpotifyTrackById } from "$utils/remoteData/spotify"
+import { getSpotifyDate } from "$utils/remoteData/spotifyClient"
 import SpotifyIcon from "$icons/logos/spotify-icon.svg"
 
 interface Props {
@@ -11,7 +12,7 @@ interface Props {
 const { id, market, rating } = Astro.props
 
 console.log(`Getting Spotify data for ID ${id}...`)
-const track = await fetchSpotifyEndpoint("tracks", id, market)
+const track = await getSpotifyTrackById(id, market)
 
 const year = formatDate(
 	getSpotifyDate(track.album.release_date, track.album.release_date_precision),

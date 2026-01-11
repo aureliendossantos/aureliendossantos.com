@@ -38,11 +38,11 @@ export const fetchSpotifyEndpoint = async (
 	return response
 }
 
-export async function getSpotifyAlbumById(id: string) {
-	return (await fetchSpotifyEndpoint("albums", id)) as SpotifyAlbum
+export async function getSpotifyAlbumById(id: string, market?: string) {
+	return (await fetchSpotifyEndpoint("albums", id, market)) as SpotifyAlbum
 }
 
-export async function getSpotifyTrackById(id: string) {
+export async function getSpotifyTrackById(id: string, market?: string) {
 	return (await fetchSpotifyEndpoint("tracks", id)) as SpotifyTrack
 }
 
