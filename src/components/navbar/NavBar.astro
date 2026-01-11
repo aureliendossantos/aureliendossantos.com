@@ -46,8 +46,9 @@ const t = useTranslations(checkLocale(Astro.currentLocale))
 
 <div
 	id="navbar"
-	class="navbar-colors navbar-bg fixed bottom-0 z-[999] flex h-7 w-full max-w-full border-t font-work-sans text-sm transition-all duration-500 print:!hidden"
+	class="navbar-colors navbar-bg fixed bottom-1 left-1 right-1 z-[999] flex h-7 rounded-md border font-work-sans text-sm transition-all duration-500 print:!hidden"
 	style={{
+		cornerShape: "squircle",
 		marginLeft: "calc(var(--has-viewport-cover) * env(safe-area-inset-left))",
 		paddingLeft: "env(safe-area-inset-left)",
 		paddingRight: "env(safe-area-inset-right)",
