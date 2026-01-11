@@ -113,13 +113,7 @@ const inputClass =
 					{
 						scoreEmojis.map((emoji, index) => (
 							<label class="cursor-pointer rounded-full px-2 py-1 transition hover:bg-fi-bg-2 has-[:checked]:bg-fi-blue-50 dark:hover:bg-fi-dark-ui dark:has-[:checked]:bg-fi-blue-900">
-								<input
-									type="radio"
-									name="score"
-									value={index}
-									class="hidden"
-									checked={index === 0}
-								/>
+								<input type="radio" name="score" value={index} class="hidden" />
 								{emoji}
 							</label>
 						))
@@ -146,14 +140,14 @@ const inputClass =
 				class={`${inputClass} !border-0 !p-0 mt-4 text-lg focus:!bg-fi-bg dark:focus:!bg-fi-dark-bg`}
 				style="font-family: 'Crimson Pro Variable', serif;"
 				placeholder="Thoughts..."></textarea>
-
-			<div id="message" class="mt-4"></div>
 		</form>
 
 		<script>
 			import { actions } from "astro:actions"
 			import { toast } from "$utils/navbar"
 			import getIGDBimageUrl, { type IGDBData } from "$utils/remoteData/igdbClient"
+			import getTMDBimageUrl, { type TMDBData } from "$utils/remoteData/tmdbClient"
+			import formatDate from "$utils/formatting/formatDate"
 
 			const toggleManualForm = document.getElementById("toggleManualForm") as HTMLButtonElement
 			const manualForm = document.getElementById("manualForm") as HTMLDivElement
@@ -163,11 +157,13 @@ const inputClass =
 			const saveButton = document.getElementById("saveButton") as HTMLButtonElement
 			const createReviewForm = document.getElementById("createReviewForm") as HTMLFormElement
 			const emotionsContainer = document.getElementById("emotionsContainer") as HTMLDivElement
-			const message = document.getElementById("message") as HTMLDivElement
 			const searchInput = document.getElementById("searchInput") as HTMLInputElement
 			const searchResults = document.getElementById("searchResults") as HTMLDivElement
 
-			let currentWorkData: IGDBData | null = null
+			let currentWorkData:
+				| { type: "IGDB"; data: IGDBData }
+				| { type: "TMDB"; data: TMDBData }
+				| null = null
 			let currentWorkId: string | null = null
 			let searchTimeout: number | null = null
 
@@ -200,6 +196,44 @@ const inputClass =
 					: "Hide Manual Form"
 			})
 
+			async function previewFromIGDB(slug: string) {
+				const { data, error } = await actions.getIGDBdata({ slug })
+				if (error) {
+					toast(`Error: ${error}`, 12000)
+					return
+				}
+				currentWorkData = { type: "IGDB", data: data.igdb }
+				displayWorkPreview(
+					data.igdb.name,
+					data.igdb.developers || "Unknown",
+					data.igdb.cover ? getIGDBimageUrl(data.igdb.cover.image_id, "cover_big") : null,
+					null,
+					true,
+					false
+				)
+			}
+
+			async function previewFromTMDB(id: number) {
+				const { data, error } = await actions.getTMDBdata({ id })
+				if (error) {
+					toast(`Error: ${error}`, 12000)
+					return
+				}
+				const directors = data.tmdb.credits.crew
+					.filter((c) => c.job === "Director")
+					.map((c) => c.name)
+					.join(", ")
+				currentWorkData = { type: "TMDB", data: data.tmdb }
+				displayWorkPreview(
+					data.tmdb.title,
+					directors || "Unknown",
+					data.tmdb.poster_path ? getTMDBimageUrl(185, data.tmdb.poster_path) : null,
+					null,
+					true,
+					false
+				)
+			}
+
 			// Search functionality
 			searchInput.addEventListener("input", () => {
 				if (searchTimeout) clearTimeout(searchTimeout)
@@ -225,9 +259,10 @@ const inputClass =
 					}
 
 					const dbWorks = dbResponse.data?.works || []
-					const apiWorks = apiResponse.data?.igdb || []
+					const apiGames = apiResponse.data?.igdb || []
+					const apiMovies = apiResponse.data?.tmdb || []
 
-					if (dbWorks.length === 0 && apiWorks.length === 0) {
+					if ([...dbWorks, ...apiGames, ...apiMovies].length === 0) {
 						searchResults.innerHTML =
 							'<div class="p-2 text-fi-tx-3 dark:text-fi-dark-tx-3">No results found</div>'
 						searchResults.classList.remove("hidden")
@@ -252,19 +287,35 @@ const inputClass =
 							.join("")
 					}
 
-					// API results
-					if (apiWorks.length > 0) {
-						html += searchResultTitleDiv("IGDB")
-						html += apiWorks
+					// IGDB results
+					if (apiGames.length > 0) {
+						html += searchResultTitleDiv("Games")
+						html += apiGames
 							.map((work) =>
 								searchResultDiv(
-									"search-result-api",
+									"search-result-api-igdb",
 									work.slug,
 									`${work.name} ${work.first_release_date ? `(${new Date(work.first_release_date * 1000).getFullYear()})` : ""}`,
 									`${work.developers || ""} ${work.platforms ? `· ${work.platforms.map((p) => p.abbreviation).join(", ")}` : ""}`,
 									work.cover && getIGDBimageUrl(work.cover.image_id, "cover_small")
 								)
 							)
+							.join("")
+					}
+
+					// TMDB results
+					if (apiMovies.length > 0) {
+						html += searchResultTitleDiv("Movies")
+						html += apiMovies
+							.map((movie) => {
+								return searchResultDiv(
+									"search-result-api-tmdb",
+									movie.id,
+									`${movie.title} (${formatDate(new Date(movie.release_date), true)})`,
+									movie.title !== movie.original_title ? movie.original_title : undefined,
+									movie.poster_path && getTMDBimageUrl(92, movie.poster_path)
+								)
+							})
 							.join("")
 					}
 
@@ -278,7 +329,6 @@ const inputClass =
 							searchInput.value = (item as HTMLElement).querySelector(".title")!.textContent || ""
 							searchResults.classList.add("hidden")
 
-							// Fetch and display work preview from DB
 							const work = dbWorks.find((w) => w.id === workId)
 							if (work) {
 								displayWorkPreview(
@@ -291,36 +341,32 @@ const inputClass =
 								)
 							}
 							updateWorkInReview(workId)
-							toast(`Selected work from your collection`)
 						})
 					})
 
-					// Add click handlers for API results
-					document.querySelectorAll(".search-result-api").forEach((item) => {
+					// Add click handlers for API results - IGDB
+					document.querySelectorAll(".search-result-api-igdb").forEach((item) => {
 						item.addEventListener("click", async () => {
 							const slug = (item as HTMLElement).dataset.workId!
 							searchInput.value = (item as HTMLElement).querySelector(".title")!.textContent || ""
 							searchResults.classList.add("hidden")
-							toast(`Fetching details from IGDB...`)
 
-							const { data, error } = await actions.getIGDBdata({ slug })
-							if (error) {
-								message.textContent = `Error: ${error}`
-								return
-							}
-							currentWorkData = data.igdb
-							displayWorkPreview(
-								data.igdb.name,
-								data.igdb.developers || "Unknown",
-								data.igdb.cover ? getIGDBimageUrl(data.igdb.cover.image_id, "cover_big") : null,
-								null,
-								true,
-								false
-							)
-							message.textContent = ""
+							await previewFromIGDB(slug)
+						})
+					})
+
+					// Add click handlers for API results - TMDB
+					document.querySelectorAll(".search-result-api-tmdb").forEach((item) => {
+						item.addEventListener("click", async () => {
+							const id = parseInt((item as HTMLElement).dataset.workId!)
+							searchInput.value = (item as HTMLElement).querySelector(".title")!.textContent || ""
+							searchResults.classList.add("hidden")
+
+							await previewFromTMDB(id)
 						})
 					})
 				}, 300)
+				// 300ms debounce
 			})
 
 			// Show search results when input gains focus
@@ -338,52 +384,40 @@ const inputClass =
 				}
 			})
 
+			// Fetch button from the "Find Work Manually" form
 			fetchButton.addEventListener("click", async () => {
 				const source = (document.getElementById("source") as HTMLSelectElement).value
 				const sourceId = (document.getElementById("sourceId") as HTMLInputElement).value
+				if (!source || !sourceId) return
 
-				if (!source || !sourceId) {
-					toast("Please fill in all fields")
+				if (source === "IGDB") {
+					await previewFromIGDB(sourceId)
+				} else if (source === "TMDB") {
+					await previewFromTMDB(parseInt(sourceId))
+				} else {
+					toast("Error: Unsupported source")
 					return
 				}
-
-				toast(`Fetching data from ${source}...`)
-
-				let fetchAction
-				switch (source) {
-					case "IGDB":
-						fetchAction = actions.getIGDBdata
-						break
-					default:
-						throw new Error("Unsupported source")
-				}
-
-				const { data, error } = await fetchAction({ slug: sourceId })
-				if (error) {
-					message.textContent = `Error: ${error}`
-					return
-				}
-				currentWorkData = data.igdb
-				displayWorkPreview(
-					data.igdb.name,
-					data.igdb.developers || "Unknown",
-					data.igdb.cover ? getIGDBimageUrl(data.igdb.cover.image_id, "cover_big") : null,
-					null,
-					true,
-					false
-				)
-				message.textContent = ""
 			})
 
 			saveButton.addEventListener("click", async () => {
 				if (!currentWorkData) return
-
-				toast("Saving work to database...")
 				saveButton.disabled = true
 
-				const { data, error } = await actions.createWorkFromIGDB({ slug: currentWorkData.slug })
+				let result
+				if (currentWorkData.type === "IGDB") {
+					result = await actions.createWorkFromIGDB({ slug: currentWorkData.data.slug })
+				} else if (currentWorkData.type === "TMDB") {
+					result = await actions.createWorkFromTMDB({ id: currentWorkData.data.id })
+				} else {
+					toast("Error: Unknown work data type")
+					saveButton.disabled = false
+					return
+				}
+
+				const { data, error } = result
 				if (error) {
-					message.textContent = `Error: ${error}`
+					toast(`Error: ${error}`, 12000)
 					saveButton.disabled = false
 					return
 				}
@@ -399,7 +433,6 @@ const inputClass =
 				)
 				updateWorkInReview(data.work.id)
 				currentWorkData = null
-				toast(`Work saved.`)
 				saveButton.disabled = false
 			})
 
@@ -422,12 +455,10 @@ const inputClass =
 				) as NodeListOf<HTMLInputElement>
 				const emotionIds = Array.from(emotionCheckboxes).map((cb) => parseInt(cb.value))
 
-				if (emotionIds.length === 0) {
-					toast("Please select at least one emotion.")
+				if (score === null) {
+					toast("Please select a score.")
 					return
 				}
-
-				toast("Posting review...")
 
 				// Combine selected date with current time
 				let createdAt: Date | undefined
@@ -453,7 +484,7 @@ const inputClass =
 				})
 
 				if (error) {
-					message.textContent = `Error: ${error}`
+					toast(`Error: ${error}`, 12000)
 					return
 				}
 
@@ -503,7 +534,7 @@ const inputClass =
 			}
 
 			function searchResultTitleDiv(title: string) {
-				return `<div class="sticky top-0 px-2 py-1 text-xs font-semibold text-fi-tx-2 dark:text-fi-dark-tx-2 bg-fi-ui dark:bg-fi-dark-ui">${title}</div>`
+				return `<div class="sticky top-0 px-[6px] leading-6 text-xs font-semibold text-fi-tx-2 dark:text-fi-dark-tx-2 bg-fi-ui dark:bg-fi-dark-ui">${title}</div>`
 			}
 
 			function searchResultDiv(

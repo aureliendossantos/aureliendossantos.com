@@ -1,10 +1,9 @@
 import { ActionError, defineAction } from "astro:actions"
 import { z } from "astro:schema"
+import { prisma } from "$prisma/prisma"
 import slugify from "slugify"
 import getIGDBgames from "$utils/remoteData/igdb"
-import "dotenv/config"
-
-import { prisma } from "$prisma/prisma"
+import getTMDBmovie, { searchTMDBmovies } from "$utils/remoteData/tmdb"
 
 export const server = {
 	getEmotions: defineAction({
@@ -47,8 +46,11 @@ export const server = {
 			query: z.string(),
 		}),
 		handler: async (input) => {
-			const igdb = await getIGDBgames(undefined, input.query, 6)
-			return { igdb }
+			const [igdb, tmdb] = await Promise.all([
+				getIGDBgames(undefined, input.query, 6),
+				searchTMDBmovies(input.query, 4),
+			])
+			return { igdb, tmdb }
 		},
 	}),
 	getIGDBdata: defineAction({
@@ -58,6 +60,18 @@ export const server = {
 		handler: async (input) => {
 			const igdb = await getIGDBgames([input.slug])
 			return { igdb: igdb[0] }
+		},
+	}),
+	getTMDBdata: defineAction({
+		input: z.object({
+			id: z.number(),
+		}),
+		handler: async (input) => {
+			const tmdb = await getTMDBmovie(input.id)
+			if (!tmdb) {
+				throw new ActionError({ code: "NOT_FOUND", message: "TMDB movie not found" })
+			}
+			return { tmdb }
 		},
 	}),
 	createWorkFromIGDB: defineAction({
@@ -102,6 +116,46 @@ export const server = {
 							(screenshot) =>
 								`https://images.igdb.com/igdb/image/upload/t_original/${screenshot.image_id}.jpg`
 						) || [],
+				},
+			})
+			return { work }
+		},
+	}),
+	createWorkFromTMDB: defineAction({
+		input: z.object({
+			id: z.number(),
+		}),
+		handler: async (input) => {
+			const tmdb = await getTMDBmovie(input.id)
+			if (!tmdb) {
+				throw new ActionError({ code: "NOT_FOUND", message: "TMDB movie not found" })
+			}
+			const year = tmdb.release_date ? new Date(tmdb.release_date).getFullYear() : undefined
+			const directors = tmdb.credits.crew.filter((c) => c.job === "Director").map((c) => c.name)
+			const slug = await createWorkSlug({
+				shortTitle: tmdb.title,
+				author: directors[0],
+				year,
+			})
+			const work = await prisma.work.create({
+				data: {
+					id: slug,
+					title: tmdb.title,
+					type: "Movie",
+					sourceName: "TMDB",
+					sourceId: tmdb.id.toString(),
+					sourceUrl: `https://www.themoviedb.org/movie/${tmdb.id}`,
+					authors: directors,
+					publishers: tmdb.production_companies.map((c) => c.name),
+					date: year ? { Release: { y: year } } : undefined,
+					sourceCover: tmdb.poster_path
+						? `https://image.tmdb.org/t/p/original${tmdb.poster_path}`
+						: null,
+					sourceScreenshots: tmdb.images.backdrops
+						? tmdb.images.backdrops
+								.slice(0, 10)
+								.map((img) => `https://image.tmdb.org/t/p/original${img.file_path}`)
+						: [],
 				},
 			})
 			return { work }

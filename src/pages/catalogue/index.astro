@@ -8,6 +8,7 @@ import "@fontsource/work-sans/600.css"
 import "@fontsource-variable/crimson-pro"
 import BaseLayout from "$layouts/BaseLayout.astro"
 import ControllerIcon from "$icons/solar/controller.svg"
+import FilmIcon from "$icons/solar/film.svg"
 import SadIcon from "$icons/solar/sad.svg"
 import HeartIcon from "$icons/solar/heart.svg"
 import SmileIcon from "$icons/solar/smile.svg"
@@ -43,7 +44,8 @@ const scoreTitles = ["Pas de score", "Détesté", "Déçu", "Aimé", "Coup de c�
 						<img src={review.work.sourceCover} class="w-[84px] bg-fi-base-50 small:w-16" />
 						<div class="flex w-9 flex-col gap-3 small:w-6 small:gap-0">
 							<div class="aspect-square w-full bg-fi-base-50 p-2 text-fi-base-400 small:p-1 dark:bg-fi-dark-bg-2 dark:text-fi-dark-tx-2">
-								<ControllerIcon />
+								{review.work.type === "VideoGame" && <ControllerIcon />}
+								{review.work.type === "Movie" && <FilmIcon />}
 							</div>
 							<div
 								class="z-10 aspect-square w-full overflow-clip hover:overflow-x-visible"
