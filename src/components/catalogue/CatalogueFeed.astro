@@ -31,9 +31,32 @@ const scoreTitles = ["Pas de score", "Détesté", "Déçu", "Aimé", "Coup de c�
 {
 	reviews.map((review) => {
 		const dates = review.work.date
+		const domain = review.work.sourceUrl
+			? new URL(review.work.sourceUrl).hostname.replace("www.", "").split(".").slice(-2).join(".")
+			: ""
 		return (
 			<div class="flex gap-4 pb-8 text-base small:gap-0 dark:text-stone-300">
-				<img src={review.work.sourceCover} class="w-[84px] bg-fi-base-50 small:w-16" />
+				<div class="group relative">
+					<a href={review.work.sourceUrl} target="_blank" rel="noopener noreferrer">
+						<img src={review.work.sourceCover} class="w-[88px] bg-fi-base-50 small:w-16" />
+					</a>
+					{domain && (
+						<div
+							class="pointer-events-none absolute bottom-full left-1/2 z-50 -mb-3 hidden -translate-x-1/2 text-[10px] leading-[10px] shadow-sm group-hover:block"
+							style="font-family: 'Google Sans Code', monospace;"
+						>
+							<div class="relative">
+								<div class="absolute -bottom-0.5 left-1/2 h-1.5 w-1.5 -translate-x-1/2 rotate-45 bg-fi-tx-2 dark:bg-fi-base-200" />
+								<div
+									class="whitespace-nowrap rounded-md bg-fi-tx-2 px-2 py-1.5 text-fi-bg-2 dark:bg-fi-base-200 dark:text-fi-base-800"
+									style="corner-shape: squircle;"
+								>
+									{domain}
+								</div>
+							</div>
+						</div>
+					)}
+				</div>
 				<div class="order-first flex w-9 flex-col gap-4 small:w-6 small:gap-0">
 					<div class="aspect-square w-full bg-fi-base-50 p-2 text-fi-base-400 small:p-1 dark:bg-fi-dark-bg-2 dark:text-fi-dark-tx-2">
 						{review.work.type === "VideoGame" && (
