@@ -1,30 +1,31 @@
 ---
 import { WorkType } from "generated/prisma/client"
 import BaseLayout from "$layouts/BaseLayout.astro"
+import "@fontsource/google-sans-code"
 // Supports weights 200-900
 import "@fontsource-variable/crimson-pro"
 
 const scoreEmojis = ["🚫", "😤", "🫤", "🙂", "❤️", "⭐️"]
 
-const inputClass =
-	"w-full border-2 border-fi-ui bg-fi-bg px-3 py-2 text-fi-tx transition placeholder:text-fi-tx-3 focus:border-fi-ui-2 focus:bg-fi-bg-2 focus:outline-none dark:bg-fi-dark-bg dark:border-fi-dark-ui dark:text-fi-dark-tx dark:placeholder:text-fi-dark-tx-3 dark:focus:border-fi-dark-ui-2 dark:focus:bg-fi-dark-bg-2"
+let inputClass =
+	"w-full bg-fi-bg-2 px-[10px] text-[13px] leading-9 text-fi-tx transition placeholder:text-fi-base-500 focus:outline-none dark:bg-fi-dark-bg-2 dark:text-fi-dark-tx dark:placeholder:text-fi-base-500 dark:focus:bg-fi-dark-bg ring-0 ring-fi-ui-2 focus:ring-2 focus:bg-fi-bg dark:ring-fi-dark-ui-2"
 ---
 
 <BaseLayout title="Write a review" ogType="website" bg={{ light: "#FFFCF0", dark: "#100F0F" }}>
-	<div class="mx-auto max-w-2xl text-fi-tx dark:text-fi-dark-tx">
+	<div class="mx-auto max-w-2xl text-sm text-fi-tx dark:text-fi-dark-tx">
 		<form id="createReviewForm" class="space-y-6 px-6">
 			<div
-				class="sticky top-0 z-20 flex items-center justify-between bg-fi-bg pb-1 pt-3 shadow-md shadow-fi-bg dark:bg-fi-dark-bg dark:shadow-fi-dark-bg"
+				class="sticky top-0 z-30 flex items-center justify-between bg-fi-bg pb-1 pt-3 shadow-md shadow-fi-bg dark:bg-fi-dark-bg dark:shadow-fi-dark-bg"
 			>
 				<a
 					href="/catalogue"
-					class="border-2 border-fi-ui bg-fi-bg-2 px-[10px] py-[6px] font-medium text-fi-tx-2 dark:border-fi-dark-ui dark:bg-fi-dark-bg-2 dark:text-fi-dark-tx-2"
+					class="bg-fi-ui px-[10px] font-medium leading-9 text-fi-tx-2 dark:bg-fi-dark-ui dark:text-fi-dark-tx-2"
 				>
 					{"<"} Catalogue
 				</a>
 				<button
 					type="submit"
-					class="border-2 border-fi-ui bg-fi-bg-2 px-[10px] py-[6px] font-medium text-fi-tx-2 dark:border-fi-dark-ui dark:bg-fi-dark-bg-2 dark:text-fi-dark-tx-2"
+					class="bg-fi-ui px-[10px] font-medium leading-9 text-fi-tx-2 dark:bg-fi-dark-ui dark:text-fi-dark-tx-2"
 				>
 					Post Review
 				</button>
@@ -36,18 +37,19 @@ const inputClass =
 						type="text"
 						id="searchInput"
 						placeholder="Search for a work..."
-						class={inputClass}
+						autocomplete="off"
+						class={`${inputClass} z-20`}
 					/>
 					<div
 						id="searchResults"
-						class="absolute left-0 right-0 top-full z-10 hidden max-h-[300px] overflow-y-auto border-2 border-t-0 border-fi-ui-2 bg-fi-bg dark:border-fi-dark-ui-2 dark:bg-fi-dark-bg"
+						class="absolute left-0 right-0 top-[calc(100%+2px)] z-10 hidden max-h-[300px] overflow-y-auto bg-fi-bg ring-2 ring-fi-ui-2 dark:bg-fi-dark-bg dark:ring-fi-dark-ui-2"
 					>
 					</div>
 				</div>
 				<button
 					type="button"
 					id="toggleManualForm"
-					class="mt-1 text-sm text-fi-tx-3 underline hover:text-fi-tx dark:text-fi-dark-tx-3 dark:hover:text-fi-dark-tx"
+					class="mt-1 text-[13px] text-fi-tx-3 underline hover:text-fi-tx dark:text-fi-dark-tx-3 dark:hover:text-fi-dark-tx"
 				>
 					Find Work Manually
 				</button>
@@ -60,7 +62,7 @@ const inputClass =
 			>
 				<div>
 					<label for="source" class="mb-1 block text-sm">Source:</label>
-					<select id="source" name="source" class={inputClass}>
+					<select id="source" name="source" class={`${inputClass} h-9 font-google-sans-code !px-2`}>
 						<option value="">Select a source</option>
 						{Object.values(WorkType).map((type) => <option value={type}>{type}</option>)}
 					</select>
@@ -68,7 +70,12 @@ const inputClass =
 
 				<div>
 					<label for="sourceId" class="mb-1 block text-sm">Slug (IGDB) or ID:</label>
-					<input type="text" id="sourceId" name="sourceId" class={inputClass} />
+					<input
+						type="text"
+						id="sourceId"
+						name="sourceId"
+						class={`${inputClass} font-google-sans-code`}
+					/>
 				</div>
 
 				<button
@@ -81,10 +88,7 @@ const inputClass =
 			</div>
 
 			<!-- Work Preview -->
-			<div
-				id="workPreview"
-				class="hidden space-y-4 border-2 border-fi-ui bg-fi-bg-2 p-4 dark:border-fi-dark-ui-2 dark:bg-fi-dark-bg"
-			>
+			<div id="workPreview" class="hidden space-y-4 bg-fi-bg-2 dark:bg-fi-dark-bg-2">
 				<div id="previewContent"></div>
 				<button
 					type="button"
@@ -97,10 +101,12 @@ const inputClass =
 
 			<!-- Review Fields -->
 			<div>
-				<input type="date" id="createdAt" name="createdAt" class={inputClass} />
-				<p class="mt-1 text-sm text-fi-tx-3 dark:text-fi-dark-tx-3">
-					Leave empty to use the current date.
-				</p>
+				<input
+					type="date"
+					id="createdAt"
+					name="createdAt"
+					class={`${inputClass} font-google-sans-code`}
+				/>
 			</div>
 			<div>
 				<label
@@ -136,11 +142,16 @@ const inputClass =
 			<textarea
 				id="content"
 				name="content"
-				rows="6"
-				class={`${inputClass} !border-0 !p-0 mt-4 text-lg focus:!bg-fi-bg dark:focus:!bg-fi-dark-bg`}
-				style="font-family: 'Crimson Pro Variable', serif;"
+				class="mt-4 min-h-[6lh] w-full bg-fi-bg text-lg text-fi-tx outline-none placeholder:text-fi-tx-3 dark:bg-fi-dark-bg dark:text-fi-dark-tx dark:placeholder:text-fi-dark-tx-3"
+				style="font-family: 'Crimson Pro Variable', serif;field-sizing: content;"
 				placeholder="Thoughts..."></textarea>
 		</form>
+
+		<style is:global>
+			::-webkit-resizer {
+				display: none;
+			}
+		</style>
 
 		<script>
 			import { actions } from "astro:actions"
@@ -183,7 +194,7 @@ const inputClass =
 						(emotion) => `
 						<label class="cursor-pointer rounded-full px-[6px] ring-0 transition hover:bg-fi-bg-2 has-[:checked]:bg-fi-blue-50 has-[:checked]:text-fi-blue dark:hover:bg-fi-dark-ui dark:has-[:checked]:bg-fi-blue-950 dark:has-[:checked]:text-fi-dark-blue">
 							<input type="checkbox" name="emotions" value="${emotion.id}" class="hidden" />
-							${emotion.emoji} ${emotion.frenchTitle}
+							${emotion.emoji} ${emotion.englishTitle}
 						</label>
 					`
 					)
@@ -623,11 +634,12 @@ const inputClass =
 
 				previewContent.innerHTML = `
 				<div class="flex gap-4">
-					${coverUrl ? `<img src="${coverUrl}" alt="Cover" class="w-24 h-auto object-cover" />` : ""}
-					<div class="flex-1">
-						<div class="flex mb-1">${sourceTag}</div>
-						<h3 class="text-lg font-semibold">${title}</h3>
+					${coverUrl ? `<img src="${coverUrl}" alt="Cover" class="w-[88px] h-auto object-cover" />` : ""}
+					<div class="flex-1 flex flex-col py-4">
+						<h3 class="text-base text-fi-tx-2 font-medium">${title}</h3>
 						<p class="text-sm text-fi-tx-2 dark:text-fi-dark-tx-2">${authors}</p>
+						<div class="grow h-2"></div>
+						<div class="flex">${sourceTag}</div>
 					</div>
 				</div>
 			`

@@ -1,0 +1,43 @@
+---
+import "@fontsource/google-sans-code"
+// Supports weights 200-900
+import "@fontsource-variable/crimson-pro"
+
+import { prisma } from "$prisma/prisma"
+
+const works = await prisma.work.findMany({
+	where: {
+		reviews: { some: { score: { gt: 2 } } },
+	},
+})
+---
+
+<div class="flex flex-wrap gap-4 p-4">
+	{
+		works.map((work, index) => {
+			return (
+				<>
+					<a
+						class="group relative flex w-[88px] shrink-0 items-end small:w-16"
+						href={work.sourceUrl}
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						<img src={work.sourceCover} />
+						<div class="font-google-sans-code pointer-events-none absolute bottom-full left-1/2 z-50 -mb-3 hidden -translate-x-1/2 text-[10px] leading-[10px] shadow-sm group-hover:block">
+							<div class="relative">
+								<div class="absolute -bottom-0.5 left-1/2 h-1.5 w-1.5 -translate-x-1/2 rotate-45 bg-fi-tx-2 dark:bg-fi-base-200" />
+								<div
+									class="whitespace-nowrap rounded-md bg-fi-tx-2 px-2 py-1.5 text-fi-bg-2 dark:bg-fi-base-200 dark:text-fi-base-800"
+									style="corner-shape: squircle;"
+								>
+									{work.title}
+								</div>
+							</div>
+						</div>
+					</a>
+				</>
+			)
+		})
+	}
+</div>

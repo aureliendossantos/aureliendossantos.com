@@ -20,6 +20,7 @@ export default {
 				vollkorn: ["Vollkorn", "Lora", ...defaultTheme.fontFamily.serif],
 				nk57: ["nk57", ...defaultTheme.fontFamily.mono],
 				louize: ["Louize", ...defaultTheme.fontFamily.serif],
+				"google-sans-code": ["Google Sans Code", ...defaultTheme.fontFamily.mono],
 			},
 			colors: {
 				script: "#4a7dbf",
