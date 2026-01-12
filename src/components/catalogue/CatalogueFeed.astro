@@ -10,7 +10,9 @@ import MusicNoteIcon from "$icons/solar/music-note.svg"
 import VinylIcon from "$icons/solar/vinyl.svg"
 import SadIcon from "$icons/solar/sad.svg"
 import HeartIcon from "$icons/solar/heart.svg"
+import StarIcon from "$icons/solar/star.svg"
 import SmileIcon from "$icons/solar/smile.svg"
+import ConfoundedIcon from "$icons/solar/confounded.svg"
 import enumerate, { capitalize } from "$utils/formatting/enumerateStrings"
 
 import { prisma } from "$prisma/prisma"
@@ -29,91 +31,116 @@ const scoreTitles = ["Pas de score", "Détesté", "Déçu", "Aimé", "Coup de c�
 ---
 
 {
-	reviews.map((review) => {
+	reviews.map((review, index) => {
+		const currentDate = new Date(review.createdAt)
+		const currentMonth = currentDate.toLocaleDateString("fr-FR", { month: "long", year: "numeric" })
+
+		const previousDate = index > 0 ? new Date(reviews[index - 1].createdAt) : null
+		const previousMonth = previousDate
+			? previousDate.toLocaleDateString("fr-FR", { month: "long", year: "numeric" })
+			: null
+
+		const showMonthHeader = currentMonth !== previousMonth
+
 		const dates = review.work.date
 		const domain = review.work.sourceUrl
 			? new URL(review.work.sourceUrl).hostname.replace("www.", "").split(".").slice(-2).join(".")
 			: ""
 		return (
-			<div class="flex gap-4 pb-8 text-base small:gap-0 dark:text-stone-300">
-				<div class="group relative">
-					<a href={review.work.sourceUrl} target="_blank" rel="noopener noreferrer">
-						<img src={review.work.sourceCover} class="w-[88px] bg-fi-base-50 small:w-16" />
-					</a>
-					{domain && (
-						<div
-							class="pointer-events-none absolute bottom-full left-1/2 z-50 -mb-3 hidden -translate-x-1/2 text-[10px] leading-[10px] shadow-sm group-hover:block"
-							style="font-family: 'Google Sans Code', monospace;"
-						>
-							<div class="relative">
-								<div class="absolute -bottom-0.5 left-1/2 h-1.5 w-1.5 -translate-x-1/2 rotate-45 bg-fi-tx-2 dark:bg-fi-base-200" />
-								<div
-									class="whitespace-nowrap rounded-md bg-fi-tx-2 px-2 py-1.5 text-fi-bg-2 dark:bg-fi-base-200 dark:text-fi-base-800"
-									style="corner-shape: squircle;"
-								>
-									{domain}
+			<>
+				{showMonthHeader && (
+					<h2
+						class="my-4 text-[13px] leading-4 text-fi-base-500 first:mt-0"
+						style="font-family: 'Google Sans Code', monospace;"
+					>
+						{capitalize(currentMonth)}
+					</h2>
+				)}
+				<div class="mb-8 mt-4 flex gap-4 text-base small:gap-0 dark:text-stone-300">
+					<div class="group relative w-[88px] shrink-0 small:w-16">
+						<a href={review.work.sourceUrl} target="_blank" rel="noopener noreferrer">
+							<img src={review.work.sourceCover} class="bg-fi-base-50" />
+						</a>
+						{domain && (
+							<div
+								class="pointer-events-none absolute bottom-full left-1/2 z-50 -mb-3 hidden -translate-x-1/2 text-[10px] leading-[10px] shadow-sm group-hover:block"
+								style="font-family: 'Google Sans Code', monospace;"
+							>
+								<div class="relative">
+									<div class="absolute -bottom-0.5 left-1/2 h-1.5 w-1.5 -translate-x-1/2 rotate-45 bg-fi-tx-2 dark:bg-fi-base-200" />
+									<div
+										class="whitespace-nowrap rounded-md bg-fi-tx-2 px-2 py-1.5 text-fi-bg-2 dark:bg-fi-base-200 dark:text-fi-base-800"
+										style="corner-shape: squircle;"
+									>
+										{domain}
+									</div>
 								</div>
 							</div>
-						</div>
-					)}
-				</div>
-				<div class="order-first flex w-9 flex-col gap-4 small:w-6 small:gap-0">
-					<div class="aspect-square w-full bg-fi-base-50 p-2 text-fi-base-400 small:p-1 dark:bg-fi-dark-bg-2 dark:text-fi-dark-tx-2">
-						{review.work.type === "VideoGame" && (
-							<ControllerIcon class="-translate-x-[0.5px] -translate-y-[0.5px] -rotate-12" />
 						)}
-						{review.work.type === "Movie" && <FilmIcon />}
-						{review.work.type === "MusicAlbum" && <VinylIcon />}
-						{review.work.type === "MusicTrack" && <MusicNoteIcon />}
 					</div>
-					<div
-						class="z-10 order-first aspect-square w-full overflow-clip hover:overflow-x-visible"
-						style="font-family: 'Google Sans Code', monospace;"
-					>
-						<div
-							class:list={[
-								"flex min-w-max items-center bg-fi-base-50 text-[13px] text-fi-base-400 dark:bg-fi-dark-bg-2 dark:text-fi-dark-tx-2",
-								{
-									"bg-fi-red-50 text-fi-red-400": review.score == 4,
-									"bg-fi-yellow-50 text-fi-yellow-400": review.score < 3,
-									"bg-fi-green-50 text-fi-green-400": review.score == 3,
-								},
-							]}
-						>
-							<div class="h-9 w-9 p-2 small:h-6 small:w-6 small:p-1">
-								{review.score < 3 && <SadIcon />}
-								{review.score == 3 && <SmileIcon />}
-								{review.score >= 4 && <HeartIcon />}
-							</div>
-							<div class="pr-2">
-								{`${scoreTitles[review.score]}${
-									review.emotions.length > 0
-										? `. ${capitalize(enumerate(review.emotions.map((e) => e.frenchTitle))!)}.`
-										: ""
-								}`}
-							</div>
+					<div class="order-first flex w-9 flex-col gap-4 small:w-6 small:gap-0">
+						<div class="aspect-square w-full bg-fi-base-50 p-2 text-fi-base-400 small:p-1 dark:bg-fi-dark-bg-2 dark:text-fi-dark-tx-2">
+							{review.work.type === "VideoGame" && (
+								<ControllerIcon class="-translate-x-[0.5px] -translate-y-[0.5px] -rotate-12" />
+							)}
+							{review.work.type === "Movie" && <FilmIcon />}
+							{review.work.type === "MusicAlbum" && <VinylIcon />}
+							{review.work.type === "MusicTrack" && <MusicNoteIcon />}
 						</div>
+						{review.score > 0 && (
+							<div
+								class="z-10 order-first aspect-square w-full overflow-clip hover:overflow-x-visible"
+								style="font-family: 'Google Sans Code', monospace;"
+							>
+								<div
+									class:list={[
+										"flex min-w-max items-center bg-fi-base-50 text-[13px] text-fi-base-400 dark:bg-fi-dark-bg-2 dark:text-fi-dark-tx-2",
+										{
+											"bg-fi-red-50 text-fi-red-400": review.score == 4,
+											"bg-fi-yellow-50 text-fi-yellow-400": review.score == 3,
+											"bg-fi-orange-50 text-fi-orange-400": review.score == 5,
+											"bg-fi-purple-50 text-fi-purple-400": review.score == 1 || review.score == 2,
+										},
+									]}
+								>
+									<div class="h-9 w-9 p-2 small:h-6 small:w-6 small:p-1">
+										{review.score == 1 && <ConfoundedIcon />}
+										{review.score == 2 && <SadIcon />}
+										{review.score == 3 && <SmileIcon />}
+										{review.score == 4 && <HeartIcon />}
+										{review.score == 5 && <StarIcon />}
+									</div>
+									<div class="pr-2">
+										{`${scoreTitles[review.score]}${
+											review.emotions.length > 0
+												? `. ${capitalize(enumerate(review.emotions.map((e) => e.frenchTitle))!)}.`
+												: ""
+										}`}
+									</div>
+								</div>
+							</div>
+						)}
 					</div>
+					<main class="hyphens-auto small:mx-4" style="font-family: 'Crimson Pro Variable', serif;">
+						<h3>{review.work.title}</h3>
+						<div
+							class="hyphens-none text-[13px] text-fi-base-500"
+							style="font-family: 'Google Sans Code', monospace;"
+						>
+							{review.work.authors ? `${review.work.authors} |` : ""}
+							{Object.keys(dates).length > 1
+								? Object.keys(dates)
+										.map(
+											(release) =>
+												`${dates[release].y} ${release != "Full Release" ? `(${release})` : ""}`
+										)
+										.join(" → ")
+								: `${dates[Object.keys(dates)[0]].y}`}
+						</div>
+						{review.content && <p class="whitespace-pre-line">{review.content}</p>}
+					</main>
 				</div>
-				<main class="hyphens-auto small:mx-4" style="font-family: 'Crimson Pro Variable', serif;">
-					<h2>{review.work.title}</h2>
-					<div
-						class="hyphens-none text-[13px] text-fi-base-500"
-						style="font-family: 'Google Sans Code', monospace;"
-					>
-						{review.work.authors ? `${review.work.authors} |` : ""}
-						{Object.keys(dates).length > 1
-							? Object.keys(dates)
-									.map(
-										(release) =>
-											`${dates[release].y} ${release != "Full Release" ? `(${release})` : ""}`
-									)
-									.join(" → ")
-							: `${dates[Object.keys(dates)[0]].y}`}
-					</div>
-					{review.content && <p class="whitespace-pre-line">{review.content}</p>}
-				</main>
-			</div>
+			</>
 		)
 	})
 }

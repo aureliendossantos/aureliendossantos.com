@@ -16,13 +16,13 @@ import CatalogueFeedSkeleton from "$components/catalogue/CatalogueFeedSkeleton.a
 	bg={{ light: "rgb(255, 252, 240)", dark: "rgb(16, 15, 15)" }}
 >
 	<div
-		class="flex min-h-screen max-w-[564px] flex-col border-r border-fi-bg-2 px-4 py-4 text-fi-tx medium:border-none small:px-0"
+		class="min-h-screen max-w-[564px] border-r border-fi-bg-2 px-4 py-4 text-fi-tx medium:border-none small:px-0 dark:border-fi-dark-bg-2"
 	>
 		<input
 			type="text"
 			placeholder="Search in the catalogue…"
 			style="font-family: 'Google Sans Code', monospace;"
-			class="mb-4 w-full bg-fi-bg-2 px-[10px] text-[13px] leading-9 text-fi-tx transition placeholder:text-fi-base-500 focus:bg-fi-tx-2 focus:text-fi-bg focus:outline-none focus:placeholder:text-fi-ui-2 dark:bg-fi-dark-bg dark:text-fi-dark-tx dark:placeholder:text-fi-dark-tx-3 dark:focus:bg-fi-dark-bg-2"
+			class="w-full bg-fi-bg-2 px-[10px] text-[13px] leading-9 text-fi-tx transition placeholder:text-fi-base-500 focus:bg-fi-tx-2 focus:text-fi-bg focus:outline-none focus:placeholder:text-fi-ui-2 dark:bg-fi-dark-bg-2 dark:text-fi-dark-tx dark:placeholder:text-fi-base-500 dark:focus:bg-fi-dark-tx-2 dark:focus:text-fi-dark-bg dark:focus:placeholder:text-fi-dark-ui-2"
 		/>
 		<CatalogueFeed server:defer>
 			<CatalogueFeedSkeleton slot="fallback" />
