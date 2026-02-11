@@ -11,24 +11,35 @@ import Overview from "$components/portfolio/Overview.astro"
 import { getCollection, z } from "astro:content"
 import { dateSort } from "$utils/sort"
 import { date as dateType, period as periodType } from "src/content.config"
+import { localePaths } from "$utils/i18n"
+
+export function getStaticPaths() {
+	return localePaths
+}
+const { t, locale } = Astro.props
 
 const customToJsDate = (period: z.infer<typeof periodType> | z.infer<typeof dateType>) => {
 	const date = Array.isArray(period) ? period[1] : period
 	return new Date(date.y!, typeof date.m == "number" ? date.m - 1 : 0, date.d || 1)
 }
 
-const entries = (await getCollection("portfolio")).sort((a, b) => {
-	return dateSort(customToJsDate(a.data.date), customToJsDate(b.data.date))
-})
+const entries = (await getCollection("portfolio"))
+	.filter((entry) => {
+		if (locale === "en") return entry.id.endsWith("/en")
+		return !entry.id.endsWith("/en")
+	})
+	.sort((a, b) => {
+		return dateSort(customToJsDate(a.data.date), customToJsDate(b.data.date))
+	})
 ---
 
 <BaseLayout
 	ogType="website"
 	bg="#FFFCF0"
 	image={ogImage.src}
-	title="Portfolio"
-	description="Portfolio d'Aurélien Dos Santos présentant des projets d'ingénierie pédagogique, de game design et de développement web et multimédia."
-	navBarProps={{ title: "Portfolio" }}
+	title={t("p-title")}
+	description={t("p-description")}
+	navBarProps={{ title: t("p-title") }}
 >
 	<div
 		class="m-auto max-w-[820px] px-[43px] font-inter text-fi-black mediumlarge:overflow-x-hidden medium:text-lg"
@@ -48,10 +59,10 @@ const entries = (await getCollection("portfolio")).sort((a, b) => {
 			>
 				<Circle />
 				<a href="/" class="text-lg font-medium transition hover:text-fi-orange"
-					>Aurélien Dos Santos
+					>{t("p-hero-name")}
 				</a>
 				<div class="-ml-[3px] text-6xl font-medium" style={{ fontFeatureSettings: '"dlig"' }}>
-					Portfolio
+					{t("p-hero-title")}
 				</div>
 			</div>
 			<div class="mt-12 grid grid-cols-2 gap-3 text-sm medium:grid-cols-1">
@@ -59,44 +70,43 @@ const entries = (await getCollection("portfolio")).sort((a, b) => {
 					<div>
 						<LinkItem
 							href="https://www.youtube.com/@GameDevAlliance"
-							site="YouTube"
-							username="@Game Dev Alliance"
+							site={t("p-link-youtube")}
+							username={t("p-username-youtube")}
 						/>
 						<LinkItem
 							href="https://www.linkedin.com/in/aureliendossantos/"
-							site="LinkedIn"
-							username="@aureliendossantos"
+							site={t("p-link-linkedin")}
+							username={t("p-username-linkedin")}
 						/>
 						<LinkItem
 							href="https://github.com/aureliendossantos"
-							site="GitHub"
-							username="@aureliendossantos"
+							site={t("p-link-github")}
+							username={t("p-username-github")}
 						/>
 						<LinkItem
 							href="mailto:aureliendsantos@gmail.com"
-							site="Email"
-							username="aureliendsantos@gmail.com"
+							site={t("p-link-email")}
+							username={t("p-username-email")}
 						/>
 					</div>
 				</div>
 				<p class="pl-[21.5px] medium:pl-0">
-					Ingénieur pédagogique de formation, avec une expérience transversale en développement web,
-					vidéo et game design, je conçois des expériences numériques impactantes et accessibles.
+					{t("p-role-summary")}
 				</p>
 			</div>
 			<div class="mt-12 text-sm">
 				<div class="mb-3 text-xs font-medium uppercase tracking-wider text-fi-base-400">
-					Filtrer par compétence
+					{t("p-filter-title")}
 				</div>
 				<div class="group grid grid-cols-3 gap-x-3 gap-y-2 pt-[3px] medium:grid-cols-1">
 					<SkillChoice
-						title="Ingénierie pédagogique"
+						title={t("p-skill-pedagogique")}
 						value="pedagogique"
 						color="#4385BE"
 						deg={90}
 					/>
-					<SkillChoice title="Développement web" value="web" color="#DA702C" deg={135} />
-					<SkillChoice title="Game design et Unity" value="jeux" color="#D0A215" deg={0} />
+					<SkillChoice title={t("p-skill-web")} value="web" color="#DA702C" deg={135} />
+					<SkillChoice title={t("p-skill-games")} value="jeux" color="#D0A215" deg={0} />
 				</div>
 			</div>
 		</header>
@@ -111,19 +121,20 @@ const entries = (await getCollection("portfolio")).sort((a, b) => {
 			<div
 				class="absolute -left-[68px] top-[9px] mb-3 text-xs font-medium uppercase tracking-wider text-fi-base-400"
 			>
-				Filtrer
+				{t("p-filter-short")}
 			</div>
 			<SkillChoice
 				small
-				title="Ingénierie pédagogique"
+				title={t("p-skill-pedagogique")}
 				value="pedagogique"
 				color="#4385BE"
 				deg={90}
 			/>
-			<SkillChoice small title="Développement web" value="web" color="#DA702C" deg={135} />
-			<SkillChoice small title="Game design et Unity" value="jeux" color="#D0A215" deg={0} />
+			<SkillChoice small title={t("p-skill-web")} value="web" color="#DA702C" deg={135} />
+			<SkillChoice small title={t("p-skill-games")} value="jeux" color="#D0A215" deg={0} />
 			<label
 				class="absolute -right-9 top-1 mb-3 cursor-pointer rounded-full px-2 py-1 text-xs font-medium text-fi-base-400 ring-fi-ui-2 transition hover:ring-1"
+				aria-label={t("p-close")}
 			>
 				<input id="close-skills-overlay" type="checkbox" class="hidden" />
 				✕
@@ -134,11 +145,8 @@ const entries = (await getCollection("portfolio")).sort((a, b) => {
 		{entries.map((entry) => <Overview id={entry.id} />)}
 	</div>
 	<div class="m-auto my-24 max-w-[820px] px-[43px] font-inter text-xl medium:text-lg">
-		<h2 class="mb-6 mt-12 text-sm font-medium text-fi-orange-500">Formation</h2>
-		<School
-			degree="Master MEEF Ingénierie de Formation, parcours Conception de Ressources Numériques"
-			school="2021-2023 ∙ Université Toulouse Jean-Jaurès"
-		/>
+		<h2 class="mb-6 mt-12 text-sm font-medium text-fi-orange-500">{t("p-education")}</h2>
+		<School degree={t("p-degree-master")} school={t("p-school-master")} />
 		<ul class="hidden list-disc text-sm leading-relaxed marker:text-fi-base-100 medium:text-sm">
 			<li>Ingénierie pédagogique</li>
 			<li>
@@ -161,14 +169,8 @@ const entries = (await getCollection("portfolio")).sort((a, b) => {
 				</ul>
 			</li>
 		</ul>
-		<School
-			degree="Licence Langues, Littératures et Civilisations Étrangères, parcours Anglais"
-			school="2018-2021 ∙ Université de Pau"
-		/>
-		<School
-			degree="IUT Statistique et Informatique Décisionnelle"
-			school="2014-2016 ∙ Université de Pau"
-		/>
+		<School degree={t("p-degree-licence")} school={t("p-school-licence")} />
+		<School degree={t("p-degree-iut")} school={t("p-school-iut")} />
 	</div>
 	<div class="my-24 flex justify-center gap-3 text-sm">
 		<button
@@ -176,7 +178,7 @@ const entries = (await getCollection("portfolio")).sort((a, b) => {
 			class="flex cursor-pointer items-center gap-2 rounded-full p-3 pr-4 leading-tight text-fi-tx-2 ring-2 ring-fi-tx-2 transition ease-out"
 		>
 			<div class="inline-block font-medium">↑</div>
-			<div>Retour en haut</div>
+			<div>{t("p-back-to-top")}</div>
 		</button>
 		{
 			/*

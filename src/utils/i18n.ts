@@ -82,6 +82,73 @@ const museum = {
 	},
 }
 
+const portfolio = {
+	fr: {
+		"p-title": "Portfolio",
+		"p-description":
+			"Portfolio d'Aurélien Dos Santos présentant des projets d'ingénierie pédagogique, de game design et de développement web et multimédia.",
+		"p-hero-name": "Aurélien Dos Santos",
+		"p-hero-title": "Portfolio",
+		"p-role-summary":
+			"Ingénieur pédagogique de formation, avec une expérience transversale en développement web, vidéo et game design, je conçois des expériences numériques impactantes et accessibles.",
+		"p-filter-title": "Filtrer par compétence",
+		"p-filter-short": "Filtrer",
+		"p-skill-pedagogique": "Ingénierie pédagogique",
+		"p-skill-web": "Développement web",
+		"p-skill-games": "Game design et Unity",
+		"p-close": "Fermer",
+		"p-education": "Formation",
+		"p-back-to-top": "Retour en haut",
+		"p-degree-master":
+			"Master MEEF Ingénierie de Formation, parcours Conception de Ressources Numériques",
+		"p-degree-licence":
+			"Licence Langues, Littératures et Civilisations Étrangères, parcours Anglais",
+		"p-degree-iut": "IUT Statistique et Informatique Décisionnelle",
+		"p-school-master": "2021-2023 ∙ Université Toulouse Jean-Jaurès",
+		"p-school-licence": "2018-2021 ∙ Université de Pau",
+		"p-school-iut": "2014-2016 ∙ Université de Pau",
+		"p-link-youtube": "YouTube",
+		"p-link-linkedin": "LinkedIn",
+		"p-link-github": "GitHub",
+		"p-link-email": "Email",
+		"p-username-youtube": "@Game Dev Alliance",
+		"p-username-linkedin": "@aureliendossantos",
+		"p-username-github": "@aureliendossantos",
+		"p-username-email": "aureliendsantos@gmail.com",
+	},
+	en: {
+		"p-title": "Portfolio",
+		"p-description":
+			"Portfolio of Aurélien Dos Santos presenting projects in learning design, game design, and web and multimedia development.",
+		"p-hero-name": "Aurélien Dos Santos",
+		"p-hero-title": "Portfolio",
+		"p-role-summary":
+			"Trained as an instructional designer, with cross-disciplinary experience in web development, video production, and game design, I create impactful and accessible digital experiences.",
+		"p-filter-title": "Filter by skill",
+		"p-filter-short": "Filter",
+		"p-skill-pedagogique": "Learning design",
+		"p-skill-web": "Web development",
+		"p-skill-games": "Game design and Unity",
+		"p-close": "Close",
+		"p-education": "Education",
+		"p-back-to-top": "Back to top",
+		"p-degree-master": "Master MEEF Learning Engineering, Digital Resource Design track",
+		"p-degree-licence": "BA in Languages, Literatures and Civilizations, English track",
+		"p-degree-iut": "Undergraduate Studies in Computer Science & Decision Statistics",
+		"p-school-master": "2021-2023 ∙ Université Toulouse Jean-Jaurès",
+		"p-school-licence": "2018-2021 ∙ Université de Pau",
+		"p-school-iut": "2014-2016 ∙ Université de Pau",
+		"p-link-youtube": "YouTube",
+		"p-link-linkedin": "LinkedIn",
+		"p-link-github": "GitHub",
+		"p-link-email": "Email",
+		"p-username-youtube": "@Game Dev Alliance",
+		"p-username-linkedin": "@aureliendossantos",
+		"p-username-github": "@aureliendossantos",
+		"p-username-email": "aureliendsantos@gmail.com",
+	},
+}
+
 const navbar = {
 	fr: {
 		"n-explore": "Explorer",
@@ -96,6 +163,6 @@ const navbar = {
 // create a const combining museum and navbar
 
 const translations = {
-	fr: { ...museum.fr, ...navbar.fr },
-	en: { ...museum.en, ...navbar.en },
+	fr: { ...museum.fr, ...navbar.fr, ...portfolio.fr },
+	en: { ...museum.en, ...navbar.en, ...portfolio.en },
 }
