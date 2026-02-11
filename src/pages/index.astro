@@ -16,7 +16,9 @@ const articles = [...(await getBlogPosts())].sort((a, b) => dateSort(a.data.date
 	})
 */
 const diary = (await getDiary()).filter((entry) => entry.data.highlight)
-const diaryYears = Array.from(new Set(diary.map((entry) => entry.year)))
+const diaryYears = Array.from(new Set(diary.map((entry) => entry.year))).filter(
+	(year) => year != 2024
+)
 ---
 
 <BaseLayout
