@@ -83,3 +83,29 @@ export const getContentEntries = async () => {
 export const getAnyEntry = async (ids: string[]) => {
 	return (await getContentEntries()).filter((e) => ids.includes(e.id))
 }
+
+export type KoimoriPost = {
+	source: "koimori"
+	id: string
+	title: string
+	description: string | null
+	date: Date
+	imageUrl: string | null
+}
+
+export async function getKoimoriPosts(): Promise<KoimoriPost[]> {
+	try {
+		const res = await fetch("https://koimori.aureliendossantos.com/api/blog.json")
+		if (!res.ok) return []
+		const raw = (await res.json()) as Array<{
+			title: string
+			description: string | null
+			date: string
+			id: string
+			imageUrl: string | null
+		}>
+		return raw.map((p) => ({ ...p, date: new Date(p.date), source: "koimori" as const }))
+	} catch {
+		return []
+	}
+}

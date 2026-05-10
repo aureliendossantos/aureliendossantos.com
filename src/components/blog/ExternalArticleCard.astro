@@ -1,0 +1,119 @@
+---
+import "@fontsource-variable/grandstander/wght.css"
+import ArticleDate from "../articles/ArticleDate.astro"
+import MarkdownIt from "markdown-it"
+import type { KoimoriPost } from "$utils/getCollection"
+import ExternalLinkIcon from "$icons/external-link.svg"
+
+interface Props {
+	post: KoimoriPost
+	entryIndex: number
+}
+const { post, entryIndex } = Astro.props
+const markdown = new MarkdownIt({ html: true })
+const title = markdown.renderInline(post.title)
+const description = post.description && markdown.renderInline(post.description)
+const href = `https://koimori.aureliendossantos.com/${post.id}`
+
+const baseColor = "#32332f"
+const bgColor = "#eaf5f6"
+const secondaryColor = "#7a9fa2"
+const font = "'Grandstander Variable', sans-serif"
+---
+
+<a
+	class="group grid w-full grid-cols-3 items-center xl:grid-cols-2 mediumlarge:flex mediumlarge:grid-cols-none mediumlarge:flex-col"
+	style={{
+		backgroundColor: bgColor,
+		color: baseColor,
+	}}
+	href={href}
+>
+	<div
+		class:list={[
+			"relative h-full w-full overflow-hidden",
+			{
+				"mediumlarge:m-auto mediumlarge:h-44 mediumlarge:max-w-md small:h-80": post.imageUrl,
+			},
+		]}
+	>
+		{
+			post.imageUrl && (
+				<>
+					<div
+						class="h-full bg-cover transition-transform duration-500 ease-out group-hover:scale-[1.04] small:group-hover:scale-100"
+						style={{
+							backgroundImage: `url('${post.imageUrl}')`,
+							backgroundPosition: "center",
+						}}
+					/>
+					<div
+						class="absolute bottom-6 ml-2 mr-4 hidden flex-col items-start text-balance font-work-sans text-xs uppercase small:flex"
+						style={{ color: secondaryColor }}
+					>
+						<div class="px-2" style={{ backgroundColor: bgColor }}>
+							{post.date
+								.toLocaleDateString("fr", {
+									day: "2-digit",
+									month: "2-digit",
+									year: "numeric",
+								})
+								.replaceAll("/", " · ")}
+						</div>
+						<h2
+							class="text-xl font-bold normal-case"
+							style={{ fontFamily: font, color: baseColor }}
+						>
+							<span
+								set:html={title}
+								class="box-decoration-clone px-2 py-1"
+								style={{ backgroundColor: bgColor }}
+							/>
+						</h2>
+					</div>
+				</>
+			)
+		}
+	</div>
+	<div class:list={["flex justify-center", { "small:hidden": post.imageUrl }]}>
+		<div
+			class:list={[
+				"my-14 ml-8 mr-16 flex min-w-[20rem] max-w-xs flex-col 2xl:my-12 2xl:ml-7 2xl:mr-14 2xl:min-w-[17.5rem] 2xl:max-w-[17.5rem] small:mx-0 small:my-7 small:w-screen small:max-w-none small:px-4",
+				{ "xl:mt-11": post.imageUrl },
+			]}
+		>
+			<div class="order-2">
+				<h2
+					set:html={title}
+					class="mb-2 text-pretty text-2xl font-bold 2xl:text-xl small:text-xl"
+					style={{ fontFamily: font }}
+				/>
+			</div>
+			<div
+				class:list={[
+					"flex items-center gap-1 font-sofia-sans text-sm uppercase opacity-75 2xl:text-xs",
+					{
+						"order-3 mt-2 xl:mb-[3px] xl:mt-0 small:order-1": post.imageUrl,
+						"order-1 mb-1": !post.imageUrl,
+					},
+				]}
+				style={{ color: secondaryColor }}
+			>
+				Entry #{entryIndex} /
+				<ArticleDate date={post.date} />
+				<ExternalLinkIcon size="0.9em" class="-mb-[0.05em] inline-block" />
+			</div>
+		</div>
+	</div>
+	{
+		description && (
+			<div class="flex justify-center xl:hidden">
+				<p
+					set:html={description}
+					class="my-14 ml-8 mr-16 min-w-[20rem] max-w-[20rem] 2xl:my-12 2xl:min-w-[17.5rem] 2xl:max-w-[17.5rem] 2xl:text-sm"
+					style={{ fontFamily: font }}
+				/>
+			</div>
+		)
+	}
+</a>

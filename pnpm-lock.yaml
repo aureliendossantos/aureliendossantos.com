@@ -29,6 +29,9 @@ dependencies:
   '@fontsource-variable/crimson-pro':
     specifier: ^5.2.6
     version: 5.2.6
+  '@fontsource-variable/grandstander':
+    specifier: ^5.2.7
+    version: 5.2.7
   '@fontsource/google-sans-code':
     specifier: ^5.2.1
     version: 5.2.1
@@ -1066,6 +1069,10 @@ packages:
 
   /@fontsource-variable/crimson-pro@5.2.6:
     resolution: {integrity: sha512-LnicANpjEsOjwr9t/KGpyzkNCaGVbYw8f5GEmCQAp0QML/YnqwQnTmZi5Pa7ZqpCICwwaA7IqtQfBqP0Ac7ZqQ==}
+    dev: false
+
+  /@fontsource-variable/grandstander@5.2.7:
+    resolution: {integrity: sha512-19wHsF7oXpa1IC//10wawbfxBV7FTck8YqknKQA+uS9++NgsYC4DxOatCAR5/8FCvhZIX29n2q2zEjH91qk+Sg==}
     dev: false
 
   /@fontsource/google-sans-code@5.2.1:
