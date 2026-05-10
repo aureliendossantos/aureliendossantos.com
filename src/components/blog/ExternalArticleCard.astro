@@ -1,31 +1,31 @@
 ---
-import getPalette, { getColor } from "$utils/design/palettes"
-import { PaletteName } from "$utils/design/palettes"
+import "@fontsource-variable/grandstander/wght.css"
 import ArticleDate from "../articles/ArticleDate.astro"
 import MarkdownIt from "markdown-it"
 import type { KoimoriPost } from "$utils/getCollection"
+import ExternalLinkIcon from "$icons/external-link.svg"
 
 interface Props {
 	post: KoimoriPost
 	entryIndex: number
 }
 const { post, entryIndex } = Astro.props
-const palette = getPalette(PaletteName.default)
 const markdown = new MarkdownIt({ html: true })
 const title = markdown.renderInline(post.title)
 const description = post.description && markdown.renderInline(post.description)
 const href = `https://koimori.aureliendossantos.com/${post.id}`
+
+const baseColor = "#32332f"
+const bgColor = "#eaf5f6"
+const secondaryColor = "#7a9fa2"
+const font = "'Grandstander Variable', sans-serif"
 ---
 
 <a
-	class="group grid w-full grid-cols-3 items-center bg-[--bg-color] text-[--base-color] xl:grid-cols-2 mediumlarge:flex mediumlarge:grid-cols-none mediumlarge:flex-col dark:bg-[--dark-bg-color] dark:text-[--dark-base-color]"
+	class="group grid w-full grid-cols-3 items-center xl:grid-cols-2 mediumlarge:flex mediumlarge:grid-cols-none mediumlarge:flex-col"
 	style={{
-		"--base-color": getColor(palette.baseColor),
-		"--dark-base-color": getColor(palette.baseColor, "dark"),
-		"--secondary-color": getColor(palette.secondaryColor),
-		"--dark-secondary-color": getColor(palette.secondaryColor, "dark"),
-		"--bg-color": getColor(palette.bgColor),
-		"--dark-bg-color": getColor(palette.bgColor, "dark"),
+		backgroundColor: bgColor,
+		color: baseColor,
 	}}
 	href={href}
 >
@@ -47,8 +47,11 @@ const href = `https://koimori.aureliendossantos.com/${post.id}`
 							backgroundPosition: "center",
 						}}
 					/>
-					<div class="absolute bottom-6 ml-2 mr-4 hidden flex-col items-start text-balance font-work-sans text-xs uppercase text-[--secondary-color] small:flex dark:text-[--dark-secondary-color]">
-						<div class="bg-[--bg-color] px-2 dark:bg-[--dark-bg-color]">
+					<div
+						class="absolute bottom-6 ml-2 mr-4 hidden flex-col items-start text-balance font-work-sans text-xs uppercase small:flex"
+						style={{ color: secondaryColor }}
+					>
+						<div class="px-2" style={{ backgroundColor: bgColor }}>
 							{post.date
 								.toLocaleDateString("fr", {
 									day: "2-digit",
@@ -57,17 +60,14 @@ const href = `https://koimori.aureliendossantos.com/${post.id}`
 								})
 								.replaceAll("/", " · ")}
 						</div>
-						<div class="bg-[--bg-color] px-2 dark:bg-[--dark-bg-color]">Koimori</div>
 						<h2
-							class="text-xl font-bold normal-case text-[--base-color] dark:text-[--dark-base-color]"
-							style={{
-								fontFamily: palette.displayFont,
-								fontWeight: palette.cardTitleWeight,
-							}}
+							class="text-xl font-bold normal-case"
+							style={{ fontFamily: font, color: baseColor }}
 						>
 							<span
 								set:html={title}
-								class="bg-[--bg-color] box-decoration-clone px-2 py-1 dark:bg-[--dark-bg-color]"
+								class="box-decoration-clone px-2 py-1"
+								style={{ backgroundColor: bgColor }}
 							/>
 						</h2>
 					</div>
@@ -86,24 +86,22 @@ const href = `https://koimori.aureliendossantos.com/${post.id}`
 				<h2
 					set:html={title}
 					class="mb-2 text-pretty text-2xl font-bold 2xl:text-xl small:text-xl"
-					style={{
-						fontFamily: palette.displayFont,
-						fontWeight: palette.cardTitleWeight,
-					}}
+					style={{ fontFamily: font }}
 				/>
 			</div>
 			<div
 				class:list={[
-					"font-sofia-sans text-sm uppercase text-[--secondary-color] opacity-75 2xl:text-xs dark:text-[--dark-secondary-color]",
+					"flex items-center gap-1 font-sofia-sans text-sm uppercase opacity-75 2xl:text-xs",
 					{
 						"order-3 mt-2 xl:mb-[3px] xl:mt-0 small:order-1": post.imageUrl,
 						"order-1 mb-1": !post.imageUrl,
 					},
 				]}
+				style={{ color: secondaryColor }}
 			>
 				Entry #{entryIndex} /
 				<ArticleDate date={post.date} />
-				/ Koimori
+				<ExternalLinkIcon size="0.9em" class="-mb-[0.05em] inline-block" />
 			</div>
 		</div>
 	</div>
@@ -113,7 +111,7 @@ const href = `https://koimori.aureliendossantos.com/${post.id}`
 				<p
 					set:html={description}
 					class="my-14 ml-8 mr-16 min-w-[20rem] max-w-[20rem] 2xl:my-12 2xl:min-w-[17.5rem] 2xl:max-w-[17.5rem] 2xl:text-sm"
-					style={{ fontFamily: palette.baseFont }}
+					style={{ fontFamily: font }}
 				/>
 			</div>
 		)
