@@ -1,13 +1,23 @@
 ---
 import "$styles/fonts"
 import ArticleCard from "$components/blog/ArticleCard.astro"
+import ExternalArticleCard from "$components/blog/ExternalArticleCard.astro"
 import BaseLayout from "$layouts/BaseLayout.astro"
-import getBlogPosts, { getDiary } from "$utils/getCollection"
+import getBlogPosts, { getDiary, getKoimoriPosts, type KoimoriPost } from "$utils/getCollection"
 import DiaryWrapup from "$components/blog/DiaryWrapup.astro"
 import LaunchIcon from "$icons/ic/baseline-launch.svg"
 import { dateSort } from "$utils/sort"
+import type { CollectionEntry } from "astro:content"
 
-const articles = [...(await getBlogPosts())].sort((a, b) => dateSort(a.data.date, b.data.date))
+type FeedItem = (CollectionEntry<"blog"> & { index: number }) | KoimoriPost
+
+const getDate = (a: FeedItem): Date => ("source" in a ? a.date : a.data.date)
+
+const localArticles = await getBlogPosts()
+const koimoriPosts = await getKoimoriPosts()
+const articles: FeedItem[] = [...localArticles, ...koimoriPosts].sort((a, b) =>
+	dateSort(getDate(a), getDate(b))
+)
 /** sort drafts first
 	.sort((a, b) => {
 		if (a.data.draft && !b.data.draft) return -1
@@ -76,11 +86,15 @@ const diaryYears = Array.from(new Set(diary.map((entry) => entry.year))).filter(
 	{
 		articles.map((article, index) => (
 			<>
-				<ArticleCard article={article} entryIndex={articles.length - index} />
+				{"source" in article ? (
+					<ExternalArticleCard post={article} entryIndex={articles.length - index} />
+				) : (
+					<ArticleCard article={article} entryIndex={articles.length - index} />
+				)}
 				{(() => {
-					const year = article.data.date.getFullYear()
+					const year = getDate(article).getFullYear()
 					if (!articles[index + 1]) return <DiaryWrapup year={year} />
-					const nextYear = articles[index + 1].data.date.getFullYear()
+					const nextYear = getDate(articles[index + 1]).getFullYear()
 					if (year != nextYear) {
 						const years = Array.from({ length: year - nextYear }, (_, i) => year - i)
 						return years.map((year) => {

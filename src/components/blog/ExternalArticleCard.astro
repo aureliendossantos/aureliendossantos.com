@@ -1,0 +1,121 @@
+---
+import getPalette, { getColor } from "$utils/design/palettes"
+import { PaletteName } from "$utils/design/palettes"
+import ArticleDate from "../articles/ArticleDate.astro"
+import MarkdownIt from "markdown-it"
+import type { KoimoriPost } from "$utils/getCollection"
+
+interface Props {
+	post: KoimoriPost
+	entryIndex: number
+}
+const { post, entryIndex } = Astro.props
+const palette = getPalette(PaletteName.default)
+const markdown = new MarkdownIt({ html: true })
+const title = markdown.renderInline(post.title)
+const description = post.description && markdown.renderInline(post.description)
+const href = `https://koimori.aureliendossantos.com/${post.id}`
+---
+
+<a
+	class="group grid w-full grid-cols-3 items-center bg-[--bg-color] text-[--base-color] xl:grid-cols-2 mediumlarge:flex mediumlarge:grid-cols-none mediumlarge:flex-col dark:bg-[--dark-bg-color] dark:text-[--dark-base-color]"
+	style={{
+		"--base-color": getColor(palette.baseColor),
+		"--dark-base-color": getColor(palette.baseColor, "dark"),
+		"--secondary-color": getColor(palette.secondaryColor),
+		"--dark-secondary-color": getColor(palette.secondaryColor, "dark"),
+		"--bg-color": getColor(palette.bgColor),
+		"--dark-bg-color": getColor(palette.bgColor, "dark"),
+	}}
+	href={href}
+>
+	<div
+		class:list={[
+			"relative h-full w-full overflow-hidden",
+			{
+				"mediumlarge:m-auto mediumlarge:h-44 mediumlarge:max-w-md small:h-80": post.imageUrl,
+			},
+		]}
+	>
+		{
+			post.imageUrl && (
+				<>
+					<div
+						class="h-full bg-cover transition-transform duration-500 ease-out group-hover:scale-[1.04] small:group-hover:scale-100"
+						style={{
+							backgroundImage: `url('${post.imageUrl}')`,
+							backgroundPosition: "center",
+						}}
+					/>
+					<div class="absolute bottom-6 ml-2 mr-4 hidden flex-col items-start text-balance font-work-sans text-xs uppercase text-[--secondary-color] small:flex dark:text-[--dark-secondary-color]">
+						<div class="bg-[--bg-color] px-2 dark:bg-[--dark-bg-color]">
+							{post.date
+								.toLocaleDateString("fr", {
+									day: "2-digit",
+									month: "2-digit",
+									year: "numeric",
+								})
+								.replaceAll("/", " · ")}
+						</div>
+						<div class="bg-[--bg-color] px-2 dark:bg-[--dark-bg-color]">Koimori</div>
+						<h2
+							class="text-xl font-bold normal-case text-[--base-color] dark:text-[--dark-base-color]"
+							style={{
+								fontFamily: palette.displayFont,
+								fontWeight: palette.cardTitleWeight,
+							}}
+						>
+							<span
+								set:html={title}
+								class="bg-[--bg-color] box-decoration-clone px-2 py-1 dark:bg-[--dark-bg-color]"
+							/>
+						</h2>
+					</div>
+				</>
+			)
+		}
+	</div>
+	<div class:list={["flex justify-center", { "small:hidden": post.imageUrl }]}>
+		<div
+			class:list={[
+				"my-14 ml-8 mr-16 flex min-w-[20rem] max-w-xs flex-col 2xl:my-12 2xl:ml-7 2xl:mr-14 2xl:min-w-[17.5rem] 2xl:max-w-[17.5rem] small:mx-0 small:my-7 small:w-screen small:max-w-none small:px-4",
+				{ "xl:mt-11": post.imageUrl },
+			]}
+		>
+			<div class="order-2">
+				<h2
+					set:html={title}
+					class="mb-2 text-pretty text-2xl font-bold 2xl:text-xl small:text-xl"
+					style={{
+						fontFamily: palette.displayFont,
+						fontWeight: palette.cardTitleWeight,
+					}}
+				/>
+			</div>
+			<div
+				class:list={[
+					"font-sofia-sans text-sm uppercase text-[--secondary-color] opacity-75 2xl:text-xs dark:text-[--dark-secondary-color]",
+					{
+						"order-3 mt-2 xl:mb-[3px] xl:mt-0 small:order-1": post.imageUrl,
+						"order-1 mb-1": !post.imageUrl,
+					},
+				]}
+			>
+				Entry #{entryIndex} /
+				<ArticleDate date={post.date} />
+				/ Koimori
+			</div>
+		</div>
+	</div>
+	{
+		description && (
+			<div class="flex justify-center xl:hidden">
+				<p
+					set:html={description}
+					class="my-14 ml-8 mr-16 min-w-[20rem] max-w-[20rem] 2xl:my-12 2xl:min-w-[17.5rem] 2xl:max-w-[17.5rem] 2xl:text-sm"
+					style={{ fontFamily: palette.baseFont }}
+				/>
+			</div>
+		)
+	}
+</a>
