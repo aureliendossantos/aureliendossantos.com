@@ -17,7 +17,7 @@ const recipes = await getCollection("recipes")
 		<h2>Ingrédients</h2>
 		<IngredientList {ingredients} />
 		<h2>Recettes</h2>
-		<div class="not-prose columns-2 gap-2 medium:columns-1">
+		<div class="not-prose medium:columns-1 columns-2 gap-2">
 			{
 				recipes.map((recipe) => (
 					<a
@@ -48,6 +48,8 @@ const recipes = await getCollection("recipes")
 </KitchenLayout>
 
 <style>
+	@reference "#tailwind.css";
+
 	footer a {
 		@apply font-bold underline-offset-2 hover:underline;
 	}

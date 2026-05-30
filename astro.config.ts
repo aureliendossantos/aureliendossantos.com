@@ -1,7 +1,8 @@
 import { defineConfig, envField } from "astro/config"
+import { unified } from "@astrojs/markdown-remark"
 import AutoImport from "astro-auto-import"
 import vercel from "@astrojs/vercel"
-import tailwind from "@astrojs/tailwind"
+import tailwindcss from "@tailwindcss/vite"
 import mdx from "@astrojs/mdx"
 import expressiveCode from "astro-expressive-code"
 import { remarkConvertImports } from "./src/utils/remark/convertImports"
@@ -15,9 +16,6 @@ export default defineConfig({
 	adapter: vercel({
 		webAnalytics: { enabled: true },
 	}),
-	experimental: {
-		svg: true,
-	},
 	prefetch: { prefetchAll: true },
 	i18n: {
 		defaultLocale: "fr",
@@ -29,17 +27,20 @@ export default defineConfig({
 	// Remove this when https://github.com/withastro/compiler/issues/852 is fixed
 	compressHTML: false,
 	image: {
-		domains: ["prod-files-secure.s3.us-west-2.amazonaws.com", "upload.wikimedia.org", "koimori.aureliendossantos.com"],
+		domains: [
+			"prod-files-secure.s3.us-west-2.amazonaws.com",
+			"upload.wikimedia.org",
+			"koimori.aureliendossantos.com",
+		],
 		service: {
 			entrypoint: "$utils/imageService.ts",
 		},
 	},
 	site: "https://aureliendossantos.com",
+	vite: {
+		plugins: [tailwindcss()],
+	},
 	integrations: [
-		tailwind({
-			applyBaseStyles: false,
-			nesting: true,
-		}),
 		expressiveCode(),
 		AutoImport({
 			imports: [
@@ -79,14 +80,16 @@ export default defineConfig({
 		mdx(),
 	],
 	markdown: {
+		processor: unified({
+			remarkPlugins: [remarkConvertImports, remarkAbbr],
+			remarkRehype: {
+				footnoteLabel: "Notes",
+			},
+			smartypants: true,
+		}),
 		shikiConfig: {
 			theme: "slack-ochin",
 		},
-		remarkRehype: {
-			footnoteLabel: "Notes",
-		},
-		smartypants: true,
-		remarkPlugins: [remarkConvertImports, remarkAbbr],
 	},
 	env: {
 		schema: {

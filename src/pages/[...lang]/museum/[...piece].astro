@@ -46,7 +46,7 @@ const audio =
 >
 	<div class="relative">
 		<div
-			class="absolute py-8 mediumlarge:static"
+			class="mediumlarge:static absolute py-8"
 			style={{ fontFamily: "InterVariable, sans-serif" }}
 		>
 			<h2 class="text-2xl font-light"><PieceTitle hideIfUntitled piece={entry} /></h2>
@@ -55,7 +55,7 @@ const audio =
 	</div>
 	{
 		data.image && !data.audio && (
-			<div class="flex h-[calc(100svh-28px)] justify-center p-8 medium:px-0">
+			<div class="medium:px-0 flex h-[calc(100svh-28px)] justify-center p-8">
 				<Image
 					src={data.image}
 					height={2096}
@@ -78,11 +78,11 @@ const audio =
 			</div>
 		)
 	}
-	<div class="grid grid-cols-2 items-start py-16 mediumlarge:grid-cols-1 mediumlarge:text-sm">
+	<div class="mediumlarge:grid-cols-1 mediumlarge:text-sm grid grid-cols-2 items-start py-16">
 		<div class="markdown">
 			<Content />
 		</div>
-		<table class="col-start-2 mediumlarge:col-auto">
+		<table class="mediumlarge:col-auto col-start-2">
 			{
 				typeof data.title == "object" ? (
 					<>
@@ -199,23 +199,27 @@ const audio =
 </MuseumLayout>
 
 <style>
+	@reference "#tailwind.css";
+
 	th {
 		padding-right: 1em;
-		@apply text-right font-space-mono font-normal leading-7 text-[--800];
+		@apply font-space-mono text-right leading-7 font-normal text-(--800);
 	}
 </style>
 
 <style is:global>
+	@reference "#tailwind.css";
+
 	.markdown {
 		p,
 		figure {
 			@apply mb-[1lh];
 		}
 		blockquote {
-			@apply italic text-[--800];
+			@apply text-(--800) italic;
 		}
 		a {
-			@apply text-[--800] underline hover:text-[--900];
+			@apply text-(--800) underline hover:text-(--900);
 		}
 	}
 </style>

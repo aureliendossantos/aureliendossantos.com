@@ -67,7 +67,7 @@ const articleView = {
 	imageAnchorTop: z.boolean().optional(),
 	cover: z.boolean().default(false),
 	toc: z.boolean().default(false),
-	depth: z.onumber(),
+	depth: z.number().optional(),
 	palette: z.nativeEnum(PaletteName).default(PaletteName.default),
 	layouts: z.array(z.nativeEnum(Layouts)).default([Layouts.classic]),
 	customLayout: z.boolean().default(false),

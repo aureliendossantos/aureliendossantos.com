@@ -47,7 +47,7 @@ const scoreTitles = ["Pas de score", "Détesté", "Déçu", "Aimé", "Coup de c�
 		return (
 			<>
 				{showMonthHeader && (
-					<h2 class="font-google-sans-code my-4 text-[13px] leading-4 text-fi-base-500 first:mt-0">
+					<h2 class="my-4 font-google-sans-code text-[13px] leading-4 text-fi-base-500 first:mt-0">
 						{capitalize(currentMonth)}
 					</h2>
 				)}
@@ -57,7 +57,7 @@ const scoreTitles = ["Pas de score", "Détesté", "Déçu", "Aimé", "Coup de c�
 							<img src={review.work.sourceCover} class="bg-fi-base-50" />
 						</a>
 						{domain && (
-							<div class="font-google-sans-code pointer-events-none absolute bottom-full left-1/2 z-50 -mb-3 hidden -translate-x-1/2 text-[10px] leading-[10px] shadow-sm group-hover:block">
+							<div class="shadow-xs pointer-events-none absolute bottom-full left-1/2 z-50 -mb-3 hidden -translate-x-1/2 font-google-sans-code text-[10px] leading-[10px] group-hover:block">
 								<div class="relative">
 									<div class="absolute -bottom-0.5 left-1/2 h-1.5 w-1.5 -translate-x-1/2 rotate-45 bg-fi-tx-2 dark:bg-fi-base-200" />
 									<div
@@ -80,7 +80,7 @@ const scoreTitles = ["Pas de score", "Détesté", "Déçu", "Aimé", "Coup de c�
 							{review.work.type === "MusicTrack" && <MusicNoteIcon />}
 						</div>
 						{review.score > 0 && (
-							<div class="font-google-sans-code z-10 order-first aspect-square w-full overflow-clip hover:overflow-x-visible">
+							<div class="z-10 order-first aspect-square w-full overflow-clip font-google-sans-code hover:overflow-x-visible">
 								<div
 									class:list={[
 										"flex min-w-max items-center bg-fi-base-50 text-[13px] text-fi-base-400 dark:bg-fi-dark-bg-2 dark:text-fi-dark-tx-2",
@@ -112,7 +112,7 @@ const scoreTitles = ["Pas de score", "Détesté", "Déçu", "Aimé", "Coup de c�
 					</div>
 					<main class="hyphens-auto small:mx-4" style="font-family: 'Crimson Pro Variable', serif;">
 						<h3>{review.work.title}</h3>
-						<div class="font-google-sans-code hyphens-none text-[13px] text-fi-base-500">
+						<div class="hyphens-none font-google-sans-code text-[13px] text-fi-base-500">
 							{review.work.authors ? `${enumerate(review.work.authors)} |` : ""}
 							{Object.keys(dates).length > 1
 								? Object.keys(dates)

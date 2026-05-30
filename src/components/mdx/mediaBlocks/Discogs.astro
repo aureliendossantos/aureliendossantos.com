@@ -14,27 +14,34 @@ const db = new DiscogsClient({
 	auth: { userToken: DISCOGS_PERSONAL_ACCESS_TOKEN },
 }).database()
 
-const data = master
-	? await db.getMaster(master).then(({ rateLimit, data }) => {
-			return data
-		})
-	: await db.getRelease(release || 0).then(({ rateLimit, data }) => {
-			return data
-		})
+let data: any | null = null
+try {
+	data = master
+		? await db.getMaster(master).then(({ data }) => data)
+		: await db.getRelease(release || 0).then(({ data }) => data)
+} catch (error) {
+	console.warn("[Discogs] Unable to fetch entry", { master, release, error })
+}
 
-const infos = []
-infos.push(data.artists.map((artist: any) => artist.name).join(", "))
-if (label && "labels" in data && data.labels)
-	infos.push(`${data.labels.map((label: any) => label.name).join(", ")}, ${data.country}`)
-infos.push(`${data.tracklist.length} pistes`)
+const infos: string[] = []
+if (data) {
+	infos.push(data.artists.map((artist: any) => artist.name).join(", "))
+	if (label && "labels" in data && data.labels)
+		infos.push(`${data.labels.map((label: any) => label.name).join(", ")}, ${data.country}`)
+	infos.push(`${data.tracklist.length} pistes`)
+}
 ---
 
-<RefBlock
-	img={data.images[0].uri}
-	title={`${data.title} (${data.year})`}
-	{infos}
-	links={[
-		["Vidéo", data.videos[0].uri],
-		["Discogs", data.uri],
-	]}
-/>
+{
+	data && (
+		<RefBlock
+			img={data.images?.[0]?.uri}
+				title={`${data.title} (${data.year})`}
+				{infos}
+				links={[
+					...(data.videos?.[0]?.uri ? [["Vidéo", data.videos[0].uri]] : []),
+					["Discogs", data.uri],
+				]}
+			/>
+	)
+}

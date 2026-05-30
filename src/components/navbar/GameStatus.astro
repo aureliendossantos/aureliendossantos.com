@@ -6,7 +6,7 @@ const spritesheet = await getImage({ src: png, format: "webp" })
 
 <div
 	data-state="fullscreen"
-	class="fixed bottom-0 right-0 h-screen max-h-[calc(100dvh-28px)] w-svw max-w-md pl-1 pt-1 medium:pl-1 medium:pt-1"
+	class="medium:pl-1 medium:pt-1 fixed right-0 bottom-0 h-screen max-h-[calc(100dvh-28px)] w-svw max-w-md pt-1 pl-1"
 >
 	<iframe class="h-full w-full rounded-tl border-2 border-b-0 border-[#1c1817] bg-[#1c1817]"
 	></iframe>
@@ -115,10 +115,10 @@ const spritesheet = await getImage({ src: png, format: "webp" })
 		<div>Énergie</div>
 		<div id="character-stamina"></div>
 	</div>
-	<div class="h-2.5 w-full bg-[--navbar-border] dark:bg-[--dark-navbar-border]">
+	<div class="h-2.5 w-full bg-(--navbar-border) dark:bg-(--dark-navbar-border)">
 		<div
 			id="character-stamina-bar"
-			class="h-full bg-[--navbar-text] dark:bg-[--dark-navbar-text]"
+			class="h-full bg-(--navbar-text) dark:bg-(--dark-navbar-text)"
 			style={{ width: "0%" }}
 		>
 		</div>
@@ -127,10 +127,10 @@ const spritesheet = await getImage({ src: png, format: "webp" })
 		<div>Faim</div>
 		<div id="character-hunger"></div>
 	</div>
-	<div class="h-2.5 w-full bg-[--navbar-border] dark:bg-[--dark-navbar-border]">
+	<div class="h-2.5 w-full bg-(--navbar-border) dark:bg-(--dark-navbar-border)">
 		<div
 			id="character-hunger-bar"
-			class="h-full bg-[--navbar-text] dark:bg-[--dark-navbar-text]"
+			class="h-full bg-(--navbar-text) dark:bg-(--dark-navbar-text)"
 			style={{ width: "0%" }}
 		>
 		</div>
@@ -140,7 +140,7 @@ const spritesheet = await getImage({ src: png, format: "webp" })
 	</div>
 	<div class="mb-3 grid grid-cols-4 gap-1">
 		<div
-			class="relative col-span-2 row-span-2 aspect-square bg-[--navbar-border] dark:bg-[--dark-navbar-border]"
+			class="relative col-span-2 row-span-2 aspect-square bg-(--navbar-border) dark:bg-(--dark-navbar-border)"
 		>
 			<div id="cell-terrain-spritesheet" class="spritesheet"></div>
 		</div>
@@ -245,7 +245,7 @@ const spritesheet = await getImage({ src: png, format: "webp" })
 				.slice(0, 4)
 				.map(
 					(s: any) =>
-						`<div class="relative aspect-square bg-[--navbar-border] dark:bg-[--dark-navbar-border]"><div class="spritesheet ${s.structure.id}"></div></div>`
+						`<div class="relative aspect-square bg-(--navbar-border) dark:bg-(--dark-navbar-border)"><div class="spritesheet ${s.structure.id}"></div></div>`
 				)
 				.join("")
 		;(document.getElementById("neighbours") as HTMLDivElement).textContent =
@@ -371,10 +371,12 @@ const spritesheet = await getImage({ src: png, format: "webp" })
 </script>
 
 <style is:global>
+	@reference "#tailwind.css";
+
 	.spritesheet {
 		background-image: var(--spr);
 		background-size: 900% 700%;
-		@apply absolute left-0 top-0 h-full w-full invert-[calc(var(--navbar-is-dark)*100%)] dark:invert-[calc(var(--dark-navbar-is-dark)*100%)];
+		@apply absolute top-0 left-0 h-full w-full invert-[calc(var(--navbar-is-dark)*100%)] dark:invert-[calc(var(--dark-navbar-is-dark)*100%)];
 	}
 	.plains {
 		@apply bg-[-400%_-300%];

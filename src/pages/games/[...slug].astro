@@ -47,7 +47,7 @@ const igdb = data.igdb as IGDBData
 				image={igdb.cover}
 				size="cover_big"
 				zoomable
-				class="rounded bg-slate-500 small:hidden"
+				class="rounded-sm bg-slate-500 small:hidden"
 			/>
 			{
 				igdb.screenshots &&
@@ -57,13 +57,13 @@ const igdb = data.igdb as IGDBData
 								image={screenshot}
 								size="cover_big"
 								zoomable
-								class="rounded bg-slate-500 small:hidden"
+								class="rounded-sm bg-slate-500 small:hidden"
 							/>
 							<IGDBImage
 								image={screenshot}
 								size="screenshot_big"
 								zoomable
-								class="hidden rounded bg-slate-500 small:block"
+								class="hidden rounded-sm bg-slate-500 small:block"
 							/>
 						</>
 					))
@@ -72,7 +72,7 @@ const igdb = data.igdb as IGDBData
 		<main class="order-2 small:order-1">
 			<div class="flex gap-4">
 				<div class="hidden min-w-[70px] max-w-[70px] small:block">
-					<IGDBImage image={igdb.cover} size="cover_big" zoomable class="rounded bg-slate-500" />
+					<IGDBImage image={igdb.cover} size="cover_big" zoomable class="rounded-sm bg-slate-500" />
 				</div>
 				<header>
 					<h1
@@ -89,7 +89,7 @@ const igdb = data.igdb as IGDBData
 					<div class="my-3 flex flex-wrap gap-1">
 						{
 							igdb.platforms.map((p: any) => (
-								<div class="rounded-sm bg-slate-200 px-1 text-sm text-slate-500 dark:bg-slate-800">
+								<div class="rounded-xs bg-slate-200 px-1 text-sm text-slate-500 dark:bg-slate-800">
 									{p.abbreviation}
 								</div>
 							))
@@ -99,7 +99,7 @@ const igdb = data.igdb as IGDBData
 						data.multiplayer.length > 0 && (
 							<div class="my-3 flex gap-1">
 								{data.multiplayer.map((string) => (
-									<div class="rounded-sm bg-slate-200 px-1 text-sm text-slate-500 dark:bg-slate-800">
+									<div class="rounded-xs bg-slate-200 px-1 text-sm text-slate-500 dark:bg-slate-800">
 										{multiplayerLabels[string]}
 									</div>
 								))}

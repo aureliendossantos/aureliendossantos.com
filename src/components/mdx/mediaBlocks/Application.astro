@@ -17,11 +17,11 @@ const { name, link, image } = Astro.props
 				src={image}
 				width={256}
 				alt={name}
-				class="unstyled mr-4 h-auto w-32 shrink-0 rounded-md shadow-md medium:w-24"
+				class="unstyled medium:w-24 mr-4 h-auto w-32 shrink-0 rounded-md shadow-md"
 			/>
 		)
 	}
-	<div class="application flex-grow">
+	<div class="application grow">
 		<p>
 			<span class="mr-1 font-bold">{name}</span>
 			<a href={link} class="font-work-sans text-sm !text-gray-500 no-underline"
@@ -33,6 +33,8 @@ const { name, link, image } = Astro.props
 </div>
 
 <style is:global>
+	@reference "#tailwind.css";
+
 	.application {
 		p:first-of-type {
 			@apply !mb-0;

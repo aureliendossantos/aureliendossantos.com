@@ -9,7 +9,7 @@ const { palette, big } = Astro.props
 ---
 
 <div
-	class:list={["flex items-stretch rounded p-[2px] gap-[2px] ring-1 ring-[--ring]", { "h-[1em] w-[1em]": !big, "h-28 w-40": big}]}
+	class:list={["flex items-stretch rounded-sm p-[2px] gap-[2px] ring-1 ring-(--ring)", { "h-[1em] w-[1em]": !big, "h-28 w-40": big}]}
 	style={{
 		color: getColor(palette.baseColor),
 		backgroundColor: getColor(palette.bgColor),
@@ -17,9 +17,9 @@ const { palette, big } = Astro.props
 	}}
 >
 	<div class="max-w-1 h-full w-[33%] flex flex-col gap-[0.05em]">
-		<div class="rounded-sm grow" style={{ backgroundColor: getColor(palette.baseColor) }}></div>
-		<div class="rounded-sm grow" style={{ backgroundColor: getColor(palette.secondaryColor) }}></div>
-		<div class="rounded-sm grow" style={{ backgroundColor: getColor(palette.specialColor) }}></div>
+		<div class="rounded-xs grow" style={{ backgroundColor: getColor(palette.baseColor) }}></div>
+		<div class="rounded-xs grow" style={{ backgroundColor: getColor(palette.secondaryColor) }}></div>
+		<div class="rounded-xs grow" style={{ backgroundColor: getColor(palette.specialColor) }}></div>
 	</div>
 	<div
 		class:list={[{ "text-center text-[10px] leading-none": !big, "text-sm leading-tight p-2 pb-[6px] pt-[10px] flex flex-col justify-between": big }]}

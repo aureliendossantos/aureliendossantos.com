@@ -30,7 +30,7 @@ const extract = summary?.extract_html.replace(/<!--.*?-->/gs, "").trim()
 		{
 			summary?.thumbnail && (
 				<img
-					class="float-right mb-4 ml-4 !max-w-[30%] rounded-sm border border-solid"
+					class="rounded-xs float-right mb-4 ml-4 !max-w-[30%] border border-solid"
 					data-zoomable
 					src={summary.thumbnail.source}
 					width={summary.thumbnail.width}

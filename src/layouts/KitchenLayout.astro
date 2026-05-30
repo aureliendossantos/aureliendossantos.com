@@ -17,7 +17,7 @@ const { footer } = Astro.props
 	<div class="px-4 text-white" style={{ fontFamily: "Lora, serif" }}>
 		<div
 			class:list={[
-				"prose prose-stone prose-invert m-auto py-16 medium:prose-sm",
+				"prose prose-stone prose-invert medium:prose-sm m-auto py-16",
 				{ "flex min-h-screen flex-col": footer },
 			]}
 		>
@@ -28,6 +28,8 @@ const { footer } = Astro.props
 </BaseLayout>
 
 <style is:global>
+	@reference "#tailwind.css";
+
 	/* main instead of html avoids targeting the navbar */
 	/* target main except footer */
 	main {

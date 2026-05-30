@@ -43,13 +43,13 @@ span.highlight {
 	h2 {
 		& + p > label:first-child + input + span {
 			/* The sidenote is stuck under the h2. */
-			@apply px-0 xl:-mt-[--font-size] xl:mb-[--font-size];
+			@apply xl:-mt-(--font-size) xl:mb-(--font-size) px-0;
 		}
 	}
 	h3 {
 		& + p > label:first-child + input + span {
 			/* 40px rougly aligns with the h3 text. */
-			@apply xl:mb-[--font-size] xl:mt-0 xl:px-[2.45em];
+			@apply xl:mb-(--font-size) xl:mt-0 xl:px-[2.45em];
 		}
 	}
 	/* For TufteFigures in the sidenote layout */
@@ -76,13 +76,13 @@ p + input + label + .sidenote {
 }
 .sidenote {
 	/* The mt aligns the small text with the main one. It's not done cleanly right now. */
-	@apply relative float-right clear-right -mr-[calc(50%+4*var(--font-size))] mb-[1em] mt-[5px] w-1/2 indent-0 text-[length:--note-font-size] not-italic leading-[1.35] xl:m-0 xl:my-[--indent] xl:box-border xl:hidden xl:w-full xl:text-left xl:leading-[--line-height] xl:peer-checked:block small:my-[--sm-indent] small:text-[length:--sm-note-font-size] small:leading-[--sm-line-height];
+	@apply xl:my-(--indent) xl:leading-(--line-height) small:my-(--sm-indent) small:leading-(--sm-line-height) text-(length:--note-font-size) small:text-(length:--sm-note-font-size) relative float-right clear-right -mr-[calc(50%+4*var(--font-size))] mb-[1em] mt-[5px] w-1/2 indent-0 not-italic leading-[1.35] xl:m-0 xl:box-border xl:hidden xl:w-full xl:text-left xl:peer-checked:block;
 
 	&.has-mobile-label {
-		@apply xl:px-[--indent] small:px-[--sm-indent];
+		@apply xl:px-(--indent) small:px-(--sm-indent);
 	}
 	&.mobile-half-width {
-		@apply xl:mb-[0.5em] xl:mt-[--font-size] xl:w-auto xl:max-w-[50%] xl:pl-[--indent] xl:pr-0 small:mt-[--sm-font-size] small:pl-[--sm-indent];
+		@apply xl:mt-(--font-size) xl:pl-(--indent) small:mt-(--sm-font-size) small:pl-(--sm-indent) xl:mb-[0.5em] xl:w-auto xl:max-w-[50%] xl:pr-0;
 	}
 
 	/* Numbered sidenote */
@@ -144,5 +144,5 @@ p + input + label + .sidenote {
 }
 
 .mobile-touch {
-	@apply rounded border-[--special-color] xl:-my-[2px] xl:cursor-pointer xl:border-[1.5px] xl:border-dotted xl:px-[0.2em] xl:text-[--special-color] dark:border-[--dark-special-color] dark:xl:text-[--dark-special-color];
+	@apply border-(--special-color) xl:text-(--special-color) dark:border-(--dark-special-color) dark:xl:text-(--dark-special-color) rounded-sm xl:-my-[2px] xl:cursor-pointer xl:border-[1.5px] xl:border-dotted xl:px-[0.2em];
 }

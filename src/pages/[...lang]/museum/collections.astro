@@ -7,7 +7,10 @@ import { localePaths } from "$utils/i18n"
 import { author, multiText, title } from "$utils/museum"
 
 export function getStaticPaths() {
-	return localePaths
+	return localePaths.map(({ params, props }) => ({
+		params: { ...params },
+		props: { ...props },
+	}))
 }
 const { t, locale } = Astro.props
 

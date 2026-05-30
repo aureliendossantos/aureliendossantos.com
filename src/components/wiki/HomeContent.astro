@@ -24,13 +24,13 @@ const tags = await getCollection("tags")
 								{pageTags.map((tag) => (
 									<a
 										href={`/tags/${tag.id}`}
-										class="rounded bg-neutral-100 px-1 text-neutral-500 transition hover:bg-neutral-200 dark:bg-neutral-800 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300"
+										class="rounded-sm bg-neutral-100 px-1 text-neutral-500 transition hover:bg-neutral-200 dark:bg-neutral-800 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:hover:text-neutral-300"
 									>
 										{tag.data.title}
 									</a>
 								))}
 								<div class="text-neutral-500">
-									<UpdateIcon size="1em" class="mb-[0.2em] inline-block" />
+									<UpdateIcon width="1em" height="1em" class="mb-[0.2em] inline-block" />
 									{formatDate(new Date(page.editedTime))}
 								</div>
 							</div>

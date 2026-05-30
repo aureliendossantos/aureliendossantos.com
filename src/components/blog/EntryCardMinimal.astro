@@ -21,24 +21,31 @@ const place =
 	"places" in data && data.places.length > 0
 		? (await getEntries(data.places))[0].data.title
 		: undefined
-const wiki = "editedTime" in entry
-// text-[--bg] is used to color the shadow
+const wiki = entry.collection == "wiki" || "editedTime" in entry
+const wikiSlug =
+	entry.collection == "wiki"
+		? entry.data.slug
+		: "slug" in entry && typeof entry.slug == "string"
+			? entry.slug
+			: undefined
+const href = entry.collection == "diary" ? `/diary/${entry.id}` : wikiSlug ? `/${wikiSlug}` : `/${entry.id}`
+// text-(--bg) is used to color the shadow
 const markdown = new MarkdownIt({ html: true })
 const title = markdown.renderInline(data.title)
 ---
 
 <a
-	class="duration-80 border-[--secondary-color] bg-[--bg] ease-out hover:border-l-[16px]"
+	class="duration-80 border-(--secondary-color) bg-(--bg) ease-out hover:border-l-[16px]"
 	style={{
 		fontFamily: palette.baseFont,
 		"--bg": wiki ? "#fbf7ee" : getColor(palette.bgColor),
 		"--text": getColor(palette.baseColor),
 		"--secondary-color": getColor(palette.secondaryColor),
 	}}
-	href={`/${entry.collection == "diary" ? "diary/" : ""}${entry.id}`}
+	href={href}
 >
 	<div
-		class="mx-auto max-w-[calc(500px+2em)] bg-[--bg] bg-cover bg-center px-[calc(20px+1em)] py-[14px] text-[--text] small:px-5"
+		class="bg-(--bg) text-(--text) mx-auto max-w-[calc(500px+2em)] bg-cover bg-center px-[calc(20px+1em)] py-[14px] small:px-5"
 		style={{
 			backgroundImage: showCover()
 				? `linear-gradient(${palette.bgColor}99, ${palette.bgColor}49), url('${optimizedBackground?.src}')`
@@ -55,7 +62,7 @@ const title = markdown.renderInline(data.title)
 			<span set:html={title} />{data.draft && " [Draft]"}{data.status && ` ${data.status.icon}`}
 		</span>
 		<span
-			class="font-sofia-sans text-xs uppercase text-[--secondary-color]"
+			class="text-(--secondary-color) font-sofia-sans text-xs uppercase"
 			style={{
 				textShadow: `0 0 1em ${palette.bgColor}`,
 			}}

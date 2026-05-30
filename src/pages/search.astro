@@ -8,12 +8,12 @@ const entries = await getSearchEntries(Astro.currentLocale)
 <BaseLayout title="Recherche" bg="#17182f" ogType="website">
 	<div id="particles-js"></div>
 	<div
-		class="mb-8 mt-48 flex flex-col flex-wrap content-center items-start gap-6 font-space-grotesk text-[#9ca3af] small:mt-8"
+		class="font-space-grotesk small:mt-8 mt-48 mb-8 flex flex-col flex-wrap content-center items-start gap-6 text-[#9ca3af]"
 	>
 		<div class="max-w-[320px]">
 			<input
 				id="search"
-				class="mb-6 w-[320px] border-y-2 border-space-500 bg-transparent px-3 py-2 focus:border-space-300 focus:text-space-300 focus:outline-none focus:placeholder:text-space-600"
+				class="border-space-500 focus:border-space-300 focus:text-space-300 focus:placeholder:text-space-600 mb-6 w-[320px] border-y-2 bg-transparent px-3 py-2 focus:outline-hidden"
 				placeholder="Rechercher..."
 				autofocus
 				autocomplete="off"
@@ -92,6 +92,8 @@ const entries = await getSearchEntries(Astro.currentLocale)
 </BaseLayout>
 
 <style is:global>
+	@reference "#tailwind.css";
+
 	canvas {
 		display: block;
 	}

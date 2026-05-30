@@ -22,7 +22,7 @@ import CatalogueFeedSkeleton from "$components/catalogue/CatalogueFeedSkeleton.a
 			type="text"
 			placeholder="Search in the catalogue…"
 			style="font-family: 'Google Sans Code', monospace;"
-			class="w-full bg-fi-bg-2 px-[10px] text-[13px] leading-9 text-fi-tx transition placeholder:text-fi-base-500 focus:bg-fi-tx-2 focus:text-fi-bg focus:outline-none focus:placeholder:text-fi-ui-2 dark:bg-fi-dark-bg-2 dark:text-fi-dark-tx dark:placeholder:text-fi-base-500 dark:focus:bg-fi-dark-tx-2 dark:focus:text-fi-dark-bg dark:focus:placeholder:text-fi-dark-ui-2"
+			class="focus:outline-hidden w-full bg-fi-bg-2 px-[10px] text-[13px] leading-9 text-fi-tx transition placeholder:text-fi-base-500 focus:bg-fi-tx-2 focus:text-fi-bg focus:placeholder:text-fi-ui-2 dark:bg-fi-dark-bg-2 dark:text-fi-dark-tx dark:placeholder:text-fi-base-500 dark:focus:bg-fi-dark-tx-2 dark:focus:text-fi-dark-bg dark:focus:placeholder:text-fi-dark-ui-2"
 		/>
 		<CatalogueFeed server:defer>
 			<CatalogueFeedSkeleton slot="fallback" />

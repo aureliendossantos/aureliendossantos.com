@@ -8,7 +8,7 @@ import "@fontsource-variable/crimson-pro"
 const scoreEmojis = ["🚫", "😤", "🫤", "🙂", "❤️", "⭐️"]
 
 let inputClass =
-	"w-full bg-fi-bg-2 px-[10px] text-[13px] leading-9 text-fi-tx transition placeholder:text-fi-base-500 focus:outline-none dark:bg-fi-dark-bg-2 dark:text-fi-dark-tx dark:placeholder:text-fi-base-500 dark:focus:bg-fi-dark-bg ring-0 ring-fi-ui-2 focus:ring-2 focus:bg-fi-bg dark:ring-fi-dark-ui-2"
+	"w-full bg-fi-bg-2 px-[10px] text-[13px] leading-9 text-fi-tx transition placeholder:text-fi-base-500 focus:outline-hidden dark:bg-fi-dark-bg-2 dark:text-fi-dark-tx dark:placeholder:text-fi-base-500 dark:focus:bg-fi-dark-bg ring-0 ring-fi-ui-2 focus:ring-2 focus:bg-fi-bg dark:ring-fi-dark-ui-2"
 ---
 
 <BaseLayout title="Write a review" ogType="website" bg={{ light: "#FFFCF0", dark: "#100F0F" }}>
@@ -142,7 +142,7 @@ let inputClass =
 			<textarea
 				id="content"
 				name="content"
-				class="mt-4 min-h-[6lh] w-full bg-fi-bg text-lg text-fi-tx outline-none placeholder:text-fi-tx-3 dark:bg-fi-dark-bg dark:text-fi-dark-tx dark:placeholder:text-fi-dark-tx-3"
+				class="outline-hidden mt-4 min-h-[6lh] w-full bg-fi-bg text-lg text-fi-tx placeholder:text-fi-tx-3 dark:bg-fi-dark-bg dark:text-fi-dark-tx dark:placeholder:text-fi-dark-tx-3"
 				style="font-family: 'Crimson Pro Variable', serif;field-sizing: content;"
 				placeholder="Thoughts..."></textarea>
 		</form>
@@ -663,7 +663,7 @@ let inputClass =
 				coverUrl?: string | null
 			) {
 				return `
-	  <div 
+	  <div
 		class="${specifierClass} flex items-center cursor-pointer hover:bg-fi-bg-2 dark:hover:bg-fi-dark-bg-2 transition-colors group"
 		style="box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.10)"
 		data-work-id="${workId}"

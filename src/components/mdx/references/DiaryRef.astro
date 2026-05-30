@@ -11,7 +11,9 @@ const { id, titleOnly } = Astro.props
 const article = await getDiaryEntry(id)
 ---
 
-<span class="my-[-1px] rounded border border-solid border-zinc-300 bg-white px-[2px] text-zinc-900">
+<span
+	class="my-[-1px] rounded-sm border border-solid border-zinc-300 bg-white px-[2px] text-zinc-900"
+>
 	{!titleOnly && <span>Aurélien Dos Santos,</span>}
 	<a
 		href={"/diary/" + article.id}
@@ -24,7 +26,7 @@ const article = await getDiaryEntry(id)
 	</a>
 	{
 		!titleOnly && article.data.date && (
-			<span class="text-[--base-cover]">
+			<span class="text-(--base-cover)">
 				<ArticleDate date={article.data.date} />
 			</span>
 		)

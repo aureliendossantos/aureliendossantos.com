@@ -18,19 +18,19 @@ const t = useTranslations(locale)
 			<label for="customize-museum" class="cursor-pointer">{t("m-customize")}</label>
 			<input id="customize-museum" type="checkbox" class="peer hidden" />
 			<div
-				class="absolute right-0 top-8 z-10 hidden rounded-sm border-[1.5px] border-[--800] bg-[--200] p-4 text-sm peer-checked:block"
+				class="rounded-xs border-(--800) bg-(--200) absolute right-0 top-8 z-10 hidden border-[1.5px] p-4 text-sm peer-checked:block"
 				style={{ fontFamily: "InterVariable, sans-serif" }}
 			>
 				<div class="flex flex-col gap-2">
-					<label class="rounded-sm px-2 ring-[--800] has-[:checked]:ring-[1.5px]">
+					<label class="rounded-xs ring-(--800) px-2 has-[:checked]:ring-[1.5px]">
 						Light
 						<input type="radio" name="theme" value="light" class="hidden" />
 					</label>
-					<label class="rounded-sm px-2 ring-[--800] has-[:checked]:ring-[1.5px]">
+					<label class="rounded-xs ring-(--800) px-2 has-[:checked]:ring-[1.5px]">
 						Dark
 						<input type="radio" name="theme" value="dark" class="hidden" />
 					</label>
-					<label for="customize-museum" class="mt-2 cursor-pointer rounded-sm bg-[--100] px-2">
+					<label for="customize-museum" class="rounded-xs bg-(--100) mt-2 cursor-pointer px-2">
 						Close
 					</label>
 				</div>
@@ -39,13 +39,13 @@ const t = useTranslations(locale)
 		<div class="text-sm leading-7">
 			{
 				locale == "fr" ? (
-					<span class="text-[--800]">FR</span>
+					<span class="text-(--800)">FR</span>
 				) : (
 					<a href={`/${Astro.url.pathname.split("/").slice(2).join("/")}`}>FR</a>
 				)
-			}<span class="text-[--800]">｜</span>{
+			}<span class="text-(--800)">｜</span>{
 				locale == "en" ? (
-					<span class="text-[--800]">EN</span>
+					<span class="text-(--800)">EN</span>
 				) : (
 					<a href={getRelativeLocaleUrl("en", Astro.url.pathname)}>EN</a>
 				)

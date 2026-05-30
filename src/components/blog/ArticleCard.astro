@@ -37,7 +37,7 @@ const description = data.description && markdown.renderInline(data.description)
 ---
 
 <a
-	class="group grid w-full grid-cols-3 items-center bg-[--bg-color] text-[--base-color] xl:grid-cols-2 mediumlarge:flex mediumlarge:grid-cols-none mediumlarge:flex-col dark:bg-[--dark-bg-color] dark:text-[--dark-base-color]"
+	class="bg-(--bg-color) text-(--base-color) dark:bg-(--dark-bg-color) dark:text-(--dark-base-color) group grid w-full grid-cols-3 items-center xl:grid-cols-2 mediumlarge:flex mediumlarge:grid-cols-none mediumlarge:flex-col"
 	style={{
 		"--base-color": getColor(palette.baseColor),
 		"--dark-base-color": getColor(palette.baseColor, "dark"),
@@ -69,8 +69,8 @@ const description = data.description && markdown.renderInline(data.description)
 							backgroundPosition: data.imageAnchorTop ? "top" : "center",
 						}}
 					/>
-					<div class="absolute bottom-6 ml-2 mr-4 hidden flex-col items-start text-balance font-work-sans text-xs uppercase text-[--secondary-color] small:flex dark:text-[--dark-secondary-color]">
-						<div class="bg-[--bg-color] px-2 dark:bg-[--dark-bg-color]">
+					<div class="text-(--secondary-color) dark:text-(--dark-secondary-color) absolute bottom-6 ml-2 mr-4 hidden flex-col items-start text-balance font-work-sans text-xs uppercase small:flex">
+						<div class="bg-(--bg-color) dark:bg-(--dark-bg-color) px-2">
 							{data.date
 								.toLocaleDateString("fr", {
 									day: "2-digit",
@@ -80,11 +80,11 @@ const description = data.description && markdown.renderInline(data.description)
 								.replaceAll("/", " · ")}
 						</div>
 						{tags.length > 0 && (
-							<div class="bg-[--bg-color] px-2 dark:bg-[--dark-bg-color]">{tags.join(", ")}</div>
+							<div class="bg-(--bg-color) dark:bg-(--dark-bg-color) px-2">{tags.join(", ")}</div>
 						)}
-						{place && <div class="bg-[--bg-color] px-2 dark:bg-[--dark-bg-color]">{place}</div>}
+						{place && <div class="bg-(--bg-color) dark:bg-(--dark-bg-color) px-2">{place}</div>}
 						<h2
-							class="text-xl font-bold normal-case text-[--base-color] dark:text-[--dark-base-color]"
+							class="text-(--base-color) dark:text-(--dark-base-color) text-xl font-bold normal-case"
 							style={{
 								fontFamily: palette.displayFont,
 								fontWeight: palette.cardTitleWeight,
@@ -92,7 +92,7 @@ const description = data.description && markdown.renderInline(data.description)
 						>
 							<span
 								set:html={title}
-								class="bg-[--bg-color] box-decoration-clone px-2 py-1 dark:bg-[--dark-bg-color]"
+								class="bg-(--bg-color) dark:bg-(--dark-bg-color) box-decoration-clone px-2 py-1"
 							/>
 						</h2>
 					</div>
@@ -119,7 +119,7 @@ const description = data.description && markdown.renderInline(data.description)
 			</div>
 			<div
 				class:list={[
-					"font-sofia-sans text-sm uppercase text-[--secondary-color] opacity-75 2xl:text-xs dark:text-[--dark-secondary-color]",
+					"text-(--secondary-color) dark:text-(--dark-secondary-color) font-sofia-sans text-sm uppercase opacity-75 2xl:text-xs",
 					{
 						"order-3 mt-2 xl:mb-[3px] xl:mt-0 small:order-1": image,
 						"order-1 mb-1": !image,

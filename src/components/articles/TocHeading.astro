@@ -37,6 +37,8 @@ const subheadings = heading.subheadings
 </li>
 
 <style is:global>
+	@reference "#tailwind.css";
+
 	.article-styling nav.toc {
 		ol {
 			counter-reset: toc 0;
@@ -46,7 +48,7 @@ const subheadings = heading.subheadings
 			font-feature-settings: "c2sc", "smcp";
 			:root[data-palette*="louize"] & a {
 				font-feature-settings: "smcp" 0;
-				@apply text-[--secondary-color] transition hover:bg-transparent hover:text-[--base-color] dark:text-[--dark-secondary-color] dark:hover:text-[--dark-base-color];
+				@apply text-(--secondary-color) transition hover:bg-transparent hover:text-(--base-color) dark:text-(--dark-secondary-color) dark:hover:text-(--dark-base-color);
 			}
 			/* temp: Pour retirer les numéros roses de .future */
 			&::before {
@@ -55,13 +57,13 @@ const subheadings = heading.subheadings
 			&::marker {
 				content: counter(toc) "    ";
 				font-feature-settings: "smcp";
-				@apply text-[--secondary-color];
+				@apply text-(--secondary-color);
 			}
 		}
 		a {
 			@apply no-underline;
 			&:hover {
-				@apply rounded-sm bg-zinc-200;
+				@apply rounded-xs bg-zinc-200;
 			}
 		}
 		ul {

@@ -17,12 +17,12 @@ const uid = crypto.randomUUID()
 <span id={`span-${uid}`} class="relative inline"
 	><a
 		id={`text-${uid}`}
-		class="popup-link unstyled cursor-context-menu rounded-sm underline decoration-[--popup] decoration-1 underline-offset-3 dark:decoration-[--dark-popup]"
+		class="popup-link unstyled rounded-xs decoration-(--popup) dark:decoration-(--dark-popup) cursor-context-menu underline decoration-1 underline-offset-3"
 		style={{ textDecorationStyle: "var(--internal-link-decoration)" }}><slot /></a
 	></span
 ><template class="popup-template" id={uid}
 	><div
-		class="popup absolute bottom-[25px] hidden h-[240px] -translate-x-1/2 rounded-md border-2 border-solid border-[--popup] bg-[--bg] indent-0 dark:border-[--dark-popup] dark:bg-[--dark-bg]"
+		class="popup border-(--popup) bg-(--bg) dark:border-(--dark-popup) dark:bg-(--dark-bg) absolute bottom-[25px] hidden h-[240px] -translate-x-1/2 rounded-md border-2 border-solid indent-0"
 	>
 		{movie && <Movie id={movie} popupId={uid} />}
 		{moviePerson && <MoviePerson id={moviePerson} popupId={uid} />}
@@ -54,8 +54,8 @@ const uid = crypto.randomUUID()
 			opened = false
 			popup.style.display = "none"
 			text.classList.remove(
-				"bg-[--popup-active]",
-				"dark:bg-[--dark-popup-active]",
+				"bg-(--popup-active)",
+				"dark:bg-(--dark-popup-active)",
 				"cursor-pointer"
 			)
 			window.popupsOpened -= 1
@@ -98,7 +98,7 @@ const uid = crypto.randomUUID()
 			popup.style.width = Math.min(460, document.documentElement.clientWidth - 20 - 4) + "px"
 			popup.style.left = textRect.width / 2 + "px"
 			popup.style.display = "block"
-			text.classList.add("bg-[--popup-active]", "dark:bg-[--dark-popup-active]", "cursor-pointer")
+			text.classList.add("bg-(--popup-active)", "dark:bg-(--dark-popup-active)", "cursor-pointer")
 
 			window.popupZindex = Math.min(window.popupZindex + 1, 99)
 			popup.style.zIndex = `${window.popupZindex}`

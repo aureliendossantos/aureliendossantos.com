@@ -1,11 +1,13 @@
 <div
-	class="diary-entry mb-6 max-w-80 rounded-sm border border-neutral-600 bg-neutral-100 p-6 text-xs text-neutral-800 shadow"
+	class="diary-entry mb-6 max-w-80 rounded-xs border border-neutral-600 bg-neutral-100 p-6 text-xs text-neutral-800 shadow"
 >
 	{Astro.props.date && <p class="text-neutral-400">{Astro.props.date}</p>}
 	<slot />
 </div>
 
 <style is:global>
+	@reference "#tailwind.css";
+
 	.diary-entry {
 		p:last-child {
 			@apply mb-0;

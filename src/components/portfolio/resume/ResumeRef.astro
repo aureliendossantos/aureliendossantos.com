@@ -21,8 +21,7 @@ const entry = id ? await getEntryOrThrow("portfolio", id) : undefined
 			<>
 				{/* prettier-ignore */}
 				<a href={href || entry?.data.links[0].url} target="_blank" class="peer">{linkTitle}</a>
-				<LaunchIcon
-				size="0.9em"
+				<LaunchIcon width="0.9em" height="0.9em"
 					id="navbar-link-icon"
 					class="-mt-[0.1em] inline-block transition peer-hover:text-black"
 				/>

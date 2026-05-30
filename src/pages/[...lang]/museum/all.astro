@@ -7,7 +7,10 @@ import PieceThumbnail from "$components/museum/PieceThumbnail.astro"
 import ThumbnailGrid from "$components/museum/ThumbnailGrid.astro"
 
 export function getStaticPaths() {
-	return localePaths
+	return localePaths.map(({ params, props }) => ({
+		params: { ...params },
+		props: { ...props },
+	}))
 }
 const { t } = Astro.props
 

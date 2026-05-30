@@ -15,9 +15,9 @@ const { title, value, color, deg, small } = Astro.props
 
 <label
 	class:list={[
-		"flex cursor-pointer items-center gap-3 rounded-full bg-[--color] p-3 leading-tight text-[--color] text-fi-paper ring-2 ring-[--color] transition ease-out hover:bg-[--color] hover:ring-2",
+		"bg-(--color) text-(--color) ring-(--color) hover:bg-(--color) flex cursor-pointer items-center gap-3 rounded-full p-3 leading-tight text-fi-paper ring-2 transition ease-out hover:ring-2",
 		{
-			"group-has-[:checked]:bg-transparent group-has-[:checked]:text-[--color] group-has-[:checked]:has-[:checked]:bg-[--color] group-has-[:checked]:has-[:checked]:text-fi-paper":
+			"group-has-[:checked]:text-(--color) group-has-[:checked]:has-[:checked]:bg-(--color) group-has-[:checked]:bg-transparent group-has-[:checked]:has-[:checked]:text-fi-paper":
 				!small,
 		},
 		{ "py-1": small },
@@ -27,7 +27,7 @@ const { title, value, color, deg, small } = Astro.props
 >
 	{!small && <input type="radio" name="skills" {value} id={value} class="peer hidden" />}
 	<div
-		class="circle inline-block aspect-square rounded-full text-[--color] text-fi-paper transition group-has-[:checked]:text-[--color] group-has-[:checked]:peer-checked:text-fi-paper"
+		class="circle text-(--color) group-has-[:checked]:text-(--color) inline-block aspect-square rounded-full text-fi-paper transition group-has-[:checked]:peer-checked:text-fi-paper"
 		style={{ "--deg": `${deg}deg` }}
 	>
 	</div>

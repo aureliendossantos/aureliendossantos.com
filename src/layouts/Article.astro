@@ -109,13 +109,13 @@ const maybeRemoveStyle = (str?: string) => str?.replaceAll("*", "")
 				"m-auto max-w-[calc(var(--page-width)*1.5+4em)] xl:max-w-none xl:px-[80px] xl:pb-16 medium:px-[40px] small:px-[20px]":
 					sidenotes,
 			}}
-			class="text-pretty font-[family-name:--base-font] text-[length:--font-size] leading-[--line-height] text-[color:--base-color] small:text-[length:--sm-font-size] small:leading-[--sm-line-height] dark:text-[color:--dark-base-color]"
+			class="small:leading-(--sm-line-height) small:text-(length:--sm-font-size) font-(family-name:--base-font) text-(length:--font-size) leading-(--line-height) text-(--base-color) dark:text-(--dark-base-color) text-pretty"
 		>
 			<div
 				class:list={[
 					{ "xl:m-auto": sidenotes },
 					{ "m-auto": !customLayout && !sidenotes },
-					{ "max-w-[--page-width]": !customLayout && !wide },
+					{ "max-w-(--page-width)": !customLayout && !wide },
 					{ "max-w-[700px]": wide },
 				]}
 			>

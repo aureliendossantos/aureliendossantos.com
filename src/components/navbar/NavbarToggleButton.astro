@@ -23,17 +23,15 @@ const dir = arrowIcon || "down"
 		bgClasses,
 	]}
 >
-	<div class:list={["rounded-sm border leading-tight", textAndBorderClasses]}>
+	<div class:list={["rounded-xs border leading-tight", textAndBorderClasses]}>
 		<div class="navbar-toggle-text px-[4px] medium:hidden">Ctrl+K</div>
 		{
 			dir == "down" ? (
-				<DoubleArrowDown
-					size="17px"
+				<DoubleArrowDown width="17px" height="17px"
 					class="navbar-toggle-icon inline-block hidden align-top medium:inline-block"
 				/>
 			) : (
-				<DoubleArrowUp
-					size="17px"
+				<DoubleArrowUp width="17px" height="17px"
 					class="navbar-toggle-icon inline-block hidden align-top medium:inline-block"
 				/>
 			)

@@ -10,15 +10,15 @@ iframe {
 }
 
 tag {
-	@apply -mx-1 rounded-sm border-y border-dotted border-slate-400 bg-slate-100 px-1 text-slate-600;
+	@apply rounded-xs -mx-1 border-y border-dotted border-slate-400 bg-slate-100 px-1 text-slate-600;
 }
 
 kbd {
-	@apply rounded-md border border-solid border-[--popup] px-1 font-[family-name:--code-font] dark:border-[--dark-popup];
+	@apply border-(--popup) dark:border-(--dark-popup) rounded-md border border-solid px-1 font-(family-name:--code-font);
 }
 
 .expressive-code {
-	@apply my-[--indent];
+	@apply my-(--indent);
 }
 
 /* Headings counter */
@@ -40,13 +40,13 @@ h3:before {
 :root[data-palette*="louize"] .article-styling {
 	@apply relative;
 	::selection {
-		@apply bg-[--special-color] text-[--bg-color];
+		@apply bg-(--special-color) text-(--bg-color);
 	}
 	.sidenote {
-		@apply xl:text-[--secondary-color] dark:border-[--dark-secondary-color] dark:xl:text-[--dark-secondary-color];
+		@apply xl:text-(--secondary-color) dark:border-(--dark-secondary-color) dark:xl:text-(--dark-secondary-color);
 	}
 	a {
-		@apply -mt-[0.2em] rounded pt-[0.2em];
+		@apply -mt-[0.2em] rounded-sm pt-[0.2em];
 		&[href^="/"],
 		&[href^="#"] {
 			@apply decoration-2 small:decoration-auto;
@@ -54,14 +54,14 @@ h3:before {
 	}
 	p {
 		hyphenate-character: "-";
-		@apply my-[--indent] hyphens-auto small:my-[--sm-indent];
+		@apply my-(--indent) small:my-(--sm-indent) hyphens-auto;
 	}
 	.popup p {
 		@apply my-[1em];
 	}
 	h2,
 	h3 {
-		@apply my-[--indent] small:my-[--sm-indent];
+		@apply my-(--indent) small:my-(--sm-indent);
 		&.toc {
 			@apply relative mb-0 medium:ml-[40px];
 			&::before {
@@ -82,7 +82,7 @@ h3:before {
 		font-feature-settings: "c2sc", "smcp";
 		line-height: 1.1;
 		letter-spacing: 0.1em;
-		@apply sticky top-0 -mt-2 bg-[--bg] pt-2 font-normal !shadow-[0_0_2px_4px_var(--bg)] dark:bg-[--dark-bg] dark:!shadow-[0_1px_5px_3px_var(--dark-bg)];
+		@apply bg-(--bg) dark:bg-(--dark-bg) sticky top-0 -mt-2 pt-2 font-normal !shadow-[0_0_2px_4px_var(--bg)] dark:!shadow-[0_1px_5px_3px_var(--dark-bg)];
 		/* titles are wider so that when they're sticky, they fully overlap .full galleries */
 		@apply z-10 w-[calc(150%+4em)] xl:w-full;
 	}
@@ -191,18 +191,18 @@ h3:before {
 	}
 	img,
 	figure {
-		@apply my-[--indent];
+		@apply my-(--indent);
 		&.full {
-			@apply w-[calc(150%+4em)] xl:mb-[--indent] xl:w-full;
+			@apply xl:mb-(--indent) w-[calc(150%+4em)] xl:w-full;
 		}
 	}
 	code {
-		@apply rounded border-[#DBD7CAEE] bg-[#121212] px-[0.3em] py-[0.1em] text-[0.8em] text-[#DBD7CAEE] dark:border-[0.5px] dark:border-solid;
+		@apply rounded-sm border-[#DBD7CAEE] bg-[#121212] px-[0.3em] py-[0.1em] text-[0.8em] text-[#DBD7CAEE] dark:border-[0.5px] dark:border-solid;
 	}
 	/* Simulate Pandoc's table output styles */
 	table,
 	th {
-		@apply border-0 border-solid border-[--base-color] dark:border-[--dark-base-color];
+		@apply border-(--base-color) dark:border-(--dark-base-color) border-0 border-solid;
 	}
 	table {
 		@apply my-[calc(var(--indent)*2)] overflow-x-auto border-y py-[0.3em];
@@ -243,9 +243,9 @@ h3:before {
 .article-styling {
 	details summary {
 		font-size: 0.8em;
-		@apply my-[--indent] flex cursor-pointer items-center;
+		@apply my-(--indent) flex cursor-pointer items-center;
 		span {
-			@apply rounded border-2 px-[1em];
+			@apply rounded-sm border-2 px-[1em];
 		}
 		&::before,
 		&::after {
@@ -256,7 +256,7 @@ h3:before {
 		span,
 		&::before,
 		&::after {
-			@apply border-dotted border-[--secondary-color] dark:border-[--dark-secondary-color];
+			@apply border-(--secondary-color) dark:border-(--dark-secondary-color) border-dotted;
 		}
 	}
 	details[open] summary {
@@ -264,9 +264,9 @@ h3:before {
 	}
 
 	.bg-mention {
-		@apply bg-[--bg-mention-color] dark:bg-[--dark-bg-mention-color];
+		@apply bg-(--bg-mention-color) dark:bg-(--dark-bg-mention-color);
 		&:hover {
-			@apply bg-[--bg-mention-hover-color] dark:bg-[--dark-bg-mention-hover-color];
+			@apply bg-(--bg-mention-hover-color) dark:bg-(--dark-bg-mention-hover-color);
 		}
 		img {
 			@apply -mb-[0.1em];
@@ -289,7 +289,7 @@ h3:before {
 
 	code,
 	pre {
-		@apply font-[family-name:--code-font] text-[length:--code-font-size];
+		@apply font-(family-name:--code-font) text-(length:--code-font-size);
 	}
 
 	pre {
@@ -313,7 +313,7 @@ h3:before {
 	}
 
 	.secondary-color {
-		@apply text-[--secondary-color] dark:text-[--dark-secondary-color];
+		@apply text-(--secondary-color) dark:text-(--dark-secondary-color);
 	}
 
 	:root:not([data-palette*="louize"]) blockquote,
@@ -321,7 +321,7 @@ h3:before {
 	.license,
 	hr,
 	.special-color {
-		@apply text-[--special-color] dark:text-[--dark-special-color];
+		@apply text-(--special-color) dark:text-(--dark-special-color);
 	}
 
 	figure {
@@ -437,16 +437,16 @@ h3:before {
 	a {
 		@apply underline decoration-1 underline-offset-3;
 		&:hover {
-			@apply rounded-sm bg-[--popup-active] dark:bg-[--dark-popup-active];
+			@apply rounded-xs bg-(--popup-active) dark:bg-(--dark-popup-active);
 		}
 	}
 	p,
 	blockquote {
-		@apply my-[--indent] hyphens-auto;
+		@apply my-(--indent) hyphens-auto;
 	}
 	/* I have no idea how to target Markdown lists exclusively, so here we are */
 	p + ul {
-		@apply list-none pl-[--indent];
+		@apply pl-(--indent) list-none;
 		> li {
 			@apply relative;
 			&::before {
@@ -458,7 +458,7 @@ h3:before {
 				font-size: 80%;
 			}
 			ul {
-				@apply list-none pl-[--indent];
+				@apply pl-(--indent) list-none;
 				> li {
 					@apply relative;
 					&::before {
@@ -474,7 +474,7 @@ h3:before {
 		}
 	}
 	nav.toc {
-		@apply my-[--indent] leading-[--indent];
+		@apply my-(--indent) leading-(--indent);
 		& > ol {
 			@apply my-0;
 			& > li {
@@ -482,7 +482,7 @@ h3:before {
 			}
 		}
 		ul {
-			@apply flex max-h-[--max-height] flex-col flex-wrap content-start gap-x-[--indent] medium:max-h-none;
+			@apply max-h-(--max-height) gap-x-(--indent) flex flex-col flex-wrap content-start medium:max-h-none;
 			:root[data-palette="source-serif"] & li a {
 				font-family: "Source Serif SmText", "Source Serif", serif;
 				font-weight: 400;
@@ -494,7 +494,7 @@ h3:before {
 	}
 	h2,
 	h3 {
-		@apply my-[--indent];
+		@apply my-(--indent);
 	}
 	h2:not(.no-numbering) {
 		font-feature-settings: "c2sc", "smcp";
@@ -535,7 +535,7 @@ h3:before {
 		font-size: 1.1em;
 	}
 	aside {
-		@apply mx-0 my-[--indent] bg-inherit px-[--indent] py-0 small:my-[--sm-indent] small:px-[--sm-indent];
+		@apply my-(--indent) px-(--indent) small:my-(--sm-indent) small:px-(--sm-indent) mx-0 bg-inherit py-0;
 		font-size: 0.85em;
 		h3 {
 			font-feature-settings: "smcp";
@@ -547,13 +547,13 @@ h3:before {
 	}
 	example,
 	blockquote {
-		@apply pl-[--indent] small:pl-[--sm-indent];
+		@apply pl-(--indent) small:pl-(--sm-indent);
 		figcaption {
-			@apply pt-[calc(var(--font-size)-0.9rem)] text-[0.9rem] text-[--secondary-color] small:pt-[calc(var(--sm-font-size)-0.9rem)] dark:text-[--dark-secondary-color];
+			@apply text-(--secondary-color) dark:text-(--dark-secondary-color) pt-[calc(var(--font-size)-0.9rem)] text-[0.9rem] small:pt-[calc(var(--sm-font-size)-0.9rem)];
 		}
 	}
 	example {
-		@apply my-[--indent] flex flex-col small:my-[--sm-indent];
+		@apply my-(--indent) small:my-(--sm-indent) flex flex-col;
 		p,
 		ul {
 			@apply m-0 mb-4;
@@ -581,7 +581,7 @@ h3:before {
 		font-feature-settings: "tnum";
 	}
 	.footnotes ol {
-		@apply columns-2 gap-10 hyphens-auto pl-0 text-[13px] medium:columns-1 medium:pl-[--indent];
+		@apply medium:pl-(--indent) columns-2 gap-10 hyphens-auto pl-0 text-[13px] medium:columns-1;
 		li {
 			@apply my-[1em] break-inside-avoid-column;
 			&:first-child {
@@ -682,7 +682,7 @@ h3:before {
 	sup a {
 		border-width: 1px;
 		border-style: dotted;
-		@apply rounded-sm border-0 mediumlarge:border mediumlarge:px-1;
+		@apply rounded-xs border-0 mediumlarge:border mediumlarge:px-1;
 	}
 	nav.toc {
 		font-family: "Cormorant", serif;

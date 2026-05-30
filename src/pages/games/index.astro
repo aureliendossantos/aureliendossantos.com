@@ -45,7 +45,7 @@ games.sort(
 					le texte est un peu plus long.
 				</p>
 				<h3 class="font-work-sans">Coups de cœur récents</h3>
-				<div class="not-prose grid grid-cols-6 gap-3 medium:grid-cols-5 small:grid-cols-4">
+				<div class="not-prose medium:grid-cols-5 small:grid-cols-4 grid grid-cols-6 gap-3">
 					{
 						games
 							.filter(({ data }) => data.igdb && data.quickReview == "Coup de cœur")
@@ -57,13 +57,13 @@ games.sort(
 							.map(({ data }) => (
 								<a
 									href={`/games/${data.slug}`}
-									class="group scale-100 transition ease-out hover:scale-[1.03] medium:[&:nth-child(n+11)]:hidden small:[&:nth-child(n+9)]:hidden"
+									class="group medium:[&:nth-child(n+11)]:hidden small:[&:nth-child(n+9)]:hidden scale-100 transition ease-out hover:scale-[1.03]"
 								>
 									<IGDBImage
 										image={data.igdb!.cover}
 										size="cover_small"
 										retina
-										class="rounded bg-slate-500 shadow-sm transition-shadow group-hover:shadow"
+										class="rounded-sm bg-slate-500 shadow-xs transition-shadow group-hover:shadow"
 										alt={data.title}
 									/>
 								</a>
@@ -82,17 +82,17 @@ games.sort(
 			<div class="mb-5 space-y-2">
 				<div class="flex flex-wrap gap-2 px-4">
 					<input
-						class="dark:highlight-white/5 min-h-[26px] grow rounded-md px-2 text-sm caret-indigo-500 shadow-sm ring-1 ring-slate-900/10 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-slate-800 dark:text-slate-200 dark:ring-0 dark:focus:bg-slate-900 dark:focus:ring-2 dark:focus:ring-indigo-500"
+						class="dark:highlight-white/5 min-h-[26px] grow rounded-md px-2 text-sm caret-indigo-500 shadow-xs ring-1 ring-slate-900/10 focus:ring-2 focus:ring-indigo-500 focus:outline-hidden dark:bg-slate-800 dark:text-slate-200 dark:ring-0 dark:focus:bg-slate-900 dark:focus:ring-2 dark:focus:ring-indigo-500"
 						type="text"
 						id="search-bar"
 						placeholder="Rechercher un jeu"
 					/>
-					<div class="text-sm small:text-xs">
+					<div class="small:text-xs text-sm">
 						<FilterButton type="checkbox" name="filters" id="all" content="Multijoueur" />
 					</div>
 				</div>
 				<div
-					class="grid w-full grid-cols-4 items-stretch gap-2 px-4 text-sm small:text-xs"
+					class="small:text-xs grid w-full grid-cols-4 items-stretch gap-2 px-4 text-sm"
 					id="filters-div"
 					style="display: none;"
 				>
@@ -102,7 +102,7 @@ games.sort(
 					<FilterButton type="checkbox" name="filters" id="versus" content="🆚 Versus" />
 				</div>
 			</div>
-			<table class="mb-8 w-full small:text-sm" id="games-table">
+			<table class="small:text-sm mb-8 w-full" id="games-table">
 				<thead>
 					<tr class="border-b border-slate-300 text-left dark:border-slate-700">
 						<th colspan="2" class="py-3 pl-4 font-medium">Jeu</th>
@@ -223,6 +223,8 @@ games.sort(
 </script>
 
 <style is:global>
+	@reference "#tailwind.css";
+
 	td:not(:last-of-type) {
 		@apply pr-2;
 	}

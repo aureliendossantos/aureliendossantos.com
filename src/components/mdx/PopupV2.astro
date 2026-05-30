@@ -27,19 +27,19 @@ const labelHtml = markdown
 		id={`text-${uid}`}
 		data-icon={icon}
 		class:list={[
-			"popup-link unstyled cursor-context-menu rounded-sm transition hover:bg-[--popup-active] dark:hover:bg-[--dark-popup-active]",
+			"popup-link unstyled rounded-xs hover:bg-(--popup-active) dark:hover:bg-(--dark-popup-active) cursor-context-menu transition",
 			{
 				"!no-underline": noUnderline,
 				underline: !noUnderline,
 				"decoration-stone-400 decoration-dotted decoration-2 underline-offset-4": kitchen,
-				"decoration-[--popup] decoration-1 underline-offset-3 dark:decoration-[--dark-popup]":
+				"decoration-(--popup) dark:decoration-(--dark-popup) decoration-1 underline-offset-3":
 					!kitchen,
 			},
 		]}><Fragment set:html={labelHtml} /></a
 	></span
 ><template class="new-popup-template" id={uid}>
 	<div
-		class="popup absolute bottom-[25px] hidden h-fit -translate-x-1/2 rounded border border-solid border-[--popup] bg-[--bg] indent-0 text-[length:--sm-font-size] text-[--base-color] shadow-md prose-headings:mt-0 prose-headings:text-inherit prose-a:text-inherit dark:border-[--dark-popup] dark:bg-[--dark-bg] dark:text-[--dark-base-color]"
+		class="popup border-(--popup) bg-(--bg) text-(length:--sm-font-size) text-(--base-color) dark:border-(--dark-popup) dark:bg-(--dark-bg) dark:text-(--dark-base-color) absolute bottom-[25px] hidden h-fit -translate-x-1/2 rounded-sm border border-solid indent-0 shadow-md prose-headings:mt-0 prose-headings:text-inherit prose-a:text-inherit"
 		style={diary
 			? {
 					"--popup": "#52525b",
@@ -65,7 +65,7 @@ const labelHtml = markdown
 			</div>
 			{
 				url && (
-					<div class="source truncate border-0 border-t border-dotted border-[--popup] px-8 py-2 font-[family-name:--code-font] text-xs dark:border-[--dark-popup]">
+					<div class="source border-(--popup) dark:border-(--dark-popup) font-(family-name:--code-font) truncate border-0 border-t border-dotted px-8 py-2 text-xs">
 						{/* BUG: No idea why but the following <a> is copied in the document (creating a space) even when `url` is undefined.
 						I'll investigate when I need the <Wiki> component. */}
 						<a href={url} class="no-underline">
@@ -79,6 +79,8 @@ const labelHtml = markdown
 </template>
 
 <style is:global>
+	@reference "#tailwind.css";
+
 	.popup {
 		p {
 			&:first-child {
@@ -121,8 +123,8 @@ const labelHtml = markdown
 			opened = false
 			popup.style.display = "none"
 			text.classList.remove(
-				"bg-[--popup-active]",
-				"dark:bg-[--dark-popup-active]",
+				"bg-(--popup-active)",
+				"dark:bg-(--dark-popup-active)",
 				"cursor-pointer"
 			)
 			window.popupsOpened -= 1
@@ -169,7 +171,7 @@ const labelHtml = markdown
 			// the popup height should be at most 240px, or less if the contents is smaller
 			popup.style.left = textRect.width / 2 + "px"
 			popup.style.display = "block"
-			text.classList.add("bg-[--popup-active]", "dark:bg-[--dark-popup-active]", "cursor-pointer")
+			text.classList.add("bg-(--popup-active)", "dark:bg-(--dark-popup-active)", "cursor-pointer")
 
 			window.popupZindex = Math.min(window.popupZindex + 1, 99)
 			popup.style.zIndex = `${window.popupZindex}`

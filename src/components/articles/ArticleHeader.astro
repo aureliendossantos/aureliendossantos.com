@@ -48,7 +48,7 @@ const tags = Astro.props.tags ? await getEntries(Astro.props.tags) : []
 
 <header
 	class:list={[
-		"text-[length:--font-size] leading-[--line-height] text-[--cover] medium:px-[40px] small:px-[20px] small:text-[length:--sm-font-size] small:leading-[--sm-line-height] dark:text-[--dark-cover]",
+		"small:leading-(--sm-line-height) small:text-(length:--sm-font-size) text-(length:--font-size) leading-(--line-height) text-(--cover) dark:text-(--dark-cover) medium:px-[40px] small:px-[20px]",
 		{
 			"px-[80px]": !sidenotes,
 			"xl:px-[80px]": sidenotes,
@@ -72,17 +72,17 @@ const tags = Astro.props.tags ? await getEntries(Astro.props.tags) : []
 				"pb-20 pt-20": cormorant,
 				"pt-8": !cormorant,
 				"max-w-[700px]": wide,
-				"max-w-[--page-width]": !wide && !sidenotes,
-				"max-w-[calc(var(--page-width)*1.5+4em)] xl:max-w-[--page-width]": sidenotes,
+				"max-w-(--page-width)": !wide && !sidenotes,
+				"xl:max-w-(--page-width) max-w-[calc(var(--page-width)*1.5+4em)]": sidenotes,
 			},
 		]}
 	>
-		<div class:list={{ "max-w-[--page-width]": sidenotes && !tufte }}>
+		<div class:list={{ "max-w-(--page-width)": sidenotes && !tufte }}>
 			<h1
 				set:html={title}
 				class:list={[
-					"text-pretty text-[--h1] dark:text-[--dark-h1]",
-					{ "mb-0 !leading-tight": cormorant, "mt-[2.2em]": tufte },
+					"text-(--h1) dark:text-(--dark-h1) text-pretty",
+					{ "leading-tight! mb-0": cormorant, "mt-[2.2em]": tufte },
 				]}
 				style={{
 					"--h1": cover ? "#fbf8f2" : getColor(palette.baseColor),
@@ -104,7 +104,7 @@ const tags = Astro.props.tags ? await getEntries(Astro.props.tags) : []
 					<p
 						set:html={longDescription || description}
 						class:list={{
-							"!my-[1em]": cormorant,
+							"my-[1em]!": cormorant,
 							"my-0 text-[1.41em] italic leading-tight": tufte,
 						}}
 						style={{
@@ -145,6 +145,8 @@ const tags = Astro.props.tags ? await getEntries(Astro.props.tags) : []
 </header>
 
 <style is:global>
+	@reference "#tailwind.css";
+
 	:root[data-palette*="louize"] header h1 em {
 		@apply not-italic;
 	}

@@ -7,12 +7,14 @@ const { bg, text } = Astro.props
 ---
 
 <div style={{ backgroundColor: bg || "#808080", color: text || "#f0f0f0" }}>
-	<div class="n m-auto max-w-[1100px] py-16 pl-80 pr-8 text-xs medium:pl-8">
+	<div class="n medium:pl-8 m-auto max-w-[1100px] py-16 pr-8 pl-80 text-xs">
 		<slot />
 	</div>
 </div>
 
 <style is:global>
+	@reference "#tailwind.css";
+
 	.n {
 		font-family: Louize, Arial, sans-serif;
 	}
@@ -20,7 +22,7 @@ const { bg, text } = Astro.props
 		@apply mb-[1em];
 	}
 	img {
-		@apply inline shadow-sm;
+		@apply inline shadow-xs;
 	}
 	.gallery {
 		figure + figure {

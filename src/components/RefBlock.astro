@@ -55,7 +55,7 @@ const markdown = new MarkdownIt({ html: true })
 		{ "flex flex-row gap-4": !big },
 		{ "flex max-h-[240px] flex-row place-content-between": posterRatio },
 		{
-			"grid grid-cols-5 shadow transition-shadow hover:shadow-md small:grid-cols-1 small:grid-rows-1":
+			"grid grid-cols-5 shadow-sm transition-shadow hover:shadow-md small:grid-cols-1 small:grid-rows-1":
 				big && !posterRatio,
 		},
 		{ "overflow-hidden rounded-md": big },
@@ -90,7 +90,7 @@ const markdown = new MarkdownIt({ html: true })
 						style={posterRatio ? "border-radius:0;" : ""}
 						data-zoomable
 						data-zoom-src={imgHiRes}
-						class="bg-[--secondary-color]"
+						class="bg-(--secondary-color)"
 						width="100%"
 					/>
 				</div>
@@ -158,7 +158,7 @@ const markdown = new MarkdownIt({ html: true })
 								data-zoomable
 								data-zoom-src={galleryHiRes && galleryHiRes[index]}
 								src={url}
-								class="unstyled max-w-full rounded object-cover"
+								class="unstyled max-w-full rounded-sm object-cover"
 							/>
 						))}
 					</div>

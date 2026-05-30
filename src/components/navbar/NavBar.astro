@@ -36,8 +36,6 @@ const relatedTitle = Astro.props.relatedTitle || "Voir aussi"
 const t = useTranslations(checkLocale(Astro.currentLocale))
 ---
 
-</div>
-
 {
 	/* When it's easy to separate sub-elements in the DOM, put them here instead of nested in the navbar, to avoid issues with nested backdrop filters. */
 }
@@ -46,7 +44,7 @@ const t = useTranslations(checkLocale(Astro.currentLocale))
 
 <div
 	id="navbar"
-	class="navbar-colors navbar-bg fixed bottom-1 left-1 right-1 z-[999] flex h-7 rounded-md border font-work-sans text-sm transition-all duration-500 print:!hidden"
+	class="navbar-colors navbar-bg font-work-sans fixed right-1 bottom-1 left-1 z-[999] flex h-7 rounded-md border text-sm transition-all duration-500 print:!hidden"
 	style={{
 		cornerShape: "squircle",
 		marginLeft: "calc(var(--has-viewport-cover) * env(safe-area-inset-left))",
@@ -62,7 +60,7 @@ const t = useTranslations(checkLocale(Astro.currentLocale))
 			truncate="medium"
 			keepOpenOnClick
 		>
-			<NetworkIcon size="17px" slot="icon" />
+			<NetworkIcon width="17px" height="17px" slot="icon" />
 			<NavbarGraph {title} />
 		</DropdownMenu>
 		<!--
@@ -90,26 +88,26 @@ const t = useTranslations(checkLocale(Astro.currentLocale))
 			]}
 			href={parent?.href}
 		>
-			<HomeIcon size="14px" />
-			<div id="navbar-parent-text" class="truncate whitespace-nowrap small:max-w-[20vw]">
+			<HomeIcon width="14px" height="14px" />
+			<div id="navbar-parent-text" class="small:max-w-[20vw] truncate whitespace-nowrap">
 				{parent?.title}
 			</div>
 			<div
-				class="navbar-colors absolute -right-[3px] top-3 z-[1000] h-[4px] w-[4px] rotate-45 border-r border-t bg-[--navbar-bg-compatible] group-hover:bg-[--navbar-hover-bg] dark:bg-[--dark-navbar-bg-compatible] dark:group-hover:bg-[--dark-navbar-hover-bg]"
+				class="navbar-colors absolute top-3 -right-[3px] z-[1000] h-[4px] w-[4px] rotate-45 border-t border-r bg-(--navbar-bg-compatible) group-hover:bg-(--navbar-hover-bg) dark:bg-(--dark-navbar-bg-compatible) dark:group-hover:bg-(--dark-navbar-hover-bg)"
 			>
 			</div>
 		</a>
 		<button
 			id="navbar-copy-link"
 			style="padding-block: unset;"
-			class="navbar-colors navbar-hover-colors group relative m-0 flex h-full items-center justify-center gap-2 border-r p-0 px-3 medium:px-2"
+			class="navbar-colors navbar-hover-colors group medium:px-2 relative m-0 flex h-full items-center justify-center gap-2 border-r p-0 px-3"
 		>
-			<ShareIcon size="14px" id="navbar-link-icon" class="-mt-[3px]" />
-			<CheckIcon size="17px" id="navbar-link-checkmark" class="hidden" />
+			<ShareIcon width="14px" height="14px" id="navbar-link-icon" class="-mt-[3px]" />
+			<CheckIcon width="17px" height="17px" id="navbar-link-checkmark" class="hidden" />
 			<div id="navbar-loading-icon" class="hidden h-[17px] w-[17px] animate-spin">
 				<Spinner />
 			</div>
-			<div id="navbar-title" class="truncate mediumlarge:max-w-[20vw] medium:hidden">
+			<div id="navbar-title" class="mediumlarge:max-w-[20vw] medium:hidden truncate">
 				{title}
 			</div>
 		</button>
@@ -120,7 +118,7 @@ const t = useTranslations(checkLocale(Astro.currentLocale))
 			borderRight
 			initiallyHidden={!headings || headings.length <= 1}
 		>
-			<TocIcon id="navbar-link-icon" size="17px" class="rotate-180" slot="icon" />
+			<TocIcon id="navbar-link-icon" width="17px" height="17px" class="rotate-180" slot="icon" />
 			<div
 				class="line-clamp-2 hidden w-[192px] border-x-0 px-3 py-[6px] leading-tight text-neutral-500 xl:block"
 			>
@@ -141,10 +139,10 @@ const t = useTranslations(checkLocale(Astro.currentLocale))
 			borderRight
 			initiallyHidden={!related || related.length == 0}
 		>
-			<ShareNetworkIcon size="16px" slot="icon" />
+			<ShareNetworkIcon width="16px" height="16px" slot="icon" />
 			<div
 				id="navbar-related-mobile-title"
-				class="line-clamp-2 hidden w-[192px] border-x-0 px-3 py-[6px] leading-tight text-neutral-500 mediumlarge:block"
+				class="mediumlarge:block line-clamp-2 hidden w-[192px] border-x-0 px-3 py-[6px] leading-tight text-neutral-500"
 			>
 				{relatedTitle}
 			</div>
@@ -174,11 +172,11 @@ const t = useTranslations(checkLocale(Astro.currentLocale))
 		<InactiveItem id="navbar-popup-title" label="Titre" borderRight truncate />
 		<a
 			id="navbar-popup-library"
-			class="navbar-colors navbar-hover-colors group relative m-0 flex h-full items-center justify-center gap-2 border-r p-0 px-3 medium:px-2"
+			class="navbar-colors navbar-hover-colors group medium:px-2 relative m-0 flex h-full items-center justify-center gap-2 border-r p-0 px-3"
 			href=""
 		>
-			<div class="whitespace-nowrap medium:hidden">Dans ma bibliothèque</div>
-			<LibraryIcon size="17px" />
+			<div class="medium:hidden whitespace-nowrap">Dans ma bibliothèque</div>
+			<LibraryIcon width="17px" height="17px" />
 		</a>
 		{
 			[1, 2, 3].map((i) => (
@@ -196,14 +194,14 @@ const t = useTranslations(checkLocale(Astro.currentLocale))
 	}
 	<button
 		id="fullscreen-to-overview"
-		class="navbar-colors navbar-hover-colors hidden border-r px-3 medium:px-2"
+		class="navbar-colors navbar-hover-colors medium:px-2 hidden border-r px-3"
 	>
-		<CollapseIcon size="17px" />
+		<CollapseIcon width="17px" height="17px" />
 	</button>
 	<DropdownMenu id="navbar-game" keepOpenOnClick alignRight>
 		<div slot="icon">
-			<CampfireIcon id="navbar-game-main-icon" size="17px" />
-			<DoubleArrowDownIcon id="navbar-game-close-icon" size="17px" class="hidden" />
+			<CampfireIcon id="navbar-game-main-icon" width="17px" height="17px" />
+			<DoubleArrowDownIcon id="navbar-game-close-icon" width="17px" height="17px" class="hidden" />
 		</div>
 		<GameStatus />
 	</DropdownMenu>
@@ -314,6 +312,8 @@ const t = useTranslations(checkLocale(Astro.currentLocale))
 </script>
 
 <style is:global>
+	@reference "#tailwind.css";
+
 	#navbar a:link {
 		@apply no-underline;
 	}

@@ -1,6 +1,6 @@
 import "dotenv/config"
 import { Client } from "@notionhq/client"
-import type { QueryDatabaseParameters } from "@notionhq/client/build/src/api-endpoints"
+import type { QueryDataSourceParameters } from "@notionhq/client/build/src/api-endpoints"
 import type { Logger } from "$utils/remoteData/loaders"
 
 /**
@@ -14,7 +14,7 @@ import type { Logger } from "$utils/remoteData/loaders"
 export default async function getDatabase(
 	id: string,
 	opts?: {
-		filter?: QueryDatabaseParameters["filter"]
+		filter?: QueryDataSourceParameters["filter"]
 		firstResults?: boolean
 		numberOfItems?: number
 	},
@@ -23,9 +23,21 @@ export default async function getDatabase(
 	const notion = new Client({
 		auth: process.env.NOTION_SECRET,
 	})
+	let dataSourceId = id
+
+	// Notion SDK v5 queries data sources; older config may still pass database IDs.
+	try {
+		const database = await notion.databases.retrieve({ database_id: id })
+		if ("data_sources" in database && database.data_sources.length > 0) {
+			dataSourceId = database.data_sources[0].id
+		}
+	} catch {
+		// If this is already a data source ID, retrieving as database will fail.
+	}
+
 	let results = []
-	let data = await notion.databases.query({
-		database_id: id,
+	let data = await notion.dataSources.query({
+		data_source_id: dataSourceId,
 		filter: opts?.filter,
 		page_size: opts?.numberOfItems,
 		sorts: opts?.firstResults
@@ -35,8 +47,8 @@ export default async function getDatabase(
 	results = [...data.results]
 	while (!opts?.firstResults && data.has_more) {
 		logger("Getting next page...")
-		data = await notion.databases.query({
-			database_id: id,
+		data = await notion.dataSources.query({
+			data_source_id: dataSourceId,
 			filter: opts?.filter,
 			page_size: opts?.numberOfItems,
 			start_cursor: data.next_cursor || undefined,

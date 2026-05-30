@@ -43,9 +43,8 @@ const graphConfig = { ...defaultOptions, ...opts }
 <div class="relative h-64 w-64 overflow-hidden">
 	<div id="graph-container" data-cfg={JSON.stringify(graphConfig)}></div>
 	<ScanIcon
-		id="global-graph-icon"
-		size="16px"
-		class="absolute right-0 top-0 box-content cursor-pointer rounded-bl-sm p-[6px] text-[--graph-secondary] hover:text-[--navbar-text] hover:dark:text-[--dark-navbar-text]"
+		id="global-graph-icon" width="16px" height="16px"
+		class="text-(--graph-secondary) hover:text-(--navbar-text) hover:dark:text-(--dark-navbar-text) absolute right-0 top-0 box-content cursor-pointer rounded-bl-sm p-[6px]"
 	/>
 	<div
 		id="graph-title"

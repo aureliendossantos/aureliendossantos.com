@@ -31,10 +31,9 @@ const hasPlusIcon = toggle && label != "number"
 	]}
 	>{
 		hasPlusIcon && (
-			<PlusCircleIcon
-				size="0.7em"
+			<PlusCircleIcon width="0.7em" height="0.7em"
 				class:list={[
-					"align-top text-[--special-color] dark:text-[--dark-special-color]",
+					"text-(--special-color) dark:text-(--dark-special-color) align-top",
 					{ "hidden xl:inline": label == "symbol" },
 				]}
 			/>

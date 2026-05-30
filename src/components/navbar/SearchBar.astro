@@ -8,12 +8,12 @@ const t = useTranslations(locale)
 <div class="navbar-colors relative border-r">
 	<div class="navbar-hover-colors group flex h-full items-center">
 		<label for="navbar-search-toggle" class="pl-[10px] pr-2 medium:px-2">
-			<SearchIcon size="17px" />
+			<SearchIcon width="17px" height="17px" />
 		</label>
 		<input type="checkbox" id="navbar-search-toggle" class="peer hidden" aria-hidden="true" />
 		<input
 			id="navbar-search"
-			class="w-[90px] bg-transparent p-0 placeholder:text-[--navbar-text] focus:text-[--navbar-text] focus:outline-none placeholder:focus:text-[--navbar-border] group-hover:text-[--navbar-hover-text] placeholder:group-hover:text-[--navbar-hover-text] focus:group-hover:text-[--navbar-hover-text] medium:w-0 medium:active:w-[90px] medium:peer-checked:w-[90px] dark:placeholder:text-[--dark-navbar-text] dark:focus:text-[--dark-navbar-text] dark:placeholder:focus:text-[--dark-navbar-border] dark:group-hover:text-[--dark-navbar-hover-text] dark:placeholder:group-hover:text-[--dark-navbar-hover-text] dark:focus:group-hover:text-[--dark-navbar-hover-text]"
+			class="focus:outline-hidden placeholder:text-(--navbar-text) focus:text-(--navbar-text) placeholder:focus:text-(--navbar-border) group-hover:text-(--navbar-hover-text) placeholder:group-hover:text-(--navbar-hover-text) focus:group-hover:text-(--navbar-hover-text) dark:placeholder:text-(--dark-navbar-text) dark:focus:text-(--dark-navbar-text) dark:placeholder:focus:text-(--dark-navbar-border) dark:group-hover:text-(--dark-navbar-hover-text) dark:placeholder:group-hover:text-(--dark-navbar-hover-text) dark:focus:group-hover:text-(--dark-navbar-hover-text) w-[90px] bg-transparent p-0 medium:w-0 medium:active:w-[90px] medium:peer-checked:w-[90px]"
 			style="transition: width 0.2s ease-out;"
 			placeholder={t("n-search")}
 			autocomplete="off"

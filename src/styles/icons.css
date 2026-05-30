@@ -1,3 +1,5 @@
+@reference "#tailwind.css";
+
 /* if this style is global, all links with data-icon are affected,
 	which can be convenient. See IngredientInPopup.astro for example. */
 
@@ -27,7 +29,7 @@ a[data-icon="wikipedia"]::after {
 	height: calc(1.6em * 0.3);
 	top: -0.3em;
 	margin-right: -0.2em;
-	@apply bg-[--base-color] dark:bg-[--dark-base-color];
+	@apply bg-(--base-color) dark:bg-(--dark-base-color);
 }
 
 a[data-icon="chef-hat"]::after {
@@ -45,7 +47,7 @@ a[data-icon="github"]::before {
 	height: 0.9em;
 	top: 0.11em;
 	margin-right: 0.2em;
-	@apply bg-[--secondary-color] dark:bg-[--dark-secondary-color];
+	@apply bg-(--secondary-color) dark:bg-(--dark-secondary-color);
 }
 
 a[href*="https://developer.mozilla.org/"]::after

@@ -37,7 +37,7 @@ const renderCoffeeHistory = page.id.replaceAll("-", "") == COFFEE_PAGE_ID
 	navBarProps={{ title: page.title, parent: pageTags.length > 0 ?  { title: pageTags[0].data.title, href: `/tags/${pageTags[0].id}` } : undefined} }
 >
 	<div
-		class="prose mx-auto prose-h1:mb-0 mb-16 mt-8 px-4 font-[350] mediumlarge:prose-sm dark:prose-invert prose-a:text-[--secondary] prose-a:dark:text-[--dark-secondary] prose-a:no-underline prose-quoteless prose-blockquote:font-[350] prose-blockquote:not-italic font-bricolage prose-fenceless"
+		class="prose mx-auto prose-h1:mb-0 mb-16 mt-8 px-4 font-[350] mediumlarge:prose-sm dark:prose-invert prose-a:text-(--secondary) prose-a:dark:text-(--dark-secondary) prose-a:no-underline prose-quoteless prose-blockquote:font-[350] prose-blockquote:not-italic font-bricolage prose-fenceless"
 		style={{
 			"--main": "#fbf7ee",
 			"--dark-main": "#101520",
@@ -48,12 +48,12 @@ const renderCoffeeHistory = page.id.replaceAll("-", "") == COFFEE_PAGE_ID
 			"--highlight": "#8f9fa926",
 		}}
 	>
-		<header class="flex justify-between text-[--secondary] dark:text-[--dark-secondary]">
+		<header class="flex justify-between text-(--secondary) dark:text-(--dark-secondary)">
 				<p><a href="/" id="back-link">← Accueil</a></p>
 		</header>
 			<h1>{page.title}</h1>
 			{page.description && <p class="lead">{page.description}</p>}
-			<p class="text-[--gray]">
+			<p class="text-(--gray)">
 				{
 					page.status && (
 						<>
@@ -76,14 +76,14 @@ const renderCoffeeHistory = page.id.replaceAll("-", "") == COFFEE_PAGE_ID
 					pageTags.map((tag) => (
 						<>
 						<!-- prettier-ignore -->
-						<a href={`/tags/${tag.id}`} style={{ marginLeft: "0", marginRight: "0" }}><LabelIcon size="1em" class="mb-[0.1em] mr-[0.15em] inline-block" />{tag.data.title}</a>
+						<a href={`/tags/${tag.id}`} style={{ marginLeft: "0", marginRight: "0" }}><LabelIcon width="1em" height="1em" class="mb-[0.1em] mr-[0.15em] inline-block" />{tag.data.title}</a>
 						</>
 					))
 				}
 				<span class="mx-[0.1em]">·</span>
-				<UpdateIcon size="1em" class="mb-[0.15em] inline-block" />
+				<UpdateIcon width="1em" height="1em" class="mb-[0.15em] inline-block" />
 				{formatDate(new Date(page.editedTime))}
-				<NotionIcon size="1em" class="mb-[0.10em] inline-block" />
+				<NotionIcon width="1em" height="1em" class="mb-[0.10em] inline-block" />
 			</p>
 			{
 				renderFortniteTracks ? (
@@ -118,10 +118,12 @@ const renderCoffeeHistory = page.id.replaceAll("-", "") == COFFEE_PAGE_ID
 </script>
 
 <style is:global>
+	@reference "#tailwind.css";
+
 	.prose a {
-		@apply font-[550] dark:text-[--dark-secondary] text-[--secondary] transition hover:text-[--tertiary];
+		@apply font-[550] dark:text-(--dark-secondary) text-(--secondary) transition hover:text-(--tertiary);
 		&:not(.link_preview) {
-			@apply -mx-[0.25em] -my-[0.05em] py-[0.05em] rounded-[0.25em] bg-[--highlight] px-[0.25em];
+			@apply -mx-[0.25em] -my-[0.05em] py-[0.05em] rounded-[0.25em] bg-(--highlight) px-[0.25em];
 		}
 	}
 	header a {
@@ -146,7 +148,7 @@ const renderCoffeeHistory = page.id.replaceAll("-", "") == COFFEE_PAGE_ID
 		@apply font-nk57;
 	}
 	.link-preview {
-		@apply leading-snug bg-[--highlight] !flex-row-reverse;
+		@apply leading-snug bg-(--highlight) !flex-row-reverse;
 		.link-preview__content {
 			@apply grow;
 		}

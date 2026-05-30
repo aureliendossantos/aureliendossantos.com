@@ -10,6 +10,16 @@ The website contents (blog articles and other pages, images, videos...), which s
 
 This allows me to work on various drafts without worrying about them going public, and to add secret pages that may need you to jump through some hoops before you stumble on them. Unfortunately, this also means that the website might not work locally if you pull this main repo. Nevertheless, feel free to take a look at it and steal a component or two.
 
+## Development
+
+```sh
+node ./scripts/writeGitmodules.ts # needs private env variable
+git pull --recurse-submodules
+pnpm install
+pnpm prisma generate
+pnpm dev
+```
+
 ## Commands
 
 | Command                     | Action                                     |

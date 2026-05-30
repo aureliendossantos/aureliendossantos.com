@@ -11,6 +11,8 @@ const { wide, full } = Astro.props
 </div>
 
 <style is:global>
+	@reference "#tailwind.css";
+
 	.gallery {
 		@apply relative my-6 flex flex-row justify-center;
 		figure {
@@ -20,7 +22,7 @@ const { wide, full } = Astro.props
 			@apply ml-[10px];
 		}
 		&.wide {
-			@apply mx-[-80px] mediumlarge:mx-[-40px] medium:mx-[-20px];
+			@apply mediumlarge:mx-[-40px] medium:mx-[-20px] mx-[-80px];
 		}
 		img {
 			@apply w-full;
@@ -28,13 +30,13 @@ const { wide, full } = Astro.props
 		.article-styling:not(.with-sidenotes) &.full {
 			@apply left-1/2 ml-[-50vw] w-screen;
 			figcaption {
-				@apply ml-auto mr-[.5em];
+				@apply mr-[.5em] ml-auto;
 			}
 		}
 		.article-styling.with-sidenotes &.full {
-			@apply my-[--indent] w-[calc(150%+4em)] xl:mb-[--indent] xl:w-full;
+			@apply my-(--indent) w-[calc(150%+4em)] xl:mb-(--indent) xl:w-full;
 			figcaption {
-				@apply ml-auto mr-[.5em];
+				@apply mr-[.5em] ml-auto;
 			}
 		}
 	}

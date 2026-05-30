@@ -29,7 +29,7 @@ const duration = `${Math.floor(seconds / 60)}:${(seconds % 60).toString().padSta
 		<p>
 			{track.artists.map((a) => a.name).join(", ")} ({year})
 			<a href={track.external_urls.spotify} class="!bg-transparent !font-medium">
-				<SpotifyIcon size="0.9em" class="mb-[0.15em] inline-block" />
+				<SpotifyIcon width="0.9em" height="0.9em" class="mb-[0.15em] inline-block" />
 				<span class="text-[#1ED760]">{duration}</span>
 			</a>
 		</p>
