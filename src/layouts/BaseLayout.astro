@@ -7,7 +7,7 @@ import NavBar from "$components/navbar/NavBar.astro"
 import type { NavBarProps } from "$utils/navbar"
 import type { Layouts } from "$utils/design/layouts"
 import { getColor, type Color, getBothColors, PaletteName } from "$utils/design/palettes"
-import ColorLib from "color"
+import ColorLib, { type ColorInstance } from "color"
 import type { ShikiConfig } from "astro"
 import NavBarMargin from "$components/navbar/NavBarMargin.astro"
 import SearchEntries from "$components/navbar/SearchEntries.astro"
@@ -77,19 +77,19 @@ try {
 	console.warn("Error in BaseLayout Color:", error)
 	paletteBg = { light: ColorLib("white"), dark: ColorLib("black") }
 }
-const getNavbarCssProperties = (bg: ColorLib, prefix = "") => {
+const getNavbarCssProperties = (bg: ColorInstance, prefix = "") => {
 	const isLight = bg.isLight()
 	const text = bg.lightness(isLight ? 10 : 90)
-	const border = text.alpha(0.1)
+	const border = text.mix(bg).alpha(0.2)
 	const hoverBg = text.desaturate(0.5)
 	const hoverText = bg.lightness(isLight ? 90 : 10).desaturate(0.5)
 	return {
 		[`--${prefix}navbar-text`]: text.string(),
-		[`--${prefix}navbar-bg`]: bg.alpha(0.8).string(),
+		[`--${prefix}navbar-bg`]: bg.alpha(0.6).string(),
 		// Except in Firefox, nested backdrop filters don't work. Until a workaround is found, using a more legible bg.
 		[`--${prefix}navbar-bg-compatible`]: bg.alpha(0.9).string(),
 		[`--${prefix}navbar-bg-plain`]: bg.string(),
-		[`--${prefix}navbar-bg-filter`]: "saturate(180%) blur(20px)",
+		[`--${prefix}navbar-bg-filter`]: "saturate(200%) blur(6px)",
 		[`--${prefix}navbar-border`]: border.string(),
 		[`--${prefix}navbar-hover-bg`]: hoverBg.string(),
 		[`--${prefix}navbar-hover-text`]: hoverText.string(),

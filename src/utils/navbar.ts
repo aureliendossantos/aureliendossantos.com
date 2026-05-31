@@ -22,6 +22,7 @@ export type NavBarProps = {
 	}[]
 	relatedTitle?: string
 	headings?: MarkdownHeading[]
+	draft?: boolean
 }
 
 /**
@@ -36,13 +37,13 @@ export const toggleNavbar = () => {
 		bottomPageMargin.classList.remove("hidden")
 		closeFooterWithNavbarButton()
 		setTimeout(() => {
-			navbar.classList.remove("-bottom-7")
+			navbar.classList.remove("-bottom-8")
 			navbar.classList.add("bottom-0")
 		}, 10)
 		return true
 	} else {
 		// Hide the navbar
-		navbar.classList.add("-bottom-7")
+		navbar.classList.add("-bottom-8")
 		navbar.classList.remove("bottom-0")
 		bottomPageMargin.classList.add("hidden")
 		openFooterWithNavbarButton()
