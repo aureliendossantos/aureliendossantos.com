@@ -39,22 +39,22 @@ const diaryYears = Array.from(new Set(diary.map((entry) => entry.year))).filter(
 	viewportCover
 >
 	<header
-		class="font-sofia-sans mediumlarge:flex mediumlarge:grid-cols-none mediumlarge:flex-col grid w-full grid-cols-3 items-center bg-white text-sm text-black xl:grid-cols-2 2xl:text-xs dark:bg-black dark:text-white"
+		class="grid w-full grid-cols-3 items-center bg-white font-sofia-sans text-sm text-black 2xl:text-xs xl:grid-cols-2 mediumlarge:flex mediumlarge:grid-cols-none mediumlarge:flex-col dark:bg-black dark:text-white"
 	>
 		<div class="flex justify-center">
 			<div
-				class="font-louize small:mx-0 small:max-w-[20rem] mr-16 ml-8 flex max-w-xs min-w-[20rem] flex-col text-lg 2xl:mr-14 2xl:ml-7 2xl:max-w-[17.5rem] 2xl:min-w-[17.5rem] 2xl:text-base"
+				class="ml-8 mr-16 flex min-w-[20rem] max-w-xs flex-col font-louize text-lg 2xl:ml-7 2xl:mr-14 2xl:min-w-[17.5rem] 2xl:max-w-[17.5rem] 2xl:text-base small:mx-0 small:max-w-[20rem]"
 			>
-				<div class="mediumlarge:mt-9 my-11 flex justify-between xl:mt-6 xl:mb-0 2xl:my-9">
+				<div class="xl:mb-0! xl:mt-6! my-11 flex justify-between 2xl:my-9 mediumlarge:mt-9">
 					<h1>Aurélien Dos Santos</h1>
 				</div>
 			</div>
 		</div>
 		<div class="flex justify-center">
 			<div
-				class="small:mx-0 small:max-w-[20rem] mr-16 ml-8 flex max-w-xs min-w-[20rem] flex-col uppercase 2xl:mr-14 2xl:ml-7 2xl:max-w-[17.5rem] 2xl:min-w-[17.5rem]"
+				class="ml-8 mr-16 flex min-w-[20rem] max-w-xs flex-col uppercase 2xl:ml-7 2xl:mr-14 2xl:min-w-[17.5rem] 2xl:max-w-[17.5rem] small:mx-0 small:max-w-[20rem]"
 			>
-				<div class="mediumlarge:mt-4 my-12 flex gap-5 xl:mb-4 2xl:my-10">
+				<div class="xl:mb-4! my-12 flex gap-5 2xl:my-10 mediumlarge:mt-4">
 					<a href="/portfolio">Portfolio</a>
 					<a href="/tags">Tags</a>
 					<a href="/website">À propos</a>
@@ -64,9 +64,9 @@ const diaryYears = Array.from(new Set(diary.map((entry) => entry.year))).filter(
 		<div class="hidden xl:block"></div>
 		<div class="flex justify-center">
 			<div
-				class="small:mx-0 small:max-w-[20rem] mr-16 ml-8 flex max-w-[20rem] min-w-[20rem] flex-col uppercase 2xl:mr-14 2xl:ml-7 2xl:max-w-[17.5rem] 2xl:min-w-[17.5rem]"
+				class="ml-8 mr-16 flex min-w-[20rem] max-w-[20rem] flex-col uppercase 2xl:ml-7 2xl:mr-14 2xl:min-w-[17.5rem] 2xl:max-w-[17.5rem] small:mx-0 small:max-w-[20rem]"
 			>
-				<div class="my-12 flex gap-5 xl:mt-0 2xl:my-10">
+				<div class="xl:mt-0! my-12 flex gap-5 2xl:my-10">
 					{
 						[
 							{ title: "YouTube", href: "https://www.youtube.com/@GameDevAlliance" },
@@ -75,7 +75,11 @@ const diaryYears = Array.from(new Set(diary.map((entry) => entry.year))).filter(
 						].map((link) => (
 							<a href={link.href}>
 								{link.title}
-								<LaunchIcon width="0.9em" height="0.9em" class="-mb-[0.1em] inline-block align-baseline" />
+								<LaunchIcon
+									width="0.9em"
+									height="0.9em"
+									class="-mb-[0.1em] inline-block align-baseline"
+								/>
 							</a>
 						))
 					}
