@@ -1,0 +1,54 @@
+---
+import "$styles/fonts/louize.css"
+import "$styles/fonts/vollkorn.css"
+import "@fontsource/ibm-plex-mono"
+import "$styles/hyphenation.css"
+---
+
+<style is:global>
+	abbr {
+		font-feature-settings: "c2sc";
+		font-style: normal;
+	}
+	a {
+		text-decoration: underline dotted;
+		text-underline-offset: 0.2em;
+		text-decoration-thickness: 1px;
+	}
+</style>
+
+<main>
+	<div
+		class="m-auto my-32 grid max-w-6xl grid-cols-4 gap-8 xl:mx-8 mediumlarge:mx-4 dark:text-stone-50"
+		style={{ fontFamily: "Vollkorn" }}
+	>
+		<div class="">
+			{/* map of japan */}
+			{/* <div id="map" class="sticky top-0 h-64 bg-stone-200"></div> */}
+		</div>
+		<div class="col-span-2 hyphens-auto text-pretty">
+			<slot />
+		</div>
+		<div class="pointer-events-none"></div>
+	</div>
+</main>
+
+<style is:global>
+	body {
+		background-color: white !important;
+		@media (prefers-color-scheme: dark) {
+			background-color: black !important;
+		}
+	}
+	h1 {
+		white-space: pre-wrap;
+		text-align: center;
+		font-size: 3.75rem;
+		line-height: 1;
+		margin-bottom: 6rem;
+		font-family: "Louize Display", serif;
+	}
+	p + p {
+		text-indent: 1.5em;
+	}
+</style>

@@ -1,0 +1,17 @@
+---
+interface Props {
+	caption?: string
+}
+const { caption } = Astro.props
+---
+
+<div class="float-right clear-right -mr-[calc(50%+16px)] ml-8 w-full xl:ml-5">
+	<slot />
+</div>
+{
+	caption && (
+		<figcaption class="float-right clear-right -mr-[calc(50%+16px)] w-[calc(50%-16px)] font-mono">
+			{caption}
+		</figcaption>
+	)
+}

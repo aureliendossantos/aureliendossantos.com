@@ -1,0 +1,24 @@
+---
+import Image from "$components/Image.astro"
+
+interface Props {
+	src: ImageMetadata | Promise<{ default: ImageMetadata }>
+	alt?: string
+	caption?: string
+}
+const { src, alt, caption, ...attributes } = Astro.props
+
+const resolvedSrc = "then" in src ? (await src).default : src
+const width = Math.min(resolvedSrc.width, 1120) // TODO: should be 560
+---
+
+<Image
+	src={resolvedSrc}
+	{width}
+	alt={alt || ""}
+	class="float-right clear-right -mr-[calc(50%+16px)] ml-8 w-full xl:ml-5"
+	{...attributes}
+/>
+<figcaption class="float-right clear-right -mr-[calc(50%+16px)] w-[calc(50%-16px)] font-mono">
+	<slot>{caption}</slot>
+</figcaption>

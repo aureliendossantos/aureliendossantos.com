@@ -1,0 +1,25 @@
+---
+import { getClosedStatus, getPlace } from "$utils/remoteData/googleMaps"
+
+/**
+ * Place IDs can be found using this tool:
+ * https://developers.google.com/maps/documentation/javascript/examples/places-placeid-finder
+ */
+interface Props {
+	id: string
+	title?: string
+}
+const { id, title } = Astro.props
+
+const place = await getPlace(id)
+const openHours = getClosedStatus(place)
+---
+
+<a
+	class="-ml-[7px] mt-[11px] block w-fit text-wrap border-l border-t border-dotted border-black px-[6px] pt-1 no-underline transition duration-150 hover:bg-stone-100 dark:border-stone-50 dark:hover:bg-stone-900"
+	href={place?.url}
+	target="_blank"
+>
+	{title || place?.name || "🚧 Infos Google Maps indisponibles"}<br />
+	{openHours}
+</a>

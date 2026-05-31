@@ -1,0 +1,19 @@
+---
+interface Props {
+	place?: string
+	date?: string
+}
+const { place, date } = Astro.props
+---
+
+<div class="clear-both h-[1lh]"></div>
+<h2 class="float-left clear-left -ml-[calc(50%+16px)] w-[calc(50%-16px)] text-2xl">
+	{
+		date && (
+			<p class="font-mono text-xs" style={{ fontFamily: "'IBM Plex Mono'" }}>
+				{date}
+			</p>
+		)
+	}
+	{place}
+</h2>

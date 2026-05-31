@@ -1,0 +1,21 @@
+---
+import { getPlace } from "$utils/remoteData/googleMaps"
+
+/**
+ * Place IDs can be found using this tool:
+ * https://developers.google.com/maps/documentation/javascript/examples/places-placeid-finder
+ */
+interface Props {
+	id: string
+}
+const { id } = Astro.props
+
+const place = await getPlace(id)
+---
+
+<a
+	class="-mr-1 inline-block whitespace-nowrap border-b border-r border-dotted border-black pr-1 leading-tight no-underline transition duration-150 hover:bg-stone-100 dark:border-stone-50 dark:hover:bg-stone-900"
+	href={place?.url}
+	target="_blank"
+	>{Astro.slots.has("default") ? <slot /> : place?.name || "🚧 Infos Google Maps indisponibles"}</a
+>

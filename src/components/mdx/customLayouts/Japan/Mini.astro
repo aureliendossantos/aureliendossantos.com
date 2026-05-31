@@ -1,0 +1,41 @@
+---
+import Image from "$components/Image.astro"
+
+interface Props {
+	src: ImageMetadata | Promise<{ default: ImageMetadata }>
+	alt?: string
+	left?: boolean
+}
+const { src, alt, left, ...attributes } = Astro.props
+
+const resolvedSrc = "then" in src ? (await src).default : src
+const aspectRatio = resolvedSrc.height / resolvedSrc.width
+const width = 140
+// calculate div height considering that div width is 140px
+const captionHeight = Math.ceil((width * aspectRatio) / 16) * 16
+---
+
+{
+	Astro.slots.has("default") && (
+		<span
+			class:list={[
+				"mt-2 w-[calc(50%-16px)] translate-y-[--y] text-balance font-ibm-plex-mono text-xs *:w-fit xl:translate-y-0",
+				{ "float-left -ml-[calc(50%+16px)]": left, "float-right -mr-[calc(50%+16px)]": !left },
+			]}
+			style={{ "--y": `calc(${captionHeight}px - 100%)` }}
+		>
+			<slot />
+		</span>
+	)
+}
+<Image
+	src={resolvedSrc}
+	width={width * 2}
+	alt={alt || ""}
+	class:list={[
+		"my-[0.5lh] w-[calc(25%)]",
+		{ "float-left mr-[0.8lh]": left, "float-right ml-[0.8lh]": !left },
+	]}
+	{...attributes}
+/>
+<span class:list={{ "float-left clear-left": left, "float-right clear-right": !left }}></span>
