@@ -28,6 +28,7 @@ function useMapToSearchEntry(locale: SupportedLocale) {
 		graphLinks?: string[]
 		optionalNode?: boolean
 		title?: string
+		url?: string
 	}): SearchEntry {
 		const data = "data" in opts.entry ? opts.entry.data : opts.entry
 		opts.title ??= title(data.title, locale) || undefined
@@ -35,6 +36,7 @@ function useMapToSearchEntry(locale: SupportedLocale) {
 		opts.date ??= "date" in data && data.date instanceof Date ? data.date : undefined
 		return {
 			slug: opts.slug,
+			url: opts.url,
 			title: opts.title?.replaceAll("*", "") || "Sans titre",
 			date: opts.date ? formatDate(opts.date, true) : undefined,
 			categories: opts.categories || [],
@@ -78,8 +80,7 @@ export const getSearchEntries = async (lang?: string): Promise<SearchEntry[]> =>
 				{ slug: "diary", title: "Journal" },
 				{ slug: "gear", title: "Mes appareils" },
 				{ slug: "places", title: "Lieux", links: ["diary"] },
-				{ slug: "kitchen", title: "Cuisine" },
-				{ slug: "games", title: "Jeux" },
+					{ slug: "games", title: "Jeux" },
 				{ slug: "tags", title: "Tags", links: [""] },
 				{ slug: "museum", title: "Musée" },
 				{ slug: "museum/all", title: "Collection", categories: ["Musée"], links: ["museum"] },
@@ -173,25 +174,6 @@ export const getSearchEntries = async (lang?: string): Promise<SearchEntry[]> =>
 						categories: ["Lieu"],
 					})
 				),
-				...(await getCollection("recipes")).map((entry) =>
-					mapToSearchEntry({
-						entry: entry,
-						slug: `kitchen/${entry.id}`,
-						parentSlug: "kitchen",
-						categories: ["Recette"],
-						graphLinks: entry.data.ingredients.map(
-							(i) => "kitchen/" + (Array.isArray(i) ? i[0].id : i.id)
-						),
-					})
-				),
-				...(await getCollection("ingredients")).map((entry) =>
-					mapToSearchEntry({
-						entry: entry,
-						slug: `kitchen/${entry.id}`,
-						parentSlug: "kitchen",
-						categories: ["Ingrédient"],
-					})
-				),
 				...(await getCollection("games"))
 					.filter((game) => game.data.slug)
 					.map((game) =>
@@ -207,6 +189,7 @@ export const getSearchEntries = async (lang?: string): Promise<SearchEntry[]> =>
 					mapToSearchEntry({
 						entry: entry,
 						slug: entry.data.slug,
+						url: entry.data.notionUrl,
 						categories: ["Jardin"],
 						graphLinks: [...entry.data.tags.map((t) => `tags/${t}`), ...entry.data.related],
 					})

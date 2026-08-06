@@ -1,3 +1,5 @@
+import fs from "node:fs"
+import path from "node:path"
 import type { Loader, LoaderContext } from "astro/loaders"
 import { z } from "astro:content"
 import type { BlockObjectResponse } from "@notionhq/client/build/src/api-endpoints"
@@ -33,6 +35,26 @@ const recursiveUpdateImages = async (
 	)
 }
 
+const gardenTagRegex = /<Garden\s[^>]*id="([^"]+)"/g
+
+/**
+ * Wiki pages aren't rendered as site pages anymore, so their Notion blocks are only
+ * needed for the ones displayed inline by a `<Garden>` popup. Fetching blocks means
+ * one recursive request tree per page, so scanning the content for `<Garden id="...">`
+ * keeps the build to a single database query in the common case.
+ */
+const getSlugsNeedingBlocks = () => {
+	const slugs = new Set<string>()
+	const root = path.join(process.cwd(), "src/content")
+	if (!fs.existsSync(root)) return slugs
+	for (const file of fs.readdirSync(root, { recursive: true }) as string[]) {
+		if (!file.endsWith(".mdx") && !file.endsWith(".md")) continue
+		const contents = fs.readFileSync(path.join(root, file), "utf8")
+		for (const match of contents.matchAll(gardenTagRegex)) slugs.add(match[1])
+	}
+	return slugs
+}
+
 /**
  * Fetches pages in my Notion database according to custom filters then
  * saves the results as data entries in the wiki collection.
@@ -56,10 +78,13 @@ export function notionWikiLoader(options: { forceUpdate: boolean }): Loader {
 			context.logger.info("Fetching wiki pages...")
 			const emptyPages = await fetchWikiPages({}, context.logger.info)
 
+			const slugsNeedingBlocks = getSlugsNeedingBlocks()
 			console.time("Notion pages fetched in")
 			let imagesOnlyPages = 0
 			const pages = await Promise.all(
 				emptyPages.map(async (page) => {
+					// Pages nobody embeds are link-only: keep the metadata, skip the block requests.
+					if (!slugsNeedingBlocks.has(page.slug)) return page
 					const oldPage = context.store.get(page.slug)?.data
 					// If old page is unedited, skip update...
 					if (
@@ -72,9 +97,10 @@ export function notionWikiLoader(options: { forceUpdate: boolean }): Loader {
 						if (oldPage.hasImages) {
 							imagesOnlyPages += 1
 							oldPage.blocks = await recursiveUpdateImages(oldPage.blocks)
-							return oldPage
 						}
-						return oldPage
+						// The metadata still comes from the fresh query, in case the page was
+						// renamed or published since the blocks were cached.
+						return { ...page, blocks: oldPage.blocks, hasImages: oldPage.hasImages }
 					}
 					context.logger.info((oldPage ? "(updated)" : "(new)") + ` ${page.slug}...`)
 					page.blocks = await getChildren(page.id)
@@ -85,6 +111,18 @@ export function notionWikiLoader(options: { forceUpdate: boolean }): Loader {
 			)
 			if (imagesOnlyPages > 0) context.logger.info(`(images only) Updated ${imagesOnlyPages} pages`)
 			console.timeEnd("Notion pages fetched in")
+			context.logger.info(
+				`Fetched blocks for ${slugsNeedingBlocks.size} embedded page(s); ${
+					pages.length - slugsNeedingBlocks.size
+				} link-only`
+			)
+
+			const unpublished = pages.filter((page) => !page.published)
+			if (unpublished.length > 0)
+				context.logger.warn(
+					`${unpublished.length} page(s) are not published to the web, so their links will 404: ` +
+						unpublished.map((page) => page.slug).join(", ")
+				)
 
 			for (const page of pages) {
 				const data = await context.parseData({ id: page.slug, data: page })
@@ -104,6 +142,8 @@ export function notionWikiLoader(options: { forceUpdate: boolean }): Loader {
 				id: z.string(),
 				slug: z.string(),
 				title: z.string(),
+				notionUrl: z.string(),
+				published: z.boolean(),
 				description: z.string(),
 				related: z.array(z.string()),
 				tags: z.array(z.string()),

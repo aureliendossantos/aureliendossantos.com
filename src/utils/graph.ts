@@ -5,6 +5,8 @@ import { navigate } from "astro:transitions/client"
 export type GraphEntry = {
 	slug: string
 	title: string
+	/** Absolute URL for entries hosted elsewhere (wiki pages live in Notion). */
+	url?: string
 	links?: string[]
 	tags?: string[]
 	optional?: boolean
@@ -40,6 +42,8 @@ function removeAllChildren(node: HTMLElement) {
 type NodeData = {
 	id: string
 	text: string
+	/** Absolute URL for entries hosted elsewhere (wiki pages live in Notion). */
+	url?: string
 	// tags: string[]
 	optional?: boolean
 } & d3.SimulationNodeDatum
@@ -154,6 +158,7 @@ async function renderGraph(container: string, currentSlug: string) {
 			return {
 				id: slug,
 				text: text,
+				url: entry?.url,
 				tags: entry?.tags ?? [],
 			}
 		}),
@@ -256,7 +261,9 @@ async function renderGraph(container: string, currentSlug: string) {
 		.attr("fill", color)
 		.style("cursor", "pointer")
 		.on("click", (_, d) => {
-			navigate("/" + d.id)
+			// External entries can't be handled by the view transitions router.
+			if (d.url) window.open(d.url, "_blank", "noreferrer")
+			else navigate("/" + d.id)
 		})
 		.on("mouseover", function (_, d) {
 			const currentId = d.id

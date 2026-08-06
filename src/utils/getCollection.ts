@@ -80,10 +80,6 @@ export const getContentEntries = async () => {
 	]
 }
 
-export const getAnyEntry = async (ids: string[]) => {
-	return (await getContentEntries()).filter((e) => ids.includes(e.id))
-}
-
 export type KoimoriPost = {
 	source: "koimori"
 	id: string

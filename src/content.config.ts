@@ -266,32 +266,6 @@ export const collections = {
 	games: defineCollection({
 		loader: gamesLibraryLoader({ forceUpdate: false }),
 	}),
-	recipes: defineCollection({
-		loader: mdLoader("kitchen/recipes"),
-		schema: ({ image }) =>
-			z.object({
-				title: z.string(),
-				ingredients: z
-					.array(
-						reference("ingredients").or(
-							z.tuple([reference("ingredients"), z.string().or(z.number()).nullish()])
-						)
-					)
-					.default([]),
-				tags: z.array(z.string()).default([]),
-				cover: image().optional(),
-				draft: z.boolean().default(false),
-			}),
-	}),
-	ingredients: defineCollection({
-		loader: mdLoader("kitchen/ingredients"),
-		schema: ({ image }) =>
-			z.object({
-				title: z.string(),
-				tags: z.array(z.string()).default([]),
-				icon: image().optional(),
-			}),
-	}),
 }
 
 export enum PieceType {

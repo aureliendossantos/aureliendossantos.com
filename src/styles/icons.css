@@ -1,11 +1,10 @@
 @reference "#tailwind.css";
 
 /* if this style is global, all links with data-icon are affected,
-	which can be convenient. See IngredientInPopup.astro for example. */
+	which can be convenient. */
 
 /* Common to all icons */
-a[data-icon="wikipedia"],
-a[data-icon="chef-hat"] {
+a[data-icon="wikipedia"] {
 	&::after {
 		content: "";
 		mask-size: cover;
@@ -30,15 +29,6 @@ a[data-icon="wikipedia"]::after {
 	top: -0.3em;
 	margin-right: -0.2em;
 	@apply bg-(--base-color) dark:bg-(--dark-base-color);
-}
-
-a[data-icon="chef-hat"]::after {
-	mask: url("/icons/chef-hat.svg") 0 0/12px 12px;
-	width: 12px;
-	height: 12px;
-	top: -0.3em;
-	margin-right: -0.1em;
-	@apply bg-stone-400;
 }
 
 a[data-icon="github"]::before {

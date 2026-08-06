@@ -8,10 +8,9 @@ interface Props {
 	padding?: boolean
 	noUnderline?: boolean
 	diary?: boolean
-	kitchen?: boolean
-	icon?: "wikipedia" | "chef-hat" | "github" | "garden"
+	icon?: "wikipedia" | "github" | "garden"
 }
-const { navBarTitle, navBarLinks, url, padding, noUnderline, diary, kitchen, icon } = Astro.props
+const { navBarTitle, navBarLinks, url, padding, noUnderline, diary, icon } = Astro.props
 
 const uid = crypto.randomUUID()
 
@@ -22,18 +21,16 @@ const labelHtml = markdown
 	.replace(/\n/g, "")
 ---
 
-<span id={`span-${uid}`} class:list={["relative inline", { "not-prose": !kitchen }]}
+<span id={`span-${uid}`} class="relative inline not-prose"
 	><a
 		id={`text-${uid}`}
 		data-icon={icon}
 		class:list={[
 			"popup-link unstyled rounded-xs hover:bg-(--popup-active) dark:hover:bg-(--dark-popup-active) cursor-context-menu transition",
+			"decoration-(--popup) dark:decoration-(--dark-popup) decoration-1 underline-offset-3",
 			{
 				"!no-underline": noUnderline,
 				underline: !noUnderline,
-				"decoration-stone-400 decoration-dotted decoration-2 underline-offset-4": kitchen,
-				"decoration-(--popup) dark:decoration-(--dark-popup) decoration-1 underline-offset-3":
-					!kitchen,
 			},
 		]}><Fragment set:html={labelHtml} /></a
 	></span

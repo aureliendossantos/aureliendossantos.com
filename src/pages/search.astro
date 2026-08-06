@@ -64,8 +64,10 @@ const entries = await getSearchEntries(Astro.currentLocale)
 						output.insertAdjacentHTML(
 							"beforeend",
 							`<search-card title="${result.title}" slug="${result.slug}" ${
-								result.date ? `date="${result.date}"` : ""
-							} ${result.categories ? `tags="${result.categories.join(", ")}"` : ""}></search-card>`
+								result.url ? `url="${result.url}"` : ""
+							} ${result.date ? `date="${result.date}"` : ""} ${
+								result.categories ? `tags="${result.categories.join(", ")}"` : ""
+							}></search-card>`
 						)
 					})
 				}

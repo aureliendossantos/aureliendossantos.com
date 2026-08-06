@@ -28,7 +28,11 @@ const wikiSlug =
 		: "slug" in entry && typeof entry.slug == "string"
 			? entry.slug
 			: undefined
-const href = entry.collection == "diary" ? `/diary/${entry.id}` : wikiSlug ? `/${wikiSlug}` : `/${entry.id}`
+// Wiki pages aren't built anymore, they link straight to Notion
+const notionUrl = "notionUrl" in data && typeof data.notionUrl == "string" ? data.notionUrl : undefined
+const href =
+	notionUrl ??
+	(entry.collection == "diary" ? `/diary/${entry.id}` : wikiSlug ? `/${wikiSlug}` : `/${entry.id}`)
 // text-(--bg) is used to color the shadow
 const markdown = new MarkdownIt({ html: true })
 const title = markdown.renderInline(data.title)
@@ -43,6 +47,8 @@ const title = markdown.renderInline(data.title)
 		"--secondary-color": getColor(palette.secondaryColor),
 	}}
 	href={href}
+	target={notionUrl ? "_blank" : undefined}
+	rel={notionUrl ? "noreferrer" : undefined}
 >
 	<div
 		class="bg-(--bg) text-(--text) mx-auto max-w-[calc(500px+2em)] bg-cover bg-center px-[calc(20px+1em)] py-[14px] small:px-5"

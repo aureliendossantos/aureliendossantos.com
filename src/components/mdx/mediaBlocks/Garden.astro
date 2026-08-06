@@ -16,8 +16,8 @@ const data = entry.data
 <NewPopup
 	icon="garden"
 	navBarTitle={data.title}
-	navBarLinks={[{ title: "Jardin", url: `/${id}` }]}
-	url={`/${id}`}
+	navBarLinks={[{ title: "Ouvrir dans Notion", url: data.notionUrl }]}
+	url={data.notionUrl}
 	padding
 	{diary}
 >

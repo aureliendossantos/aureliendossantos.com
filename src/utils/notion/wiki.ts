@@ -49,6 +49,15 @@ const getWikiPageStatus = (status: WikiPageStatus) => {
 
 const slugifyRegex = /[*+~.()'"!:@«»→,;]/g
 
+/**
+ * Wiki pages are no longer rendered on this site; they link out to Notion instead.
+ * `public_url` is only set once a page is published to the web, so we fall back to
+ * the canonical notion.so link, which redirects logged-out visitors to the published
+ * version (and 404s if the page was never published).
+ */
+const getNotionUrl = (page: PageResponse) =>
+	page.public_url ?? `https://www.notion.so/${page.id.replaceAll("-", "")}`
+
 export const fetchWikiPages = async (
 	opts?: { includePrivate?: boolean },
 	logger: Logger = console.log
@@ -80,6 +89,8 @@ export const fetchWikiPages = async (
 				id: page.id,
 				slug: slug != "" ? slug : slugify(title, { remove: slugifyRegex, lower: true }),
 				title: title,
+				notionUrl: getNotionUrl(page),
+				published: page.public_url != null,
 				description: page.properties.Description.rich_text[0]
 					? page.properties.Description.rich_text[0].plain_text
 					: "",
@@ -88,6 +99,8 @@ export const fetchWikiPages = async (
 				editedTime: new Date(page.last_edited_time),
 				status: getWikiPageStatus(status),
 				blocks: [] as BlockObjectResponse[] | BlockObjectResponseWithChildren[],
+				// Only set for pages we actually fetch blocks for
+				hasImages: undefined as boolean | undefined,
 			}
 		})
 		.sort((a, b) => dateSort(a.editedTime, b.editedTime))
