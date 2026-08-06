@@ -1,0 +1,11 @@
+---
+import CatalogueFeed from "$components/catalogue/CatalogueFeed.astro"
+import { parseCatalogueFilters } from "$utils/catalogue"
+
+export const partial = true
+export const prerender = false
+
+const filters = parseCatalogueFilters(Astro.url.searchParams)
+---
+
+<CatalogueFeed {filters} />

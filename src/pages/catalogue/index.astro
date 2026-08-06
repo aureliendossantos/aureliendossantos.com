@@ -5,8 +5,22 @@ import "@fontsource/work-sans/600.css"
 // Supports weights 200-900
 import "@fontsource-variable/crimson-pro"
 import BaseLayout from "$layouts/BaseLayout.astro"
-import CatalogueFeed from "$components/catalogue/CatalogueFeed.astro"
 import CatalogueFeedSkeleton from "$components/catalogue/CatalogueFeedSkeleton.astro"
+import { prisma } from "$prisma/prisma"
+import {
+	catalogueScoreOptions,
+	catalogueSortOptions,
+	catalogueWorkTypeOptions,
+	parseCatalogueFilters,
+	toSortValue,
+} from "$utils/catalogue"
+
+export const prerender = false
+
+const filters = parseCatalogueFilters(Astro.url.searchParams)
+const emotions = await prisma.emotion.findMany({
+	orderBy: { id: "asc" },
+})
 ---
 
 <BaseLayout
@@ -18,14 +32,170 @@ import CatalogueFeedSkeleton from "$components/catalogue/CatalogueFeedSkeleton.a
 	<div
 		class="min-h-screen max-w-[564px] border-r border-fi-bg-2 px-4 py-4 text-fi-tx medium:border-none small:px-0 dark:border-fi-dark-bg-2"
 	>
-		<input
-			type="text"
-			placeholder="Search in the catalogue…"
-			style="font-family: 'Google Sans Code', monospace;"
-			class="focus:outline-hidden w-full bg-fi-bg-2 px-[10px] text-[13px] leading-9 text-fi-tx transition placeholder:text-fi-base-500 focus:bg-fi-tx-2 focus:text-fi-bg focus:placeholder:text-fi-ui-2 dark:bg-fi-dark-bg-2 dark:text-fi-dark-tx dark:placeholder:text-fi-base-500 dark:focus:bg-fi-dark-tx-2 dark:focus:text-fi-dark-bg dark:focus:placeholder:text-fi-dark-ui-2"
-		/>
-		<CatalogueFeed server:defer>
-			<CatalogueFeedSkeleton slot="fallback" />
-		</CatalogueFeed>
+		<form
+			id="catalogue-filters"
+			class="space-y-3"
+			action="/catalogue"
+			method="get"
+			data-default-sort="createdAt-desc"
+		>
+			<input
+				type="text"
+				name="q"
+				id="catalogue-query"
+				value={filters.q}
+				placeholder="Search in the catalogue…"
+				style="font-family: 'Google Sans Code', monospace;"
+				class="focus:outline-hidden w-full bg-fi-bg-2 px-[10px] text-[13px] leading-9 text-fi-tx transition placeholder:text-fi-base-500 focus:bg-fi-tx-2 focus:text-fi-bg focus:placeholder:text-fi-ui-2 dark:bg-fi-dark-bg-2 dark:text-fi-dark-tx dark:placeholder:text-fi-base-500 dark:focus:bg-fi-dark-tx-2 dark:focus:text-fi-dark-bg dark:focus:placeholder:text-fi-dark-ui-2"
+			/>
+			<div class="grid grid-cols-2 gap-2 small:grid-cols-1">
+				<select
+					name="sort"
+					class="h-9 bg-fi-bg-2 px-2 font-google-sans-code text-[12px] dark:bg-fi-dark-bg-2"
+				>
+					{
+						catalogueSortOptions.map((option) => (
+							<option value={option.value} selected={option.value === toSortValue(filters)}>
+								{option.label}
+							</option>
+						))
+					}
+				</select>
+				<button
+					type="button"
+					id="catalogue-reset"
+					class="h-9 bg-fi-bg-2 px-2 font-google-sans-code text-[12px] hover:bg-fi-ui dark:bg-fi-dark-bg-2 dark:hover:bg-fi-dark-ui"
+				>
+					Reset filters
+				</button>
+			</div>
+			<details class="bg-fi-bg-2 p-2 dark:bg-fi-dark-bg-2">
+				<summary class="cursor-pointer font-google-sans-code text-[12px]">Filtres</summary>
+				<div class="space-y-2 pt-2">
+					<div class="space-y-1">
+						<div class="font-google-sans-code text-[11px] text-fi-base-500">Type</div>
+						<div class="flex flex-wrap gap-2">
+							{
+								catalogueWorkTypeOptions.map((typeOption) => (
+									<label class="inline-flex items-center gap-1 text-[12px]">
+										<input
+											type="checkbox"
+											name="type"
+											value={typeOption.value}
+											checked={filters.types.includes(typeOption.value)}
+										/>
+										<span>{typeOption.label}</span>
+									</label>
+								))
+							}
+						</div>
+					</div>
+					<div class="space-y-1">
+						<div class="font-google-sans-code text-[11px] text-fi-base-500">Score</div>
+						<div class="flex flex-wrap gap-2">
+							{
+								catalogueScoreOptions.map((scoreOption) => (
+									<label class="inline-flex items-center gap-1 text-[12px]">
+										<input
+											type="checkbox"
+											name="score"
+											value={scoreOption.value}
+											checked={filters.scores.includes(scoreOption.value)}
+										/>
+										<span>{scoreOption.label}</span>
+									</label>
+								))
+							}
+						</div>
+					</div>
+					<div class="space-y-1">
+						<div class="font-google-sans-code text-[11px] text-fi-base-500">Emotions</div>
+						<div class="flex flex-wrap gap-2">
+							{
+								emotions.map((emotion) => (
+									<label class="inline-flex items-center gap-1 text-[12px]">
+										<input
+											type="checkbox"
+											name="emotion"
+											value={emotion.id}
+											checked={filters.emotions.includes(emotion.id)}
+										/>
+										<span>{emotion.emoji} {emotion.frenchTitle}</span>
+									</label>
+								))
+							}
+						</div>
+					</div>
+				</div>
+			</details>
+			<button type="submit" class="hidden">Apply</button>
+		</form>
+		<div id="catalogue-feed">
+			<CatalogueFeedSkeleton />
+		</div>
+		<noscript>
+			<p class="pt-4 text-sm text-fi-base-500 dark:text-fi-dark-tx-2">
+				Active JavaScript pour utiliser la recherche et les filtres du catalogue.
+			</p>
+		</noscript>
 	</div>
 </BaseLayout>
+
+<script>
+	import htmx from "htmx.org"
+
+	;(window as Window & { htmx?: typeof htmx }).htmx = htmx
+
+	const form = document.getElementById("catalogue-filters") as HTMLFormElement
+	const searchInput = document.getElementById("catalogue-query") as HTMLInputElement
+	const resetButton = document.getElementById("catalogue-reset") as HTMLButtonElement
+	const defaultSort = form.dataset.defaultSort || "createdAt-desc"
+	let timeout: number | null = null
+
+	const toQueryString = () => {
+		const formData = new FormData(form)
+		const params = new URLSearchParams()
+		formData.forEach((value, key) => {
+			if (typeof value === "string") params.append(key, value)
+		})
+		return params.toString()
+	}
+
+	const refresh = (updateUrl = true) => {
+		const query = toQueryString()
+		const feedUrl = query ? `/catalogue/feed?${query}` : "/catalogue/feed"
+		const pageUrl = query ? `/catalogue?${query}` : "/catalogue"
+		htmx.ajax("GET", feedUrl, {
+			source: form,
+			target: "#catalogue-feed",
+			swap: "innerHTML",
+		})
+		if (updateUrl) window.history.replaceState({}, "", pageUrl)
+	}
+
+	form.addEventListener("submit", (event) => {
+		event.preventDefault()
+		refresh()
+	})
+
+	searchInput?.addEventListener("input", () => {
+		if (timeout) window.clearTimeout(timeout)
+		timeout = window.setTimeout(refresh, 300)
+	})
+
+	form.querySelectorAll("select, input[type='checkbox']").forEach((el) => {
+		el.addEventListener("change", refresh)
+	})
+
+	resetButton?.addEventListener("click", () => {
+		searchInput.value = ""
+		form.querySelectorAll<HTMLInputElement>("input[type='checkbox']").forEach((checkbox) => {
+			checkbox.checked = false
+		})
+		const sortSelect = form.querySelector<HTMLSelectElement>("select[name='sort']")
+		if (sortSelect) sortSelect.value = defaultSort
+		refresh()
+	})
+
+	refresh(false)
+</script>
