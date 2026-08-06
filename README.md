@@ -20,12 +20,13 @@ pnpm prisma generate
 pnpm dev
 ```
 
-## Commands
+`pnpm dev` serves the site at `https://blog.localhost` through
+[portless](https://portless.sh). Use `PORTLESS=0 pnpm dev` to bypass the proxy and
+get the usual `localhost:4321` — needed in cloud environments, where portless has
+no TTY to prompt from.
 
-| Command                     | Action                                     |
-| :-------------------------- | :----------------------------------------- |
-| `pnpm install`              | Install dependencies                       |
-| `pnpm run dev`              | Start local dev server at `localhost:4321` |
-| `pnpm run build`            | Build the production site to `./dist/`     |
-| `pnpm run preview`          | Preview the build locally                  |
-| `pnpm dlx @astrojs/upgrade` | Upgrade Astro version                      |
+Building:
+
+```sh
+pnpm build
+```
