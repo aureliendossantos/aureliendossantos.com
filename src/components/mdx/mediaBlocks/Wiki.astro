@@ -35,9 +35,9 @@ const extract = summary?.extract_html.replace(/<!--.*?-->/gs, "").trim()
 					src={summary.thumbnail.source}
 					width={summary.thumbnail.width}
 					height={summary.thumbnail.height}
-					data-zoom-src={summary.originalimage.source}
-					data-zoom-width={summary.originalimage.width}
-					data-zoom-height={summary.originalimage.height}
+					data-zoom-src={summary.originalimage?.source}
+					data-zoom-width={summary.originalimage?.width}
+					data-zoom-height={summary.originalimage?.height}
 				/>
 			)
 		}

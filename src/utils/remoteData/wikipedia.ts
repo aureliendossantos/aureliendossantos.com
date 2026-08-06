@@ -1,39 +1,54 @@
 import { getCacheOrFetch } from "$utils/cache"
-import wiki, { type wikiSummary } from "wikipedia"
 
-export interface WikiSummaryWithFetchDate extends wikiSummary {
+// https://meta.wikimedia.org/wiki/User-Agent_policy
+const userAgent = "Aurélien Dos Santos (aureliendsantos@gmail.com)"
+
+interface WikiImage {
+	source: string
+	width: number
+	height: number
+}
+
+/**
+ * The part of the REST summary response this site uses.
+ * @see https://{lang}.wikipedia.org/api/rest_v1/page/summary/{title}
+ */
+export interface WikiSummary {
+	title: string
+	description?: string
+	extract: string
+	extract_html: string
+	thumbnail?: WikiImage
+	originalimage?: WikiImage
+	content_urls: {
+		desktop: { page: string }
+		mobile: { page: string }
+	}
+}
+
+export interface WikiSummaryWithFetchDate extends WikiSummary {
 	fetchDate: number
 }
 
-// Rewrite the previous function using the `getCacheOrFetch` function
+/**
+ * Fetches an article summary, which already includes `extract_html` and the images,
+ * so a single request covers everything the popup needs.
+ */
 export default async function getWikipediaPage(
 	title: string,
 	lang = "fr"
-): Promise<wikiSummary | null> {
+): Promise<WikiSummary | null> {
 	return getCacheOrFetch(
 		title,
 		"wikipedia",
 		async () => {
-			// fetch wikipedia page
-			const html = await fetch(
-				`https://${lang}.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro&titles=${title}`,
-				{
-					headers: {
-						"User-Agent": "Aurélien Dos Santos (aureliendsantos@gmail.com)",
-					},
-				}
+			const response = await fetch(
+				`https://${lang}.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`,
+				{ headers: { "User-Agent": userAgent } }
 			)
-				.then((response) => response.json())
-				.then((response) => {
-					const pages = response.query.pages
-					const pageId = Object.keys(pages)[0]
-					return pages[pageId].extract
-				})
-			await wiki.setLang(lang)
-			await wiki.setUserAgent("Aurélien Dos Santos (aureliendsantos@gmail.com)") // https://meta.wikimedia.org/wiki/User-Agent_policy
+			if (!response.ok) throw new Error(`Wikipedia answered ${response.status} for "${title}"`)
 			const summary: WikiSummaryWithFetchDate = {
-				...(await wiki.summary(title)),
-				extract_html: html,
+				...((await response.json()) as WikiSummary),
 				fetchDate: Date.now(),
 			}
 			return summary
