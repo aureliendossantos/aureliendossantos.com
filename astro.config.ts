@@ -7,14 +7,27 @@ import mdx from "@astrojs/mdx"
 import expressiveCode from "astro-expressive-code"
 import { remarkConvertImports } from "./src/utils/remark/convertImports"
 import { remarkAbbr } from "./src/utils/remark/detectAbbr"
+import { existsSync, readdirSync } from "node:fs"
 
 const serverField = envField.string({ context: "server", access: "secret" })
+
+/**
+ * @vercel/nft traces the content submodule into the /_render function (1.3 GB,
+ * over Vercel's limit), but nothing reads those files at request time.
+ */
+const contentFiles = () =>
+	existsSync("src/content")
+		? readdirSync("src/content", { recursive: true, withFileTypes: true })
+				.filter((entry) => entry.isFile())
+				.map((entry) => `${entry.parentPath}/${entry.name}`.replaceAll("\\", "/"))
+		: []
 
 // https://astro.build/config
 export default defineConfig({
 	output: "static",
 	adapter: vercel({
 		webAnalytics: { enabled: true },
+		excludeFiles: contentFiles(),
 	}),
 	prefetch: { prefetchAll: true },
 	i18n: {
