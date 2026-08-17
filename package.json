@@ -2,6 +2,7 @@
 	"name": "blog",
 	"type": "module",
 	"version": "0.0.1",
+	"packageManager": "pnpm@11.20.0",
 	"scripts": {
 		"dev": "portless run astro dev",
 		"build": "astro build",
