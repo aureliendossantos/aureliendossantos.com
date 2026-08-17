@@ -64,16 +64,16 @@ const {
 	<div
 		id={`${id}-dropdown`}
 		class:list={[
-			"navbar-bg bg-(--navbar-bg-compatible) dark:bg-(--dark-navbar-bg-compatible) navbar-colors invisible absolute bottom-[31px] z-10 rounded-t-lg border",
+			"navbar-bg bg-(--navbar-bg-compatible) dark:bg-(--dark-navbar-bg-compatible) navbar-colors invisible absolute bottom-[31px] z-10 rounded-t-xl border",
 			classes,
-			{ "-left-[1px]": !alignRight, "-right-[1px]": alignRight },
+			{ "-left-[1px] rounded-r-xl": !alignRight, "-right-[1px] rounded-l-xl": alignRight },
 		]}
 		role="menu"
 		aria-orientation="vertical"
 		aria-labelledby="menu-button"
 		tabindex="-1"
 	>
-		<div id={`${id}-items-container`} role="none" class="navbar-colors divide-y divide-solid">
+		<div id={`${id}-items-container`} role="none" class="navbar-colors">
 			<slot />
 		</div>
 	</div>

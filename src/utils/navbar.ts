@@ -23,6 +23,7 @@ export type NavBarProps = {
 	relatedTitle?: string
 	headings?: MarkdownHeading[]
 	draft?: boolean
+	disableLeftBar?: boolean
 }
 
 /**
@@ -83,14 +84,14 @@ export const closeFooterWithNavbarButton = () => {
 }
 
 export const closePopupNavbar = () => {
-	;(document.querySelector("#navbar-popup-actions") as HTMLDivElement).classList.add("hidden")
-	;(document.querySelector("#navbar-main-actions") as HTMLDivElement).classList.remove("hidden")
+	;(document.querySelector("#navbar-popup-actions"))?.classList.add("hidden")
+	;(document.querySelector("#navbar-main-actions"))?.classList.remove("hidden")
 }
 
 export const openPopupNavbar = (
 	title: string,
 	librarySlug?: string,
-	links?: { title: string; shortTitle?: string; url: string }[]
+	links?: { title: string; shortTitle?: string; url: string }[],
 ) => {
 	// Toggle visibility
 	;(document.querySelector("#navbar-main-actions") as HTMLDivElement).classList.add("hidden")
@@ -116,7 +117,7 @@ export const openPopupNavbar = (
 		const link = document.querySelector(`#navbar-popup-link-${i + 1}`) as HTMLLinkElement
 		const text = document.querySelector(`#navbar-popup-link-${i + 1}-text`) as HTMLDivElement
 		const shortText = document.querySelector(
-			`#navbar-popup-link-${i + 1}-short-text`
+			`#navbar-popup-link-${i + 1}-short-text`,
 		) as HTMLDivElement
 		if (links && links[i]) {
 			link.classList.remove("hidden")

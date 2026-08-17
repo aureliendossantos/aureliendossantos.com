@@ -24,32 +24,39 @@ const videos = (
 ).map((video) => video.default)
 
 const markdown = new MarkdownIt({ html: true })
+
+const nextLabel = Astro.currentLocale == "en" ? "Next" : "Suivant"
 ---
 
 <div
-	class="mediumlarge:grid-cols-1 mb-20 grid grid-cols-2 gap-x-12 gap-y-8 xl:text-sm"
+	class="mb-24 grid grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)] gap-x-24 gap-y-8 3xl:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)] 3xl:gap-x-16 2xl:grid-cols-2 2xl:gap-x-12 xl:text-sm mediumlarge:grid-cols-1"
 	data-appear-in={data.appearIn.join(",")}
 >
-	<div class="bg-fi-paper mediumlarge:-mx-6 sticky top-0 z-10 -mt-2 pt-2 text-left">
+	<div
+		class="sticky top-[calc(var(--portfolio-header-h,0))] z-10 bg-fi-paper text-left mediumlarge:-mx-6"
+	>
 		<div
-			class:list={["mediumlarge:max-h-[40svh]", { glide: carousel }]}
+			class:list={["portfolio-carousel mediumlarge:max-h-[40svh]", { glide: carousel }]}
 			style={{ aspectRatio: data.carouselAspect }}
 		>
 			<div
-				class="glide__track bg-fi-base-100 ring-fi-base-600/10 mediumlarge:max-h-[40svh] h-full overflow-hidden rounded-lg shadow-lg ring-1"
+				class="glide__track h-full overflow-hidden rounded-xl bg-fi-base-100 shadow-lg ring-1 ring-fi-base-600/10 mediumlarge:max-h-[40svh] medium:rounded-none"
 				style={{ borderColor: "rgb(16 15 15 / 0.01)" }}
 				data-glide-el="track"
 			>
 				<ul class="glide__slides max-h-full">
 					{
 						data.carousel?.map((item) => {
+							// Wide screens give the carousel up to ~850px, and w-full is what stretches
+							// the image to the slide: without it, a narrower intrinsic width leaves the
+							// track showing on the right.
 							if ("file" in item)
 								return (
 									<li class="glide__slide" style={{ height: "unset" }}>
 										<Image
 											src={item.file}
-											width={750}
-											class="h-full object-cover"
+											width={900}
+											class="h-full w-full object-cover"
 											style={{
 												objectPosition: `${item.anchorLeft == undefined ? 50 : item.anchorLeft}% ${item.anchorTop == undefined ? 50 : item.anchorTop}%`,
 											}}
@@ -63,11 +70,11 @@ const markdown = new MarkdownIt({ html: true })
 							const hq = videos.find((video) => video.includes(item.hq.split(".")[0]))
 							if (!hq) throw new Error(`No video found for ${item.hq}`)
 							const compat = videos.find((video) =>
-								video.includes(item.compatible?.split(".")[0] || "///")
+								video.includes(item.compatible?.split(".")[0] || "///"),
 							)
 							// if (!compat) console.warn(`No compatible alternative found for ${item.compatible}`)
 							return (
-								<li class="glide__slide" style={{ height: "unset" }}>
+								<li class="glide__slide relative" style={{ height: "unset" }}>
 									<Video
 										src={hq}
 										compat={compat}
@@ -79,6 +86,19 @@ const markdown = new MarkdownIt({ html: true })
 											objectPosition: `${item.anchorLeft == undefined ? 50 : item.anchorLeft}% ${item.anchorTop == undefined ? 50 : item.anchorTop}%`,
 										}}
 									/>
+									{/* Shown until JS confirms the video is actually running, so a blocked
+									    or broken autoplay still reads as a playable video. */}
+									<div class="play-badge pointer-events-none absolute inset-0 flex items-center justify-center transition-opacity duration-300">
+										<span class="flex h-[60px] w-[60px] items-center justify-center rounded-full bg-fi-paper shadow-lg ring-1 ring-fi-ui mediumlarge:h-12 mediumlarge:w-12">
+											<svg
+												viewBox="0 0 24 24"
+												aria-hidden="true"
+												class="h-[26px] w-[26px] fill-fi-tx-2 drop-shadow mediumlarge:h-5 mediumlarge:w-5"
+											>
+												<path d="M8 5.5v13a1 1 0 0 0 1.53.85l10.2-6.5a1 1 0 0 0 0-1.7L9.53 4.65A1 1 0 0 0 8 5.5Z" />
+											</svg>
+										</span>
+									</div>
 								</li>
 							)
 						})
@@ -90,18 +110,16 @@ const markdown = new MarkdownIt({ html: true })
 					<>
 						<div class="glide__arrows" data-glide-el="controls">
 							<button
-								class="glide__arrow glide__arrow--right !border-fi-ui !bg-fi-bg !text-fi-tx-2 hover:!border-fi-ui-2 hover:!text-fi-base-500 !top-[unset] !right-[17px] !-bottom-[35px] !rounded-full !border !p-2 !px-[9px] text-lg !shadow-lg !shadow-black/5 !transition"
+								class="glide__arrow glide__arrow--right carousel-arrow right-2!"
 								data-glide-dir=">"
+								aria-label={nextLabel}
 							>
 								→
 							</button>
 						</div>
-						<div class="glide__bullets !-bottom-[3px]" data-glide-el="controls[nav]">
+						<div class="glide__bullets carousel-bullets bottom-2!" data-glide-el="controls[nav]">
 							{carousel.map((_, index) => (
-								<button
-									class="glide__bullet !bg-fi-base-100 !ring-fi-paper hover:!bg-fi-paper !mx-[3.5px] !h-[6px] !w-[6px] !shadow-[0_0_0_1px_#DAD8CE] !duration-200 hover:!ring-2"
-									data-glide-dir={`=${index}`}
-								/>
+								<button class="glide__bullet carousel-bullet" data-glide-dir={`=${index}`} />
 							))}
 						</div>
 					</>
@@ -111,24 +129,24 @@ const markdown = new MarkdownIt({ html: true })
 		{
 			data.links.map((link) => (
 				<a
-					class="group text-fi-tx-2 mediumlarge:hidden inline-block p-2 pl-0 text-sm transition first-of-type:pl-2"
+					class="group inline-block p-2 pl-0 text-sm text-fi-tx-2 transition first-of-type:pl-2 mediumlarge:hidden"
 					href={link.url}
 					target="_blank"
 				>
 					<span
-						class="decoration-fi-ui-2 group-hover:text-fi-orange group-hover:decoration-fi-orange-400 underline decoration-1 underline-offset-3 transition"
+						class="underline decoration-fi-ui-2 decoration-1 underline-offset-3 transition group-hover:text-fi-orange group-hover:decoration-fi-orange-400"
 						set:html={link.title}
 					/>
-					<span class="text-fi-tx-3 group-hover:text-fi-orange text-[82%] font-medium transition">
+					<span class="text-[82%] font-medium text-fi-tx-3 transition group-hover:text-fi-orange">
 						↗
 					</span>
 				</a>
 			))
 		}
 	</div>
-	<div>
+	<div class="max-w-[58ch] self-start">
 		<h3 class="text-2xl font-medium">{data.title}</h3>
-		<div class="font-adelle-sans my-[0.6em] flex flex-wrap items-baseline gap-[0.6em] text-sm">
+		<div class="my-[0.6em] flex flex-wrap items-baseline gap-[0.6em] font-adelle-sans text-sm">
 			{
 				data.roles.map((role) => (
 					<div
@@ -147,16 +165,16 @@ const markdown = new MarkdownIt({ html: true })
 			}
 			{
 				data.tools.map((tool) => (
-					<div class="border-fi-ui bg-fi-bg-2 text-fi-base-500 rounded-xs border px-[0.4em] py-[0.15em]">
+					<div class="rounded-xs border border-fi-ui bg-fi-bg-2 px-[0.4em] py-[0.15em] text-fi-base-500">
 						{tool}
 					</div>
 				))
 			}
 		</div>
-		<p class="text-fi-base-600 mb-2">
+		<p class="mb-2 text-fi-base-600">
 			<Fragment set:html={data.lede && markdown.renderInline(data.lede)} />
 			<span class="whitespace-nowrap">
-				<span class="font-sofia-sans text-[81%] font-[500] uppercase">
+				<span class="font-sofia-sans text-[81%] font-medium uppercase">
 					{data.client && <>{data.client}, </>}{
 						formatCustomPeriod(data.date, "fr", true, false, false)
 					}.
@@ -166,15 +184,15 @@ const markdown = new MarkdownIt({ html: true })
 		{
 			data.links.map((link) => (
 				<a
-					class="group text-fi-tx-2 hover:text-fi-orange mediumlarge:inline mr-2 hidden"
+					class="group mb-2 mr-2 hidden text-fi-tx-2 hover:text-fi-orange mediumlarge:inline-block"
 					href={link.url}
 					target="_blank"
 				>
 					<span
-						class="decoration-fi-ui-2 group-hover:decoration-fi-orange underline decoration-1 underline-offset-3 transition"
+						class="underline decoration-fi-ui-2 decoration-1 underline-offset-3 transition group-hover:decoration-fi-orange"
 						set:html={link.title}
 					/>
-					<span class="text-fi-tx-3 group-hover:text-fi-orange text-[82%] font-medium transition">
+					<span class="text-[82%] font-medium text-fi-tx-3 transition group-hover:text-fi-orange">
 						↗
 					</span>
 				</a>
@@ -182,7 +200,7 @@ const markdown = new MarkdownIt({ html: true })
 		}
 		{
 			overview && overview.length > 1 && (
-				<div class="font-sofia-sans mt-6 mb-2 flex gap-[1em] uppercase">
+				<div class="mb-2 mt-6 flex gap-[1em] font-sofia-sans uppercase">
 					{overview.map((cat, index) => (
 						<label>
 							<input
@@ -193,7 +211,7 @@ const markdown = new MarkdownIt({ html: true })
 								class="peer hidden"
 								checked={index == 0}
 							/>
-							<div class="border-fi-paper text-fi-base-600/70 hover:text-fi-orange-500 peer-checked:border-fi-orange-500 peer-checked:text-fi-orange-500 cursor-pointer border-b-2 transition-all">
+							<div class="cursor-pointer border-b-2 border-fi-paper text-fi-base-600/70 transition-all hover:text-fi-orange-500 peer-checked:border-fi-orange-500 peer-checked:text-fi-orange-500">
 								{cat[0]}
 							</div>
 						</label>
@@ -210,7 +228,7 @@ const markdown = new MarkdownIt({ html: true })
 							{cat.slice(1).map((item) => (
 								<li
 									class:list={[
-										"markdown marker:text-fi-orange-500 mb-2",
+										"markdown mb-2 marker:text-fi-orange-500",
 										{ "marker:content-['→__']": index > 0 },
 									]}
 									set:html={markdown.renderInline(item)}
@@ -226,33 +244,76 @@ const markdown = new MarkdownIt({ html: true })
 <style is:global>
 	@reference "#tailwind.css";
 
+	/* Now that they get a wide column, keep tall carousels inside the viewport, under the
+	   sticky identity header. Narrow screens keep their own, tighter cap. */
+	@media (min-width: 861px) {
+		.portfolio-carousel,
+		.portfolio-carousel .glide__track {
+			max-height: calc(100svh - var(--portfolio-header-h, 0px) - 5rem);
+		}
+	}
+
+	/* The controls sit on top of the media, so they stay opaque paper: that reads against a
+	   pale screenshot just as well as against a dark one, without breaking the soft palette. */
+	.carousel-arrow {
+		@apply absolute top-1/2 flex h-10 w-10 items-center justify-center rounded-full border border-fi-ui-2 bg-fi-paper !p-0 text-lg text-fi-tx-2 transition duration-200;
+		/* Glide's own theme already centres the arrow with `transform`, and Tailwind's
+		   -translate-y-1/2 compiles to the separate `translate` property, so the two stack
+		   and push it half a button too high. One explicit chain instead, which also keeps
+		   the hover scale growing from the button's real centre. */
+		transform: translateY(-50%);
+		box-shadow:
+			0 5px 8px -3px rgb(16 15 15 / 0.12),
+			0 1px 2px rgb(16 15 15 / 0.06);
+	}
+	.carousel-arrow:hover {
+		@apply border-fi-ui-3 bg-fi-bg-2 text-fi-black;
+		transform: translateY(-50%) scale(1.06);
+	}
+
+	.carousel-bullets {
+		@apply flex items-center gap-[5px] rounded-full border border-fi-ui-2 bg-fi-paper px-[7px] py-[6px];
+		box-shadow:
+			0 5px 8px -3px rgb(16 15 15 / 0.12),
+			0 1px 2px rgb(16 15 15 / 0.06);
+	}
+	.carousel-bullet {
+		@apply !m-0 !h-[7px] !w-[7px] !border-0 !bg-fi-ui-3 !shadow-none !transition-all !duration-200;
+	}
+	.carousel-bullet:hover {
+		@apply !bg-fi-base-400;
+	}
 	.glide__bullet--active {
-		@apply !bg-fi-paper;
+		@apply !w-[15px] !rounded-full !bg-fi-tx-2;
+	}
+	.glide--swipeable {
+		cursor: initial;
 	}
 	.markdown {
 		strong {
 			font-weight: inherit;
-			@apply text-fi-orange-500 font-medium;
+			@apply font-medium text-fi-orange-500;
 		}
 		a {
-			@apply text-fi-tx-2 decoration-fi-ui-2 underline decoration-1 underline-offset-3;
+			@apply text-fi-tx-2 underline decoration-fi-ui-2 decoration-1 underline-offset-3;
 			&::after {
 				content: " ↗";
-				@apply text-fi-tx-3 inline-block text-[82%] font-medium;
+				@apply inline-block text-[82%] font-medium text-fi-tx-3;
 			}
 		}
 		em {
 			@apply italic;
 		}
 	}
-	/* :playing is currently only supported on Safari */
 	figure:has(video) {
 		@apply relative min-h-8;
 	}
-	figure:has(video:not(:playing))::after {
-		content: "▶";
-		z-index: 1000;
-		@apply bg-fi-base-100/50 text-fi-tx-2 pointer-events-none absolute inset-0 flex items-center justify-center text-5xl;
+	/* Hidden as soon as the video is confirmed to be running (see the script below). */
+	.play-badge {
+		z-index: 5;
+	}
+	.play-badge[data-playing="true"] {
+		@apply opacity-0;
 	}
 </style>
 
@@ -265,13 +326,40 @@ const markdown = new MarkdownIt({ html: true })
 		new Glide(item).mount()
 	})
 
+	// The play badge is rendered by default and only removed once we can tell the video is
+	// really running, so a browser that blocks autoplay still shows a clickable indicator.
+	document.querySelectorAll<HTMLElement>(".play-badge").forEach((badge) => {
+		const video = badge.parentElement?.querySelector("video")
+		if (!video) return
+
+		const update = () => {
+			// HAVE_FUTURE_DATA or better means the next frame is decodable, so a video that is
+			// buffering, stalled or waiting on a user gesture keeps its badge.
+			const running = !video.paused && !video.ended && video.readyState >= 3
+			badge.dataset.playing = String(running)
+		}
+
+		const events = [
+			"playing",
+			"timeupdate",
+			"pause",
+			"ended",
+			"waiting",
+			"stalled",
+			"emptied",
+			"error",
+		]
+		events.forEach((event) => video.addEventListener(event, update))
+		update()
+	})
+
 	const tabs = document.querySelectorAll(
-		`input[type="radio"][data-entry]`
+		`input[type="radio"][data-entry]`,
 	) as NodeListOf<HTMLElement>
 	tabs.forEach((tab) => {
 		tab.addEventListener("change", () => {
 			const contents = document.querySelectorAll(
-				`div[data-entry="${tab.dataset.entry}"]`
+				`div[data-entry="${tab.dataset.entry}"]`,
 			) as NodeListOf<HTMLElement>
 			contents.forEach((content) => {
 				content.classList.toggle("hidden", content.dataset.index != tab.dataset.index)

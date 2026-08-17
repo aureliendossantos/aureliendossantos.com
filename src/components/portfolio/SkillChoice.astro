@@ -1,44 +1,70 @@
 ---
 /**
- * A radio button that filters projects by category.
- * @param small - The `small` button is just a label pointing to a real button that must be elsewhere on the page.
+ * A toggle that filters projects by category.
+ *
+ * Every skill is enabled by default. The first click narrows the selection down to the
+ * clicked skill, further clicks add or remove skills like a set of checkboxes, and
+ * emptying the selection goes back to showing everything.
+ *
+ * @param small - The compact variant used in the sticky identity header.
  */
 interface Props {
 	title: string
+	shortTitle?: string
 	value: string
 	color: string
 	deg: number
 	small?: boolean
 }
-const { title, value, color, deg, small } = Astro.props
+const { title, shortTitle, value, color, deg, small } = Astro.props
 ---
 
-<label
+<button
+	type="button"
 	class:list={[
-		"bg-(--color) text-(--color) ring-(--color) hover:bg-(--color) flex cursor-pointer items-center gap-3 rounded-full p-3 leading-tight text-fi-paper ring-2 transition ease-out hover:ring-2",
-		{
-			"group-has-[:checked]:text-(--color) group-has-[:checked]:has-[:checked]:bg-(--color) group-has-[:checked]:bg-transparent group-has-[:checked]:has-[:checked]:text-fi-paper":
-				!small,
-		},
-		{ "py-1": small },
+		"skill-choice flex cursor-pointer items-center rounded-full leading-tight transition ease-out",
+		small ? "small gap-[7px] py-[5px] pl-[6px] pr-[10px] text-xs" : "gap-3 p-3 text-sm",
 	]}
 	style={{ "--color": color }}
-	for={small ? value : undefined}
+	data-skill={value}
+	aria-pressed="true"
 >
-	{!small && <input type="radio" name="skills" {value} id={value} class="peer hidden" />}
-	<div
-		class="circle text-(--color) group-has-[:checked]:text-(--color) inline-block aspect-square rounded-full text-fi-paper transition group-has-[:checked]:peer-checked:text-fi-paper"
-		style={{ "--deg": `${deg}deg` }}
-	>
-	</div>
-	<div>{title}</div>
-</label>
+	<span
+		class:list={["circle inline-block aspect-square shrink-0 rounded-full"]}
+		style={{ "--deg": `${deg}deg`, "--stripes": small ? 4 : 5 }}></span>
+	<span class="whitespace-nowrap">{(small && shortTitle) || title}</span>
+</button>
 
 <style>
+	.skill-choice {
+		--paper: #fffcf0;
+		background: var(--color);
+		color: var(--paper);
+		box-shadow: inset 0 0 0 2px var(--color);
+		&.small {
+			box-shadow: inset 0 0 0 1.5px var(--color);
+		}
+	}
+	.skill-choice:hover {
+		filter: opacity(0.92);
+	}
+	/* Disabled skills keep their colour, but only as an outline. */
+	.skill-choice[aria-pressed="false"] {
+		background: transparent;
+		color: var(--color);
+		filter: none;
+	}
+	.skill-choice[aria-pressed="false"]:hover {
+		background: color-mix(in srgb, var(--color) 12%, transparent);
+	}
+	.skill-choice:focus-visible {
+		outline: 2px solid var(--color);
+		outline-offset: 2px;
+	}
+
 	.circle {
-		--stripes: 5;
-		--size: calc(var(--stripes) * var(--line-width) * 2 - var(--line-width));
 		--line-width: 2px;
+		--size: calc(var(--stripes) * var(--line-width) * 2 - var(--line-width));
 		width: var(--size);
 		height: var(--size);
 		background: repeating-linear-gradient(
@@ -52,40 +78,67 @@ const { title, value, color, deg, small } = Astro.props
 </style>
 
 <script>
-	const buttons = document.querySelectorAll("input[name=skills]") as NodeListOf<HTMLInputElement>
-	const projects = document.querySelectorAll("[data-appear-in]") as NodeListOf<HTMLElement>
+	// This script is bundled once per page, no matter how many <SkillChoice /> are rendered.
+	const buttons = Array.from(document.querySelectorAll<HTMLButtonElement>("button[data-skill]"))
+	const projects = Array.from(document.querySelectorAll<HTMLElement>("[data-appear-in]"))
+	const everySkill = [...new Set(buttons.map((button) => button.dataset.skill!))]
 
-	/** Hides projects not corresponding to the value. */
-	const updateProjectsVisibility = (category: string) => {
+	/** Enabled skills, or `null` for the default state where no filter is applied. */
+	let selection: Set<string> | null = null
+
+	const render = () => {
+		buttons.forEach((button) => {
+			const enabled = selection === null || selection.has(button.dataset.skill!)
+			button.setAttribute("aria-pressed", String(enabled))
+		})
 		projects.forEach((project) => {
-			project.classList.toggle("hidden", !project.dataset.appearIn!.includes(category))
+			const categories = project.dataset.appearIn!.split(",")
+			const visible = selection === null || categories.some((cat) => selection!.has(cat))
+			project.classList.toggle("hidden", !visible)
 			project.offsetHeight // Accessing this property forces a reflow
 		})
-		// After this, previously hidden images and videos don't show up. Forcing a reflow.
+		// Without the reflow above, previously hidden images and videos don't show up.
+	}
+
+	const toggle = (skill: string) => {
+		if (selection === null) {
+			// First click narrows everything down to the clicked skill.
+			selection = new Set([skill])
+		} else {
+			if (selection.has(skill)) selection.delete(skill)
+			else selection.add(skill)
+			// Turning every skill off is the same as not filtering at all.
+			if (selection.size === 0) selection = null
+		}
+		render()
 	}
 
 	buttons.forEach((button) => {
 		button.addEventListener("click", () => {
-			// Not changing the hash because of the image/video loading bug
-			// window.location.hash = button.value
-			updateProjectsVisibility(button.value)
-			setTimeout(() => {
-				// If we click on any button, the skills overlay never shows up again
-				;(document.querySelector("#close-skills-overlay") as HTMLInputElement).checked = true
-				window.scrollTo({
-					top: window.innerHeight - 80,
-					behavior: "smooth",
-				})
-			}, 100)
+			// Not changing the hash because of the image/video loading bug.
+			const projectsTop = window.innerHeight - 80
+			const before = window.scrollY
+			toggle(button.dataset.skill!)
+			// Filtering from the hero reveals the projects underneath it. Filtering from the
+			// sticky header keeps the reading position, unless the page just became too short
+			// to hold it and the browser would drop the user at the very bottom.
+			const maxScroll = document.documentElement.scrollHeight - window.innerHeight
+			if (before < projectsTop || before > maxScroll)
+				setTimeout(() => {
+					window.scrollTo({
+						top: Math.min(projectsTop, Math.max(maxScroll, 0)),
+						behavior: "smooth",
+					})
+				}, 100)
 		})
 	})
-	// if the URL ends in #{value}, the skills radio that has that value is checked
-	const hash = window.location.hash.slice(1) // removing the #
-	if (hash) {
-		const button = document.querySelector(`input[value="${hash}"]`) as HTMLInputElement
-		if (button) {
-			button.checked = true
-			updateProjectsVisibility(hash)
-		}
+
+	// A URL ending in #web or #web,jeux pre-selects those skills.
+	const wanted = decodeURIComponent(window.location.hash.slice(1))
+		.split(",")
+		.filter((skill) => everySkill.includes(skill))
+	if (wanted.length) {
+		selection = new Set(wanted)
+		render()
 	}
 </script>

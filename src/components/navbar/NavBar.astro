@@ -31,7 +31,7 @@ interface Props extends NavBarProps {
 	audioController?: boolean
 }
 
-const { title, parent, related, headings, draft, viewportCover, audioController } = Astro.props
+const { title, parent, related, headings, draft, disableLeftBar, viewportCover, audioController } = Astro.props
 const relatedTitle = Astro.props.relatedTitle || "Voir aussi"
 const t = useTranslations(checkLocale(Astro.currentLocale))
 ---
@@ -71,6 +71,7 @@ const t = useTranslations(checkLocale(Astro.currentLocale))
 		paddingRight: "env(safe-area-inset-right)",
 	}}
 >
+	{!disableLeftBar &&
 	<div id="navbar-main-actions" class="navbar-colors navbar-bg navbar-left flex">
 		<DropdownMenu
 			id="navbar-graph"
@@ -176,6 +177,7 @@ const t = useTranslations(checkLocale(Astro.currentLocale))
 			}
 		</DropdownMenu>
 	</div>
+	}
 	<div id="navbar-image-actions" class="navbar-colors navbar-bg navbar-left flex hidden">
 		<DownloadLink id="navbar-download-lowres-image" label="Basse qualité" shortLabel="SD" href="" />
 		<DownloadLink id="navbar-download-hires-image" label="Haute qualité" shortLabel="HD" href="" />
@@ -211,10 +213,7 @@ const t = useTranslations(checkLocale(Astro.currentLocale))
 		textAndBorderClasses="border-neutral-500 text-neutral-400 group-hover:border-white group-hover:text-white"
 	/>*/
 		}
-		<button
-			id="fullscreen-to-overview"
-			class="navbar-colors hidden border-r px-3 medium:px-2"
-		>
+		<button id="fullscreen-to-overview" class="navbar-colors hidden border-r px-3 medium:px-2">
 			<CollapseIcon width="17px" height="17px" />
 		</button>
 		<DropdownMenu id="navbar-game" keepOpenOnClick alignRight>
@@ -240,9 +239,9 @@ const t = useTranslations(checkLocale(Astro.currentLocale))
 	// Display download links when an image is opened with MediumZoom
 	window.mediumZoom.on("open", (event: any) => {
 		// Toggle visibility
-		;(document.querySelector("#navbar-main-actions") as HTMLDivElement).classList.add("hidden")
-		;(document.querySelector("#navbar-popup-actions") as HTMLDivElement).classList.add("hidden")
-		;(document.querySelector("#navbar-image-actions") as HTMLDivElement).classList.remove("hidden")
+		document.querySelector("#navbar-main-actions")?.classList.add("hidden")
+		document.querySelector("#navbar-popup-actions")?.classList.add("hidden")
+		document.querySelector("#navbar-image-actions")?.classList.remove("hidden")
 		// Get divs
 		const img = event.detail.zoom.getZoomedImage() as HTMLImageElement
 		const data = img.dataset
@@ -250,7 +249,7 @@ const t = useTranslations(checkLocale(Astro.currentLocale))
 		const lowResLink = document.querySelector("#navbar-download-lowres-image") as HTMLLinkElement
 		const hiResLink = document.querySelector("#navbar-download-hires-image") as HTMLLinkElement
 		const originalLink = document.querySelector(
-			"#navbar-download-original-image"
+			"#navbar-download-original-image",
 		) as HTMLLinkElement
 		// img.src link. When local, it's the low res image (display the resolution).
 		// When remote, it can either be the only available image or the low res one.
@@ -286,15 +285,11 @@ const t = useTranslations(checkLocale(Astro.currentLocale))
 	})
 	// Hide download links when an image is closed with MediumZoom
 	window.mediumZoom.on("close", () => {
-		;(document.querySelector("#navbar-image-actions") as HTMLLinkElement).classList.add("hidden")
+		document.querySelector("#navbar-image-actions")?.classList.add("hidden")
 		if (window.popupsOpened > 0) {
-			;(document.querySelector("#navbar-popup-actions") as HTMLLinkElement).classList.remove(
-				"hidden"
-			)
+			document.querySelector("#navbar-popup-actions")?.classList.remove("hidden")
 		} else {
-			;(document.querySelector("#navbar-main-actions") as HTMLLinkElement).classList.remove(
-				"hidden"
-			)
+			document.querySelector("#navbar-main-actions")?.classList.remove("hidden")
 		}
 	})
 </script>

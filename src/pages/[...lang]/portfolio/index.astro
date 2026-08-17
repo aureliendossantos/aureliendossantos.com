@@ -39,7 +39,7 @@ const entries = (await getCollection("portfolio"))
 	image={ogImage.src}
 	title={t("p-title")}
 	description={t("p-description")}
-	navBarProps={{ title: t("p-title") }}
+	navBarProps={{ title: t("p-title"), disableLeftBar: true }}
 >
 	<div
 		class="m-auto max-w-[820px] px-[43px] font-inter text-fi-black mediumlarge:overflow-x-hidden medium:text-lg"
@@ -98,7 +98,7 @@ const entries = (await getCollection("portfolio"))
 				<div class="mb-3 text-xs font-medium uppercase tracking-wider text-fi-base-400">
 					{t("p-filter-title")}
 				</div>
-				<div class="group grid grid-cols-3 gap-x-3 gap-y-2 pt-[3px] medium:grid-cols-1">
+				<div class="grid grid-cols-3 gap-x-3 gap-y-2 pt-[3px] medium:grid-cols-1">
 					<SkillChoice
 						title={t("p-skill-pedagogique")}
 						value="pedagogique"
@@ -112,36 +112,52 @@ const entries = (await getCollection("portfolio"))
 		</header>
 	</div>
 	<div
-		id="skills-overlay"
-		class="pointer-events-none fixed left-0 right-0 top-0 z-20 border-b border-fi-ui bg-fi-paper p-2 pb-[10px] pt-[7px] text-sm opacity-0 transition-opacity mediumlarge:hidden"
+		id="portfolio-header"
+		data-visible="false"
+		class="pointer-events-none fixed inset-x-0 top-0 z-30 -translate-y-2 border-b border-fi-ui bg-fi-paper font-inter text-fi-black opacity-0 transition duration-300 ease-out data-[visible=true]:pointer-events-auto data-[visible=true]:translate-y-0 data-[visible=true]:opacity-100"
 	>
 		<div
-			class="group relative m-auto grid max-w-[735px] grid-cols-3 gap-x-3 gap-y-2 pt-[3px] medium:grid-cols-1"
+			class="m-auto flex w-full max-w-[1560px] flex-wrap items-center gap-x-5 gap-y-2 px-[43px] py-[10px] 3xl:max-w-[1280px] 2xl:max-w-6xl medium:gap-x-3 medium:px-6 small:justify-center"
 		>
-			<div
-				class="absolute -left-[68px] top-[9px] mb-3 text-xs font-medium uppercase tracking-wider text-fi-base-400"
+			<button
+				type="button"
+				class="portfolio-to-top order-1 mr-auto flex min-w-0 cursor-pointer items-center gap-[10px] text-sm font-medium transition hover:text-fi-orange small:hidden"
 			>
-				{t("p-filter-short")}
+				<span class="identity-mark shrink-0 rounded-full"></span>
+				<span class="truncate">{t("p-hero-name")}</span>
+			</button>
+			<div class="order-2 flex items-center gap-2 medium:gap-[6px]">
+				<span class="mr-1 text-xs font-medium uppercase tracking-wider text-fi-base-400 2xl:hidden">
+					{t("p-filter-short")}
+				</span>
+				<SkillChoice
+					small
+					title={t("p-skill-pedagogique")}
+					shortTitle={t("p-skill-pedagogique-short")}
+					value="pedagogique"
+					color="#4385BE"
+					deg={90}
+				/>
+				<SkillChoice
+					small
+					title={t("p-skill-web")}
+					shortTitle={t("p-skill-web-short")}
+					value="web"
+					color="#DA702C"
+					deg={135}
+				/>
+				<SkillChoice
+					small
+					title={t("p-skill-games")}
+					shortTitle={t("p-skill-games-short")}
+					value="jeux"
+					color="#D0A215"
+					deg={0}
+				/>
 			</div>
-			<SkillChoice
-				small
-				title={t("p-skill-pedagogique")}
-				value="pedagogique"
-				color="#4385BE"
-				deg={90}
-			/>
-			<SkillChoice small title={t("p-skill-web")} value="web" color="#DA702C" deg={135} />
-			<SkillChoice small title={t("p-skill-games")} value="jeux" color="#D0A215" deg={0} />
-			<label
-				class="absolute -right-9 top-1 mb-3 cursor-pointer rounded-full px-2 py-1 text-xs font-medium text-fi-base-400 ring-fi-ui-2 transition hover:ring-1"
-				aria-label={t("p-close")}
-			>
-				<input id="close-skills-overlay" type="checkbox" class="hidden" />
-				✕
-			</label>
 		</div>
 	</div>
-	<div class="m-auto max-w-6xl px-[43px]">
+	<div class="m-auto w-full max-w-[1560px] px-[43px] 3xl:max-w-[1280px] 2xl:max-w-6xl medium:px-6">
 		{entries.map((entry) => <Overview id={entry.id} />)}
 	</div>
 	<div class="m-auto my-24 max-w-[820px] px-[43px] font-inter text-xl medium:text-lg">
@@ -174,8 +190,7 @@ const entries = (await getCollection("portfolio"))
 	</div>
 	<div class="my-24 flex justify-center gap-3 text-sm">
 		<button
-			id="back-to-top"
-			class="flex cursor-pointer items-center gap-2 rounded-full p-3 pr-4 leading-tight text-fi-tx-2 ring-2 ring-fi-tx-2 transition ease-out"
+			class="portfolio-to-top flex cursor-pointer items-center gap-2 rounded-full p-3 pr-4 leading-tight text-fi-tx-2 ring-2 ring-fi-tx-2 transition ease-out"
 		>
 			<div class="inline-block font-medium">↑</div>
 			<div>{t("p-back-to-top")}</div>
@@ -194,33 +209,33 @@ const entries = (await getCollection("portfolio"))
 </BaseLayout>
 
 <script>
-	document.querySelector("#back-to-top")?.addEventListener("click", () => {
-		window.scrollTo({ top: 0, behavior: "smooth" })
+	document.querySelectorAll(".portfolio-to-top").forEach((button) => {
+		button.addEventListener("click", () => {
+			window.scrollTo({ top: 0, behavior: "smooth" })
+		})
 	})
 	document.querySelector("#all-projects")?.addEventListener("click", () => {
 		window.scrollTo({ top: window.innerHeight / 2, behavior: "smooth" })
 	})
-	// If the user has scrolled for more than window.innerHeight, show the skills overlay. Hide it if the user scrolls back up, or clicks the close button.
-	const skillsOverlay = document.querySelector("#skills-overlay") as HTMLElement
-	const closeSkillsOverlay = document.querySelector("#close-skills-overlay") as HTMLInputElement
-	const showSkillsOverlay = () => {
-		skillsOverlay.style.opacity = "1"
-		skillsOverlay.style.pointerEvents = "auto"
+
+	const header = document.querySelector("#portfolio-header") as HTMLElement
+
+	// The identity header stays visible for as long as the hero is scrolled past.
+	const updateHeader = () => {
+		header.dataset.visible = String(window.scrollY >= window.innerHeight - 120)
 	}
-	const hideSkillsOverlay = () => {
-		skillsOverlay.style.opacity = "0"
-		skillsOverlay.style.pointerEvents = "none"
+	document.addEventListener("scroll", updateHeader, { passive: true })
+	updateHeader()
+
+	// Projects stick right under the header, whichever height it ends up having.
+	const publishHeaderHeight = () => {
+		document.documentElement.style.setProperty(
+			"--portfolio-header-h",
+			`${Math.round(header.offsetHeight)}px`,
+		)
 	}
-	document.addEventListener("scroll", () => {
-		if (window.scrollY >= window.innerHeight - 80 && !closeSkillsOverlay.checked) {
-			showSkillsOverlay()
-		} else {
-			hideSkillsOverlay()
-		}
-	})
-	closeSkillsOverlay.addEventListener("change", () => {
-		hideSkillsOverlay()
-	})
+	new ResizeObserver(publishHeaderHeight).observe(header)
+	publishHeaderHeight()
 </script>
 
 <script>
@@ -228,6 +243,23 @@ const entries = (await getCollection("portfolio"))
 	OverlayScrollbars.plugin([ScrollbarsHidingPlugin, ClickScrollPlugin])
 	OverlayScrollbars(document.body, { scrollbars: { clickScroll: true } })
 </script>
+
+<style>
+	/* A miniature of the hero's striped circle, as the header's identity mark. */
+	.identity-mark {
+		--line-width: 2px;
+		--size: 18px;
+		width: var(--size);
+		height: var(--size);
+		background: repeating-linear-gradient(
+			45deg,
+			#da702c,
+			#da702c var(--line-width),
+			transparent var(--line-width),
+			transparent calc(var(--line-width) * 2)
+		);
+	}
+</style>
 
 <style is:global>
 	.os-scrollbar {
