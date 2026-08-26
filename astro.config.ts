@@ -4,12 +4,19 @@ import AutoImport from "astro-auto-import"
 import vercel from "@astrojs/vercel"
 import tailwindcss from "@tailwindcss/vite"
 import mdx from "@astrojs/mdx"
+import react from "@astrojs/react"
 import expressiveCode from "astro-expressive-code"
 import { remarkConvertImports } from "./src/utils/remark/convertImports"
 import { remarkAbbr } from "./src/utils/remark/detectAbbr"
 import { existsSync, readdirSync } from "node:fs"
+import type { Plugin } from "vite"
 
 const serverField = envField.string({ context: "server", access: "secret" })
+const optionalServerField = envField.string({
+	context: "server",
+	access: "secret",
+	optional: true,
+})
 
 /**
  * @vercel/nft traces the content submodule into the /_render function (1.3 GB,
@@ -22,12 +29,34 @@ const contentFiles = () =>
 				.map((entry) => `${entry.parentPath}/${entry.name}`.replaceAll("\\", "/"))
 		: []
 
+/**
+ * `@vitejs/plugin-react` hands Vite 8's option shape to the native Rolldown
+ * Fast Refresh wrapper. On the Vite 7.3 that Astro 6.4 depends on, that throws
+ * "Missing field `moduleType`" for every module in `astro dev` — the whole dev
+ * server, not just the React island.
+ *
+ * Removing `applyToEnvironment` takes the same path the plugin uses when the
+ * native wrapper is unavailable: its own JS transform, which works on both.
+ * Delete this once Astro moves to Vite 8 (and @astrojs/react can go back to 6.x).
+ */
+const reactFastRefreshOnVite7 = (): Plugin => ({
+	name: "astro-react-refresh-vite7-fallback",
+	apply: "serve",
+	configResolved(config) {
+		const wrapper = config.plugins.find((plugin) => plugin.name === "vite:react:refresh-wrapper")
+		if (wrapper) delete (wrapper as { applyToEnvironment?: unknown }).applyToEnvironment
+	},
+})
+
 // https://astro.build/config
 export default defineConfig({
 	output: "static",
 	adapter: vercel({
 		webAnalytics: { enabled: true },
 		excludeFiles: contentFiles(),
+		// /api/fit streams a model response and is the only on-demand route.
+		// 60s is within every Vercel plan's limit and well above a normal run.
+		maxDuration: 60,
 	}),
 	prefetch: { prefetchAll: true },
 	i18n: {
@@ -51,7 +80,7 @@ export default defineConfig({
 	},
 	site: "https://aureliendossantos.com",
 	vite: {
-		plugins: [tailwindcss()],
+		plugins: [tailwindcss(), reactFastRefreshOnVite7()],
 	},
 	integrations: [
 		expressiveCode(),
@@ -90,6 +119,9 @@ export default defineConfig({
 				// remove the CSS... Same for YouTube/Vimeo/Tweet from astro-embed.
 			],
 		}),
+		// React exists for the /fit assessment island only. Every other page of
+		// the site stays plain Astro, and no React ships to them.
+		react({ include: ["**/components/fit/**"] }),
 		mdx(),
 	],
 	markdown: {
@@ -117,6 +149,10 @@ export default defineConfig({
 			SPOTIFY_CLIENT_ID: serverField,
 			SPOTIFY_CLIENT_SECRET: serverField,
 			GITHUB_TOKEN: serverField,
+			/** Fit assessment. Optional so the site still builds without it. */
+			OPENAI_API_KEY: optionalServerField,
+			/** Optional model override, e.g. "gpt-5.6-sol". See src/utils/fit/models.ts. */
+			AI_MATCH_MODEL: optionalServerField,
 		},
 	},
 })

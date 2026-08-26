@@ -26,10 +26,14 @@ const videos = (
 const markdown = new MarkdownIt({ html: true })
 
 const nextLabel = Astro.currentLocale == "en" ? "Next" : "Suivant"
+
+// Anchor target shared by both locales, so /fit can deep-link to a project.
+const anchor = id.replace(/\/en$/, "")
 ---
 
 <div
-	class="mb-24 grid grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)] gap-x-24 gap-y-8 3xl:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)] 3xl:gap-x-16 2xl:grid-cols-2 2xl:gap-x-12 xl:text-sm mediumlarge:grid-cols-1"
+	id={anchor}
+	class="mb-24 scroll-mt-[calc(var(--portfolio-header-h,0px)+1rem)] grid grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)] gap-x-24 gap-y-8 3xl:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)] 3xl:gap-x-16 2xl:grid-cols-2 2xl:gap-x-12 xl:text-sm mediumlarge:grid-cols-1"
 	data-appear-in={data.appearIn.join(",")}
 >
 	<div

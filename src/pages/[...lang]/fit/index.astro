@@ -1,0 +1,70 @@
+---
+import "$styles/fonts/inter.css"
+import "@fontsource/google-sans-code"
+import "$styles/fit.css"
+import BaseLayout from "$layouts/BaseLayout.astro"
+import { FitMatcher } from "$components/fit/FitMatcher"
+import { FIT_TEXTAREA_ID } from "$components/fit/FitInput"
+import { labels } from "$components/fit/labels"
+import { getEvidenceIndex } from "$utils/fit/evidence"
+import { links } from "$utils/fit/profile"
+import { localePaths } from "$utils/i18n"
+
+/**
+ * A deliberately sparse page: the prompt, an input, and whatever the model
+ * makes of it. It stays statically rendered — only `/api/fit` runs on demand.
+ */
+// Cloned rather than returned as-is: Astro consumes the entries it is given, so
+// two routes sharing the `localePaths` objects lose their paths (same reason the
+// museum routes clone).
+export function getStaticPaths() {
+	return localePaths.map(({ params, props }) => ({
+		params: { ...params },
+		props: { ...props },
+	}))
+}
+const { locale } = Astro.props
+const t = labels[locale]
+
+// Resolved at build time and handed to the island, so the browser can turn a
+// streamed projectId into a real title and link without trusting the model.
+const evidenceIndex = await getEvidenceIndex(locale)
+---
+
+<BaseLayout
+	ogType="website"
+	bg="#FFFCF0"
+	title={t.heading}
+	description={t.intro}
+	navBarProps={{ title: t.heading, disableLeftBar: true }}
+>
+	<main
+		class="m-auto max-w-[820px] px-[43px] pb-40 pt-24 font-inter text-fi-black medium:px-6 medium:pt-14"
+	>
+		<a
+			href={locale === "en" ? "/en/portfolio" : "/portfolio"}
+			class="font-google-sans-code text-[11px] uppercase tracking-[0.14em] text-fi-base-500 transition hover:text-fi-orange"
+		>
+			Aurélien Dos Santos
+		</a>
+		<h1 class="mt-4 text-pretty text-5xl font-medium leading-[1.1] medium:text-4xl">
+			{t.heading}
+		</h1>
+		<p class="mb-10 mt-5 max-w-[58ch] text-pretty text-lg leading-relaxed text-fi-tx-2">
+			{t.intro}
+		</p>
+
+		<FitMatcher client:load {evidenceIndex} {locale} contactHref={links.email} />
+	</main>
+
+	{
+		/* Focus runs from the server-rendered markup, before the island hydrates,
+	    so the visitor can start typing straight away. Skipped on touch devices,
+	    where it would only raise the keyboard over the page. */
+	}
+	<script is:inline define:vars={{ id: FIT_TEXTAREA_ID }}>
+		if (!window.matchMedia("(pointer: coarse)").matches) {
+			document.getElementById(id)?.focus({ preventScroll: true })
+		}
+	</script>
+</BaseLayout>

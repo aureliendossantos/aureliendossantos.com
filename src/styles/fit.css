@@ -1,0 +1,44 @@
+/*
+ * Motion for the fit assessment page.
+ *
+ * The only animation is a section or card arriving: a short fade with a small
+ * upward settle. No typewriter, no caret, no per-token animation — the model's
+ * own streaming is the movement, and dressing it up would only make it feel
+ * slower and less trustworthy.
+ */
+
+@keyframes fit-enter {
+	from {
+		opacity: 0;
+		transform: translateY(6px);
+	}
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+.fit-enter {
+	animation: fit-enter 200ms ease-out both;
+}
+
+@keyframes fit-pulse {
+	0%,
+	100% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0.45;
+	}
+}
+
+.fit-pulse {
+	animation: fit-pulse 1.6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.fit-enter,
+	.fit-pulse {
+		animation: none;
+	}
+}
