@@ -2,7 +2,8 @@
  * Offline checks for the /fit assessment pipeline.
  *
  * Run with `pnpm check:fit`. No OpenAI credentials and no network: the model is
- * mocked, so this can run on every change without spending anything.
+ * mocked and the provider's own fetch is intercepted, so this can run on every
+ * change without spending anything.
  *
  * It covers the parts that are easy to break and expensive to notice:
  *
@@ -10,18 +11,20 @@
  *   really does emit the partial JSON that `useObject` parses;
  * - partial objects stay parseable at every intermediate chunk, which is what
  *   the deep-partial components rely on;
- * - the schema's field order matches the intended streaming order;
+ * - the block schema survives OpenAI's strict structured-output rules, which
+ *   the model-ordered union of block types could plausibly violate;
+ * - the verdict still streams before the body;
  * - model selection picks Luna everywhere except a real production deployment.
  *
- * Modules that touch `astro:content` (evidence, prompt) cannot be imported
- * outside an Astro build, so they are verified by the build itself.
+ * Modules that touch `astro:content` (evidence, dossier, prompt) cannot be
+ * imported outside an Astro build, so they are verified by the build itself.
  */
 
 import assert from "node:assert/strict"
-import { Output, streamText, toTextStream } from "ai"
+import { Output, parsePartialJson, streamText, toTextStream } from "ai"
 import { MockLanguageModelV4, simulateReadableStream } from "ai/test"
-import { parsePartialJson } from "ai"
-import { fitReportSchema } from "../src/utils/fit/schema"
+import { createOpenAI } from "@ai-sdk/openai"
+import { fitReportSchema, type FitReport } from "../src/utils/fit/schema"
 import { MODELS, resolveModelId } from "../src/utils/fit/models"
 
 let failures = 0
@@ -35,56 +38,82 @@ function check(name: string, run: () => void | Promise<void>) {
 		})
 }
 
-/** A complete, schema-valid report, used as the mocked model output. */
-const sampleReport = {
+/**
+ * A complete, schema-valid report used as the mocked model output.
+ *
+ * Deliberately not in the suggested order, and with a free-text note in the
+ * middle: that is exactly what the block stream is meant to allow.
+ */
+const sampleReport: FitReport = {
 	language: "en",
 	fitLevel: "mixed",
-	fitSummary: "Real overlap on the front-end work, no evidence for the infrastructure half.",
-	needs: [
+	fitSummary: "Real overlap on the product side, no evidence for the infrastructure half.",
+	sections: [
 		{
-			label: "Design-to-implementation ownership",
-			detail: "One person carrying a feature end to end.",
+			kind: "note",
+			heading: "Two roles in one",
+			paragraphs: [
+				"The brief describes two jobs: someone who can carry a design system end to end, and someone who can run the infrastructure under it. They are worth assessing separately.",
+			],
 		},
 		{
-			label: "Production infrastructure",
-			detail: "Independent ownership of deployment and scaling.",
+			kind: "needs",
+			items: [
+				{
+					label: "Design-to-implementation ownership",
+					detail: "One person carrying a feature end to end.",
+				},
+				{
+					label: "Production infrastructure",
+					detail: "Independent ownership of deployment and scaling.",
+				},
+			],
+		},
+		{
+			kind: "evidence",
+			items: [
+				{ projectId: "site", relevance: "Static generation and custom tooling, solo.", caveat: "" },
+				{
+					projectId: "grimoire",
+					relevance: "A framework migration with measured gains.",
+					caveat: "No team context.",
+				},
+			],
+		},
+		{
+			kind: "gaps",
+			items: [
+				{
+					requirement: "AWS platform engineering",
+					level: "none",
+					assessment: "Nothing in the record covers this.",
+				},
+				{
+					requirement: "Team leadership",
+					level: "adjacent",
+					assessment: "Coordination experience, not engineering management.",
+				},
+			],
+		},
+		{
+			kind: "precedent",
+			mode: "single",
+			headline: "The Grimoire Archive migration is the closest analogue.",
+			similar: ["An existing codebase moved to a new rendering model."],
+			transfers: ["Incremental migration under a live product."],
+			different: ["No infrastructure ownership was involved."],
+		},
+		{
+			kind: "questions",
+			items: [
+				{
+					question: "How much of the infrastructure work is genuinely owned solo?",
+					why: "It decides whether the gap is fatal.",
+				},
+			],
 		},
 	],
-	evidence: [
-		{ projectId: "site", relevance: "Static generation and custom tooling, solo.", caveat: "" },
-		{
-			projectId: "grimoire",
-			relevance: "A framework migration with measured gains.",
-			caveat: "No team context.",
-		},
-	],
-	precedent: {
-		mode: "single",
-		headline: "The Grimoire Archive migration is the closest analogue.",
-		similar: ["An existing codebase moved to a new rendering model."],
-		transfers: ["Incremental migration under a live product."],
-		different: ["No infrastructure ownership was involved."],
-	},
-	gaps: [
-		{
-			requirement: "AWS platform engineering",
-			level: "none",
-			assessment: "Nothing in the record covers this.",
-		},
-		{
-			requirement: "Team leadership",
-			level: "adjacent",
-			assessment: "Coordination experience, not engineering management.",
-		},
-	],
-	contribution: "",
-	questions: [
-		{
-			question: "How much of the infrastructure work is genuinely owned solo?",
-			why: "It decides whether the gap is fatal.",
-		},
-	],
-} satisfies unknown
+}
 
 /** Splits the JSON into many small deltas, the way a real stream arrives. */
 function chunkJson(json: string, size = 24) {
@@ -135,6 +164,8 @@ async function streamMockedReport() {
 	return { accumulated, snapshots }
 }
 
+type Snapshot = { fitLevel?: string; sections?: Array<{ kind?: string }> } | undefined
+
 await check("the stream yields partial JSON that useObject can parse", async () => {
 	const { accumulated, snapshots } = await streamMockedReport()
 	assert.ok(snapshots.length > 5, "expected many streamed snapshots")
@@ -149,15 +180,33 @@ await check("every intermediate snapshot is a usable partial object", async () =
 			"a partial snapshot was neither undefined nor an object",
 		)
 	}
-	// The verdict must be readable long before the report finishes.
-	const firstWithVerdict = snapshots.findIndex(
-		(snapshot) => (snapshot as { fitLevel?: string } | undefined)?.fitLevel !== undefined,
-	)
-	assert.ok(firstWithVerdict >= 0, "the verdict never appeared")
-	assert.ok(
-		firstWithVerdict < snapshots.length / 2,
-		"the verdict should stream near the start, not near the end",
-	)
+})
+
+await check("the verdict streams before the body", async () => {
+	const { snapshots } = await streamMockedReport()
+	const firstVerdict = snapshots.findIndex((s) => (s as Snapshot)?.fitLevel !== undefined)
+	const firstBlock = snapshots.findIndex((s) => ((s as Snapshot)?.sections?.length ?? 0) > 0)
+	assert.ok(firstVerdict >= 0, "the verdict never appeared")
+	assert.ok(firstBlock > firstVerdict, "a body block appeared before the verdict")
+})
+
+await check("blocks only ever grow, so nothing on screen can disappear", async () => {
+	const { snapshots } = await streamMockedReport()
+	let previous = 0
+	let previousKinds: string[] = []
+	for (const snapshot of snapshots) {
+		const sections = (snapshot as Snapshot)?.sections ?? []
+		assert.ok(sections.length >= previous, "the block list shrank mid-stream")
+		// A kind, once fully streamed, must never change under a mounted block.
+		previousKinds.forEach((kind, index) => {
+			const current = sections[index]?.kind
+			assert.equal(current, kind, `block ${index} changed kind from ${kind} to ${current}`)
+		})
+		previous = sections.length
+		previousKinds = sections
+			.map((section) => section?.kind)
+			.filter((kind): kind is string => typeof kind === "string")
+	}
 })
 
 await check("the finished object validates against the schema", async () => {
@@ -165,18 +214,71 @@ await check("the finished object validates against the schema", async () => {
 	fitReportSchema.parse(JSON.parse(accumulated))
 })
 
-await check("schema field order matches the intended streaming order", () => {
-	assert.deepEqual(Object.keys(fitReportSchema.shape), [
-		"language",
-		"fitLevel",
-		"fitSummary",
-		"needs",
-		"evidence",
-		"precedent",
-		"gaps",
-		"contribution",
-		"questions",
-	])
+/**
+ * The union of block types is the part most likely to trip OpenAI's strict
+ * structured-output rules, so this asserts against the real request body the
+ * provider builds — captured by a fetch that never leaves the process.
+ */
+await check("the schema OpenAI receives satisfies strict structured-output rules", async () => {
+	let body: any
+	const openai = createOpenAI({
+		apiKey: "test-key-never-sent",
+		fetch: async (_url, init) => {
+			body = JSON.parse(String(init?.body))
+			return new Response('{"error":{"message":"intercepted"}}', {
+				status: 400,
+				headers: { "content-type": "application/json" },
+			})
+		},
+	})
+
+	const result = streamText({
+		model: openai(MODELS.development),
+		system: "trusted dossier",
+		prompt: "untrusted brief",
+		output: Output.object({ schema: fitReportSchema }),
+		// The interception fails the call by design; that is not a test failure.
+		onError: () => {},
+	})
+	// Drain so the request is actually issued.
+	await result.consumeStream({ onError: () => {} })
+
+	assert.ok(body, "the provider never issued a request")
+	const format = body.text?.format ?? body.response_format
+	assert.equal(format?.type, "json_schema", "structured output was not requested")
+	assert.equal(format?.strict, true, "strict mode was not requested")
+
+	const schema = format.schema ?? format.json_schema?.schema
+	const problems: string[] = []
+	const walk = (node: any, path: string) => {
+		if (!node || typeof node !== "object") return
+		if (node.type === "object" && node.properties) {
+			const properties = Object.keys(node.properties)
+			const required: string[] = node.required ?? []
+			const missing = properties.filter((key) => !required.includes(key))
+			if (missing.length) problems.push(`${path}: not required: ${missing.join(", ")}`)
+			if (node.additionalProperties !== false) {
+				problems.push(`${path}: additionalProperties is not false`)
+			}
+			for (const [key, value] of Object.entries(node.properties)) walk(value, `${path}.${key}`)
+		}
+		if (node.items) walk(node.items, `${path}[]`)
+		for (const key of ["anyOf", "oneOf", "allOf"] as const) {
+			if (Array.isArray(node[key])) {
+				node[key].forEach((entry: unknown, index: number) =>
+					walk(entry, `${path}.${key}[${index}]`),
+				)
+			}
+		}
+		for (const value of Object.values(node.$defs ?? {})) walk(value, `${path}.$defs`)
+	}
+	walk(schema, "root")
+	assert.equal(problems.length, 0, `strict-mode problems:\n      ${problems.join("\n      ")}`)
+
+	// The block stream must reach OpenAI as a union, not as a collapsed object.
+	const sections = schema.properties?.sections
+	const variants = sections?.items?.anyOf ?? sections?.items?.oneOf
+	assert.ok(Array.isArray(variants) && variants.length >= 6, "the block union did not survive")
 })
 
 await check("model selection: dev, preview, production and override", () => {

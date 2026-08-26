@@ -313,9 +313,10 @@ const t = useTranslations(checkLocale(Astro.currentLocale))
 <script>
 	import { toast } from "$utils/navbar"
 
-	// Copy link button (without anchors)
-	const button = document.querySelector("#navbar-copy-link") as HTMLButtonElement
-	button.addEventListener("click", () => {
+	// Copy link button (without anchors). Absent on pages that disable the left
+	// bar, such as /portfolio and /fit, where this used to throw on every load.
+	const button = document.querySelector("#navbar-copy-link") as HTMLButtonElement | null
+	button?.addEventListener("click", () => {
 		toast("Lien copié dans le presse-papiers.")
 		navigator.clipboard.writeText(window.location.href.split("#")[0])
 		const linkIcon = document.querySelector("#navbar-link-icon") as HTMLDivElement

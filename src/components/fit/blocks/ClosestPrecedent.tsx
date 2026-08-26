@@ -1,10 +1,12 @@
-import type { FitReport } from "$utils/fit/schema"
+import type { DeepPartial, FitSection } from "$utils/fit/schema"
 import { Section } from "../Section"
 import type { Labels } from "../labels"
 
+type PrecedentBlock = DeepPartial<Extract<FitSection, { kind: "precedent" }>>
+
 interface Props {
 	t: Labels
-	precedent: Partial<FitReport["precedent"]> | undefined
+	block: PrecedentBlock
 }
 
 /** One labelled column of short points. Hidden until it has something in it. */
@@ -37,24 +39,18 @@ function Column({ title, points }: { title: string; points: Array<string | undef
  * The three columns are the interesting reasoning: what was similar, what
  * transfers, and — the honest one — what was different.
  */
-export function ClosestPrecedent({ t, precedent }: Props) {
-	const headline = precedent?.headline?.trim() ?? ""
-	const hasPoints = Boolean(
-		precedent?.similar?.length || precedent?.transfers?.length || precedent?.different?.length,
-	)
+export function ClosestPrecedent({ t, block }: Props) {
+	const headline = block.headline?.trim() ?? ""
 
 	return (
 		<Section
-			label={
-				precedent?.mode === "patterns" ? t.sections.precedentPatterns : t.sections.precedentSingle
-			}
-			when={headline.length > 0 || hasPoints}
+			label={block.mode === "patterns" ? t.sections.precedentPatterns : t.sections.precedentSingle}
 		>
 			{headline && <p className="text-pretty text-lg leading-relaxed text-fi-tx">{headline}</p>}
 			<div className="mt-6 grid grid-cols-3 gap-x-8 gap-y-6 mediumlarge:grid-cols-1">
-				<Column title={t.similar} points={precedent?.similar ?? []} />
-				<Column title={t.transfers} points={precedent?.transfers ?? []} />
-				<Column title={t.different} points={precedent?.different ?? []} />
+				<Column title={t.similar} points={block.similar ?? []} />
+				<Column title={t.transfers} points={block.transfers ?? []} />
+				<Column title={t.different} points={block.different ?? []} />
 			</div>
 		</Section>
 	)

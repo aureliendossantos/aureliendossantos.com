@@ -47,21 +47,56 @@ public on `/portfolio`.
 
 ### Where things live
 
-| Path                           | What it is                                                                                                                |
-| ------------------------------ | ------------------------------------------------------------------------------------------------------------------------- |
-| `src/utils/fit/profile.ts`     | **Where to add facts about me.** Employment, education, ramp-up context, per-project notes. Nothing else needs to change. |
-| `src/utils/fit/evidence.ts`    | Adapter over the `portfolio` collection: trusted metadata for the browser, fuller record for the model.                   |
-| `src/utils/fit/prompt.ts`      | System prompt and dossier assembly.                                                                                       |
-| `src/utils/fit/schema.ts`      | The streamed report's shape. Field order **is** generation order.                                                         |
-| `src/utils/fit/models.ts`      | Model selection and reasoning effort.                                                                                     |
-| `src/utils/fit/limits.ts`      | Input, body and output caps.                                                                                              |
-| `src/components/fit/`          | The React island. React is used **only** here.                                                                            |
-| `src/components/fit/labels.ts` | Every visible label, in French and English.                                                                               |
+| Path                           | What it is                                                                                                                          |
+| ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------- |
+| `src/utils/fit/profile.ts`     | **Where to add facts about me.** Employment, education, ramp-up context, per-project notes. Nothing else needs to change.           |
+| `src/utils/fit/dossier.ts`     | The `portfolio` collection as grounding for the model. Server-only, and free of media so nothing heavy is traced into the function. |
+| `src/utils/fit/evidence.ts`    | The same collection as the browser sees it: card metadata, thumbnails, and the full entry behind the modal.                         |
+| `src/utils/fit/prompt.ts`      | System prompt and dossier assembly.                                                                                                 |
+| `src/utils/fit/schema.ts`      | The streamed report's shape: a pinned verdict, then a model-ordered stream of blocks.                                               |
+| `src/utils/fit/models.ts`      | Model selection and reasoning effort.                                                                                               |
+| `src/utils/fit/limits.ts`      | Input, body and output caps.                                                                                                        |
+| `src/components/fit/`          | The React island. React is used **only** here.                                                                                      |
+| `src/components/fit/labels.ts` | Every visible label, in French and English.                                                                                         |
 
 Projects are referenced by the folder slug under `src/content/portfolio/`
-(`koimori`, `qrpg`, …). The model may only emit those IDs; titles, dates and
-links are resolved from local data, and an unknown ID drops the card instead of
-rendering invented metadata.
+(`koimori`, `qrpg`, …). The model may only emit those IDs; titles, dates, images
+and links are resolved from local data, and an unknown ID drops the card instead
+of rendering invented metadata.
+
+### What the model controls, and what it does not
+
+The report is a short fixed head — language, verdict, summary — followed by
+`sections`, **an ordered stream of blocks the model composes itself**. It picks
+which blocks to use and what order to put them in, so the report can follow the
+shape of the brief rather than a fixed template.
+
+Block types: `needs`, `evidence`, `precedent`, `gaps`, `questions`, and `note`.
+A `note` is free prose with the model's own heading — the escape hatch for
+analysis a pre-made block would distort. The prompt names a default order,
+requires a `gaps` block in every report, and forbids repeating a block type.
+
+The application still owns every block's typography, spacing, colour, animation
+and all project metadata. The model owns the analysis, the prose and the running
+order. It never emits HTML, Markdown, links, titles or dates.
+
+### Evidence cards and the project modal
+
+An evidence card stays deliberately thin: a thumbnail, the project's identity,
+and why it matters for this brief. Clicking its header opens the full portfolio
+entry — description, overview sections, images and videos, links — in a native
+`<dialog>`, so a reader can dig into a project without losing the report.
+
+That means `getEvidenceIndex` ships all thirteen entries' details into the page
+(~37 KB of JSON, most of it text). If that grows uncomfortable, the natural next
+step is to move the modal's `detail` payload behind a prerendered JSON route and
+fetch it on open; the card-level fields are what the report itself needs.
+
+Thumbnails come from the entry's `image` frontmatter, falling back to the first
+carousel item — two entries have no `image`, so the fallback is load-bearing.
+Videos are resolved through the glob's own source paths (`<slug>/<file>`) rather
+than by searching emitted URLs the way `/portfolio` does, which cannot
+accidentally match a same-named file in another project's folder.
 
 ### Environment variables
 
@@ -94,8 +129,15 @@ pnpm check:fit
 
 Runs the streaming pipeline against a mocked model — no network, no credentials.
 It verifies that partial JSON stays parseable throughout the stream, that the
-schema's field order matches the intended streaming order, and that model
-selection behaves per the table above.
+verdict streams before the body, that blocks only ever grow (so nothing already
+on screen can vanish or change type), and that model selection behaves per the
+table above.
+
+It also intercepts the OpenAI provider's own `fetch` to assert the exact request
+body, checking that the block union survives OpenAI's strict structured-output
+rules — every object `additionalProperties: false` with all properties required.
+That is the part of the schema most likely to break silently, and it is cheap to
+catch here rather than in production.
 
 ### Abuse safeguards — still to configure
 

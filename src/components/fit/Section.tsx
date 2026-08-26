@@ -1,31 +1,24 @@
-import { useRef, type ReactNode } from "react"
-
-/**
- * Latches a condition to `true` for the lifetime of the component.
- *
- * Streamed fields can briefly disappear as the partial JSON is re-parsed. A
- * section that has already earned its place on the page must not blink out of
- * existence, so once a section is mounted it stays mounted. Remount the whole
- * report (a new `key`) to reset every latch for the next run.
- */
-export function useLatch(condition: boolean) {
-	const latched = useRef(false)
-	if (condition) latched.current = true
-	return latched.current
-}
+import type { ReactNode } from "react"
 
 interface SectionProps {
-	/** Small technical label above the section. Written by the app, never the model. */
+	/**
+	 * The block's heading. App-owned for the structured blocks; written by the
+	 * model, in the visitor's language, for free-text notes.
+	 */
 	label: string
-	/** Mounts the section as soon as it has enough to say. */
-	when: boolean
 	children: ReactNode
-	/** The gaps section earns a stronger frame; everything else is quiet. */
+	/** The gaps block earns a stronger frame; everything else stays quiet. */
 	tone?: "plain" | "framed"
 }
 
-export function Section({ label, when, children, tone = "plain" }: SectionProps) {
-	if (!useLatch(when)) return null
+/**
+ * The shell every block shares: a rule, a small technical label, the content.
+ *
+ * Blocks arrive in a stream that only ever grows, so a mounted block never
+ * needs to guard against its own content disappearing — it renders whatever
+ * has arrived and fills in as the rest streams.
+ */
+export function Section({ label, children, tone = "plain" }: SectionProps) {
 	return (
 		<section
 			className={
@@ -34,7 +27,7 @@ export function Section({ label, when, children, tone = "plain" }: SectionProps)
 					: "fit-enter mt-14 border-t border-fi-ui pt-6"
 			}
 		>
-			<h2 className="mb-5 font-google-sans-code text-[11px] font-medium uppercase tracking-[0.14em] text-fi-base-500">
+			<h2 className="mb-5 text-pretty font-google-sans-code text-[11px] font-medium uppercase tracking-[0.14em] text-fi-base-500">
 				{label}
 			</h2>
 			{children}

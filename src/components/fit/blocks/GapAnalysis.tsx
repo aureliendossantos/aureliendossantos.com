@@ -1,8 +1,8 @@
-import type { FitReport, GapLevel } from "$utils/fit/schema"
+import type { DeepPartial, FitSection, GapLevel } from "$utils/fit/schema"
 import { Section } from "../Section"
 import type { Labels } from "../labels"
 
-type PartialGap = Partial<FitReport["gaps"][number]> | undefined
+type GapItem = DeepPartial<Extract<FitSection, { kind: "gaps" }>["items"][number]>
 
 /** Muted, deliberately unalarming: a gap is information, not a failure state. */
 const levelStyles: Record<GapLevel, string> = {
@@ -13,31 +13,31 @@ const levelStyles: Record<GapLevel, string> = {
 
 interface Props {
 	t: Labels
-	gaps: Array<PartialGap> | undefined
+	items: GapItem[] | undefined
 }
 
 /**
- * The credibility section, and the reason to trust the rest of the page.
+ * The credibility block, and the reason to trust the rest of the page.
  *
  * It gets the strongest frame on the page on purpose: an assessment that can
  * only flatter is worth nothing to a visitor, and this is where the report is
  * allowed to say that the answer is no.
  */
-export function GapAnalysis({ t, gaps }: Props) {
-	const items = (gaps ?? []).filter((gap): gap is Partial<FitReport["gaps"][number]> =>
-		Boolean(gap?.requirement),
-	)
+export function GapAnalysis({ t, items }: Props) {
+	const gaps = (items ?? []).filter((gap): gap is GapItem => Boolean(gap?.requirement))
 
 	return (
-		<Section label={t.sections.gaps} when={items.length > 0} tone="framed">
+		<Section label={t.sections.gaps} tone="framed">
 			<ul className="divide-y divide-fi-ui">
-				{items.map((gap, index) => (
+				{gaps.map((gap, index) => (
 					<li
 						key={index}
 						className="fit-enter grid grid-cols-[minmax(0,1fr)_auto] items-start gap-x-6 gap-y-2 py-5 first:pt-0 medium:grid-cols-1"
 					>
-						<h3 className="text-lg font-medium text-fi-tx medium:order-2">{gap.requirement}</h3>
-						{gap.level && (
+						<h3 className="text-pretty text-lg font-medium text-fi-tx medium:order-2">
+							{gap.requirement}
+						</h3>
+						{gap.level && levelStyles[gap.level] && (
 							<span
 								className={`justify-self-end whitespace-nowrap border-b-2 pb-[2px] font-google-sans-code text-[11px] font-medium uppercase tracking-[0.1em] medium:order-1 medium:justify-self-start ${levelStyles[gap.level]}`}
 							>

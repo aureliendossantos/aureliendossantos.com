@@ -1,27 +1,25 @@
-import type { FitReport } from "$utils/fit/schema"
+import type { DeepPartial, FitSection } from "$utils/fit/schema"
 import { Section } from "../Section"
 import type { Labels } from "../labels"
 
-type PartialQuestion = Partial<FitReport["questions"][number]> | undefined
+type QuestionItem = DeepPartial<Extract<FitSection, { kind: "questions" }>["items"][number]>
 
 interface Props {
 	t: Labels
-	questions: Array<PartialQuestion> | undefined
+	items: QuestionItem[] | undefined
 	/** Existing contact destination on the site. */
 	contactHref: string
 	/** Only offered once the report is finished, so it never rushes the reader. */
 	showContact: boolean
 }
 
-export function DiscussionQuestions({ t, questions, contactHref, showContact }: Props) {
-	const items = (questions ?? []).filter((item): item is Partial<FitReport["questions"][number]> =>
-		Boolean(item?.question),
-	)
+export function DiscussionQuestions({ t, items, contactHref, showContact }: Props) {
+	const questions = (items ?? []).filter((item): item is QuestionItem => Boolean(item?.question))
 
 	return (
-		<Section label={t.sections.questions} when={items.length > 0}>
+		<Section label={t.sections.questions}>
 			<ul className="space-y-6">
-				{items.map((item, index) => (
+				{questions.map((item, index) => (
 					<li key={index} className="fit-enter">
 						<p className="text-pretty text-lg leading-snug text-fi-tx">{item.question}</p>
 						{item.why && (

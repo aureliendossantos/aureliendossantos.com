@@ -1,12 +1,12 @@
-import type { FitReport } from "$utils/fit/schema"
+import type { DeepPartial, FitSection } from "$utils/fit/schema"
 import { Section } from "../Section"
 import type { Labels } from "../labels"
 
-type PartialNeed = Partial<FitReport["needs"][number]> | undefined
+type NeedItem = DeepPartial<Extract<FitSection, { kind: "needs" }>["items"][number]>
 
 interface Props {
 	t: Labels
-	needs: Array<PartialNeed> | undefined
+	items: NeedItem[] | undefined
 }
 
 /**
@@ -15,15 +15,13 @@ interface Props {
  * Numbered rather than bulleted: these are the axes the rest of the report is
  * argued against, so they read better as a short enumerated list.
  */
-export function NeedsAnalysis({ t, needs }: Props) {
-	const items = (needs ?? []).filter((need): need is Partial<FitReport["needs"][number]> =>
-		Boolean(need?.label),
-	)
+export function NeedsAnalysis({ t, items }: Props) {
+	const needs = (items ?? []).filter((need): need is NeedItem => Boolean(need?.label))
 
 	return (
-		<Section label={t.sections.needs} when={items.length > 0}>
+		<Section label={t.sections.needs}>
 			<ol className="grid grid-cols-2 gap-x-10 gap-y-7 mediumlarge:grid-cols-1 mediumlarge:gap-y-6">
-				{items.map((need, index) => (
+				{needs.map((need, index) => (
 					<li key={index} className="fit-enter flex gap-4">
 						<span
 							aria-hidden
@@ -32,7 +30,7 @@ export function NeedsAnalysis({ t, needs }: Props) {
 							{String(index + 1).padStart(2, "0")}
 						</span>
 						<div>
-							<h3 className="font-medium text-fi-tx">{need.label}</h3>
+							<h3 className="text-pretty font-medium text-fi-tx">{need.label}</h3>
 							{need.detail && (
 								<p className="mt-1 text-pretty leading-relaxed text-fi-tx-2">{need.detail}</p>
 							)}
