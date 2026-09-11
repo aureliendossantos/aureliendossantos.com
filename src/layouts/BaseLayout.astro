@@ -14,6 +14,7 @@ import SearchEntries from "$components/navbar/SearchEntries.astro"
 
 export interface Props {
 	title: string
+	robots?: string
 	description?: string
 	date?: Date
 	image?: string
@@ -40,6 +41,7 @@ export interface Props {
 }
 const {
 	title,
+	robots,
 	description,
 	date,
 	image,
@@ -117,6 +119,7 @@ navBarPropsWithFallback.title ??= title
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 		<meta name="author" content="Aurélien Dos Santos" />
 		<meta name="generator" content={Astro.generator} />
+		{robots && <meta name="robots" content={robots} />}
 		<link rel="canonical" href={Astro.url} />
 		<link
 			rel="alternate"

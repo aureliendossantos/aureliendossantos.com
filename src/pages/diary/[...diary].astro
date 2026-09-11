@@ -39,6 +39,7 @@ const places = await Promise.all(data.places.map(async (place) => await getPlace
 	!data.palette && data.customLayout && (
 		<BaseLayout
 			title={data.title}
+			robots="noindex, nosnippet, noimageindex, max-image-preview:none"
 			ogType="article"
 			bg="#262626"
 			navBarProps={{ title: data.title, parent: { title: "Journal", href: "/diary" } }}
@@ -51,6 +52,7 @@ const places = await Promise.all(data.places.map(async (place) => await getPlace
 	!data.palette && !data.customLayout && (
 		<DiaryLayout
 			title={data.title}
+			robots="noindex, nosnippet, noimageindex, max-image-preview:none"
 			ogType="article"
 			navBarProps={{ title: data.title, parent: { title: "Journal", href: "/diary" } }}
 		>

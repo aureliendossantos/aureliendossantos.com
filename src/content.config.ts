@@ -1,4 +1,5 @@
-import { defineCollection, reference, z, type ImageFunction } from "astro:content"
+import { defineCollection, reference, type ImageFunction } from "astro:content"
+import { z } from "astro/zod"
 import { parse as parseCsv } from "csv-parse/sync"
 import { PaletteName } from "$utils/design/palettes"
 import { Layouts } from "$utils/design/layouts"
@@ -15,7 +16,7 @@ enum Lang {
 }
 export const multilingualText = z.object({
 	...Object.fromEntries(Object.values(Lang).map((lang) => [lang, z.string().optional()])),
-	original: z.nativeEnum(Lang),
+	original: z.enum(Lang),
 })
 
 export const months = [
@@ -68,8 +69,8 @@ const articleView = {
 	cover: z.boolean().default(false),
 	toc: z.boolean().default(false),
 	depth: z.number().optional(),
-	palette: z.nativeEnum(PaletteName).default(PaletteName.default),
-	layouts: z.array(z.nativeEnum(Layouts)).default([Layouts.classic]),
+	palette: z.enum(PaletteName).default(PaletteName.default),
+	layouts: z.array(z.enum(Layouts)).default([Layouts.classic]),
 	customLayout: z.boolean().default(false),
 	forceNarrow: z.boolean().default(false),
 	sidenotes: sidenotesOptions.optional(),
@@ -159,7 +160,7 @@ export const collections = {
 				mapLng: z.number().optional(),
 				mapZoom: z.number().optional(),
 				hidePlaces: z.boolean().default(false),
-				palette: z.nativeEnum(PaletteName).optional(),
+				palette: z.enum(PaletteName).optional(),
 				customLayout: z.boolean().default(false),
 				...links,
 			}),
@@ -243,7 +244,7 @@ export const collections = {
 				audio: z.string().optional(),
 				audioFormat: z.enum(["mp3", "flac"]).optional(),
 				fileSource: z.string().url().optional(),
-				type: z.nativeEnum(PieceType),
+				type: z.enum(PieceType),
 				technique: z
 					.enum([
 						"oil",

@@ -57,6 +57,9 @@ const maybeRemoveStyle = (str?: string) => str?.replaceAll("*", "")
 <BaseLayout
 	ogType="article"
 	title={removeStyle(data.title)}
+	robots={collection == "diary"
+		? "noindex, nosnippet, noimageindex, max-image-preview:none"
+		: undefined}
 	description={maybeRemoveStyle(data.description)}
 	{date}
 	image={ogImage?.src}
